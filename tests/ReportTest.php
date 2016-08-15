@@ -4,22 +4,20 @@ namespace Jimdo\Reports;
 
 use PHPUnit\Framework\TestCase;
 
-class ReportBookTest extends TestCase
+class ReportTest extends TestCase
 {
     /**
      * @test
      */
-    public function itShouldCreateReport()
+    public function itShouldReturnContent()
     {
-        $reportBook = new ReportBook();
         $content = 'some content';
-        $report = $reportBook->createReport($content);
+        $report = new Report($content);
 
-        $this->assertInstanceOf('Jimdo\Reports\Report', $report);
         $this->assertEquals($content, $report->content());
 
         $content = 'some other content';
-        $report = $reportBook->createReport($content);
+        $report = new Report($content);
 
         $this->assertEquals($content, $report->content());
     }

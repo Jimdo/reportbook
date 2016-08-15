@@ -1,0 +1,31 @@
+{
+    "name": "jimdo/reportbook",
+    "description": "Reportbook as a service  ",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^5.4",
+        "phpdocumentor/phpdocumentor": "dev-master",
+        "squizlabs/php_codesniffer": "^2.6"
+    },
+    "autoload": {
+        "psr-4": {"Jimdo\\": "src/"}
+    },
+    "config": {
+       "bin-dir": "scripts"
+   },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hauke Stange",
+            "email": "hauke@jimdo.com"
+        },
+        {
+            "name": "Jennifer Eschenhorn",
+            "email": "jennifer.eschenhorn@jimdo.com"
+        },
+        {
+            "name": "Tom Stich",
+            "email": "tom.stich@jimdo.com"
+        }
+    ]
+}

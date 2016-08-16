@@ -5,12 +5,17 @@ namespace Jimdo\Reports;
 class Report
 {
     const STATUS_NEW = 'NEW';
+    const STATUS_APPROVED = 'APPROVED';
+    const STATUS_DISAPPROVED = 'DISAPPROVED';
 
     /** @var string */
     private $content;
 
     /** @var Trainee */
     private $trainee;
+
+    /** @var string */
+    private $status;
 
     /**
      * @param Trainee $trainee
@@ -20,6 +25,7 @@ class Report
     {
         $this->content = $content;
         $this->trainee = $trainee;
+        $this->status = self::STATUS_NEW;
     }
 
     /**
@@ -51,7 +57,16 @@ class Report
      */
     public function status(): string
     {
-        return self::STATUS_NEW;
+        return $this->status;
     }
 
+    public function approve()
+    {
+        $this->status = self::STATUS_APPROVED;
+    }
+
+    public function disapprove()
+    {
+        $this->status = self::STATUS_DISAPPROVED;
+    }
 }

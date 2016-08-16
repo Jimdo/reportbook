@@ -22,4 +22,12 @@ class Report
     {
         return $this->content;
     }
+
+    /**
+     * @param string $content
+     */
+    public function edit(string $content)
+    {
+        $this->content = $content;
+    }
 }

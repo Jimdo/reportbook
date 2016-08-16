@@ -21,4 +21,21 @@ class ReportTest extends TestCase
 
         $this->assertEquals($content, $report->content());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldEditContent()
+    {
+        $content = 'some content';
+        $report = new Report($content);
+
+        $content = 'other content';
+        $report->edit($content);
+        $this->assertEquals($content, $report->content());
+
+        $content = 'some other content';
+        $report->edit($content);
+        $this->assertEquals($content, $report->content());
+    }
 }

@@ -11,16 +11,18 @@ class ReportBookTest extends TestCase
      */
     public function itShouldCreateReport()
     {
+        $trainee = new Trainee('Max');
         $reportFakeRepository = new ReportFakeRepository();
         $reportBook = new ReportBook($reportFakeRepository);
+
         $content = 'some content';
-        $report = $reportBook->createReport($content);
+        $report = $reportBook->createReport($trainee, $content);
 
         $this->assertInstanceOf('Jimdo\Reports\Report', $report);
         $this->assertEquals($content, $report->content());
 
         $content = 'some other content';
-        $report = $reportBook->createReport($content);
+        $report = $reportBook->createReport($trainee, $content);
 
         $this->assertEquals($content, $report->content());
     }
@@ -30,7 +32,8 @@ class ReportBookTest extends TestCase
      */
     public function itShouldSaveReport()
     {
-        $report = new Report('some content');
+        $trainee = new Trainee('Max');
+        $report = new Report($trainee, 'some content');
 
         $reportFakeRepository = new ReportFakeRepository();
         $this->assertEquals([], $reportFakeRepository->reports);
@@ -46,8 +49,11 @@ class ReportBookTest extends TestCase
      */
     public function itShouldReturnAllReports()
     {
-        $report1 = new Report('some content');
-        $report2 = new Report('some other content');
+        $tom = new Trainee('Tom');
+        $jenny = new Trainee('Jenny');
+
+        $report1 = new Report($tom, 'some content');
+        $report2 = new Report($jenny, 'some other content');
 
         $reportFakeRepository = new ReportFakeRepository();
         $reportBook = new ReportBook($reportFakeRepository);
@@ -59,5 +65,26 @@ class ReportBookTest extends TestCase
             [$report1, $report2],
             $reportBook->findAll()
         );
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldReturnAllReportsOfATrainee()
+    {
+        $reportFakeRepository = new ReportFakeRepository();
+        $reportBook = new ReportBook($reportFakeRepository);
+
+        $tom = new Trainee('Tom');
+        $jenny = new Trainee('Jenny');
+
+        $report1 = new Report($tom, 'some content');
+        $report2 = new Report($jenny, 'some other content');
+
+        $reportBook->save($report1);
+        $reportBook->save($report2);
+
+        $this->assertEquals([$report1], $reportBook->findByTrainee($tom));
+        $this->assertEquals([$report2], $reportBook->findByTrainee($jenny));
     }
 }

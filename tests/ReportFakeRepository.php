@@ -24,4 +24,20 @@ class ReportFakeRepository implements ReportRepository
     {
         return $this->reports;
     }
+
+    /**
+     * Return all the reports
+     *
+     * @return Report[]
+     */
+    public function findByTrainee(Trainee $trainee): array
+    {
+        $results = [];
+        foreach ($this->reports as $report) {
+            if ($report->trainee() === $trainee) {
+                $results[] = $report;
+            }
+        }
+        return $results;
+    }
 }

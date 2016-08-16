@@ -13,4 +13,10 @@ interface ReportRepository
      * @return Report[]
      */
     public function findAll(): array;
+
+    /**
+     * @param Trainee $trainee
+     * @return Report[]
+     */
+    public function findByTrainee(Trainee $trainee): array;
 }

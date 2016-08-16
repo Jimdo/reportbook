@@ -19,9 +19,9 @@ class ReportBook
      * @param string $content
      * @return Report
      */
-    public function createReport(string $content): Report
+    public function createReport(Trainee $trainee, string $content): Report
     {
-        return new Report($content);
+        return new Report($trainee, $content);
     }
 
     /**
@@ -38,5 +38,14 @@ class ReportBook
     public function findAll()
     {
         return $this->reportRepository->findAll();
+    }
+
+    /**
+     * @param Trainee $trainee
+     * @return Report[]
+     */
+    public function findByTrainee(Trainee $trainee)
+    {
+        return $this->reportRepository->findByTrainee($trainee);
     }
 }

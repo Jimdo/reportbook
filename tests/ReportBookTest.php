@@ -6,23 +6,33 @@ use PHPUnit\Framework\TestCase;
 
 class ReportBookTest extends TestCase
 {
+    /** @var ReportBook */
+    private $reportBook;
+
+    /** @var reportRepository */
+    private $reportRepository;
+
+    protected function setUp()
+    {
+        $this->reportRepository = new ReportFakeRepository();
+        $this->reportBook = new reportBook($this->reportRepository);
+    }
+
     /**
      * @test
      */
     public function itShouldCreateReport()
     {
         $trainee = new Trainee('Max');
-        $reportFakeRepository = new ReportFakeRepository();
-        $reportBook = new ReportBook($reportFakeRepository);
 
         $content = 'some content';
-        $report = $reportBook->createReport($trainee, $content);
+        $report = $this->reportBook->createReport($trainee, $content);
 
         $this->assertInstanceOf('Jimdo\Reports\Report', $report);
         $this->assertEquals($content, $report->content());
 
         $content = 'some other content';
-        $report = $reportBook->createReport($trainee, $content);
+        $report = $this->reportBook->createReport($trainee, $content);
 
         $this->assertEquals($content, $report->content());
     }
@@ -35,13 +45,11 @@ class ReportBookTest extends TestCase
         $trainee = new Trainee('Max');
         $report = new Report($trainee, 'some content');
 
-        $reportFakeRepository = new ReportFakeRepository();
-        $this->assertEquals([], $reportFakeRepository->reports);
+        $this->assertEquals([], $this->reportRepository->reports);
 
-        $reportBook = new ReportBook($reportFakeRepository);
-        $reportBook->save($report);
+        $this->reportBook->save($report);
 
-        $this->assertEquals($report, $reportFakeRepository->reports[0]);
+        $this->assertEquals($report, $this->reportRepository->reports[0]);
     }
 
     /**
@@ -55,15 +63,12 @@ class ReportBookTest extends TestCase
         $report1 = new Report($tom, 'some content');
         $report2 = new Report($jenny, 'some other content');
 
-        $reportFakeRepository = new ReportFakeRepository();
-        $reportBook = new ReportBook($reportFakeRepository);
-
-        $reportBook->save($report1);
-        $reportBook->save($report2);
+        $this->reportBook->save($report1);
+        $this->reportBook->save($report2);
 
         $this->assertEquals(
             [$report1, $report2],
-            $reportBook->findAll()
+            $this->reportBook->findAll()
         );
     }
 
@@ -72,20 +77,17 @@ class ReportBookTest extends TestCase
      */
     public function itShouldReturnAllReportsOfATrainee()
     {
-        $reportFakeRepository = new ReportFakeRepository();
-        $reportBook = new ReportBook($reportFakeRepository);
-
         $tom = new Trainee('Tom');
         $jenny = new Trainee('Jenny');
 
         $report1 = new Report($tom, 'some content');
         $report2 = new Report($jenny, 'some other content');
 
-        $reportBook->save($report1);
-        $reportBook->save($report2);
+        $this->reportBook->save($report1);
+        $this->reportBook->save($report2);
 
-        $this->assertEquals([$report1], $reportBook->findByTrainee($tom));
-        $this->assertEquals([$report2], $reportBook->findByTrainee($jenny));
+        $this->assertEquals([$report1], $this->reportBook->findByTrainee($tom));
+        $this->assertEquals([$report2], $this->reportBook->findByTrainee($jenny));
     }
 
     /**
@@ -93,15 +95,13 @@ class ReportBookTest extends TestCase
      */
     public function itShouldDeleteReport()
     {
-        $reportFakeRepository = new ReportFakeRepository();
-        $reportBook = new ReportBook($reportFakeRepository);
         $trainee = new Trainee('Tom');
         $report = new Report($trainee, 'some content');
 
-        $reportBook->save($report);
-        $this->assertCount(1, $reportBook->findAll());
+        $this->reportBook->save($report);
+        $this->assertCount(1, $this->reportBook->findAll());
 
-        $reportBook->delete($report);
-        $this->assertCount(0, $reportBook->findAll());
+        $this->reportBook->delete($report);
+        $this->assertCount(0, $this->reportBook->findAll());
     }
 }

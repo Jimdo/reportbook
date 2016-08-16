@@ -51,4 +51,16 @@ class ReportTest extends TestCase
 
         $this->assertEquals($trainee, $report->trainee());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldHaveStatusNewAfterCreate()
+    {
+        $trainee = new Trainee('Max');
+        $content = 'some content';
+        $report = new Report($trainee, $content);
+
+        $this->assertEquals(Report::STATUS_NEW, $report->status());
+    }
 }

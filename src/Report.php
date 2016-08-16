@@ -4,6 +4,8 @@ namespace Jimdo\Reports;
 
 class Report
 {
+    const STATUS_NEW = 'NEW';
+
     /** @var string */
     private $content;
 
@@ -43,4 +45,13 @@ class Report
     {
         return $this->trainee;
     }
+
+    /**
+     * @return string
+     */
+    public function status(): string
+    {
+        return self::STATUS_NEW;
+    }
+
 }

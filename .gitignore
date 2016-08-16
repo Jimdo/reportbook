@@ -9,3 +9,4 @@
 /scripts/phpdoc.php
 /scripts/phpunit
 /scripts/validate-json
+.DS_Store

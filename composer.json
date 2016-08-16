@@ -8,7 +8,9 @@
         "squizlabs/php_codesniffer": "^2.6"
     },
     "autoload": {
-        "psr-4": {"Jimdo\\Reports\\": "src/"}
+        "psr-4": {
+          "Jimdo\\Reports\\": [ "src/", "tests/" ]
+        }
     },
     "config": {
        "bin-dir": "scripts"

@@ -11,7 +11,8 @@ class ReportBookTest extends TestCase
      */
     public function itShouldCreateReport()
     {
-        $reportBook = new ReportBook();
+        $reportFakeRepository = new ReportFakeRepository();
+        $reportBook = new ReportBook($reportFakeRepository);
         $content = 'some content';
         $report = $reportBook->createReport($content);
 
@@ -22,5 +23,21 @@ class ReportBookTest extends TestCase
         $report = $reportBook->createReport($content);
 
         $this->assertEquals($content, $report->content());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldSaveReport()
+    {
+        $report = new Report('some content');
+
+        $reportFakeRepository = new ReportFakeRepository();
+        $this->assertEquals(null, $reportFakeRepository->report);
+
+        $reportBook = new ReportBook($reportFakeRepository);
+        $reportBook->save($report);
+
+        $this->assertEquals($report, $reportFakeRepository->report);
     }
 }

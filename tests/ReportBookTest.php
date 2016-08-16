@@ -87,4 +87,21 @@ class ReportBookTest extends TestCase
         $this->assertEquals([$report1], $reportBook->findByTrainee($tom));
         $this->assertEquals([$report2], $reportBook->findByTrainee($jenny));
     }
+
+    /**
+     * @test
+     */
+    public function itShouldDeleteReport()
+    {
+        $reportFakeRepository = new ReportFakeRepository();
+        $reportBook = new ReportBook($reportFakeRepository);
+        $trainee = new Trainee('Tom');
+        $report = new Report($trainee, 'some content');
+
+        $reportBook->save($report);
+        $this->assertCount(1, $reportBook->findAll());
+
+        $reportBook->delete($report);
+        $this->assertCount(0, $reportBook->findAll());
+    }
 }

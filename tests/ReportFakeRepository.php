@@ -40,4 +40,16 @@ class ReportFakeRepository implements ReportRepository
         }
         return $results;
     }
+
+    /**
+     * @param Report $deleteReport
+     */
+    public function delete(Report $deleteReport)
+    {
+        foreach ($this->reports as $key => $report) {
+            if ($report === $deleteReport) {
+                unset($this->reports[$key]);
+            }
+        }
+    }
 }

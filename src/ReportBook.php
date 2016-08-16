@@ -48,4 +48,12 @@ class ReportBook
     {
         return $this->reportRepository->findByTrainee($trainee);
     }
+
+    /**
+     * @param Report $report
+     */
+    public function delete(Report $report)
+    {
+        $this->reportRepository->delete($report);
+    }
 }

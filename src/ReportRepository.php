@@ -19,4 +19,9 @@ interface ReportRepository
      * @return Report[]
      */
     public function findByTrainee(Trainee $trainee): array;
+
+    /**
+     * @param Report $report
+     */
+    public function delete(Report $report);
 }

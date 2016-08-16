@@ -33,11 +33,31 @@ class ReportBookTest extends TestCase
         $report = new Report('some content');
 
         $reportFakeRepository = new ReportFakeRepository();
-        $this->assertEquals(null, $reportFakeRepository->report);
+        $this->assertEquals([], $reportFakeRepository->reports);
 
         $reportBook = new ReportBook($reportFakeRepository);
         $reportBook->save($report);
 
-        $this->assertEquals($report, $reportFakeRepository->report);
+        $this->assertEquals($report, $reportFakeRepository->reports[0]);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldReturnAllReports()
+    {
+        $report1 = new Report('some content');
+        $report2 = new Report('some other content');
+
+        $reportFakeRepository = new ReportFakeRepository();
+        $reportBook = new ReportBook($reportFakeRepository);
+
+        $reportBook->save($report1);
+        $reportBook->save($report2);
+
+        $this->assertEquals(
+            [$report1, $report2],
+            $reportBook->findAll()
+        );
     }
 }

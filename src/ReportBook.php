@@ -31,4 +31,12 @@ class ReportBook
     {
         $this->reportRepository->save($report);
     }
+
+    /**
+     * @return Report[]
+     */
+    public function findAll()
+    {
+        return $this->reportRepository->findAll();
+    }
 }

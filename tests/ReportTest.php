@@ -89,4 +89,17 @@ class ReportTest extends TestCase
         $report->disapprove();
         $this->assertEquals(Report::STATUS_DISAPPROVED, $report->status());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldRequestApproval()
+    {
+        $trainee = new Trainee('Max');
+        $content = 'some content';
+        $report = new Report($trainee, $content);
+
+        $report->requestApproval();
+        $this->assertEquals(Report::STATUS_APPROVAL_REQUESTED, $report->status());
+    }
 }

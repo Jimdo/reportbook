@@ -56,4 +56,12 @@ class ReportBook
     {
         $this->reportRepository->delete($report);
     }
+
+    /**
+     * @param Report $report
+     */
+    public function requestApproval(Report $report)
+    {
+        $report->requestApproval();
+    }
 }

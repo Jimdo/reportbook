@@ -104,4 +104,16 @@ class ReportBookTest extends TestCase
         $this->reportBook->delete($report);
         $this->assertCount(0, $this->reportBook->findAll());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldRequestApproval()
+    {
+        $trainee = new Trainee('Tom');
+        $report = new Report($trainee, 'some content');
+
+        $this->reportBook->requestApproval($report);
+        $this->assertEquals(Report::STATUS_APPROVAL_REQUESTED, $report->status());
+    }
 }

@@ -64,4 +64,13 @@ class ReportBook
     {
         $report->requestApproval();
     }
+
+    /**
+     * @param string $status
+     * @return array
+     */
+    public function findByStatus(string $status): array
+    {
+        return $this->reportRepository->findByStatus($status);
+    }
 }

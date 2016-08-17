@@ -26,7 +26,7 @@ class ReportFakeRepository implements ReportRepository
     }
 
     /**
-     * Return all the reports
+     * Return reports by trainee
      *
      * @return Report[]
      */
@@ -35,6 +35,22 @@ class ReportFakeRepository implements ReportRepository
         $results = [];
         foreach ($this->reports as $report) {
             if ($report->trainee() === $trainee) {
+                $results[] = $report;
+            }
+        }
+        return $results;
+    }
+
+    /**
+     * Return reports by status
+     *
+     * @return Report[]
+     */
+    public function findByStatus(string $status): array
+    {
+        $results = [];
+        foreach ($this->reports as $report) {
+            if ($report->status() === $status) {
                 $results[] = $report;
             }
         }

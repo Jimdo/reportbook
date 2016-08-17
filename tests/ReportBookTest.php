@@ -116,4 +116,35 @@ class ReportBookTest extends TestCase
         $this->reportBook->requestApproval($report);
         $this->assertEquals(Report::STATUS_APPROVAL_REQUESTED, $report->status());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldReturnReportsByStatus()
+    {
+        $trainee = new Trainee('Tom');
+
+        $expectedReports = [];
+        $expectedReports[] = new Report($trainee, 'some content');
+        $expectedReports[] = new Report($trainee, 'some other content');
+
+        $this->reportBook->save($expectedReports[0]);
+        $this->reportBook->save($expectedReports[1]);
+
+        $reports = $this->reportBook->findByStatus(Report::STATUS_NEW);
+        $this->assertEquals($expectedReports, $reports);
+
+        $expectedReports = [];
+        $expectedReports[] = new Report($trainee, 'some content');
+        $expectedReports[] = new Report($trainee, 'some other content');
+
+        $expectedReports[0]->requestApproval();
+        $expectedReports[1]->requestApproval();
+
+        $this->reportBook->save($expectedReports[0]);
+        $this->reportBook->save($expectedReports[1]);
+
+        $reports = $this->reportBook->findByStatus(Report::STATUS_APPROVAL_REQUESTED);
+        $this->assertEquals($expectedReports, $reports);
+    }
 }

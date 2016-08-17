@@ -24,4 +24,10 @@ interface ReportRepository
      * @param Report $report
      */
     public function delete(Report $report);
+
+    /**
+     * @param string $status
+     * @return Report[]
+     */
+    public function findByStatus(string $status): array;
 }

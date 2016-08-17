@@ -18,6 +18,9 @@ class Report
     /** @var string */
     private $status;
 
+    /** @var string */
+    private $id;
+
     /**
      * @param Trainee $trainee
      * @param string $content
@@ -27,6 +30,7 @@ class Report
         $this->content = $content;
         $this->trainee = $trainee;
         $this->status = self::STATUS_NEW;
+        $this->id = uniqid();
     }
 
     /**
@@ -74,5 +78,13 @@ class Report
     public function requestApproval()
     {
         $this->status = self::STATUS_APPROVAL_REQUESTED;
+    }
+
+    /**
+     * @return string
+     */
+    public function id(): string
+    {
+        return $this->id;
     }
 }

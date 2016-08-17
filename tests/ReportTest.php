@@ -102,4 +102,21 @@ class ReportTest extends TestCase
         $report->requestApproval();
         $this->assertEquals(Report::STATUS_APPROVAL_REQUESTED, $report->status());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldHaveId()
+    {
+        $trainee = new Trainee('Max');
+        $content = 'some content';
+        $report = new Report($trainee, $content);
+
+        $this->assertInternalType('string', $report->id());
+
+        $report1 = new Report($trainee, $content);
+        $this->assertInternalType('string', $report->id());
+
+        $this->assertNotEquals($report->id(), $report1->id());
+    }
 }

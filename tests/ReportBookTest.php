@@ -9,13 +9,13 @@ class ReportBookTest extends TestCase
     /** @var ReportBook */
     private $reportBook;
 
-    /** @var reportRepository */
+    /** @var ReportRepository */
     private $reportRepository;
 
     protected function setUp()
     {
         $this->reportRepository = new ReportFakeRepository();
-        $this->reportBook = new reportBook($this->reportRepository);
+        $this->reportBook = new ReportBook($this->reportRepository);
     }
 
     /**

@@ -12,8 +12,8 @@ class Report
     /** @var string */
     private $content;
 
-    /** @var Trainee */
-    private $trainee;
+    /** @var string */
+    private $traineeId;
 
     /** @var string */
     private $status;
@@ -22,15 +22,24 @@ class Report
     private $id;
 
     /**
-     * @param Trainee $trainee
+     * @param string $traineeId
      * @param string $content
      */
-    public function __construct(Trainee $trainee, string $content)
+    public function __construct(string $traineeId, string $content)
     {
         $this->content = $content;
-        $this->trainee = $trainee;
+        $this->traineeId = $traineeId;
         $this->status = self::STATUS_NEW;
         $this->id = uniqid();
+    }
+
+
+    /**
+    * @return string
+    */
+    public function id(): string
+    {
+        return $this->id;
     }
 
     /**
@@ -50,11 +59,11 @@ class Report
     }
 
     /**
-     * @return Trainee
+     * @return string
      */
-    public function trainee()
+    public function traineeId(): string
     {
-        return $this->trainee;
+        return $this->traineeId;
     }
 
     /**
@@ -78,13 +87,5 @@ class Report
     public function requestApproval()
     {
         $this->status = self::STATUS_APPROVAL_REQUESTED;
-    }
-
-    /**
-     * @return string
-     */
-    public function id(): string
-    {
-        return $this->id;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Jimdo\Reports;
 
+use Jimdo\Reports\Views\Report as ReadOnlyReport;
+
 class ReportBookService
 {
     /** @var ReportRepository */
@@ -16,52 +18,63 @@ class ReportBookService
     }
 
     /**
+     * @param string $traineeId
      * @param string $content
-     * @return Report
+     * @return \Jimdo\Reports\Views\Report
      */
-    public function createReport(Trainee $trainee, string $content): Report
+    public function createReport(string $traineeId, string $content): \Jimdo\Reports\Views\Report
     {
-        return new Report($trainee, $content);
+        $report = $this->reportRepository->create($traineeId, $content);
+        return new ReadOnlyReport($report);
     }
 
     /**
-     * @param Report $report
+     * @param string $reportId
+     * @param string $content
      */
-    public function save(Report $report)
+    public function editReport(string $reportId, string $content)
     {
+        $report = $this->reportRepository->findById($reportId);
+        $report->edit($content);
         $this->reportRepository->save($report);
     }
 
     /**
-     * @return Report[]
+     * @return \Jimdo\Reports\Views\Report[]
      */
-    public function findAll()
+    public function findAll(): array
     {
-        return $this->reportRepository->findAll();
+        return $this->readOnlyReports(
+            $this->reportRepository->findAll()
+        );
     }
 
     /**
-     * @param Trainee $trainee
-     * @return Report[]
+     * @param string $traineeId
+     * @return \Jimdo\Reports\Views\Report[]
      */
-    public function findByTrainee(Trainee $trainee)
+    public function findByTraineeId(string $traineeId): array
     {
-        return $this->reportRepository->findByTrainee($trainee);
+        return $this->readOnlyReports(
+            $this->reportRepository->findByTraineeId($traineeId)
+        );
     }
 
     /**
-     * @param Report $report
+     * @param string $reportId
      */
-    public function delete(Report $report)
+    public function deleteReport(string $reportId)
     {
+        $report = $this->reportRepository->findById($reportId);
         $this->reportRepository->delete($report);
     }
 
     /**
-     * @param Report $report
+     * @param string $reportId
      */
-    public function requestApproval(Report $report)
+    public function requestApproval(string $reportId)
     {
+        $report = $this->reportRepository->findById($reportId);
         $report->requestApproval();
     }
 
@@ -72,5 +85,18 @@ class ReportBookService
     public function findByStatus(string $status): array
     {
         return $this->reportRepository->findByStatus($status);
+    }
+
+    /**
+     * @param Reports[] $reports
+     * @return \Jimdo\Reports\Views\Report[]
+     */
+    private function readOnlyReports(array $reports): array
+    {
+        $readOnlyReports = [];
+        foreach ($reports as $report) {
+            $readOnlyReports[] = new ReadOnlyReport($report);
+        }
+        return $readOnlyReports;
     }
 }

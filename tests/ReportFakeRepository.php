@@ -7,6 +7,21 @@ class ReportFakeRepository implements ReportRepository
     /** @var Report[] */
     public $reports = [];
 
+    /** @var Report */
+    public $newReport;
+
+    /**
+     * @param string $traineeId
+     * @param string $content
+     * @return Report
+     */
+    public function create(string $traineeId, string $content): Report
+    {
+        $report = new Report($traineeId, $content);
+        $this->reports[] = $report;
+        return $report;
+    }
+
     /**
      * @param Report $report
      */
@@ -28,17 +43,32 @@ class ReportFakeRepository implements ReportRepository
     /**
      * Return reports by trainee
      *
+     * @param string $traineeId
      * @return Report[]
      */
-    public function findByTrainee(Trainee $trainee): array
+    public function findByTraineeId(string $traineeId): array
     {
         $results = [];
         foreach ($this->reports as $report) {
-            if ($report->trainee() === $trainee) {
+            if ($report->traineeId() === $traineeId) {
                 $results[] = $report;
             }
         }
         return $results;
+    }
+
+    /**
+     * @param string $id
+     * @return Report
+     */
+    public function findById(string $id): Report
+    {
+        foreach ($this->reports as $report) {
+            if ($report->id() === $id) {
+                return $report;
+            }
+        }
+        return null;
     }
 
     /**

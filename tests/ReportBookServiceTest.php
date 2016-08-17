@@ -4,6 +4,8 @@ namespace Jimdo\Reports;
 
 use PHPUnit\Framework\TestCase;
 
+use Jimdo\Reports\Views\Report as ReadOnlyReport;
+
 class ReportBookServiceTest extends TestCase
 {
     /** @var ReportBookService */
@@ -23,33 +25,33 @@ class ReportBookServiceTest extends TestCase
      */
     public function itShouldCreateReport()
     {
-        $trainee = new Trainee('Max');
+        $expectedTraineeId = uniqid();
+        $expectedContent = 'some content';
 
-        $content = 'some content';
-        $report = $this->reportBookService->createReport($trainee, $content);
+        $report = $this->reportBookService->createReport($expectedTraineeId, $expectedContent);
 
-        $this->assertInstanceOf('Jimdo\Reports\Report', $report);
-        $this->assertEquals($content, $report->content());
+        $this->assertInstanceOf('\Jimdo\Reports\Views\Report', $report);
 
-        $content = 'some other content';
-        $report = $this->reportBookService->createReport($trainee, $content);
+        $createdReport = $this->reportRepository->reports[0];
 
-        $this->assertEquals($content, $report->content());
+        $this->assertEquals($expectedTraineeId, $createdReport->traineeId());
+        $this->assertEquals($expectedContent, $createdReport->content());
     }
 
     /**
      * @test
      */
-    public function itShouldSaveReport()
+    public function itShouldEditReport()
     {
-        $trainee = new Trainee('Max');
-        $report = new Report($trainee, 'some content');
+        $traineeId = uniqid();
+        $content = 'some content';
 
-        $this->assertEquals([], $this->reportRepository->reports);
+        $report = $this->reportBookService->createReport($traineeId, $content);
 
-        $this->reportBookService->save($report);
+        $expectedContent = 'some modified content';
+        $this->reportBookService->editReport($report->id(), $expectedContent);
 
-        $this->assertEquals($report, $this->reportRepository->reports[0]);
+        $this->assertEquals($expectedContent, $report->content());
     }
 
     /**
@@ -57,37 +59,52 @@ class ReportBookServiceTest extends TestCase
      */
     public function itShouldReturnAllReports()
     {
-        $tom = new Trainee('Tom');
-        $jenny = new Trainee('Jenny');
+        $tomId = uniqid();
+        $jennyId = uniqid();
 
-        $report1 = new Report($tom, 'some content');
-        $report2 = new Report($jenny, 'some other content');
+        $tomsContent = "tom's content";
+        $jennysContent = "jenny's content";
 
-        $this->reportBookService->save($report1);
-        $this->reportBookService->save($report2);
+        $this->assertCount(0, $this->reportBookService->findAll());
 
-        $this->assertEquals(
-            [$report1, $report2],
-            $this->reportBookService->findAll()
-        );
+        $this->reportBookService->createReport($tomId, $tomsContent);
+        $this->reportBookService->createReport($jennyId, $jennysContent);
+
+        $reports = $this->reportBookService->findAll();
+        $this->assertCount(2, $reports);
+
+        foreach ($reports as $report) {
+            $this->assertInstanceOf('\Jimdo\Reports\Views\Report', $report);
+        }
     }
 
     /**
      * @test
      */
-    public function itShouldReturnAllReportsOfATrainee()
+    public function itShouldReturnAllReportsForTraineeId()
     {
-        $tom = new Trainee('Tom');
-        $jenny = new Trainee('Jenny');
+        $tomId = uniqid();
+        $jennyId = uniqid();
 
-        $report1 = new Report($tom, 'some content');
-        $report2 = new Report($jenny, 'some other content');
+        $this->assertCount(0, $this->reportBookService->findByTraineeId($tomId));
+        $this->assertCount(0, $this->reportBookService->findByTraineeId($jennyId));
 
-        $this->reportBookService->save($report1);
-        $this->reportBookService->save($report2);
+        $this->reportBookService->createReport($tomId, 'some content');
+        $this->reportBookService->createReport($jennyId, 'some content');
 
-        $this->assertEquals([$report1], $this->reportBookService->findByTrainee($tom));
-        $this->assertEquals([$report2], $this->reportBookService->findByTrainee($jenny));
+        $tomsReports = $this->reportBookService->findByTraineeId($tomId);
+        $jennysReports = $this->reportBookService->findByTraineeId($jennyId);
+
+        $this->assertCount(1, $tomsReports);
+        $this->assertCount(1, $jennysReports);
+
+        foreach ($tomsReports as $report) {
+            $this->assertInstanceOf('\Jimdo\Reports\Views\Report', $report);
+        }
+
+        foreach ($jennysReports as $report) {
+            $this->assertInstanceOf('\Jimdo\Reports\Views\Report', $report);
+        }
     }
 
     /**
@@ -95,13 +112,12 @@ class ReportBookServiceTest extends TestCase
      */
     public function itShouldDeleteReport()
     {
-        $trainee = new Trainee('Tom');
-        $report = new Report($trainee, 'some content');
+        $traineeId = uniqid();
 
-        $this->reportBookService->save($report);
+        $report = $this->reportBookService->createReport($traineeId, 'some content');
         $this->assertCount(1, $this->reportBookService->findAll());
 
-        $this->reportBookService->delete($report);
+        $this->reportBookService->deleteReport($report->id());
         $this->assertCount(0, $this->reportBookService->findAll());
     }
 
@@ -110,10 +126,11 @@ class ReportBookServiceTest extends TestCase
      */
     public function itShouldRequestApproval()
     {
-        $trainee = new Trainee('Tom');
-        $report = new Report($trainee, 'some content');
+        $traineeId = uniqid();
 
-        $this->reportBookService->requestApproval($report);
+        $report = $this->reportBookService->createReport($traineeId, 'some content');
+
+        $this->reportBookService->requestApproval($report->id());
         $this->assertEquals(Report::STATUS_APPROVAL_REQUESTED, $report->status());
     }
 
@@ -122,29 +139,27 @@ class ReportBookServiceTest extends TestCase
      */
     public function itShouldReturnReportsByStatus()
     {
-        $trainee = new Trainee('Tom');
+        $traineeId = uniqid();
 
         $expectedReports = [];
-        $expectedReports[] = new Report($trainee, 'some content');
-        $expectedReports[] = new Report($trainee, 'some other content');
-
-        $this->reportBookService->save($expectedReports[0]);
-        $this->reportBookService->save($expectedReports[1]);
+        $expectedReports[] = $this->reportBookService->createReport($traineeId, 'some content');
+        $expectedReports[] = $this->reportBookService->createReport($traineeId, 'some other content');
 
         $reports = $this->reportBookService->findByStatus(Report::STATUS_NEW);
-        $this->assertEquals($expectedReports, $reports);
+
+        $this->assertEquals($expectedReports[0]->status(), $reports[0]->status());
+        $this->assertEquals($expectedReports[1]->status(), $reports[1]->status());
 
         $expectedReports = [];
-        $expectedReports[] = new Report($trainee, 'some content');
-        $expectedReports[] = new Report($trainee, 'some other content');
+        $expectedReports[] = $this->reportBookService->createReport($traineeId, 'some content');
+        $expectedReports[] = $this->reportBookService->createReport($traineeId, 'some other content');
 
-        $expectedReports[0]->requestApproval();
-        $expectedReports[1]->requestApproval();
-
-        $this->reportBookService->save($expectedReports[0]);
-        $this->reportBookService->save($expectedReports[1]);
+        $this->reportBookService->requestApproval($expectedReports[0]->id());
+        $this->reportBookService->requestApproval($expectedReports[1]->id());
 
         $reports = $this->reportBookService->findByStatus(Report::STATUS_APPROVAL_REQUESTED);
-        $this->assertEquals($expectedReports, $reports);
+
+        $this->assertEquals($expectedReports[0]->status(), $reports[0]->status());
+        $this->assertEquals($expectedReports[1]->status(), $reports[1]->status());
     }
 }

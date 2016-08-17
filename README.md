@@ -1,5 +1,7 @@
 # Reportbook
 
+[![Build Status](https://travis-ci.org/Jimdo/reportbook.svg?branch=master)](https://travis-ci.org/Jimdo/reportbook)
+
 A report book as a service.
 
 During the traineeship every trainee has to write regular reports.

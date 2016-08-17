@@ -2,7 +2,7 @@
 
 namespace Jimdo\Reports;
 
-class ReportBook
+class ReportBookService
 {
     /** @var ReportRepository */
     private $reportRepository;

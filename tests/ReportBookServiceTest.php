@@ -4,10 +4,10 @@ namespace Jimdo\Reports;
 
 use PHPUnit\Framework\TestCase;
 
-class ReportBookTest extends TestCase
+class ReportBookServiceTest extends TestCase
 {
-    /** @var ReportBook */
-    private $reportBook;
+    /** @var ReportBookService */
+    private $reportBookService;
 
     /** @var ReportRepository */
     private $reportRepository;
@@ -15,7 +15,7 @@ class ReportBookTest extends TestCase
     protected function setUp()
     {
         $this->reportRepository = new ReportFakeRepository();
-        $this->reportBook = new ReportBook($this->reportRepository);
+        $this->reportBookService = new ReportBookService($this->reportRepository);
     }
 
     /**
@@ -26,13 +26,13 @@ class ReportBookTest extends TestCase
         $trainee = new Trainee('Max');
 
         $content = 'some content';
-        $report = $this->reportBook->createReport($trainee, $content);
+        $report = $this->reportBookService->createReport($trainee, $content);
 
         $this->assertInstanceOf('Jimdo\Reports\Report', $report);
         $this->assertEquals($content, $report->content());
 
         $content = 'some other content';
-        $report = $this->reportBook->createReport($trainee, $content);
+        $report = $this->reportBookService->createReport($trainee, $content);
 
         $this->assertEquals($content, $report->content());
     }
@@ -47,7 +47,7 @@ class ReportBookTest extends TestCase
 
         $this->assertEquals([], $this->reportRepository->reports);
 
-        $this->reportBook->save($report);
+        $this->reportBookService->save($report);
 
         $this->assertEquals($report, $this->reportRepository->reports[0]);
     }
@@ -63,12 +63,12 @@ class ReportBookTest extends TestCase
         $report1 = new Report($tom, 'some content');
         $report2 = new Report($jenny, 'some other content');
 
-        $this->reportBook->save($report1);
-        $this->reportBook->save($report2);
+        $this->reportBookService->save($report1);
+        $this->reportBookService->save($report2);
 
         $this->assertEquals(
             [$report1, $report2],
-            $this->reportBook->findAll()
+            $this->reportBookService->findAll()
         );
     }
 
@@ -83,11 +83,11 @@ class ReportBookTest extends TestCase
         $report1 = new Report($tom, 'some content');
         $report2 = new Report($jenny, 'some other content');
 
-        $this->reportBook->save($report1);
-        $this->reportBook->save($report2);
+        $this->reportBookService->save($report1);
+        $this->reportBookService->save($report2);
 
-        $this->assertEquals([$report1], $this->reportBook->findByTrainee($tom));
-        $this->assertEquals([$report2], $this->reportBook->findByTrainee($jenny));
+        $this->assertEquals([$report1], $this->reportBookService->findByTrainee($tom));
+        $this->assertEquals([$report2], $this->reportBookService->findByTrainee($jenny));
     }
 
     /**
@@ -98,11 +98,11 @@ class ReportBookTest extends TestCase
         $trainee = new Trainee('Tom');
         $report = new Report($trainee, 'some content');
 
-        $this->reportBook->save($report);
-        $this->assertCount(1, $this->reportBook->findAll());
+        $this->reportBookService->save($report);
+        $this->assertCount(1, $this->reportBookService->findAll());
 
-        $this->reportBook->delete($report);
-        $this->assertCount(0, $this->reportBook->findAll());
+        $this->reportBookService->delete($report);
+        $this->assertCount(0, $this->reportBookService->findAll());
     }
 
     /**
@@ -113,7 +113,7 @@ class ReportBookTest extends TestCase
         $trainee = new Trainee('Tom');
         $report = new Report($trainee, 'some content');
 
-        $this->reportBook->requestApproval($report);
+        $this->reportBookService->requestApproval($report);
         $this->assertEquals(Report::STATUS_APPROVAL_REQUESTED, $report->status());
     }
 
@@ -128,10 +128,10 @@ class ReportBookTest extends TestCase
         $expectedReports[] = new Report($trainee, 'some content');
         $expectedReports[] = new Report($trainee, 'some other content');
 
-        $this->reportBook->save($expectedReports[0]);
-        $this->reportBook->save($expectedReports[1]);
+        $this->reportBookService->save($expectedReports[0]);
+        $this->reportBookService->save($expectedReports[1]);
 
-        $reports = $this->reportBook->findByStatus(Report::STATUS_NEW);
+        $reports = $this->reportBookService->findByStatus(Report::STATUS_NEW);
         $this->assertEquals($expectedReports, $reports);
 
         $expectedReports = [];
@@ -141,10 +141,10 @@ class ReportBookTest extends TestCase
         $expectedReports[0]->requestApproval();
         $expectedReports[1]->requestApproval();
 
-        $this->reportBook->save($expectedReports[0]);
-        $this->reportBook->save($expectedReports[1]);
+        $this->reportBookService->save($expectedReports[0]);
+        $this->reportBookService->save($expectedReports[1]);
 
-        $reports = $this->reportBook->findByStatus(Report::STATUS_APPROVAL_REQUESTED);
+        $reports = $this->reportBookService->findByStatus(Report::STATUS_APPROVAL_REQUESTED);
         $this->assertEquals($expectedReports, $reports);
     }
 }

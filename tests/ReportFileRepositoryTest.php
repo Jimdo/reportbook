@@ -97,6 +97,10 @@ class ReportFileRepositoryTest extends TestCase
 
     private function removeAllReports()
     {
+        if (!file_exists(self::REPORTS_ROOT_PATH)) {
+            return;
+        }
+
         $files = scandir(self::REPORTS_ROOT_PATH);
 
         foreach ($files as $file) {

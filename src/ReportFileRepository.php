@@ -31,9 +31,10 @@ class ReportFileRepository implements ReportRepository
     public function create(string $traineeId, string $content): Report
     {
         $report = new Report($traineeId, $content);
-        $reportsPath = "{$this->reportsPath}/{$traineeId}";
 
-        mkdir($reportsPath);
+        $this->ensureReportsPath();
+        $this->ensureTraineeReportsPath($traineeId);
+
         file_put_contents($this->filename($report), serialize($report));
 
         return $report;
@@ -103,6 +104,24 @@ class ReportFileRepository implements ReportRepository
     public function findById(string $id): Report
     {
 
+    }
+
+    private function ensureReportsPath()
+    {
+        if (!file_exists($this->reportsPath)) {
+            mkdir($this->reportsPath);
+        }
+    }
+
+    /**
+     * @param string $traineeId
+     */
+    private function ensureTraineeReportsPath(string $traineeId)
+    {
+        $traineeReportsPath = $this->reportsPath . '/' . $traineeId;
+        if (!file_exists($traineeReportsPath)) {
+            mkdir($traineeReportsPath);
+        }
     }
 
     /**

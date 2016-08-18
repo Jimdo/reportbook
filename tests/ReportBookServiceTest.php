@@ -137,6 +137,36 @@ class ReportBookServiceTest extends TestCase
     /**
      * @test
      */
+    public function itShouldApproveReport()
+    {
+        $traineeId = uniqid();
+
+        $report= $this->reportBookService->createReport($traineeId, 'some content');
+        $reportId = $report->id();
+
+        $this->reportBookService->approveReport($reportId);
+
+        $this->assertEquals(Report::STATUS_APPROVED, $report->status());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldDisapproveReport()
+    {
+        $traineeId = uniqid();
+
+        $report= $this->reportBookService->createReport($traineeId, 'some content');
+        $reportId = $report->id();
+
+        $this->reportBookService->disapproveReport($reportId);
+
+        $this->assertEquals(Report::STATUS_DISAPPROVED, $report->status());
+    }
+
+    /**
+     * @test
+     */
     public function itShouldReturnReportsByStatus()
     {
         $traineeId = uniqid();
@@ -162,4 +192,6 @@ class ReportBookServiceTest extends TestCase
         $this->assertEquals($expectedReports[0]->status(), $reports[0]->status());
         $this->assertEquals($expectedReports[1]->status(), $reports[1]->status());
     }
+
+
 }

@@ -79,6 +79,24 @@ class ReportBookService
     }
 
     /**
+     * @param string $reportId
+     */
+    public function approveReport(string $reportId)
+    {
+        $report = $this->reportRepository->findById($reportId);
+        $report->approve();
+    }
+
+    /**
+     * @param string $reportId
+     */
+    public function disapproveReport(string $reportId)
+    {
+        $report = $this->reportRepository->findById($reportId);
+        $report->disapprove();
+    }
+
+    /**
      * @param string $status
      * @return array
      */

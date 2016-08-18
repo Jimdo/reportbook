@@ -192,6 +192,4 @@ class ReportBookServiceTest extends TestCase
         $this->assertEquals($expectedReports[0]->status(), $reports[0]->status());
         $this->assertEquals($expectedReports[1]->status(), $reports[1]->status());
     }
-
-
 }

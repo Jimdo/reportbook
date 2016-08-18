@@ -52,6 +52,30 @@ class ReportFileRepositoryTest extends TestCase
         $this->assertEquals($expectedContent, $content);
     }
 
+    /**
+    * @test
+    */
+    public function itShouldDeleteReport()
+    {
+        $repository = new ReportFileRepository(self::REPORTS_ROOT_PATH);
+        $traineeId = uniqid();
+        $content = 'some content';
+
+        $report = $repository->create($traineeId, $content);
+
+        $reportFileName = sprintf('%s/%s/%s'
+            , self::REPORTS_ROOT_PATH
+            , $traineeId
+            , $report->id()
+        );
+
+        $this->assertTrue(file_exists($reportFileName));
+
+        $repository->delete($report);
+
+        $this->assertFalse(file_exists($reportFileName));
+    }
+
     private function removeAllReports()
     {
         $files = scandir(self::REPORTS_ROOT_PATH);

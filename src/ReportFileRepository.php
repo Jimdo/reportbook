@@ -31,14 +31,20 @@ class ReportFileRepository implements ReportRepository
     public function create(string $traineeId, string $content): Report
     {
         $report = new Report($traineeId, $content);
-        $reportId = $report->id();
         $reportsPath = "{$this->rootPath}/{$traineeId}";
-        $filename = "{$reportsPath}/{$reportId}";
 
         mkdir($reportsPath);
-        file_put_contents($filename, $content);
+        file_put_contents($this->filename($report), $content);
 
         return $report;
+    }
+
+    /**
+     * @param Report $report
+     */
+    public function delete(Report $report)
+    {
+        unlink($this->filename($report));
     }
 
     /**
@@ -67,14 +73,6 @@ class ReportFileRepository implements ReportRepository
     }
 
     /**
-     * @param Report $report
-     */
-    public function delete(Report $report)
-    {
-
-    }
-
-    /**
      * @param string $status
      * @return Report[]
      */
@@ -90,5 +88,14 @@ class ReportFileRepository implements ReportRepository
     public function findById(string $id): Report
     {
 
+    }
+
+    /**
+     * @param Report $report
+     * @return string
+     */
+    private function filename(Report $report): string
+    {
+        return $filename = $this->rootPath . '/' . $report->traineeId() . '/' . $report->id();
     }
 }

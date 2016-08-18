@@ -25,7 +25,7 @@ class ReportFileRepositoryTest extends TestCase
     {
         $repository = new ReportFileRepository(self::REPORTS_ROOT_PATH);
 
-        $this->assertEquals(self::REPORTS_ROOT_PATH, $repository->rootPath());
+        $this->assertEquals(self::REPORTS_ROOT_PATH, $repository->reportsPath());
     }
 
     /**
@@ -37,19 +37,18 @@ class ReportFileRepositoryTest extends TestCase
         $traineeId = uniqid();
         $expectedContent = 'some content';
 
-        $report = $repository->create($traineeId, $expectedContent);
-        $reportId = $report->id();
+        $expectedReport = $repository->create($traineeId, $expectedContent);
+        $reportId = $expectedReport->id();
 
         $reportFileName = sprintf('%s/%s/%s'
             , self::REPORTS_ROOT_PATH
             , $traineeId
-            , $report->id()
+            , $expectedReport->id()
         );
 
-        $content = file_get_contents($reportFileName);
+        $report = unserialize(file_get_contents($reportFileName));
 
-        $this->assertTrue($content !== false);
-        $this->assertEquals($expectedContent, $content);
+        $this->assertEquals($expectedReport->content(), $report->content());
     }
 
     /**
@@ -74,6 +73,26 @@ class ReportFileRepositoryTest extends TestCase
         $repository->delete($report);
 
         $this->assertFalse(file_exists($reportFileName));
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldFindAllReports()
+    {
+        $repository = new ReportFileRepository(self::REPORTS_ROOT_PATH);
+        $content = 'some content';
+
+        $this->assertCount(0, $repository->findAll());
+
+        $reports = [];
+        $reports[] = $repository->create(uniqid(), $content);
+        $reports[] = $repository->create(uniqid(), $content);
+        $reports[] = $repository->create(uniqid(), $content);
+
+        $foundReports = $repository->findAll();
+
+        $this->assertCount(3, $foundReports);
     }
 
     private function removeAllReports()

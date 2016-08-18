@@ -5,22 +5,22 @@ namespace Jimdo\Reports;
 class ReportFileRepository implements ReportRepository
 {
     /** @var string */
-    private $rootPath;
+    private $reportsPath;
 
     /**
-     * @param string $rootPath
+     * @param string $reportsPath
      */
-    public function __construct(string $rootPath)
+    public function __construct(string $reportsPath)
     {
-         $this->rootPath = $rootPath;
+         $this->reportsPath = $reportsPath;
     }
 
     /**
      * @return string
      */
-    public function rootPath(): string
+    public function reportsPath(): string
     {
-        return $this->rootPath;
+        return $this->reportsPath;
     }
 
     /**
@@ -31,10 +31,10 @@ class ReportFileRepository implements ReportRepository
     public function create(string $traineeId, string $content): Report
     {
         $report = new Report($traineeId, $content);
-        $reportsPath = "{$this->rootPath}/{$traineeId}";
+        $reportsPath = "{$this->reportsPath}/{$traineeId}";
 
         mkdir($reportsPath);
-        file_put_contents($this->filename($report), $content);
+        file_put_contents($this->filename($report), serialize($report));
 
         return $report;
     }
@@ -60,7 +60,22 @@ class ReportFileRepository implements ReportRepository
      */
     public function findAll(): array
     {
-
+        $foundReports = [];
+        $files = scandir($this->reportsPath);
+        foreach ($files as $traineeId) {
+            if ($traineeId === '.' || $traineeId === '..') {
+                continue;
+            }
+            $reports = scandir($this->reportsPath . '/' . $traineeId);
+            foreach ($reports as $report) {
+                if ($report === '.' || $report === '..') {
+                    continue;
+                }
+                $serializedReport = file_get_contents($this->reportsPath . '/' . $traineeId . '/' . $report);
+                $foundReports[] = unserialize($serializedReport);
+            }
+        }
+        return $foundReports;
     }
 
     /**
@@ -96,6 +111,6 @@ class ReportFileRepository implements ReportRepository
      */
     private function filename(Report $report): string
     {
-        return $filename = $this->rootPath . '/' . $report->traineeId() . '/' . $report->id();
+        return $filename = $this->reportsPath . '/' . $report->traineeId() . '/' . $report->id();
     }
 }

@@ -85,7 +85,17 @@ class ReportFileRepository implements ReportRepository
      */
     public function findByTraineeId(string $traineeId): array
     {
-
+        $foundReports = [];
+        $traineePath = $this->reportsPath . '/' . $traineeId;
+        $files = scandir($traineePath);
+        foreach ($files as $reports) {
+            if ($reports === '.' || $reports === '..') {
+                continue;
+            }
+            $serializedReport = file_get_contents($traineePath . '/' . $reports);
+            $foundReports[] = unserialize($serializedReport);
+        }
+        return $foundReports;
     }
 
     /**

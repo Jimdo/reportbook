@@ -114,8 +114,6 @@ class ReportFileRepositoryTest extends TestCase
 
         $foundReports = $repository->findByTraineeId($traineeId1);
 
-        // $this->assertEquals($reports[0]->id(), $foundReports[0]->id());
-        // $this->assertEquals($reports[1]->id(), $foundReports[1]->id());
         $this->assertCount(2, $foundReports);
     }
 
@@ -136,6 +134,21 @@ class ReportFileRepositoryTest extends TestCase
 
         $this->assertEquals(Report::STATUS_NEW, $foundReports[0]->status());
         $this->assertEquals(Report::STATUS_NEW, $foundReports[1]->status());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldFindById()
+    {
+        $repository = new ReportFileRepository(self::REPORTS_ROOT_PATH);
+        $content = 'some content';
+
+        $report1 = $repository->create(uniqid(), $content);
+        $report2 = $repository->create(uniqid(), $content);
+
+        $foundReport = $repository->findById($report1->id());
+        $this->assertEquals($report1, $foundReport);
     }
 
     private function deleteRecursive($input)

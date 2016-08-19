@@ -119,7 +119,14 @@ class ReportFileRepository implements ReportRepository
      */
     public function findById(string $id): Report
     {
+        $allReports = $this->findAll();
 
+        foreach ($allReports as $report) {
+            if ($report->id() === $id) {
+                $foundReport = $report;
+            }
+        }
+        return $foundReport;
     }
 
     private function ensureReportsPath()

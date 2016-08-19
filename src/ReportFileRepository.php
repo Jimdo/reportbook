@@ -31,11 +31,7 @@ class ReportFileRepository implements ReportRepository
     public function create(string $traineeId, string $content): Report
     {
         $report = new Report($traineeId, $content);
-
-        $this->ensureReportsPath();
-        $this->ensureTraineeReportsPath($traineeId);
-
-        file_put_contents($this->filename($report), serialize($report));
+        $this->save($report);
 
         return $report;
     }
@@ -53,7 +49,9 @@ class ReportFileRepository implements ReportRepository
      */
     public function save(Report $report)
     {
-
+        $this->ensureReportsPath();
+        $this->ensureTraineeReportsPath($report->traineeId());
+        file_put_contents($this->filename($report), serialize($report));
     }
 
     /**
@@ -100,11 +98,19 @@ class ReportFileRepository implements ReportRepository
 
     /**
      * @param string $status
-     * @return Report[]
+     * @return array
      */
     public function findByStatus(string $status): array
     {
+        $allReports = $this->findAll();
+        $foundReports = [];
 
+        foreach ($allReports as $report) {
+            if ($report->status() === $status) {
+                $foundReports[] = $report;
+            }
+        }
+        return $foundReports;
     }
 
     /**

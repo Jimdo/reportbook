@@ -119,6 +119,25 @@ class ReportFileRepositoryTest extends TestCase
         $this->assertCount(2, $foundReports);
     }
 
+    /**
+     * @test
+     */
+    public function itShouldFindByStatus()
+    {
+        $repository = new ReportFileRepository(self::REPORTS_ROOT_PATH);
+        $content = 'some content';
+
+        $reports = [];
+        $reports[] = $repository->create(uniqid(), $content);
+        $reports[] = $repository->create(uniqid(), $content);
+        $reports[] = $repository->create(uniqid(), $content);
+
+        $foundReports = $repository->findByStatus(Report::STATUS_NEW);
+
+        $this->assertEquals(Report::STATUS_NEW, $foundReports[0]->status());
+        $this->assertEquals(Report::STATUS_NEW, $foundReports[1]->status());
+    }
+
     private function deleteRecursive($input)
     {
         if (is_file($input)) {

@@ -27,6 +27,7 @@ $ make help
 bootstrap    Install composer
 doc          Generate documentation
 lint         Lint all the code
+server       Start up local development web server
 tests        Execute test suite and create code coverage report
 update       Update composer packages
 ```

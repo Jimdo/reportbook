@@ -113,7 +113,9 @@ class ReportFileRepositoryTest extends TestCase
         $reports[] = $repository->create($traineeId2, $content);
 
         $foundReports = $repository->findByTraineeId($traineeId1);
+        $this->assertCount(2, $foundReports);
 
+        $foundReports = $repository->findByTraineeId($traineeId2);
         $this->assertCount(2, $foundReports);
     }
 
@@ -126,7 +128,6 @@ class ReportFileRepositoryTest extends TestCase
         $content = 'some content';
 
         $reports = [];
-        $reports[] = $repository->create(uniqid(), $content);
         $reports[] = $repository->create(uniqid(), $content);
         $reports[] = $repository->create(uniqid(), $content);
 
@@ -149,6 +150,9 @@ class ReportFileRepositoryTest extends TestCase
 
         $foundReport = $repository->findById($report1->id());
         $this->assertEquals($report1, $foundReport);
+
+        $foundReport = $repository->findById($report2->id());
+        $this->assertEquals($report2, $foundReport);
     }
 
     private function deleteRecursive($input)

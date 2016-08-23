@@ -42,5 +42,5 @@ interface ReportRepository
      * @param string $id
      * @return Report
      */
-    public function findById(string $id): Report;
+    public function findById(string $id);
 }

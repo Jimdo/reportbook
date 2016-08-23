@@ -106,6 +106,21 @@ class ReportBookService
     }
 
     /**
+     * @param string $reportId
+     * @param string $traineeId
+     * @return \Jimdo\Reports\Views\Report
+     */
+    public function findById(string $reportId, string $traineeId)
+    {
+        $report = $this->reportRepository->findById($reportId);
+        $report = new ReadOnlyReport($report);
+        if ($report->traineeId() === $traineeId) {
+            return $report;
+        }
+        return null;
+    }
+
+    /**
      * @param Reports[] $reports
      * @return \Jimdo\Reports\Views\Report[]
      */

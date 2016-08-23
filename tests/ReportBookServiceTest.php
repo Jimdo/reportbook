@@ -124,6 +124,34 @@ class ReportBookServiceTest extends TestCase
     /**
      * @test
      */
+    public function itShouldFindById()
+    {
+        $traineeId = uniqid();
+
+        $report = $this->reportBookService->createReport($traineeId, 'some content');
+        $reportId = $report->id();
+
+        $foundReport = $this->reportBookService->findById($reportId, $traineeId);
+
+        $this->assertEquals($report->content(), $foundReport->content());
+        $this->assertEquals($report->traineeId(), $foundReport->traineeId());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldOnlyFindReportOfMatchingTrainee()
+    {
+        $report = $this->reportBookService->createReport('some trainee id', 'some content');
+
+        $foundReport = $this->reportBookService->findById($report->id(), 'some other trainee id');
+
+        $this->assertNull($foundReport);
+    }
+
+    /**
+     * @test
+     */
     public function itShouldRequestApproval()
     {
         $traineeId = uniqid();

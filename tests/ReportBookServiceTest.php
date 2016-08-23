@@ -28,7 +28,7 @@ class ReportBookServiceTest extends TestCase
         $expectedTraineeId = uniqid();
         $expectedContent = 'some content';
 
-        $report = $this->reportBookService->createReport($expectedTraineeId, $expectedContent);
+        $report = $this->reportBookService->createReport($expectedTraineeId, $expectedContent, '10.10.10', '34');
 
         $this->assertInstanceOf('\Jimdo\Reports\Views\Report', $report);
 
@@ -46,7 +46,7 @@ class ReportBookServiceTest extends TestCase
         $traineeId = uniqid();
         $content = 'some content';
 
-        $report = $this->reportBookService->createReport($traineeId, $content);
+        $report = $this->reportBookService->createReport($traineeId, $content, '10.10.10', '34');
 
         $expectedContent = 'some modified content';
         $this->reportBookService->editReport($report->id(), $expectedContent);
@@ -67,8 +67,8 @@ class ReportBookServiceTest extends TestCase
 
         $this->assertCount(0, $this->reportBookService->findAll());
 
-        $this->reportBookService->createReport($tomId, $tomsContent);
-        $this->reportBookService->createReport($jennyId, $jennysContent);
+        $this->reportBookService->createReport($tomId, $tomsContent, '10.10.10', '34');
+        $this->reportBookService->createReport($jennyId, $jennysContent, '10.10.10', '34');
 
         $reports = $this->reportBookService->findAll();
         $this->assertCount(2, $reports);
@@ -76,6 +76,36 @@ class ReportBookServiceTest extends TestCase
         foreach ($reports as $report) {
             $this->assertInstanceOf('\Jimdo\Reports\Views\Report', $report);
         }
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldReturnDateOfReport()
+    {
+        $expectedTraineeId = uniqid();
+        $expectedContent = 'some content';
+        $expectedDate = '23.08.2016';
+
+        $report = $this->reportBookService->createReport($expectedTraineeId, $expectedContent, $expectedDate, '34');
+
+        $this->assertEquals($expectedDate, $report->date());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldReturnCalendarWeek()
+    {
+        $expectedTraineeId = uniqid();
+        $expectedContent = 'some content';
+        $expectedDate = '23.08.2016';
+        $expectedWeek = '34';
+
+
+        $report = $this->reportBookService->createReport($expectedTraineeId, $expectedContent, $expectedDate, $expectedWeek);
+
+        $this->assertEquals($expectedWeek, $report->calendarWeek());
     }
 
     /**
@@ -89,8 +119,8 @@ class ReportBookServiceTest extends TestCase
         $this->assertCount(0, $this->reportBookService->findByTraineeId($tomId));
         $this->assertCount(0, $this->reportBookService->findByTraineeId($jennyId));
 
-        $this->reportBookService->createReport($tomId, 'some content');
-        $this->reportBookService->createReport($jennyId, 'some content');
+        $this->reportBookService->createReport($tomId, 'some content', '10.10.10', '34');
+        $this->reportBookService->createReport($jennyId, 'some content', '10.10.10', '34');
 
         $tomsReports = $this->reportBookService->findByTraineeId($tomId);
         $jennysReports = $this->reportBookService->findByTraineeId($jennyId);
@@ -114,7 +144,7 @@ class ReportBookServiceTest extends TestCase
     {
         $traineeId = uniqid();
 
-        $report = $this->reportBookService->createReport($traineeId, 'some content');
+        $report = $this->reportBookService->createReport($traineeId, 'some content', '10.10.10', '34');
         $this->assertCount(1, $this->reportBookService->findAll());
 
         $this->reportBookService->deleteReport($report->id());
@@ -128,7 +158,7 @@ class ReportBookServiceTest extends TestCase
     {
         $traineeId = uniqid();
 
-        $report = $this->reportBookService->createReport($traineeId, 'some content');
+        $report = $this->reportBookService->createReport($traineeId, 'some content', '10.10.10', '34');
         $reportId = $report->id();
 
         $foundReport = $this->reportBookService->findById($reportId, $traineeId);
@@ -142,7 +172,7 @@ class ReportBookServiceTest extends TestCase
      */
     public function itShouldOnlyFindReportOfMatchingTrainee()
     {
-        $report = $this->reportBookService->createReport('some trainee id', 'some content');
+        $report = $this->reportBookService->createReport('some trainee id', 'some content', '10.10.10', '34');
 
         $foundReport = $this->reportBookService->findById($report->id(), 'some other trainee id');
 
@@ -156,7 +186,7 @@ class ReportBookServiceTest extends TestCase
     {
         $traineeId = uniqid();
 
-        $report = $this->reportBookService->createReport($traineeId, 'some content');
+        $report = $this->reportBookService->createReport($traineeId, 'some content', '10.10.10', '34');
 
         $this->reportBookService->requestApproval($report->id());
         $this->assertEquals(Report::STATUS_APPROVAL_REQUESTED, $report->status());
@@ -169,7 +199,7 @@ class ReportBookServiceTest extends TestCase
     {
         $traineeId = uniqid();
 
-        $report = $this->reportBookService->createReport($traineeId, 'some content');
+        $report = $this->reportBookService->createReport($traineeId, 'some content', '10.10.10', '34');
 
         $this->reportRepository->saveMethodCalled = false;
 
@@ -185,7 +215,7 @@ class ReportBookServiceTest extends TestCase
     {
         $traineeId = uniqid();
 
-        $report= $this->reportBookService->createReport($traineeId, 'some content');
+        $report= $this->reportBookService->createReport($traineeId, 'some content', '10.10.10', '34');
         $reportId = $report->id();
 
         $this->reportBookService->approveReport($reportId);
@@ -200,7 +230,7 @@ class ReportBookServiceTest extends TestCase
     {
         $traineeId = uniqid();
 
-        $report= $this->reportBookService->createReport($traineeId, 'some content');
+        $report= $this->reportBookService->createReport($traineeId, 'some content', '10.10.10', '34');
         $reportId = $report->id();
 
         $this->reportBookService->disapproveReport($reportId);
@@ -216,8 +246,8 @@ class ReportBookServiceTest extends TestCase
         $traineeId = uniqid();
 
         $expectedReports = [];
-        $expectedReports[] = $this->reportBookService->createReport($traineeId, 'some content');
-        $expectedReports[] = $this->reportBookService->createReport($traineeId, 'some other content');
+        $expectedReports[] = $this->reportBookService->createReport($traineeId, 'some content', '10.10.10', '34');
+        $expectedReports[] = $this->reportBookService->createReport($traineeId, 'some other content', '10.10.10', '34');
 
         $reports = $this->reportBookService->findByStatus(Report::STATUS_NEW);
 
@@ -225,8 +255,8 @@ class ReportBookServiceTest extends TestCase
         $this->assertEquals($expectedReports[1]->status(), $reports[1]->status());
 
         $expectedReports = [];
-        $expectedReports[] = $this->reportBookService->createReport($traineeId, 'some content');
-        $expectedReports[] = $this->reportBookService->createReport($traineeId, 'some other content');
+        $expectedReports[] = $this->reportBookService->createReport($traineeId, 'some content', '10.10.10', '34');
+        $expectedReports[] = $this->reportBookService->createReport($traineeId, 'some other content', '10.10.10', '34');
 
         $this->reportBookService->requestApproval($expectedReports[0]->id());
         $this->reportBookService->requestApproval($expectedReports[1]->id());

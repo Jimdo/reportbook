@@ -25,8 +25,8 @@ $reports = $service->findByTraineeId(session('userId'));
         <?php $reportId = $report->id(); ?>
             <tr>
             <td><?php echo substr($report->content(), 0, 10); ?></td>
-            <td>19.08.2016</td>
-            <td>33</td>
+            <td><?php echo $report->date(); ?></td>
+            <td><?php echo $report->calendarWeek(); ?></td>
             <td><?php echo $report->status(); ?></td>
             <td>
             <ul>

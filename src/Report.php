@@ -21,15 +21,25 @@ class Report
     /** @var string */
     private $id;
 
+    /** @var string */
+    private $date;
+
+    /** @var string */
+    private $calendarWeek;
+
     /**
      * @param string $traineeId
      * @param string $content
+     * @param string $date
+     * @param string $calendarWeek
      */
-    public function __construct(string $traineeId, string $content)
+    public function __construct(string $traineeId, string $content, string $date, string $calendarWeek)
     {
         $this->content = $content;
         $this->traineeId = $traineeId;
         $this->status = self::STATUS_NEW;
+        $this->date = $date;
+        $this->calendarWeek = $calendarWeek;
         $this->id = uniqid();
     }
 
@@ -72,6 +82,22 @@ class Report
     public function status(): string
     {
         return $this->status;
+    }
+
+    /**
+     * @return string
+     */
+    public function date(): string
+    {
+        return $this->date;
+    }
+
+    /**
+     * @return string
+     */
+    public function calendarWeek(): string
+    {
+        return $this->calendarWeek;
     }
 
     public function approve()

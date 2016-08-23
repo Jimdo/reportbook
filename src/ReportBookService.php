@@ -20,11 +20,13 @@ class ReportBookService
     /**
      * @param string $traineeId
      * @param string $content
+     * @param string $date
+     * @param string $calendarWeek
      * @return \Jimdo\Reports\Views\Report
      */
-    public function createReport(string $traineeId, string $content): \Jimdo\Reports\Views\Report
+    public function createReport(string $traineeId, string $content, string $date, string $calendarWeek): \Jimdo\Reports\Views\Report
     {
-        $report = $this->reportRepository->create($traineeId, $content);
+        $report = $this->reportRepository->create($traineeId, $content, $date, $calendarWeek);
         return new ReadOnlyReport($report);
     }
 

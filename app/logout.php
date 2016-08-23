@@ -1,5 +1,9 @@
 <?php
 
+namespace Jimdo\Reports;
+
+require 'bootstrap.php';
+
 $_SESSION['authorized'] = false;
 $_SESSION['userId'] = '';
 $_SESSION['role'] = '';

@@ -2,9 +2,7 @@
 
 namespace Jimdo\Reports;
 
-require_once '../vendor/autoload.php';
-
-require 'views/html_start.html';
+require 'bootstrap.php';
 
 require 'views/login.html';
 

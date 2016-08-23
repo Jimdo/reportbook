@@ -10,6 +10,9 @@ class ReportFakeRepository implements ReportRepository
     /** @var Report */
     public $newReport;
 
+    /** @var bool */
+    public $saveMethodCalled = false;
+
     /**
      * @param string $traineeId
      * @param string $content
@@ -28,6 +31,7 @@ class ReportFakeRepository implements ReportRepository
     public function save(Report $report)
     {
         $this->reports[] = $report;
+        $this->saveMethodCalled = true;
     }
 
     /**

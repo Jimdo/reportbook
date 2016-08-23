@@ -76,6 +76,7 @@ class ReportBookService
     {
         $report = $this->reportRepository->findById($reportId);
         $report->requestApproval();
+        $this->reportRepository->save($report);
     }
 
     /**
@@ -112,7 +113,6 @@ class ReportBookService
      */
     public function findById(string $reportId, string $traineeId)
     {
-        echo "<!-- REPORT_ID=#$reportId# -->";
         $report = $this->reportRepository->findById($reportId);
         $report = new ReadOnlyReport($report);
         if ($report->traineeId() === $traineeId) {

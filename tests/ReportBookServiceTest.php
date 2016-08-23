@@ -165,6 +165,22 @@ class ReportBookServiceTest extends TestCase
     /**
      * @test
      */
+    public function itShouldSaveStateAfterRequestApproval()
+    {
+        $traineeId = uniqid();
+
+        $report = $this->reportBookService->createReport($traineeId, 'some content');
+
+        $this->reportRepository->saveMethodCalled = false;
+
+        $this->reportBookService->requestApproval($report->id());
+
+        $this->assertTrue($this->reportRepository->saveMethodCalled);
+    }
+
+    /**
+     * @test
+     */
     public function itShouldApproveReport()
     {
         $traineeId = uniqid();

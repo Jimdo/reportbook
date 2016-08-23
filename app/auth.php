@@ -4,8 +4,6 @@ namespace Jimdo\Reports;
 
 require 'bootstrap.php';
 
-require_once '../vendor/autoload.php';
-
 $_SESSION['authorized'] = false;
 
 $username = $_POST['username'];
@@ -39,9 +37,9 @@ if (
         $role = $_SESSION['role'] = 'Trainer';
     }
 
-    // $reportRepository = new ReportFileRepository('../reports');
-    // $service = new ReportBookService($reportRepository);
-    // $service->createReport($traineeId, 'Inhalt des Berichtes');
+    $reportRepository = new ReportFileRepository('../reports');
+    $service = new ReportBookService($reportRepository);
+    $service->createReport($traineeId, 'Erster inhalt des Berichts');
 
     $_SESSION['authorized'] = true;
 

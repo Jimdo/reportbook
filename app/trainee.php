@@ -3,16 +3,12 @@ namespace Jimdo\Reports;
 
 require 'bootstrap.php';
 
-require 'views/html_start.html';
-
 require 'views/header_user_trainee.html';
-
-require_once '../vendor/autoload.php';
 
 $reportRepository = new ReportFileRepository('../reports');
 $service = new ReportBookService($reportRepository);
 
-$list = $service->findByTraineeId('jennyxyz');
+$reports = $service->findByTraineeId(session('userId'));
 ?>
 
 <table>
@@ -23,17 +19,17 @@ $list = $service->findByTraineeId('jennyxyz');
         <th>Status</th>
         <th>Aktionen</th>
         </tr>
-    <?php foreach ($list as $item): ?>
+    <?php foreach ($reports as $report): ?>
             <tr>
-            <td><?php echo substr($item->content(), 0, 10); ?></td>
+            <td><?php echo substr($report->content(), 0, 10); ?></td>
             <td>19.08.2016</td>
             <td>33</td>
-            <td><?php echo $item->status(); ?></td>
+            <td><?php echo $report->status(); ?></td>
             <td>
             <ul>
-            <li><a href=""<?php echo $item->edit($item->content()); ?></li>
-            <li><?php echo $item->delete($item); ?>löschen</li>
-            <li><?php echo $item->requestApproval($item); ?>einreichen</li>
+                <li>bearbeiten</li>
+                <li>löschen</li>
+                <li>einreichen</li>
             </ul>
             </td>
         </tr>

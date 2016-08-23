@@ -3,6 +3,8 @@ namespace Jimdo\Reports;
 
 require 'bootstrap.php';
 
+isAuthorized('Trainee');
+
 require 'views/header_user_trainee.html';
 
 $reportRepository = new ReportFileRepository('../reports');

@@ -43,12 +43,9 @@ function get(string $key, $default = null)
     return null;
 }
 
-// if (!isAuthorized('trainer') {
-//     redirect(...);
-// }
-//
-//
-// function isAuthorized(string $role)
-// {
-//     return is authorized && session_role === $role;
-// }
+function isAuthorized(string $role)
+{
+    if ((!session('authorized') || session('role') !== $role)) {
+        redirect('login.php');
+    }
+}

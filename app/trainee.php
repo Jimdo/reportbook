@@ -22,6 +22,7 @@ $reports = $service->findByTraineeId(session('userId'));
         <th>Aktionen</th>
         </tr>
     <?php foreach ($reports as $report): ?>
+        <?php $reportId = $report->id(); ?>
             <tr>
             <td><?php echo substr($report->content(), 0, 10); ?></td>
             <td>19.08.2016</td>
@@ -29,8 +30,8 @@ $reports = $service->findByTraineeId(session('userId'));
             <td><?php echo $report->status(); ?></td>
             <td>
             <ul>
-                <li>bearbeiten</li>
-                <li>löschen</li>
+                <li><a href="editReport.php?report_Id=<?php echo $reportId; ?>">Bearbeiten</a></li>
+                <li><a href="deleteReport.php?report_Id=<?php echo $reportId; ?>">Löschen</a></li>
                 <li>einreichen</li>
             </ul>
             </td>

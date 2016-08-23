@@ -31,8 +31,8 @@ $reports = $service->findByTraineeId(session('userId'));
             <td>
             <ul>
                 <li><a href="editReport.php?report_Id=<?php echo $reportId; ?>">Bearbeiten</a></li>
-                <li><a href="deleteReport.php?report_Id=<?php echo $reportId; ?>" onclick="return confirm('Are you sure?')">Löschen</a></li>
-                <li>einreichen</li>
+                <li><a href="deleteReport.php?report_Id=<?php echo $reportId; ?>" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')">Löschen</a></li>
+                <li><a href="requestApprovalReport.php?report_Id=<?php echo $reportId; ?>" onclick="return confirm('Soll der Bericht eingereicht werden?')">Einreichen</a></li>
             </ul>
             </td>
         </tr>

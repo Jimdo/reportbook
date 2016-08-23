@@ -37,9 +37,9 @@ if (
         $role = $_SESSION['role'] = 'Trainer';
     }
 
-    $reportRepository = new ReportFileRepository('../reports');
-    $service = new ReportBookService($reportRepository);
-    $service->createReport($traineeId, 'Erster inhalt des Berichts');
+    // $reportRepository = new ReportFileRepository('../reports');
+    // $service = new ReportBookService($reportRepository);
+    // $service->createReport($traineeId, 'Erster inhalt des Berichts', date('d.m.Y'), '34');
 
     $_SESSION['authorized'] = true;
 

@@ -20,21 +20,23 @@ $reports = $service->findByTraineeId(session('userId'));
         <th>KW</th>
         <th>Status</th>
         <th>Aktionen</th>
-        </tr>
+    </tr>
     <?php foreach ($reports as $report): ?>
         <?php $reportId = $report->id(); ?>
-            <tr>
+        <tr>
             <td><?php echo substr($report->content(), 0, 10); ?></td>
             <td><?php echo $report->date(); ?></td>
             <td><?php echo $report->calendarWeek(); ?></td>
             <td><?php echo $report->status(); ?></td>
-            <td>
-            <ul>
-                <li><a href="editReport.php?report_Id=<?php echo $reportId; ?>">Bearbeiten</a></li>
-                <li><a href="deleteReport.php?report_Id=<?php echo $reportId; ?>" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')">Löschen</a></li>
-                <li><a href="requestApprovalReport.php?report_Id=<?php echo $reportId; ?>" onclick="return confirm('Soll der Bericht eingereicht werden?')">Einreichen</a></li>
-            </ul>
-            </td>
+            <?php if ($report->status() === Report::STATUS_NEW || $report->status() === Report::STATUS_DISAPPROVED || $report->status() === Report::STATUS_EDITED): ?>
+                <td>
+                    <ul>
+                        <li><a href="editReport.php?report_Id=<?php echo $reportId; ?>">Bearbeiten</a></li>
+                        <li><a href="deleteReport.php?report_Id=<?php echo $reportId; ?>" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')">Löschen</a></li>
+                        <li><a href="requestApprovalReport.php?report_Id=<?php echo $reportId; ?>" onclick="return confirm('Soll der Bericht eingereicht werden?')">Einreichen</a></li>
+                    </ul>
+                </td>
+            <?php endif; ?>
         </tr>
     <?php endforeach ?>
 </table>

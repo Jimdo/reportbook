@@ -40,6 +40,11 @@ $reports = $service->findByTraineeId(session('userId'));
         </tr>
     <?php endforeach ?>
 </table>
+<div>
+    <form action="createReport.php">
+          <button type="submit">Bericht erstellen</button>
+    </form>
+</div>
 
 
 

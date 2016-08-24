@@ -33,7 +33,9 @@ $reports = $service->findByTraineeId(session('userId'));
                     <ul>
                         <li><a href="editReport.php?report_Id=<?php echo $reportId; ?>">Bearbeiten</a></li>
                         <li><a href="deleteReport.php?report_Id=<?php echo $reportId; ?>" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')">Löschen</a></li>
-                        <li><a href="requestApprovalReport.php?report_Id=<?php echo $reportId; ?>" onclick="return confirm('Soll der Bericht eingereicht werden?')">Einreichen</a></li>
+                        <?php if ($report->status() !== Report::STATUS_DISAPPROVED): ?>
+                            <li><a href="requestApprovalReport.php?report_Id=<?php echo $reportId; ?>" onclick="return confirm('Soll der Bericht eingereicht werden?')">Einreichen</a></li>
+                        <?php endif; ?>
                     </ul>
                 </td>
             <?php endif; ?>
@@ -42,7 +44,7 @@ $reports = $service->findByTraineeId(session('userId'));
 </table>
 <div>
     <form action="createReport.php">
-          <button type="submit">Bericht erstellen</button>
+        <button type="submit">Bericht erstellen</button>
     </form>
 </div>
 

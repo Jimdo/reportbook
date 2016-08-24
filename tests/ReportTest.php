@@ -67,6 +67,19 @@ class ReportTest extends TestCase
     /**
      * @test
      */
+    public function itShouldHaveStatusEditedAfterEdit()
+    {
+        $traineeId = uniqid();
+        $content = 'some content';
+        $report = new Report($traineeId, $content, '10.10.10', '34');
+
+        $report->edit($content);
+        $this->assertEquals(Report::STATUS_EDITED, $report->status());
+    }
+
+    /**
+     * @test
+     */
     public function itShouldApproveReport()
     {
         $traineeId = uniqid();

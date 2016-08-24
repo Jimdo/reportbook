@@ -8,6 +8,7 @@ class Report
     const STATUS_APPROVED = 'APPROVED';
     const STATUS_DISAPPROVED = 'DISAPPROVED';
     const STATUS_APPROVAL_REQUESTED = 'APPROVAL_REQUESTED';
+    const STATUS_EDITED = 'EDITED';
 
     /** @var string */
     private $content;
@@ -66,6 +67,7 @@ class Report
     public function edit(string $content)
     {
         $this->content = $content;
+        $this->status = self::STATUS_EDITED;
     }
 
     /**

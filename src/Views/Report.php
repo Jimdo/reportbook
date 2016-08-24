@@ -46,4 +46,20 @@ class Report
     {
         return $this->report->status();
     }
+
+    /**
+     * @return string
+     */
+    public function date(): string
+    {
+        return $this->report->date();
+    }
+
+    /**
+     * @return string
+     */
+    public function calendarWeek(): string
+    {
+        return $this->report->calendarWeek();
+    }
 }

@@ -37,7 +37,7 @@ class ReportFileRepositoryTest extends TestCase
         $traineeId = uniqid();
         $expectedContent = 'some content';
 
-        $expectedReport = $repository->create($traineeId, $expectedContent);
+        $expectedReport = $repository->create($traineeId, $expectedContent, '10.10.10', '34');
         $reportId = $expectedReport->id();
 
         $reportFileName = sprintf('%s/%s/%s'
@@ -60,7 +60,7 @@ class ReportFileRepositoryTest extends TestCase
         $traineeId = uniqid();
         $content = 'some content';
 
-        $report = $repository->create($traineeId, $content);
+        $report = $repository->create($traineeId, $content, '10.10.10', '34');
 
         $reportFileName = sprintf('%s/%s/%s'
             , self::REPORTS_ROOT_PATH
@@ -86,9 +86,9 @@ class ReportFileRepositoryTest extends TestCase
         $this->assertCount(0, $repository->findAll());
 
         $reports = [];
-        $reports[] = $repository->create(uniqid(), $content);
-        $reports[] = $repository->create(uniqid(), $content);
-        $reports[] = $repository->create(uniqid(), $content);
+        $reports[] = $repository->create(uniqid(), $content, '10.10.10', '34');
+        $reports[] = $repository->create(uniqid(), $content, '10.10.10', '34');
+        $reports[] = $repository->create(uniqid(), $content, '10.10.10', '34');
 
         $foundReports = $repository->findAll();
 
@@ -107,10 +107,10 @@ class ReportFileRepositoryTest extends TestCase
         $traineeId2 = uniqid();
 
         $reports = [];
-        $reports[] = $repository->create($traineeId1, $content);
-        $reports[] = $repository->create($traineeId1, $content);
-        $reports[] = $repository->create($traineeId2, $content);
-        $reports[] = $repository->create($traineeId2, $content);
+        $reports[] = $repository->create($traineeId1, $content, '10.10.10', '34');
+        $reports[] = $repository->create($traineeId1, $content, '10.10.10', '34');
+        $reports[] = $repository->create($traineeId2, $content, '10.10.10', '34');
+        $reports[] = $repository->create($traineeId2, $content, '10.10.10', '34');
 
         $foundReports = $repository->findByTraineeId($traineeId1);
         $this->assertCount(2, $foundReports);
@@ -128,8 +128,8 @@ class ReportFileRepositoryTest extends TestCase
         $content = 'some content';
 
         $reports = [];
-        $reports[] = $repository->create(uniqid(), $content);
-        $reports[] = $repository->create(uniqid(), $content);
+        $reports[] = $repository->create(uniqid(), $content, '10.10.10', '34');
+        $reports[] = $repository->create(uniqid(), $content, '10.10.10', '34');
 
         $foundReports = $repository->findByStatus(Report::STATUS_NEW);
 
@@ -145,8 +145,8 @@ class ReportFileRepositoryTest extends TestCase
         $repository = new ReportFileRepository(self::REPORTS_ROOT_PATH);
         $content = 'some content';
 
-        $report1 = $repository->create(uniqid(), $content);
-        $report2 = $repository->create(uniqid(), $content);
+        $report1 = $repository->create(uniqid(), $content, '10.10.10', '34');
+        $report2 = $repository->create(uniqid(), $content, '10.10.10', '34');
 
         $foundReport = $repository->findById($report1->id());
         $this->assertEquals($report1, $foundReport);

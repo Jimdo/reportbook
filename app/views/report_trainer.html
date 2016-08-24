@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Berichtsheft</title>
+</head>
+<body>
+  <h1>Bericht</h1>
+  <form action="trainer.html" method="POST">
+    <fieldset>
+      <legend>Bericht erstellen</legend>
+      <div>
+        <label for="calendar_week">Kalenderwoche:</label>
+        <input type="text" id="calendar_week" name="calendar_week" />
+      </div>
+      <div>
+        <label for="date">Datum:</label>
+        <input type="text" id="date" name="date" />
+      </div>
+      <div>
+        <label for="content">Bericht:</label>
+        <textarea id="content" name="content"></textarea>
+      </div>
+      <div>
+        <button type="submit">Speichern</button>
+      </div>
+    </fieldset>
+  </form>
+  <div id="back">
+    <a href="trainer.html">zurück zur Übersicht</a>
+  </div>
+</body>
+</html>

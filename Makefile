@@ -18,3 +18,6 @@ lint: ## Lint all the code
 
 doc: ## Generate documentation
 	./scripts/phpdoc
+
+server: ## Start up local development web server
+	php -S localhost:8000 -t app/

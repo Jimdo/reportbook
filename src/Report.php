@@ -8,6 +8,7 @@ class Report
     const STATUS_APPROVED = 'APPROVED';
     const STATUS_DISAPPROVED = 'DISAPPROVED';
     const STATUS_APPROVAL_REQUESTED = 'APPROVAL_REQUESTED';
+    const STATUS_EDITED = 'EDITED';
 
     /** @var string */
     private $content;
@@ -21,15 +22,25 @@ class Report
     /** @var string */
     private $id;
 
+    /** @var string */
+    private $date;
+
+    /** @var string */
+    private $calendarWeek;
+
     /**
      * @param string $traineeId
      * @param string $content
+     * @param string $date
+     * @param string $calendarWeek
      */
-    public function __construct(string $traineeId, string $content)
+    public function __construct(string $traineeId, string $content, string $date, string $calendarWeek)
     {
         $this->content = $content;
         $this->traineeId = $traineeId;
         $this->status = self::STATUS_NEW;
+        $this->date = $date;
+        $this->calendarWeek = $calendarWeek;
         $this->id = uniqid();
     }
 
@@ -51,11 +62,16 @@ class Report
     }
 
     /**
-     * @param string $content
-     */
-    public function edit(string $content)
+    * @param string $content
+    * @param string $date
+    * @param string $calendarWeek
+    */
+    public function edit(string $content, string $date, string $calendarWeek)
     {
         $this->content = $content;
+        $this->date = $date;
+        $this->calendarWeek = $calendarWeek;
+        $this->status = self::STATUS_EDITED;
     }
 
     /**
@@ -72,6 +88,22 @@ class Report
     public function status(): string
     {
         return $this->status;
+    }
+
+    /**
+     * @return string
+     */
+    public function date(): string
+    {
+        return $this->date;
+    }
+
+    /**
+     * @return string
+     */
+    public function calendarWeek(): string
+    {
+        return $this->calendarWeek;
     }
 
     public function approve()

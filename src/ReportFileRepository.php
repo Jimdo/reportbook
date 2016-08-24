@@ -26,11 +26,13 @@ class ReportFileRepository implements ReportRepository
     /**
      * @param string $traineeId
      * @param string $content
+     * @param string $date
+     * @param string $calendarWeek
      * @return Report
      */
-    public function create(string $traineeId, string $content): Report
+    public function create(string $traineeId, string $content, string $date, string $calendarWeek): Report
     {
-        $report = new Report($traineeId, $content);
+        $report = new Report($traineeId, $content, $date, $calendarWeek);
         $this->save($report);
 
         return $report;
@@ -57,25 +59,25 @@ class ReportFileRepository implements ReportRepository
     /**
      * @return Report[]
      */
-    public function findAll(): array
-    {
-        $foundReports = [];
-        $files = scandir($this->reportsPath);
-        foreach ($files as $traineeId) {
-            if ($traineeId === '.' || $traineeId === '..') {
-                continue;
-            }
-            $reports = scandir($this->reportsPath . '/' . $traineeId);
-            foreach ($reports as $report) {
-                if ($report === '.' || $report === '..') {
-                    continue;
-                }
-                $serializedReport = file_get_contents($this->reportsPath . '/' . $traineeId . '/' . $report);
-                $foundReports[] = unserialize($serializedReport);
-            }
-        }
-        return $foundReports;
-    }
+     public function findAll(): array
+     {
+         $foundReports = [];
+         $files = scandir($this->reportsPath);
+         foreach ($files as $traineeId) {
+             if ($traineeId === '.' || $traineeId === '..' || $traineeId === '.DS_Store') {
+                 continue;
+             }
+             $reports = scandir($this->reportsPath . '/' . $traineeId);
+             foreach ($reports as $report) {
+                 if ($report === '.' || $report === '..' || $report === '.DS_Store') {
+                     continue;
+                 }
+                 $serializedReport = file_get_contents($this->reportsPath . '/' . $traineeId . '/' . $report);
+                 $foundReports[] = unserialize($serializedReport);
+             }
+         }
+         return $foundReports;
+     }
 
     /**
      * @param string $traineeId
@@ -117,16 +119,15 @@ class ReportFileRepository implements ReportRepository
      * @param string $id
      * @return Report
      */
-    public function findById(string $id): Report
+    public function findById(string $id)
     {
         $allReports = $this->findAll();
 
         foreach ($allReports as $report) {
             if ($report->id() === $id) {
-                $foundReport = $report;
+                return $report;
             }
         }
-        return $foundReport;
     }
 
     private function ensureReportsPath()

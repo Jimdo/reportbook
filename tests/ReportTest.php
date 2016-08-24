@@ -13,12 +13,12 @@ class ReportTest extends TestCase
     {
         $traineeId = uniqid();
         $content = 'some content';
-        $report = new Report($traineeId, $content);
+        $report = new Report($traineeId, $content, '10.10.10', '34');
 
         $this->assertEquals($content, $report->content());
 
         $content = 'some other content';
-        $report = new Report($traineeId, $content);
+        $report = new Report($traineeId, $content, '10.10.10', '34');
 
         $this->assertEquals($content, $report->content());
     }
@@ -30,14 +30,14 @@ class ReportTest extends TestCase
     {
         $traineeId = uniqid();
         $content = 'some content';
-        $report = new Report($traineeId, $content);
+        $report = new Report($traineeId, $content, '10.10.10', '34');
 
         $content = 'other content';
-        $report->edit($content);
+        $report->edit($content, '10.10.10', '34');
         $this->assertEquals($content, $report->content());
 
         $content = 'some other content';
-        $report->edit($content);
+        $report->edit($content, '10.10.10', '34');
         $this->assertEquals($content, $report->content());
     }
 
@@ -47,7 +47,7 @@ class ReportTest extends TestCase
     public function itShouldHaveTraineeId()
     {
         $traineeId = uniqid();
-        $report = new Report($traineeId, 'some content');
+        $report = new Report($traineeId, 'some content', '10.10.10', '34');
 
         $this->assertEquals($traineeId, $report->traineeId());
     }
@@ -59,9 +59,22 @@ class ReportTest extends TestCase
     {
         $traineeId = uniqid();
         $content = 'some content';
-        $report = new Report($traineeId, $content);
+        $report = new Report($traineeId, $content, '10.10.10', '34');
 
         $this->assertEquals(Report::STATUS_NEW, $report->status());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldHaveStatusEditedAfterEdit()
+    {
+        $traineeId = uniqid();
+        $content = 'some content';
+        $report = new Report($traineeId, $content, '10.10.10', '34');
+
+        $report->edit($content, '10.10.10', '34');
+        $this->assertEquals(Report::STATUS_EDITED, $report->status());
     }
 
     /**
@@ -71,7 +84,7 @@ class ReportTest extends TestCase
     {
         $traineeId = uniqid();
         $content = 'some content';
-        $report = new Report($traineeId, $content);
+        $report = new Report($traineeId, $content, '10.10.10', '34');
 
         $report->approve();
         $this->assertEquals(Report::STATUS_APPROVED, $report->status());
@@ -84,7 +97,7 @@ class ReportTest extends TestCase
     {
         $traineeId = uniqid();
         $content = 'some content';
-        $report = new Report($traineeId, $content);
+        $report = new Report($traineeId, $content, '10.10.10', '34');
 
         $report->disapprove();
         $this->assertEquals(Report::STATUS_DISAPPROVED, $report->status());
@@ -97,7 +110,7 @@ class ReportTest extends TestCase
     {
         $traineeId = uniqid();
         $content = 'some content';
-        $report = new Report($traineeId, $content);
+        $report = new Report($traineeId, $content, '10.10.10', '34');
 
         $report->requestApproval();
         $this->assertEquals(Report::STATUS_APPROVAL_REQUESTED, $report->status());
@@ -110,11 +123,11 @@ class ReportTest extends TestCase
     {
         $traineeId = uniqid();
         $content = 'some content';
-        $report = new Report($traineeId, $content);
+        $report = new Report($traineeId, $content, '10.10.10', '34');
 
         $this->assertInternalType('string', $report->id());
 
-        $report1 = new Report($traineeId, $content);
+        $report1 = new Report($traineeId, $content, '10.10.10', '34');
         $this->assertInternalType('string', $report->id());
 
         $this->assertNotEquals($report->id(), $report1->id());

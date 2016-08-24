@@ -90,6 +90,7 @@ class ReportBookService
     {
         $report = $this->reportRepository->findById($reportId);
         $report->approve();
+        $this->reportRepository->save($report);
     }
 
     /**
@@ -99,6 +100,7 @@ class ReportBookService
     {
         $report = $this->reportRepository->findById($reportId);
         $report->disapprove();
+        $this->reportRepository->save($report);
     }
 
     /**

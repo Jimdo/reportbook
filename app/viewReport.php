@@ -36,7 +36,7 @@ $report = $service->findById($reportId, $traineeId);
         </div>
     </fieldset>
 </form>
-
+<?php if ($report->status() !== Report::STATUS_DISAPPROVED && $report->status() !== Report::STATUS_APPROVED): ?>
 <div>
     <form action="changeStatus.php" method="POST">
         <input type="hidden" name="report_Id" value="<?php echo $reportId; ?>">
@@ -52,7 +52,7 @@ $report = $service->findById($reportId, $traineeId);
         <button type="submit">Ablehnen</button>
     </form>
 </div>
-
+<?php endif; ?>
 <div id="back">
     <a href="trainer.php">zurück zur Übersicht</a>
 </div>

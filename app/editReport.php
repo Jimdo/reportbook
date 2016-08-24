@@ -12,8 +12,8 @@ $service = new ReportBookService($reportRepository);
 $reportId = get('report_Id');
 $report = $service->findById($reportId, session('userId'));
 
- ?>
- 
+?>
+
 <h1>Bericht</h1>
 <form action="saveReport.php?report_Id=<?php echo $reportId; ?>" method="POST">
   <fieldset>

@@ -62,11 +62,15 @@ class Report
     }
 
     /**
-     * @param string $content
-     */
-    public function edit(string $content)
+    * @param string $content
+    * @param string $date
+    * @param string $calendarWeek
+    */
+    public function edit(string $content, string $date, string $calendarWeek)
     {
         $this->content = $content;
+        $this->date = $date;
+        $this->calendarWeek = $calendarWeek;
         $this->status = self::STATUS_EDITED;
     }
 

@@ -33,11 +33,11 @@ class ReportTest extends TestCase
         $report = new Report($traineeId, $content, '10.10.10', '34');
 
         $content = 'other content';
-        $report->edit($content);
+        $report->edit($content, '10.10.10', '34');
         $this->assertEquals($content, $report->content());
 
         $content = 'some other content';
-        $report->edit($content);
+        $report->edit($content, '10.10.10', '34');
         $this->assertEquals($content, $report->content());
     }
 
@@ -73,7 +73,7 @@ class ReportTest extends TestCase
         $content = 'some content';
         $report = new Report($traineeId, $content, '10.10.10', '34');
 
-        $report->edit($content);
+        $report->edit($content, '10.10.10', '34');
         $this->assertEquals(Report::STATUS_EDITED, $report->status());
     }
 

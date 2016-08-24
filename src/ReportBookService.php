@@ -33,11 +33,13 @@ class ReportBookService
     /**
      * @param string $reportId
      * @param string $content
+     * @param string $date
+     * @param string $calendarWeek
      */
-    public function editReport(string $reportId, string $content)
+    public function editReport(string $reportId, string $content, string $date, string $calendarWeek)
     {
         $report = $this->reportRepository->findById($reportId);
-        $report->edit($content);
+        $report->edit($content, $date, $calendarWeek);
         $this->reportRepository->save($report);
     }
 

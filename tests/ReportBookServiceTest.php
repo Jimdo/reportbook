@@ -49,9 +49,29 @@ class ReportBookServiceTest extends TestCase
         $report = $this->reportBookService->createReport($traineeId, $content, '10.10.10', '34');
 
         $expectedContent = 'some modified content';
-        $this->reportBookService->editReport($report->id(), $expectedContent);
+        $this->reportBookService->editReport($report->id(), $expectedContent, '10.10.10', '34');
 
         $this->assertEquals($expectedContent, $report->content());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldHaveNewCalendarweekAndDateToEditReport()
+    {
+        $traineeId = uniqid();
+        $content = 'some content';
+
+        $report = $this->reportBookService->createReport($traineeId, $content, '10.10.10', '34');
+
+        $expectedContent = 'some modified content';
+        $expectedDate = '20.12.2012';
+        $expectedWeek = '20';
+
+        $this->reportBookService->editReport($report->id(), $expectedContent, $expectedDate, $expectedWeek);
+
+        $this->assertEquals($expectedDate, $report->date());
+        $this->assertEquals($expectedWeek, $report->calendarWeek());
     }
 
     /**

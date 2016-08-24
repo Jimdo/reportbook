@@ -10,7 +10,7 @@ $reportRepository = new ReportFileRepository('../reports');
 $service = new ReportBookService($reportRepository);
 
 if (get('report_Id') !== null) {
-    $service->editReport(get('report_Id'), post('content'));
+    $service->editReport(get('report_Id'), post('content'), post('date'), post('calendarWeek'));
 } else {
     $traineeId = session('userId');
     $content = post('content');

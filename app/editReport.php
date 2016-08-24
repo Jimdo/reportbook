@@ -9,12 +9,13 @@ isAuthorized('Trainee');
 $reportRepository = new ReportFileRepository('../reports');
 $service = new ReportBookService($reportRepository);
 
-$report = $service->findById(get('report_Id'), session('userId'));
+$reportId = get('report_Id');
+$report = $service->findById($reportId, session('userId'));
 
  ?>
-
+ 
 <h1>Bericht</h1>
-<form action="trainee.php" method="GET">
+<form action="saveReport.php?report_Id=<?php echo $reportId; ?>" method="POST">
   <fieldset>
     <legend>Bericht bearbeiten</legend>
     <div>

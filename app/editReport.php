@@ -9,32 +9,22 @@ isAuthorized('Trainee');
 $reportRepository = new ReportFileRepository('../reports');
 $service = new ReportBookService($reportRepository);
 
-$reportId = get('report_Id');
+$reportId = get('reportId');
 $report = $service->findById($reportId, session('userId'));
 
-?>
+$reportView = new Web\View('views/Report.php');
+$reportView->title = 'Bericht';
+$reportView->action = 'ReportActionProcessor.php?action=delete&reportId=' . $reportId;
+$reportView->legend = 'Bericht bearbeiten';
+$reportView->calendarWeek = $report->calendarWeek();
+$reportView->date = $report->date();
+$reportView->content = $report->content();
+$reportView->buttonName = 'Speichern';
+$reportView->reportId = $reportId;
+$reportView->backButton = 'show';
+$reportView->backAction = 'trainee.php';
+$reportView->reportAction = 'edit';
+$reportView->role = 'Trainee';
 
-<h1>Bericht</h1>
-<form action="saveReport.php?report_Id=<?php echo $reportId; ?>" method="POST">
-  <fieldset>
-    <legend>Bericht bearbeiten</legend>
-    <div>
-      <label for="calendarWeek">Kalenderwoche: </label>
-      <input type="text" id="calendarWeek" name="calendarWeek" value=<?php echo $report->calendarWeek(); ?> />
-    </div>
-    <div>
-      <label for="date">Datum:</label>
-      <input type="text" id="date" name="date" value=<?php echo $report->date(); ?> />
-    </div>
-    <div>
-      <label for="content">Bericht:</label>
-      <textarea id="content" name="content"><?php echo $report->content(); ?></textarea>
-    </div>
-    <div>
-      <button type="submit">Speichern</button>
-    </div>
-  </fieldset>
-</form>
-<div id="back">
-  <a href="trainee.php">zurück zur Übersicht</a>
-</div>
+echo $reportView->render();
+?>

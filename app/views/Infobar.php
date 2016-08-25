@@ -1,5 +1,4 @@
-<?php date_default_timezone_set("UTC"); ?>
-<h3>Berichtshefte der Trainees</h3>
+<h3><?php echo $this->infoHeadline; ?></h3>
 <p>
   Benutzer: <?php echo session('username'); ?><br/>
   Sie sind eingeloggt als: <?php echo session('role'); ?><br/>

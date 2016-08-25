@@ -4,6 +4,10 @@ namespace Jimdo\Reports;
 
 require 'bootstrap.php';
 
-require 'views/login.html';
+$loginView = new Web\View('views/LoginView.php');
+$footerView = new Web\View('views/Footer.php');
 
-require 'views/html_end.html';
+$footerView->backButton = 'nope';
+
+echo $loginView->render();
+echo $footerView->render();

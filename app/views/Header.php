@@ -2,6 +2,6 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Berichtsheft</title>
+  <title><?php echo $this->tabTitle; ?></title>
 </head>
 <body>

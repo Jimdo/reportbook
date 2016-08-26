@@ -7,6 +7,9 @@ class RequestValidator
     /** @var array */
     private $fields = [];
 
+    /** @var array */
+    private $errorMessages = [];
+
     /**
      * @param string $field
      * @param string $validator
@@ -26,10 +29,18 @@ class RequestValidator
             $validator = $this->createValidator($val);
 
             if (!$validator->isValid($request[$field])) {
-                return false;
+                $this->errorMessages[$field] = $validator->errorMessage();
             }
         }
-        return true;
+        return count($this->errorMessages) === 0;
+    }
+
+    /**
+     * @return array
+     */
+    public function errorMessages(): array
+    {
+        return $this->errorMessages;
     }
 
     /**

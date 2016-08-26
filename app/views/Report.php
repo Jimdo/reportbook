@@ -1,5 +1,14 @@
 <?php use \Jimdo\Reports\Report as Report; ?>
 <h1><?php echo $this->title; ?></h1>
+
+<?php if (is_array($this->errorMessages)):
+foreach ($this->errorMessages as $error): ?>
+<ul>
+    <li><?php echo $error; ?></li>
+</ul>
+<?php endforeach;
+endif; ?>
+
 <form action="<?php echo $this->action; ?>" method="POST">
   <fieldset>
     <legend><?php echo $this->legend; ?></legend>

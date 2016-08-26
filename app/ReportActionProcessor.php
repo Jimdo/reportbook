@@ -13,11 +13,39 @@ switch (request('reportAction')) {
         $service->editReport($reportId, post('content'), post('date'), post('calendarWeek'));
         break;
     case 'create':
+        $requestValidator = new Web\RequestValidator();
+        //$requestValidator->add('userId', 'string');
+        $requestValidator->add('content', 'string');
+        $requestValidator->add('date', 'date');
+        $requestValidator->add('calendarWeek', 'integer');
+
         $traineeId = session('userId');
         $content = post('content');
         $date = post('date');
         $calendarWeek = post('calendarWeek');
-        $service->createReport($traineeId, $content, $date, $calendarWeek);
+
+        if ($requestValidator->isValid($_REQUEST)) {
+            $service->createReport($traineeId, $content, $date, $calendarWeek);
+        } else {
+            $reportView = new Web\View('views/Report.php');
+            $reportView->errorMessages = $requestValidator->errorMessages();
+            $reportView->title = 'Bericht';
+            $reportView->action = 'ReportActionProcessor.php';
+            $reportView->legend = 'Neuen Bericht erstellen';
+            $reportView->calendarWeek = $calendarWeek;
+            $reportView->date = $date;
+            $reportView->content = $content;
+            $reportView->buttonName = 'Bericht erstellen';
+            $reportView->reportId = null;
+            $reportView->backButton = 'show';
+            $reportView->backAction = 'trainee.php';
+            $reportView->reportAction = 'create';
+            $reportView->role = 'Trainee';
+
+            echo $reportView->render();
+            exit;
+        };
+
         break;
     case 'approve':
         $service->approveReport($reportId);

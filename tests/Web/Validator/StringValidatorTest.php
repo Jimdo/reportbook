@@ -47,4 +47,14 @@ class StringValidatorTest extends TestCase
 
         $this->assertEquals("'$value' is not a string", $validator->errorMessage());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldReturnErrorMessageOnlyOnInvalidState()
+    {
+        $validator = new StringValidator();
+        $validator->isValid('String');
+        $this->assertEmpty($validator->errorMessage());
+    }
 }

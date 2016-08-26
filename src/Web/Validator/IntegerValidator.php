@@ -14,7 +14,10 @@ class IntegerValidator implements Validator
     public function isValid($value): bool
     {
         $this->value = $value;
-        return is_int($value);
+        if (!is_numeric($value) || is_float($value)) {
+            return false;
+        }
+        return is_int((int) $value);
     }
 
     /**

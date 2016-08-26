@@ -25,10 +25,16 @@ class DateValidator implements Validator
             return false;
         }
 
-        $day = (int) $date[0];
-        $month = (int) $date[1];
-        $year = (int) $date[2];
+        list($day, $month, $year) = $date;
 
+        $intValidator = new IntegerValidator();
+        if (!$intValidator->isValid($year)) {
+            return false;
+        }
+
+        $day = (int) $day;
+        $month = (int) $month;
+        $year = (int) $year;
 
         if ($day > 31 || $day < 1) {
             return false;

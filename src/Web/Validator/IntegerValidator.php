@@ -17,7 +17,7 @@ class IntegerValidator implements Validator
         if (!is_numeric($value) || is_float($value)) {
             return false;
         }
-        return is_int((int) $value);
+        return true;
     }
 
     /**

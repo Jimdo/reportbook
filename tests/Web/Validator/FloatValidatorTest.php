@@ -21,6 +21,7 @@ class FloatValidatorTest extends TestCase
         $this->assertFalse($validator->isValid(''));
 
         $this->assertTrue($validator->isValid(1.1));
+        $this->assertTrue($validator->isValid('1.1'));
     }
 
     /**

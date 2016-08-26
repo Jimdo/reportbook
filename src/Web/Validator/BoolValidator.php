@@ -14,7 +14,7 @@ class BoolValidator implements Validator
     public function isValid($value): bool
     {
         $this->value = $value;
-        return is_bool($value);
+        return $value === 'true' || $value === 'false' || is_bool($value);
     }
 
     /**

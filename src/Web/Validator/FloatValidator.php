@@ -14,7 +14,10 @@ class FloatValidator implements Validator
     public function isValid($value): bool
     {
         $this->value = $value;
-        return is_float($value);
+        if (!is_numeric($value) || is_int($value)) {
+            return false;
+        }
+        return true;
     }
 
     /**

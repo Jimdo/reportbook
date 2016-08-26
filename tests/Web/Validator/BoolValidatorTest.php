@@ -22,6 +22,8 @@ class BoolValidatorTest extends TestCase
 
         $this->assertTrue($validator->isValid(true));
         $this->assertTrue($validator->isValid(false));
+        $this->assertTrue($validator->isValid('true'));
+        $this->assertTrue($validator->isValid('false'));
     }
 
     /**

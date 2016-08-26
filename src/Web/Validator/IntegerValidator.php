@@ -2,7 +2,7 @@
 
 namespace Jimdo\Reports\Web\Validator;
 
-class IntegerValidator
+class IntegerValidator implements Validator
 {
     /** @var mixed */
     private $value;

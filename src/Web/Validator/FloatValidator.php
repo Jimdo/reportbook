@@ -2,7 +2,7 @@
 
 namespace Jimdo\Reports\Web\Validator;
 
-class FloatValidator
+class FloatValidator implements Validator
 {
     /** @var mixed */
     private $value;

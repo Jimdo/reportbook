@@ -2,7 +2,7 @@
 
 namespace Jimdo\Reports\Web\Validator;
 
-class StringValidator
+class StringValidator implements Validator
 {
     /** @var mixed */
     private $value;

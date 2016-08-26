@@ -2,7 +2,7 @@
 
 namespace Jimdo\Reports\Web\Validator;
 
-class BoolValidator
+class BoolValidator implements Validator
 {
     /** @var mixed */
     private $value;

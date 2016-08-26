@@ -27,7 +27,6 @@ class View
         ob_start();
         require $this->view;
         return ob_get_clean();
-
     }
 
     /**

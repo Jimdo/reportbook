@@ -23,6 +23,7 @@ class ReportBookService
      * @param string $date
      * @param string $calendarWeek
      * @return \Jimdo\Reports\Views\Report
+     * @throws ReportFileRepositoryException
      */
     public function createReport(string $traineeId, string $content, string $date, string $calendarWeek): \Jimdo\Reports\Views\Report
     {
@@ -35,6 +36,7 @@ class ReportBookService
      * @param string $content
      * @param string $date
      * @param string $calendarWeek
+     * @throws ReportFileRepositoryException
      */
     public function editReport(string $reportId, string $content, string $date, string $calendarWeek)
     {
@@ -45,6 +47,7 @@ class ReportBookService
 
     /**
      * @return \Jimdo\Reports\Views\Report[]
+     * @throws ReportFileRepositoryException
      */
     public function findAll(): array
     {
@@ -56,6 +59,7 @@ class ReportBookService
     /**
      * @param string $traineeId
      * @return \Jimdo\Reports\Views\Report[]
+     * @throws ReportFileRepositoryException
      */
     public function findByTraineeId(string $traineeId): array
     {
@@ -66,6 +70,7 @@ class ReportBookService
 
     /**
      * @param string $reportId
+     * @throws ReportFileRepositoryException
      */
     public function deleteReport(string $reportId)
     {
@@ -75,6 +80,7 @@ class ReportBookService
 
     /**
      * @param string $reportId
+     * @throws ReportFileRepositoryException
      */
     public function requestApproval(string $reportId)
     {
@@ -85,6 +91,7 @@ class ReportBookService
 
     /**
      * @param string $reportId
+     * @throws ReportFileRepositoryException
      */
     public function approveReport(string $reportId)
     {
@@ -95,6 +102,7 @@ class ReportBookService
 
     /**
      * @param string $reportId
+     * @throws ReportFileRepositoryException
      */
     public function disapproveReport(string $reportId)
     {
@@ -106,6 +114,7 @@ class ReportBookService
     /**
      * @param string $status
      * @return array
+     * @throws ReportFileRepositoryException
      */
     public function findByStatus(string $status): array
     {
@@ -116,6 +125,7 @@ class ReportBookService
      * @param string $reportId
      * @param string $traineeId
      * @return \Jimdo\Reports\Views\Report
+     * @throws ReportFileRepositoryException
      */
     public function findById(string $reportId, string $traineeId)
     {

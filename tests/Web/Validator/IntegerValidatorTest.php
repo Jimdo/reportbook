@@ -48,4 +48,18 @@ class IntegerValidatorTest extends TestCase
 
         $this->assertEquals("'$value' is not an integer", $validator->errorMessage());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldReturnErrorMessageOnlyOnInvalidState()
+    {
+        $validator = new IntegerValidator();
+        $validator->isValid(20);
+        $this->assertEmpty($validator->errorMessage());
+
+        $validator = new IntegerValidator();
+        $validator->isValid('20');
+        $this->assertEmpty($validator->errorMessage());
+    }
 }

@@ -48,4 +48,18 @@ class FloatValidatorTest extends TestCase
 
         $this->assertEquals("'$value' is not a float", $validator->errorMessage());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldReturnErrorMessageOnlyOnInvalidState()
+    {
+        $validator = new FloatValidator();
+        $validator->isValid(20.0);
+        $this->assertEmpty($validator->errorMessage());
+
+        $validator = new FloatValidator();
+        $validator->isValid('20.0');
+        $this->assertEmpty($validator->errorMessage());
+    }
 }

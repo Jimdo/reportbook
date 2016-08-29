@@ -64,4 +64,14 @@ class DateValidatorTest extends TestCase
 
         $this->assertEquals("'$value' is not a date", $validator->errorMessage());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldReturnErrorMessageOnlyOnInvalidState()
+    {
+        $validator = new DateValidator();
+        $validator->isValid('29.08.2016');
+        $this->assertEmpty($validator->errorMessage());
+    }
 }

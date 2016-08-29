@@ -4,9 +4,6 @@ namespace Jimdo\Reports\Web\Validator;
 
 class StringValidator implements Validator
 {
-    /** @var mixed */
-    private $value;
-
     /** @var string */
     private $errorMessage = '';
 
@@ -16,8 +13,17 @@ class StringValidator implements Validator
     */
     public function isValid($value): bool
     {
-        $this->value = $value;
-        return is_string($value);
+        if (!is_string($value)) {
+            if (is_object($value)) {
+                $value = get_class($value);
+            }
+            if (is_array($value)) {
+                $value = 'Array';
+            }
+            $this->errorMessage = "'$value' is not a string";
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -25,13 +31,6 @@ class StringValidator implements Validator
     */
     public function errorMessage(): string
     {
-        if (is_object($this->value)) {
-            $this->value = get_class($this->value);
-            $this->errorMessage = "'$this->value' is not a string";
-        }
-        if (!is_string($this->value)) {
-            $this->errorMessage = "'$this->value' is not a string";
-        }
         return $this->errorMessage;
     }
 }

@@ -4,8 +4,8 @@ namespace Jimdo\Reports\Web\Validator;
 
 class DateValidator implements Validator
 {
-    /** @var mixed */
-    private $value;
+    /** @var string */
+    private $errorMessage = '';
 
     /**
     * @param mixed $value
@@ -13,15 +13,26 @@ class DateValidator implements Validator
     */
     public function isValid($value): bool
     {
-        $this->value = $value;
+        if (is_object($value)) {
+            $value = get_class($value);
+            $this->errorMessage = "'$value' is not a date";
+            return false;
+        }
+        if (is_array($value)) {
+            $value = 'Array';
+            $this->errorMessage = "'$value' is not a date";
+            return false;
+        }
 
         if (!is_string($value)) {
+            $this->errorMessage = "'$value' is not a date";
             return false;
         }
 
         $date = explode('.', $value);
 
         if (count($date) !== 3) {
+            $this->errorMessage = "'$value' is not a date";
             return false;
         }
 
@@ -29,6 +40,7 @@ class DateValidator implements Validator
 
         $intValidator = new IntegerValidator();
         if (!$intValidator->isValid($year)) {
+            $this->errorMessage = "'$value' is not a date";
             return false;
         }
 
@@ -37,14 +49,17 @@ class DateValidator implements Validator
         $year = (int) $year;
 
         if ($day > 31 || $day < 1) {
+            $this->errorMessage = "'$value' is not a date";
             return false;
         }
 
         if ($month > 12 || $month < 1) {
+            $this->errorMessage = "'$value' is not a date";
             return false;
         }
 
         if ($year < 0) {
+            $this->errorMessage = "'$value' is not a date";
             return false;
         }
 
@@ -56,9 +71,6 @@ class DateValidator implements Validator
     */
     public function errorMessage(): string
     {
-        if (is_object($this->value)) {
-            $this->value = get_class($this->value);
-        }
-        return "'$this->value' is not a date";
+        return $this->errorMessage;
     }
 }

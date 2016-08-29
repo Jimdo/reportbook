@@ -7,14 +7,26 @@ class BoolValidator implements Validator
     /** @var mixed */
     private $value;
 
+    /** @var string */
+    private $errorMessage = '';
+
     /**
     * @param mixed $value
     * @return bool
     */
     public function isValid($value): bool
     {
-        $this->value = $value;
-        return $value === 'true' || $value === 'false' || is_bool($value);
+        if ($value === 'true' || $value === 'false' || is_bool($value)) {
+            return true;
+        }
+        if (is_object($value)) {
+            $value = get_class($value);
+        }
+        if (is_array($value)) {
+            $value = 'Array';
+        }
+        $this->errorMessage = "'$value' is not a bool";
+        return false;
     }
 
     /**
@@ -22,9 +34,6 @@ class BoolValidator implements Validator
     */
     public function errorMessage(): string
     {
-        if (is_object($this->value)) {
-            $this->value = get_class($this->value);
-        }
-        return "'$this->value' is not a bool";
+        return $this->errorMessage;
     }
 }

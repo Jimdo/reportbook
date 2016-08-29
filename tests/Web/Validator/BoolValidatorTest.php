@@ -50,4 +50,18 @@ class BoolValidatorTest extends TestCase
 
         $this->assertEquals("'$value' is not a bool", $validator->errorMessage());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldReturnErrorMessageOnlyOnInvalidState()
+    {
+        $validator = new BoolValidator();
+        $validator->isValid(true);
+        $this->assertEmpty($validator->errorMessage());
+
+        $validator = new BoolValidator();
+        $validator->isValid('false');
+        $this->assertEmpty($validator->errorMessage());
+    }
 }

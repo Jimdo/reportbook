@@ -4,8 +4,8 @@ namespace Jimdo\Reports\Web\Validator;
 
 class FloatValidator implements Validator
 {
-    /** @var mixed */
-    private $value;
+    /** @var string */
+    private $errorMessage = '';
 
     /**
     * @param mixed $value
@@ -13,8 +13,14 @@ class FloatValidator implements Validator
     */
     public function isValid($value): bool
     {
-        $this->value = $value;
         if (!is_numeric($value) || is_int($value)) {
+            if (is_object($value)) {
+                $value = get_class($value);
+            }
+            if (is_array($value)) {
+                $value = 'Array';
+            }
+            $this->errorMessage = "'$value' is not a float";
             return false;
         }
         return true;
@@ -25,9 +31,6 @@ class FloatValidator implements Validator
     */
     public function errorMessage(): string
     {
-        if (is_object($this->value)) {
-            $this->value = get_class($this->value);
-        }
-        return "'$this->value' is not a float";
+        return $this->errorMessage;
     }
 }

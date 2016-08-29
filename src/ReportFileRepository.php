@@ -29,6 +29,7 @@ class ReportFileRepository implements ReportRepository
      * @param string $date
      * @param string $calendarWeek
      * @return Report
+     * @throws ReportFileRepositoryException
      */
     public function create(string $traineeId, string $content, string $date, string $calendarWeek): Report
     {
@@ -40,67 +41,91 @@ class ReportFileRepository implements ReportRepository
 
     /**
      * @param Report $report
+     * @throws ReportFileRepositoryException
      */
     public function delete(Report $report)
     {
-        unlink($this->filename($report));
+        $filename = $this->filename($report);
+        if (!unlink($filename)) {
+            throw new ReportFileRepositoryException("Could not delete $filename!");
+        }
     }
 
     /**
      * @param Report $report
+     * @throws ReportFileRepositoryException
      */
     public function save(Report $report)
     {
         $this->ensureReportsPath();
         $this->ensureTraineeReportsPath($report->traineeId());
-        file_put_contents($this->filename($report), serialize($report));
+        $filename = $this->filename($report);
+        if (file_put_contents($filename, serialize($report)) === false) {
+            throw new ReportFileRepositoryException("Could not write to $filename!");
+        }
     }
 
     /**
      * @return Report[]
+     * @throws ReportFileRepositoryException
      */
-     public function findAll(): array
-     {
-         $foundReports = [];
-         $files = scandir($this->reportsPath);
-         foreach ($files as $traineeId) {
-             if ($traineeId === '.' || $traineeId === '..' || $traineeId === '.DS_Store') {
-                 continue;
-             }
-             $reports = scandir($this->reportsPath . '/' . $traineeId);
-             foreach ($reports as $report) {
-                 if ($report === '.' || $report === '..' || $report === '.DS_Store') {
-                     continue;
-                 }
-                 $serializedReport = file_get_contents($this->reportsPath . '/' . $traineeId . '/' . $report);
-                 $foundReports[] = unserialize($serializedReport);
-             }
-         }
-         return $foundReports;
-     }
-
-    /**
-     * @param string $traineeId
-     * @return Report[]
-     */
-    public function findByTraineeId(string $traineeId): array
+    public function findAll(): array
     {
         $foundReports = [];
-        $traineePath = $this->reportsPath . '/' . $traineeId;
-        $files = scandir($traineePath);
-        foreach ($files as $reports) {
-            if ($reports === '.' || $reports === '..') {
+        foreach ($this->readDirectory($this->reportsPath) as $traineeId) {
+            if ($traineeId === '.' || $traineeId === '..' || $traineeId === '.DS_Store') {
                 continue;
             }
-            $serializedReport = file_get_contents($traineePath . '/' . $reports);
-            $foundReports[] = unserialize($serializedReport);
+            foreach ($this->readDirectory($this->reportsPath . '/' . $traineeId) as $report) {
+                if ($report === '.' || $report === '..' || $report === '.DS_Store') {
+                    continue;
+                }
+                $serializedReport = @file_get_contents($this->reportsPath . '/' . $traineeId . '/' . $report);
+                if ($serializedReport === false) {
+                    throw new ReportFileRepositoryException('Could not read file: ' . $this->reportsPath . '/' . $traineeId . '/' . $report);
+                }
+                $unserializedReport = @unserialize($serializedReport);
+                if ($unserializedReport === false) {
+                    throw new ReportFileRepositoryException('Could not unserialize report!');
+                }
+                $foundReports[] = $unserializedReport;
+            }
         }
         return $foundReports;
     }
 
     /**
+     * @param string $traineeId
+     * @return Report[]
+     * @throws ReportFileRepositoryException
+     */
+     public function findByTraineeId(string $traineeId): array
+     {
+         $foundReports = [];
+         $this->ensureTraineeReportsPath($traineeId);
+         $traineePath = $this->reportsPath . '/' . $traineeId;
+
+         foreach ($this->readDirectory($traineePath) as $reports) {
+             if ($reports === '.' || $reports === '..') {
+                 continue;
+             }
+             $serializedReport = @file_get_contents($traineePath . '/' . $reports);
+             if ($serializedReport === false) {
+                 throw new ReportFileRepositoryException('Could not read file: ' . $traineePath . '/' . $reports);
+             }
+             $unserializedReport = @unserialize($serializedReport);
+             if ($unserializedReport === false) {
+                 throw new ReportFileRepositoryException('Could not unserialize report!');
+             }
+             $foundReports[] = $unserializedReport;
+         }
+         return $foundReports;
+     }
+
+    /**
      * @param string $status
      * @return array
+     * @throws ReportFileRepositoryException
      */
     public function findByStatus(string $status): array
     {
@@ -118,6 +143,7 @@ class ReportFileRepository implements ReportRepository
     /**
      * @param string $id
      * @return Report
+     * @throws ReportFileRepositoryException
      */
     public function findById(string $id)
     {
@@ -130,21 +156,29 @@ class ReportFileRepository implements ReportRepository
         }
     }
 
+    /**
+     * @throws ReportFileRepositoryException
+     */
     private function ensureReportsPath()
     {
         if (!file_exists($this->reportsPath)) {
-            mkdir($this->reportsPath);
+            if (!mkdir($this->reportsPath)) {
+                throw new ReportFileRepositoryException("Could not create directory: $this->reportsPath");
+            }
         }
     }
 
     /**
      * @param string $traineeId
+     * @throws ReportFileRepositoryException
      */
     private function ensureTraineeReportsPath(string $traineeId)
     {
         $traineeReportsPath = $this->reportsPath . '/' . $traineeId;
         if (!file_exists($traineeReportsPath)) {
-            mkdir($traineeReportsPath);
+            if (!mkdir($traineeReportsPath)) {
+                throw new ReportFileRepositoryException("Could not create directory: $traineeReportsPath");
+            }
         }
     }
 
@@ -155,5 +189,19 @@ class ReportFileRepository implements ReportRepository
     private function filename(Report $report): string
     {
         return $filename = $this->reportsPath . '/' . $report->traineeId() . '/' . $report->id();
+    }
+
+    /**
+     * @param string $path
+     * @return array
+     * @throws ReportFileRepositoryException
+     */
+    private function readDirectory(string $path): array
+    {
+        $files = @scandir($path);
+        if ($files === false) {
+            throw new ReportFileRepositoryException("Could not read directory: $path");
+        }
+        return $files;
     }
 }

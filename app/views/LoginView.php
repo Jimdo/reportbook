@@ -1,4 +1,3 @@
-<h1>Berichtsheft</h1>
 <form action="/auth.php" method="POST">
   <fieldset>
     <legend>Anmelden</legend>

@@ -5,49 +5,24 @@ require 'bootstrap.php';
 
 isAuthorized('Trainee');
 
-require 'views/header_user_trainee.html';
-
 $reportRepository = new ReportFileRepository('../reports');
 $service = new ReportBookService($reportRepository);
 
 $reports = $service->findByTraineeId(session('userId'));
-?>
 
-<table>
-    <tr>
-        <th>Teaser</th>
-        <th>Erstellungsdatum</th>
-        <th>KW</th>
-        <th>Status</th>
-        <th>Aktionen</th>
-    </tr>
-    <?php foreach ($reports as $report): ?>
-        <?php $reportId = $report->id(); ?>
-        <tr>
-            <td><?php echo substr($report->content(), 0, 10); ?></td>
-            <td><?php echo $report->date(); ?></td>
-            <td><?php echo $report->calendarWeek(); ?></td>
-            <td><?php echo $report->status(); ?></td>
-            <?php if ($report->status() === Report::STATUS_NEW || $report->status() === Report::STATUS_DISAPPROVED || $report->status() === Report::STATUS_EDITED): ?>
-                <td>
-                    <ul>
-                        <li><a href="editReport.php?report_Id=<?php echo $reportId; ?>">Bearbeiten</a></li>
-                        <li><a href="deleteReport.php?report_Id=<?php echo $reportId; ?>" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')">Löschen</a></li>
-                        <?php if ($report->status() !== Report::STATUS_DISAPPROVED): ?>
-                            <li><a href="requestApprovalReport.php?report_Id=<?php echo $reportId; ?>" onclick="return confirm('Soll der Bericht eingereicht werden?')">Einreichen</a></li>
-                        <?php endif; ?>
-                    </ul>
-                </td>
-            <?php endif; ?>
-        </tr>
-    <?php endforeach ?>
-</table>
-<div>
-    <form action="createReport.php">
-        <button type="submit">Bericht erstellen</button>
-    </form>
-</div>
+$headerView = new Web\View('views/Header.php');
+$headerView->tabTitle = 'Berichtsheft';
 
+$infobarView = new Web\View('views/Infobar.php');
+$infobarView->infoHeadline = 'Berichtsheft';
 
+$reportView = new Web\View('views/TraineeView.php');
+$reportView->reports = $reports;
 
-<?php require 'views/html_end.html'; ?>
+$footerView = new Web\View('views/Footer.php');
+$footerView->backButton = 'nope';
+
+echo $infobarView->render();
+echo $headerView->render();
+echo $reportView->render();
+echo $footerView->render();

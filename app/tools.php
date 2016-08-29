@@ -43,6 +43,19 @@ function get(string $key, $default = null)
     return null;
 }
 
+function request(string $key, $default = null)
+{
+    if (isset($_REQUEST[$key])) {
+        return $_REQUEST[$key];
+    }
+
+    if ($default !== null) {
+        return $default;
+    }
+
+    return null;
+}
+
 function isAuthorized(string $role)
 {
     if ((!session('authorized') || session('role') !== $role)) {

@@ -10,9 +10,6 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 $role = '';
 
-echo $username;
-echo $password;
-
 if (
     !(($username === 'Jenny' && $password === 'jenny123') ||
      ($username === 'Tom' && $password === 'tom123') ||
@@ -36,10 +33,6 @@ if (
         $_SESSION['userId'] = 'haukexyz';
         $role = $_SESSION['role'] = 'Trainer';
     }
-
-    // $reportRepository = new ReportFileRepository('../reports');
-    // $service = new ReportBookService($reportRepository);
-    // $service->createReport($traineeId, 'Erster inhalt des Berichts', date('d.m.Y'), '34');
 
     $_SESSION['authorized'] = true;
 

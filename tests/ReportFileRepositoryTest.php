@@ -155,6 +155,19 @@ class ReportFileRepositoryTest extends TestCase
         $this->assertEquals($report2, $foundReport);
     }
 
+    /**
+     * @test
+     */
+    public function itShouldReturnAnEmptyListIfUserNotExists()
+    {
+        $repository = new ReportFileRepository(self::REPORTS_ROOT_PATH);
+        $traineeId = uniqid();
+
+        $reports = $repository->findByTraineeId($traineeId);
+
+        $this->assertEquals([], $reports);
+    }
+
     private function deleteRecursive($input)
     {
         if (is_file($input)) {

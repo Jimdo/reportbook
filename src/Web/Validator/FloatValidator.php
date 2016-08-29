@@ -10,7 +10,10 @@ class FloatValidator extends Validator
      */
     public function isValid($value): bool
     {
-        if (!gettype($value) === 'double') {
+        if (!is_float($value)) {
+            if (is_object($value)) {
+                $value = get_class($value);
+            }
             $this->errorMessage = "'{$value}' is no float";
             return false;
         }

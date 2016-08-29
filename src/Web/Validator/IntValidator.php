@@ -10,7 +10,10 @@ class IntValidator extends Validator
      */
     public function isValid($value): bool
     {
-        if (!gettype($value) === 'integer') {
+        if (!is_integer($value)) {
+            if (is_object($value)) {
+                $value = get_class($value);
+            }
             $this->errorMessage = "'{$value} is not of type integer'";
             return false;
         }

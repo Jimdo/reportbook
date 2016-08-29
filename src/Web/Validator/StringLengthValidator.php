@@ -18,7 +18,9 @@ class StringLengthValidator extends Validator
      */
     public function isValid($value): bool
     {
-        if (!(new StringValidator())->isValid($value) && strlen($value) === $this->length) {
+        $stringValidator = new StringValidator();
+
+        if (!$stringValidator->isValid($value) || strlen($value) !== $this->length) {
             $this->errorMessage = "'{$value}' does not match length of {$this->length}";
             return false;
         }

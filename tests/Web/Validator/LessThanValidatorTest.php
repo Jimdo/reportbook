@@ -9,7 +9,7 @@ class LessThanValidatorTest extends TestCase
     /**
      * @test
      */
-    public function itShouldValidateGreaterThan()
+    public function itShouldValidateLessThan()
     {
         $lessThan = 3;
         $validator = new LessThanValidator($lessThan);

@@ -22,7 +22,7 @@ class GreaterThanValidator extends Validator
         $floatValidator = new FloatValidator();
 
         if (!($intValidator->isValid($value) || $floatValidator->isValid($value))
-            && $value > $this->greaterThan) {
+            || !($value > $this->greaterThan)) {
             $this->errorMessage = "'{$value}' is not greater than {$this->greaterThan}";
             return false;
         }

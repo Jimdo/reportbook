@@ -10,6 +10,13 @@ class StringValidator
      */
     public function isValid($value)
     {
-        return gettype($value) === 'string';
+        if (!is_string($value)) {
+            if (is_object($value)) {
+                $value = get_class($value);
+            }
+            $this->errorMessage = "'{$value} is not of type string'";
+            return false;
+        }
+        return true;
     }
 }

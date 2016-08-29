@@ -6,11 +6,43 @@ require 'bootstrap.php';
 
 $reportRepository = new ReportFileRepository('../reports');
 $service = new ReportBookService($reportRepository);
+
 $reportId = post('reportId');
+$traineeId = session('userId');
+$content = post('content');
+$date = post('date');
+$calendarWeek = post('calendarWeek');
 
 switch (request('reportAction')) {
     case 'edit':
-        $service->editReport($reportId, post('content'), post('date'), post('calendarWeek'));
+        $requestValidator = new Web\RequestValidator();
+        //$requestValidator->add('userId', 'string');
+        $requestValidator->add('content', 'string');
+        $requestValidator->add('date', 'date');
+        $requestValidator->add('calendarWeek', 'integer');
+
+        if ($requestValidator->isValid($_REQUEST)) {
+            $service->editReport($reportId, $content, $date, $calendarWeek);
+        } else {
+            $reportView = new Web\View('views/Report.php');
+            $reportView->errorMessages = $requestValidator->errorMessages();
+            $reportView->title = 'Bericht';
+            $reportView->action = 'ReportActionProcessor.php';
+            $reportView->legend = 'Bericht bearbeiten';
+            $reportView->calendarWeek = $calendarWeek;
+            $reportView->date = $date;
+            $reportView->content = $content;
+            $reportView->buttonName = 'Speichern';
+            $reportView->reportId = $reportId;
+            $reportView->backButton = 'show';
+            $reportView->backAction = 'trainee.php';
+            $reportView->reportAction = 'edit';
+            $reportView->role = 'Trainee';
+
+            echo $reportView->render();
+            exit;
+        }
+
         break;
     case 'create':
         $requestValidator = new Web\RequestValidator();
@@ -19,10 +51,6 @@ switch (request('reportAction')) {
         $requestValidator->add('date', 'date');
         $requestValidator->add('calendarWeek', 'integer');
 
-        $traineeId = session('userId');
-        $content = post('content');
-        $date = post('date');
-        $calendarWeek = post('calendarWeek');
 
         if ($requestValidator->isValid($_REQUEST)) {
             $service->createReport($traineeId, $content, $date, $calendarWeek);

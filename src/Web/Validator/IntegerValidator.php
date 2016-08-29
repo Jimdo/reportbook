@@ -10,6 +10,10 @@ class IntegerValidator extends Validator
     */
     public function isValid($value): bool
     {
+        if (is_numeric($value) && strpos($value, '.') !== false) {
+            $this->errorMessage = "'$value' is not an integer";
+            return false;
+        }
         if (!is_numeric($value) || is_float($value)) {
             if (is_object($value)) {
                 $value = get_class($value);

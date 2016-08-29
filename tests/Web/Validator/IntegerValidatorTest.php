@@ -19,6 +19,7 @@ class IntegerValidatorTest extends TestCase
         $this->assertFalse($validator->isValid(null));
         $this->assertFalse($validator->isValid('Integer'));
         $this->assertFalse($validator->isValid(''));
+        $this->assertFalse($validator->isValid('1.1'));
 
         $this->assertTrue($validator->isValid(1));
         $this->assertTrue($validator->isValid('1'));

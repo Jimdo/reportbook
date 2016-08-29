@@ -2,6 +2,8 @@
 
 namespace Jimdo\Reports;
 
+use \Jimdo\Reports\Report as Report;
+
 require 'bootstrap.php';
 
 $reportRepository = new ReportFileRepository('../reports');
@@ -64,7 +66,6 @@ switch (request('reportAction')) {
             $reportView->date = $date;
             $reportView->content = $content;
             $reportView->buttonName = 'Bericht erstellen';
-            $reportView->reportId = null;
             $reportView->backButton = 'show';
             $reportView->backAction = 'trainee.php';
             $reportView->reportAction = 'create';
@@ -85,7 +86,7 @@ switch (request('reportAction')) {
         break;
 }
 
-if (get('action') === 'delete') {
+if (get('action') === 'delete' && $service->findById(get('reportId'), $traineeId)->status() !== Report::STATUS_DISAPPROVED) {
     $service->deleteReport(get('reportId'));
 } elseif (get('action') === 'requestApproval') {
     $service->requestApproval(get('reportId'));

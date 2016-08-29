@@ -2,16 +2,22 @@
 
 namespace Jimdo\Reports\Web\Validator;
 
-interface Validator
+abstract class Validator
 {
+    /** @var string */
+    protected $errorMessage = '';
+
     /**
     * @param mixed $value
     * @return bool
     */
-    public function isValid($value): bool;
+    abstract public function isValid($value): bool;
 
     /**
     * @return string
     */
-    public function errorMessage(): string;
+    public function errorMessage(): string
+    {
+        return $this->errorMessage;
+    }
 }

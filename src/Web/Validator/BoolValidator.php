@@ -2,14 +2,8 @@
 
 namespace Jimdo\Reports\Web\Validator;
 
-class BoolValidator implements Validator
+class BoolValidator extends Validator
 {
-    /** @var mixed */
-    private $value;
-
-    /** @var string */
-    private $errorMessage = '';
-
     /**
     * @param mixed $value
     * @return bool
@@ -27,13 +21,5 @@ class BoolValidator implements Validator
         }
         $this->errorMessage = "'$value' is not a bool";
         return false;
-    }
-
-    /**
-    * @return string
-    */
-    public function errorMessage(): string
-    {
-        return $this->errorMessage;
     }
 }

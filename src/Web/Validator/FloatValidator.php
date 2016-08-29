@@ -2,11 +2,8 @@
 
 namespace Jimdo\Reports\Web\Validator;
 
-class FloatValidator implements Validator
+class FloatValidator extends Validator
 {
-    /** @var string */
-    private $errorMessage = '';
-
     /**
     * @param mixed $value
     * @return bool
@@ -24,13 +21,5 @@ class FloatValidator implements Validator
             return false;
         }
         return true;
-    }
-
-    /**
-    * @return string
-    */
-    public function errorMessage(): string
-    {
-        return $this->errorMessage;
     }
 }

@@ -2,11 +2,8 @@
 
 namespace Jimdo\Reports\Web\Validator;
 
-class DateValidator implements Validator
+class DateValidator extends Validator
 {
-    /** @var string */
-    private $errorMessage = '';
-
     /**
     * @param mixed $value
     * @return bool
@@ -64,13 +61,5 @@ class DateValidator implements Validator
         }
 
         return true;
-    }
-
-    /**
-    * @return string
-    */
-    public function errorMessage(): string
-    {
-        return $this->errorMessage;
     }
 }

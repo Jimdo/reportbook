@@ -39,3 +39,9 @@ update       Update composer packages
   - Basic CRUD operations on the reportbook
   - Simple web interface for CRUD operations
   - Simple file system based persistence mechanism
+
+### v.0.1.1
+  - Refactoring into view models
+  - Add basic validation
+  - Add error messages to forms
+  - Add exceptions to `ReportFileRepository`

@@ -1,4 +1,4 @@
-<form action="/auth.php" method="POST">
+<form action="user/login" method="POST">
   <fieldset>
     <legend>Anmelden</legend>
     <div>

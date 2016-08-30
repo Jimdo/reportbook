@@ -59,6 +59,7 @@ function request(string $key, $default = null)
 function isAuthorized(string $role)
 {
     if ((!session('authorized') || session('role') !== $role)) {
-        redirect('login.php');
+        return false;
     }
+    return true;
 }

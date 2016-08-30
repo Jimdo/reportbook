@@ -15,4 +15,63 @@ class RouterTest extends TestCase
         $router = new Router();
         $this->assertEquals('testAction called', $router->dispatch($uri));
     }
+
+    /**
+     * @test
+     */
+    public function itShouldDispatchToIndexAction()
+    {
+        $uri = "/fixture";
+        $router = new Router();
+        $this->assertEquals('indexAction called', $router->dispatch($uri));
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldConfigureDefaultControllerAndDefaultAction()
+    {
+        $router = new Router([
+            'defaultController' => 'default',
+            'defaultAction' => 'default'
+
+        ]);
+
+        $this->assertEquals(
+            'Jimdo\Reports\Web\Controller\DefaultController',
+            $router->defaultController()
+        );
+
+        $this->assertEquals('defaultAction', $router->defaultAction());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldHaveIndexControllerAndIndexActionAsDefault()
+    {
+        $router = new Router();
+
+        $this->assertEquals(
+            'Jimdo\Reports\Web\Controller\IndexController',
+            $router->defaultController()
+        );
+
+        $this->assertEquals('indexAction', $router->defaultAction());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldDispatchToDefaultControllerAndDefaultAction()
+    {
+        $uri = "/";
+        $router = new Router([
+            'defaultController' => 'fixture',
+            'defaultAction' => 'default'
+
+        ]);
+
+        $this->assertEquals('defaultAction called', $router->dispatch($uri));
+    }
 }

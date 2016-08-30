@@ -9,6 +9,11 @@ class FixtureController extends Controller
         return 'testAction called';
     }
 
+    public function indexAction()
+    {
+        return 'indexAction called';
+    }
+
     public function testQueryParams(string $key = null, string $default = null)
     {
         return $this->queryParams($key, $default);
@@ -17,5 +22,10 @@ class FixtureController extends Controller
     public function testFormData(string $key = null, string $default = null)
     {
         return $this->formData($key, $default);
+    }
+
+    public function defaultAction()
+    {
+        return 'defaultAction called';
     }
 }

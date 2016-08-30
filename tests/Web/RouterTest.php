@@ -34,7 +34,6 @@ class RouterTest extends TestCase
         $router = new Router([
             'defaultController' => 'default',
             'defaultAction' => 'default'
-
         ]);
 
         $this->assertEquals(
@@ -69,7 +68,6 @@ class RouterTest extends TestCase
         $router = new Router([
             'defaultController' => 'fixture',
             'defaultAction' => 'default'
-
         ]);
 
         $this->assertEquals('defaultAction called', $router->dispatch($uri));

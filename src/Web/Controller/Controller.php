@@ -1,6 +1,8 @@
 <?php
 
-namespace Jimdo\Reports\Web;
+namespace Jimdo\Reports\Web\Controller;
+
+use Jimdo\Reports\Web\Request as Request;
 
 abstract class Controller
 {

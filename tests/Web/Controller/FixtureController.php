@@ -1,6 +1,6 @@
 <?php
 
-namespace Jimdo\Reports\Web;
+namespace Jimdo\Reports\Web\Controller;
 
 class FixtureController extends Controller
 {

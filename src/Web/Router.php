@@ -24,7 +24,7 @@ class Router
      */
     private function createController(string $controller)
     {
-        $class = __NAMESPACE__ . '\\' . ucfirst($controller) . 'Controller';
+        $class = __NAMESPACE__ . '\\Controller\\' . ucfirst($controller) . 'Controller';
         return new $class(new Request($_GET, $_POST));
     }
 }

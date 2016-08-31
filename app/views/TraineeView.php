@@ -21,7 +21,7 @@
                     <ul>
                         <li><a href="/report/editReport?reportId=<?php echo $reportId; ?>">Bearbeiten</a></li>
                         <?php if ($report->status() !== Report::STATUS_DISAPPROVED): ?>
-                            <li><a href="ReportActionProcessor.php?reportId=<?php echo $reportId; ?>&action=requestApproval" onclick="return confirm('Soll der Bericht eingereicht werden?')">Einreichen</a></li>
+                            <li><a href="/report/requestApproval?reportId=<?php echo $reportId; ?>&action=requestApproval" onclick="return confirm('Soll der Bericht eingereicht werden?')">Einreichen</a></li>
                             <li><a href="ReportActionProcessor.php?reportId=<?php echo $reportId; ?>&action=delete" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')">Löschen</a></li>
                         <?php endif; ?>
                     </ul>

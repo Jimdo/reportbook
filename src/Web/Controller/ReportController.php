@@ -159,33 +159,40 @@ class ReportController extends Controller
         $requestValidator->add('date', 'date');
         $requestValidator->add('calendarWeek', 'integer');
 
-        if ($requestValidator->isValid($_REQUEST)) {
-            $this->service->editReport(
-                  $this->formData('reportId')
-                , $this->formData('content')
-                , $this->formData('date')
-                , $this->formData('calendarWeek')
-            );
+            if ($requestValidator->isValid($_REQUEST)) {
+                $this->service->editReport(
+                      $this->formData('reportId')
+                    , $this->formData('content')
+                    , $this->formData('date')
+                    , $this->formData('calendarWeek')
+                );
 
-            header("Location: /report/list");
+                header("Location: /report/list");
 
-        } else {
-            $reportView = new View('app/views/Report.php');
-            $reportView->errorMessages = $requestValidator->errorMessages();
-            $reportView->title = 'Bericht';
-            $reportView->action = '/report/editReport';
-            $reportView->legend = 'Bericht bearbeiten';
-            $reportView->calendarWeek = $calendarWeek;
-            $reportView->date = $date;
-            $reportView->content = $content;
-            $reportView->buttonName = 'Speichern';
-            $reportView->reportId = $reportId;
-            $reportView->backButton = 'show';
-            $reportView->role = 'Trainee';
+            } else {
+                $reportView = new View('app/views/Report.php');
+                $reportView->errorMessages = $requestValidator->errorMessages();
+                $reportView->title = 'Bericht';
+                $reportView->action = '/report/editReport';
+                $reportView->legend = 'Bericht bearbeiten';
+                $reportView->calendarWeek = $calendarWeek;
+                $reportView->date = $date;
+                $reportView->content = $content;
+                $reportView->buttonName = 'Speichern';
+                $reportView->reportId = $reportId;
+                $reportView->backButton = 'show';
+                $reportView->role = 'Trainee';
 
-            echo $reportView->render();
+                echo $reportView->render();
+            }
         }
-
     }
+
+    public function requestApprovalAction()
+    {
+        if (isAuthorized('Trainee')) {
+            $this->service->requestApproval($this->queryParams('reportId'));
+            header("Location: /report/list");
+        }
     }
 }

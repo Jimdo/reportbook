@@ -115,9 +115,9 @@ class ReportController extends Controller
             $reportView->title = 'Bericht';
             $reportView->action = '/report/create';
             $reportView->legend = 'Neuen Bericht erstellen';
-            $reportView->calendarWeek = $calendarWeek;
-            $reportView->date = $date;
-            $reportView->content = $content;
+            $reportView->calendarWeek = $this->formData('calendarWeek');
+            $reportView->date = $this->formData('date');
+            $reportView->content = $this->formData('content');
             $reportView->buttonName = 'Bericht erstellen';
             $reportView->backButton = 'show';
             $reportView->role = 'Trainee';
@@ -173,11 +173,11 @@ class ReportController extends Controller
                 $reportView->title = 'Bericht';
                 $reportView->action = '/report/editReport';
                 $reportView->legend = 'Bericht bearbeiten';
-                $reportView->calendarWeek = $calendarWeek;
-                $reportView->date = $date;
-                $reportView->content = $content;
+                $reportView->calendarWeek = $this->formData('calendarWeek');
+                $reportView->date = $this->formData('date');
+                $reportView->content = $this->formData('content');
                 $reportView->buttonName = 'Speichern';
-                $reportView->reportId = $reportId;
+                $reportView->reportId = $this->queryParams('reportId');
                 $reportView->backButton = 'show';
                 $reportView->role = 'Trainee';
 

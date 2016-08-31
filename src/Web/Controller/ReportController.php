@@ -95,7 +95,6 @@ class ReportController extends Controller
     public function createAction()
     {
         $requestValidator = new RequestValidator();
-        // $requestValidator->add('userId', 'string');
         $requestValidator->add('content', 'string');
         $requestValidator->add('date', 'date');
         $requestValidator->add('calendarWeek', 'integer');
@@ -154,7 +153,6 @@ class ReportController extends Controller
         if (isAuthorized('Trainee')) {
 
         $requestValidator = new RequestValidator();
-        //$requestValidator->add('userId', 'string');
         $requestValidator->add('content', 'string');
         $requestValidator->add('date', 'date');
         $requestValidator->add('calendarWeek', 'integer');
@@ -200,6 +198,45 @@ class ReportController extends Controller
     {
         if (isAuthorized('Trainee') && $this->service->findById($this->queryParams('reportId'), session('userId'))->status() !== Report::STATUS_DISAPPROVED) {
             $this->service->deleteReport($this->queryParams('reportId'));
+            header("Location: /report/list");
+        }
+    }
+
+    public function viewReportAction()
+    {
+        if (isAuthorized('Trainer')) {
+            $report = $this->service->findById($this->queryParams('reportId'), $this->queryParams('traineeId'));
+
+            $reportView = new View('app/views/Report.php');
+            $reportView->title = 'Bericht';
+            // $reportView->action = '';
+            $reportView->legend = 'Vorschau';
+            $reportView->calendarWeek = $report->calendarWeek();
+            $reportView->date = $report->date();
+            $reportView->content = $report->content();
+            $reportView->buttonName = 'Speichern';
+            $reportView->reportId = $this->queryParams('reportId');
+            $reportView->backButton = 'show';
+            $reportView->readonly = 'readonly';
+            $reportView->role = 'Trainer';
+            $reportView->status = $report->status();
+
+            echo $reportView->render();
+        }
+    }
+
+    public function approveAction()
+    {
+        if (isAuthorized('Trainer')) {
+            $this->service->approveReport($this->formData('reportId'));
+            header("Location: /report/list");
+        }
+    }
+
+    public function disapproveAction()
+    {
+        if (isAuthorized('Trainer')) {
+            $this->service->disapproveReport($this->formData('reportId'));
             header("Location: /report/list");
         }
     }

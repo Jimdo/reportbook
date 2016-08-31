@@ -18,7 +18,7 @@
             <td><?php echo $report->status(); ?></td>
             <td>
                 <ul>
-                    <li><a href="viewReport.php?reportId=<?php echo $reportId; ?>&traineeId=<?php echo $traineeId; ?>">Öffnen</a></li>
+                    <li><a href="/report/viewReport?reportId=<?php echo $reportId; ?>&traineeId=<?php echo $traineeId; ?>">Öffnen</a></li>
                 </ul>
             </td>
         </tr>

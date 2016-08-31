@@ -35,14 +35,14 @@ endif; ?>
 </form>
 
 <?php if ($this->role === 'Trainer' && $this->status !== Report::STATUS_DISAPPROVED && $this->status !== Report::STATUS_APPROVED): ?>
-    <form action="<?php echo $this->action; ?>" method="POST">
+    <form action="/report/approve" method="POST">
     <div>
         <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
         <input type="hidden" name="reportAction" value="approve">
         <button type="submit">Genehmigen</button>
     </div>
     </form>
-    <form action="<?php echo $this->action; ?>" method="POST">
+    <form action="/report/disapprove" method="POST">
     <div>
         <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
         <input type="hidden" name="reportAction" value="disapprove">

@@ -14,63 +14,50 @@ class ReportController extends Controller
 {
     public function indexAction()
     {
-        isAuthorized('Trainee');
+        header("Location: /report/list");
+    }
 
-        $reportRepository = new ReportFileRepository('../reports');
+    public function listAction()
+    {
+        $reportRepository = new ReportFileRepository('reports');
         $service = new ReportBookService($reportRepository);
-
-        $reports = $service->findByTraineeId(session('userId'));
 
         $headerView = new View('app/views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
 
         $infobarView = new View('app/views/Infobar.php');
-        $infobarView->infoHeadline = 'Berichtsheft';
-
-        $reportView = new View('app/views/TraineeView.php');
-        $reportView->reports = $reports;
 
         $footerView = new View('app/views/Footer.php');
         $footerView->backButton = 'nope';
 
-        echo $infobarView->render();
-        echo $headerView->render();
-        echo $reportView->render();
-        echo $footerView->render();
-    }
-
-    public function listAction()
-    {
         if (isAuthorized('Trainee')) {
 
-        } elseif (isAuthorized('Trainer')) {
-            $reportRepository = new ReportFileRepository('reports');
-            $service = new ReportBookService($reportRepository);
+            $reportView = new View('app/views/TraineeView.php');
 
-            $reports = array_merge(
+            $reportView->reports = $service->findByTraineeId(session('userId'));
+
+            $infobarView->infoHeadline = 'Berichtsheft';
+
+        } elseif (isAuthorized('Trainer')) {
+
+            $reportView = new View('app/views/TrainerView.php');
+
+            $reportView->reports = array_merge(
                 $service->findByStatus(Report::STATUS_APPROVAL_REQUESTED),
                 $service->findByStatus(Report::STATUS_APPROVED),
                 $service->findByStatus(Report::STATUS_DISAPPROVED)
             );
 
-            $headerView = new View('app/views/Header.php');
-            $headerView->tabTitle = 'Berichtsheft';
-
-            $infobarView = new View('app/views/Infobar.php');
             $infobarView->infoHeadline = 'Berichte der Azubis';
 
-            $reportView = new View('app/views/TrainerView.php');
-            $reportView->reports = $reports;
-
-            $footerView = new View('app/views/Footer.php');
-            $footerView->backButton = 'nope';
-
-            echo $infobarView->render();
-            echo $headerView->render();
-            echo $reportView->render();
-            echo $footerView->render();
         } else {
+
             header("Location: /user");
+
         }
+        echo $infobarView->render();
+        echo $headerView->render();
+        echo $reportView->render();
+        echo $footerView->render();
     }
 }

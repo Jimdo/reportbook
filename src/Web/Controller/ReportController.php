@@ -195,4 +195,12 @@ class ReportController extends Controller
             header("Location: /report/list");
         }
     }
+
+    public function deleteAction()
+    {
+        if (isAuthorized('Trainee') && $this->service->findById($this->queryParams('reportId'), session('userId'))->status() !== Report::STATUS_DISAPPROVED) {
+            $this->service->deleteReport($this->queryParams('reportId'));
+            header("Location: /report/list");
+        }
+    }
 }

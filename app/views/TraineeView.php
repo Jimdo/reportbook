@@ -31,7 +31,7 @@
     <?php endforeach; ?>
 </table>
 <div>
-    <form action="createReport.php">
+    <form action="/report/createReport" method="POST">
         <button type="submit">Bericht erstellen</button>
     </form>
 </div>

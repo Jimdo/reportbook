@@ -78,7 +78,6 @@ class ReportController extends Controller
             $reportView->buttonName = 'Bericht erstellen';
             $reportView->reportId = null;
             $reportView->backButton = 'show';
-            $reportView->backAction = '/report/list';
             $reportView->role = 'Trainee';
 
             echo $reportView->render();
@@ -87,23 +86,22 @@ class ReportController extends Controller
 
     public function createAction()
     {
-        $reportRepository = new ReportFileRepository('reports');
-        $service = new ReportBookService($reportRepository);
-
         $requestValidator = new RequestValidator();
         // $requestValidator->add('userId', 'string');
         $requestValidator->add('content', 'string');
         $requestValidator->add('date', 'date');
         $requestValidator->add('calendarWeek', 'integer');
 
-        $traineeId = session('userId');
-        $content = $this->formData('content');
-        $date = $this->formData('date');
-        $calendarWeek = $this->formData('calendarWeek');
-
         if ($requestValidator->isValid($_REQUEST)) {
-            $service->createReport($traineeId, $content, $date, $calendarWeek);
+            $this->service->createReport(
+                session('userId')
+                , $this->formData('content')
+                , $this->formData('date')
+                , $this->formData('calendarWeek')
+            );
+
             header("Location: /report/list");
+
         } else {
             $reportView = new View('app/views/Report.php');
             $reportView->errorMessages = $requestValidator->errorMessages();
@@ -115,10 +113,71 @@ class ReportController extends Controller
             $reportView->content = $content;
             $reportView->buttonName = 'Bericht erstellen';
             $reportView->backButton = 'show';
-            $reportView->backAction = '/report/list';
             $reportView->role = 'Trainee';
 
             echo $reportView->render();
         }
+    }
+
+    public function editReportAction()
+    {
+        if (isAuthorized('Trainee')) {
+            $reportId = $this->queryParams('reportId');
+            $report = $this->service->findById($reportId, session('userId'));
+
+            $reportView = new View('app/views/Report.php');
+            $reportView->title = 'Bericht';
+            $reportView->action = '/report/edit';
+            $reportView->legend = 'Bericht bearbeiten';
+            $reportView->calendarWeek = $report->calendarWeek();
+            $reportView->date = $report->date();
+            $reportView->content = $report->content();
+            $reportView->buttonName = 'Speichern';
+            $reportView->reportId = $reportId;
+            $reportView->backButton = 'show';
+            $reportView->role = 'Trainee';
+
+            echo $reportView->render();
+        }
+    }
+
+    public function editAction()
+    {
+        if (isAuthorized('Trainee')) {
+
+        $requestValidator = new RequestValidator();
+        //$requestValidator->add('userId', 'string');
+        $requestValidator->add('content', 'string');
+        $requestValidator->add('date', 'date');
+        $requestValidator->add('calendarWeek', 'integer');
+
+        if ($requestValidator->isValid($_REQUEST)) {
+            $this->service->editReport(
+                  $this->formData('reportId')
+                , $this->formData('content')
+                , $this->formData('date')
+                , $this->formData('calendarWeek')
+            );
+
+            header("Location: /report/list");
+            
+        } else {
+            $reportView = new View('app/views/Report.php');
+            $reportView->errorMessages = $requestValidator->errorMessages();
+            $reportView->title = 'Bericht';
+            $reportView->action = '/report/editReport';
+            $reportView->legend = 'Bericht bearbeiten';
+            $reportView->calendarWeek = $calendarWeek;
+            $reportView->date = $date;
+            $reportView->content = $content;
+            $reportView->buttonName = 'Speichern';
+            $reportView->reportId = $reportId;
+            $reportView->backButton = 'show';
+            $reportView->role = 'Trainee';
+
+            echo $reportView->render();
+        }
+
+    }
     }
 }

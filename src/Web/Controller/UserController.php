@@ -64,4 +64,13 @@ class UserController extends Controller
             }
         }
     }
+
+    public function logoutAction()
+    {
+        $_SESSION['authorized'] = false;
+        $_SESSION['userId'] = '';
+        $_SESSION['role'] = '';
+
+        header("Location: /user");
+    }
 }

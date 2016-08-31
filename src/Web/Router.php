@@ -29,6 +29,10 @@ class Router
      */
     public function dispatch(string $uri)
     {
+        if (($pos = strpos($uri, '?')) !== false) {
+            $uri = substr($uri, 0, $pos);
+        }
+
         $uriParts = explode('/', trim($uri, '/'));
 
         $controller = $this->defaultController;

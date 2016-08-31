@@ -160,7 +160,7 @@ class ReportController extends Controller
             );
 
             header("Location: /report/list");
-            
+
         } else {
             $reportView = new View('app/views/Report.php');
             $reportView->errorMessages = $requestValidator->errorMessages();

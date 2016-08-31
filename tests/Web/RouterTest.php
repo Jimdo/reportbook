@@ -72,4 +72,15 @@ class RouterTest extends TestCase
 
         $this->assertEquals('defaultAction called', $router->dispatch($uri));
     }
+
+    /**
+     * @test
+     */
+    public function itShouldIgnoreQueryParamsInUri()
+    {
+        $uri = "/fixture/test?report=Hase";
+        $router = new Router();
+        $this->assertEquals('testAction called', $router->dispatch($uri));
+    }
+
 }

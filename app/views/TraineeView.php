@@ -19,10 +19,10 @@
                 || $report->status() === Report::STATUS_EDITED): ?>
                 <td>
                     <ul>
-                        <li><a href="editReport.php?reportId=<?php echo $reportId; ?>">Bearbeiten</a></li>
+                        <li><a href="/report/editReport?reportId=<?php echo $reportId; ?>">Bearbeiten</a></li>
                         <?php if ($report->status() !== Report::STATUS_DISAPPROVED): ?>
-                            <li><a href="ReportActionProcessor.php?reportId=<?php echo $reportId; ?>&action=requestApproval" onclick="return confirm('Soll der Bericht eingereicht werden?')">Einreichen</a></li>
-                            <li><a href="ReportActionProcessor.php?reportId=<?php echo $reportId; ?>&action=delete" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')">Löschen</a></li>
+                            <li><a href="/report/requestApproval?reportId=<?php echo $reportId; ?>&action=requestApproval" onclick="return confirm('Soll der Bericht eingereicht werden?')">Einreichen</a></li>
+                            <li><a href="/report/delete?reportId=<?php echo $reportId; ?>&action=delete" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')">Löschen</a></li>
                         <?php endif; ?>
                     </ul>
                 </td>
@@ -31,7 +31,7 @@
     <?php endforeach; ?>
 </table>
 <div>
-    <form action="createReport.php">
+    <form action="/report/createReport" method="POST">
         <button type="submit">Bericht erstellen</button>
     </form>
 </div>

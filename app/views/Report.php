@@ -14,11 +14,11 @@ endif; ?>
     <legend><?php echo $this->legend; ?></legend>
     <div>
       <label for="calendarWeek">Kalenderwoche: </label>
-      <input <?php echo $this->readonly; ?> type="text" id="calendarWeek" name="calendarWeek" value=<?php echo $this->calendarWeek; ?> />
+      <input <?php echo $this->readonly; ?> type="text" id="calendarWeek" name="calendarWeek" value="<?php echo $this->calendarWeek; ?>" />
     </div>
     <div>
       <label for="date">Datum:</label>
-      <input <?php echo $this->readonly; ?> type="text" id="date" name="date" value=<?php echo $this->date; ?> />
+      <input <?php echo $this->readonly; ?> type="text" id="date" name="date" value="<?php echo $this->date; ?>" />
     </div>
     <div>
       <label for="content">Bericht:</label>
@@ -26,8 +26,7 @@ endif; ?>
     </div>
     <div>
     <?php if ($this->role === 'Trainee'): ?>
-        <input type="hidden" id="reportId" name="reportId" value=<?php echo $this->reportId; ?> />
-        <input type="hidden" id="reportAction" name="reportAction" value=<?php echo $this->reportAction; ?> />
+        <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>" />
         <button type="submit"><?php echo $this->buttonName; ?></button>
     <?php endif; ?>
     </div>
@@ -35,14 +34,14 @@ endif; ?>
 </form>
 
 <?php if ($this->role === 'Trainer' && $this->status !== Report::STATUS_DISAPPROVED && $this->status !== Report::STATUS_APPROVED): ?>
-    <form action="<?php echo $this->action; ?>" method="POST">
+    <form action="/report/approve" method="POST">
     <div>
         <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
         <input type="hidden" name="reportAction" value="approve">
         <button type="submit">Genehmigen</button>
     </div>
     </form>
-    <form action="<?php echo $this->action; ?>" method="POST">
+    <form action="/report/disapprove" method="POST">
     <div>
         <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
         <input type="hidden" name="reportAction" value="disapprove">
@@ -50,5 +49,3 @@ endif; ?>
     </div>
     </form>
 <?php endif; ?>
-
-<?php require 'Footer.php';?>

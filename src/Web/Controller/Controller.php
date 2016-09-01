@@ -3,6 +3,7 @@
 namespace Jimdo\Reports\Web\Controller;
 
 use Jimdo\Reports\Web\Request as Request;
+use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 use Jimdo\Reports\Web\View as View;
 
 abstract class Controller
@@ -10,12 +11,16 @@ abstract class Controller
     /** @var Request */
     protected $request;
 
+    /** @var RequestValidator */
+    protected $requestValidator;
+
     /**
      * @param Request $request
      */
-    public function __construct(Request $request)
+    public function __construct(Request $request, RequestValidator $requestValidator)
     {
         $this->request = $request;
+        $this->requestValidator = $requestValidator;
     }
 
     /**
@@ -76,4 +81,13 @@ abstract class Controller
     {
         return new View($path);
     }
+
+    /**
+     * @param string $field
+     * @param string $validator
+     */
+     protected function addRequestValidation(string $field, string $validator)
+     {
+         $this->requestValidator()->add($field, $validator);
+     }
 }

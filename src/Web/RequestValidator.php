@@ -25,7 +25,7 @@ class RequestValidator
      */
     public function isValid(array $request): bool
     {
-        foreach ($this->fields as $field => $val) {
+        foreach ($this->fields() as $field => $val) {
             $validator = $this->createValidator($val);
 
             if (!$validator->isValid($request[$field])) {
@@ -41,6 +41,14 @@ class RequestValidator
     public function errorMessages(): array
     {
         return $this->errorMessages;
+    }
+
+    /**
+     * @return array
+     */
+    public function fields()
+    {
+        return $this->fields;
     }
 
     /**

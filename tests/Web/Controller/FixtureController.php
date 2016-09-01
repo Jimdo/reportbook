@@ -1,7 +1,7 @@
 <?php
 
 namespace Jimdo\Reports\Web\Controller;
-
+use Jimdo\Reports\Web\Request as Request;
 class FixtureController extends Controller
 {
     public function testAction()
@@ -39,8 +39,19 @@ class FixtureController extends Controller
         return $this->view($path);
     }
 
+    public function testAddRequestValidations()
+    {
+        $this->addRequestValidation('name', 'string');
+        $this->addRequestValidation('age', 'integer');
+    }
+
     public function defaultAction()
     {
         return 'defaultAction called';
+    }
+
+    public function requestValidator()
+    {
+        return $this->requestValidator;
     }
 }

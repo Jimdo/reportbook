@@ -13,6 +13,9 @@ class Router
     /** @var Request */
     private $requestObject;
 
+    /** @var RequestValidator */
+    private $requestValidator;
+
     /**
      * @param array $config
      */
@@ -28,6 +31,11 @@ class Router
             $this->requestObject = $config['defaultRequestObject'];
         } else {
             $this->requestObject = new Request($_GET, $_POST, $_SESSION);
+        }
+        if (isset($config['defaultRequestValidatorObject'])) {
+            $this->requestValidatorObject = $config['defaultRequestValidatorObject'];
+        } else {
+            $this->requestValidatorObject = new RequestValidator();
         }
     }
 
@@ -86,7 +94,7 @@ class Router
     private function createController(string $controller)
     {
         $class = $this->controllerName($controller);
-        return new $class($this->requestObject);
+        return new $class($this->requestObject, $this->requestValidatorObject);
     }
 
     /**

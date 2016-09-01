@@ -35,8 +35,6 @@ class ReportController extends Controller
 
         $headerView = $this->view('app/views/Header.php');
 
-        // $headerView = $this->view('app/views/Header.php');
-
         $headerView->tabTitle = 'Berichtsheft';
 
         $infobarView = $this->view('app/views/Infobar.php');
@@ -221,7 +219,6 @@ class ReportController extends Controller
 
             $reportView = $this->view('app/views/Report.php');
             $reportView->title = 'Bericht';
-            // $reportView->action = '';
             $reportView->legend = 'Vorschau';
             $reportView->calendarWeek = $report->calendarWeek();
             $reportView->date = $report->date();

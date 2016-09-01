@@ -13,7 +13,7 @@ abstract class Controller
     /**
      * @param Request $request
      */
-    public function __construct(Request $request = null)
+    public function __construct(Request $request)
     {
         $this->request = $request;
     }

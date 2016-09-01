@@ -135,7 +135,8 @@ class ControllerTest extends TestCase
      */
     public function itShouldRenderGivenTemplates()
     {
-        $controller = new FixtureController();
+        $request = new Request([], [], []);
+        $controller = new FixtureController($request);
 
         $myView = $controller->testView('tests/Web/ViewFixture.php');
         $myView->name = $expectedName = 'Horst';

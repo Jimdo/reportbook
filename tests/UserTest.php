@@ -7,10 +7,15 @@ use PHPUnit\Framework\TestCase;
 class UserTest extends TestCase
 {
     /**
-     * @test
-     */
+    * @test
+    */
     public function itShouldHaveForeAndSurname()
     {
-        # code...
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $user = new User($forename, $surname);
+
+        $this->assertEquals($forename, $user->forename());
+        $this->assertEquals($surname, $user->surname());
     }
 }

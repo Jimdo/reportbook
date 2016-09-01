@@ -88,6 +88,15 @@ abstract class Controller
      */
      protected function addRequestValidation(string $field, string $validator)
      {
-         $this->requestValidator()->add($field, $validator);
+         $this->requestValidator->add($field, $validator);
      }
+
+     protected function isRequestValid()
+     {
+         $request = array_merge(
+            $this->request->getFormData(),
+            $this->request->getQueryParams()
+        );
+        return $this->requestValidator->isValid($request);
+    }
 }

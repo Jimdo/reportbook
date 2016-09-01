@@ -17,9 +17,9 @@ class ReportController extends Controller
     /**
      * @param Request $request
      */
-    public function __construct(Request $request)
+    public function __construct(Request $request, RequestValidator $requestValidator)
     {
-        parent::__construct($request);
+        parent::__construct($request, $requestValidator);
 
         $reportRepository = new ReportFileRepository('reports');
         $this->service = new ReportBookService($reportRepository);
@@ -32,7 +32,6 @@ class ReportController extends Controller
 
     public function listAction()
     {
-
         $headerView = $this->view('app/views/Header.php');
 
         $headerView->tabTitle = 'Berichtsheft';
@@ -53,7 +52,6 @@ class ReportController extends Controller
             $infobarView->infoHeadline = 'Berichtsheft';
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
-
 
         } elseif ($this->isAuthorized('Trainer')) {
 
@@ -104,12 +102,11 @@ class ReportController extends Controller
 
     public function createAction()
     {
-        $requestValidator = new RequestValidator();
-        $requestValidator->add('content', 'string');
-        $requestValidator->add('date', 'date');
-        $requestValidator->add('calendarWeek', 'integer');
+        $this->addRequestValidation('content', 'string');
+        $this->addRequestValidation('date', 'date');
+        $this->addRequestValidation('calendarWeek', 'integer');
 
-        if ($requestValidator->isValid($_REQUEST)) {
+        if ($this->isRequestValid()) {
             $this->service->createReport(
                 $this->sessionData('userId')
                 , $this->formData('content')
@@ -121,7 +118,7 @@ class ReportController extends Controller
 
         } else {
             $reportView = $this->view('app/views/Report.php');
-            $reportView->errorMessages = $requestValidator->errorMessages();
+            $reportView->errorMessages = $this->requestValidator->errorMessages();
             $reportView->title = 'Bericht';
             $reportView->action = '/report/create';
             $reportView->legend = 'Neuen Bericht erstellen';
@@ -162,12 +159,11 @@ class ReportController extends Controller
     {
         if ($this->isAuthorized('Trainee')) {
 
-        $requestValidator = new RequestValidator();
-        $requestValidator->add('content', 'string');
-        $requestValidator->add('date', 'date');
-        $requestValidator->add('calendarWeek', 'integer');
+        $this->addRequestValidation('content', 'string');
+        $this->addRequestValidation('date', 'date');
+        $this->addRequestValidation('calendarWeek', 'integer');
 
-            if ($requestValidator->isValid($_REQUEST)) {
+            if ($this->isRequestValid()) {
                 $this->service->editReport(
                       $this->formData('reportId')
                     , $this->formData('content')
@@ -179,7 +175,7 @@ class ReportController extends Controller
 
             } else {
                 $reportView = $this->view('app/views/Report.php');
-                $reportView->errorMessages = $requestValidator->errorMessages();
+                $reportView->errorMessages = $this->requestValidator->errorMessages();
                 $reportView->title = 'Bericht';
                 $reportView->action = '/report/edit';
                 $reportView->legend = 'Bericht bearbeiten';

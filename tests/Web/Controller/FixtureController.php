@@ -45,6 +45,11 @@ class FixtureController extends Controller
         $this->addRequestValidation('age', 'integer');
     }
 
+    public function testIsRequestValid()
+    {
+        return $this->isRequestValid();
+    }
+
     public function defaultAction()
     {
         return 'defaultAction called';

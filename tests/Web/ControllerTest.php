@@ -182,4 +182,24 @@ class ControllerTest extends TestCase
             $fields
         );
     }
+
+    /**
+     * @test
+     */
+    public function itShouldValidateRequest()
+    {
+        $formData = [
+            'name' => 'Max Mustermann',
+            'age' => 32,
+        ];
+
+        $request = new Request([], $formData, []);
+
+        $requestValidator = new RequestValidator();
+        $controller = new FixtureController($request, $requestValidator);
+
+        $controller->testAddRequestValidations();
+
+        $this->assertTrue($controller->testIsRequestValid());
+    }
 }

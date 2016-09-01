@@ -27,7 +27,7 @@ class ReportController extends Controller
 
     public function indexAction()
     {
-        header("Location: /report/list");
+        $this->redirect("/report/list");
     }
 
     public function listAction()
@@ -66,7 +66,7 @@ class ReportController extends Controller
 
         } else {
 
-            header("Location: /user");
+            $this->redirect("/user");
 
         }
         echo $infobarView->render();
@@ -111,7 +111,7 @@ class ReportController extends Controller
                 , $this->formData('calendarWeek')
             );
 
-            header("Location: /report/list");
+            $this->redirect("/report/list");
 
         } else {
             $reportView = new View('app/views/Report.php');
@@ -169,7 +169,7 @@ class ReportController extends Controller
                     , $this->formData('calendarWeek')
                 );
 
-                header("Location: /report/list");
+                $this->redirect("/report/list");
 
             } else {
                 $reportView = new View('app/views/Report.php');
@@ -194,7 +194,7 @@ class ReportController extends Controller
     {
         if (isAuthorized('Trainee')) {
             $this->service->requestApproval($this->queryParams('reportId'));
-            header("Location: /report/list");
+            $this->redirect("/report/list");
         }
     }
 
@@ -202,7 +202,7 @@ class ReportController extends Controller
     {
         if (isAuthorized('Trainee') && $this->service->findById($this->queryParams('reportId'), session('userId'))->status() !== Report::STATUS_DISAPPROVED) {
             $this->service->deleteReport($this->queryParams('reportId'));
-            header("Location: /report/list");
+            $this->redirect("/report/list");
         }
     }
 
@@ -233,7 +233,7 @@ class ReportController extends Controller
     {
         if (isAuthorized('Trainer')) {
             $this->service->approveReport($this->formData('reportId'));
-            header("Location: /report/list");
+            $this->redirect("/report/list");
         }
     }
 
@@ -241,7 +241,7 @@ class ReportController extends Controller
     {
         if (isAuthorized('Trainer')) {
             $this->service->disapproveReport($this->formData('reportId'));
-            header("Location: /report/list");
+            $this->redirect("/report/list");
         }
     }
 }

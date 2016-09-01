@@ -46,4 +46,12 @@ abstract class Controller
     {
         return $this->request->getSessionData($key, $default);
     }
+
+    /**
+     * @param string $path
+     */
+    protected function redirect(string $path)
+    {
+        header("Location: $path");
+    }
 }

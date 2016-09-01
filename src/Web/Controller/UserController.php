@@ -8,11 +8,15 @@ class UserController extends Controller
 {
     public function indexAction()
     {
-        $loginView = new View('app/views/LoginView.php');
-        $footerView = new View('app/views/Footer.php');
+        $headerView = $this->view('app/views/Header.php');
+        $headerView->tabTitle = 'Berichtsheft';
+
+        $loginView = $this->view('app/views/LoginView.php');
+        $footerView = $this->view('app/views/Footer.php');
 
         $footerView->backButton = 'nope';
 
+        echo $headerView->render();
         echo $loginView->render();
         echo $footerView->render();
     }

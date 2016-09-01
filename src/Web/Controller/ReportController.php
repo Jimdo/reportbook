@@ -33,7 +33,6 @@ class ReportController extends Controller
     public function listAction()
     {
         $headerView = $this->view('app/views/Header.php');
-
         $headerView->tabTitle = 'Berichtsheft';
 
         $infobarView = $this->view('app/views/Infobar.php');
@@ -48,10 +47,6 @@ class ReportController extends Controller
             $reportView = $this->view('app/views/TraineeView.php');
 
             $reportView->reports = $this->service->findByTraineeId($this->sessionData('userId'));
-
-            $infobarView->infoHeadline = 'Berichtsheft';
-            $infobarView->username = $this->sessionData('username');
-            $infobarView->role = $this->sessionData('role');
 
         } elseif ($this->isAuthorized('Trainer')) {
 
@@ -73,8 +68,8 @@ class ReportController extends Controller
             $this->redirect("/user");
 
         }
-        echo $infobarView->render();
         echo $headerView->render();
+        echo $infobarView->render();
         echo $reportView->render();
         echo $footerView->render();
     }
@@ -96,7 +91,20 @@ class ReportController extends Controller
             $reportView->backButton = 'show';
             $reportView->role = 'Trainee';
 
+            $headerView = $this->view('app/views/Header.php');
+            $headerView->tabTitle = 'Berichtsheft';
+
+            $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+
+            $footerView = $this->view('app/views/Footer.php');
+            $footerView->backButton = 'nope';
+
+            echo $headerView->render();
+            echo $infobarView->render();
             echo $reportView->render();
+            echo $footerView->render();
         }
     }
 
@@ -129,7 +137,21 @@ class ReportController extends Controller
             $reportView->backButton = 'show';
             $reportView->role = 'Trainee';
 
+
+            $headerView = $this->view('app/views/Header.php');
+            $headerView->tabTitle = 'Berichtsheft';
+
+            $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+
+            $footerView = $this->view('app/views/Footer.php');
+            $footerView->backButton = 'nope';
+
+            echo $headerView->render();
+            echo $infobarView->render();
             echo $reportView->render();
+            echo $footerView->render();
         }
     }
 
@@ -151,7 +173,20 @@ class ReportController extends Controller
             $reportView->backButton = 'show';
             $reportView->role = 'Trainee';
 
+            $headerView = $this->view('app/views/Header.php');
+            $headerView->tabTitle = 'Berichtsheft';
+
+            $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+
+            $footerView = $this->view('app/views/Footer.php');
+            $footerView->backButton = 'nope';
+
+            echo $headerView->render();
+            echo $infobarView->render();
             echo $reportView->render();
+            echo $footerView->render();
         }
     }
 
@@ -187,7 +222,20 @@ class ReportController extends Controller
                 $reportView->backButton = 'show';
                 $reportView->role = 'Trainee';
 
+                $headerView = $this->view('app/views/Header.php');
+                $headerView->tabTitle = 'Berichtsheft';
+
+                $infobarView = $this->view('app/views/Infobar.php');
+                $infobarView->username = $this->sessionData('username');
+                $infobarView->role = $this->sessionData('role');
+
+                $footerView = $this->view('app/views/Footer.php');
+                $footerView->backButton = 'nope';
+
+                echo $headerView->render();
+                echo $infobarView->render();
                 echo $reportView->render();
+                echo $footerView->render();
             }
         }
     }
@@ -226,7 +274,20 @@ class ReportController extends Controller
             $reportView->role = 'Trainer';
             $reportView->status = $report->status();
 
+            $headerView = $this->view('app/views/Header.php');
+            $headerView->tabTitle = 'Berichtsheft';
+
+            $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+
+            $footerView = $this->view('app/views/Footer.php');
+            $footerView->backButton = 'nope';
+
+            echo $headerView->render();
+            echo $infobarView->render();
             echo $reportView->render();
+            echo $footerView->render();
         }
     }
 

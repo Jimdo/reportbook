@@ -14,7 +14,7 @@ endif; ?>
     <legend><?php echo $this->legend; ?></legend>
     <div>
       <label for="calendarWeek">Kalenderwoche: </label>
-      <input <?php echo $this->readonly; ?> type="text" id="calendarWeek" name="calendarWeek" value=<?php echo $this->calendarWeek; ?> />
+      <input <?php echo $this->readonly; ?> type="text" id="calendarWeek" name="calendarWeek" value="<?php echo $this->calendarWeek; ?>" />
     </div>
     <div>
       <label for="date">Datum:</label>
@@ -27,7 +27,6 @@ endif; ?>
     <div>
     <?php if ($this->role === 'Trainee'): ?>
         <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>" />
-        <input type="hidden" id="reportAction" name="reportAction" value=<?php echo $this->reportAction; ?> />
         <button type="submit"><?php echo $this->buttonName; ?></button>
     <?php endif; ?>
     </div>
@@ -50,5 +49,3 @@ endif; ?>
     </div>
     </form>
 <?php endif; ?>
-
-<?php require 'Footer.php';?>

@@ -20,4 +20,4 @@ doc: ## Generate documentation
 	./scripts/phpdoc
 
 server: ## Start up local development web server
-	php -S localhost:8000 -t app/
+	php -S localhost:8000 -t app/ app/router.php

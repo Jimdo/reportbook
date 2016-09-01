@@ -40,6 +40,8 @@ class ReportController extends Controller
         $headerView->tabTitle = 'Berichtsheft';
 
         $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView->username = $this->sessionData('username');
+        $infobarView->role = $this->sessionData('role');
 
         $footerView = $this->view('app/views/Footer.php');
         $footerView->backButton = 'nope';
@@ -48,9 +50,12 @@ class ReportController extends Controller
 
             $reportView = $this->view('app/views/TraineeView.php');
 
-            $reportView->reports = $this->service->findByTraineeId(session('userId'));
+            $reportView->reports = $this->service->findByTraineeId($this->sessionData('userId'));
 
             $infobarView->infoHeadline = 'Berichtsheft';
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+
 
         } elseif ($this->isAuthorized('Trainer')) {
 
@@ -63,6 +68,9 @@ class ReportController extends Controller
             );
 
             $infobarView->infoHeadline = 'Berichte der Azubis';
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+
 
         } else {
 
@@ -78,7 +86,7 @@ class ReportController extends Controller
     public function createReportAction()
     {
         if ($this->isAuthorized('Trainee')) {
-            $traineeId = session('userId');
+            $traineeId = $this->sessionData('userId');
 
             $reportView = $this->view('app/views/Report.php');
             $reportView->title = 'Bericht';
@@ -105,7 +113,7 @@ class ReportController extends Controller
 
         if ($requestValidator->isValid($_REQUEST)) {
             $this->service->createReport(
-                session('userId')
+                $this->sessionData('userId')
                 , $this->formData('content')
                 , $this->formData('date')
                 , $this->formData('calendarWeek')
@@ -134,7 +142,7 @@ class ReportController extends Controller
     {
         if ($this->isAuthorized('Trainee')) {
             $reportId = $this->queryParams('reportId');
-            $report = $this->service->findById($reportId, session('userId'));
+            $report = $this->service->findById($reportId, $this->sessionData('userId'));
 
             $reportView = $this->view('app/views/Report.php');
             $reportView->title = 'Bericht';
@@ -175,13 +183,13 @@ class ReportController extends Controller
                 $reportView = $this->view('app/views/Report.php');
                 $reportView->errorMessages = $requestValidator->errorMessages();
                 $reportView->title = 'Bericht';
-                $reportView->action = '/report/editReport';
+                $reportView->action = '/report/edit';
                 $reportView->legend = 'Bericht bearbeiten';
                 $reportView->calendarWeek = $this->formData('calendarWeek');
                 $reportView->date = $this->formData('date');
                 $reportView->content = $this->formData('content');
                 $reportView->buttonName = 'Speichern';
-                $reportView->reportId = $this->queryParams('reportId');
+                $reportView->reportId = $this->formData('reportId');
                 $reportView->backButton = 'show';
                 $reportView->role = 'Trainee';
 
@@ -200,7 +208,7 @@ class ReportController extends Controller
 
     public function deleteAction()
     {
-        if ($this->isAuthorized('Trainee') && $this->service->findById($this->queryParams('reportId'), session('userId'))->status() !== Report::STATUS_DISAPPROVED) {
+        if ($this->isAuthorized('Trainee') && $this->service->findById($this->queryParams('reportId'), $this->sessionData('userId'))->status() !== Report::STATUS_DISAPPROVED) {
             $this->service->deleteReport($this->queryParams('reportId'));
             $this->redirect("/report/list");
         }

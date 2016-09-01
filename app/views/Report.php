@@ -18,7 +18,7 @@ endif; ?>
     </div>
     <div>
       <label for="date">Datum:</label>
-      <input <?php echo $this->readonly; ?> type="text" id="date" name="date" value=<?php echo $this->date; ?> />
+      <input <?php echo $this->readonly; ?> type="text" id="date" name="date" value="<?php echo $this->date; ?>" />
     </div>
     <div>
       <label for="content">Bericht:</label>
@@ -26,7 +26,7 @@ endif; ?>
     </div>
     <div>
     <?php if ($this->role === 'Trainee'): ?>
-        <input type="hidden" id="reportId" name="reportId" value=<?php echo $this->reportId; ?> />
+        <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>" />
         <input type="hidden" id="reportAction" name="reportAction" value=<?php echo $this->reportAction; ?> />
         <button type="submit"><?php echo $this->buttonName; ?></button>
     <?php endif; ?>

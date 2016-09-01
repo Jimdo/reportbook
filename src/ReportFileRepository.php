@@ -102,6 +102,7 @@ class ReportFileRepository implements ReportRepository
      public function findByTraineeId(string $traineeId): array
      {
          $foundReports = [];
+         $this->ensureReportsPath();
          $this->ensureTraineeReportsPath($traineeId);
          $traineePath = $this->reportsPath . '/' . $traineeId;
 

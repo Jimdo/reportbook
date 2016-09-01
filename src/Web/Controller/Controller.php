@@ -36,4 +36,14 @@ abstract class Controller
     {
         return $this->request->getFormData($key, $default);
     }
+
+    /**
+     * @param string $key
+     * @param string $default
+     * @return mixed
+     */
+    protected function sessionData(string $key = null, string $default = null)
+    {
+        return $this->request->getSessionData($key, $default);
+    }
 }

@@ -32,7 +32,11 @@ class ReportController extends Controller
 
     public function listAction()
     {
+
         $headerView = new View('app/views/Header.php');
+
+        // $headerView = $this->view('app/views/Header.php');
+
         $headerView->tabTitle = 'Berichtsheft';
 
         $infobarView = new View('app/views/Infobar.php');

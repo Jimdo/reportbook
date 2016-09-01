@@ -6,14 +6,38 @@ use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
 {
+    /** @var Router */
+    private $router;
+
+    /** @var array */
+    private $queryParams = [];
+
+    /** @var array */
+    private $formData = [];
+
+    /** @var array */
+    private $sessionData = [];
+
+    protected function setUp()
+    {
+        $this->router = new Router(
+            [
+                'defaultRequestObject' => new Request(
+                    $this->queryParams,
+                    $this->formData,
+                    $this->sessionData
+                )
+            ]
+        );
+    }
+
     /**
      * @test
      */
     public function itShouldDispatchToControllerAndAction()
     {
         $uri = "/fixture/test";
-        $router = new Router();
-        $this->assertEquals('testAction called', $router->dispatch($uri));
+        $this->assertEquals('testAction called', $this->router->dispatch($uri));
     }
 
     /**
@@ -22,8 +46,7 @@ class RouterTest extends TestCase
     public function itShouldDispatchToIndexAction()
     {
         $uri = "/fixture";
-        $router = new Router();
-        $this->assertEquals('indexAction called', $router->dispatch($uri));
+        $this->assertEquals('indexAction called', $this->router->dispatch($uri));
     }
 
     /**
@@ -33,7 +56,12 @@ class RouterTest extends TestCase
     {
         $router = new Router([
             'defaultController' => 'default',
-            'defaultAction' => 'default'
+            'defaultAction' => 'default',
+            'defaultRequestObject' => new Request(
+                $this->queryParams,
+                $this->formData,
+                $this->sessionData
+            )
         ]);
 
         $this->assertEquals(
@@ -49,14 +77,12 @@ class RouterTest extends TestCase
      */
     public function itShouldHaveIndexControllerAndIndexActionAsDefault()
     {
-        $router = new Router();
-
         $this->assertEquals(
             'Jimdo\Reports\Web\Controller\IndexController',
-            $router->defaultController()
+            $this->router->defaultController()
         );
 
-        $this->assertEquals('indexAction', $router->defaultAction());
+        $this->assertEquals('indexAction', $this->router->defaultAction());
     }
 
     /**
@@ -67,7 +93,12 @@ class RouterTest extends TestCase
         $uri = "/";
         $router = new Router([
             'defaultController' => 'fixture',
-            'defaultAction' => 'default'
+            'defaultAction' => 'default',
+            'defaultRequestObject' => new Request(
+                $this->queryParams,
+                $this->formData,
+                $this->sessionData
+            )
         ]);
 
         $this->assertEquals('defaultAction called', $router->dispatch($uri));
@@ -79,8 +110,7 @@ class RouterTest extends TestCase
     public function itShouldIgnoreQueryParamsInUri()
     {
         $uri = "/fixture/test?report=Hase";
-        $router = new Router();
-        $this->assertEquals('testAction called', $router->dispatch($uri));
+        $this->assertEquals('testAction called', $this->router->dispatch($uri));
     }
 
 }

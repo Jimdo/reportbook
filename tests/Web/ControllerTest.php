@@ -18,8 +18,9 @@ class ControllerTest extends TestCase
             'igel' => 'fuchs'
         ];
         $formData = [];
+        $sessionData = [];
 
-        $request = new Request($queryParams, $formData);
+        $request = new Request($queryParams, $formData, $sessionData);
         $controller = new FixtureController($request);
 
         $this->assertEquals($queryParams, $controller->testQueryParams());
@@ -35,8 +36,9 @@ class ControllerTest extends TestCase
             'hase' => '1',
             'igel' => 'fuchs'
         ];
+        $sessionData = [];
 
-        $request = new Request($queryParams, $formData);
+        $request = new Request($queryParams, $formData, $sessionData);
         $controller = new FixtureController($request);
 
         $this->assertEquals($formData, $controller->testFormData());
@@ -52,8 +54,9 @@ class ControllerTest extends TestCase
             'igel' => 'fuchs'
         ];
         $formData = [];
+        $sessionData = [];
 
-        $request = new Request($queryParams, $formData);
+        $request = new Request($queryParams, $formData, $sessionData);
         $controller = new FixtureController($request);
 
         $this->assertEquals($queryParams['hase'], $controller->testQueryParams('hase'));
@@ -70,8 +73,9 @@ class ControllerTest extends TestCase
             'hase' => '1',
             'igel' => 'fuchs'
         ];
+        $sessionData = [];
 
-        $request = new Request($queryParams, $formData);
+        $request = new Request($queryParams, $formData, $sessionData);
         $controller = new FixtureController($request);
 
         $this->assertEquals($formData['hase'], $controller->testFormData('hase'));
@@ -85,8 +89,9 @@ class ControllerTest extends TestCase
     {
         $queryParams = [];
         $formData = [];
+        $sessionData = [];
 
-        $request = new Request($queryParams, $formData);
+        $request = new Request($queryParams, $formData, $sessionData);
         $controller = new FixtureController($request);
 
         $this->assertEquals('hase', $controller->testQueryParams('not_found', 'hase'));
@@ -99,8 +104,9 @@ class ControllerTest extends TestCase
     {
         $queryParams = [];
         $formData = [];
+        $sessionData = [];
 
-        $request = new Request($queryParams, $formData);
+        $request = new Request($queryParams, $formData, $sessionData);
         $controller = new FixtureController($request);
 
         $this->assertEquals('default', $controller->testFormData('not_found', 'default'));

@@ -16,8 +16,9 @@ class RequestTest extends TestCase
             'igel' => 'fuchs'
         ];
         $formData = [];
+        $sessionData = [];
 
-        $request = new Request($queryParams, $formData);
+        $request = new Request($queryParams, $formData, $sessionData);
 
         $this->assertEquals($queryParams, $request->getQueryParams());
     }
@@ -28,12 +29,13 @@ class RequestTest extends TestCase
     public function itShouldGetFormData()
     {
         $queryParams = [];
+        $sessionData = [];
         $formData = [
             'hase' => '1',
             'igel' => 'fuchs'
         ];
 
-        $request = new Request($queryParams, $formData);
+        $request = new Request($queryParams, $formData, $sessionData);
 
         $this->assertEquals($formData, $request->getFormData());
     }
@@ -48,8 +50,9 @@ class RequestTest extends TestCase
             'igel' => 'fuchs'
         ];
         $formData = [];
+        $sessionData = [];
 
-        $request = new Request($queryParams, $formData);
+        $request = new Request($queryParams, $formData, $sessionData);
 
         $this->assertEquals($queryParams['hase'], $request->getQueryParams('hase'));
         $this->assertEquals($queryParams['igel'], $request->getQueryParams('igel'));
@@ -61,12 +64,13 @@ class RequestTest extends TestCase
     public function itShouldGetSpecificFormData()
     {
         $queryParams = [];
+        $sessionData = [];
         $formData = [
             'hase' => '1',
             'igel' => 'fuchs'
         ];
 
-        $request = new Request($queryParams, $formData);
+        $request = new Request($queryParams, $formData, $sessionData);
 
         $this->assertEquals($formData['hase'], $request->getFormData('hase'));
         $this->assertEquals($formData['igel'], $request->getFormData('igel'));
@@ -79,8 +83,9 @@ class RequestTest extends TestCase
     {
         $queryParams = [];
         $formData = [];
+        $sessionData = [];
 
-        $request = new Request($queryParams, $formData);
+        $request = new Request($queryParams, $formData, $sessionData);
 
         $this->assertEquals('hase', $request->getQueryParams('not_found', 'hase'));
     }
@@ -92,9 +97,28 @@ class RequestTest extends TestCase
     {
         $queryParams = [];
         $formData = [];
+        $sessionData = [];
 
-        $request = new Request($queryParams, $formData);
+        $request = new Request($queryParams, $formData, $sessionData);
 
         $this->assertEquals('default', $request->getFormData('not_found', 'default'));
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldGetSessionData()
+    {
+        $queryParams = [];
+        $formData = [];
+        $sessionData = [
+            'hase' => '1',
+            'igel' => 'fuchs'
+        ];
+
+        $request = new Request($queryParams, $formData, $sessionData);
+
+        $this->assertEquals($sessionData['hase'], $request->getSessionData('hase'));
+        $this->assertEquals($sessionData['igel'], $request->getSessionData('igel'));
     }
 }

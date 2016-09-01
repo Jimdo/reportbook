@@ -24,6 +24,11 @@ class FixtureController extends Controller
         return $this->formData($key, $default);
     }
 
+    public function testSessionData(string $key = null, string $default = null)
+    {
+        return $this->sessionData($key, $default);
+    }
+
     public function defaultAction()
     {
         return 'defaultAction called';

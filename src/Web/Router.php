@@ -10,6 +10,9 @@ class Router
     /** @var string */
     private $defaultAction = 'index';
 
+    /** @var Request */
+    private $requestObject;
+
     /**
      * @param array $config
      */
@@ -20,6 +23,11 @@ class Router
         }
         if (isset($config['defaultAction'])) {
             $this->defaultAction = $config['defaultAction'];
+        }
+        if (isset($config['defaultRequestObject'])) {
+            $this->requestObject = $config['defaultRequestObject'];
+        } else {
+            $this->requestObject = new Request($_GET, $_POST, $_SESSION);
         }
     }
 
@@ -78,7 +86,7 @@ class Router
     private function createController(string $controller)
     {
         $class = $this->controllerName($controller);
-        return new $class(new Request($_GET, $_POST));
+        return new $class($this->requestObject);
     }
 
     /**

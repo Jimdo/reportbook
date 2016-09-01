@@ -14,7 +14,8 @@ class UserTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $user = new User($forename, $surname, $email);
+        $role = 'Trainee';
+        $user = new User($forename, $surname, $email, $role);
 
         $this->assertEquals($forename, $user->forename());
         $this->assertEquals($surname, $user->surname());
@@ -23,13 +24,28 @@ class UserTest extends TestCase
     /**
     * @test
     */
-    public function itShouldHaveUserEmailAddress()
+    public function itShouldHaveEmailAddress()
     {
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $user = new User($forename, $surname, $email);
+        $role = 'Trainee';
+        $user = new User($forename, $surname, $email, $role);
 
         $this->assertEquals($email, $user->email());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldHaveRole()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = 'Trainee';
+        $user = new User($forename, $surname, $email, $role);
+
+        $this->assertEquals($role, $user->role());
     }
 }

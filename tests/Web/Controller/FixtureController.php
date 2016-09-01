@@ -34,6 +34,11 @@ class FixtureController extends Controller
         return $this->isAuthorized($role);
     }
 
+    public function testView(string $path)
+    {
+        return $this->view($path);
+    }
+
     public function defaultAction()
     {
         return 'defaultAction called';

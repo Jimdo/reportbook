@@ -3,6 +3,7 @@
 namespace Jimdo\Reports\Web\Controller;
 
 use Jimdo\Reports\Web\Request as Request;
+use Jimdo\Reports\Web\View as View;
 
 abstract class Controller
 {
@@ -12,7 +13,7 @@ abstract class Controller
     /**
      * @param Request $request
      */
-    public function __construct(Request $request)
+    public function __construct(Request $request = null)
     {
         $this->request = $request;
     }
@@ -55,11 +56,24 @@ abstract class Controller
         header("Location: $path");
     }
 
-    protected function isAuthorized($role)
+    /**
+     * @param string $role
+     * @return bool
+     */
+    protected function isAuthorized(string $role): bool
     {
         if ((!$this->sessionData('authorized') || $this->sessionData('role') !== $role)) {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @param string $role
+     * @return View
+     */
+    protected function view(string $path): View
+    {
+        return new View($path);
     }
 }

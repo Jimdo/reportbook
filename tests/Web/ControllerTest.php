@@ -3,7 +3,7 @@
 namespace Jimdo\Reports\Web\Controller;
 
 use Jimdo\Reports\Web\Request as Request;
-
+use Jimdo\Reports\Web\View as View;
 use PHPUnit\Framework\TestCase;
 
 class ControllerTest extends TestCase
@@ -128,5 +128,20 @@ class ControllerTest extends TestCase
         $controller = new FixtureController($request);
 
         $this->assertEquals(true, $controller->testIsAuthorized('Trainee'));
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldRenderGivenTemplates()
+    {
+        $controller = new FixtureController();
+
+        $myView = $controller->testView('tests/Web/ViewFixture.php');
+        $myView->name = $expectedName = 'Horst';
+        $myView->content = $expectedContent = 'ABC';
+
+        $expected = "test 123\n<h1>$expectedName</h1>\n<p>$expectedContent</p>\n<h2>$expectedName</h2>\n";
+        $this->assertEquals($expected, $myView->render());
     }
 }

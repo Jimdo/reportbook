@@ -111,4 +111,22 @@ class ControllerTest extends TestCase
 
         $this->assertEquals('default', $controller->testFormData('not_found', 'default'));
     }
+
+    /**
+     * @test
+     */
+    public function itShouldCheckIsUserAuthorized()
+    {
+        $queryParams = [];
+        $formData = [];
+        $sessionData = [
+            'role' => 'Trainee',
+            'authorized' => true
+        ];
+
+        $request = new Request($queryParams, $formData, $sessionData);
+        $controller = new FixtureController($request);
+
+        $this->assertEquals(true, $controller->testIsAuthorized('Trainee'));
+    }
 }

@@ -29,6 +29,11 @@ class FixtureController extends Controller
         return $this->sessionData($key, $default);
     }
 
+    public function testIsAuthorized(string $role)
+    {
+        return $this->isAuthorized($role);
+    }
+
     public function defaultAction()
     {
         return 'defaultAction called';

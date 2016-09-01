@@ -54,4 +54,12 @@ abstract class Controller
     {
         header("Location: $path");
     }
+
+    protected function isAuthorized($role)
+    {
+        if ((!$this->sessionData('authorized') || $this->sessionData('role') !== $role)) {
+            return false;
+        }
+        return true;
+    }
 }

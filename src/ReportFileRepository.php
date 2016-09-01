@@ -72,6 +72,7 @@ class ReportFileRepository implements ReportRepository
     public function findAll(): array
     {
         $foundReports = [];
+        $this->ensureReportsPath();
         foreach ($this->readDirectory($this->reportsPath) as $traineeId) {
             if ($traineeId === '.' || $traineeId === '..' || $traineeId === '.DS_Store') {
                 continue;

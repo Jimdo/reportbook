@@ -4,7 +4,7 @@ namespace Jimdo\Reports;
 
 use Jimdo\Reports\User as User;
 
-class UserRepository
+class UserRepository implements UserInterface
 {
     /** @var array */
     public $users = [];
@@ -17,7 +17,7 @@ class UserRepository
      * @param string $password
      * @return User
      */
-    public function createUser(string $forename, string $surname, string $email, string $role, string $password)
+    public function createUser(string $forename, string $surname, string $email, string $role, string $password): User
     {
         $user = new User($forename, $surname, $email, $role, $password);
         $this->users[] = $user;
@@ -40,7 +40,7 @@ class UserRepository
      * @param string $email
      * @return mixed
      */
-    public function findUserbyEmail(string $email)
+    public function findUserbyEmail(string $email): User
     {
         foreach ($this->users as $user) {
             if ($user->email() === $email) {
@@ -54,7 +54,7 @@ class UserRepository
      * @param string $surname
      * @return mixed
      */
-    public function findUserbySurname(string $surname)
+    public function findUserbySurname(string $surname): User
     {
         foreach ($this->users as $user) {
             if ($user->surname() === $surname) {
@@ -67,7 +67,7 @@ class UserRepository
     /**
      * @return array
      */
-    public function findAllUsers()
+    public function findAllUsers(): array
     {
         return $this->users;
     }

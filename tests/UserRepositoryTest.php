@@ -20,7 +20,21 @@ class UserRepositoryTest extends TestCase
         $createdUser = $userRepository->createUser($forename, $surname, $email, $role);
 
         $this->assertEquals($forename, $createdUser->forename());
+    }
 
-    
+    /**
+     * @test
+     */
+    public function itShouldDeleteUser()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = 'Trainee';
+
+        $userRepository = new UserRepository();
+        $createdUser = $userRepository->createUser($forename, $surname, $email, $role);
+
+        $this->assertEquals($forename, $createdUser->forename());
     }
 }

@@ -48,4 +48,25 @@ class UserTest extends TestCase
 
         $this->assertEquals($role, $user->role());
     }
+
+    /**
+    * @test
+    */
+    public function itShouldEditUser()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = 'Trainee';
+        $user = new User($forename, $surname, $email, $role);
+
+        $this->assertEquals($forename, $user->forename());
+
+        $forename = 'Peter';
+
+        $user->edit($forename, $surname, $email, $role);
+
+        $this->assertEquals($forename, $user->forename());
+
+    }
 }

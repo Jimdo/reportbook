@@ -6,8 +6,16 @@ use Jimdo\Reports\User as User;
 
 class UserRepository
 {
+    /** @var array */
     public $users = [];
 
+    /**
+     * @param string $forename
+     * @param string $surname
+     * @param string $email
+     * @param string $role
+     * @return User
+     */
     public function createUser(string $forename, string $surname, string $email, string $role)
     {
         $user = new User($forename, $surname, $email, $role);
@@ -15,6 +23,9 @@ class UserRepository
         return $user;
     }
 
+    /**
+     * @param User $deleteUser
+     */
     public function deleteUser(User $deleteUser)
     {
         foreach ($this->users as $key => $user) {
@@ -22,5 +33,19 @@ class UserRepository
                 unset($this->users[$key]);
             }
         }
+    }
+
+    /**
+     * @param string $email
+     * @return mixed
+     */
+    public function findUserbyEmail(string $email)
+    {
+        foreach ($this->users as $user) {
+            if ($user->email() === $email) {
+                return $user;
+            }
+        }
+        return null;
     }
 }

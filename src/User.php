@@ -62,6 +62,12 @@ class User
         return $this->role;
     }
 
+    /**
+     * @param string $forename
+     * @param string $surname
+     * @param string $email
+     * @param string $role
+     */
     public function edit(string $forename, string $surname, string $email, string $role)
     {
         $this->forename = $forename;

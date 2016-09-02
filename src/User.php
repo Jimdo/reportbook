@@ -16,18 +16,23 @@ class User
     /** @var string */
     private $role;
 
+    /** @var string */
+    private $password;
+
     /**
      * @param string $forename
      * @param string $surname
      * @param string $email
      * @param string $role
+     * @param string $password
      */
-    public function __construct(string $forename, string $surname, string $email, string $role)
+    public function __construct(string $forename, string $surname, string $email, string $role, string $password)
     {
         $this->forename = $forename;
         $this->surname = $surname;
         $this->email = $email;
         $this->role = $role;
+        $this->password = $password;
     }
 
     /**
@@ -63,17 +68,27 @@ class User
     }
 
     /**
+     * @return string
+     */
+    public function password()
+    {
+        return $this->password;
+    }
+
+    /**
      * @param string $forename
      * @param string $surname
      * @param string $email
      * @param string $role
+     * @param string $password
      */
-    public function edit(string $forename, string $surname, string $email, string $role)
+    public function edit(string $forename, string $surname, string $email, string $role, string $password)
     {
         $this->forename = $forename;
         $this->surname = $surname;
         $this->email = $email;
         $this->role = $role;
+        $this->password = $password;
     }
 
 }

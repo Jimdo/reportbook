@@ -14,11 +14,12 @@ class UserRepository
      * @param string $surname
      * @param string $email
      * @param string $role
+     * @param string $password
      * @return User
      */
-    public function createUser(string $forename, string $surname, string $email, string $role)
+    public function createUser(string $forename, string $surname, string $email, string $role, string $password)
     {
-        $user = new User($forename, $surname, $email, $role);
+        $user = new User($forename, $surname, $email, $role, $password);
         $this->users[] = $user;
         return $user;
     }

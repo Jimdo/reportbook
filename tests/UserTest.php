@@ -15,7 +15,7 @@ class UserTest extends TestCase
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = 'Trainee';
-        $user = new User($forename, $surname, $email, $role);
+        $user = new User($forename, $surname, $email, $role, '12345678910');
 
         $this->assertEquals($forename, $user->forename());
         $this->assertEquals($surname, $user->surname());
@@ -30,7 +30,7 @@ class UserTest extends TestCase
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = 'Trainee';
-        $user = new User($forename, $surname, $email, $role);
+        $user = new User($forename, $surname, $email, $role, '12345678910');
 
         $this->assertEquals($email, $user->email());
     }
@@ -44,9 +44,24 @@ class UserTest extends TestCase
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = 'Trainee';
-        $user = new User($forename, $surname, $email, $role);
+        $user = new User($forename, $surname, $email, $role, '12345678910');
 
         $this->assertEquals($role, $user->role());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldHavePassword()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = 'Trainee';
+        $password = 'strongpassword';
+        $user = new User($forename, $surname, $email, $role, $password);
+
+        $this->assertEquals($password, $user->password());
     }
 
     /**
@@ -58,13 +73,13 @@ class UserTest extends TestCase
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = 'Trainee';
-        $user = new User($forename, $surname, $email, $role);
+        $user = new User($forename, $surname, $email, $role, '12345678910');
 
         $this->assertEquals($forename, $user->forename());
 
         $forename = 'Peter';
 
-        $user->edit($forename, $surname, $email, $role);
+        $user->edit($forename, $surname, $email, $role, '12345678910');
 
         $this->assertEquals($forename, $user->forename());
     }

@@ -17,7 +17,7 @@ class UserRepositoryTest extends TestCase
         $role = 'Trainee';
 
         $userRepository = new UserRepository();
-        $createdUser = $userRepository->createUser($forename, $surname, $email, $role);
+        $createdUser = $userRepository->createUser($forename, $surname, $email, $role, '12345678910');
 
         $this->assertEquals($forename, $createdUser->forename());
     }
@@ -34,7 +34,7 @@ class UserRepositoryTest extends TestCase
 
         $userRepository = new UserRepository();
 
-        $createdUser = $userRepository->createUser($forename, $surname, $email, $role);
+        $createdUser = $userRepository->createUser($forename, $surname, $email, $role, '12345678910');
         $this->assertCount(1, $userRepository->users);
 
         $userRepository->deleteUser($createdUser);
@@ -54,7 +54,7 @@ class UserRepositoryTest extends TestCase
 
         $userRepository = new UserRepository();
 
-        $createdUser = $userRepository->createUser($forename, $surname, $email, $role);
+        $createdUser = $userRepository->createUser($forename, $surname, $email, $role, '12345678910');
 
         $foundUser = $userRepository->findUserbyEmail($email);
 
@@ -73,7 +73,7 @@ class UserRepositoryTest extends TestCase
 
         $userRepository = new UserRepository();
 
-        $createdUser = $userRepository->createUser($forename, $surname, $email, $role);
+        $createdUser = $userRepository->createUser($forename, $surname, $email, $role, '12345678910');
 
         $foundUser = $userRepository->findUserbySurname($surname);
 
@@ -95,10 +95,10 @@ class UserRepositoryTest extends TestCase
         $foundUsers = $userRepository->findAllUsers();
         $this->assertCount(0, $foundUsers);
 
-        $user1 = $userRepository->createUser('Max', 'Mustermann', 'max.mustermann@hotmail.de', 'Trainee');
-        $user2 = $userRepository->createUser('Hauke', 'Stange', 'hauke.stange@live.de', 'Trainer');
+        $user1 = $userRepository->createUser('Max', 'Mustermann', 'max.mustermann@hotmail.de', 'Trainee', '12345678910');
+        $user2 = $userRepository->createUser('Hauke', 'Stange', 'hauke.stange@live.de', 'Trainer', '12345678910');
 
         $foundUsers = $userRepository->findAllUsers();
-        $this->assertCount(2, $foundUsers);    
+        $this->assertCount(2, $foundUsers);
     }
 }

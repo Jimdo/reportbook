@@ -67,6 +67,5 @@ class UserTest extends TestCase
         $user->edit($forename, $surname, $email, $role);
 
         $this->assertEquals($forename, $user->forename());
-
     }
 }

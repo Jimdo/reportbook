@@ -33,8 +33,12 @@ class UserRepositoryTest extends TestCase
         $role = 'Trainee';
 
         $userRepository = new UserRepository();
-        $createdUser = $userRepository->createUser($forename, $surname, $email, $role);
 
-        $this->assertEquals($forename, $createdUser->forename());
+        $createdUser = $userRepository->createUser($forename, $surname, $email, $role);
+        $this->assertCount(1, $userRepository->users);
+
+        $userRepository->deleteUser($createdUser);
+
+        $this->assertCount(0, $userRepository->users);
     }
 }

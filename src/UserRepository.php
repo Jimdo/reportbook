@@ -6,12 +6,21 @@ use Jimdo\Reports\User as User;
 
 class UserRepository
 {
-    private $users = [];
+    public $users = [];
 
     public function createUser(string $forename, string $surname, string $email, string $role)
     {
         $user = new User($forename, $surname, $email, $role);
-        $users[] = $user;
+        $this->users[] = $user;
         return $user;
+    }
+
+    public function deleteUser(User $deleteUser)
+    {
+        foreach ($this->users as $key => $user) {
+            if ($user === $deleteUser) {
+                unset($this->users[$key]);
+            }
+        }
     }
 }

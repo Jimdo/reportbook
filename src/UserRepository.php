@@ -48,4 +48,19 @@ class UserRepository
         }
         return null;
     }
+
+
+    /**
+     * @param string $email
+     * @return mixed
+     */
+    public function findUserbySurname(string $surname)
+    {
+        foreach ($this->users as $user) {
+            if ($user->surname() === $surname) {
+                return $user;
+            }
+        }
+        return null;
+    }
 }

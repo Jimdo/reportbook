@@ -60,4 +60,23 @@ class UserRepositoryTest extends TestCase
 
         $this->assertEquals($email, $foundUser->email());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldFindUserBySurname()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = 'Trainee';
+
+        $userRepository = new UserRepository();
+
+        $createdUser = $userRepository->createUser($forename, $surname, $email, $role);
+
+        $foundUser = $userRepository->findUserbySurname($surname);
+
+        $this->assertEquals($surname, $foundUser->surname());
+    }
 }

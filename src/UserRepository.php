@@ -49,9 +49,8 @@ class UserRepository
         return null;
     }
 
-
     /**
-     * @param string $email
+     * @param string $surname
      * @return mixed
      */
     public function findUserbySurname(string $surname)
@@ -62,5 +61,13 @@ class UserRepository
             }
         }
         return null;
+    }
+
+    /**
+     * @return array
+     */
+    public function findAllUsers()
+    {
+        return $this->users;
     }
 }

@@ -28,10 +28,24 @@ class UserServiceTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
         $password = '123456789';
 
-        $user = $this->userService->registerUser($forename, $surname, $email, $role, $password);
+        $user = $this->userService->registerTrainee($forename, $surname, $email, $password);
+
+        $this->assertEquals($forename, $user->forename());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldRegisterTrainer()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = '123456789';
+
+        $user = $this->userService->registerTrainer($forename, $surname, $email, $password);
 
         $this->assertEquals($forename, $user->forename());
     }

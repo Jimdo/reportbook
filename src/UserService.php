@@ -25,10 +25,22 @@ class UserService
      * @param Role $role
      * @param string $password
      */
-    public function registerUser(string $forename, string $surname, string $email, Role $role, string $password): ReadOnlyUser
+    private function registerUser(string $forename, string $surname, string $email, Role $role, string $password): ReadOnlyUser
     {
         $user = $this->userRepository->createUser($forename, $surname, $email, $role, $password);
         return new ReadOnlyUser($user);
+    }
+
+    public function registerTrainee(string $forename, string $surname, string $email, string $password)
+    {
+        $user = $this->registerUser($forename, $surname, $email, new Role(Role::TRAINEE), $password);
+        return $user;
+    }
+
+    public function registerTrainer(string $forename, string $surname, string $email, string $password)
+    {
+        $user = $this->registerUser($forename, $surname, $email, new Role(Role::TRAINER), $password);
+        return $user;
     }
 
     /**

@@ -23,7 +23,11 @@ class UserServiceTest extends TestCase
     /**
      * @test
      */
+<<<<<<< HEAD
     public function itShouldRegisterUser()
+=======
+    public function itShouldCreateUser()
+>>>>>>> 927c28c72548cb809144f1c04fa1701a1de8993a
     {
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -31,7 +35,11 @@ class UserServiceTest extends TestCase
         $role = 'Trainee';
         $password = '123456789';
 
+<<<<<<< HEAD
         $user = $this->userService->registerUser($forename, $surname, $email, $role, $password);
+=======
+        $user = $this->userService->createUser($forename, $surname, $email, $role, $password);
+>>>>>>> 927c28c72548cb809144f1c04fa1701a1de8993a
 
         $this->assertEquals($forename, $user->forename());
     }

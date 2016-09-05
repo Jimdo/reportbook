@@ -40,9 +40,9 @@ class User
     }
 
     /**
-     * @return string
+     * @return \Jimdo\Reports\Role
      */
-    public function role(): string
+    public function role(): \Jimdo\Reports\Role
     {
         return $this->user->role();
     }

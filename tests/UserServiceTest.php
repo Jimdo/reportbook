@@ -52,4 +52,56 @@ class UserServiceTest extends TestCase
 
         $this->assertTrue($authStatus);
     }
+
+    /**
+     * @test
+     */
+    public function itShouldHaveRole()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '123456789';
+
+        $user = $this->userService->registerUser($forename, $surname, $email, $role, $password);
+
+        $this->assertEquals($role, $user->role());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldApproveRole()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '123456789';
+
+        $user = $this->userService->registerUser($forename, $surname, $email, $role, $password);
+
+        $this->userService->approveRole($user->email());
+
+        $this->assertEquals(Role::STATUS_APPROVED, $user->role()->status());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldDisApproveRole()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '123456789';
+
+        $user = $this->userService->registerUser($forename, $surname, $email, $role, $password);
+
+        $this->userService->disapproveRole($user->email());
+
+        $this->assertEquals(Role::STATUS_DISAPPROVED, $user->role()->status());
+    }
 }

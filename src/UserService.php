@@ -44,4 +44,22 @@ class UserService
         }
         return false;
     }
+
+    /**
+     * @param string $email
+     */
+    public function approveRole(string $email)
+    {
+        $user = $this->userRepository->findUserbyEmail($email);
+        $user->role()->approve();
+    }
+
+    /**
+     * @param string $email
+     */
+    public function disapproveRole(string $email)
+    {
+        $user = $this->userRepository->findUserbyEmail($email);
+        $user->role()->disapprove();
+    }
 }

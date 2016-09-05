@@ -24,9 +24,23 @@ class UserService
      * @param string $role
      * @param string $password
      */
-    public function registerUser(string $forename, string $surname, string $email, string $role, string $password)
+    public function registerUser(string $forename, string $surname, string $email, string $role, string $password): ReadOnlyUser
     {
         $user = $this->userRepository->createUser($forename, $surname, $email, $role, $password);
         return new ReadOnlyUser($user);
+    }
+
+    /**
+     * @param string $email
+     * @param string $password
+     * @return bool
+     */
+    public function authUser(string $email, string $password): bool
+    {
+        $user = $this->userRepository->findUserbyEmail($email);
+        if ($user->password() === $password) {
+            return true;
+        }
+        return false;
     }
 }

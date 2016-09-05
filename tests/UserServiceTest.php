@@ -35,4 +35,21 @@ class UserServiceTest extends TestCase
 
         $this->assertEquals($forename, $user->forename());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldAuthUser()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = 'Trainee';
+        $password = '123456789';
+
+        $user = $this->userService->registerUser($forename, $surname, $email, $role, $password);
+        $authStatus = $this->userService->authUser($email, $password);
+
+        $this->assertTrue($authStatus);
+    }
 }

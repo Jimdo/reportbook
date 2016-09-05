@@ -11,6 +11,8 @@ class Role
     private $status;
 
     const STATUS_NOT_APPROVED = 'NOT_APPROVED';
+    const STATUS_APPROVED = 'APPROVED';
+    const STATUS_DISAPPROVED = 'DISAPPROVED';
 
     /**
      * @param string $name
@@ -35,5 +37,15 @@ class Role
     public function status(): string
     {
         return $this->status;
+    }
+
+    public function approve()
+    {
+        $this->status = self::STATUS_APPROVED;
+    }
+
+    public function disapprove()
+    {
+        $this->status = self::STATUS_DISAPPROVED;
     }
 }

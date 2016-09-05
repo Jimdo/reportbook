@@ -33,4 +33,34 @@ class RoleTest extends TestCase
 
         $this->assertEquals(Role::STATUS_NOT_APPROVED, $user->role()->status());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldApproveRole()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $user = new User($forename, $surname, $email, $role, '12345678910');
+
+        $user->role()->approve();
+        $this->assertEquals(Role::STATUS_APPROVED, $user->role()->status());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldDisapproveRole()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $user = new User($forename, $surname, $email, $role, '12345678910');
+
+        $user->role()->disapprove();
+        $this->assertEquals(Role::STATUS_DISAPPROVED, $user->role()->status());
+    }
 }

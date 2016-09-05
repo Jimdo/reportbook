@@ -3,6 +3,7 @@
 namespace Jimdo\Reports;
 
 use Jimdo\Reports\User as User;
+use Jimdo\Reports\Role as Role;
 
 class UserRepository implements UserInterface
 {
@@ -13,11 +14,11 @@ class UserRepository implements UserInterface
      * @param string $forename
      * @param string $surname
      * @param string $email
-     * @param string $role
+     * @param Role $role
      * @param string $password
      * @return User
      */
-    public function createUser(string $forename, string $surname, string $email, string $role, string $password): User
+    public function createUser(string $forename, string $surname, string $email, Role $role, string $password): User
     {
         $user = new User($forename, $surname, $email, $role, $password);
         $this->users[] = $user;

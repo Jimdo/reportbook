@@ -2,17 +2,19 @@
 
 namespace Jimdo\Reports;
 
+use Jimdo\Reports\Role as Role;
+
 interface UserInterface
 {
     /**
      * @param string $forename
      * @param string $surname
      * @param string $email
-     * @param string $role
+     * @param Role $role
      * @param string $password
      * @return User
      */
-    public function createUser(string $forename, string $surname, string $email, string $role, string $password): User;
+    public function createUser(string $forename, string $surname, string $email, Role $role, string $password): User;
 
     /**
      * @param User $deleteUser

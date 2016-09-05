@@ -14,7 +14,7 @@ class UserTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = 'Trainee';
+        $role = new Role('trainee');
         $user = new User($forename, $surname, $email, $role, '12345678910');
 
         $this->assertEquals($forename, $user->forename());
@@ -29,7 +29,7 @@ class UserTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = 'Trainee';
+        $role = new Role('trainee');
         $user = new User($forename, $surname, $email, $role, '12345678910');
 
         $this->assertEquals($email, $user->email());
@@ -43,10 +43,10 @@ class UserTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = 'Trainee';
+        $role = new Role('trainee');
         $user = new User($forename, $surname, $email, $role, '12345678910');
 
-        $this->assertEquals($role, $user->role());
+        $this->assertEquals('trainee', $user->role()->name());
     }
 
     /**
@@ -57,7 +57,7 @@ class UserTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = 'Trainee';
+        $role = new Role('trainee');
         $password = 'strongpassword';
         $user = new User($forename, $surname, $email, $role, $password);
 
@@ -72,7 +72,7 @@ class UserTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = 'Trainee';
+        $role = new Role('trainee');
         $user = new User($forename, $surname, $email, $role, '12345678910');
 
         $this->assertEquals($forename, $user->forename());

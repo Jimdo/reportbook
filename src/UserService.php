@@ -3,6 +3,7 @@
 namespace Jimdo\Reports;
 
 use Jimdo\Reports\Views\User as ReadOnlyUser;
+use Jimdo\Reports\Role as Role;
 
 class UserService
 {
@@ -21,10 +22,10 @@ class UserService
      * @param string $forename
      * @param string $surname
      * @param string $email
-     * @param string $role
+     * @param Role $role
      * @param string $password
      */
-    public function registerUser(string $forename, string $surname, string $email, string $role, string $password): ReadOnlyUser
+    public function registerUser(string $forename, string $surname, string $email, Role $role, string $password): ReadOnlyUser
     {
         $user = $this->userRepository->createUser($forename, $surname, $email, $role, $password);
         return new ReadOnlyUser($user);

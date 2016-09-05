@@ -3,6 +3,7 @@
 namespace Jimdo\Reports;
 
 use PHPUnit\Framework\TestCase;
+use Jimdo\Reports\Role as Role;
 
 class UserRepositoryTest extends TestCase
 {
@@ -14,7 +15,7 @@ class UserRepositoryTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = 'Trainee';
+        $role = new Role('trainee');
 
         $userRepository = new UserRepository();
         $createdUser = $userRepository->createUser($forename, $surname, $email, $role, '12345678910');
@@ -30,7 +31,7 @@ class UserRepositoryTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = 'Trainee';
+        $role = new Role('trainee');
 
         $userRepository = new UserRepository();
 
@@ -50,7 +51,7 @@ class UserRepositoryTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = 'Trainee';
+        $role = new Role('trainee');
 
         $userRepository = new UserRepository();
 
@@ -69,7 +70,7 @@ class UserRepositoryTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = 'Trainee';
+        $role = new Role('trainee');
 
         $userRepository = new UserRepository();
 
@@ -90,13 +91,13 @@ class UserRepositoryTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = 'Trainee';
+        $role = new Role('trainee');
 
         $foundUsers = $userRepository->findAllUsers();
         $this->assertCount(0, $foundUsers);
 
-        $user1 = $userRepository->createUser('Max', 'Mustermann', 'max.mustermann@hotmail.de', 'Trainee', '12345678910');
-        $user2 = $userRepository->createUser('Hauke', 'Stange', 'hauke.stange@live.de', 'Trainer', '12345678910');
+        $user1 = $userRepository->createUser('Max', 'Mustermann', 'max.mustermann@hotmail.de', $role, '12345678910');
+        $user2 = $userRepository->createUser('Hauke', 'Stange', 'hauke.stange@live.de', $role, '12345678910');
 
         $foundUsers = $userRepository->findAllUsers();
         $this->assertCount(2, $foundUsers);

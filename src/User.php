@@ -13,7 +13,7 @@ class User
     /** @var string */
     private $email;
 
-    /** @var string */
+    /** @var Role */
     private $role;
 
     /** @var string */
@@ -23,10 +23,10 @@ class User
      * @param string $forename
      * @param string $surname
      * @param string $email
-     * @param string $role
+     * @param Role $role
      * @param string $password
      */
-    public function __construct(string $forename, string $surname, string $email, string $role, string $password)
+    public function __construct(string $forename, string $surname, string $email, Role $role, string $password)
     {
         $this->forename = $forename;
         $this->surname = $surname;
@@ -38,7 +38,7 @@ class User
     /**
      * @return string
      */
-    public function forename()
+    public function forename(): string
     {
         return $this->forename;
     }
@@ -46,7 +46,7 @@ class User
     /**
      * @return string
      */
-    public function surname()
+    public function surname(): string
     {
         return $this->surname;
     }
@@ -54,15 +54,15 @@ class User
     /**
      * @return string
      */
-    public function email()
+    public function email(): string
     {
         return $this->email;
     }
 
     /**
-     * @return string
+     * @return Role
      */
-    public function role()
+    public function role(): Role
     {
         return $this->role;
     }
@@ -70,7 +70,7 @@ class User
     /**
      * @return string
      */
-    public function password()
+    public function password(): string
     {
         return $this->password;
     }
@@ -79,10 +79,10 @@ class User
      * @param string $forename
      * @param string $surname
      * @param string $email
-     * @param string $role
+     * @param Role $role
      * @param string $password
      */
-    public function edit(string $forename, string $surname, string $email, string $role, string $password)
+    public function edit(string $forename, string $surname, string $email, Role $role, string $password)
     {
         $this->forename = $forename;
         $this->surname = $surname;

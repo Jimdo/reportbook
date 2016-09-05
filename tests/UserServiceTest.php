@@ -23,12 +23,12 @@ class UserServiceTest extends TestCase
     /**
      * @test
      */
-    public function itShouldRegisterUser()
+    public function itShouldRegisterTrainee()
     {
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = 'Trainee';
+        $role = new Role('trainee');
         $password = '123456789';
 
         $user = $this->userService->registerUser($forename, $surname, $email, $role, $password);
@@ -44,7 +44,7 @@ class UserServiceTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = 'Trainee';
+        $role = new Role('trainee');
         $password = '123456789';
 
         $user = $this->userService->registerUser($forename, $surname, $email, $role, $password);

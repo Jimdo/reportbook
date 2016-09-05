@@ -44,10 +44,9 @@ class UserServiceTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
         $password = '123456789';
 
-        $user = $this->userService->registerUser($forename, $surname, $email, $role, $password);
+        $user = $this->userService->registerTrainee($forename, $surname, $email, $password);
         $authStatus = $this->userService->authUser($email, $password);
 
         $this->assertTrue($authStatus);
@@ -56,17 +55,16 @@ class UserServiceTest extends TestCase
     /**
      * @test
      */
-    public function itShouldHaveRole()
+    public function itShouldHaveRoleName()
     {
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
         $password = '123456789';
 
-        $user = $this->userService->registerUser($forename, $surname, $email, $role, $password);
+        $user = $this->userService->registerTrainee($forename, $surname, $email, $password);
 
-        $this->assertEquals($role, $user->role());
+        $this->assertEquals(Role::TRAINEE, $user->roleName());
     }
 
     /**
@@ -77,14 +75,13 @@ class UserServiceTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
         $password = '123456789';
 
-        $user = $this->userService->registerUser($forename, $surname, $email, $role, $password);
+        $user = $this->userService->registerTrainee($forename, $surname, $email, $password);
 
         $this->userService->approveRole($user->email());
 
-        $this->assertEquals(Role::STATUS_APPROVED, $user->role()->status());
+        $this->assertEquals(Role::STATUS_APPROVED, $user->roleStatus());
     }
 
     /**
@@ -95,13 +92,12 @@ class UserServiceTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
         $password = '123456789';
 
-        $user = $this->userService->registerUser($forename, $surname, $email, $role, $password);
+        $user = $this->userService->registerTrainee($forename, $surname, $email, $password);
 
         $this->userService->disapproveRole($user->email());
 
-        $this->assertEquals(Role::STATUS_DISAPPROVED, $user->role()->status());
+        $this->assertEquals(Role::STATUS_DISAPPROVED, $user->roleStatus());
     }
 }

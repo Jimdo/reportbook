@@ -70,6 +70,22 @@ class User
     /**
      * @return string
      */
+    public function roleName(): string
+    {
+        return $this->role->name();
+    }
+
+    /**
+     * @return string
+     */
+    public function roleStatus(): string
+    {
+        return $this->role->status();
+    }
+
+    /**
+     * @return string
+     */
     public function password(): string
     {
         return $this->password;

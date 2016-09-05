@@ -91,6 +91,16 @@ class User
         return $this->password;
     }
 
+    public function approve()
+    {
+        $this->role->approve();
+    }
+
+    public function disapprove()
+    {
+        $this->role->disapprove();
+    }
+
     /**
      * @param string $forename
      * @param string $surname

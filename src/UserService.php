@@ -63,7 +63,7 @@ class UserService
     public function approveRole(string $email)
     {
         $user = $this->userRepository->findUserbyEmail($email);
-        $user->role()->approve();
+        $user->approve();
     }
 
     /**
@@ -72,6 +72,6 @@ class UserService
     public function disapproveRole(string $email)
     {
         $user = $this->userRepository->findUserbyEmail($email);
-        $user->role()->disapprove();
+        $user->disapprove();
     }
 }

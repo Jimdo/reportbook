@@ -57,7 +57,7 @@ class UserRepositoryTest extends TestCase
 
         $createdUser = $userRepository->createUser($forename, $surname, $email, $role, '12345678910');
 
-        $foundUser = $userRepository->findUserbyEmail($email);
+        $foundUser = $userRepository->findUserByEmail($email);
 
         $this->assertEquals($email, $foundUser->email());
     }
@@ -95,7 +95,7 @@ class UserRepositoryTest extends TestCase
 
         $createdUser = $userRepository->createUser($forename, $surname, $email, $role, '12345678910');
 
-        $foundUser = $userRepository->findUserbySurname($surname);
+        $foundUser = $userRepository->findUserBySurname($surname);
 
         $this->assertEquals($surname, $foundUser->surname());
     }

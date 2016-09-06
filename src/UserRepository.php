@@ -41,7 +41,7 @@ class UserRepository implements UserInterface
      * @param string $email
      * @return mixed
      */
-    public function findUserbyEmail(string $email): User
+    public function findUserByEmail(string $email): User
     {
         foreach ($this->users as $user) {
             if ($user->email() === $email) {
@@ -69,7 +69,7 @@ class UserRepository implements UserInterface
      * @param string $surname
      * @return mixed
      */
-    public function findUserbySurname(string $surname): User
+    public function findUserBySurname(string $surname): User
     {
         foreach ($this->users as $user) {
             if ($user->surname() === $surname) {

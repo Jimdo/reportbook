@@ -83,4 +83,18 @@ class UserTest extends TestCase
 
         $this->assertEquals($forename, $user->forename());
     }
+
+    /**
+    * @test
+    */
+    public function itShouldHaveUniqId()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $user = new User($forename, $surname, $email, $role, '12345678910');
+
+        $this->assertInternalType('string', $user->id());
+    }
 }

@@ -19,6 +19,9 @@ class User
     /** @var string */
     private $password;
 
+    /** @var string */
+    private $id;
+
     /**
      * @param string $forename
      * @param string $surname
@@ -33,6 +36,7 @@ class User
         $this->email = $email;
         $this->role = $role;
         $this->password = $password;
+        $this->id = uniqid();
     }
 
     /**
@@ -57,6 +61,14 @@ class User
     public function email(): string
     {
         return $this->email;
+    }
+
+    /**
+     * @return string
+     */
+    public function id():string
+    {
+        return $this->id;
     }
 
     /**

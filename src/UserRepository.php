@@ -52,6 +52,20 @@ class UserRepository implements UserInterface
     }
 
     /**
+     * @param string $id
+     * @return mixed
+     */
+    public function findUserById(string $id): User
+    {
+        foreach ($this->users as $user) {
+            if ($user->id() === $id) {
+                return $user;
+            }
+        }
+        return null;
+    }
+
+    /**
      * @param string $surname
      * @return mixed
      */

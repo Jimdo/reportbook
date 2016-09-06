@@ -17,7 +17,7 @@ class UserRepositoryTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
-        $userRepository = new UserRepository();
+        $userRepository = new UserInMemoryRepository();
         $createdUser = $userRepository->createUser($forename, $surname, $email, $role, '12345678910');
 
         $this->assertEquals($forename, $createdUser->forename());
@@ -33,7 +33,7 @@ class UserRepositoryTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
-        $userRepository = new UserRepository();
+        $userRepository = new UserInMemoryRepository();
 
         $createdUser = $userRepository->createUser($forename, $surname, $email, $role, '12345678910');
         $this->assertCount(1, $userRepository->users);
@@ -53,7 +53,7 @@ class UserRepositoryTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
-        $userRepository = new UserRepository();
+        $userRepository = new UserInMemoryRepository();
 
         $createdUser = $userRepository->createUser($forename, $surname, $email, $role, '12345678910');
 
@@ -72,7 +72,7 @@ class UserRepositoryTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
-        $userRepository = new UserRepository();
+        $userRepository = new UserInMemoryRepository();
 
         $createdUser = $userRepository->createUser($forename, $surname, $email, $role, '12345678910');
 
@@ -91,7 +91,7 @@ class UserRepositoryTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
-        $userRepository = new UserRepository();
+        $userRepository = new UserInMemoryRepository();
 
         $createdUser = $userRepository->createUser($forename, $surname, $email, $role, '12345678910');
 
@@ -105,7 +105,7 @@ class UserRepositoryTest extends TestCase
      */
     public function itShouldFindAllUsers()
     {
-        $userRepository = new UserRepository();
+        $userRepository = new UserInMemoryRepository();
 
         $forename = 'Max';
         $surname = 'Mustermann';

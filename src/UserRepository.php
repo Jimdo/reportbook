@@ -2,14 +2,10 @@
 
 namespace Jimdo\Reports;
 
-use Jimdo\Reports\User as User;
 use Jimdo\Reports\Role as Role;
 
-class UserRepository implements UserInterface
+interface UserRepository
 {
-    /** @var array */
-    public $users = [];
-
     /**
      * @param string $forename
      * @param string $surname
@@ -18,72 +14,27 @@ class UserRepository implements UserInterface
      * @param string $password
      * @return User
      */
-    public function createUser(string $forename, string $surname, string $email, Role $role, string $password): User
-    {
-        $user = new User($forename, $surname, $email, $role, $password);
-        $this->users[] = $user;
-        return $user;
-    }
+    public function createUser(string $forename, string $surname, string $email, Role $role, string $password): User;
 
     /**
      * @param User $deleteUser
      */
-    public function deleteUser(User $deleteUser)
-    {
-        foreach ($this->users as $key => $user) {
-            if ($user === $deleteUser) {
-                unset($this->users[$key]);
-            }
-        }
-    }
+    public function deleteUser(User $deleteUser);
 
     /**
      * @param string $email
      * @return mixed
      */
-    public function findUserByEmail(string $email): User
-    {
-        foreach ($this->users as $user) {
-            if ($user->email() === $email) {
-                return $user;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * @param string $id
-     * @return mixed
-     */
-    public function findUserById(string $id): User
-    {
-        foreach ($this->users as $user) {
-            if ($user->id() === $id) {
-                return $user;
-            }
-        }
-        return null;
-    }
+    public function findUserbyEmail(string $email): User;
 
     /**
      * @param string $surname
      * @return mixed
      */
-    public function findUserBySurname(string $surname): User
-    {
-        foreach ($this->users as $user) {
-            if ($user->surname() === $surname) {
-                return $user;
-            }
-        }
-        return null;
-    }
+    public function findUserbySurname(string $surname): User;
 
     /**
      * @return array
      */
-    public function findAllUsers(): array
-    {
-        return $this->users;
-    }
+    public function findAllUsers(): array;
 }

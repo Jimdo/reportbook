@@ -13,7 +13,7 @@ class UserService
     /**
      * @param userRepository $userRepository
      */
-    public function __construct(UserInterface $userRepository)
+    public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
     }

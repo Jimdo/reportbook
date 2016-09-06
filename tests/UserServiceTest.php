@@ -16,7 +16,7 @@ class UserServiceTest extends TestCase
 
     protected function setUp()
     {
-        $this->userRepository = new UserRepository();
+        $this->userRepository = new UserInMemoryRepository();
         $this->userService = new UserService($this->userRepository);
     }
 

@@ -121,4 +121,22 @@ class UserRepositoryTest extends TestCase
         $foundUsers = $userRepository->findAllUsers();
         $this->assertCount(2, $foundUsers);
     }
+
+
+   /**
+    * @test
+    * @expectedException Jimdo\Reports\UserRepositoryException
+    */
+   public function itShouldThrowUserRepositoryExceptionOnDuplicateEmail()
+    {
+        $userRepository = new UserInMemoryRepository();
+
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+
+        $jenny = $userRepository->createUser('Max', 'Mustermann', 'max.mustermann@hotmail.de', $role, '12345678910');
+        $tom = $userRepository->createUser('Max', 'Mustermann', 'max.mustermann@hotmail.de', $role, '12345678910');
+    }
 }

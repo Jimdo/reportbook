@@ -24,6 +24,8 @@ class UserService
      * @param string $email
      * @param Role $role
      * @param string $password
+     * @throws UserRepositoryException
+     * @return ReadOnlyUser
      */
     private function registerUser(string $forename, string $surname, string $email, Role $role, string $password): ReadOnlyUser
     {

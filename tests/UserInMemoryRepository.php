@@ -16,10 +16,14 @@ class UserInMemoryRepository implements UserRepository
      * @param string $email
      * @param Role $role
      * @param string $password
+     * @throws UserRepositoryException
      * @return User
      */
     public function createUser(string $forename, string $surname, string $email, Role $role, string $password): User
     {
+        if ($this->findUserByEmail($email) !== null) {
+            throw new UserRepositoryException("Email already exists!\n");
+        }
         $user = new User($forename, $surname, $email, $role, $password);
         $this->users[] = $user;
         return $user;
@@ -39,9 +43,9 @@ class UserInMemoryRepository implements UserRepository
 
     /**
      * @param string $email
-     * @return mixed
+     * @return User|null
      */
-    public function findUserByEmail(string $email): User
+    public function findUserByEmail(string $email)
     {
         foreach ($this->users as $user) {
             if ($user->email() === $email) {
@@ -53,9 +57,9 @@ class UserInMemoryRepository implements UserRepository
 
     /**
      * @param string $id
-     * @return mixed
+     * @return User|null
      */
-    public function findUserById(string $id): User
+    public function findUserById(string $id)
     {
         foreach ($this->users as $user) {
             if ($user->id() === $id) {
@@ -67,9 +71,9 @@ class UserInMemoryRepository implements UserRepository
 
     /**
      * @param string $surname
-     * @return mixed
+     * @return User|null
      */
-    public function findUserBySurname(string $surname): User
+    public function findUserBySurname(string $surname)
     {
         foreach ($this->users as $user) {
             if ($user->surname() === $surname) {

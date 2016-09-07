@@ -1,0 +1,25 @@
+{
+  "name": "jimdo-reportbook",
+  "version": "1.0.0",
+  "description": "Reportbook as a service",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jimdo/reportbook.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jimdo/reportbook/issues"
+  },
+  "homepage": "https://github.com/Jimdo/reportbook#readme"
+}

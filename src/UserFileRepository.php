@@ -130,6 +130,7 @@ class UserFileRepository implements UserRepository
 
     /**
      * @param User $user
+     * @return string
      */
     private function filename(User $user): string
     {

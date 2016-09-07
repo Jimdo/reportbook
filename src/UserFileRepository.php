@@ -81,7 +81,24 @@ class UserFileRepository implements UserRepository
      */
     public function findAllUsers(): array
     {
+        $foundUsers = [];
+        $this->ensureUsersPath();
 
+        foreach ($this->readDirectory($this->usersPath) as $userId) {
+            if ($userId === '.' || $userId === '..' || $userId === '.DS_Store') {
+                continue;
+            }
+            $serializedUser = @file_get_contents($this->usersPath . '/' . $userId);
+            if ($serializedUser === false) {
+                throw new UserRepositoryException('Could not read file: ' . $this->usersPath . '/' . $userId);
+            }
+            $unserializedUser = @unserialize($serializedUser);
+            if ($unserializedUser === false) {
+                throw new UserRepositoryException('Could not unserialize user!');
+            }
+            $foundUsers[] = $unserializedUser;
+        }
+        return $foundUsers;
     }
 
     /**
@@ -113,5 +130,18 @@ class UserFileRepository implements UserRepository
         }
     }
 
+    /**
+     * @param string $path
+     * @return array
+     * @throws UserRepositoryException
+     */
+    private function readDirectory(string $path): array
+    {
+        $files = @scandir($path);
+        if ($files === false) {
+            throw new UserRepositoryException("Could not read directory: $path");
+        }
+        return $files;
+    }
 
 }

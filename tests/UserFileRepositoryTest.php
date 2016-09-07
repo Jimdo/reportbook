@@ -68,6 +68,29 @@ class UserFileRepositoryTest extends TestCase
         $this->assertFalse(file_exists($userFileName));
     }
 
+    /**
+    * @test
+    */
+    public function itShouldFindAllUsers()
+    {
+        $repository = new UserFileRepository(self::USERS_ROOT_PATH);
+
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $role = new Role('trainee');
+
+        $expectedUser = $repository->createUser($forename, $surname, 'max.mustermann@hotmail.de', $role, '12345678910');
+        $foundUsers = $repository->findAllUsers();
+
+        $this->assertCount(1, $foundUsers);
+
+        $expectedUser = $repository->createUser($forename, $surname, 'peter.mustermann@hotmail.de', $role, '12345678910');
+        $foundUsers = $repository->findAllUsers();
+
+        $this->assertCount(2, $foundUsers);
+    }
+
+
     private function deleteRecursive($input)
     {
         if (is_file($input)) {

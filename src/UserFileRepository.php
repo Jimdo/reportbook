@@ -119,7 +119,13 @@ class UserFileRepository implements UserRepository
      */
     public function findUserById(string $id)
     {
+        $allUsers = $this->findAllUsers();
 
+        foreach ($allUsers as $user) {
+            if ($user->id() === $id) {
+                return $user;
+            }
+        }
     }
 
     /**

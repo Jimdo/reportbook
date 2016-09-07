@@ -128,6 +128,25 @@ class UserFileRepositoryTest extends TestCase
         $this->assertEquals($expectedUser->surname(), $user->surname());
     }
 
+    /**
+    * @test
+    */
+    public function itShouldFindUserById()
+    {
+        $repository = new UserFileRepository(self::USERS_ROOT_PATH);
+
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+
+        $expectedUser = $repository->createUser($forename, $surname, $email, $role, '12345678910');
+
+        $user = $repository->findUserById($expectedUser->id());
+
+        $this->assertInternalType('string', $user->id());
+    }
+
 
     private function deleteRecursive($input)
     {

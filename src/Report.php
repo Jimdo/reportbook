@@ -9,6 +9,7 @@ class Report
     const STATUS_DISAPPROVED = 'DISAPPROVED';
     const STATUS_APPROVAL_REQUESTED = 'APPROVAL_REQUESTED';
     const STATUS_EDITED = 'EDITED';
+    const STATUS_REVISED = 'REVISED';
 
     /** @var string */
     private $content;
@@ -71,7 +72,11 @@ class Report
         $this->content = $content;
         $this->date = $date;
         $this->calendarWeek = $calendarWeek;
-        $this->status = self::STATUS_EDITED;
+        if ($this->status === self::STATUS_DISAPPROVED) {
+            $this->status = self::STATUS_REVISED;
+        } else {
+            $this->status = self::STATUS_EDITED;
+        }
     }
 
     /**

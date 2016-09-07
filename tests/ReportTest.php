@@ -119,6 +119,25 @@ class ReportTest extends TestCase
     /**
      * @test
      */
+    public function itShouldHaveStatusRevisedAfterSavingADisapprovedReport()
+    {
+        $traineeId = uniqid();
+        $content = 'some content';
+        $report = new Report($traineeId, $content, '10.10.10', '34');
+
+        $report->requestApproval();
+        $this->assertEquals(Report::STATUS_APPROVAL_REQUESTED, $report->status());
+
+        $report->disapprove();
+        $this->assertEquals(Report::STATUS_DISAPPROVED, $report->status());
+
+        $report->edit($content, '10.10.10', '34');
+        $this->assertEquals(Report::STATUS_REVISED, $report->status());
+    }
+
+    /**
+     * @test
+     */
     public function itShouldHaveId()
     {
         $traineeId = uniqid();

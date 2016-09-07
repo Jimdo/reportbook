@@ -41,6 +41,7 @@ class Router
 
     /**
      * @param string $uri
+     * @throws ControllerNotFoundException
      * @return mixed
      */
     public function dispatch(string $uri)
@@ -89,11 +90,17 @@ class Router
 
     /**
      * @param string $controller
+     * @throws ControllerNotFoundException
      * @return mixed
      */
     private function createController(string $controller)
     {
         $class = $this->controllerName($controller);
+
+        if (!class_exists($class)) {
+            throw new ControllerNotFoundException("Could not find controller class for '$controller'!");
+        }
+
         return new $class($this->requestObject, $this->requestValidatorObject);
     }
 
@@ -103,6 +110,6 @@ class Router
      */
     private function controllerName(string $controller): string
     {
-        return $class = __NAMESPACE__ . '\\Controller\\' . ucfirst($controller) . 'Controller';
+        return __NAMESPACE__ . '\\Controller\\' . ucfirst($controller) . 'Controller';
     }
 }

@@ -9,50 +9,7 @@ class UserTest extends TestCase
     /**
     * @test
     */
-    public function itShouldHaveForeAndSurname()
-    {
-        $forename = 'Max';
-        $surname = 'Mustermann';
-        $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
-        $user = new User($forename, $surname, $email, $role, '12345678910');
-
-        $this->assertEquals($forename, $user->forename());
-        $this->assertEquals($surname, $user->surname());
-    }
-
-    /**
-    * @test
-    */
-    public function itShouldHaveEmailAddress()
-    {
-        $forename = 'Max';
-        $surname = 'Mustermann';
-        $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
-        $user = new User($forename, $surname, $email, $role, '12345678910');
-
-        $this->assertEquals($email, $user->email());
-    }
-
-    /**
-    * @test
-    */
-    public function itShouldHaveRole()
-    {
-        $forename = 'Max';
-        $surname = 'Mustermann';
-        $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
-        $user = new User($forename, $surname, $email, $role, '12345678910');
-
-        $this->assertEquals('trainee', $user->roleName());
-    }
-
-    /**
-    * @test
-    */
-    public function itShouldHavePassword()
+    public function itShouldHaveUserConstruct()
     {
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -61,7 +18,11 @@ class UserTest extends TestCase
         $password = 'strongpassword';
         $user = new User($forename, $surname, $email, $role, $password);
 
+        $this->assertEquals($forename, $user->forename());
+        $this->assertEquals($surname, $user->surname());
+        $this->assertEquals($email, $user->email());
         $this->assertEquals($password, $user->password());
+        $this->assertInternalType('string', $user->id());
     }
 
     /**
@@ -87,7 +48,23 @@ class UserTest extends TestCase
     /**
     * @test
     */
-    public function itShouldHaveUniqId()
+    public function itShouldHaveRoleConstruct()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $roleName = 'trainee';
+        $user = new User($forename, $surname, $email, new Role($roleName), '12345678910');
+
+        $this->assertEquals($roleName, $user->roleName());
+
+        $this->assertEquals(Role::STATUS_NOT_APPROVED, $user->roleStatus());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldChangeStatusOfRole()
     {
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -95,6 +72,10 @@ class UserTest extends TestCase
         $role = new Role('trainee');
         $user = new User($forename, $surname, $email, $role, '12345678910');
 
-        $this->assertInternalType('string', $user->id());
+        $user->approve();
+        $this->assertEquals(Role::STATUS_APPROVED, $user->roleStatus());
+
+        $user->disapprove();
+        $this->assertEquals(Role::STATUS_DISAPPROVED, $user->roleStatus());
     }
 }

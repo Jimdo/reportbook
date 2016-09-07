@@ -19,6 +19,7 @@ interface UserRepository
 
     /**
      * @param User $deleteUser
+     * @throws UserRepositoryException
      */
     public function deleteUser(User $deleteUser);
 

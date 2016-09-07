@@ -48,10 +48,14 @@ class UserFileRepository implements UserRepository
 
     /**
      * @param User $deleteUser
+     * @throws UserRepositoryException
      */
     public function deleteUser(User $deleteUser)
     {
-
+        $filename = $this->filename($deleteUser);
+        if (!unlink($filename)) {
+            throw new UserRepositoryException("Could not delete $filename!");
+        }
     }
 
     /**

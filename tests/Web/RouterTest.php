@@ -113,4 +113,13 @@ class RouterTest extends TestCase
         $this->assertEquals('testAction called', $this->router->dispatch($uri));
     }
 
+    /**
+     * @test
+     * @expectedException Jimdo\Reports\Web\ControllerNotFoundException
+     */
+    public function itShoudThrowControllerNotFoundException()
+    {
+        $uri = "favicon.ico";
+        $this->router->dispatch($uri);
+    }
 }

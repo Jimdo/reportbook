@@ -139,4 +139,21 @@ class UserRepositoryTest extends TestCase
         $jenny = $userRepository->createUser('Max', 'Mustermann', 'max.mustermann@hotmail.de', $role, '12345678910');
         $tom = $userRepository->createUser('Max', 'Mustermann', 'max.mustermann@hotmail.de', $role, '12345678910');
     }
+
+    /**
+     * @test
+     * @expectedException Jimdo\Reports\UserRepositoryException
+     */
+    public function itShouldThrowExceptionWhenPasswordIsShorterThatSevenChars()
+    {
+        $userRepository = new UserInMemoryRepository();
+
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '123456';
+
+        $jenny = $userRepository->createUser('Max', 'Mustermann', 'max.mustermann@hotmail.de', $role, $password);
+    }
 }

@@ -7,6 +7,8 @@ use Jimdo\Reports\Role as Role;
 
 class UserInMemoryRepository implements UserRepository
 {
+    const PASSWORD_LENGTH = 7;
+
     /** @var array */
     public $users = [];
 
@@ -24,6 +26,11 @@ class UserInMemoryRepository implements UserRepository
         if ($this->findUserByEmail($email) !== null) {
             throw new UserRepositoryException("Email already exists!\n");
         }
+
+        if (strlen($password) < self::PASSWORD_LENGTH) {
+            throw new UserRepositoryException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n");
+        }
+
         $user = new User($forename, $surname, $email, $role, $password);
         $this->users[] = $user;
         return $user;

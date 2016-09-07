@@ -55,7 +55,8 @@ class ReportController extends Controller
             $reportView->reports = array_merge(
                 $this->service->findByStatus(Report::STATUS_APPROVAL_REQUESTED),
                 $this->service->findByStatus(Report::STATUS_APPROVED),
-                $this->service->findByStatus(Report::STATUS_DISAPPROVED)
+                $this->service->findByStatus(Report::STATUS_DISAPPROVED),
+                $this->service->findByStatus(Report::STATUS_REVISED)
             );
 
             $infobarView->infoHeadline = 'Berichte der Azubis';

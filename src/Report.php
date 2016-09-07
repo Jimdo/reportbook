@@ -72,7 +72,7 @@ class Report
         $this->content = $content;
         $this->date = $date;
         $this->calendarWeek = $calendarWeek;
-        if ($this->status === self::STATUS_DISAPPROVED) {
+        if ($this->status === self::STATUS_DISAPPROVED || $this->status === self::STATUS_REVISED) {
             $this->status = self::STATUS_REVISED;
         } else {
             $this->status = self::STATUS_EDITED;

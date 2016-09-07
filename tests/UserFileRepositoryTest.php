@@ -71,6 +71,25 @@ class UserFileRepositoryTest extends TestCase
     /**
     * @test
     */
+    public function itShouldFindUserByEmail()
+    {
+        $repository = new UserFileRepository(self::USERS_ROOT_PATH);
+
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+
+        $expectedUser = $repository->createUser($forename, $surname, $email, $role, '12345678910');
+
+        $user = $repository->findUserByEmail($email);
+
+        $this->assertEquals($expectedUser->id(), $user->id());
+    }
+
+    /**
+    * @test
+    */
     public function itShouldFindAllUsers()
     {
         $repository = new UserFileRepository(self::USERS_ROOT_PATH);

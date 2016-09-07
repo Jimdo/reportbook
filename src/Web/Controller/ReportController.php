@@ -258,8 +258,9 @@ class ReportController extends Controller
 
     public function viewReportAction()
     {
-        if ($this->isAuthorized('Trainer')) {
+        if ($this->isAuthorized('Trainer') || $this->isAuthorized('Trainee')) {
             $report = $this->service->findById($this->queryParams('reportId'), $this->queryParams('traineeId'));
+
 
             $reportView = $this->view('app/views/Report.php');
             $reportView->title = 'Bericht';
@@ -271,7 +272,7 @@ class ReportController extends Controller
             $reportView->reportId = $this->queryParams('reportId');
             $reportView->backButton = 'show';
             $reportView->readonly = 'readonly';
-            $reportView->role = 'Trainer';
+            $reportView->role = $this->sessionData('role');
             $reportView->status = $report->status();
 
             $headerView = $this->view('app/views/Header.php');
@@ -282,7 +283,7 @@ class ReportController extends Controller
             $infobarView->role = $this->sessionData('role');
 
             $footerView = $this->view('app/views/Footer.php');
-            $footerView->backButton = 'nope';
+            $footerView->backButton = 'show';
 
             echo $headerView->render();
             echo $infobarView->render();

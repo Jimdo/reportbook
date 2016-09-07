@@ -79,7 +79,13 @@ class UserFileRepository implements UserRepository
      */
     public function findUserBySurname(string $surname)
     {
+        $allUsers = $this->findAllUsers();
 
+        foreach ($allUsers as $user) {
+            if ($user->surname() === $surname) {
+                return $user;
+            }
+        }
     }
 
     /**

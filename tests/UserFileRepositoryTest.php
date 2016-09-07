@@ -109,6 +109,25 @@ class UserFileRepositoryTest extends TestCase
         $this->assertCount(2, $foundUsers);
     }
 
+    /**
+    * @test
+    */
+    public function itShouldFindUserBySurname()
+    {
+        $repository = new UserFileRepository(self::USERS_ROOT_PATH);
+
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+
+        $expectedUser = $repository->createUser($forename, $surname, $email, $role, '12345678910');
+
+        $user = $repository->findUserBySurname($surname);
+
+        $this->assertEquals($expectedUser->surname(), $user->surname());
+    }
+
 
     private function deleteRecursive($input)
     {

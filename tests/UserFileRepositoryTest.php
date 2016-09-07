@@ -32,10 +32,7 @@ class UserFileRepositoryTest extends TestCase
 
         $expectedUser = $repository->createUser($forename, $surname, $email, $role, '12345678910');
 
-        $userFileName = sprintf('%s/%s'
-            , self::USERS_ROOT_PATH
-            , $expectedUser->id()
-        );
+        $userFileName = sprintf('%s/%s', self::USERS_ROOT_PATH, $expectedUser->id());
 
         $user = unserialize(file_get_contents($userFileName));
 
@@ -43,8 +40,8 @@ class UserFileRepositoryTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function itShouldDeleteUser()
     {
         $repository = new UserFileRepository(self::USERS_ROOT_PATH);
@@ -56,10 +53,7 @@ class UserFileRepositoryTest extends TestCase
 
         $user = $repository->createUser($forename, $surname, $email, $role, '12345678910');
 
-        $userFileName = sprintf('%s/%s'
-            , self::USERS_ROOT_PATH
-            , $user->id()
-        );
+        $userFileName = sprintf('%s/%s', self::USERS_ROOT_PATH, $user->id());
 
         $this->assertTrue(file_exists($userFileName));
 
@@ -69,8 +63,8 @@ class UserFileRepositoryTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function itShouldFindUserByEmail()
     {
         $repository = new UserFileRepository(self::USERS_ROOT_PATH);
@@ -88,8 +82,8 @@ class UserFileRepositoryTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function itShouldFindAllUsers()
     {
         $repository = new UserFileRepository(self::USERS_ROOT_PATH);
@@ -110,8 +104,8 @@ class UserFileRepositoryTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function itShouldFindUserBySurname()
     {
         $repository = new UserFileRepository(self::USERS_ROOT_PATH);
@@ -129,8 +123,8 @@ class UserFileRepositoryTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function itShouldFindUserById()
     {
         $repository = new UserFileRepository(self::USERS_ROOT_PATH);
@@ -144,9 +138,42 @@ class UserFileRepositoryTest extends TestCase
 
         $user = $repository->findUserById($expectedUser->id());
 
-        $this->assertInternalType('string', $user->id());
+        $this->assertEquals($expectedUser->id(), $user->id());
     }
 
+    /**
+     * @test
+     * @expectedException Jimdo\Reports\UserRepositoryException
+     */
+    public function itShouldThrowUserRepositoryExceptionOnDuplicateEmail()
+    {
+        $userRepository = new UserFileRepository(self::USERS_ROOT_PATH);
+
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+
+        $jenny = $userRepository->createUser('Max', 'Mustermann', 'max.mustermann@hotmail.de', $role, '12345678910');
+        $tom = $userRepository->createUser('Max', 'Mustermann', 'max.mustermann@hotmail.de', $role, '12345678910');
+    }
+
+    /**
+     * @test
+     * @expectedException Jimdo\Reports\UserRepositoryException
+     */
+    public function itShouldThrowExceptionWhenPasswordIsShorterThatSevenChars()
+    {
+        $userRepository = new UserFileRepository(self::USERS_ROOT_PATH);
+
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '123456';
+
+        $jenny = $userRepository->createUser('Max', 'Mustermann', 'max.mustermann@hotmail.de', $role, $password);
+    }
 
     private function deleteRecursive($input)
     {

@@ -40,14 +40,6 @@ class User
     }
 
     /**
-     * @return \Jimdo\Reports\Role
-     */
-    public function role(): \Jimdo\Reports\Role
-    {
-        return $this->user->role();
-    }
-
-    /**
      * @return string
      */
     public function roleName(): string

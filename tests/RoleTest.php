@@ -17,7 +17,7 @@ class RoleTest extends TestCase
         $role = new Role('trainee');
         $user = new User($forename, $surname, $email, $role, '12345678910');
 
-        $this->assertEquals('trainee', $user->role()->name());
+        $this->assertEquals('trainee', $user->roleName());
     }
 
     /**
@@ -31,7 +31,7 @@ class RoleTest extends TestCase
         $role = new Role('trainee');
         $user = new User($forename, $surname, $email, $role, '12345678910');
 
-        $this->assertEquals(Role::STATUS_NOT_APPROVED, $user->role()->status());
+        $this->assertEquals(Role::STATUS_NOT_APPROVED, $user->roleStatus());
     }
 
     /**
@@ -45,8 +45,8 @@ class RoleTest extends TestCase
         $role = new Role('trainee');
         $user = new User($forename, $surname, $email, $role, '12345678910');
 
-        $user->role()->approve();
-        $this->assertEquals(Role::STATUS_APPROVED, $user->role()->status());
+        $user->approve();
+        $this->assertEquals(Role::STATUS_APPROVED, $user->roleStatus());
     }
 
     /**
@@ -60,7 +60,7 @@ class RoleTest extends TestCase
         $role = new Role('trainee');
         $user = new User($forename, $surname, $email, $role, '12345678910');
 
-        $user->role()->disapprove();
-        $this->assertEquals(Role::STATUS_DISAPPROVED, $user->role()->status());
+        $user->disapprove();
+        $this->assertEquals(Role::STATUS_DISAPPROVED, $user->roleStatus());
     }
 }

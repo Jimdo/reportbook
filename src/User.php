@@ -72,14 +72,6 @@ class User
     }
 
     /**
-     * @return Role
-     */
-    public function role(): Role
-    {
-        return $this->role;
-    }
-
-    /**
      * @return string
      */
     public function roleName(): string

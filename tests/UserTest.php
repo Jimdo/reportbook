@@ -46,7 +46,7 @@ class UserTest extends TestCase
         $role = new Role('trainee');
         $user = new User($forename, $surname, $email, $role, '12345678910');
 
-        $this->assertEquals('trainee', $user->role()->name());
+        $this->assertEquals('trainee', $user->roleName());
     }
 
     /**

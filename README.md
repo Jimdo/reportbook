@@ -45,3 +45,11 @@ update       Update composer packages
   - Add basic validation
   - Add error messages to forms
   - Add exceptions to `ReportFileRepository`
+
+### v.0.2
+  - Implement simple Routing and Controller Framework
+
+### v.0.2.1
+  - Improvements to the Routing and Controller Framework
+  - Add `UserService` with basic CRUD operations
+  - Add `UserRepository` and `UserFileRepository`

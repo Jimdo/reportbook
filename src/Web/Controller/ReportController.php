@@ -45,8 +45,8 @@ class ReportController extends Controller
         if ($this->isAuthorized('Trainee')) {
 
             $reportView = $this->view('app/views/TraineeView.php');
-
             $reportView->reports = $this->service->findByTraineeId($this->sessionData('userId'));
+            $infobarView->infoHeadline = 'Deine Berichte';
 
         } elseif ($this->isAuthorized('Trainer')) {
 
@@ -81,7 +81,6 @@ class ReportController extends Controller
             $traineeId = $this->sessionData('userId');
 
             $reportView = $this->view('app/views/Report.php');
-            $reportView->title = 'Bericht';
             $reportView->action = '/report/create';
             $reportView->legend = 'Neuen Bericht erstellen';
             $reportView->calendarWeek = date('W');
@@ -100,7 +99,7 @@ class ReportController extends Controller
             $infobarView->role = $this->sessionData('role');
 
             $footerView = $this->view('app/views/Footer.php');
-            $footerView->backButton = 'nope';
+            $footerView->backButton = 'show';
 
             echo $headerView->render();
             echo $infobarView->render();
@@ -128,7 +127,6 @@ class ReportController extends Controller
         } else {
             $reportView = $this->view('app/views/Report.php');
             $reportView->errorMessages = $this->requestValidator->errorMessages();
-            $reportView->title = 'Bericht';
             $reportView->action = '/report/create';
             $reportView->legend = 'Neuen Bericht erstellen';
             $reportView->calendarWeek = $this->formData('calendarWeek');
@@ -147,7 +145,7 @@ class ReportController extends Controller
             $infobarView->role = $this->sessionData('role');
 
             $footerView = $this->view('app/views/Footer.php');
-            $footerView->backButton = 'nope';
+            $footerView->backButton = 'show';
 
             echo $headerView->render();
             echo $infobarView->render();
@@ -163,7 +161,6 @@ class ReportController extends Controller
             $report = $this->service->findById($reportId, $this->sessionData('userId'));
 
             $reportView = $this->view('app/views/Report.php');
-            $reportView->title = 'Bericht';
             $reportView->action = '/report/edit';
             $reportView->legend = 'Bericht bearbeiten';
             $reportView->calendarWeek = $report->calendarWeek();
@@ -182,7 +179,7 @@ class ReportController extends Controller
             $infobarView->role = $this->sessionData('role');
 
             $footerView = $this->view('app/views/Footer.php');
-            $footerView->backButton = 'nope';
+            $footerView->backButton = 'show';
 
             echo $headerView->render();
             echo $infobarView->render();
@@ -212,7 +209,6 @@ class ReportController extends Controller
             } else {
                 $reportView = $this->view('app/views/Report.php');
                 $reportView->errorMessages = $this->requestValidator->errorMessages();
-                $reportView->title = 'Bericht';
                 $reportView->action = '/report/edit';
                 $reportView->legend = 'Bericht bearbeiten';
                 $reportView->calendarWeek = $this->formData('calendarWeek');
@@ -231,7 +227,7 @@ class ReportController extends Controller
                 $infobarView->role = $this->sessionData('role');
 
                 $footerView = $this->view('app/views/Footer.php');
-                $footerView->backButton = 'nope';
+                $footerView->backButton = 'show';
 
                 echo $headerView->render();
                 echo $infobarView->render();

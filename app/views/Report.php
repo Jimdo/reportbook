@@ -1,5 +1,5 @@
 <?php use \Jimdo\Reports\Report as Report; ?>
-<h1><?php echo $this->title; ?></h1>
+
 
 <?php if (is_array($this->errorMessages)):
 foreach ($this->errorMessages as $error): ?>
@@ -12,23 +12,35 @@ endif; ?>
 <form action="<?php echo $this->action; ?>" method="POST">
   <fieldset>
     <legend><?php echo $this->legend; ?></legend>
-    <div>
-      <label for="calendarWeek">Kalenderwoche: </label>
-      <input <?php echo $this->readonly; ?> type="text" id="calendarWeek" name="calendarWeek" value="<?php echo $this->calendarWeek; ?>" />
+
+    <div class="form-group form-group-md col-md-offset-0 col-md-12">
+        <label class="col-md-2 control-label" for="calendarWeek">Kalenderwoche: </label>
+        <div class="col-md-2 col-md-offset-0">
+            <input class="form-control" type="text" placeholder="Kalenderwoche"
+            <?php echo $this->readonly; ?> id="calendarWeek" name="calendarWeek" value="<?php echo $this->calendarWeek; ?>">
+        </div>
     </div>
-    <div>
-      <label for="date">Datum:</label>
-      <input <?php echo $this->readonly; ?> type="text" id="date" name="date" value="<?php echo $this->date; ?>" />
+
+    <div class="form-group form-group-md col-md-offset-0 col-md-12">
+        <label class="col-md-2 control-label" for="date">Datum: </label>
+        <div class="col-md-2 col-md-offset-0">
+            <input class="form-control" type="text" placeholder="Datum"
+            <?php echo $this->readonly; ?> id="date" name="date" value="<?php echo $this->date; ?>">
+        </div>
     </div>
-    <div>
-      <label for="content">Bericht:</label>
-      <textarea <?php echo $this->readonly; ?> id="content" name="content"><?php echo $this->content; ?></textarea>
+
+    <div class="form-group form-group-md col-md-offset-0 col-md-12">
+        <label class="col-md-2 control-label" for="calendarWeek">Bericht: </label>
+        <div class="col-md-10 col-md-offset-0">
+            <textarea <?php echo $this->readonly; ?> id="content" name="content" class="form-control" rows="15"><?php echo $this->content; ?></textarea>
+        </div>
     </div>
-    <div>
+
+    <div class="form-group form-group-md col-md-offset-0 col-md-12">
     <?php if ($this->role === 'Trainee'): ?>
         <?php if ($this->status !== Report::STATUS_APPROVED && $this->status !== Report::STATUS_APPROVAL_REQUESTED): ?>
             <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>" />
-            <button type="submit"><?php echo $this->buttonName; ?></button>
+            <button type="submit" class="btn btn-primary col-md-offset-10 col-md-2"><?php echo $this->buttonName; ?></button>
         <?php endif; ?>
     <?php endif; ?>
     </div>
@@ -36,18 +48,22 @@ endif; ?>
 </form>
 
 <?php if ($this->role === 'Trainer' && $this->status !== Report::STATUS_DISAPPROVED && $this->status !== Report::STATUS_APPROVED && $this->status !== Report::STATUS_REVISED): ?>
-    <form action="/report/approve" method="POST">
-    <div>
-        <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
-        <input type="hidden" name="reportAction" value="approve">
-        <button type="submit">Genehmigen</button>
-    </div>
-    </form>
+
+<div class="form-group form-group-md col-md-offset-0 col-md-12">
     <form action="/report/disapprove" method="POST">
     <div>
         <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
         <input type="hidden" name="reportAction" value="disapprove">
-        <button type="submit">Ablehnen</button>
+        <button type="submit" class="btn btn-danger col-md-2 col-md-offset-8">Ablehnen</button>
     </div>
     </form>
+
+    <form action="/report/approve" method="POST">
+    <div>
+        <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
+        <input type="hidden" name="reportAction" value="approve">
+        <button type="submit" class="btn btn-success col-md-2 col-md-offset-0" >Genehmigen</button>
+    </div>
+    </form>
+</div>
 <?php endif; ?>

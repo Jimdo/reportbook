@@ -26,14 +26,16 @@ endif; ?>
     </div>
     <div>
     <?php if ($this->role === 'Trainee'): ?>
-        <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>" />
-        <button type="submit"><?php echo $this->buttonName; ?></button>
+        <?php if ($this->status !== Report::STATUS_APPROVED && $this->status !== Report::STATUS_APPROVAL_REQUESTED): ?>
+            <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>" />
+            <button type="submit"><?php echo $this->buttonName; ?></button>
+        <?php endif; ?>
     <?php endif; ?>
     </div>
   </fieldset>
 </form>
 
-<?php if ($this->role === 'Trainer' && $this->status !== Report::STATUS_DISAPPROVED && $this->status !== Report::STATUS_APPROVED): ?>
+<?php if ($this->role === 'Trainer' && $this->status !== Report::STATUS_DISAPPROVED && $this->status !== Report::STATUS_APPROVED && $this->status !== Report::STATUS_REVISED): ?>
     <form action="/report/approve" method="POST">
     <div>
         <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">

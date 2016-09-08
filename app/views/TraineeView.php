@@ -8,25 +8,33 @@
         <th>Aktionen</th>
     </tr>
     <?php foreach ($this->reports as $report):
-         $reportId = $report->id(); ?>
+         $reportId = $report->id();
+         $traineeId = $report->traineeId(); ?>
         <tr>
             <td><?php echo substr($report->content(), 0, 10); ?></td>
             <td><?php echo $report->date(); ?></td>
             <td><?php echo $report->calendarWeek(); ?></td>
             <td><?php echo $report->status(); ?></td>
-            <?php if ($report->status() === Report::STATUS_NEW
-                || $report->status() === Report::STATUS_DISAPPROVED
-                || $report->status() === Report::STATUS_EDITED): ?>
                 <td>
                     <ul>
-                        <li><a href="/report/editReport?reportId=<?php echo $reportId; ?>">Bearbeiten</a></li>
-                        <?php if ($report->status() !== Report::STATUS_DISAPPROVED): ?>
+                        <?php if ($report->status() !== Report::STATUS_APPROVED
+                                && $report->status() !== Report::STATUS_APPROVAL_REQUESTED): ?>
+                            <li><a href="/report/editReport?reportId=<?php echo $reportId; ?>">Bearbeiten</a></li>
+                        <?php endif; ?>
+                        <?php if ($report->status() !== Report::STATUS_DISAPPROVED
+                                && $report->status() !== Report::STATUS_APPROVED
+                                && $report->status() !== Report::STATUS_APPROVAL_REQUESTED): ?>
                             <li><a href="/report/requestApproval?reportId=<?php echo $reportId; ?>&action=requestApproval" onclick="return confirm('Soll der Bericht eingereicht werden?')">Einreichen</a></li>
-                            <li><a href="/report/delete?reportId=<?php echo $reportId; ?>&action=delete" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')">Löschen</a></li>
+                            <?php if ($report->status() !== Report::STATUS_REVISED): ?>
+                                <li><a href="/report/delete?reportId=<?php echo $reportId; ?>&action=delete" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')">Löschen</a></li>
+                            <?php endif ?>
+                        <?php endif; ?>
+                        <?php if ($report->status() === Report::STATUS_APPROVED
+                                || $report->status() === Report::STATUS_APPROVAL_REQUESTED): ?>
+                            <li><a href="/report/viewReport?reportId=<?php echo $reportId; ?>&traineeId=<?php echo $traineeId; ?>">Öffnen</a></li>
                         <?php endif; ?>
                     </ul>
                 </td>
-            <?php endif; ?>
         </tr>
     <?php endforeach; ?>
 </table>

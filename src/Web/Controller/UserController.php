@@ -69,6 +69,21 @@ class UserController extends Controller
         }
     }
 
+    public function registerAction()
+    {
+        $headerView = $this->view('app/views/Header.php');
+        $headerView->tabTitle = 'Berichtsheft';
+
+        $registerView = $this->view('app/views/RegisterView.php');
+        $registerView->role = $this->queryParams('role');
+
+        $footerView = $this->view('app/views/Footer.php');
+
+        echo $headerView->render();
+        echo $registerView->render();
+        echo $footerView->render();
+    }
+
     public function logoutAction()
     {
         $_SESSION['authorized'] = false;

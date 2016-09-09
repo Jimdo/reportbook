@@ -38,6 +38,7 @@ class ReportController extends Controller
         $infobarView = $this->view('app/views/Infobar.php');
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
+        $infobarView->infoHeadline = ' | Übersicht';
 
         $footerView = $this->view('app/views/Footer.php');
         $footerView->backButton = 'nope';
@@ -46,7 +47,6 @@ class ReportController extends Controller
 
             $reportView = $this->view('app/views/TraineeView.php');
             $reportView->reports = $this->service->findByTraineeId($this->sessionData('userId'));
-            $infobarView->infoHeadline = 'Deine Berichte';
 
         } elseif ($this->isAuthorized('Trainer')) {
 
@@ -59,10 +59,8 @@ class ReportController extends Controller
                 $this->service->findByStatus(Report::STATUS_REVISED)
             );
 
-            $infobarView->infoHeadline = 'Berichte der Azubis';
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
-
 
         } else {
 
@@ -135,7 +133,6 @@ class ReportController extends Controller
             $reportView->buttonName = 'Bericht erstellen';
             $reportView->backButton = 'show';
             $reportView->role = 'Trainee';
-
 
             $headerView = $this->view('app/views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';

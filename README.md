@@ -40,16 +40,19 @@ update       Update composer packages
   - Simple web interface for CRUD operations
   - Simple file system based persistence mechanism
 
-### v.0.1.1
+### v0.1.1
   - Refactoring into view models
   - Add basic validation
   - Add error messages to forms
   - Add exceptions to `ReportFileRepository`
 
-### v.0.2
+### v0.2
   - Implement simple Routing and Controller Framework
 
-### v.0.2.1
+### v0.2.1
   - Improvements to the Routing and Controller Framework
   - Add `UserService` with basic CRUD operations
   - Add `UserRepository` and `UserFileRepository`
+
+### v0.2.2
+  - Add bootstrap CSS to interface

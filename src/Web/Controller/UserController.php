@@ -3,9 +3,29 @@
 namespace Jimdo\Reports\Web\Controller;
 
 use Jimdo\Reports\Web\View as View;
+use Jimdo\Reports\User as User;
+use Jimdo\Reports\UserService as UserService;
+use Jimdo\Reports\UserFileRepository as UserFileRepository;
+use Jimdo\Reports\Web\Request as Request;
+use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 
 class UserController extends Controller
 {
+    /** @var UserService */
+    private $service;
+
+    /**
+     * @param Request $request
+     */
+    public function __construct(Request $request, RequestValidator $requestValidator)
+    {
+        parent::__construct($request, $requestValidator);
+
+        $userRepository = new UserFileRepository('users');
+        $this->service = new UserService($userRepository);
+    }
+
+
     public function indexAction()
     {
         $headerView = $this->view('app/views/Header.php');
@@ -82,6 +102,49 @@ class UserController extends Controller
         echo $headerView->render();
         echo $registerView->render();
         echo $footerView->render();
+    }
+
+    public function createUserAction()
+    {
+        $forename = $this->formData('forename');
+        $surname = $this->formData('surname');
+        $email = $this->formData('email');
+        $password = $this->formData('password');
+        $passwordConfirmation = $this->formData('passwordConfirmation');
+        $role = $this->formData('role');
+
+
+
+        if ($password !== $passwordConfirmation) {
+
+            $headerView = $this->view('app/views/Header.php');
+            $headerView->tabTitle = 'Berichtsheft';
+
+            $registerView = $this->view('app/views/RegisterView.php');
+            $registerView->role = $role;
+            $registerView->errorMessages = ['Die eingegebenen Passwörter stimmen nicht überein'];
+            $footerView = $this->view('app/views/Footer.php');
+
+            echo $headerView->render();
+            echo $registerView->render();
+            echo $footerView->render();
+
+        } else {
+            if ($role === 'trainer') {
+
+                $this->service->registerTrainer($forename, $surname, $email, $password);
+                header("Location: /user");
+
+            } elseif ($role === 'trainee') {
+
+                $this->service->registerTrainee($forename, $surname, $email, $password);
+                header("Location: /user");
+                
+            } else {
+                header("Location: /user");
+            }
+        }
+
     }
 
     public function logoutAction()

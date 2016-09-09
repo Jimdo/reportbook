@@ -12,6 +12,7 @@ update: ## Update composer packages
 
 bootstrap: ## Install composer
 	./scripts/install-composer.sh && ./scripts/composer install
+	npm install
 
 lint: ## Lint all the code
 	./scripts/phpcs --standard=PSR2 --encoding=utf-8 -p src

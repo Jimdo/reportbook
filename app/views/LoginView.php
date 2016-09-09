@@ -8,6 +8,8 @@
       <input type="checkbox" value="remember-me"> Remember me
     </label>
   </div> -->
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Anmelden</button>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Anmelden</button></br>
+<a href="/report/list"><p class="text-center">Als Ausbilder registrieren</p></a>
+<a href="/report/list"><p class="text-center">Als Azubi registrieren</p></a>
 </form>
 </div>

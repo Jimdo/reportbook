@@ -50,6 +50,7 @@
             <div class="col-sm-3 control-label"></div>
             <div class="col-sm-9">
                 <button class="btn btn-md btn-primary btn-block" type="submit">Registrieren</button></br>
+                <a href="/user/login"><p class="text-center">Zurück zum Login</p></a>
             </div>
         </div>
 

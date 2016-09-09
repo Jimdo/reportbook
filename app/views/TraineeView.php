@@ -38,6 +38,6 @@
 </table>
 <div>
     <form action="/report/createReport" method="POST">
-        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Bericht erstellen</button>
+        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Neuen Bericht erstellen</button>
     </form>
 </div>

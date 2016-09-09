@@ -54,15 +54,16 @@ endif; ?>
     <div>
         <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
         <input type="hidden" name="reportAction" value="disapprove">
-        <button type="submit" class="btn btn-danger col-md-2 col-md-offset-8">Ablehnen</button>
+        <button type="submit" class="btn btn-default col-md-2 col-md-offset-8" style="margin-right: 2px; padding-right: 15px; width: 180px;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Ablehnen</button>
     </div>
     </form>
+
 
     <form action="/report/approve" method="POST">
     <div>
         <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
         <input type="hidden" name="reportAction" value="approve">
-        <button type="submit" class="btn btn-success col-md-2 col-md-offset-0" >Genehmigen</button>
+        <button type="submit" class="btn btn-primary col-md-2 col-md-offset-0" style="margin-left: 5px; padding-right: 15px; width: 180px;"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Genehmigen</button>
     </div>
     </form>
 </div>

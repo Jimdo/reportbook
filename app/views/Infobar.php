@@ -1,5 +1,5 @@
 <div class="row">
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default" style="font-size:1.2em; margin-top:20px;">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -9,12 +9,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Berichtsheft<?php echo $this->infoHeadline; ?></a>
+          <a class="navbar-brand" href="#"><strong>Berichtsheft</strong><?php echo $this->infoHeadline; ?></a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/user/login"><span class="glyphicon glyphicon-off" aria-hidden="true"></span></a></li>
+            <li><a href="/user/login"><strong><span class="glyphicon glyphicon-off" aria-hidden="true"></span></strong></a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->

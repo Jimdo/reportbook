@@ -1,4 +1,4 @@
-<table>
+<table class="table table-hover">
     <tr>
         <th>Azubi</th>
         <th>Teaser</th>
@@ -12,14 +12,12 @@
               $traineeId = $report->traineeId(); ?>
         <tr>
             <td><?php echo $report->traineeId(); ?></td>
-            <td><?php echo substr($report->content(), 0, 10); ?></td>
+            <td><?php echo substr($report->content(), 0, 20); ?></td>
             <td><?php echo $report->date(); ?></td>
             <td><?php echo $report->calendarWeek(); ?></td>
             <td><?php echo $report->status(); ?></td>
             <td>
-                <ul>
-                    <li><a href="/report/viewReport?reportId=<?php echo $reportId; ?>&traineeId=<?php echo $traineeId; ?>">Öffnen</a></li>
-                </ul>
+                    <a href="/report/viewReport?reportId=<?php echo $reportId; ?>&traineeId=<?php echo $traineeId; ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
             </td>
         </tr>
     <?php endforeach ?>

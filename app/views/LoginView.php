@@ -1,16 +1,13 @@
-<form action="user/login" method="POST">
-  <fieldset>
-    <legend>Anmelden</legend>
-    <div>
-      <label for="username">Benutzername:</label>
-      <input type="text" id="username" name="username" />
-    </div>
-    <div>
-      <label for="password">Passwort:</label>
-      <input type="password" id="password" name="password" />
-    </div>
-    <div>
-      <button type="submit">Anmelden</button>
-    </div>
-  </fieldset>
+<legend><h2 class="form-signin-heading">Anmelden</h2></legend>
+<div class="col-sm-offset-4 col-sm-4">
+<form action="user/login" method="POST" class="form-signin">
+  <input type="username" id="username" class="form-control" placeholder="Benutzername" required autofocus name="username"></br>
+  <input type="password" id="password" class="form-control" placeholder="Passwort" required name="password"></br>
+  <!-- <div class="checkbox">
+    <label>
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+  </div> -->
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Anmelden</button>
 </form>
+</div>

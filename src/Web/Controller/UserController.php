@@ -44,49 +44,29 @@ class UserController extends Controller
 
     public function loginAction()
     {
-        $username = $this->formData('username');
-        $password = $this->formData('password');
+        if ($this->formData('email') !== null) {
 
-        $role = '';
+            $email = $this->formData('email');
+            $password = $this->formData('password');
 
-        if (
-            !(($username === 'Jenny' && $password === 'jenny123') ||
-             ($username === 'Tom' && $password === 'tom123') ||
-             ($username === 'Hauke' && $password === 'hauke123'))
-        ) {
-            header("Location: /user");
+            if ($this->service->authUser($email, $password)) {
+                $user = $this->service->findUserByEmail($email);
+
+                $role = $_SESSION['role'] = $user->roleName();
+                $_SESSION['authorized'] = true;
+                $_SESSION['userId'] = $user->id();
+                $_SESSION['username'] = $user->forename();
+
+                $this->redirect('/report/list');
+
+            } else {
+                $_SESSION['authorized'] = false;
+                $this->redirect('/user');
+            }
+
         } else {
-            $_SESSION['username'] = $username;
-
-            if ($username === 'Jenny') {
-                $traineeId = $_SESSION['userId'] = 'jennyxyz';
-                $role = $_SESSION['role'] = 'Trainee';
-            }
-
-            if ($username === 'Tom') {
-                $traineeId = $_SESSION['userId'] = 'tomxyz';
-                $role = $_SESSION['role'] = 'Trainee';
-            }
-
-            if ($username === 'Hauke') {
-                $_SESSION['userId'] = 'haukexyz';
-                $role = $_SESSION['role'] = 'Trainer';
-            }
-
-            $_SESSION['authorized'] = true;
-
-            switch ($role) {
-                case 'Trainee':
-                    header("Location: /report/list");
-                    break;
-                case 'Trainer':
-                    header("Location: /report/list");
-                    break;
-                default:
-                    header("Location: /user");
-                    $_SESSION['authorized'] = false;
-                    break;
-            }
+            $_SESSION['authorized'] = false;
+            $this->redirect('/user');
         }
     }
 
@@ -204,6 +184,6 @@ class UserController extends Controller
         $_SESSION['userId'] = '';
         $_SESSION['role'] = '';
 
-        header("Location: /user");
+        $this->redirect("/user");
     }
 }

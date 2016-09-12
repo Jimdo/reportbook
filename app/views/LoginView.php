@@ -1,7 +1,7 @@
 <legend><h2 class="form-signin-heading">Anmelden</h2></legend>
 <div class="col-sm-offset-4 col-sm-4">
 <form action="user/login" method="POST" class="form-signin">
-  <input type="username" id="username" class="form-control" placeholder="Benutzername" required autofocus name="username"></br>
+  <input type="username" id="username" class="form-control" placeholder="E-Mail" required autofocus name="email"></br>
   <input type="password" id="password" class="form-control" placeholder="Passwort" required name="password"></br>
   <!-- <div class="checkbox">
     <label>

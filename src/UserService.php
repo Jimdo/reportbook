@@ -63,6 +63,15 @@ class UserService
     }
 
     /**
+     * @param string $status
+     * @return array
+     */
+    public function findUsersByStatus(string $status)
+    {
+        return $users = $this->userRepository->findUsersByStatus($status);
+    }
+
+    /**
      * @param string $email
      */
     public function approveRole(string $email)
@@ -79,7 +88,7 @@ class UserService
         $user = $this->userRepository->findUserbyEmail($email);
         $user->disapprove();
     }
-    
+
     /**
      * @param string $forename
      * @param string $surname

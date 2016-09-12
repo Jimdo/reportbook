@@ -72,6 +72,15 @@ class UserService
     }
 
     /**
+     * @param string $id
+     * @return array
+     */
+    public function findUserById(string $id)
+    {
+        return $users = $this->userRepository->findUserById($id);
+    }
+
+    /**
      * @param string $status
      * @return array
      */

@@ -8,11 +8,17 @@ use Jimdo\Reports\ReportFileRepository as ReportFileRepository;
 use Jimdo\Reports\ReportBookService as ReportBookService;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 use Jimdo\Reports\Web\Request as Request;
+use Jimdo\Reports\UserService as UserService;
+use Jimdo\Reports\UserFileRepository as UserFileRepository;
+
 
 class ReportController extends Controller
 {
     /** @var ReportBookService */
     private $service;
+
+    /** @var UserService */
+    private $userService;
 
     /**
      * @param Request $request
@@ -23,6 +29,9 @@ class ReportController extends Controller
 
         $reportRepository = new ReportFileRepository('reports');
         $this->service = new ReportBookService($reportRepository);
+
+        $userRepository = new UserFileRepository('users');
+        $this->userService = new UserService($userRepository);
     }
 
     public function indexAction()
@@ -51,7 +60,7 @@ class ReportController extends Controller
         } elseif ($this->isAuthorized('TRAINER')) {
 
             $reportView = $this->view('app/views/TrainerView.php');
-
+            $reportView->userService = $this->userService;
             $reportView->reports = array_merge(
                 $this->service->findByStatus(Report::STATUS_APPROVAL_REQUESTED),
                 $this->service->findByStatus(Report::STATUS_APPROVED),

@@ -45,4 +45,11 @@ interface UserRepository
      * @return User|null
      */
     public function findUserById(string $id);
+
+    /**
+     * @param string $status
+     * @return array
+     * @throws UserFileRepositoryException
+     */
+    public function findUsersByStatus(string $status): array;
 }

@@ -38,7 +38,7 @@
     </div>
 
     <div class="row">
-    <?php if ($this->role === 'Trainee'): ?>
+    <?php if ($this->role === 'TRAINEE'): ?>
         <?php if ($this->status !== Report::STATUS_APPROVED && $this->status !== Report::STATUS_APPROVAL_REQUESTED): ?>
             <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>" />
             <button type="submit" class="btn btn-primary col-md-offset-10 col-md-2"><?php echo $this->buttonName; ?></button>
@@ -48,23 +48,18 @@
   </fieldset>
 </form>
 
-<?php if ($this->role === 'Trainer' && $this->status !== Report::STATUS_DISAPPROVED && $this->status !== Report::STATUS_APPROVED && $this->status !== Report::STATUS_REVISED): ?>
+<?php if ($this->role === 'TRAINER' && $this->status !== Report::STATUS_DISAPPROVED && $this->status !== Report::STATUS_APPROVED && $this->status !== Report::STATUS_REVISED): ?>
 
 <div class="form-group form-group-md col-md-offset-0 col-md-12">
-    <form action="/report/disapprove" method="POST">
-    <div>
-        <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
-        <input type="hidden" name="reportAction" value="disapprove">
-        <button type="submit" class="btn btn-default col-md-2 col-md-offset-8" style="margin-right: 2px; padding-right: 15px; width: 180px;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Ablehnen</button>
-    </div>
-    </form>
+    <form action="/report/actions" method="POST">
 
-    <form action="/report/approve" method="POST">
     <div>
         <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
-        <input type="hidden" name="reportAction" value="approve">
-        <button type="submit" class="btn btn-primary col-md-2 col-md-offset-0" style="margin-left: 5px; padding-right: 15px; width: 180px;"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Genehmigen</button>
+
+        <button type="submit" id="disapprove" value="disapprove" name="action" class="btn btn-default col-md-2 col-md-offset-8" style="margin-right: 2px; padding-right: 15px; width: 180px;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Ablehnen</button>
+        <button type="submit" id="approve" value="approve" name="action" class="btn btn-primary col-md-2 col-md-offset-0" style="margin-left: 5px; padding-right: 15px; width: 180px;"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Genehmigen</button>
     </div>
+
     </form>
 </div>
 <?php endif; ?>

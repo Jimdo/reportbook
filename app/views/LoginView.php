@@ -9,7 +9,7 @@
     </label>
   </div> -->
   <button class="btn btn-md btn-primary btn-block" type="submit">Anmelden</button></br>
-<a href="/user/register?role=trainer"><p class="text-center">Als Ausbilder registrieren</p></a>
-<a href="/user/register?role=trainee"><p class="text-center">Als Azubi registrieren</p></a>
+<a href="/user/register?role=TRAINER"><p class="text-center">Als Ausbilder registrieren</p></a>
+<a href="/user/register?role=TRAINEE"><p class="text-center">Als Azubi registrieren</p></a>
 </form>
 </div>

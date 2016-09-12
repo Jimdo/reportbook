@@ -16,8 +16,11 @@
             <td><?php echo $user->roleName(); ?></td>
             <td><?php echo $user->roleStatus(); ?></td>
             <td>
-                    <a href="/user/approve?email=<?php echo $userEmail; ?>"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
-                    <a href="/user/disapprove?email=<?php echo $userEmail; ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                <form action="/user/changeStatus" method="POST">
+                  <input type="hidden" id="email" name="email" value="<?php echo $userEmail; ?>"/>
+                  <button type="submit" id="approve" name="action" class="btn-link glyphicon glyphicon-ok" value="approve"></button>
+                  <button type="submit" id="disapprove" name="action" class="btn-link glyphicon glyphicon-remove" value="disapprove"></button>
+                </form>
             </td>
         </tr>
     <?php endforeach ?>

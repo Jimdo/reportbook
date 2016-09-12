@@ -158,20 +158,17 @@ class UserController extends Controller
         }
     }
 
-    public function approveAction()
+    public function changeStatusAction()
     {
         if ($this->isAuthorized('TRAINER')) {
-            $this->service->approveRole($this->queryParams('email'));
-            $this->redirect("/user/userlist");
-        } else {
-            $this->redirect("/user");
-        }
-    }
 
-    public function disapproveAction()
-    {
-        if ($this->isAuthorized('TRAINER')) {
-            $this->service->disapproveRole($this->queryParams('email'));
+            if ($this->formData('action') === 'approve') {
+                $this->service->approveRole($this->formData('email'));
+
+            } elseif ($this->formData('action') === 'disapprove') {
+                $this->service->disapproveRole($this->formData('email'));
+            }
+
             $this->redirect("/user/userlist");
         } else {
             $this->redirect("/user");

@@ -17,7 +17,11 @@
             <td><?php echo $report->calendarWeek(); ?></td>
             <td><?php echo $report->status(); ?></td>
             <td>
-                    <a href="/report/viewReport?reportId=<?php echo $reportId; ?>&traineeId=<?php echo $traineeId; ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
+                <form action="/report/actions" method="POST">
+                  <input type="hidden" id="reportId" name="reportId" value="<?php echo $reportId; ?>"/>
+                  <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $traineeId; ?>"/>
+                  <button type="submit" id="view" name="action" class="btn-link glyphicon glyphicon-eye-open" value="view"></button>
+                </form>
             </td>
         </tr>
     <?php endforeach ?>

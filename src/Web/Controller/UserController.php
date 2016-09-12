@@ -139,12 +139,44 @@ class UserController extends Controller
 
                 $this->service->registerTrainee($forename, $surname, $email, $password);
                 header("Location: /user");
-                
+
             } else {
                 header("Location: /user");
             }
         }
 
+    }
+
+    public function userlistAction()
+    {
+        if ($this->isAuthorized('Trainer')) {
+            $headerView = $this->view('app/views/Header.php');
+            $headerView->tabTitle = 'Berichtsheft';
+
+            $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+            $infobarView->infoHeadline = ' | Benutzeranfragen';
+
+            $footerView = $this->view('app/views/Footer.php');
+            $footerView->backButton = 'show';
+
+            $userView = $this->view('app/views/UserlistView.php');
+            $userView->users = $this->service->findUserByStatus(User::STATUS_NOT_APPROVED);
+
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+
+            echo $headerView->render();
+            echo $infobarView->render();
+            echo $userView->render();
+            echo $footerView->render();
+
+        } else {
+
+            $this->redirect("/user");
+
+        }
     }
 
     public function logoutAction()

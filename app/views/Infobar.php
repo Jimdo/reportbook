@@ -12,7 +12,7 @@
           <a class="navbar-brand" href="#"><strong>Berichtsheft</strong></a>
           <ul class="nav navbar-nav">
             <li><a href="/report/list">Übersicht</a></li>
-            <?php if ($this->role === 'Trainer'): ?>
+            <?php if ($this->role === 'TRAINER'): ?>
                 <li><a href="/user/userlist">Benutzeranfragen</a></li>
             <?php endif; ?>
           </ul>

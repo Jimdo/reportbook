@@ -111,12 +111,12 @@ class UserController extends Controller
             echo $footerView->render();
 
         } else {
-            if ($role === 'trainer') {
+            if ($role === 'TRAINER') {
 
                 $this->service->registerTrainer($forename, $surname, $email, $password);
                 header("Location: /user");
 
-            } elseif ($role === 'trainee') {
+            } elseif ($role === 'TRAINEE') {
 
                 $this->service->registerTrainee($forename, $surname, $email, $password);
                 header("Location: /user");
@@ -130,7 +130,7 @@ class UserController extends Controller
 
     public function userlistAction()
     {
-        if ($this->isAuthorized('Trainer')) {
+        if ($this->isAuthorized('TRAINER')) {
             $headerView = $this->view('app/views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
 
@@ -160,7 +160,7 @@ class UserController extends Controller
 
     public function approveAction()
     {
-        if ($this->isAuthorized('Trainer')) {
+        if ($this->isAuthorized('TRAINER')) {
             $this->service->approveRole($this->queryParams('email'));
             $this->redirect("/user/userlist");
         } else {
@@ -170,7 +170,7 @@ class UserController extends Controller
 
     public function disapproveAction()
     {
-        if ($this->isAuthorized('Trainer')) {
+        if ($this->isAuthorized('TRAINER')) {
             $this->service->disapproveRole($this->queryParams('email'));
             $this->redirect("/user/userlist");
         } else {

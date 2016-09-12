@@ -9,7 +9,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#"><strong>Berichtsheft</strong><?php echo $this->infoHeadline; ?></a>
+          <a class="navbar-brand" href="#"><strong>Berichtsheft</strong></a>
+          <ul class="nav navbar-nav">
+            <li><a href="/report/list">Übersicht</a></li>
+            <?php if ($this->role === 'Trainer'): ?>
+                <li><a href="/user/userlist">Benutzeranfragen</a></li>
+            <?php endif; ?>
+          </ul>
+
+
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

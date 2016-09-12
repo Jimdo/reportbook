@@ -4,6 +4,7 @@ namespace Jimdo\Reports\Web\Controller;
 
 use Jimdo\Reports\Web\View as View;
 use Jimdo\Reports\User as User;
+use Jimdo\Reports\Role as Role;
 use Jimdo\Reports\UserService as UserService;
 use Jimdo\Reports\UserFileRepository as UserFileRepository;
 use Jimdo\Reports\Web\Request as Request;
@@ -162,7 +163,7 @@ class UserController extends Controller
             $footerView->backButton = 'show';
 
             $userView = $this->view('app/views/UserlistView.php');
-            $userView->users = $this->service->findUserByStatus(User::STATUS_NOT_APPROVED);
+            $userView->users = $this->service->findUsersByStatus(Role::STATUS_NOT_APPROVED);
 
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
@@ -173,9 +174,27 @@ class UserController extends Controller
             echo $footerView->render();
 
         } else {
-
             $this->redirect("/user");
+        }
+    }
 
+    public function approveAction()
+    {
+        if ($this->isAuthorized('Trainer')) {
+            $this->service->approveRole($this->queryParams('email'));
+            $this->redirect("/user/userlist");
+        } else {
+            $this->redirect("/user");
+        }
+    }
+
+    public function disapproveAction()
+    {
+        if ($this->isAuthorized('Trainer')) {
+            $this->service->disapproveRole($this->queryParams('email'));
+            $this->redirect("/user/userlist");
+        } else {
+            $this->redirect("/user");
         }
     }
 

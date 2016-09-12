@@ -72,12 +72,22 @@ class UserService
     }
 
     /**
+     * @param string $status
+     * @return array
+     */
+    public function findUserByEmail(string $email)
+    {
+        return $users = $this->userRepository->findUserByEmail($email);
+    }
+
+    /**
      * @param string $email
      */
     public function approveRole(string $email)
     {
         $user = $this->userRepository->findUserbyEmail($email);
         $user->approve();
+        $this->userRepository->save($user);
     }
 
     /**
@@ -87,6 +97,7 @@ class UserService
     {
         $user = $this->userRepository->findUserbyEmail($email);
         $user->disapprove();
+        $this->userRepository->save($user);
     }
 
     /**

@@ -21,30 +21,32 @@ class UserService
     /**
      * @param string $forename
      * @param string $surname
+     * @param string $username
      * @param string $email
      * @param Role $role
      * @param string $password
      * @throws UserRepositoryException
      * @return ReadOnlyUser
      */
-    public function registerTrainee(string $forename, string $surname, string $email, string $password)
+    public function registerTrainee(string $forename, string $surname, string $username, string $email, string $password)
     {
-        $user = $this->registerUser($forename, $surname, $email, new Role(Role::TRAINEE), $password);
+        $user = $this->registerUser($forename, $surname, $username, $email, new Role(Role::TRAINEE), $password);
         return $user;
     }
 
     /**
      * @param string $forename
      * @param string $surname
+     * @param string $username
      * @param string $email
      * @param Role $role
      * @param string $password
      * @throws UserRepositoryException
      * @return ReadOnlyUser
      */
-    public function registerTrainer(string $forename, string $surname, string $email, string $password)
+    public function registerTrainer(string $forename, string $surname, string $username, string $email, string $password)
     {
-        $user = $this->registerUser($forename, $surname, $email, new Role(Role::TRAINER), $password);
+        $user = $this->registerUser($forename, $surname, $username, $email, new Role(Role::TRAINER), $password);
         return $user;
     }
 
@@ -81,6 +83,15 @@ class UserService
     }
 
     /**
+     * @param string $username
+     * @return array
+     */
+    public function findUserByUsername(string $username)
+    {
+        return $users = $this->userRepository->findUserByUsername($username);
+    }
+
+    /**
      * @param string $status
      * @return array
      */
@@ -112,15 +123,16 @@ class UserService
     /**
      * @param string $forename
      * @param string $surname
+     * @param string $username
      * @param string $email
      * @param Role $role
      * @param string $password
      * @throws UserRepositoryException
      * @return ReadOnlyUser
      */
-    private function registerUser(string $forename, string $surname, string $email, Role $role, string $password): ReadOnlyUser
+    private function registerUser(string $forename, string $surname, string $username, string $email, Role $role, string $password): ReadOnlyUser
     {
-        $user = $this->userRepository->createUser($forename, $surname, $email, $role, $password);
+        $user = $this->userRepository->createUser($forename, $surname, $username, $email, $role, $password);
         return new ReadOnlyUser($user);
     }
 }

@@ -11,6 +11,9 @@ class User
     private $surname;
 
     /** @var string */
+    private $username;
+
+    /** @var string */
     private $email;
 
     /** @var Role */
@@ -25,14 +28,16 @@ class User
     /**
      * @param string $forename
      * @param string $surname
+     * @param string $username
      * @param string $email
      * @param Role $role
      * @param string $password
      */
-    public function __construct(string $forename, string $surname, string $email, Role $role, string $password)
+    public function __construct(string $forename, string $surname, string $username, string $email, Role $role, string $password)
     {
         $this->forename = $forename;
         $this->surname = $surname;
+        $this->username = $username;
         $this->email = $email;
         $this->role = $role;
         $this->password = $password;
@@ -53,6 +58,14 @@ class User
     public function surname(): string
     {
         return $this->surname;
+    }
+
+    /**
+     * @return string
+     */
+    public function username(): string
+    {
+        return $this->username;
     }
 
     /**
@@ -108,11 +121,12 @@ class User
     /**
      * @param string $forename
      * @param string $surname
+     * @param string $username
      * @param string $email
      * @param Role $role
      * @param string $password
      */
-    public function edit(string $forename, string $surname, string $email, Role $role, string $password)
+    public function edit(string $forename, string $surname, string $username, string $email, Role $role, string $password)
     {
         $this->forename = $forename;
         $this->surname = $surname;

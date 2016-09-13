@@ -16,7 +16,7 @@ class UserTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
         $password = 'strongpassword';
-        $user = new User($forename, $surname, $email, $role, $password);
+        $user = new User($forename, $surname, 'Hase', $email, $role, $password);
 
         $this->assertEquals($forename, $user->forename());
         $this->assertEquals($surname, $user->surname());
@@ -34,13 +34,13 @@ class UserTest extends TestCase
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $user = new User($forename, $surname, $email, $role, '12345678910');
+        $user = new User($forename, $surname, 'Hase', $email, $role, '12345678910');
 
         $this->assertEquals($forename, $user->forename());
 
         $forename = 'Peter';
 
-        $user->edit($forename, $surname, $email, $role, '12345678910');
+        $user->edit($forename, $surname, 'Hase', $email, $role, '12345678910');
 
         $this->assertEquals($forename, $user->forename());
     }
@@ -54,7 +54,7 @@ class UserTest extends TestCase
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $roleName = 'trainee';
-        $user = new User($forename, $surname, $email, new Role($roleName), '12345678910');
+        $user = new User($forename, $surname, 'Hase', $email, new Role($roleName), '12345678910');
 
         $this->assertEquals($roleName, $user->roleName());
 
@@ -70,7 +70,7 @@ class UserTest extends TestCase
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $user = new User($forename, $surname, $email, $role, '12345678910');
+        $user = new User($forename, $surname, 'Hase', $email, $role, '12345678910');
 
         $user->approve();
         $this->assertEquals(Role::STATUS_APPROVED, $user->roleStatus());

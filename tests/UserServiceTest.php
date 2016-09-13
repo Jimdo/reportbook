@@ -30,7 +30,7 @@ class UserServiceTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
 
-        $user = $this->userService->registerTrainee($forename, $surname, $email, $password);
+        $user = $this->userService->registerTrainee($forename, $surname, 'Hase', $email, $password);
 
         $this->assertEquals($forename, $user->forename());
     }
@@ -45,7 +45,7 @@ class UserServiceTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
 
-        $user = $this->userService->registerTrainer($forename, $surname, $email, $password);
+        $user = $this->userService->registerTrainer($forename, $surname, 'Hase', $email, $password);
 
         $this->assertEquals($forename, $user->forename());
     }
@@ -60,7 +60,7 @@ class UserServiceTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
 
-        $user = $this->userService->registerTrainee($forename, $surname, $email, $password);
+        $user = $this->userService->registerTrainee($forename, $surname, 'Hase', $email, $password);
         $authStatus = $this->userService->authUser($email, $password);
 
         $this->assertTrue($authStatus);
@@ -76,7 +76,7 @@ class UserServiceTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
 
-        $user = $this->userService->registerTrainee($forename, $surname, $email, $password);
+        $user = $this->userService->registerTrainee($forename, $surname, 'Hase', $email, $password);
 
         $this->assertEquals(Role::TRAINEE, $user->roleName());
     }
@@ -91,7 +91,7 @@ class UserServiceTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
 
-        $user = $this->userService->registerTrainee($forename, $surname, $email, $password);
+        $user = $this->userService->registerTrainee($forename, $surname, 'Hase', $email, $password);
 
         $this->userService->approveRole($user->email());
 
@@ -108,7 +108,7 @@ class UserServiceTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
 
-        $user = $this->userService->registerTrainee($forename, $surname, $email, $password);
+        $user = $this->userService->registerTrainee($forename, $surname, 'Hase', $email, $password);
 
         $this->userService->disapproveRole($user->email());
 
@@ -125,7 +125,7 @@ class UserServiceTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
 
-        $user = $this->userService->registerTrainee($forename, $surname, $email, $password);
+        $user = $this->userService->registerTrainee($forename, $surname, 'Hase', $email, $password);
 
         $this->assertFalse($this->userRepository->saveMethodCalled);
         $this->userService->disapproveRole($user->email());
@@ -147,16 +147,16 @@ class UserServiceTest extends TestCase
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
 
-        $expectedUser1 = $this->userService->registerTrainee($forename, $surname, $email, '12345678910');
+        $expectedUser1 = $this->userService->registerTrainee($forename, $surname, 'Hase', $email, '12345678910');
         $users = $this->userService->findUsersByStatus(Role::STATUS_NOT_APPROVED);
 
         $this->assertCount(1, $users);
 
-        $expectedUser2 = $this->userService->registerTrainee($forename, $surname, 'maxi.mustermann@hotmail.de', '12345678910');
+        $expectedUser2 = $this->userService->registerTrainee($forename, $surname, 'Igel', 'maxi.mustermann@hotmail.de', '12345678910');
         $users = $this->userService->findUsersByStatus(Role::STATUS_NOT_APPROVED);
         $this->assertCount(2, $users);
 
-        $expectedUser3 = $this->userService->registerTrainee($forename, $surname, 'peter.mustermann@web.de', '12345678910');
+        $expectedUser3 = $this->userService->registerTrainee($forename, $surname, 'Hans', 'peter.mustermann@web.de', '12345678910');
         $this->userService->approveRole($expectedUser3->email());
         $users = $this->userService->findUsersByStatus(Role::STATUS_APPROVED);
         $this->assertCount(1, $users);

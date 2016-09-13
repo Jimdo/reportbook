@@ -57,7 +57,11 @@ class UserController extends Controller
                 }
             }
             if ($this->service->authUser($identifier, $password)) {
-                $user = $this->service->findUserByEmail($identifier);
+                if ($this->service->findUserByEmail($identifier) !== null) {
+                    $user = $this->service->findUserByEmail($identifier);
+                } elseif ($this->service->findUserByUsername($identifier) !== null) {
+                    $user = $this->service->findUserByUsername($identifier);
+                }
 
                 $role = $_SESSION['role'] = $user->roleName();
                 $_SESSION['authorized'] = true;

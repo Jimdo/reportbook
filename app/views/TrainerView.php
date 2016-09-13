@@ -24,7 +24,7 @@
                   <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $traineeId; ?>"/>
                   <button type="submit" class="btn-link glyphicon glyphicon-eye-open"></button>
                 </form>
-                
+
             </td>
         </tr>
     <?php endforeach ?>

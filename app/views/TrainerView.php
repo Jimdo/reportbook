@@ -18,10 +18,10 @@
             <td><?php echo $report->calendarWeek(); ?></td>
             <td><?php echo $report->status(); ?></td>
             <td>
-                <form action="/report/actions" method="POST">
+                <form action="/report/viewReport" method="POST">
                   <input type="hidden" id="reportId" name="reportId" value="<?php echo $reportId; ?>"/>
                   <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $traineeId; ?>"/>
-                  <button type="submit" id="view" name="action" class="btn-link glyphicon glyphicon-eye-open" value="view"></button>
+                  <button type="submit" class="btn-link glyphicon glyphicon-eye-open"></button>
                 </form>
             </td>
         </tr>

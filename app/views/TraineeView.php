@@ -16,32 +16,54 @@
             <td><?php echo $report->calendarWeek(); ?></td>
             <td><?php echo $report->status(); ?></td>
                 <td>
-                    <form action="/report/actions" method="POST">
 
-                      <input type="hidden" id="reportId" name="reportId" value="<?php echo $reportId; ?>"/>
-                      <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $traineeId; ?>"/>
+                    <form action="/report/editReport" method="POST">
 
-                          <?php if ($report->status() !== Report::STATUS_APPROVED
-                                  && $report->status() !== Report::STATUS_APPROVAL_REQUESTED): ?>
-                              <button type="submit" id="edit" name="action" class="btn-link glyphicon glyphicon-pencil" value="edit"></button>
-                          <?php endif; ?>
+                        <input type="hidden" id="reportId" name="reportId" value="<?php echo $reportId; ?>"/>
+                        <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $traineeId; ?>"/>
 
-
-                          <?php if ($report->status() !== Report::STATUS_DISAPPROVED
-                                  && $report->status() !== Report::STATUS_APPROVED
-                                  && $report->status() !== Report::STATUS_APPROVAL_REQUESTED): ?>
-                                   <button type="submit" id="requestApproval" name="action" class="btn-link glyphicon glyphicon-send" value="requestApproval" onclick="return confirm('Soll der Bericht eingereicht werden?')" aria-hidden="true"></button>
-                              <?php if ($report->status() !== Report::STATUS_REVISED): ?>
-                                  <button type="submit" id="delete" name="action" class="btn-link glyphicon glyphicon-trash" value="delete" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')" aria-hidden="true"></button>
-                              <?php endif ?>
-                          <?php endif; ?>
-
-                          <?php if ($report->status() === Report::STATUS_APPROVED
-                                || $report->status() === Report::STATUS_APPROVAL_REQUESTED): ?>
-                                <button type="submit" id="view" name="action" class="btn-link glyphicon glyphicon-eye-open" value="view"></button>
-                          <?php endif; ?>
+                        <?php if ($report->status() !== Report::STATUS_APPROVED
+                               && $report->status() !== Report::STATUS_APPROVAL_REQUESTED): ?>
+                            <button type="submit" class="btn-link glyphicon glyphicon-pencil"></button>
+                        <?php endif; ?>
 
                     </form>
+
+                    <form action="/report/requestApproval" method="POST">
+
+                        <input type="hidden" id="reportId" name="reportId" value="<?php echo $reportId; ?>"/>
+
+                        <?php if ($report->status() !== Report::STATUS_DISAPPROVED
+                               && $report->status() !== Report::STATUS_APPROVED
+                               && $report->status() !== Report::STATUS_APPROVAL_REQUESTED): ?>
+                            <button type="submit" class="btn-link glyphicon glyphicon-send" onclick="return confirm('Soll der Bericht eingereicht werden?')" aria-hidden="true"></button>
+
+                    </form>
+
+                    <form action="/report/deleteReport" method="POST">
+
+                        <input type="hidden" id="reportId" name="reportId" value="<?php echo $reportId; ?>"/>
+                        <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $traineeId; ?>"/>
+
+                        <?php if ($report->status() !== Report::STATUS_REVISED): ?>
+                            <button type="submit" class="btn-link glyphicon glyphicon-trash" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')" aria-hidden="true"></button>
+                        <?php endif ?>
+                        <?php endif; ?>
+
+                    </form>
+
+                    <form action="/report/viewReport" method="POST">
+
+                        <input type="hidden" id="reportId" name="reportId" value="<?php echo $reportId; ?>"/>
+                        <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $traineeId; ?>"/>
+
+                        <?php if ($report->status() === Report::STATUS_APPROVED
+                               || $report->status() === Report::STATUS_APPROVAL_REQUESTED): ?>
+                            <button type="submit" class="btn-link glyphicon glyphicon-eye-open"></button>
+                        <?php endif; ?>
+
+                    </form>
+
                 </td>
         </tr>
     <?php endforeach; ?>

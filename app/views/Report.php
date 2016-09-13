@@ -2,17 +2,17 @@
 <form action="<?php echo $this->action; ?>" method="POST">
   <fieldset>
 
-<div class="row">
-    <legend><?php echo $this->legend; ?></legend>
-</div>
+    <div class="row">
+        <legend><?php echo $this->legend; ?></legend>
+    </div>
 
-<div class="row">
-    <?php if (is_array($this->errorMessages)):
-    foreach ($this->errorMessages as $error): ?>
-            <div class="alert alert-danger col-md-10 col-md-offset-2" role="alert"><strong><?php echo $error; ?></strong></div>
-    <?php endforeach;
-    endif; ?>
-</div>
+    <div class="row">
+        <?php if (is_array($this->errorMessages)):
+        foreach ($this->errorMessages as $error): ?>
+                <div class="alert alert-danger col-md-10 col-md-offset-2" role="alert"><strong><?php echo $error; ?></strong></div>
+        <?php endforeach;
+        endif; ?>
+    </div>
 
     <div class="row">
         <label class="col-md-2 control-label" for="calendarWeek">Kalenderwoche: </label>
@@ -50,16 +50,21 @@
 
 <?php if ($this->role === 'TRAINER' && $this->status !== Report::STATUS_DISAPPROVED && $this->status !== Report::STATUS_APPROVED && $this->status !== Report::STATUS_REVISED): ?>
 
-<div class="form-group form-group-md col-md-offset-0 col-md-12">
-    <form action="/report/actions" method="POST">
+<div class="form-group form-group-md col-md-offset-8 col-md-12">
 
-    <div>
+    <form action="/report/approveReport" method="POST">
+
         <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
-
-        <button type="submit" id="disapprove" value="disapprove" name="action" class="btn btn-default col-md-2 col-md-offset-8" style="margin-right: 2px; padding-right: 15px; width: 180px;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Ablehnen</button>
-        <button type="submit" id="approve" value="approve" name="action" class="btn btn-primary col-md-2 col-md-offset-0" style="margin-left: 5px; padding-right: 15px; width: 180px;"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Genehmigen</button>
-    </div>
+        <button type="submit" class="btn btn-primary col-md-2 col-md-offset-0" style="margin-left: 5px; padding-right: 15px; width: 180px;"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Genehmigen</button>
 
     </form>
+
+    <form action="/report/disapproveReport" method="POST">
+
+        <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
+        <button type="submit" class="btn btn-default col-md-2 col-md-offset-0" style="margin-right: 2px; padding-right: 15px; width: 180px;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Ablehnen</button>
+
+    </form>
+
 </div>
 <?php endif; ?>

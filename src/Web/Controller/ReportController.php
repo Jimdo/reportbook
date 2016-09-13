@@ -160,6 +160,40 @@ class ReportController extends Controller
         }
     }
 
+    public function editReportAction()
+    {
+        if ($this->isAuthorized('TRAINEE')) {
+            $reportId = $this->formData('reportId');
+            $report = $this->service->findById($reportId, $this->sessionData('userId'));
+
+            $reportView = $this->view('app/views/Report.php');
+            $reportView->action = '/report/edit';
+            $reportView->legend = 'Bericht bearbeiten';
+            $reportView->calendarWeek = $report->calendarWeek();
+            $reportView->date = $report->date();
+            $reportView->content = $report->content();
+            $reportView->buttonName = 'Speichern';
+            $reportView->reportId = $reportId;
+            $reportView->backButton = 'show';
+            $reportView->role = 'TRAINEE';
+
+            $headerView = $this->view('app/views/Header.php');
+            $headerView->tabTitle = 'Berichtsheft';
+
+            $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+
+            $footerView = $this->view('app/views/Footer.php');
+            $footerView->backButton = 'show';
+
+            echo $headerView->render();
+            echo $infobarView->render();
+            echo $reportView->render();
+            echo $footerView->render();
+        }
+    }
+
     public function editAction()
     {
         if ($this->isAuthorized('TRAINEE')) {
@@ -209,121 +243,70 @@ class ReportController extends Controller
         }
     }
 
-    public function actionsAction()
+    public function deleteReportAction()
     {
-        switch ($action = $this->formData('action')) {
-            case 'view':
+        if ($this->isAuthorized('TRAINEE') && $this->service->findById($this->formData('reportId'), $this->sessionData('userId'))->status() !== Report::STATUS_DISAPPROVED) {
+            $this->service->deleteReport($this->formData('reportId'));
+            $this->redirect("/report/list");
+        }
+    }
 
-                if ($this->isAuthorized('TRAINER') || $this->isAuthorized('TRAINEE')) {
-                    $report = $this->service->findById($this->formData('reportId'), $this->formData('traineeId'));
+    public function requestApprovalAction()
+    {
+        if ($this->isAuthorized('TRAINEE')) {
+            $this->service->requestApproval($this->formData('reportId'));
+            $this->redirect("/report/list");
+        }
+    }
 
+    function viewReportAction()
+    {
+        if ($this->isAuthorized('TRAINER') || $this->isAuthorized('TRAINEE')) {
+            $report = $this->service->findById($this->formData('reportId'), $this->formData('traineeId'));
 
-                    $reportView = $this->view('app/views/Report.php');
-                    $reportView->title = 'Bericht';
-                    $reportView->legend = 'Vorschau';
-                    $reportView->calendarWeek = $report->calendarWeek();
-                    $reportView->date = $report->date();
-                    $reportView->content = $report->content();
-                    $reportView->buttonName = 'Speichern';
-                    $reportView->reportId = $this->formData('reportId');
-                    $reportView->backButton = 'show';
-                    $reportView->readonly = 'readonly';
-                    $reportView->role = $this->sessionData('role');
-                    $reportView->status = $report->status();
+            $reportView = $this->view('app/views/Report.php');
+            $reportView->title = 'Bericht';
+            $reportView->legend = 'Vorschau';
+            $reportView->calendarWeek = $report->calendarWeek();
+            $reportView->date = $report->date();
+            $reportView->content = $report->content();
+            $reportView->buttonName = 'Speichern';
+            $reportView->reportId = $this->formData('reportId');
+            $reportView->backButton = 'show';
+            $reportView->readonly = 'readonly';
+            $reportView->role = $this->sessionData('role');
+            $reportView->status = $report->status();
 
-                    $headerView = $this->view('app/views/Header.php');
-                    $headerView->tabTitle = 'Berichtsheft';
+            $headerView = $this->view('app/views/Header.php');
+            $headerView->tabTitle = 'Berichtsheft';
 
-                    $infobarView = $this->view('app/views/Infobar.php');
-                    $infobarView->username = $this->sessionData('username');
-                    $infobarView->role = $this->sessionData('role');
+            $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
 
-                    $footerView = $this->view('app/views/Footer.php');
-                    $footerView->backButton = 'show';
+            $footerView = $this->view('app/views/Footer.php');
+            $footerView->backButton = 'show';
 
-                    echo $headerView->render();
-                    echo $infobarView->render();
-                    echo $reportView->render();
-                    echo $footerView->render();
-                }
+            echo $headerView->render();
+            echo $infobarView->render();
+            echo $reportView->render();
+            echo $footerView->render();
+        }
+    }
 
-                break;
+    public function approveReportAction()
+    {
+        if ($this->isAuthorized('TRAINER')) {
+            $this->service->approveReport($this->formData('reportId'));
+            $this->redirect("/report/list");
+        }
+    }
 
-            case 'edit':
-
-                if ($this->isAuthorized('TRAINEE')) {
-                    $reportId = $this->formData('reportId');
-                    $report = $this->service->findById($reportId, $this->sessionData('userId'));
-
-                    $reportView = $this->view('app/views/Report.php');
-                    $reportView->action = '/report/edit';
-                    $reportView->legend = 'Bericht bearbeiten';
-                    $reportView->calendarWeek = $report->calendarWeek();
-                    $reportView->date = $report->date();
-                    $reportView->content = $report->content();
-                    $reportView->buttonName = 'Speichern';
-                    $reportView->reportId = $reportId;
-                    $reportView->backButton = 'show';
-                    $reportView->role = 'TRAINEE';
-
-                    $headerView = $this->view('app/views/Header.php');
-                    $headerView->tabTitle = 'Berichtsheft';
-
-                    $infobarView = $this->view('app/views/Infobar.php');
-                    $infobarView->username = $this->sessionData('username');
-                    $infobarView->role = $this->sessionData('role');
-
-                    $footerView = $this->view('app/views/Footer.php');
-                    $footerView->backButton = 'show';
-
-                    echo $headerView->render();
-                    echo $infobarView->render();
-                    echo $reportView->render();
-                    echo $footerView->render();
-                }
-
-                break;
-
-            case 'delete':
-
-                if ($this->isAuthorized('TRAINEE') && $this->service->findById($this->formData('reportId'), $this->sessionData('userId'))->status() !== Report::STATUS_DISAPPROVED) {
-                    $this->service->deleteReport($this->formData('reportId'));
-                    $this->redirect("/report/list");
-                }
-
-                break;
-
-            case 'requestApproval':
-
-                if ($this->isAuthorized('TRAINEE')) {
-                    $this->service->requestApproval($this->formData('reportId'));
-                    $this->redirect("/report/list");
-                }
-
-                break;
-
-            case 'approve':
-
-                if ($this->isAuthorized('TRAINER')) {
-                    $this->service->approveReport($this->formData('reportId'));
-                    $this->redirect("/report/list");
-                }
-
-                break;
-
-            case 'disapprove':
-
-                if ($this->isAuthorized('TRAINER')) {
-                    $this->service->disapproveReport($this->formData('reportId'));
-                    $this->redirect("/report/list");
-                }
-
-                break;
-
-            default:
-
-                $this->redirect("/report/list");
-                break;
+    public function disapproveReportAction()
+    {
+        if ($this->isAuthorized('TRAINER')) {
+            $this->service->disapproveReport($this->formData('reportId'));
+            $this->redirect("/report/list");
         }
     }
 }

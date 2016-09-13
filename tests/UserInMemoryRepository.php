@@ -151,4 +151,9 @@ class UserInMemoryRepository implements UserRepository
     {
         $this->saveMethodCalled = true;
     }
+
+    public function ensureUsersPath()
+    {
+
+    }
 }

@@ -71,4 +71,6 @@ interface UserRepository
      * @return bool
      */
     public function exists(string $identifier): bool;
+
+    public function ensureUsersPath();
 }

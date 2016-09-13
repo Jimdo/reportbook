@@ -199,7 +199,7 @@ class UserFileRepository implements UserRepository
     /**
      * @throws ReportFileRepositoryException
      */
-    private function ensureUsersPath()
+    public function ensureUsersPath()
     {
         if (!file_exists($this->usersPath)) {
             if (!mkdir($this->usersPath)) {

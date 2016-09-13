@@ -131,6 +131,11 @@ class UserService
         $this->userRepository->save($user);
     }
 
+    public function ensureUsersPath()
+    {
+        $this->userRepository->ensureUsersPath();
+    }
+
     /**
      * @param string $forename
      * @param string $surname

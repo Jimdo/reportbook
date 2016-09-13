@@ -44,13 +44,20 @@ class UserController extends Controller
 
     public function loginAction()
     {
-        if ($this->formData('email') !== null) {
+        if ($this->formData('identifier') !== null) {
 
-            $email = $this->formData('email');
+            $identifier = $this->formData('identifier');
             $password = $this->formData('password');
 
-            if ($this->service->authUser($email, $password)) {
-                $user = $this->service->findUserByEmail($email);
+            if ($identifier === 'admin' && $password === 'adminadmin') {
+                if (!file_exists('users')) {
+                    $this->service->ensureUsersPath();
+                    $adminUser = $this->service->registerTrainer('admin', 'admin', 'admin', 'admin', 'adminadmin');
+                    $this->service->approveRole($adminUser->email());
+                }
+            }
+            if ($this->service->authUser($identifier, $password)) {
+                $user = $this->service->findUserByEmail($identifier);
 
                 $role = $_SESSION['role'] = $user->roleName();
                 $_SESSION['authorized'] = true;

@@ -4,9 +4,9 @@
 <form action="user/login" method="POST" class="form-horizontal">
 
 <div class="form-group">
-    <label class="col-sm-3 control-label">E-Mail</label>
+    <label class="col-sm-3 control-label">Name</label>
     <div class="col-sm-9">
-        <input type="email" name="email" class="form-control" id="email" placeholder="E-Mail">
+        <input type="identifier" name="identifier" class="form-control" id="identifier" placeholder="Benutzername / E-Mail">
     </div>
 </div>
 

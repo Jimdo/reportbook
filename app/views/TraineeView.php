@@ -47,8 +47,9 @@
 
                         <?php if ($report->status() !== Report::STATUS_REVISED): ?>
                             <button type="submit" class="btn-link glyphicon glyphicon-trash" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')" aria-hidden="true"></button>
-                        <?php endif ?>
                         <?php endif; ?>
+                        <?php endif; ?>
+
 
                     </form>
 

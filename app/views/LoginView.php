@@ -1,5 +1,6 @@
 <legend><h2 class="form-signin-heading">Anmelden</h2></legend>
 <div class="col-sm-offset-4 col-sm-4">
+
 <form action="user/login" method="POST" class="form-horizontal">
 
 <div class="form-group">

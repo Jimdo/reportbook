@@ -18,11 +18,13 @@
             <td><?php echo $report->calendarWeek(); ?></td>
             <td><?php echo $report->status(); ?></td>
             <td>
+
                 <form action="/report/viewReport" method="POST">
                   <input type="hidden" id="reportId" name="reportId" value="<?php echo $reportId; ?>"/>
                   <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $traineeId; ?>"/>
                   <button type="submit" class="btn-link glyphicon glyphicon-eye-open"></button>
                 </form>
+                
             </td>
         </tr>
     <?php endforeach ?>

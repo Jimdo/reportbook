@@ -187,6 +187,26 @@ class UserController extends Controller
         }
     }
 
+    public function changePasswordAction()
+    {
+        $headerView = $this->view('app/views/Header.php');
+        $headerView->tabTitle = 'Berichtsheft';
+
+        $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView->username = $this->sessionData('username');
+        $infobarView->role = $this->sessionData('role');
+
+        $changePasswordView = $this->view('app/views/ChangePasswordView.php');
+        $changePasswordView->errorMessages = ['Die eingegebenen Passwörter stimmen nicht überein'];
+
+        $footerView = $this->view('app/views/Footer.php');
+
+        echo $headerView->render();
+        echo $infobarView->render();
+        echo $changePasswordView->render();
+        echo $footerView->render();
+    }
+
     public function logoutAction()
     {
         $_SESSION['authorized'] = false;

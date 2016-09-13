@@ -3,6 +3,8 @@
 namespace Jimdo\Reports;
 
 use PHPUnit\Framework\TestCase;
+use Jimdo\Reports\Role as Role;
+
 
 class UserFileRepositoryTest extends TestCase
 {
@@ -139,6 +141,29 @@ class UserFileRepositoryTest extends TestCase
         $user = $repository->findUserById($expectedUser->id());
 
         $this->assertEquals($expectedUser->id(), $user->id());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldFindUserByStatus()
+    {
+        $repository = new UserFileRepository(self::USERS_ROOT_PATH);
+
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+
+        $expectedUser1 = $repository->createUser($forename, $surname, $email, $role, '12345678910');
+        $users = $repository->findUsersByStatus(Role::STATUS_NOT_APPROVED);
+
+        $this->assertCount(1, $users);
+
+        $expectedUser2 = $repository->createUser($forename, $surname, 'maxi.mustermann@hotmail.de', $role, '12345678910');
+        $users = $repository->findUsersByStatus(Role::STATUS_NOT_APPROVED);
+
+        $this->assertCount(2, $users);
     }
 
     /**

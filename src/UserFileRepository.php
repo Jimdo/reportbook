@@ -35,7 +35,7 @@ class UserFileRepository implements UserRepository
         if (strlen($password) < self::PASSWORD_LENGTH) {
             throw new UserRepositoryException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n");
         }
-        
+
         $user = new User($forename, $surname, $email, $role, $password);
         $this->save($user);
 
@@ -136,6 +136,24 @@ class UserFileRepository implements UserRepository
                 return $user;
             }
         }
+    }
+
+    /**
+     * @param string $status
+     * @return array
+     * @throws UserFileRepositoryException
+     */
+    public function findUsersByStatus(string $status): array
+    {
+        $allUsers = $this->findAllUsers();
+        $foundUsers = [];
+
+        foreach ($allUsers as $user) {
+            if ($user->roleStatus() === $status) {
+                $foundUsers[] = $user;
+            }
+        }
+        return $foundUsers;
     }
 
     /**

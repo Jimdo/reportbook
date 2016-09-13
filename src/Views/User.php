@@ -60,6 +60,6 @@ class User
      */
     public function password(): string
     {
-        return $this->user->$password();
+        return $this->user->password();
     }
 }

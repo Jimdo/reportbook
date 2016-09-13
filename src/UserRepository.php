@@ -18,6 +18,12 @@ interface UserRepository
     public function createUser(string $forename, string $surname, string $email, Role $role, string $password): User;
 
     /**
+     * @param User $user
+     * @throws UserRepositoryException
+     */
+    public function save(User $user);
+
+    /**
      * @param User $deleteUser
      * @throws UserRepositoryException
      */
@@ -45,4 +51,11 @@ interface UserRepository
      * @return User|null
      */
     public function findUserById(string $id);
+
+    /**
+     * @param string $status
+     * @return array
+     * @throws UserFileRepositoryException
+     */
+    public function findUsersByStatus(string $status): array;
 }

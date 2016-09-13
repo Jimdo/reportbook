@@ -12,6 +12,9 @@ class UserInMemoryRepository implements UserRepository
     /** @var array */
     public $users = [];
 
+    /** @var bool */
+    public $saveMethodCalled = false;
+
     /**
      * @param string $forename
      * @param string $surname
@@ -77,6 +80,24 @@ class UserInMemoryRepository implements UserRepository
     }
 
     /**
+     * @param string $status
+     * @return array
+     * @throws UserFileRepositoryException
+     */
+    public function findUsersByStatus(string $status): array
+    {
+        $allUsers = $this->findAllUsers();
+        $foundUsers = [];
+
+        foreach ($allUsers as $user) {
+            if ($user->roleStatus() === $status) {
+                $foundUsers[] = $user;
+            }
+        }
+        return $foundUsers;
+    }
+
+    /**
      * @param string $surname
      * @return User|null
      */
@@ -96,5 +117,14 @@ class UserInMemoryRepository implements UserRepository
     public function findAllUsers(): array
     {
         return $this->users;
+    }
+
+    /**
+     * @param User $user
+     * @throws UserRepositoryException
+     */
+    public function save(User $user)
+    {
+        $this->saveMethodCalled = true;
     }
 }

@@ -114,4 +114,51 @@ class UserServiceTest extends TestCase
 
         $this->assertEquals(Role::STATUS_DISAPPROVED, $user->roleStatus());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldSaveStatusAfterApproveOrDisapproveRole()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = '123456789';
+
+        $user = $this->userService->registerTrainee($forename, $surname, $email, $password);
+
+        $this->assertFalse($this->userRepository->saveMethodCalled);
+        $this->userService->disapproveRole($user->email());
+        $this->assertTrue($this->userRepository->saveMethodCalled);
+
+        $this->userRepository->saveMethodCalled = false;
+
+        $this->assertFalse($this->userRepository->saveMethodCalled);
+        $this->userService->approveRole($user->email());
+        $this->assertTrue($this->userRepository->saveMethodCalled);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldFindUsersByStatus()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+
+        $expectedUser1 = $this->userService->registerTrainee($forename, $surname, $email, '12345678910');
+        $users = $this->userService->findUsersByStatus(Role::STATUS_NOT_APPROVED);
+
+        $this->assertCount(1, $users);
+
+        $expectedUser2 = $this->userService->registerTrainee($forename, $surname, 'maxi.mustermann@hotmail.de', '12345678910');
+        $users = $this->userService->findUsersByStatus(Role::STATUS_NOT_APPROVED);
+        $this->assertCount(2, $users);
+
+        $expectedUser3 = $this->userService->registerTrainee($forename, $surname, 'peter.mustermann@web.de', '12345678910');
+        $this->userService->approveRole($expectedUser3->email());
+        $users = $this->userService->findUsersByStatus(Role::STATUS_APPROVED);
+        $this->assertCount(1, $users);
+    }
 }

@@ -8,11 +8,17 @@ use Jimdo\Reports\ReportFileRepository as ReportFileRepository;
 use Jimdo\Reports\ReportBookService as ReportBookService;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 use Jimdo\Reports\Web\Request as Request;
+use Jimdo\Reports\UserService as UserService;
+use Jimdo\Reports\UserFileRepository as UserFileRepository;
+
 
 class ReportController extends Controller
 {
     /** @var ReportBookService */
     private $service;
+
+    /** @var UserService */
+    private $userService;
 
     /**
      * @param Request $request
@@ -23,6 +29,9 @@ class ReportController extends Controller
 
         $reportRepository = new ReportFileRepository('reports');
         $this->service = new ReportBookService($reportRepository);
+
+        $userRepository = new UserFileRepository('users');
+        $this->userService = new UserService($userRepository);
     }
 
     public function indexAction()
@@ -43,15 +52,15 @@ class ReportController extends Controller
         $footerView = $this->view('app/views/Footer.php');
         $footerView->backButton = 'nope';
 
-        if ($this->isAuthorized('Trainee')) {
+        if ($this->isAuthorized('TRAINEE')) {
 
             $reportView = $this->view('app/views/TraineeView.php');
             $reportView->reports = $this->service->findByTraineeId($this->sessionData('userId'));
 
-        } elseif ($this->isAuthorized('Trainer')) {
+        } elseif ($this->isAuthorized('TRAINER')) {
 
             $reportView = $this->view('app/views/TrainerView.php');
-
+            $reportView->userService = $this->userService;
             $reportView->reports = array_merge(
                 $this->service->findByStatus(Report::STATUS_APPROVAL_REQUESTED),
                 $this->service->findByStatus(Report::STATUS_APPROVED),
@@ -75,7 +84,7 @@ class ReportController extends Controller
 
     public function createReportAction()
     {
-        if ($this->isAuthorized('Trainee')) {
+        if ($this->isAuthorized('TRAINEE')) {
             $traineeId = $this->sessionData('userId');
 
             $reportView = $this->view('app/views/Report.php');
@@ -87,7 +96,7 @@ class ReportController extends Controller
             $reportView->buttonName = 'Bericht erstellen';
             $reportView->reportId = null;
             $reportView->backButton = 'show';
-            $reportView->role = 'Trainee';
+            $reportView->role = 'TRAINEE';
 
             $headerView = $this->view('app/views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
@@ -132,7 +141,7 @@ class ReportController extends Controller
             $reportView->content = $this->formData('content');
             $reportView->buttonName = 'Bericht erstellen';
             $reportView->backButton = 'show';
-            $reportView->role = 'Trainee';
+            $reportView->role = 'TRAINEE';
 
             $headerView = $this->view('app/views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
@@ -153,8 +162,8 @@ class ReportController extends Controller
 
     public function editReportAction()
     {
-        if ($this->isAuthorized('Trainee')) {
-            $reportId = $this->queryParams('reportId');
+        if ($this->isAuthorized('TRAINEE')) {
+            $reportId = $this->formData('reportId');
             $report = $this->service->findById($reportId, $this->sessionData('userId'));
 
             $reportView = $this->view('app/views/Report.php');
@@ -166,7 +175,7 @@ class ReportController extends Controller
             $reportView->buttonName = 'Speichern';
             $reportView->reportId = $reportId;
             $reportView->backButton = 'show';
-            $reportView->role = 'Trainee';
+            $reportView->role = 'TRAINEE';
 
             $headerView = $this->view('app/views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
@@ -187,7 +196,7 @@ class ReportController extends Controller
 
     public function editAction()
     {
-        if ($this->isAuthorized('Trainee')) {
+        if ($this->isAuthorized('TRAINEE')) {
 
         $this->addRequestValidation('content', 'string');
         $this->addRequestValidation('date', 'date');
@@ -214,7 +223,7 @@ class ReportController extends Controller
                 $reportView->buttonName = 'Speichern';
                 $reportView->reportId = $this->formData('reportId');
                 $reportView->backButton = 'show';
-                $reportView->role = 'Trainee';
+                $reportView->role = 'TRAINEE';
 
                 $headerView = $this->view('app/views/Header.php');
                 $headerView->tabTitle = 'Berichtsheft';
@@ -234,27 +243,26 @@ class ReportController extends Controller
         }
     }
 
+    public function deleteReportAction()
+    {
+        if ($this->isAuthorized('TRAINEE') && $this->service->findById($this->formData('reportId'), $this->sessionData('userId'))->status() !== Report::STATUS_DISAPPROVED) {
+            $this->service->deleteReport($this->formData('reportId'));
+            $this->redirect("/report/list");
+        }
+    }
+
     public function requestApprovalAction()
     {
-        if ($this->isAuthorized('Trainee')) {
-            $this->service->requestApproval($this->queryParams('reportId'));
+        if ($this->isAuthorized('TRAINEE')) {
+            $this->service->requestApproval($this->formData('reportId'));
             $this->redirect("/report/list");
         }
     }
 
-    public function deleteAction()
+    function viewReportAction()
     {
-        if ($this->isAuthorized('Trainee') && $this->service->findById($this->queryParams('reportId'), $this->sessionData('userId'))->status() !== Report::STATUS_DISAPPROVED) {
-            $this->service->deleteReport($this->queryParams('reportId'));
-            $this->redirect("/report/list");
-        }
-    }
-
-    public function viewReportAction()
-    {
-        if ($this->isAuthorized('Trainer') || $this->isAuthorized('Trainee')) {
-            $report = $this->service->findById($this->queryParams('reportId'), $this->queryParams('traineeId'));
-
+        if ($this->isAuthorized('TRAINER') || $this->isAuthorized('TRAINEE')) {
+            $report = $this->service->findById($this->formData('reportId'), $this->formData('traineeId'));
 
             $reportView = $this->view('app/views/Report.php');
             $reportView->title = 'Bericht';
@@ -263,7 +271,7 @@ class ReportController extends Controller
             $reportView->date = $report->date();
             $reportView->content = $report->content();
             $reportView->buttonName = 'Speichern';
-            $reportView->reportId = $this->queryParams('reportId');
+            $reportView->reportId = $this->formData('reportId');
             $reportView->backButton = 'show';
             $reportView->readonly = 'readonly';
             $reportView->role = $this->sessionData('role');
@@ -286,17 +294,17 @@ class ReportController extends Controller
         }
     }
 
-    public function approveAction()
+    public function approveReportAction()
     {
-        if ($this->isAuthorized('Trainer')) {
+        if ($this->isAuthorized('TRAINER')) {
             $this->service->approveReport($this->formData('reportId'));
             $this->redirect("/report/list");
         }
     }
 
-    public function disapproveAction()
+    public function disapproveReportAction()
     {
-        if ($this->isAuthorized('Trainer')) {
+        if ($this->isAuthorized('TRAINER')) {
             $this->service->disapproveReport($this->formData('reportId'));
             $this->redirect("/report/list");
         }

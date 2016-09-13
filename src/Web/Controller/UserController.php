@@ -96,6 +96,7 @@ class UserController extends Controller
     {
         $forename = $this->formData('forename');
         $surname = $this->formData('surname');
+        $username = $this->formData('username');
         $email = $this->formData('email');
         $password = $this->formData('password');
         $passwordConfirmation = $this->formData('passwordConfirmation');
@@ -120,12 +121,12 @@ class UserController extends Controller
         } else {
             if ($role === 'TRAINER') {
 
-                $this->service->registerTrainer($forename, $surname, $email, $password);
+                $this->service->registerTrainer($forename, $surname, $username, $email, $password);
                 header("Location: /user");
 
             } elseif ($role === 'TRAINEE') {
 
-                $this->service->registerTrainee($forename, $surname, $email, $password);
+                $this->service->registerTrainee($forename, $surname, $username, $email, $password);
                 header("Location: /user");
 
             } else {

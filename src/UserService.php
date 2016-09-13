@@ -55,12 +55,23 @@ class UserService
      * @param string $password
      * @return bool
      */
-    public function authUser(string $email, string $password): bool
+    public function authUser(string $identifier, string $password): bool
     {
-        $user = $this->userRepository->findUserbyEmail($email);
-        if ($user->password() === $password) {
-            return true;
+        $userByMail = $this->userRepository->findUserbyEmail($identifier);
+        $userByUsername = $this->userRepository->findUserByUsername($identifier);
+
+        if ($userByMail !== null) {
+            if ($userByMail->password() === $password) {
+                return true;
+            }
         }
+
+        if ($userByUsername !== null) {
+            if ($userByUsername->password() === $password) {
+                return true;
+            }
+        }
+
         return false;
     }
 

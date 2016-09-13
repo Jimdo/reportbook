@@ -57,12 +57,16 @@ class UserServiceTest extends TestCase
     {
         $forename = 'Max';
         $surname = 'Mustermann';
+        $username = 'Hase';
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
 
-        $user = $this->userService->registerTrainee($forename, $surname, 'Hase', $email, $password);
-        $authStatus = $this->userService->authUser($email, $password);
+        $user = $this->userService->registerTrainee($forename, $surname, $username, $email, $password);
 
+        $authStatus = $this->userService->authUser($email, $password);
+        $this->assertTrue($authStatus);
+
+        $authStatus = $this->userService->authUser($username, $password);
         $this->assertTrue($authStatus);
     }
 

@@ -25,7 +25,7 @@ class View
     public function render(): string
     {
         ob_start();
-        require $this->view;
+        require __DIR__ . "/../../{$this->view}";
         return ob_get_clean();
     }
 

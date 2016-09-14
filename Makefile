@@ -1,4 +1,4 @@
-.PHONY: help tests
+.PHONY: help tests update bootstrap lint doc server build
 .DEFAULT_GOAL := help
 
 help:
@@ -21,3 +21,6 @@ doc: ## Generate documentation
 
 server: ## Start up local development web server
 	php -S localhost:8000 -t app/ app/router.php
+
+build: ## Generate docker container image
+	docker build -t jimdo/reportbook .

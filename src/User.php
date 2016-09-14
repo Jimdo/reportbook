@@ -126,12 +126,12 @@ class User
      * @param Role $role
      * @param string $password
      */
-    public function edit(string $forename, string $surname, string $username, string $email, Role $role, string $password)
+    public function edit(string $forename, string $surname, string $username, string $email, string $password)
     {
         $this->forename = $forename;
         $this->surname = $surname;
+        $this->username = $username;
         $this->email = $email;
-        $this->role = $role;
         $this->password = $password;
     }
 }

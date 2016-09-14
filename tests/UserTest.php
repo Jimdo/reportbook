@@ -40,7 +40,7 @@ class UserTest extends TestCase
 
         $forename = 'Peter';
 
-        $user->edit($forename, $surname, 'Hase', $email, $role, '12345678910');
+        $user->edit($forename, $surname, 'Hase', $email, '12345678910');
 
         $this->assertEquals($forename, $user->forename());
     }

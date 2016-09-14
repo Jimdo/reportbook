@@ -51,7 +51,6 @@ class UserFileRepository implements UserRepository
     {
         $this->ensureUsersPath();
         $filename = $this->filename($user);
-
         if (file_put_contents($filename, serialize($user)) === false) {
             throw new UserRepositoryException("Could not write to $filename!");
         }

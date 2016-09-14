@@ -4,7 +4,7 @@ namespace Jimdo\Reports;
 
 class UserFileRepository implements UserRepository
 {
-    const PASSWORD_LENGTH = 7;
+
 
     /** @var string */
     private $usersPath;
@@ -31,10 +31,6 @@ class UserFileRepository implements UserRepository
     {
         if ($this->findUserByEmail($email) !== null) {
             throw new UserRepositoryException("Email already exists!\n");
-        }
-
-        if (strlen($password) < self::PASSWORD_LENGTH) {
-            throw new UserRepositoryException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n");
         }
 
         $user = new User($forename, $surname, $username, $email, $role, $password);

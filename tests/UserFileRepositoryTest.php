@@ -185,23 +185,6 @@ class UserFileRepositoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException Jimdo\Reports\UserRepositoryException
-     */
-    public function itShouldThrowExceptionWhenPasswordIsShorterThatSevenChars()
-    {
-        $userRepository = new UserFileRepository(self::USERS_ROOT_PATH);
-
-        $forename = 'Max';
-        $surname = 'Mustermann';
-        $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
-        $password = '123456';
-
-        $jenny = $userRepository->createUser('Max', 'Mustermann', 'Hase', 'max.mustermann@hotmail.de', $role, $password);
-    }
-
-    /**
-     * @test
      */
     public function itShouldCheckIfUserExistsByEmailOrUsername()
     {

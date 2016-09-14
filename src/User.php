@@ -4,6 +4,8 @@ namespace Jimdo\Reports;
 
 class User
 {
+    const PASSWORD_LENGTH = 7;
+
     /** @var string */
     private $forename;
 
@@ -35,6 +37,9 @@ class User
      */
     public function __construct(string $forename, string $surname, string $username, string $email, Role $role, string $password)
     {
+        if (strlen($password) < self::PASSWORD_LENGTH) {
+            throw new PasswordException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n");
+        }
         $this->forename = $forename;
         $this->surname = $surname;
         $this->username = $username;
@@ -133,5 +138,32 @@ class User
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
+    }
+
+    /**
+     * @param string $oldPassword
+     * @param string $newPassword
+     */
+    public function editPassword(string $oldPassword, string $newPassword)
+    {
+        if ($this->password() === $oldPassword) {
+
+            if ($this->password() !== $newPassword) {
+
+                if (strlen($newPassword) >= self::PASSWORD_LENGTH) {
+
+                    $this->password = $newPassword;
+
+                } else {
+                    throw new PasswordException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n");
+                }
+
+            } else {
+                throw new PasswordException("The new password must be different as the old one!");
+            }
+
+        } else {
+            throw new PasswordException("The current password is wrong!");
+        }
     }
 }

@@ -4,5 +4,4 @@ php:
 install:
   - make bootstrap
 script:
-  - composer dumpautoload
-  - ./scripts/phpunit tests
+  - make tests

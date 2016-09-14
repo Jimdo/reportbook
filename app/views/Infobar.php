@@ -20,6 +20,17 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
+
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+              <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog" aria-hidden="true"></strong></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/user/changePassword">Passwort ändern</a></li>
+                    </ul>
+                </li>
+
             <li><a href="/user/login"><strong><span class="glyphicon glyphicon-off" aria-hidden="true"></span></strong></a></li>
           </ul>
         </div><!-- /.navbar-collapse -->

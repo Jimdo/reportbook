@@ -1,6 +1,6 @@
 <div class="col-sm-offset-3 col-sm-6">
 
-<form action="user/login" method="POST" class="form-horizontal">
+<form action="/user/editPassword" method="POST" class="form-horizontal">
 
 <div class="form-group">
     <label class="col-sm-6 control-label">Derzeitiges Passwort</label>

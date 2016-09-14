@@ -207,6 +207,18 @@ class UserController extends Controller
         echo $footerView->render();
     }
 
+    public function editPasswordAction()
+    {
+        if ($this->isAuthorized('TRAINER') || $this->isAuthorized('TRAINEE')) {
+
+            if ($this->formData('newPassword') === $this->formData('passwordConfirmation')) {
+                $this->service->editPassword($this->sessionData('userId'), $this->formData('currentPassword'), $this->formData('newPassword'));
+                $this->redirect("/report/list");
+            }
+
+        }
+    }
+
     public function logoutAction()
     {
         $_SESSION['authorized'] = false;

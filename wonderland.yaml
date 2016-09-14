@@ -5,6 +5,8 @@ endpoint:
   domain: reportbook.jimdo-platform.net
   port: 80
   component: reportbook
-  path: /status/health
+  load-balancer:
+    healthcheck:
+      path: /status/health
 notifications:
   slack: "#fachinformatiker"

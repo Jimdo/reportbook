@@ -66,7 +66,7 @@ class UserServiceTest extends TestCase
         $this->userService->editPassword($user->id(), $oldPassword, $newPassword);
 
         $user = $this->userService->findUserById($user->id());
-        
+
         $this->assertEquals($newPassword, $user->password());
     }
 
@@ -184,5 +184,22 @@ class UserServiceTest extends TestCase
         $this->userService->approveRole($expectedUser3->email());
         $users = $this->userService->findUsersByStatus(Role::STATUS_APPROVED);
         $this->assertCount(1, $users);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldCheckIfUserExistsByEmailOrUsername()
+    {
+        $username = 'hase2000';
+        $mail = 'hase@123.org';
+
+        $this->assertFalse($this->userService->exists($username));
+        $this->assertFalse($this->userService->exists($mail));
+
+        $expectedUser1 = $this->userService->registerTrainee('pups', 'hase', $username, $mail, '12345678910');
+
+        $this->assertTrue($this->userService->exists($username));
+        $this->assertTrue($this->userService->exists($mail));
     }
 }

@@ -151,6 +151,15 @@ class UserService
     }
 
     /**
+     * @param string $identifier
+     * @return bool
+     */
+    public function exists(string $identifier): bool
+    {
+        return $this->userRepository->exists($identifier);
+    }
+
+    /**
      * @param string $forename
      * @param string $surname
      * @param string $username

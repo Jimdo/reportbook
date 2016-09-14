@@ -140,7 +140,13 @@ class UserInMemoryRepository implements UserRepository
      */
     public function exists(string $identifier): bool
     {
+        $username = $this->findUserByUsername($identifier);
+        $email = $this->findUserByEmail($identifier);
 
+        if ($username === null && $email === null) {
+            return false;
+        }
+        return true;
     }
 
     /**

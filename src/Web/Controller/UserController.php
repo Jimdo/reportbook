@@ -50,7 +50,7 @@ class UserController extends Controller
             $password = $this->formData('password');
 
             if ($identifier === 'admin' && $password === 'adminadmin') {
-                if (!file_exists('users')) {
+                if (!$this->service->exists($identifier)) {
                     $adminUser = $this->service->registerTrainer('admin', 'admin', 'admin', 'admin', 'adminadmin');
                     $this->service->approveRole($adminUser->email());
                 }

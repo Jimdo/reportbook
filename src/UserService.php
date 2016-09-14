@@ -58,10 +58,8 @@ class UserService
     public function editPassword(string $userId, string $oldPassword, string $newPassword)
     {
         $user = $this->userRepository->findUserById($userId);
-        if ($user->password() === $oldPassword) {
-            $user->edit($user->forename(), $user->surname(), $user->username(), $user->email(), $newPassword);
-            $this->userRepository->save($user);
-        }
+        $user->editPassword($oldPassword, $newPassword);
+        $this->userRepository->save($user);
     }
 
     /**

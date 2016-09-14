@@ -80,4 +80,37 @@ class RequestValidatorTest extends TestCase
             array_keys($errorMessages)
         );
     }
+
+    /**
+     * @test
+     */
+    public function itShouldReturnErrorCodes()
+    {
+        $request = [
+            'name' => 'Max Mustermann',
+            'age' => 32,
+            'height' => 178.5,
+            'isCustomer' => false,
+            'birthday' => '11.07.1973',
+        ];
+
+        $validator = new RequestValidator();
+
+        $validator->add('name', 'integer');
+        $validator->add('age', 'bool');
+        $validator->add('height', 'string');
+        $validator->add('isCustomer', 'date');
+        $validator->add('birthday', 'float');
+
+        $validator->isValid($request);
+
+        $errorCodes = $validator->errorCodes();
+
+        $this->assertCount(5, $errorCodes);
+
+        $this->assertEquals(
+            ['name', 'age', 'height', 'isCustomer', 'birthday'],
+            array_keys($errorCodes)
+        );
+    }
 }

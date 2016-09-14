@@ -18,6 +18,7 @@ class FloatValidator extends Validator
                 $value = 'Array';
             }
             $this->errorMessage = "'$value' is not a float";
+            $this->errorCode = Validator::ERR_VALIDATOR_FLOAT;
             return false;
         }
         return true;

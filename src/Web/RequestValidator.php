@@ -10,6 +10,9 @@ class RequestValidator
     /** @var array */
     private $errorMessages = [];
 
+    /** @var array */
+    private $errorCodes = [];
+
     /**
      * @param string $field
      * @param string $validator
@@ -30,6 +33,7 @@ class RequestValidator
 
             if (!$validator->isValid($request[$field])) {
                 $this->errorMessages[$field] = $validator->errorMessage();
+                $this->errorCodes[$field] = $validator->errorCode();
             }
         }
         return count($this->errorMessages) === 0;
@@ -41,6 +45,14 @@ class RequestValidator
     public function errorMessages(): array
     {
         return $this->errorMessages;
+    }
+
+    /**
+     * @return array
+     */
+    public function errorCodes(): array
+    {
+        return $this->errorCodes;
     }
 
     /**

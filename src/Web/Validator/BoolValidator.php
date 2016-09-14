@@ -20,6 +20,7 @@ class BoolValidator extends Validator
             $value = 'Array';
         }
         $this->errorMessage = "'$value' is not a bool";
+        $this->errorCode = Validator::ERR_VALIDATOR_BOOL;
         return false;
     }
 }

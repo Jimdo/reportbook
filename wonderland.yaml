@@ -1,0 +1,9 @@
+components:
+  - name: reportbook
+    image: jimdo/reportbook
+endpoint:
+  domain: reportbook.jimdo-platform.net
+  port: 80
+  component: reportbook
+notifications:
+  slack: "#fachinformatiker"

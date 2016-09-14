@@ -10,6 +10,7 @@ use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 use Jimdo\Reports\Web\Request as Request;
 use Jimdo\Reports\UserService as UserService;
 use Jimdo\Reports\UserFileRepository as UserFileRepository;
+use Jimdo\Reports\Web\Validator\Validator as Validator;
 
 
 class ReportController extends Controller
@@ -214,7 +215,12 @@ class ReportController extends Controller
 
             } else {
                 $reportView = $this->view('app/views/Report.php');
-                $reportView->errorMessages = $this->requestValidator->errorMessages();
+
+                foreach ($this->requestValidator->errorCodes() as $errorCode) {
+                    $errorMessage[] = $this->getErrorMessageForErrorCode($errorCode);
+                }
+
+                $reportView->errorMessages = $errorMessage;
                 $reportView->action = '/report/edit';
                 $reportView->legend = 'Bericht bearbeiten';
                 $reportView->calendarWeek = $this->formData('calendarWeek');
@@ -307,6 +313,22 @@ class ReportController extends Controller
         if ($this->isAuthorized('TRAINER')) {
             $this->service->disapproveReport($this->formData('reportId'));
             $this->redirect("/report/list");
+        }
+    }
+
+    /**
+     * @param int $errorCode
+     */
+    public function getErrorMessageForErrorCode(int $errorCode)
+    {
+        switch ($errorCode) {
+
+            case Validator::ERR_VALIDATOR_DATE:
+                return 'Der eingegebene Wert ist kein Datum!' . "\n";
+
+            case Validator::ERR_VALIDATOR_INT:
+                return 'Der eingegebene Wert ist keine Kalenderwoche!' . "\n";
+
         }
     }
 }

@@ -61,16 +61,22 @@ class UserController extends Controller
                 } elseif ($this->service->findUserByUsername($identifier) !== null) {
                     $user = $this->service->findUserByUsername($identifier);
                 }
+                if ($user->roleStatus() === Role::STATUS_APPROVED) {
 
-                $role = $_SESSION['role'] = $user->roleName();
-                $_SESSION['authorized'] = true;
-                $_SESSION['userId'] = $user->id();
-                $_SESSION['username'] = $user->forename();
+                    $role = $_SESSION['role'] = $user->roleName();
+                    $_SESSION['authorized'] = true;
+                    $_SESSION['userId'] = $user->id();
+                    $_SESSION['username'] = $user->forename();
 
-                if ($identifier === 'admin' && $password === 'adminadmin') {
-                    $this->redirect('/user/changePassword');
+                    if ($identifier === 'admin' && $password === 'adminadmin') {
+                        $this->redirect('/user/changePassword');
+                    } else {
+                        $this->redirect('/report/list');
+                    }
+
                 } else {
-                    $this->redirect('/report/list');
+                    $_SESSION['authorized'] = false;
+                    $this->redirect('/user');
                 }
 
             } else {

@@ -63,12 +63,40 @@ class UserService
     }
 
     /**
+     * @param string $status
+     * @return array
+     */
+    public function findUsersByStatus(string $status)
+    {
+        return $users = $this->userRepository->findUsersByStatus($status);
+    }
+
+    /**
+     * @param string $id
+     * @return array
+     */
+    public function findUserById(string $id)
+    {
+        return $users = $this->userRepository->findUserById($id);
+    }
+
+    /**
+     * @param string $status
+     * @return array
+     */
+    public function findUserByEmail(string $email)
+    {
+        return $users = $this->userRepository->findUserByEmail($email);
+    }
+
+    /**
      * @param string $email
      */
     public function approveRole(string $email)
     {
         $user = $this->userRepository->findUserbyEmail($email);
         $user->approve();
+        $this->userRepository->save($user);
     }
 
     /**
@@ -78,8 +106,9 @@ class UserService
     {
         $user = $this->userRepository->findUserbyEmail($email);
         $user->disapprove();
+        $this->userRepository->save($user);
     }
-    
+
     /**
      * @param string $forename
      * @param string $surname

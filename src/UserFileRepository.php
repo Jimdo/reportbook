@@ -38,6 +38,7 @@ class UserFileRepository implements UserRepository
         }
 
         $user = new User($forename, $surname, $username, $email, $role, $password);
+        $this->ensureUsersPath();
         $this->save($user);
 
         return $user;
@@ -198,7 +199,7 @@ class UserFileRepository implements UserRepository
     /**
      * @throws ReportFileRepositoryException
      */
-    public function ensureUsersPath()
+    private function ensureUsersPath()
     {
         if (!file_exists($this->usersPath)) {
             if (!mkdir($this->usersPath)) {

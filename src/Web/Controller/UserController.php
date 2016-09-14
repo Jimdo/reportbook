@@ -51,7 +51,6 @@ class UserController extends Controller
 
             if ($identifier === 'admin' && $password === 'adminadmin') {
                 if (!file_exists('users')) {
-                    $this->service->ensureUsersPath();
                     $adminUser = $this->service->registerTrainer('admin', 'admin', 'admin', 'admin', 'adminadmin');
                     $this->service->approveRole($adminUser->email());
                 }

@@ -13,6 +13,9 @@ use Jimdo\Reports\PasswordException as PasswordException;
 
 class UserController extends Controller
 {
+    const ADMIN_DEFAULT_PASSWORD = 'adminadmin';
+    const ADMIN_DEFAULT_USER = 'admin';
+
     /** @var UserService */
     private $service;
 
@@ -45,39 +48,43 @@ class UserController extends Controller
 
     public function loginAction()
     {
-        if ($this->formData('identifier') !== null) {
+        if ($this->formData('identifier') === null) {
+            $_SESSION['authorized'] = false;
+            $this->redirect('/user');
+        }
 
-            $identifier = $this->formData('identifier');
-            $password = $this->formData('password');
 
-            if ($identifier === 'admin' && $password === 'adminadmin') {
-                if (!$this->service->exists($identifier)) {
-                    $adminUser = $this->service->registerTrainer('admin', 'admin', 'admin', 'admin', 'adminadmin');
-                    $this->service->approveRole($adminUser->email());
-                }
+        $identifier = $this->formData('identifier');
+        $password = $this->formData('password');
+
+        $loginWithAdminDefaultPassword = false;
+        if ($identifier === self::ADMIN_DEFAULT_USER && $password === self::ADMIN_DEFAULT_PASSWORD) {
+            if (!$this->service->exists($identifier)) {
+                $adminUser = $this->service->registerTrainer('admin', 'admin', self::ADMIN_DEFAULT_USER, 'admin', self::ADMIN_DEFAULT_PASSWORD);
+                $this->service->approveRole($adminUser->email());
             }
-            if ($this->service->authUser($identifier, $password)) {
-                if ($this->service->findUserByEmail($identifier) !== null) {
-                    $user = $this->service->findUserByEmail($identifier);
-                } elseif ($this->service->findUserByUsername($identifier) !== null) {
-                    $user = $this->service->findUserByUsername($identifier);
-                }
-                if ($user->roleStatus() === Role::STATUS_APPROVED) {
+            $loginWithAdminDefaultPassword = true;
+        }
 
-                    $role = $_SESSION['role'] = $user->roleName();
-                    $_SESSION['authorized'] = true;
-                    $_SESSION['userId'] = $user->id();
-                    $_SESSION['username'] = $user->forename();
+        if ($this->service->authUser($identifier, $password)) {
 
-                    if ($identifier === 'admin' && $password === 'adminadmin') {
-                        $this->redirect('/user/changePassword');
-                    } else {
-                        $this->redirect('/report/list');
-                    }
+            $user = $this->service->findUserByEmail($identifier);
 
+            if ($user === null) {
+                $user = $this->service->findUserByUsername($identifier);
+            }
+
+            if ($user->roleStatus() === Role::STATUS_APPROVED) {
+
+                $_SESSION['role'] = $user->roleName();
+                $_SESSION['authorized'] = true;
+                $_SESSION['userId'] = $user->id();
+                $_SESSION['username'] = $user->forename();
+
+                if ($loginWithAdminDefaultPassword) {
+                    $this->redirect('/user/changePassword');
                 } else {
-                    $_SESSION['authorized'] = false;
-                    $this->redirect('/user');
+                    $this->redirect('/report/list');
                 }
 
             } else {

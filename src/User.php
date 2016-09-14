@@ -6,6 +6,10 @@ class User
 {
     const PASSWORD_LENGTH = 7;
 
+    const ERR_PASSWORD_LENGTH = 1;
+    const ERR_PASSWORD_NOT_NEW = 2;
+    const ERR_PASSWORD_WRONG = 3;
+
     /** @var string */
     private $forename;
 
@@ -38,7 +42,7 @@ class User
     public function __construct(string $forename, string $surname, string $username, string $email, Role $role, string $password)
     {
         if (strlen($password) < self::PASSWORD_LENGTH) {
-            throw new PasswordException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n");
+            throw new PasswordException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n", self::ERR_PASSWORD_LENGTH);
         }
         $this->forename = $forename;
         $this->surname = $surname;
@@ -155,15 +159,15 @@ class User
                     $this->password = $newPassword;
 
                 } else {
-                    throw new PasswordException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n");
+                    throw new PasswordException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n", self::ERR_PASSWORD_LENGTH);
                 }
 
             } else {
-                throw new PasswordException("The new password must be different as the old one!");
+                throw new PasswordException("The new password must be different as the old one!", self::ERR_PASSWORD_NOT_NEW);
             }
 
         } else {
-            throw new PasswordException("The current password is wrong!");
+            throw new PasswordException("The current password is wrong!", self::ERR_PASSWORD_WRONG);
         }
     }
 }

@@ -9,6 +9,7 @@ use Jimdo\Reports\UserService as UserService;
 use Jimdo\Reports\UserFileRepository as UserFileRepository;
 use Jimdo\Reports\Web\Request as Request;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
+use Jimdo\Reports\PasswordException as PasswordException;
 
 class UserController extends Controller
 {
@@ -217,31 +218,48 @@ class UserController extends Controller
 
     public function editPasswordAction()
     {
-        if ($this->isAuthorized('TRAINER') || $this->isAuthorized('TRAINEE')) {
+        $exceptions = [];
 
-            if ($this->formData('newPassword') === $this->formData('passwordConfirmation')) {
-                $this->service->editPassword($this->sessionData('userId'), $this->formData('currentPassword'), $this->formData('newPassword'));
-                $this->redirect("/report/list");
-            } else {
-                $headerView = $this->view('app/views/Header.php');
-                $headerView->tabTitle = 'Berichtsheft';
 
-                $infobarView = $this->view('app/views/Infobar.php');
-                $infobarView->username = $this->sessionData('username');
-                $infobarView->role = $this->sessionData('role');
+            if ($this->isAuthorized('TRAINER') || $this->isAuthorized('TRAINEE')) {
 
-                $changePasswordView = $this->view('app/views/ChangePasswordView.php');
-                $changePasswordView->errorMessages = ['Die eingegebenen Passwörter stimmen nicht überein'];
+                if ($this->formData('newPassword') === $this->formData('passwordConfirmation')) {
 
-                $footerView = $this->view('app/views/Footer.php');
+                    try {
+                        $this->service->editPassword($this->sessionData('userId'), $this->formData('currentPassword'), $this->formData('newPassword'));
+                    } catch (PasswordException $e) {
+                        $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
+                    }
 
-                echo $headerView->render();
-                echo $infobarView->render();
-                echo $changePasswordView->render();
-                echo $footerView->render();
+                } else {
+                    $exceptions[] = 'Die eingegebenen Passwörter stimmen nicht überein!';
+                }
             }
 
+
+        if ($exceptions !== []) {
+
+            $headerView = $this->view('app/views/Header.php');
+            $headerView->tabTitle = 'Berichtsheft';
+
+            $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+
+            $changePasswordView = $this->view('app/views/ChangePasswordView.php');
+            $changePasswordView->errorMessages = $exceptions;
+
+            $footerView = $this->view('app/views/Footer.php');
+
+            echo $headerView->render();
+            echo $infobarView->render();
+            echo $changePasswordView->render();
+            echo $footerView->render();
+
+        } else {
+            $this->redirect("/report/list");
         }
+
     }
 
     public function logoutAction()
@@ -251,5 +269,22 @@ class UserController extends Controller
         $_SESSION['role'] = '';
 
         $this->redirect("/user");
+    }
+
+    /**
+     * @param int $errorCode
+     */
+    public function getErrorMessageForErrorCode(int $errorCode)
+    {
+        switch ($errorCode) {
+            case User::ERR_PASSWORD_LENGTH:
+                return 'Das Passwort muss mindestens ' . User::PASSWORD_LENGTH . ' Zeichen lang sein!' . "\n";
+
+            case User::ERR_PASSWORD_NOT_NEW:
+                return 'Das neue Passwort muss anders als das derzeitige Passwort sein!' . "\n";
+
+            case User::ERR_PASSWORD_WRONG:
+                return 'Das derzeitige Passwort ist falsch!' . "\n";
+        }
     }
 }

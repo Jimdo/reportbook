@@ -1,7 +1,7 @@
 .PHONY: help tests update bootstrap lint doc server build push deploy login
 .DEFAULT_GOAL := help
 
-REGISTRY = hub.docker.com
+REGISTRY = https://index.docker.io/v1/
 NAME     = reportbook
 IMAGE    = jimdo/$(NAME)
 WL       = ./wl

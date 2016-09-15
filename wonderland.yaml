@@ -5,7 +5,8 @@ endpoint:
   domain: reportbook.jimdo-platform.net
   port: 80
   component: reportbook
-  capacity: S
+  capacity:
+    memory: S
   load-balancer:
     healthcheck:
       path: /status/health

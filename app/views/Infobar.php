@@ -40,7 +40,7 @@
 </div>
 <div class="row">
   <div class="col-sm-offset-0 col-sm-3">
-     <label>Benutzer: <?php echo $this->username; ?> | <?php echo $this->role; ?></label></br>
+     <label>Benutzer: <?php echo $this->username; ?> | <?php echo $this->viewHelper->getTranslationForRole($this->role); ?></label></br>
      <label>Datum: <?php echo date("d.m.Y"); ?> | <?php echo date("W"); ?></label>
   </div>
 </div></br>

@@ -3,6 +3,7 @@
 namespace Jimdo\Reports\Web\Controller;
 
 use Jimdo\Reports\Web\View as View;
+use Jimdo\Reports\Web\ViewHelper as ViewHelper;
 use Jimdo\Reports\User as User;
 use Jimdo\Reports\Role as Role;
 use Jimdo\Reports\UserService as UserService;
@@ -19,6 +20,9 @@ class UserController extends Controller
     /** @var UserService */
     private $service;
 
+    /** @var ViewHelper */
+    private $viewHelper;
+
     /**
      * @param Request $request
      */
@@ -28,6 +32,8 @@ class UserController extends Controller
 
         $userRepository = new UserFileRepository('users');
         $this->service = new UserService($userRepository);
+
+        $this->viewHelper = new ViewHelper();
     }
 
 
@@ -164,6 +170,7 @@ class UserController extends Controller
             $headerView->tabTitle = 'Berichtsheft';
 
             $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->infoHeadline = ' | Benutzeranfragen';
@@ -173,6 +180,7 @@ class UserController extends Controller
 
             $userView = $this->view('app/views/UserlistView.php');
             $userView->users = $this->service->findUsersByStatus(Role::STATUS_NOT_APPROVED);
+            $userView->viewHelper = $this->viewHelper;
 
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');

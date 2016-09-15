@@ -3,6 +3,7 @@
 namespace Jimdo\Reports\Web\Controller;
 
 use Jimdo\Reports\Web\View as View;
+use Jimdo\Reports\Web\ViewHelper as ViewHelper;
 use Jimdo\Reports\Report as Report;
 use Jimdo\Reports\ReportFileRepository as ReportFileRepository;
 use Jimdo\Reports\ReportBookService as ReportBookService;
@@ -21,6 +22,9 @@ class ReportController extends Controller
     /** @var UserService */
     private $userService;
 
+    /** @var ViewHelper */
+    private $viewHelper;
+
     /**
      * @param Request $request
      */
@@ -33,6 +37,8 @@ class ReportController extends Controller
 
         $userRepository = new UserFileRepository('users');
         $this->userService = new UserService($userRepository);
+
+        $this->viewHelper = new ViewHelper();
     }
 
     public function indexAction()
@@ -46,6 +52,7 @@ class ReportController extends Controller
         $headerView->tabTitle = 'Berichtsheft';
 
         $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->infoHeadline = ' | Übersicht';
@@ -57,11 +64,13 @@ class ReportController extends Controller
 
             $reportView = $this->view('app/views/TraineeView.php');
             $reportView->reports = $this->service->findByTraineeId($this->sessionData('userId'));
+            $reportView->viewHelper = $this->viewHelper;
 
         } elseif ($this->isAuthorized('TRAINER')) {
 
             $reportView = $this->view('app/views/TrainerView.php');
             $reportView->userService = $this->userService;
+            $reportView->viewHelper = $this->viewHelper;
             $reportView->reports = array_merge(
                 $this->service->findByStatus(Report::STATUS_APPROVAL_REQUESTED),
                 $this->service->findByStatus(Report::STATUS_APPROVED),
@@ -77,6 +86,7 @@ class ReportController extends Controller
             $this->redirect("/user");
 
         }
+
         echo $headerView->render();
         echo $infobarView->render();
         echo $reportView->render();
@@ -103,6 +113,7 @@ class ReportController extends Controller
             $headerView->tabTitle = 'Berichtsheft';
 
             $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
 
@@ -148,6 +159,7 @@ class ReportController extends Controller
             $headerView->tabTitle = 'Berichtsheft';
 
             $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
 
@@ -182,6 +194,7 @@ class ReportController extends Controller
             $headerView->tabTitle = 'Berichtsheft';
 
             $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
 
@@ -235,6 +248,7 @@ class ReportController extends Controller
                 $headerView->tabTitle = 'Berichtsheft';
 
                 $infobarView = $this->view('app/views/Infobar.php');
+                $infobarView->viewHelper = $this->viewHelper;
                 $infobarView->username = $this->sessionData('username');
                 $infobarView->role = $this->sessionData('role');
 
@@ -287,6 +301,7 @@ class ReportController extends Controller
             $headerView->tabTitle = 'Berichtsheft';
 
             $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
 

@@ -13,8 +13,8 @@
             <td><?php echo $user->forename(); ?></td>
             <td><?php echo $user->surname(); ?></td>
             <td><?php echo $userEmail; ?></td>
-            <td><?php echo $user->roleName(); ?></td>
-            <td><?php echo $user->roleStatus(); ?></td>
+            <td><?php echo $this->viewHelper->getTranslationForRole($user->roleName()); ?></td>
+            <td><?php echo $this->viewHelper->getTranslationForStatus($user->roleStatus()); ?></td>
             <td>
                 <form action="/user/changeStatus" method="POST">
                   <input type="hidden" id="email" name="email" value="<?php echo $userEmail; ?>"/>

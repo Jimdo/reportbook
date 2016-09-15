@@ -1,4 +1,5 @@
 <?php use \Jimdo\Reports\Report as Report; ?>
+<?php use \Jimdo\Reports\Web\Controller\ReportController as ReportController; ?>
 <table class="table table-hover">
     <tr>
         <th>Teaser</th>
@@ -9,12 +10,12 @@
     </tr>
     <?php foreach ($this->reports as $report):
          $reportId = $report->id();
-         $traineeId = $report->traineeId(); ?>
+         $traineeId = $report->traineeId();?>
         <tr>
             <td><?php echo substr($report->content(), 0, 20); ?></td>
             <td><?php echo $report->date(); ?></td>
             <td><?php echo $report->calendarWeek(); ?></td>
-            <td><?php echo $report->status(); ?></td>
+            <td><?php echo $this->viewHelper->getTranslationForStatus($report->status()); ?></td>
                 <td>
 
                     <form action="/report/editReport" method="POST">
@@ -49,7 +50,6 @@
                             <button type="submit" class="btn-link glyphicon glyphicon-trash" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')" aria-hidden="true"></button>
                         <?php endif; ?>
                         <?php endif; ?>
-
 
                     </form>
 

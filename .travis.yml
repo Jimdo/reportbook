@@ -12,7 +12,7 @@ deploy:
   provider: script
   script: make deploy
   on:
-    branch: travis-as-deploy-pipeline
+    branch: master
 env:
   global:
     - secure: T29eigdGW102LQzBHoBxQieSw07hCEJ+quFh6SY2kIHEuLy5AzPl4e5/9/7Yi/I/pcQziHlv/zXoH2DB61Wtu+QSDM0ctX24On8LwYjXOlVquZC4eTnzhNlyI0C18kjWaUyeSqWmN0+dJTA3IvYTxe5nKRyfkJrazDbUejUCCpW6iUWIkGpmtG9Vao8iwQON5ZKht6uthGvxVwn7RRNBfg1eKOO7ZbSNoEphEAKUeMRs76P778dsYMd79kBcUagXWki3h0iEBIC8eXKYo8Si9XZVZ6vTfuNSIISOfvRLski7FIJXZs7y5hdYhXIrelvCSUeDY/inqMoevu3rlFRq8Si6sMXqUzkutfFzd5aiPXc5GbfCXjyoM2L9mXIX0AvshYUqmMll+jK86C7DgUSGmMVeS8VYeY7ZuLDJWSL1BE/VwzT0QtVVMNcgcXCS1sWMOtZVlABWuJKp81StOpKqnF0B30kbphFqsbBmOAngwoxB6Yepshd3uVpLYTEOOUyO46rI4rWEBEJlyio/0cwmTatRAQ1Gd9ddNEUV9OVB6rYv5BcArNRfhzTREbEpfDr31154+bAhhk+xQl5ZWIdHLGaxUcaBJitV73WL+DfQgKpNJrueugtKgHUUYdL3HRevvYz1/vFNa/PHXyhNiV3U5JhzBKfUp3pQuvia8B9acL4=

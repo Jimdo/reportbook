@@ -31,7 +31,7 @@ build: ## Generate docker container image
 	docker build -t $(IMAGE) .
 
 push: login ## Push container image to hub.docker.com
-	docker -D -l="debug" push $(IMAGE)
+	docker push $(IMAGE)
 
 deploy: build push $(WL) ## Deploy the app to the wonderland
 	$(WL) deploy --watch $(NAME)

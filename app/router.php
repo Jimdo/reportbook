@@ -16,6 +16,8 @@ try {
     info("Dispatched '$uri'");
 } catch (ControllerNotFoundException $e) {
     err("No controller found for '$uri'");
+} catch (ActionNotFoundException $e) {
+    err("No action found for '$uri'");
 }
 
 function err(string $msg)

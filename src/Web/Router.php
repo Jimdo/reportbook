@@ -61,7 +61,22 @@ class Router
             }
             if (count($uriParts) >= 2) {
                 if ($uriParts[1] !== '') {
-                    $action = $uriParts[1];
+                    $givenAction = $uriParts[1] . 'Action';
+                    $getMethods = get_class_methods($this->createController($controller));
+
+                    if ($getMethods !== null) {
+                        $actionFound = false;
+                        foreach ($getMethods as $method) {
+
+                            if ($method === $givenAction) {
+                                $actionFound = true;
+                                $action = $uriParts[1];
+                            }
+                        }
+                        if ($actionFound === false) {
+                            throw new ActionNotFoundException("Could not find $givenAction!");
+                        }
+                    }
                 }
             }
         }

@@ -117,9 +117,19 @@ class RouterTest extends TestCase
      * @test
      * @expectedException Jimdo\Reports\Web\ControllerNotFoundException
      */
-    public function itShoudThrowControllerNotFoundException()
+    public function itShouldThrowControllerNotFoundException()
     {
         $uri = "favicon.ico";
+        $this->router->dispatch($uri);
+    }
+
+    /**
+     * @test
+     * @expectedException Jimdo\Reports\Web\ActionNotFoundException
+     */
+    public function itShouldThrowActionNotFoundException()
+    {
+        $uri = "/fixture/hase";
         $this->router->dispatch($uri);
     }
 }

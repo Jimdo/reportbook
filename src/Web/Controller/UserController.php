@@ -218,6 +218,7 @@ class UserController extends Controller
         $headerView->tabTitle = 'Berichtsheft';
 
         $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
 

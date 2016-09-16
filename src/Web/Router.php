@@ -16,6 +16,9 @@ class Router
     /** @var RequestValidator */
     private $requestValidator;
 
+    /** @var $ignoreList */
+    private $ignoreList = [];
+
     /**
      * @param array $config
      */
@@ -52,6 +55,12 @@ class Router
 
         $uriParts = explode('/', trim($uri, '/'));
 
+        foreach ($this->ignoreList as $path) {
+            if ($uriParts[0] === trim($path, '/')) {
+                return null;
+            }
+        }
+
         $controller = $this->defaultController;
         $action =  $this->defaultAction;
 
@@ -59,9 +68,25 @@ class Router
             if ($uriParts[0] !== '') {
                 $controller = $uriParts[0];
             }
+
             if (count($uriParts) >= 2) {
                 if ($uriParts[1] !== '') {
-                    $action = $uriParts[1];
+                    $givenAction = $uriParts[1] . 'Action';
+                    $getMethods = get_class_methods($this->createController($controller));
+
+                    if ($getMethods !== null) {
+                        $actionFound = false;
+                        foreach ($getMethods as $method) {
+
+                            if ($method === $givenAction) {
+                                $actionFound = true;
+                                $action = $uriParts[1];
+                            }
+                        }
+                        if ($actionFound === false) {
+                            throw new ActionNotFoundException("Could not find $givenAction!");
+                        }
+                    }
                 }
             }
         }
@@ -111,5 +136,21 @@ class Router
     private function controllerName(string $controller): string
     {
         return __NAMESPACE__ . '\\Controller\\' . ucfirst($controller) . 'Controller';
+    }
+
+    /**
+     * @param string $path
+     */
+    public function ignorePath(string $path)
+    {
+        $this->ignoreList[] = '/' . $path;
+    }
+
+    /**
+     * @return array
+     */
+    public function ignoreList(): array
+    {
+        return $this->ignoreList;
     }
 }

@@ -16,7 +16,7 @@
             <td><?php echo substr($report->content(), 0, 20); ?></td>
             <td><?php echo $report->date(); ?></td>
             <td><?php echo $report->calendarWeek(); ?></td>
-            <td><?php echo $report->status(); ?></td>
+            <td><?php echo $this->viewHelper->getTranslationForStatus($report->status()); ?></td>
             <td>
 
                 <form action="/report/viewReport" method="POST">
@@ -24,7 +24,7 @@
                   <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $traineeId; ?>"/>
                   <button type="submit" class="btn-link glyphicon glyphicon-eye-open"></button>
                 </form>
-                
+
             </td>
         </tr>
     <?php endforeach ?>

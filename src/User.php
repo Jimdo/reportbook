@@ -4,11 +4,20 @@ namespace Jimdo\Reports;
 
 class User
 {
+    const PASSWORD_LENGTH = 7;
+
+    const ERR_PASSWORD_LENGTH = 1;
+    const ERR_PASSWORD_NOT_NEW = 2;
+    const ERR_PASSWORD_WRONG = 3;
+
     /** @var string */
     private $forename;
 
     /** @var string */
     private $surname;
+
+    /** @var string */
+    private $username;
 
     /** @var string */
     private $email;
@@ -25,14 +34,19 @@ class User
     /**
      * @param string $forename
      * @param string $surname
+     * @param string $username
      * @param string $email
      * @param Role $role
      * @param string $password
      */
-    public function __construct(string $forename, string $surname, string $email, Role $role, string $password)
+    public function __construct(string $forename, string $surname, string $username, string $email, Role $role, string $password)
     {
+        if (strlen($password) < self::PASSWORD_LENGTH) {
+            throw new PasswordException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n", self::ERR_PASSWORD_LENGTH);
+        }
         $this->forename = $forename;
         $this->surname = $surname;
+        $this->username = $username;
         $this->email = $email;
         $this->role = $role;
         $this->password = $password;
@@ -53,6 +67,14 @@ class User
     public function surname(): string
     {
         return $this->surname;
+    }
+
+    /**
+     * @return string
+     */
+    public function username(): string
+    {
+        return $this->username;
     }
 
     /**
@@ -108,16 +130,44 @@ class User
     /**
      * @param string $forename
      * @param string $surname
+     * @param string $username
      * @param string $email
      * @param Role $role
      * @param string $password
      */
-    public function edit(string $forename, string $surname, string $email, Role $role, string $password)
+    public function edit(string $forename, string $surname, string $username, string $email, string $password)
     {
         $this->forename = $forename;
         $this->surname = $surname;
+        $this->username = $username;
         $this->email = $email;
-        $this->role = $role;
         $this->password = $password;
+    }
+
+    /**
+     * @param string $oldPassword
+     * @param string $newPassword
+     */
+    public function editPassword(string $oldPassword, string $newPassword)
+    {
+        if ($this->password() === $oldPassword) {
+
+            if ($this->password() !== $newPassword) {
+
+                if (strlen($newPassword) >= self::PASSWORD_LENGTH) {
+
+                    $this->password = $newPassword;
+
+                } else {
+                    throw new PasswordException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n", self::ERR_PASSWORD_LENGTH);
+                }
+
+            } else {
+                throw new PasswordException("The new password must be different as the old one!", self::ERR_PASSWORD_NOT_NEW);
+            }
+
+        } else {
+            throw new PasswordException("The current password is wrong!", self::ERR_PASSWORD_WRONG);
+        }
     }
 }

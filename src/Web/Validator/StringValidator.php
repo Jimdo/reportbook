@@ -18,6 +18,7 @@ class StringValidator extends Validator
                 $value = 'Array';
             }
             $this->errorMessage = "'$value' is not a string";
+            $this->errorCode = Validator::ERR_VALIDATOR_STRING;
             return false;
         }
         return true;

@@ -4,7 +4,7 @@ namespace Jimdo\Reports;
 
 class UserFileRepository implements UserRepository
 {
-    const PASSWORD_LENGTH = 7;
+
 
     /** @var string */
     private $usersPath;
@@ -20,23 +20,21 @@ class UserFileRepository implements UserRepository
     /**
      * @param string $forename
      * @param string $surname
+     * @param string $username
      * @param string $email
      * @param Role $role
      * @param string $password
      * @throws UserRepositoryException
      * @return User
      */
-    public function createUser(string $forename, string $surname, string $email, Role $role, string $password): User
+    public function createUser(string $forename, string $surname, string $username, string $email, Role $role, string $password): User
     {
         if ($this->findUserByEmail($email) !== null) {
             throw new UserRepositoryException("Email already exists!\n");
         }
 
-        if (strlen($password) < self::PASSWORD_LENGTH) {
-            throw new UserRepositoryException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n");
-        }
-
-        $user = new User($forename, $surname, $email, $role, $password);
+        $user = new User($forename, $surname, $username, $email, $role, $password);
+        $this->ensureUsersPath();
         $this->save($user);
 
         return $user;
@@ -50,7 +48,6 @@ class UserFileRepository implements UserRepository
     {
         $this->ensureUsersPath();
         $filename = $this->filename($user);
-
         if (file_put_contents($filename, serialize($user)) === false) {
             throw new UserRepositoryException("Could not write to $filename!");
         }
@@ -139,6 +136,21 @@ class UserFileRepository implements UserRepository
     }
 
     /**
+     * @param string $username
+     * @return User|null
+     */
+    public function findUserByUsername(string $username)
+    {
+        $allUsers = $this->findAllUsers();
+
+        foreach ($allUsers as $user) {
+            if ($user->username() === $username) {
+                return $user;
+            }
+        }
+    }
+
+    /**
      * @param string $status
      * @return array
      * @throws UserFileRepositoryException
@@ -154,6 +166,21 @@ class UserFileRepository implements UserRepository
             }
         }
         return $foundUsers;
+    }
+
+    /**
+     * @param string $identifier
+     * @return bool
+     */
+    public function exists(string $identifier): bool
+    {
+        $username = $this->findUserByUsername($identifier);
+        $email = $this->findUserByEmail($identifier);
+
+        if ($username === null && $email === null) {
+            return false;
+        }
+        return true;
     }
 
     /**

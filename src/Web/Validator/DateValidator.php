@@ -13,16 +13,19 @@ class DateValidator extends Validator
         if (is_object($value)) {
             $value = get_class($value);
             $this->errorMessage = "'$value' is not a date";
+            $this->errorCode = Validator::ERR_VALIDATOR_DATE;
             return false;
         }
         if (is_array($value)) {
             $value = 'Array';
             $this->errorMessage = "'$value' is not a date";
+            $this->errorCode = Validator::ERR_VALIDATOR_DATE;
             return false;
         }
 
         if (!is_string($value)) {
             $this->errorMessage = "'$value' is not a date";
+            $this->errorCode = Validator::ERR_VALIDATOR_DATE;
             return false;
         }
 
@@ -30,6 +33,7 @@ class DateValidator extends Validator
 
         if (count($date) !== 3) {
             $this->errorMessage = "'$value' is not a date";
+            $this->errorCode = Validator::ERR_VALIDATOR_DATE;
             return false;
         }
 
@@ -38,6 +42,7 @@ class DateValidator extends Validator
         $intValidator = new IntegerValidator();
         if (!$intValidator->isValid($year)) {
             $this->errorMessage = "'$value' is not a date";
+            $this->errorCode = Validator::ERR_VALIDATOR_DATE;
             return false;
         }
 
@@ -47,16 +52,19 @@ class DateValidator extends Validator
 
         if ($day > 31 || $day < 1) {
             $this->errorMessage = "'$value' is not a date";
+            $this->errorCode = Validator::ERR_VALIDATOR_DATE;
             return false;
         }
 
         if ($month > 12 || $month < 1) {
             $this->errorMessage = "'$value' is not a date";
+            $this->errorCode = Validator::ERR_VALIDATOR_DATE;
             return false;
         }
 
         if ($year < 0) {
             $this->errorMessage = "'$value' is not a date";
+            $this->errorCode = Validator::ERR_VALIDATOR_DATE;
             return false;
         }
 

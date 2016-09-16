@@ -56,3 +56,7 @@ update       Update composer packages
 
 ### v0.2.2
   - Add bootstrap CSS to interface
+
+### v0.3
+  - Add `UserService` to GUI
+  - Initial admin user

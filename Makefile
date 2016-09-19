@@ -1,4 +1,4 @@
-.PHONY: help tests update bootstrap lint doc server build push deploy login
+.PHONY: help tests update bootstrap lint doc server build push deploy login docker-setup mongo-server mongo-client
 .DEFAULT_GOAL := help
 
 REGISTRY = https://index.docker.io/v1/
@@ -43,3 +43,13 @@ $(WL):
 	curl -sSo $(WL) https://downloads.jimdo-platform.net/wl/latest/wl_latest_$(shell uname -s | tr A-Z a-z)_$(shell uname -m | sed "s/x86_64/amd64/")
 	chmod +x $(WL)
 	$(WL) version
+
+docker-setup:
+	-docker-machine start
+	./scripts/pull-image.sh mongo
+
+mongo-server: docker-setup ## Starts up mongoDB
+	./scripts/mongo-server.sh
+
+mongo-client: ## Connects to mongoDB
+	./scripts/mongo-client.sh

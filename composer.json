@@ -29,5 +29,8 @@
             "name": "Tom Stich",
             "email": "tom.stich@jimdo.com"
         }
-    ]
+    ],
+    "require": {
+        "mongodb/mongodb": "^1.0.0"
+    }
 }

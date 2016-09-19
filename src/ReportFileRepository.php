@@ -33,7 +33,7 @@ class ReportFileRepository implements ReportRepository
      */
     public function create(string $traineeId, string $content, string $date, string $calendarWeek): Report
     {
-        $report = new Report($traineeId, $content, $date, $calendarWeek);
+        $report = new Report($traineeId, $content, $date, $calendarWeek, uniqid());
         $this->save($report);
 
         return $report;

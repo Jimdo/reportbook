@@ -38,6 +38,7 @@ class User
      * @param string $email
      * @param Role $role
      * @param string $password
+     * @param string $id
      */
     public function __construct(string $forename, string $surname, string $username, string $email, Role $role, string $password, string $id)
     {

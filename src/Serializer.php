@@ -16,8 +16,10 @@ class Serializer
             'surname' => $user->surname(),
             'username' => $user->username(),
             'email' => $user->email(),
-            'roleName' => $user->roleName(),
-            'roleStatus' => $user->roleStatus(),
+            'role' => [
+                'roleName' => $user->roleName(),
+                'roleStatus' => $user->roleStatus()
+                ],
             'password' => $user->password()
         ];
     }
@@ -28,13 +30,13 @@ class Serializer
      */
     public function unserializeUser(array $serializedUser): User
     {
-        if ($serializedUser['roleName'] === Role::TRAINEE) {
+        if ($serializedUser['role']['roleName'] === Role::TRAINEE) {
             $role = new Role(Role::TRAINEE);
         } else {
             $role = new Role(Role::TRAINER);
         }
 
-        if ($serializedUser['roleStatus'] === Role::STATUS_APPROVED) {
+        if ($serializedUser['role']['roleStatus'] === Role::STATUS_APPROVED) {
             $role->approve();
         }
 

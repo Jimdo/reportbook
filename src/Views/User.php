@@ -62,4 +62,12 @@ class User
     {
         return $this->user->password();
     }
+
+    /**
+     * @return string
+     */
+    public function id()
+    {
+        return $this->user->id();
+    }
 }

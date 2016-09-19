@@ -117,9 +117,42 @@ class RouterTest extends TestCase
      * @test
      * @expectedException Jimdo\Reports\Web\ControllerNotFoundException
      */
-    public function itShoudThrowControllerNotFoundException()
+    public function itShouldThrowControllerNotFoundException()
     {
         $uri = "favicon.ico";
         $this->router->dispatch($uri);
+    }
+
+    /**
+     * @test
+     * @expectedException Jimdo\Reports\Web\ActionNotFoundException
+     */
+    public function itShouldThrowActionNotFoundException()
+    {
+        $uri = "/fixture/hase";
+        $this->router->dispatch($uri);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldAddPathToIgnoreList()
+    {
+        $path = 'css/';
+        $this->router->ignorePath($path);
+        $this->assertEquals($this->router->ignoreList(), ['/' . $path]);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldIgnorePathsOnList()
+    {
+        $path = 'css/';
+        $this->router->ignorePath($path);
+
+        $uri = "/css/blabla";
+
+        $this->assertEquals(null ,$this->router->dispatch($uri));
     }
 }

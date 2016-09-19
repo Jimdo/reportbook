@@ -21,31 +21,45 @@ class UserService
     /**
      * @param string $forename
      * @param string $surname
+     * @param string $username
      * @param string $email
      * @param Role $role
      * @param string $password
      * @throws UserRepositoryException
      * @return ReadOnlyUser
      */
-    public function registerTrainee(string $forename, string $surname, string $email, string $password)
+    public function registerTrainee(string $forename, string $surname, string $username, string $email, string $password)
     {
-        $user = $this->registerUser($forename, $surname, $email, new Role(Role::TRAINEE), $password);
+        $user = $this->registerUser($forename, $surname, $username, $email, new Role(Role::TRAINEE), $password);
         return $user;
     }
 
     /**
      * @param string $forename
      * @param string $surname
+     * @param string $username
      * @param string $email
      * @param Role $role
      * @param string $password
      * @throws UserRepositoryException
      * @return ReadOnlyUser
      */
-    public function registerTrainer(string $forename, string $surname, string $email, string $password)
+    public function registerTrainer(string $forename, string $surname, string $username, string $email, string $password)
     {
-        $user = $this->registerUser($forename, $surname, $email, new Role(Role::TRAINER), $password);
+        $user = $this->registerUser($forename, $surname, $username, $email, new Role(Role::TRAINER), $password);
         return $user;
+    }
+
+    /**
+     * @param string $userId
+     * @param string $oldPassword
+     * @param string $newPassword
+     */
+    public function editPassword(string $userId, string $oldPassword, string $newPassword)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editPassword($oldPassword, $newPassword);
+        $this->userRepository->save($user);
     }
 
     /**
@@ -53,12 +67,23 @@ class UserService
      * @param string $password
      * @return bool
      */
-    public function authUser(string $email, string $password): bool
+    public function authUser(string $identifier, string $password): bool
     {
-        $user = $this->userRepository->findUserbyEmail($email);
-        if ($user->password() === $password) {
-            return true;
+        $userByMail = $this->userRepository->findUserbyEmail($identifier);
+        $userByUsername = $this->userRepository->findUserByUsername($identifier);
+
+        if ($userByMail !== null) {
+            if ($userByMail->password() === $password) {
+                return true;
+            }
         }
+
+        if ($userByUsername !== null) {
+            if ($userByUsername->password() === $password) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -78,6 +103,15 @@ class UserService
     public function findUserById(string $id)
     {
         return $users = $this->userRepository->findUserById($id);
+    }
+
+    /**
+     * @param string $username
+     * @return array
+     */
+    public function findUserByUsername(string $username)
+    {
+        return $users = $this->userRepository->findUserByUsername($username);
     }
 
     /**
@@ -109,18 +143,33 @@ class UserService
         $this->userRepository->save($user);
     }
 
+    public function ensureUsersPath()
+    {
+        $this->userRepository->ensureUsersPath();
+    }
+
+    /**
+     * @param string $identifier
+     * @return bool
+     */
+    public function exists(string $identifier): bool
+    {
+        return $this->userRepository->exists($identifier);
+    }
+
     /**
      * @param string $forename
      * @param string $surname
+     * @param string $username
      * @param string $email
      * @param Role $role
      * @param string $password
      * @throws UserRepositoryException
      * @return ReadOnlyUser
      */
-    private function registerUser(string $forename, string $surname, string $email, Role $role, string $password): ReadOnlyUser
+    private function registerUser(string $forename, string $surname, string $username, string $email, Role $role, string $password): ReadOnlyUser
     {
-        $user = $this->userRepository->createUser($forename, $surname, $email, $role, $password);
+        $user = $this->userRepository->createUser($forename, $surname, $username, $email, $role, $password);
         return new ReadOnlyUser($user);
     }
 }

@@ -18,13 +18,14 @@ class UserInMemoryRepository implements UserRepository
     /**
      * @param string $forename
      * @param string $surname
+     * @param string $username
      * @param string $email
      * @param Role $role
      * @param string $password
      * @throws UserRepositoryException
      * @return User
      */
-    public function createUser(string $forename, string $surname, string $email, Role $role, string $password): User
+    public function createUser(string $forename, string $surname, string $username, string $email, Role $role, string $password): User
     {
         if ($this->findUserByEmail($email) !== null) {
             throw new UserRepositoryException("Email already exists!\n");
@@ -34,7 +35,7 @@ class UserInMemoryRepository implements UserRepository
             throw new UserRepositoryException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n");
         }
 
-        $user = new User($forename, $surname, $email, $role, $password);
+        $user = new User($forename, $surname, $username, $email, $role, $password);
         $this->users[] = $user;
         return $user;
     }
@@ -80,6 +81,20 @@ class UserInMemoryRepository implements UserRepository
     }
 
     /**
+     * @param string $username
+     * @return User|null
+     */
+    public function findUserByUsername(string $username)
+    {
+        foreach ($this->users as $user) {
+            if ($user->username() === $username) {
+                return $user;
+            }
+        }
+        return null;
+    }
+
+    /**
      * @param string $status
      * @return array
      * @throws UserFileRepositoryException
@@ -117,6 +132,21 @@ class UserInMemoryRepository implements UserRepository
     public function findAllUsers(): array
     {
         return $this->users;
+    }
+
+    /**
+     * @param string $identifier
+     * @return bool
+     */
+    public function exists(string $identifier): bool
+    {
+        $username = $this->findUserByUsername($identifier);
+        $email = $this->findUserByEmail($identifier);
+
+        if ($username === null && $email === null) {
+            return false;
+        }
+        return true;
     }
 
     /**

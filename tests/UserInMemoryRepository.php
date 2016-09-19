@@ -35,7 +35,7 @@ class UserInMemoryRepository implements UserRepository
             throw new UserRepositoryException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n");
         }
 
-        $user = new User($forename, $surname, $username, $email, $role, $password);
+        $user = new User($forename, $surname, $username, $email, $role, $password, uniqid());
         $this->users[] = $user;
         return $user;
     }

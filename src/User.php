@@ -39,7 +39,7 @@ class User
      * @param Role $role
      * @param string $password
      */
-    public function __construct(string $forename, string $surname, string $username, string $email, Role $role, string $password)
+    public function __construct(string $forename, string $surname, string $username, string $email, Role $role, string $password, string $id)
     {
         if (strlen($password) < self::PASSWORD_LENGTH) {
             throw new PasswordException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n", self::ERR_PASSWORD_LENGTH);
@@ -50,7 +50,7 @@ class User
         $this->email = $email;
         $this->role = $role;
         $this->password = $password;
-        $this->id = uniqid();
+        $this->id = $id;
     }
 
     /**

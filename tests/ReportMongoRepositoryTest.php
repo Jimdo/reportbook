@@ -18,8 +18,8 @@ class ReportMongoRepositoryTest extends TestCase
         $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
         $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
         $this->client = new \MongoDB\Client($uri);
-        $reportBook = $this->client->reportBook;
-        $this->reports = $reportBook->reports;
+        $reportbook = $this->client->reportbook;
+        $this->reports = $reportbook->reports;
 
         $this->reports->deleteMany([]);
     }

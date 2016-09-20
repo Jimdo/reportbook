@@ -103,7 +103,12 @@ class UserMongoRepository implements UserRepository
      */
     public function findAllUsers(): array
     {
-
+        $foundUsers = [];
+        foreach ( $this->users->find() as $user )
+        {
+            $foundUsers[] = $this->serializer->unserializeUser($user->getArrayCopy());
+        }
+        return $foundUsers;
     }
 
     /**

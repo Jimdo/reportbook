@@ -92,6 +92,37 @@ class UserMongoRepositoryTest extends TestCase
         $repository->deleteUser($user);
     }
 
+    /**
+     * @test
+     */
+    public function itShouldFindAllUsers()
+    {
+        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
+        $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
+        $client = new \MongoDB\Client($uri);
+
+        $repository = new UserMongoRepository($client, new Serializer());
+
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $username1 = 'maxipro';
+        $email1 = 'max.mustermann@hotmail.de';
+        $username2 = 'peterhans';
+        $email2 = 'peter.hans@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1234567';
+
+        $user1 = $repository->createUser($forename, $surname, $username1, $email1, $role, $password);
+        $user2 = $repository->createUser($forename, $surname, $username2, $email2, $role, $password);
+
+        $foundUsers = $repository->findAllUsers();
+
+        $this->assertCount(2, $foundUsers);
+
+        $repository->deleteUser($user1);
+        $repository->deleteUser($user2);
+    }
+
 
     /**
      * @test

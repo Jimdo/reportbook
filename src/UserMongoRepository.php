@@ -18,6 +18,7 @@ class UserMongoRepository implements UserRepository
 
     /**
      * @param Serializer $serializer
+     * @param Client $client
      */
     public function __construct(\MongoDB\Client $client, Serializer $serializer)
     {

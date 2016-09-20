@@ -111,7 +111,25 @@ class ReportMongoRepositoryTest extends TestCase
 
         $foundReports = $repository->findByStatus(Report::STATUS_NEW);
         $this->assertCount(3, $foundReports);
+    }
 
+    /**
+     * @test
+     */
+    public function itShouldFindReportById()
+    {
+        $repository = new ReportMongoRepository($this->client, new Serializer());
+
+        $traineeId = '12345';
+        $expectedContent = 'some content';
+        $date = '10.10.10';
+        $calendarWeek = '34';
+
+        $report = $repository->create($traineeId, $expectedContent, $date, $calendarWeek);
+
+        $foundReport = $repository->findById($report->id());
+
+        $this->assertEquals($report->id(), $foundReport->id());
     }
 
     /**

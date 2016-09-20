@@ -117,6 +117,12 @@ class ReportMongoRepository implements ReportRepository
      */
     public function findById(string $id)
     {
+        foreach ($this->findAll() as $report) {
 
+            if ($report->id() === $id) {
+                return $report;
+            }
+
+        }
     }
 }

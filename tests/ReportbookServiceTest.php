@@ -6,9 +6,9 @@ use PHPUnit\Framework\TestCase;
 
 use Jimdo\Reports\Views\Report as ReadOnlyReport;
 
-class ReportBookServiceTest extends TestCase
+class ReportbookServiceTest extends TestCase
 {
-    /** @var ReportBookService */
+    /** @var ReportbookService */
     private $reportbookService;
 
     /** @var ReportRepository */
@@ -17,7 +17,7 @@ class ReportBookServiceTest extends TestCase
     protected function setUp()
     {
         $this->reportRepository = new ReportFakeRepository();
-        $this->reportbookService = new ReportBookService($this->reportRepository);
+        $this->reportbookService = new ReportbookService($this->reportRepository);
     }
 
     /**

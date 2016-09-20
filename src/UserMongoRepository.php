@@ -39,9 +39,9 @@ class UserMongoRepository implements UserRepository
      */
     public function createUser(string $forename, string $surname, string $username, string $email, Role $role, string $password): User
     {
-        if ($this->findUserByEmail($email) !== null) {
-            throw new UserRepositoryException("Email already exists!\n");
-        }
+        // if ($this->findUserByEmail($email) !== null) {
+        //     throw new UserRepositoryException("Email already exists!\n");
+        // }
 
         $user = new User($forename, $surname, $username, $email, $role, $password, uniqid());
 
@@ -148,7 +148,17 @@ class UserMongoRepository implements UserRepository
      */
     public function findUsersByStatus(string $status): array
     {
+        $foundUsers = $this->findAllUsers();
+        $users = [];
 
+        foreach ($foundUsers as $user) {
+
+            if ($user->roleStatus() === $status) {
+                $users[] = $user;
+            }
+
+        }
+        return $users;
     }
 
     /**
@@ -157,6 +167,12 @@ class UserMongoRepository implements UserRepository
      */
     public function exists(string $identifier): bool
     {
+        $username = $this->findUserByUsername($identifier);
+        $email = $this->findUserByEmail($identifier);
 
+        if ($username === null && $email === null) {
+            return false;
+        }
+        return true;
     }
 }

@@ -149,6 +149,35 @@ class UserMongoRepositoryTest extends TestCase
     /**
      * @test
      */
+    public function itShouldFindUserByStatus()
+    {
+        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
+        $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
+        $client = new \MongoDB\Client($uri);
+
+        $repository = new UserMongoRepository($client, new Serializer());
+
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $role = new Role('trainee');
+        $password = '1234567';
+
+        $user1 = $repository->createUser($forename, $surname, 'max', 'max.mustermann@hotmail.de', $role, $password);
+        $user2 = $repository->createUser($forename, $surname, 'maxi', 'maxi.mustermann@hotmail.de', $role, $password);
+        $user3 = $repository->createUser($forename, $surname, 'maximan', 'maximan.mustermann@hotmail.de', $role, $password);
+
+        $foundUsers = $repository->findUsersByStatus(Role::STATUS_NOT_APPROVED);
+
+        $this->assertCount(3, $foundUsers);
+
+        $repository->deleteUser($user1);
+        $repository->deleteUser($user2);
+        $repository->deleteUser($user3);
+    }
+
+    /**
+     * @test
+     */
     public function itShouldFindAllUsers()
     {
         $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
@@ -205,4 +234,35 @@ class UserMongoRepositoryTest extends TestCase
         $foundUser = $repository->findUserByEmail($email);
         $this->assertEquals(null, $foundUser);
     }
+
+    /**
+     * @test
+     */
+    public function itShouldCheckIfUserExists()
+    {
+        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
+        $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
+        $client = new \MongoDB\Client($uri);
+
+        $repository = new UserMongoRepository($client, new Serializer());
+
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $username = 'maxipropi';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1234567';
+
+        $this->assertFalse($repository->exists($username));
+        $this->assertFalse($repository->exists($email));
+
+        $user = $repository->createUser($forename, $surname, $username, $email, $role, $password);
+
+        $this->assertTrue($repository->exists($username));
+        $this->assertTrue($repository->exists($email));
+
+        $repository->deleteUser($user);
+    }
+
+
 }

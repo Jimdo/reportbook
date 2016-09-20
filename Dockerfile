@@ -5,12 +5,16 @@ MAINTAINER hauke.stange@jimdo.com
 RUN a2enmod rewrite
 
 RUN apt-get update && apt-get install -y \
+    libssl-dev \
     unzip \
     wget \
     zlib1g \
     zlib1g-dev
 
 RUN docker-php-ext-install zip
+
+RUN pecl install mongodb \
+    && docker-php-ext-enable mongodb
 
 WORKDIR /var/www
 

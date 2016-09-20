@@ -4,7 +4,7 @@ namespace Jimdo\Reports;
 
 class UserMongoRepository implements UserRepository
 {
-    /** @var serializer */
+    /** @var Serializer */
     public $serializer;
 
     /** @var MongoDB\Client */
@@ -53,7 +53,6 @@ class UserMongoRepository implements UserRepository
 
     /**
      * @param User $user
-     * @throws UserRepositoryException
      */
     public function save(User $user)
     {
@@ -62,7 +61,6 @@ class UserMongoRepository implements UserRepository
 
     /**
      * @param User $deleteUser
-     * @throws UserRepositoryException
      */
     public function deleteUser(User $deleteUser)
     {
@@ -105,7 +103,7 @@ class UserMongoRepository implements UserRepository
     public function findAllUsers(): array
     {
         $foundUsers = [];
-        foreach ( $this->users->find() as $user )
+        foreach( $this->users->find() as $user )
         {
             $foundUsers[] = $this->serializer->unserializeUser($user->getArrayCopy());
         }
@@ -145,14 +143,13 @@ class UserMongoRepository implements UserRepository
     /**
      * @param string $status
      * @return array
-     * @throws UserFileRepositoryException
      */
     public function findUsersByStatus(string $status): array
     {
         $foundUsers = $this->findAllUsers();
         $users = [];
 
-        foreach ($foundUsers as $user) {
+        foreach($foundUsers as $user) {
 
             if ($user->roleStatus() === $status) {
                 $users[] = $user;

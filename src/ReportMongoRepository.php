@@ -4,7 +4,7 @@ namespace Jimdo\Reports;
 
 class ReportMongoRepository implements ReportRepository
 {
-    /** @var serializer */
+    /** @var Serializer */
     public $serializer;
 
     /** @var MongoDB\Client */
@@ -58,7 +58,7 @@ class ReportMongoRepository implements ReportRepository
     public function findAll(): array
     {
         $foundReports = [];
-        foreach ( $this->reports->find() as $report )
+        foreach( $this->reports->find() as $report )
         {
             $foundReports [] = $this->serializer->unserializeReport($report->getArrayCopy());
         }
@@ -74,7 +74,7 @@ class ReportMongoRepository implements ReportRepository
         $foundReports = $this->findAll();
         $reports = [];
 
-        foreach ($foundReports as $report) {
+        foreach($foundReports as $report) {
 
             if ($report->traineeId() === $traineeId) {
                 $reports[] = $report;
@@ -101,7 +101,7 @@ class ReportMongoRepository implements ReportRepository
         $foundReports = $this->findAll();
         $reports = [];
 
-        foreach ($foundReports as $report) {
+        foreach($foundReports as $report) {
 
             if ($report->status() === $status) {
                 $reports[] = $report;
@@ -117,7 +117,7 @@ class ReportMongoRepository implements ReportRepository
      */
     public function findById(string $id)
     {
-        foreach ($this->findAll() as $report) {
+        foreach($this->findAll() as $report) {
 
             if ($report->id() === $id) {
                 return $report;

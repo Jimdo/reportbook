@@ -52,7 +52,7 @@ class UserMongoRepositoryTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $username = 'maxipro';
-        $email = 'maxpeter.mustermann@hotmail.de';
+        $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
         $password = '1234567';
 
@@ -68,6 +68,34 @@ class UserMongoRepositoryTest extends TestCase
     /**
      * @test
      */
+    public function itShouldFindUserBySurname()
+    {
+        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
+        $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
+        $client = new \MongoDB\Client($uri);
+
+        $repository = new UserMongoRepository($client, new Serializer());
+
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $username = 'maxipro';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1234567';
+
+        $user = $repository->createUser($forename, $surname, $username, $email, $role, $password);
+
+        $foundUser = $repository->findUserBySurname($surname);
+
+        $this->assertEquals($user->surname(), $foundUser->surname());
+
+        $repository->deleteUser($user);
+    }
+
+
+    /**
+     * @test
+     */
     public function itShouldDeleteUser()
     {
         $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
@@ -79,7 +107,7 @@ class UserMongoRepositoryTest extends TestCase
         $forename = 'Max';
         $surname = 'Mustermann';
         $username = 'maxipropi';
-        $email = 'peterkarl.mustermann@hotmail.de';
+        $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
         $password = '1234567';
 

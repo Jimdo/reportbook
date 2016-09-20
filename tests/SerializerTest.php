@@ -26,7 +26,14 @@ class SerializerTest extends TestCase
 
         $serialezedUser = $serializer->serializeUser($user);
 
-        $this->assertEquals($forename, $serialezedUser['forename']);
+        $this->assertEquals($user->forename(), $serialezedUser['forename']);
+        $this->assertEquals($user->surname(), $serialezedUser['surname']);
+        $this->assertEquals($user->username(), $serialezedUser['username']);
+        $this->assertEquals($user->email(), $serialezedUser['email']);
+        $this->assertEquals($user->roleName(), $serialezedUser['role']['roleName']);
+        $this->assertEquals($user->roleStatus(), $serialezedUser['role']['roleStatus']);
+        $this->assertEquals($user->password(), $serialezedUser['password']);
+        $this->assertEquals($user->id(), $serialezedUser['id']);
     }
 
     /**
@@ -50,7 +57,14 @@ class SerializerTest extends TestCase
 
         $unserializedUser = $serializer->unserializeUser($serializedUser);
 
-        $this->assertEquals($forename, $unserializedUser->forename());
+        $this->assertEquals($user->forename(), $unserializedUser->forename());
+        $this->assertEquals($user->surname(), $unserializedUser->surname());
+        $this->assertEquals($user->username(), $unserializedUser->username());
+        $this->assertEquals($user->email(), $unserializedUser->email());
+        $this->assertEquals($user->roleName(), $unserializedUser->roleName());
+        $this->assertEquals($user->roleStatus(), $unserializedUser->roleStatus());
+        $this->assertEquals($user->password(), $unserializedUser->password());
+        $this->assertEquals($user->id(), $unserializedUser->id());
     }
 
     /**
@@ -70,7 +84,11 @@ class SerializerTest extends TestCase
 
         $serializedReport = $serializer->serializeReport($report);
 
+        $this->assertEquals($traineeId, $serializedReport['traineeId']);
         $this->assertEquals($content, $serializedReport['content']);
+        $this->assertEquals($date, $serializedReport['date']);
+        $this->assertEquals($calendarWeek, $serializedReport['calendarWeek']);
+        $this->assertEquals($reportId, $serializedReport['id']);
     }
 
     /**
@@ -92,6 +110,10 @@ class SerializerTest extends TestCase
 
         $unserializedReport = $serializer->unserializeReport($serializedReport);
 
+        $this->assertEquals($traineeId, $unserializedReport->traineeId());
         $this->assertEquals($content, $unserializedReport->content());
+        $this->assertEquals($date, $unserializedReport->date());
+        $this->assertEquals($calendarWeek, $unserializedReport->calendarWeek());
+        $this->assertEquals($reportId, $unserializedReport->id());
     }
 }

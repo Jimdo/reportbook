@@ -26,11 +26,7 @@ class TeachingContentsMongoRepository implements TeachingContentsRepository
                 '$text' => [ '$search' => $search ]
             ],
             [
-                'typeMap' => [
-                    'root' => 'array',
-                    'document' => 'array',
-                    'array' => 'array'
-                ]
+                'projection' => [ '_id' => false ]
             ]
         );
 

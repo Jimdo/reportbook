@@ -8,6 +8,9 @@ before_install:
   - pecl install mongodb
 install:
   - make bootstrap
+before_script:
+  - docker run --rm --name reportbook-mongodb -v reportbook-data:/data/db -p 27017:27017 mongo
+  - docker ps
 script:
   - make tests
 deploy:

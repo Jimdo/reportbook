@@ -18,11 +18,12 @@ class ReportFakeRepository implements ReportRepository
      * @param string $content
      * @param string $date
      * @param string $calendarWeek
+     * @param string $id
      * @return Report
      */
     public function create(string $traineeId, string $content, string $date, string $calendarWeek): Report
     {
-        $report = new Report($traineeId, $content, $date, $calendarWeek);
+        $report = new Report($traineeId, $content, $date, $calendarWeek, uniqid());
         $this->reports[] = $report;
         return $report;
     }

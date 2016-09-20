@@ -6,7 +6,7 @@ use Jimdo\Reports\Web\View as View;
 use Jimdo\Reports\Web\ViewHelper as ViewHelper;
 use Jimdo\Reports\Report as Report;
 use Jimdo\Reports\ReportFileRepository as ReportFileRepository;
-use Jimdo\Reports\ReportBookService as ReportBookService;
+use Jimdo\Reports\ReportbookService as ReportbookService;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 use Jimdo\Reports\Web\Request as Request;
 use Jimdo\Reports\UserService as UserService;
@@ -16,7 +16,7 @@ use Jimdo\Reports\Web\Validator\Validator as Validator;
 
 class ReportController extends Controller
 {
-    /** @var ReportBookService */
+    /** @var ReportbookService */
     private $service;
 
     /** @var UserService */
@@ -33,7 +33,7 @@ class ReportController extends Controller
         parent::__construct($request, $requestValidator);
 
         $reportRepository = new ReportFileRepository('reports');
-        $this->service = new ReportBookService($reportRepository);
+        $this->service = new ReportbookService($reportRepository);
 
         $userRepository = new UserFileRepository('users');
         $this->userService = new UserService($userRepository);

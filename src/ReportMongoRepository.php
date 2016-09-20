@@ -98,7 +98,17 @@ class ReportMongoRepository implements ReportRepository
      */
     public function findByStatus(string $status): array
     {
+        $foundReports = $this->findAll();
+        $reports = [];
 
+        foreach ($foundReports as $report) {
+
+            if ($report->status() === $status) {
+                $reports[] = $report;
+            }
+
+        }
+        return $reports;
     }
 
     /**

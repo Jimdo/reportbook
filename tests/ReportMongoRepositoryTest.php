@@ -3,6 +3,7 @@
 namespace Jimdo\Reports;
 
 use PHPUnit\Framework\TestCase;
+use Jimdo\Reports\Report as Report;
 
 class ReportMongoRepositoryTest extends TestCase
 {
@@ -41,8 +42,6 @@ class ReportMongoRepositoryTest extends TestCase
         $unserializedReport = $repository->serializer->unserializeReport($serializedReport->getArrayCopy());
 
         $this->assertEquals($report->id(), $unserializedReport->id());
-
-        $repository->delete($report);
     }
 
     /**
@@ -66,10 +65,6 @@ class ReportMongoRepositoryTest extends TestCase
 
         $foundReports = $repository->findAll();
         $this->assertCount(3, $foundReports);
-
-        $repository->delete($report1);
-        $repository->delete($report2);
-        $repository->delete($report3);
     }
 
     /**
@@ -95,10 +90,28 @@ class ReportMongoRepositoryTest extends TestCase
 
         $foundReports = $repository->findByTraineeId($traineeId2);
         $this->assertCount(1, $foundReports);
+    }
 
-        $repository->delete($report1);
-        $repository->delete($report2);
-        $repository->delete($report3);
+    /**
+     * @test
+     */
+    public function itShouldFindReportsByStatus()
+    {
+        $repository = new ReportMongoRepository($this->client, new Serializer());
+
+        $traineeId1 = '12345';
+        $traineeId2 = '54321';
+        $expectedContent = 'some content';
+        $date = '10.10.10';
+        $calendarWeek = '34';
+
+        $report1 = $repository->create($traineeId1, $expectedContent, $date, $calendarWeek);
+        $report2 = $repository->create($traineeId1, $expectedContent, $date, $calendarWeek);
+        $report3 = $repository->create($traineeId2, $expectedContent, $date, $calendarWeek);
+
+        $foundReports = $repository->findByStatus(Report::STATUS_NEW);
+        $this->assertCount(3, $foundReports);
+
     }
 
     /**

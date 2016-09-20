@@ -132,7 +132,13 @@ class UserMongoRepository implements UserRepository
      */
     public function findUserByUsername(string $username)
     {
+        $serializedUser = $this->users->findOne(['username' => $username]);
 
+        if ($serializedUser !== null) {
+            return $this->serializer->unserializeUser($serializedUser->getArrayCopy());
+        }
+
+        return null;
     }
 
     /**

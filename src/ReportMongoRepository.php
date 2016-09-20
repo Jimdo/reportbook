@@ -57,7 +57,12 @@ class ReportMongoRepository implements ReportRepository
      */
     public function findAll(): array
     {
-
+        $foundReports = [];
+        foreach ( $this->reports->find() as $report )
+        {
+            $foundReports [] = $this->serializer->unserializeReport($report->getArrayCopy());
+        }
+        return $foundReports;
     }
 
     /**
@@ -74,7 +79,7 @@ class ReportMongoRepository implements ReportRepository
      */
     public function delete(Report $report)
     {
-
+        $this->reports->deleteOne(['id' => $report->id()]);
     }
 
     /**

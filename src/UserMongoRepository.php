@@ -10,6 +10,12 @@ class UserMongoRepository implements UserRepository
     /** @var MongoDB\Client */
     private $client;
 
+    /** @var MongoDB\Database */
+    private $reportBook;
+
+    /** @var MongoDB\Collection */
+    private $users;
+
     /**
      * @param Serializer $serializer
      */
@@ -17,6 +23,8 @@ class UserMongoRepository implements UserRepository
     {
         $this->serializer = $serializer;
         $this->client = $client;
+        $this->reportBook = $this->client->reportBook;
+        $this->users = $this->reportBook->users;
     }
 
     /**
@@ -48,10 +56,7 @@ class UserMongoRepository implements UserRepository
      */
     public function save(User $user)
     {
-        $reportBook = $this->client->reportBook;
-        $users = $reportBook->users;
-
-        $users->insertOne($this->serializer->serializeUser($user));
+        $this->users->insertOne($this->serializer->serializeUser($user));
     }
 
     /**
@@ -60,7 +65,7 @@ class UserMongoRepository implements UserRepository
      */
     public function deleteUser(User $deleteUser)
     {
-
+        $this->users->deleteOne(['id' => $deleteUser->id()]);
     }
 
     /**
@@ -69,7 +74,13 @@ class UserMongoRepository implements UserRepository
      */
     public function findUserByEmail(string $email)
     {
+        $serializedUser = $this->users->findOne(['email' => $email]);
 
+        if ($serializedUser !== null) {
+            return $this->serializer->unserializeUser($serializedUser->getArrayCopy());
+        }
+
+        return null;
     }
 
     /**

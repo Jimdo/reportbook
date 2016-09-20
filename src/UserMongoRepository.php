@@ -11,7 +11,7 @@ class UserMongoRepository implements UserRepository
     private $client;
 
     /** @var MongoDB\Database */
-    private $reportBook;
+    private $reportbook;
 
     /** @var MongoDB\Collection */
     private $users;
@@ -24,8 +24,8 @@ class UserMongoRepository implements UserRepository
     {
         $this->serializer = $serializer;
         $this->client = $client;
-        $this->reportBook = $this->client->reportBook;
-        $this->users = $this->reportBook->users;
+        $this->reportbook = $this->client->reportbook;
+        $this->users = $this->reportbook->users;
     }
 
     /**

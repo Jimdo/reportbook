@@ -11,7 +11,7 @@ class ReportMongoRepository implements ReportRepository
     private $client;
 
     /** @var MongoDB\Database */
-    private $reportBook;
+    private $reportbook;
 
     /** @var MongoDB\Collection */
     private $reports;
@@ -24,8 +24,8 @@ class ReportMongoRepository implements ReportRepository
     {
         $this->serializer = $serializer;
         $this->client = $client;
-        $this->reportBook = $this->client->reportBook;
-        $this->reports = $this->reportBook->reports;
+        $this->reportbook = $this->client->reportbook;
+        $this->reports = $this->reportbook->reports;
     }
 
     /**

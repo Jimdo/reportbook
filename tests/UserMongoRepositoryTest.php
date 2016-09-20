@@ -19,8 +19,8 @@ class UserMongoRepositoryTest extends TestCase
         $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
         $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
         $this->client = new \MongoDB\Client($uri);
-        $reportBook = $this->client->reportBook;
-        $this->users = $reportBook->users;
+        $reportbook = $this->client->reportbook;
+        $this->users = $reportbook->users;
 
         $this->users->deleteMany([]);
     }

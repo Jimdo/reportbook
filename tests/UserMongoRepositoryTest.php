@@ -8,18 +8,29 @@ use Jimdo\Reports\Role as Role;
 
 class UserMongoRepositoryTest extends TestCase
 {
+    /** @var Client $client */
+    private $client;
+
+    /** @var Collection $users */
+    private $users;
+
+    protected function setUp()
+    {
+        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
+        $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
+        $this->client = new \MongoDB\Client($uri);
+        $reportBook = $this->client->reportBook;
+        $this->users = $reportBook->users;
+
+        $this->users->deleteMany([]);
+    }
+
     /**
      * @test
      */
     public function itShouldCreateUser()
     {
-        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
-        $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
-        $client = new \MongoDB\Client($uri);
-        $reportBook = $client->reportBook;
-        $users = $reportBook->users;
-
-        $repository = new UserMongoRepository($client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer());
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -30,12 +41,10 @@ class UserMongoRepositoryTest extends TestCase
 
         $user = $repository->createUser($forename, $surname, $username, $email, $role, $password);
 
-        $serializedUser = $users->findOne(['username' => $username]);
+        $serializedUser = $this->users->findOne(['username' => $username]);
         $unserializedUser = $repository->serializer->unserializeUser($serializedUser->getArrayCopy());
 
         $this->assertEquals($user->username(), $unserializedUser->username());
-
-        $repository->deleteUser($user);
     }
 
     /**
@@ -43,11 +52,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindUserByEmail()
     {
-        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
-        $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
-        $client = new \MongoDB\Client($uri);
-
-        $repository = new UserMongoRepository($client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer());
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -61,8 +66,6 @@ class UserMongoRepositoryTest extends TestCase
         $foundUser = $repository->findUserByEmail($email);
 
         $this->assertEquals($user->email(), $foundUser->email());
-
-        $repository->deleteUser($user);
     }
 
     /**
@@ -70,11 +73,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindUserBySurname()
     {
-        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
-        $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
-        $client = new \MongoDB\Client($uri);
-
-        $repository = new UserMongoRepository($client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer());
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -88,8 +87,6 @@ class UserMongoRepositoryTest extends TestCase
         $foundUser = $repository->findUserBySurname($surname);
 
         $this->assertEquals($user->surname(), $foundUser->surname());
-
-        $repository->deleteUser($user);
     }
 
     /**
@@ -97,11 +94,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindUserById()
     {
-        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
-        $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
-        $client = new \MongoDB\Client($uri);
-
-        $repository = new UserMongoRepository($client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer());
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -115,8 +108,6 @@ class UserMongoRepositoryTest extends TestCase
         $foundUser = $repository->findUserById($user->id());
 
         $this->assertEquals($user->id(), $foundUser->id());
-
-        $repository->deleteUser($user);
     }
 
     /**
@@ -124,11 +115,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindUserByUsername()
     {
-        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
-        $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
-        $client = new \MongoDB\Client($uri);
-
-        $repository = new UserMongoRepository($client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer());
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -142,8 +129,6 @@ class UserMongoRepositoryTest extends TestCase
         $foundUser = $repository->findUserByUsername($username);
 
         $this->assertEquals($user->username(), $foundUser->username());
-
-        $repository->deleteUser($user);
     }
 
     /**
@@ -151,11 +136,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindUserByStatus()
     {
-        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
-        $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
-        $client = new \MongoDB\Client($uri);
-
-        $repository = new UserMongoRepository($client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer());
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -169,10 +150,6 @@ class UserMongoRepositoryTest extends TestCase
         $foundUsers = $repository->findUsersByStatus(Role::STATUS_NOT_APPROVED);
 
         $this->assertCount(3, $foundUsers);
-
-        $repository->deleteUser($user1);
-        $repository->deleteUser($user2);
-        $repository->deleteUser($user3);
     }
 
     /**
@@ -180,11 +157,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindAllUsers()
     {
-        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
-        $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
-        $client = new \MongoDB\Client($uri);
-
-        $repository = new UserMongoRepository($client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer());
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -201,9 +174,6 @@ class UserMongoRepositoryTest extends TestCase
         $foundUsers = $repository->findAllUsers();
 
         $this->assertCount(2, $foundUsers);
-
-        $repository->deleteUser($user1);
-        $repository->deleteUser($user2);
     }
 
     /**
@@ -211,11 +181,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldDeleteUser()
     {
-        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
-        $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
-        $client = new \MongoDB\Client($uri);
-
-        $repository = new UserMongoRepository($client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer());
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -240,11 +206,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldCheckIfUserExists()
     {
-        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
-        $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
-        $client = new \MongoDB\Client($uri);
-
-        $repository = new UserMongoRepository($client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer());
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -260,9 +222,5 @@ class UserMongoRepositoryTest extends TestCase
 
         $this->assertTrue($repository->exists($username));
         $this->assertTrue($repository->exists($email));
-
-        $repository->deleteUser($user);
     }
-
-
 }

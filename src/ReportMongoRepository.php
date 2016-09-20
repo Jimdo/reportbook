@@ -71,7 +71,17 @@ class ReportMongoRepository implements ReportRepository
      */
     public function findByTraineeId(string $traineeId): array
     {
+        $foundReports = $this->findAll();
+        $reports = [];
 
+        foreach ($foundReports as $report) {
+
+            if ($report->traineeId() === $traineeId) {
+                $reports[] = $report;
+            }
+
+        }
+        return $reports;
     }
 
     /**

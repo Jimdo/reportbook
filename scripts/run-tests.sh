@@ -1,3 +1,7 @@
 #!/bin/sh
 
-MONGO_SERVER_IP=$(docker-machine ip) scripts/phpunit
+if [ -z ${MONGO_SERVER_IP+x} ]; then
+  export MONGO_SERVER_IP=$(docker-machine ip)
+fi
+
+scripts/phpunit

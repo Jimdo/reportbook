@@ -10,7 +10,7 @@ help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-12s\033[0m %s\n", $$1, $$2}'
 
 tests: ## Execute test suite and create code coverage report
-	./scripts/phpunit
+	./scripts/run-tests.sh
 
 update: ## Update composer packages
 	./scripts/composer update
@@ -53,3 +53,6 @@ mongo-server: docker-setup ## Starts up mongoDB
 
 mongo-client: ## Connects to mongoDB
 	./scripts/mongo-client.sh
+
+import-teaching-contents:
+	./scripts/import-ausbildungsplan-into-mongodb.sh

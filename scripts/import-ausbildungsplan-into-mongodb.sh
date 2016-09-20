@@ -3,7 +3,11 @@
 
 require realpath(__DIR__ . '/../vendor/autoload.php');
 
-$MONGO_SERVER_IP = `docker-machine ip`;
+$MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
+if ($MONGO_SERVER_IP === false) {
+    $MONGO_SERVER_IP = `docker-machine ip`;
+}
+
 $MONGO_SERVER_PORT = '27017';
 $MONGO_URI = 'mongodb://' . trim($MONGO_SERVER_IP) . ':' . $MONGO_SERVER_PORT;
 

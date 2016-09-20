@@ -23,17 +23,16 @@ class UserMongoRepositoryTest extends TestCase
 
         $forename = 'Max';
         $surname = 'Mustermann';
-        $username = 'maxi';
+        $username = 'maxipro';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
         $password = '1234567';
 
         $user = $repository->createUser($forename, $surname, $username, $email, $role, $password);
 
-        $serializedUser = $users->findOne(['forename' => $forename]);
+        $serializedUser = $users->findOne(['username' => $username]);
+        $unserializedUser = $repository->serializer->unserializeUser($serializedUser->getArrayCopy());
 
-        $unserializedUser = $repository->serializer->unserializeUser($serializedUser);
-
-        $this->assertEquals($user->id(), $unserializedUser->id());
+        $this->assertEquals($user->username(), $unserializedUser->username());
     }
 }

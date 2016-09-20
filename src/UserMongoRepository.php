@@ -48,7 +48,10 @@ class UserMongoRepository implements UserRepository
      */
     public function save(User $user)
     {
+        $reportBook = $this->client->reportBook;
+        $users = $reportBook->users;
 
+        $users->insertOne($this->serializer->serializeUser($user));
     }
 
     /**

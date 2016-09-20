@@ -39,7 +39,6 @@ class Serializer
         if ($serializedUser['role']['roleStatus'] === Role::STATUS_APPROVED) {
             $role->approve();
         }
-
         return new User($serializedUser['forename'],
                         $serializedUser['surname'],
                         $serializedUser['username'],

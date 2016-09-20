@@ -148,7 +148,17 @@ class UserMongoRepository implements UserRepository
      */
     public function findUsersByStatus(string $status): array
     {
+        $foundUsers = $this->findAllUsers();
+        $users = [];
 
+        foreach ($foundUsers as $user) {
+
+            if ($user->roleStatus() === $status) {
+                $users[] = $user;
+            }
+
+        }
+        return $users;
     }
 
     /**
@@ -157,6 +167,12 @@ class UserMongoRepository implements UserRepository
      */
     public function exists(string $identifier): bool
     {
+        $username = $this->findUserByUsername($identifier);
+        $email = $this->findUserByEmail($identifier);
 
+        if ($username === null && $email === null) {
+            return false;
+        }
+        return true;
     }
 }

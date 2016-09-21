@@ -62,7 +62,12 @@ class UserMongoRepository implements UserRepository
      */
     public function save(User $user)
     {
-        $this->users->insertOne($this->serializer->serializeUser($user));
+        if ($this->exists($user->username())) {
+            $this->deleteUser($user);
+            $this->users->insertOne($this->serializer->serializeUser($user));
+        } else {
+            $this->users->insertOne($this->serializer->serializeUser($user));
+        }
     }
 
     /**

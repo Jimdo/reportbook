@@ -89,6 +89,7 @@ class SerializerTest extends TestCase
         $this->assertEquals($date, $serializedReport['date']);
         $this->assertEquals($calendarWeek, $serializedReport['calendarWeek']);
         $this->assertEquals($reportId, $serializedReport['id']);
+        $this->assertEquals($report->status(), $serializedReport['status']);
     }
 
     /**
@@ -115,5 +116,6 @@ class SerializerTest extends TestCase
         $this->assertEquals($date, $unserializedReport->date());
         $this->assertEquals($calendarWeek, $unserializedReport->calendarWeek());
         $this->assertEquals($reportId, $unserializedReport->id());
+        $this->assertEquals($report->status(), $unserializedReport->status());
     }
 }

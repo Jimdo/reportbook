@@ -13,7 +13,7 @@ class ApplicationConfig
     public function __construct()
     {
         $this->MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
-        $this->uri = 'mongodb://' . $this->MONGO_SERVER_IP . ':27017';;
+        $this->uri = 'mongodb://' . $this->MONGO_SERVER_IP . ':27017';
     }
 
     public function mongoUri()

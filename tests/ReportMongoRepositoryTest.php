@@ -4,6 +4,7 @@ namespace Jimdo\Reports;
 
 use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\Report as Report;
+use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 
 class ReportMongoRepositoryTest extends TestCase
 {
@@ -13,11 +14,13 @@ class ReportMongoRepositoryTest extends TestCase
     /** @var Collection $users */
     private $reports;
 
+    /** @var ApplicationConfig */
+    private $appConfig;
+
     protected function setUp()
     {
-        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
-        $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
-        $this->client = new \MongoDB\Client($uri);
+        $this->appConfig = new ApplicationConfig();
+        $this->client = new \MongoDB\Client($this->appConfig->mongoUri());
         $reportbook = $this->client->reportbook;
         $this->reports = $reportbook->reports;
 
@@ -29,7 +32,7 @@ class ReportMongoRepositoryTest extends TestCase
      */
     public function itShouldCreateReport()
     {
-        $repository = new ReportMongoRepository($this->client, new Serializer());
+        $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
 
         $traineeId = uniqid();
         $expectedContent = 'some content';
@@ -49,7 +52,7 @@ class ReportMongoRepositoryTest extends TestCase
      */
     public function itShouldFindAllReports()
     {
-        $repository = new ReportMongoRepository($this->client, new Serializer());
+        $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
 
         $traineeId = uniqid();
         $expectedContent = 'some content';
@@ -72,7 +75,7 @@ class ReportMongoRepositoryTest extends TestCase
      */
     public function itShouldFindReportsByTraineeId()
     {
-        $repository = new ReportMongoRepository($this->client, new Serializer());
+        $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
 
         $traineeId1 = '12345';
         $traineeId2 = '54321';
@@ -97,7 +100,7 @@ class ReportMongoRepositoryTest extends TestCase
      */
     public function itShouldFindReportsByStatus()
     {
-        $repository = new ReportMongoRepository($this->client, new Serializer());
+        $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
 
         $traineeId1 = '12345';
         $traineeId2 = '54321';
@@ -118,7 +121,7 @@ class ReportMongoRepositoryTest extends TestCase
      */
     public function itShouldFindReportById()
     {
-        $repository = new ReportMongoRepository($this->client, new Serializer());
+        $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
 
         $traineeId = '12345';
         $expectedContent = 'some content';
@@ -137,7 +140,7 @@ class ReportMongoRepositoryTest extends TestCase
      */
     public function itShouldDeleteReport()
     {
-        $repository = new ReportMongoRepository($this->client, new Serializer());
+        $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
 
         $traineeId = uniqid();
         $expectedContent = 'some content';

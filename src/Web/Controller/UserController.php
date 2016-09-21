@@ -7,10 +7,12 @@ use Jimdo\Reports\Web\ViewHelper as ViewHelper;
 use Jimdo\Reports\User as User;
 use Jimdo\Reports\Role as Role;
 use Jimdo\Reports\UserService as UserService;
-use Jimdo\Reports\UserFileRepository as UserFileRepository;
+use Jimdo\Reports\UserMongoRepository as UserMongoRepository;
 use Jimdo\Reports\Web\Request as Request;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
+use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 use Jimdo\Reports\PasswordException as PasswordException;
+use Jimdo\Reports\Serializer as Serializer;
 
 class UserController extends Controller
 {
@@ -26,11 +28,13 @@ class UserController extends Controller
     /**
      * @param Request $request
      */
-    public function __construct(Request $request, RequestValidator $requestValidator)
+    public function __construct(Request $request, RequestValidator $requestValidator, ApplicationConfig $appConfig)
     {
-        parent::__construct($request, $requestValidator);
+        parent::__construct($request, $requestValidator, $appConfig);
 
-        $userRepository = new UserFileRepository('users');
+        $client = new \MongoDB\Client($appConfig->mongoUri());
+
+        $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
         $this->service = new UserService($userRepository);
 
         $this->viewHelper = new ViewHelper();

@@ -5,12 +5,14 @@ namespace Jimdo\Reports\Web\Controller;
 use Jimdo\Reports\Web\View as View;
 use Jimdo\Reports\Web\ViewHelper as ViewHelper;
 use Jimdo\Reports\Report as Report;
-use Jimdo\Reports\ReportFileRepository as ReportFileRepository;
+use Jimdo\Reports\ReportMongoRepository as ReportMongoRepository;
 use Jimdo\Reports\ReportbookService as ReportbookService;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
+use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
+use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\Web\Request as Request;
 use Jimdo\Reports\UserService as UserService;
-use Jimdo\Reports\UserFileRepository as UserFileRepository;
+use Jimdo\Reports\UserMongoRepository as UserMongoRepository;
 use Jimdo\Reports\Web\Validator\Validator as Validator;
 
 
@@ -28,14 +30,16 @@ class ReportController extends Controller
     /**
      * @param Request $request
      */
-    public function __construct(Request $request, RequestValidator $requestValidator)
+    public function __construct(Request $request, RequestValidator $requestValidator, ApplicationConfig $appConfig)
     {
-        parent::__construct($request, $requestValidator);
+        parent::__construct($request, $requestValidator, $appConfig);
 
-        $reportRepository = new ReportFileRepository('reports');
+        $client = new \MongoDB\Client($appConfig->mongoUri());
+
+        $reportRepository = new ReportMongoRepository($client, new Serializer(), $appConfig);
         $this->service = new ReportbookService($reportRepository);
 
-        $userRepository = new UserFileRepository('users');
+        $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
         $this->userService = new UserService($userRepository);
 
         $this->viewHelper = new ViewHelper();
@@ -91,6 +95,11 @@ class ReportController extends Controller
         echo $infobarView->render();
         echo $reportView->render();
         echo $footerView->render();
+
+        // $this->response()->addBody($headerView->render())
+        // $this->response()->addBody($infobarView->render());
+        // $this->response()->addBody($reportView->render());
+        // $this->response()->addBody($footerView->render());
     }
 
     public function createReportAction()

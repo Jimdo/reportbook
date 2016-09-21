@@ -5,6 +5,7 @@ namespace Jimdo\Reports\Web\Controller;
 use Jimdo\Reports\Web\Request as Request;
 use Jimdo\Reports\Web\View as View;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
+use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 use PHPUnit\Framework\TestCase;
 
 class ControllerTest extends TestCase
@@ -23,7 +24,7 @@ class ControllerTest extends TestCase
 
         $request = new Request($queryParams, $formData, $sessionData);
         $requestValidator = new RequestValidator();
-        $controller = new FixtureController($request, $requestValidator);
+        $controller = new FixtureController($request, $requestValidator, new ApplicationConfig());
 
         $this->assertEquals($queryParams, $controller->testQueryParams());
     }
@@ -42,7 +43,7 @@ class ControllerTest extends TestCase
 
         $request = new Request($queryParams, $formData, $sessionData);
         $requestValidator = new RequestValidator();
-        $controller = new FixtureController($request, $requestValidator);
+        $controller = new FixtureController($request, $requestValidator, new ApplicationConfig());
 
         $this->assertEquals($formData, $controller->testFormData());
     }
@@ -61,7 +62,7 @@ class ControllerTest extends TestCase
 
         $request = new Request($queryParams, $formData, $sessionData);
         $requestValidator = new RequestValidator();
-        $controller = new FixtureController($request, $requestValidator);
+        $controller = new FixtureController($request, $requestValidator, new ApplicationConfig());
 
         $this->assertEquals($queryParams['hase'], $controller->testQueryParams('hase'));
         $this->assertEquals($queryParams['igel'], $controller->testQueryParams('igel'));
@@ -81,7 +82,7 @@ class ControllerTest extends TestCase
 
         $request = new Request($queryParams, $formData, $sessionData);
         $requestValidator = new RequestValidator();
-        $controller = new FixtureController($request, $requestValidator);
+        $controller = new FixtureController($request, $requestValidator, new ApplicationConfig());
 
         $this->assertEquals($formData['hase'], $controller->testFormData('hase'));
         $this->assertEquals($formData['igel'], $controller->testFormData('igel'));
@@ -98,7 +99,7 @@ class ControllerTest extends TestCase
 
         $request = new Request($queryParams, $formData, $sessionData);
         $requestValidator = new RequestValidator();
-        $controller = new FixtureController($request, $requestValidator);
+        $controller = new FixtureController($request, $requestValidator, new ApplicationConfig());
 
         $this->assertEquals('hase', $controller->testQueryParams('not_found', 'hase'));
     }
@@ -114,7 +115,7 @@ class ControllerTest extends TestCase
 
         $request = new Request($queryParams, $formData, $sessionData);
         $requestValidator = new RequestValidator();
-        $controller = new FixtureController($request, $requestValidator);
+        $controller = new FixtureController($request, $requestValidator, new ApplicationConfig());
 
         $this->assertEquals('default', $controller->testFormData('not_found', 'default'));
     }
@@ -133,7 +134,7 @@ class ControllerTest extends TestCase
 
         $request = new Request($queryParams, $formData, $sessionData);
         $requestValidator = new RequestValidator();
-        $controller = new FixtureController($request, $requestValidator);
+        $controller = new FixtureController($request, $requestValidator, new ApplicationConfig());
 
         $this->assertEquals(true, $controller->testIsAuthorized('Trainee'));
     }
@@ -145,7 +146,7 @@ class ControllerTest extends TestCase
     {
         $request = new Request([], [], []);
         $requestValidator = new RequestValidator();
-        $controller = new FixtureController($request, $requestValidator);
+        $controller = new FixtureController($request, $requestValidator, new ApplicationConfig());
 
         $myView = $controller->testView('tests/Web/ViewFixture.php');
         $myView->name = $expectedName = 'Horst';
@@ -168,7 +169,7 @@ class ControllerTest extends TestCase
         $request = new Request([], $formData, []);
 
         $requestValidator = new RequestValidator();
-        $controller = new FixtureController($request, $requestValidator);
+        $controller = new FixtureController($request, $requestValidator, new ApplicationConfig());
 
         $controller->testAddRequestValidations();
 
@@ -196,7 +197,7 @@ class ControllerTest extends TestCase
         $request = new Request([], $formData, []);
 
         $requestValidator = new RequestValidator();
-        $controller = new FixtureController($request, $requestValidator);
+        $controller = new FixtureController($request, $requestValidator, new ApplicationConfig());
 
         $controller->testAddRequestValidations();
 

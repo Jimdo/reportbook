@@ -55,7 +55,15 @@ class ReportMongoRepository implements ReportRepository
      */
     public function save(Report $report)
     {
-        $this->reports->insertOne($this->serializer->serializeReport($report));
+        if ($this->findById($report->id()) !== null) {
+
+            $this->delete($report);
+            $this->reports->insertOne($this->serializer->serializeReport($report));
+
+        } else {
+
+            $this->reports->insertOne($this->serializer->serializeReport($report));
+        }
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace Jimdo\Reports;
 
+use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
+
 class ReportMongoRepository implements ReportRepository
 {
     /** @var Serializer */
@@ -16,16 +18,20 @@ class ReportMongoRepository implements ReportRepository
     /** @var MongoDB\Collection */
     private $reports;
 
+    /** @var ApplicationConfig */
+    private $applicationConfig;
+
     /**
      * @param Serializer $serializer
      * @param Client $client
      */
-    public function __construct(\MongoDB\Client $client, Serializer $serializer)
+    public function __construct(\MongoDB\Client $client, Serializer $serializer, ApplicationConfig $applicationConfig)
     {
         $this->serializer = $serializer;
         $this->client = $client;
         $this->reportbook = $this->client->reportbook;
         $this->reports = $this->reportbook->reports;
+        $this->applicationConfig = new ApplicationConfig();
     }
 
     /**

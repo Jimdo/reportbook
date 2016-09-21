@@ -13,6 +13,9 @@ class Router
     /** @var Request */
     private $requestObject;
 
+    /** @var Response */
+    private $responseObject;
+
     /** @var RequestValidator */
     private $requestValidator;
 
@@ -39,6 +42,11 @@ class Router
             $this->requestValidatorObject = $config['defaultRequestValidatorObject'];
         } else {
             $this->requestValidatorObject = new RequestValidator();
+        }
+        if (isset($config['defaultResponseObject'])) {
+            $this->responseObject = $config['defaultResponseObject'];
+        } else {
+            $this->responseObject = new Response();
         }
     }
 
@@ -91,8 +99,12 @@ class Router
             }
         }
 
+
         $controller = $this->createController($controller);
         $action = $action . 'Action';
+        $controller->$action();
+
+        echo $this->responseObject->render();
 
         return $controller->$action();
     }
@@ -126,7 +138,8 @@ class Router
             throw new ControllerNotFoundException("Could not find controller class for '$controller'!");
         }
 
-        return new $class($this->requestObject, $this->requestValidatorObject);
+        $applicationConfig = new ApplicationConfig();
+        return new $class($this->requestObject, $this->requestValidatorObject, $applicationConfig, $this->responseObject);
     }
 
     /**

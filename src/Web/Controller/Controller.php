@@ -5,6 +5,7 @@ namespace Jimdo\Reports\Web\Controller;
 use Jimdo\Reports\Web\Request as Request;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 use Jimdo\Reports\Web\View as View;
+use Jimdo\Reports\Web\Response as Response;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 
 
@@ -19,14 +20,18 @@ abstract class Controller
     /** @var ApplicationConfig */
     protected $appConfig;
 
+    /** @var Response */
+    protected $response;
+
     /**
      * @param Request $request
      */
-    public function __construct(Request $request, RequestValidator $requestValidator, ApplicationConfig $appConfig)
+    public function __construct(Request $request, RequestValidator $requestValidator, ApplicationConfig $appConfig, Response $response)
     {
         $this->request = $request;
         $this->requestValidator = $requestValidator;
         $this->appConfig = $appConfig;
+        $this->response = $response;
     }
 
     /**

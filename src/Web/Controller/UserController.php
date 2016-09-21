@@ -9,6 +9,7 @@ use Jimdo\Reports\Role as Role;
 use Jimdo\Reports\UserService as UserService;
 use Jimdo\Reports\UserMongoRepository as UserMongoRepository;
 use Jimdo\Reports\Web\Request as Request;
+use Jimdo\Reports\Web\Response as Response;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 use Jimdo\Reports\PasswordException as PasswordException;
@@ -28,15 +29,14 @@ class UserController extends Controller
     /**
      * @param Request $request
      */
-    public function __construct(Request $request, RequestValidator $requestValidator, ApplicationConfig $appConfig)
+    public function __construct(Request $request, RequestValidator $requestValidator, ApplicationConfig $appConfig, Response $response)
     {
-        parent::__construct($request, $requestValidator, $appConfig);
+        parent::__construct($request, $requestValidator, $appConfig, $response);
 
         $client = new \MongoDB\Client($appConfig->mongoUri());
 
         $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
         $this->service = new UserService($userRepository);
-
         $this->viewHelper = new ViewHelper();
     }
 
@@ -51,9 +51,9 @@ class UserController extends Controller
 
         $footerView->backButton = 'nope';
 
-        echo $headerView->render();
-        echo $loginView->render();
-        echo $footerView->render();
+        $this->response->addBody($headerView->render());
+        $this->response->addBody($loginView->render());
+        $this->response->addBody($footerView->render());
     }
 
     public function loginAction()
@@ -118,9 +118,9 @@ class UserController extends Controller
 
         $footerView = $this->view('app/views/Footer.php');
 
-        echo $headerView->render();
-        echo $registerView->render();
-        echo $footerView->render();
+        $this->response->addBody($headerView->render());
+        $this->response->addBody($registerView->render());
+        $this->response->addBody($footerView->render());
     }
 
     public function createUserAction()
@@ -145,9 +145,9 @@ class UserController extends Controller
             $registerView->errorMessages = ['Die eingegebenen Passwörter stimmen nicht überein'];
             $footerView = $this->view('app/views/Footer.php');
 
-            echo $headerView->render();
-            echo $registerView->render();
-            echo $footerView->render();
+            $this->response->addBody($headerView->render());
+            $this->response->addBody($registerView->render());
+            $this->response->addBody($footerView->render());
 
         } else {
             if ($role === 'TRAINER') {
@@ -189,10 +189,10 @@ class UserController extends Controller
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
 
-            echo $headerView->render();
-            echo $infobarView->render();
-            echo $userView->render();
-            echo $footerView->render();
+            $this->response->addBody($headerView->render());
+            $this->response->addBody($infobarView->render());
+            $this->response->addBody($userView->render());
+            $this->response->addBody($footerView->render());
 
         } else {
             $this->redirect("/user");
@@ -230,10 +230,10 @@ class UserController extends Controller
 
         $footerView = $this->view('app/views/Footer.php');
 
-        echo $headerView->render();
-        echo $infobarView->render();
-        echo $changePasswordView->render();
-        echo $footerView->render();
+        $this->response->addBody($headerView->render());
+        $this->response->addBody($infobarView->render());
+        $this->response->addBody($changePasswordView->render());
+        $this->response->addBody($footerView->render());
     }
 
     public function editPasswordAction()
@@ -271,10 +271,10 @@ class UserController extends Controller
 
             $footerView = $this->view('app/views/Footer.php');
 
-            echo $headerView->render();
-            echo $infobarView->render();
-            echo $changePasswordView->render();
-            echo $footerView->render();
+            $this->response->addBody($headerView->render());
+            $this->response->addBody($infobarView->render());
+            $this->response->addBody($changePasswordView->render());
+            $this->response->addBody($footerView->render());
 
         } else {
             $this->redirect("/report/list");

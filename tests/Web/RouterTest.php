@@ -26,7 +26,8 @@ class RouterTest extends TestCase
                     $this->queryParams,
                     $this->formData,
                     $this->sessionData
-                )
+                ),
+                'defaultResponseObject' => new Response()
             ]
         );
     }
@@ -61,7 +62,8 @@ class RouterTest extends TestCase
                 $this->queryParams,
                 $this->formData,
                 $this->sessionData
-            )
+            ),
+            'defaultResponseObject' => new Response()
         ]);
 
         $this->assertEquals(
@@ -98,9 +100,9 @@ class RouterTest extends TestCase
                 $this->queryParams,
                 $this->formData,
                 $this->sessionData
-            )
+            ),
+            'defaultResponseObject' => new Response()
         ]);
-
         $this->assertEquals('defaultAction called', $router->dispatch($uri));
     }
 

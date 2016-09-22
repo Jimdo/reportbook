@@ -4,7 +4,7 @@ namespace Jimdo\Reports;
 
 use Jimdo\Reports\Views\Report as ReadOnlyReport;
 
-class ReportBookService
+class ReportbookService
 {
     /** @var ReportRepository */
     private $reportRepository;

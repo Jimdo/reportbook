@@ -202,6 +202,25 @@ class UserFileRepositoryTest extends TestCase
         $this->assertTrue($userRepository->exists($mail));
     }
 
+    /**
+     * @test
+     */
+     public function itShouldHaveUniqId()
+     {
+         $userRepository = new UserFileRepository(self::USERS_ROOT_PATH);
+
+         $forename = 'Max';
+         $surname = 'Mustermann';
+         $username = 'maxi';
+         $email = 'max.mustermann@hotmail.de';
+         $role = new Role('trainee');
+         $password = '1234567';
+
+         $user = $userRepository->createUser($forename, $surname, $username, $email, $role, $password);
+
+         $this->assertInternalType('string', $user->id());
+     }
+
     private function deleteRecursive($input)
     {
         if (is_file($input)) {

@@ -34,15 +34,24 @@ class Report
      * @param string $content
      * @param string $date
      * @param string $calendarWeek
+     * @param string $id
      */
-    public function __construct(string $traineeId, string $content, string $date, string $calendarWeek)
+    public function __construct(string $traineeId, string $content, string $date, string $calendarWeek, string $id, string $status = null)
     {
         $this->content = $content;
         $this->traineeId = $traineeId;
-        $this->status = self::STATUS_NEW;
         $this->date = $date;
         $this->calendarWeek = $calendarWeek;
-        $this->id = uniqid();
+        $this->id = $id;
+
+        if ($status === null) {
+
+            $this->status = self::STATUS_NEW;
+
+        } else {
+            
+            $this->status = $status;
+        }
     }
 
 

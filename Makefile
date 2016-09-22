@@ -25,7 +25,7 @@ doc: ## Generate documentation
 	./scripts/phpdoc
 
 server: ## Start up local development web server
-	php -S localhost:8000 -t app/ app/router.php
+	./scripts/run-server.sh
 
 build: ## Generate docker container image
 	docker build -t $(IMAGE) .

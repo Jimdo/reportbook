@@ -33,7 +33,7 @@ class UserFileRepository implements UserRepository
             throw new UserRepositoryException("Email already exists!\n");
         }
 
-        $user = new User($forename, $surname, $username, $email, $role, $password);
+        $user = new User($forename, $surname, $username, $email, $role, $password, uniqid());
         $this->ensureUsersPath();
         $this->save($user);
 

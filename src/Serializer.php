@@ -60,7 +60,8 @@ class Serializer
             'date' => $report->date(),
             'calendarWeek' => $report->calendarWeek(),
             'content' => $report->content(),
-            'traineeId' => $report->traineeId()
+            'traineeId' => $report->traineeId(),
+            'status' => $report->status()
         ];
     }
 
@@ -74,7 +75,8 @@ class Serializer
                           $serializedReport['content'],
                           $serializedReport['date'],
                           $serializedReport['calendarWeek'],
-                          $serializedReport['id']
+                          $serializedReport['id'],
+                          $serializedReport['status']
         );
     }
 }

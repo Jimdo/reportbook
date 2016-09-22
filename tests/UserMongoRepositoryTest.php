@@ -4,21 +4,24 @@ namespace Jimdo\Reports;
 
 use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\Role as Role;
+use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 
 
 class UserMongoRepositoryTest extends TestCase
 {
-    /** @var Client $client */
+    /** @var Client */
     private $client;
 
-    /** @var Collection $users */
+    /** @var Collection */
     private $users;
+
+    /** @var ApplicationConfig */
+    private $appConfig;
 
     protected function setUp()
     {
-        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
-        $uri = 'mongodb://' . $MONGO_SERVER_IP . ':27017';
-        $this->client = new \MongoDB\Client($uri);
+        $this->appConfig = new ApplicationConfig();
+        $this->client = new \MongoDB\Client($this->appConfig->mongoUri());
         $reportbook = $this->client->reportbook;
         $this->users = $reportbook->users;
 
@@ -30,7 +33,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldCreateUser()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -52,7 +55,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindUserByEmail()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -73,7 +76,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindUserBySurname()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -94,7 +97,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindUserById()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -115,7 +118,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindUserByUsername()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -136,7 +139,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindUserByStatus()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -157,7 +160,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindAllUsers()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -181,7 +184,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldDeleteUser()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -206,7 +209,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldCheckIfUserExists()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer());
+        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
 
         $forename = 'Max';
         $surname = 'Mustermann';

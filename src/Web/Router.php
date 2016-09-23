@@ -138,7 +138,7 @@ class Router
             throw new ControllerNotFoundException("Could not find controller class for '$controller'!");
         }
 
-        $applicationConfig = new ApplicationConfig();
+        $applicationConfig = new ApplicationConfig(__DIR__ . '/../../config.yml');
         return new $class($this->requestObject, $this->requestValidatorObject, $applicationConfig, $this->responseObject);
     }
 

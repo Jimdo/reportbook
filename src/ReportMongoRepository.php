@@ -31,7 +31,7 @@ class ReportMongoRepository implements ReportRepository
         $this->client = $client;
         $this->reportbook = $this->client->reportbook;
         $this->reports = $this->reportbook->reports;
-        $this->applicationConfig = new ApplicationConfig();
+        $this->applicationConfig = new ApplicationConfig(__DIR__ . '/../config.yml');
     }
 
     /**

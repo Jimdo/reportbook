@@ -19,8 +19,9 @@ class ReportMongoRepositoryTest extends TestCase
 
     protected function setUp()
     {
-        $this->appConfig = new ApplicationConfig();
-        $this->client = new \MongoDB\Client($this->appConfig->mongoUri());
+        $this->appConfig = new ApplicationConfig(__DIR__ . '/fixtures/config.yml');
+        $uri = 'mongodb://' . $this->appConfig->mongoIp . ':27017';
+        $this->client = new \MongoDB\Client($uri);
         $reportbook = $this->client->reportbook;
         $this->reports = $reportbook->reports;
 

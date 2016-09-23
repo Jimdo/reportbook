@@ -28,8 +28,11 @@ class ApplicationConfig
             throw new \Jimdo\Reports\Web\ApplicationConfigException('No value found!');
         }
 
-        $ymlString = $this->yml[$env][$this->yamlString($key)];
         $envString = getenv($this->envString($key));
+        $ymlString;
+        if (isset($this->yml[$env][$this->yamlString($key)])) {
+            $ymlString = $this->yml[$env][$this->yamlString($key)];
+        }
 
         if ($envString !== false) {
             return $envString;

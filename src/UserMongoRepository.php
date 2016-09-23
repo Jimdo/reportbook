@@ -31,7 +31,7 @@ class UserMongoRepository implements UserRepository
         $this->client = $client;
         $this->reportbook = $this->client->reportbook;
         $this->users = $this->reportbook->users;
-        $this->applicationConfig = new ApplicationConfig();
+        $this->applicationConfig = new ApplicationConfig(__DIR__ . '/../config.yml');
     }
 
     /**

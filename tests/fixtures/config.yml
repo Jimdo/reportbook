@@ -1,0 +1,10 @@
+'production':
+  mongo_uri:  mongodb://192.168.39.3/bla
+  mongo_db:   reportbook_production
+'testing':
+  mongo_uri:  mongodb://192.168.39.3/bla
+  mongo_db:   reportbook_testing
+'development':
+  mongo_uri:  mongodb://192.168.39.3/bla
+  mongo_db:   reportbook_development
+  test_uri:  mongo:192.168.178:2000

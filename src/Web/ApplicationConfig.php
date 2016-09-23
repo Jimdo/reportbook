@@ -2,22 +2,58 @@
 
 namespace Jimdo\Reports\Web;
 
+use Symfony\Component\Yaml\Yaml;
+
 class ApplicationConfig
 {
-    /** @var string */
-    private $MONGO_SERVER_IP;
+    private $yml;
 
-    /** @var string */
-    private $uri;
+    private $path;
 
-    public function __construct()
+    public function __construct(string $path)
     {
-        $this->MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
-        $this->uri = 'mongodb://' . $this->MONGO_SERVER_IP . ':27017';
+        $this->path = $path;
+        $this->yml = $this->readYaml();
     }
 
-    public function mongoUri()
+        /**
+     * @param string $key
+     * @return mixed
+     */
+    public function __get(string $key)
     {
-        return $this->uri;
+        $env = getenv('APPLICATION_ENV');
+
+        if ($env === false) {
+            throw new \Jimdo\Reports\Web\ApplicationConfigException('No value found!');
+        }
+
+        $ymlString = $this->yml[$env][$this->yamlString($key)];
+        $envString = getenv($this->envString($key));
+
+        if ($envString !== false) {
+            return $envString;
+        }
+
+        if (isset($ymlString)) {
+            return $ymlString;
+        }
+    }
+
+    private function readYaml()
+    {
+        return $this->yml = Yaml::parse(file_get_contents($this->path));
+    }
+
+    private function envString(string $camelString)
+    {
+        preg_match( '/[A-Z]/', $camelString, $matches, PREG_OFFSET_CAPTURE );
+        $res = str_split($camelString, $matches[0][1]);
+        return strtoupper($res[0] . '_' . $res[1]);
+    }
+
+    private function yamlString(string $camelString)
+    {
+        return strtolower($this->envString($camelString));
     }
 }

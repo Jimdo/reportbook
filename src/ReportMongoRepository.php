@@ -27,11 +27,11 @@ class ReportMongoRepository implements ReportRepository
      */
     public function __construct(\MongoDB\Client $client, Serializer $serializer, ApplicationConfig $applicationConfig)
     {
+        $this->applicationConfig = new ApplicationConfig(__DIR__ . '/../config.yml');
         $this->serializer = $serializer;
         $this->client = $client;
-        $this->reportbook = $this->client->reportbook;
+        $this->reportbook = $this->client->selectDatabase($this->applicationConfig->mongoServerDb);
         $this->reports = $this->reportbook->reports;
-        $this->applicationConfig = new ApplicationConfig(__DIR__ . '/../config.yml');
     }
 
     /**

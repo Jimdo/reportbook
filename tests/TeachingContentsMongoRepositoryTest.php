@@ -11,7 +11,7 @@ class TeachingContentMongoRepository extends TestCase
      */
     public function itShouldFindItemsByCombinedTextSearch()
     {
-        $uri = 'mongodb://' . getenv('MONGO_IP') . ':27017';
+        $uri = 'mongodb://' . getenv('MONGO_SERVER_IP') . ':27017';
 
         $teachingContentsRepository = new TeachingContentsMongoRepository(
             new \MongoDB\Client($uri)

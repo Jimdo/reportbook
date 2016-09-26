@@ -1,6 +1,6 @@
 'production':
-  mongo_db:   reportbook_production
+  mongo_server_db:   reportbook_production
 'testing':
-  mongo_db:   reportbook_testing
+  mongo_server_db:   reportbook_testing
 'development':
-  mongo_db:   reportbook_development
+  mongo_server_db:   reportbook_development

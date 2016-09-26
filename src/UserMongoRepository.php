@@ -27,11 +27,11 @@ class UserMongoRepository implements UserRepository
      */
     public function __construct(\MongoDB\Client $client, Serializer $serializer, ApplicationConfig $applicationConfig)
     {
+        $this->applicationConfig = new ApplicationConfig(__DIR__ . '/../config.yml');
         $this->serializer = $serializer;
         $this->client = $client;
-        $this->reportbook = $this->client->reportbook;
+        $this->reportbook = $this->client->selectDatabase($this->applicationConfig->mongoServerDb);
         $this->users = $this->reportbook->users;
-        $this->applicationConfig = new ApplicationConfig(__DIR__ . '/../config.yml');
     }
 
     /**

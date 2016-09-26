@@ -30,17 +30,6 @@
         </div>
     </div>
 
-<!---
-
-    <div class="row">
-        <label class="col-md-2 control-label" for="tags">Tags: </label>
-        <div class="col-md-10 col-md-offset-0">
-            <input class="form-control typeahead" type="text" placeholder="Tags" id="tags" name="tags"></br>
-        </div>
-    </div>
-
--->
-
     <div class="row">
         <label class="col-md-2 control-label" for="calendarWeek">Bericht: </label>
         <div class="col-md-10 col-md-offset-0">
@@ -80,28 +69,3 @@
 </div>
 
 <?php endif; ?>
-
-<script src="/js/typeahead.jquery.min.js"></script>
-<script>
-var teachingContentsFetcher = function(query, _, callback) {
-    $.get('/teachingcontents/search?search=' + query, function(results) {
-        console.log(results);
-        var profiles = $.map(results, function(value) {
-            return value['profile'];
-        });
-        callback(profiles);
-    });
-};
-
-$(function ($) {
-    $('#tags.typeahead').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 3
-    },
-    {
-        name: 'teachingContents',
-        source: teachingContentsFetcher
-    });
-});
-</script>

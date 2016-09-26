@@ -51,7 +51,6 @@ class ApplicationConfig
     private function envString(string $camelString)
     {
         $lastCharacterUpper = ctype_upper($camelString[0]);
-        $res = [];
         for ($i=0; $i < strlen($camelString); $i++) {
             if (ctype_upper($camelString[$i]) === false || $lastCharacterUpper === true) {
                 $lastCharacterUpper = false;
@@ -60,7 +59,6 @@ class ApplicationConfig
 
             $lastCharacterUpper = true;
             $camelString = substr_replace($camelString , '_', $i,0);
-
             $i++;
         }
         return strtoupper($camelString);

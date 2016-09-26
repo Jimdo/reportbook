@@ -27,11 +27,11 @@ class ReportMongoRepository implements ReportRepository
      */
     public function __construct(\MongoDB\Client $client, Serializer $serializer, ApplicationConfig $applicationConfig)
     {
+        $this->applicationConfig = new ApplicationConfig(__DIR__ . '/../config.yml');
         $this->serializer = $serializer;
         $this->client = $client;
-        $this->reportbook = $this->client->selectDatabase($applicationConfig->mongoDb());
+        $this->reportbook = $this->client->selectDatabase($this->applicationConfig->mongoDatabase);
         $this->reports = $this->reportbook->reports;
-        $this->applicationConfig = new ApplicationConfig();
     }
 
     /**
@@ -56,12 +56,9 @@ class ReportMongoRepository implements ReportRepository
     public function save(Report $report)
     {
         if ($this->findById($report->id()) !== null) {
-
             $this->delete($report);
             $this->reports->insertOne($this->serializer->serializeReport($report));
-
         } else {
-
             $this->reports->insertOne($this->serializer->serializeReport($report));
         }
     }
@@ -72,10 +69,11 @@ class ReportMongoRepository implements ReportRepository
     public function findAll(): array
     {
         $foundReports = [];
-        foreach( $this->reports->find() as $report )
-        {
+
+        foreach ($this->reports->find() as $report) {
             $foundReports [] = $this->serializer->unserializeReport($report->getArrayCopy());
         }
+
         return $foundReports;
     }
 
@@ -88,12 +86,10 @@ class ReportMongoRepository implements ReportRepository
         $foundReports = $this->findAll();
         $reports = [];
 
-        foreach($foundReports as $report) {
-
+        foreach ($foundReports as $report) {
             if ($report->traineeId() === $traineeId) {
                 $reports[] = $report;
             }
-
         }
         return $reports;
     }
@@ -115,12 +111,10 @@ class ReportMongoRepository implements ReportRepository
         $foundReports = $this->findAll();
         $reports = [];
 
-        foreach($foundReports as $report) {
-
+        foreach ($foundReports as $report) {
             if ($report->status() === $status) {
                 $reports[] = $report;
             }
-
         }
         return $reports;
     }
@@ -131,12 +125,10 @@ class ReportMongoRepository implements ReportRepository
      */
     public function findById(string $id)
     {
-        foreach($this->findAll() as $report) {
-
+        foreach ($this->findAll() as $report) {
             if ($report->id() === $id) {
                 return $report;
             }
-
         }
     }
 }

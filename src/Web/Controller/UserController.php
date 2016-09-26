@@ -29,12 +29,18 @@ class UserController extends Controller
     /**
      * @param Request $request
      */
-    public function __construct(Request $request, RequestValidator $requestValidator, ApplicationConfig $appConfig, Response $response)
+    public function __construct(
+        Request $request,
+        RequestValidator $requestValidator,
+        ApplicationConfig $appConfig,
+        Response $response
+    )
     {
         parent::__construct($request, $requestValidator, $appConfig, $response);
 
+        $uri = 'mongodb://' . $appConfig->mongoServerIp . ':27017';
         $client = new \MongoDB\Client(
-            $appConfig->mongoUri(),
+            $uri,
             [ 'authSource' => 'admin' ]
         );
 
@@ -80,7 +86,6 @@ class UserController extends Controller
         }
 
         if ($this->service->authUser($identifier, $password)) {
-
             $user = $this->service->findUserByEmail($identifier);
 
             if ($user === null) {
@@ -88,7 +93,6 @@ class UserController extends Controller
             }
 
             if ($user->roleStatus() === Role::STATUS_APPROVED) {
-
                 $_SESSION['role'] = $user->roleName();
                 $_SESSION['authorized'] = true;
                 $_SESSION['userId'] = $user->id();
@@ -99,12 +103,10 @@ class UserController extends Controller
                 } else {
                     $this->redirect('/report/list');
                 }
-
             } else {
                 $_SESSION['authorized'] = false;
                 $this->redirect('/user');
             }
-
         } else {
             $_SESSION['authorized'] = false;
             $this->redirect('/user');
@@ -139,7 +141,6 @@ class UserController extends Controller
 
 
         if ($password !== $passwordConfirmation) {
-
             $headerView = $this->view('app/views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
 
@@ -151,23 +152,17 @@ class UserController extends Controller
             $this->response->addBody($headerView->render());
             $this->response->addBody($registerView->render());
             $this->response->addBody($footerView->render());
-
         } else {
             if ($role === 'TRAINER') {
-
                 $this->service->registerTrainer($forename, $surname, $username, $email, $password);
                 header("Location: /user");
-
             } elseif ($role === 'TRAINEE') {
-
                 $this->service->registerTrainee($forename, $surname, $username, $email, $password);
                 header("Location: /user");
-
             } else {
                 header("Location: /user");
             }
         }
-
     }
 
     public function userlistAction()
@@ -196,7 +191,6 @@ class UserController extends Controller
             $this->response->addBody($infobarView->render());
             $this->response->addBody($userView->render());
             $this->response->addBody($footerView->render());
-
         } else {
             $this->redirect("/user");
         }
@@ -205,14 +199,11 @@ class UserController extends Controller
     public function changeStatusAction()
     {
         if ($this->isAuthorized('TRAINER')) {
-
             if ($this->formData('action') === 'approve') {
                 $this->service->approveRole($this->formData('email'));
-
             } elseif ($this->formData('action') === 'disapprove') {
                 $this->service->disapproveRole($this->formData('email'));
             }
-
             $this->redirect("/user/userlist");
         } else {
             $this->redirect("/user");
@@ -243,25 +234,23 @@ class UserController extends Controller
     {
         $exceptions = [];
 
-
-            if ($this->isAuthorized('TRAINER') || $this->isAuthorized('TRAINEE')) {
-
-                if ($this->formData('newPassword') === $this->formData('passwordConfirmation')) {
-
-                    try {
-                        $this->service->editPassword($this->sessionData('userId'), $this->formData('currentPassword'), $this->formData('newPassword'));
-                    } catch (PasswordException $e) {
-                        $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
-                    }
-
-                } else {
-                    $exceptions[] = 'Die eingegebenen Passwörter stimmen nicht überein!';
+        if ($this->isAuthorized('TRAINER') || $this->isAuthorized('TRAINEE')) {
+            if ($this->formData('newPassword') === $this->formData('passwordConfirmation')) {
+                try {
+                    $this->service->editPassword(
+                        $this->sessionData('userId'),
+                        $this->formData('currentPassword'),
+                        $this->formData('newPassword')
+                    );
+                } catch (PasswordException $e) {
+                    $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
                 }
+            } else {
+                $exceptions[] = 'Die eingegebenen Passwörter stimmen nicht überein!';
             }
-
+        }
 
         if ($exceptions !== []) {
-
             $headerView = $this->view('app/views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
 
@@ -278,11 +267,9 @@ class UserController extends Controller
             $this->response->addBody($infobarView->render());
             $this->response->addBody($changePasswordView->render());
             $this->response->addBody($footerView->render());
-
         } else {
             $this->redirect("/report/list");
         }
-
     }
 
     public function logoutAction()

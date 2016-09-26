@@ -1,0 +1,6 @@
+'production':
+  mongo_server_db:   reportbook_production
+'testing':
+  mongo_server_db:   reportbook_testing
+'development':
+  mongo_server_db:   reportbook_development

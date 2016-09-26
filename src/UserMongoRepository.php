@@ -29,7 +29,7 @@ class UserMongoRepository implements UserRepository
     {
         $this->serializer = $serializer;
         $this->client = $client;
-        $this->reportbook = $this->client->reportbook;
+        $this->reportbook = $this->client->selectDatabase($applicationConfig->mongoDb());
         $this->users = $this->reportbook->users;
         $this->applicationConfig = new ApplicationConfig();
     }

@@ -21,8 +21,13 @@ class UserMongoRepositoryTest extends TestCase
     protected function setUp()
     {
         $this->appConfig = new ApplicationConfig();
-        $this->client = new \MongoDB\Client($this->appConfig->mongoUri());
-        $reportbook = $this->client->reportbook;
+
+        $this->client = new \MongoDB\Client(
+            $this->appConfig->mongoUri(),
+            [ 'authSource' => 'admin' ]
+        );
+
+        $reportbook = $this->client->selectDatabase($this->appConfig->mongoDb());
         $this->users = $reportbook->users;
 
         $this->users->deleteMany([]);

@@ -29,7 +29,7 @@ class ReportMongoRepository implements ReportRepository
     {
         $this->serializer = $serializer;
         $this->client = $client;
-        $this->reportbook = $this->client->reportbook;
+        $this->reportbook = $this->client->selectDatabase($applicationConfig->mongoDb());
         $this->reports = $this->reportbook->reports;
         $this->applicationConfig = new ApplicationConfig();
     }

@@ -13,7 +13,6 @@ before_script:
   - docker exec reportbook-mongodb /scripts/setup-mongo-server.sh
   - docker ps
 script:
-  - make import-teaching-contents
   - make tests
 deploy:
   provider: script

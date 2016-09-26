@@ -39,7 +39,7 @@ class ReportController extends Controller
     {
         parent::__construct($request, $requestValidator, $appConfig, $response);
 
-        $uri = 'mongodb://' . $appConfig->mongoIp . ':27017';
+        $uri = 'mongodb://' . $appConfig->mongoServerIp . ':27017';
         $client = new \MongoDB\Client($uri);
 
         $reportRepository = new ReportMongoRepository($client, new Serializer(), $appConfig);

@@ -1,6 +1,10 @@
 'production':
   mongo_server_db:   reportbook_production
-'testing':
-  mongo_server_db:   reportbook_testing
-'development':
-  mongo_server_db:   reportbook_development
+'test':
+  mongo_username: reportbook-test
+  mongo_password: geheim
+  mongo_database: reportbook_test
+'dev':
+  mongo_username: reportbook-dev
+  mongo_password: geheim
+  mongo_database: reportbook_dev

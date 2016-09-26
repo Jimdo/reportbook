@@ -30,7 +30,7 @@ class UserMongoRepository implements UserRepository
         $this->applicationConfig = new ApplicationConfig(__DIR__ . '/../config.yml');
         $this->serializer = $serializer;
         $this->client = $client;
-        $this->reportbook = $this->client->selectDatabase($this->applicationConfig->mongoServerDb);
+        $this->reportbook = $this->client->selectDatabase($this->applicationConfig->mongoDatabase);
         $this->users = $this->reportbook->users;
     }
 

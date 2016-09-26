@@ -1,9 +1,9 @@
 #!/bin/sh
 
-if [ -z ${MONGO_SERVER_IP+x} ]; then
-  export MONGO_SERVER_IP=$(docker-machine ip)
+if [ -z ${MONGO_HOST+x} ]; then
+  export MONGO_HOST=$(docker-machine ip)
 fi
 
-export APPLICATION_ENV=testing
+export APPLICATION_ENV=test
 
 scripts/phpunit

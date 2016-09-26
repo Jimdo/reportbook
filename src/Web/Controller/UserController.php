@@ -38,8 +38,18 @@ class UserController extends Controller
     {
         parent::__construct($request, $requestValidator, $appConfig, $response);
 
-        $uri = 'mongodb://' . $appConfig->mongoServerIp . ':27017';
-        $client = new \MongoDB\Client($uri);
+        $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
+            , $this->appConfig->mongoUsername
+            , $this->appConfig->mongoPassword
+            , $this->appConfig->mongoHost
+            , 27017
+            , $this->appConfig->mongoDatabase
+        );
+
+        $client = new \MongoDB\Client(
+            $uri,
+            [ 'authSource' => 'admin' ]
+        );
 
         $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
         $this->service = new UserService($userRepository);

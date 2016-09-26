@@ -50,7 +50,7 @@ class ApplicationConfig
 
     private function envString(string $camelString)
     {
-        preg_match( '/[A-Z]/', $camelString, $matches, PREG_OFFSET_CAPTURE );
+        preg_match('/[A-Z]/', $camelString, $matches, PREG_OFFSET_CAPTURE);
         $res = str_split($camelString, $matches[0][1]);
         return strtoupper($res[0] . '_' . $res[1]);
     }

@@ -85,7 +85,6 @@ class Router
                     if ($getMethods !== null) {
                         $actionFound = false;
                         foreach ($getMethods as $method) {
-
                             if ($method === $givenAction) {
                                 $actionFound = true;
                                 $action = $uriParts[1];
@@ -139,7 +138,12 @@ class Router
         }
 
         $applicationConfig = new ApplicationConfig(__DIR__ . '/../../config.yml');
-        return new $class($this->requestObject, $this->requestValidatorObject, $applicationConfig, $this->responseObject);
+        return new $class(
+            $this->requestObject,
+            $this->requestValidatorObject,
+            $applicationConfig,
+            $this->responseObject
+        );
     }
 
     /**

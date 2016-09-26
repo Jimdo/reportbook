@@ -44,7 +44,14 @@ class UserMongoRepository implements UserRepository
      * @throws UserRepositoryException
      * @return User
      */
-    public function createUser(string $forename, string $surname, string $username, string $email, Role $role, string $password): User
+    public function createUser(
+        string $forename,
+        string $surname,
+        string $username,
+        string $email,
+        Role $role,
+        string $password
+    ): User
     {
         if ($this->findUserByEmail($email) !== null) {
             throw new UserRepositoryException("Email already exists!\n");
@@ -114,8 +121,7 @@ class UserMongoRepository implements UserRepository
     public function findAllUsers(): array
     {
         $foundUsers = [];
-        foreach( $this->users->find() as $user )
-        {
+        foreach ($this->users->find() as $user) {
             $foundUsers[] = $this->serializer->unserializeUser($user->getArrayCopy());
         }
         return $foundUsers;
@@ -160,12 +166,10 @@ class UserMongoRepository implements UserRepository
         $foundUsers = $this->findAllUsers();
         $users = [];
 
-        foreach($foundUsers as $user) {
-
+        foreach ($foundUsers as $user) {
             if ($user->roleStatus() === $status) {
                 $users[] = $user;
             }
-
         }
         return $users;
     }

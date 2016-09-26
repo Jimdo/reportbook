@@ -8,7 +8,6 @@ use Jimdo\Reports\Web\View as View;
 use Jimdo\Reports\Web\Response as Response;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 
-
 abstract class Controller
 {
     /** @var Request */
@@ -26,8 +25,12 @@ abstract class Controller
     /**
      * @param Request $request
      */
-    public function __construct(Request $request, RequestValidator $requestValidator, ApplicationConfig $appConfig, Response $response)
-    {
+    public function __construct(
+        Request $request,
+        RequestValidator $requestValidator,
+        ApplicationConfig $appConfig,
+        Response $response
+    ) {
         $this->request = $request;
         $this->requestValidator = $requestValidator;
         $this->appConfig = $appConfig;
@@ -97,17 +100,17 @@ abstract class Controller
      * @param string $field
      * @param string $validator
      */
-     protected function addRequestValidation(string $field, string $validator)
-     {
-         $this->requestValidator->add($field, $validator);
-     }
+    protected function addRequestValidation(string $field, string $validator)
+    {
+        $this->requestValidator->add($field, $validator);
+    }
 
-     protected function isRequestValid()
-     {
+    protected function isRequestValid()
+    {
          $request = array_merge(
-            $this->request->getFormData(),
-            $this->request->getQueryParams()
-        );
+             $this->request->getFormData(),
+             $this->request->getQueryParams()
+         );
         return $this->requestValidator->isValid($request);
     }
 }

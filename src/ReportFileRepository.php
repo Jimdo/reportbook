@@ -83,7 +83,9 @@ class ReportFileRepository implements ReportRepository
                 }
                 $serializedReport = @file_get_contents($this->reportsPath . '/' . $traineeId . '/' . $report);
                 if ($serializedReport === false) {
-                    throw new ReportFileRepositoryException('Could not read file: ' . $this->reportsPath . '/' . $traineeId . '/' . $report);
+                    throw new ReportFileRepositoryException(
+                        'Could not read file: ' . $this->reportsPath . '/' . $traineeId . '/' . $report
+                    );
                 }
                 $unserializedReport = @unserialize($serializedReport);
                 if ($unserializedReport === false) {
@@ -100,29 +102,29 @@ class ReportFileRepository implements ReportRepository
      * @return Report[]
      * @throws ReportFileRepositoryException
      */
-     public function findByTraineeId(string $traineeId): array
-     {
-         $foundReports = [];
-         $this->ensureReportsPath();
-         $this->ensureTraineeReportsPath($traineeId);
-         $traineePath = $this->reportsPath . '/' . $traineeId;
+    public function findByTraineeId(string $traineeId): array
+    {
+        $foundReports = [];
+        $this->ensureReportsPath();
+        $this->ensureTraineeReportsPath($traineeId);
+        $traineePath = $this->reportsPath . '/' . $traineeId;
 
-         foreach ($this->readDirectory($traineePath) as $reports) {
-             if ($reports === '.' || $reports === '..') {
-                 continue;
-             }
-             $serializedReport = @file_get_contents($traineePath . '/' . $reports);
-             if ($serializedReport === false) {
-                 throw new ReportFileRepositoryException('Could not read file: ' . $traineePath . '/' . $reports);
-             }
-             $unserializedReport = @unserialize($serializedReport);
-             if ($unserializedReport === false) {
-                 throw new ReportFileRepositoryException('Could not unserialize report!');
-             }
-             $foundReports[] = $unserializedReport;
-         }
-         return $foundReports;
-     }
+        foreach ($this->readDirectory($traineePath) as $reports) {
+            if ($reports === '.' || $reports === '..') {
+                continue;
+            }
+            $serializedReport = @file_get_contents($traineePath . '/' . $reports);
+            if ($serializedReport === false) {
+                throw new ReportFileRepositoryException('Could not read file: ' . $traineePath . '/' . $reports);
+            }
+            $unserializedReport = @unserialize($serializedReport);
+            if ($unserializedReport === false) {
+                throw new ReportFileRepositoryException('Could not unserialize report!');
+            }
+            $foundReports[] = $unserializedReport;
+        }
+        return $foundReports;
+    }
 
     /**
      * @param string $status

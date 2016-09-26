@@ -16,7 +16,14 @@ interface UserRepository
      * @throws UserRepositoryException
      * @return User
      */
-    public function createUser(string $forename, string $surname, string $username, string $email, Role $role, string $password): User;
+    public function createUser(
+        string $forename,
+        string $surname,
+        string $username,
+        string $email,
+        Role $role,
+        string $password
+    ): User;
 
     /**
      * @param User $user

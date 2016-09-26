@@ -12,7 +12,6 @@ before_script:
   - docker run --name reportbook-mongodb -v reportbook-data:/data/db -p 27017:27017 -d mongo
   - docker ps
 script:
-  - make import-teaching-contents
   - make tests
 deploy:
   provider: script

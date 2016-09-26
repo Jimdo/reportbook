@@ -28,7 +28,13 @@ class UserService
      * @throws UserRepositoryException
      * @return ReadOnlyUser
      */
-    public function registerTrainee(string $forename, string $surname, string $username, string $email, string $password)
+    public function registerTrainee(
+        string $forename,
+        string $surname,
+        string $username,
+        string $email,
+        string $password
+    )
     {
         $user = $this->registerUser($forename, $surname, $username, $email, new Role(Role::TRAINEE), $password);
         return $user;
@@ -44,7 +50,13 @@ class UserService
      * @throws UserRepositoryException
      * @return ReadOnlyUser
      */
-    public function registerTrainer(string $forename, string $surname, string $username, string $email, string $password)
+    public function registerTrainer(
+        string $forename,
+        string $surname,
+        string $username,
+        string $email,
+        string $password
+    )
     {
         $user = $this->registerUser($forename, $surname, $username, $email, new Role(Role::TRAINER), $password);
         return $user;
@@ -167,7 +179,14 @@ class UserService
      * @throws UserRepositoryException
      * @return ReadOnlyUser
      */
-    private function registerUser(string $forename, string $surname, string $username, string $email, Role $role, string $password): ReadOnlyUser
+    private function registerUser(
+        string $forename,
+        string $surname,
+        string $username,
+        string $email,
+        Role $role,
+        string $password
+    ): ReadOnlyUser
     {
         $user = $this->userRepository->createUser($forename, $surname, $username, $email, $role, $password);
         return new ReadOnlyUser($user);

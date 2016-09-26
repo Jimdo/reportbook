@@ -27,11 +27,11 @@ class UserMongoRepository implements UserRepository
      */
     public function __construct(\MongoDB\Client $client, Serializer $serializer, ApplicationConfig $applicationConfig)
     {
+        $this->applicationConfig = new ApplicationConfig(__DIR__ . '/../config.yml');
         $this->serializer = $serializer;
         $this->client = $client;
-        $this->reportbook = $this->client->reportbook;
+        $this->reportbook = $this->client->selectDatabase($this->applicationConfig->mongoServerDb);
         $this->users = $this->reportbook->users;
-        $this->applicationConfig = new ApplicationConfig();
     }
 
     /**
@@ -44,7 +44,14 @@ class UserMongoRepository implements UserRepository
      * @throws UserRepositoryException
      * @return User
      */
-    public function createUser(string $forename, string $surname, string $username, string $email, Role $role, string $password): User
+    public function createUser(
+        string $forename,
+        string $surname,
+        string $username,
+        string $email,
+        Role $role,
+        string $password
+    ): User
     {
         if ($this->findUserByEmail($email) !== null) {
             throw new UserRepositoryException("Email already exists!\n");
@@ -114,8 +121,7 @@ class UserMongoRepository implements UserRepository
     public function findAllUsers(): array
     {
         $foundUsers = [];
-        foreach( $this->users->find() as $user )
-        {
+        foreach ($this->users->find() as $user) {
             $foundUsers[] = $this->serializer->unserializeUser($user->getArrayCopy());
         }
         return $foundUsers;
@@ -160,12 +166,10 @@ class UserMongoRepository implements UserRepository
         $foundUsers = $this->findAllUsers();
         $users = [];
 
-        foreach($foundUsers as $user) {
-
+        foreach ($foundUsers as $user) {
             if ($user->roleStatus() === $status) {
                 $users[] = $user;
             }
-
         }
         return $users;
     }

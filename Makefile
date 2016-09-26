@@ -53,6 +53,3 @@ mongo-server: docker-setup ## Starts up mongoDB
 
 mongo-client: ## Connects to mongoDB
 	./scripts/mongo-client.sh
-
-import-teaching-contents:
-	./scripts/import-ausbildungsplan-into-mongodb.sh

@@ -50,9 +50,20 @@ class ApplicationConfig
 
     private function envString(string $camelString)
     {
-        preg_match('/[A-Z]/', $camelString, $matches, PREG_OFFSET_CAPTURE);
-        $res = str_split($camelString, $matches[0][1]);
-        return strtoupper($res[0] . '_' . $res[1]);
+        $lastCharacterUpper = ctype_upper($camelString[0]);
+        $res = [];
+        for ($i=0; $i < strlen($camelString); $i++) {
+            if (ctype_upper($camelString[$i]) === false || $lastCharacterUpper === true) {
+                $lastCharacterUpper = false;
+                continue;
+            }
+
+            $lastCharacterUpper = true;
+            $camelString = substr_replace($camelString , '_', $i,0);
+
+            $i++;
+        }
+        return strtoupper($camelString);
     }
 
     private function yamlString(string $camelString)

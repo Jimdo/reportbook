@@ -23,7 +23,7 @@ class ApplicationConfigTest extends TestCase
         $env = 'development';
         putenv("APPLICATION_ENV={$env}");
 
-        $testUri = $appConfig->mongoDb;
+        $testUri = $appConfig->mongoServerDb;
 
         $uri = 'reportbook_development';
 
@@ -60,7 +60,7 @@ class ApplicationConfigTest extends TestCase
 
         $appConfig = new ApplicationConfig($path);
 
-        $this->assertEquals('reportbook_development', $appConfig->mongoDb);
+        $this->assertEquals('reportbook_development', $appConfig->mongoServerDb);
     }
 
     /**

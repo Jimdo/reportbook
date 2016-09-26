@@ -53,3 +53,6 @@ mongo-server: docker-setup ## Starts up mongoDB
 
 mongo-client: ## Connects to mongoDB
 	./scripts/mongo-client.sh
+
+mongo-setup: ## Initial user setup
+	./scripts/mongo-setup.sh

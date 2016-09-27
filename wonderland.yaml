@@ -3,6 +3,9 @@ components:
     image: jimdo/reportbook
     capacity:
       memory: S
+    env:
+      APPLICATION_ENV: production
+      MONGO_PASSWORD: wyich3synk6yeiM
 endpoint:
   domain: reportbook.jimdo-platform.net
   port: 80

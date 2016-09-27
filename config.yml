@@ -1,10 +1,15 @@
 'production':
-  mongo_server_db:   reportbook_production
+  mongo_database: reportbook
+  mongo_host: ds019996.mlab.com
+  mongo_port: 19996
+  mongo_username: reportbook
 'test':
   mongo_username: reportbook-test
   mongo_password: geheim
   mongo_database: reportbook_test
+  mongo_port: 27017
 'dev':
   mongo_username: reportbook-dev
   mongo_password: geheim
   mongo_database: reportbook_dev
+  mongo_port: 27017

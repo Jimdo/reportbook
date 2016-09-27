@@ -42,7 +42,7 @@ class UserController extends Controller
             , $this->appConfig->mongoUsername
             , $this->appConfig->mongoPassword
             , $this->appConfig->mongoHost
-            , 27017
+            , $this->appConfig->mongoPort
             , $this->appConfig->mongoDatabase
         );
 

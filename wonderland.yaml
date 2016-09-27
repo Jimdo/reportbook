@@ -6,7 +6,7 @@ components:
       memory: S
     env:
       APPLICATION_ENV: production
-      MONGO_PASSWORD: wyich3synk6yeiM
+      $ref_secrets: vault+secret://vault.jimdo-platform.net/azubis/reportbook
 endpoint:
   domain: reportbook.jimdo-platform.net
   port: 80

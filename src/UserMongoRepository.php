@@ -51,8 +51,7 @@ class UserMongoRepository implements UserRepository
         string $email,
         Role $role,
         string $password
-    ): User
-    {
+    ): User {
         if ($this->findUserByEmail($email) !== null) {
             throw new UserRepositoryException("Email already exists!\n");
         }

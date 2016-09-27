@@ -48,8 +48,7 @@ class User
         Role $role,
         string $password,
         string $id
-    )
-    {
+    ) {
         if (strlen($password) < self::PASSWORD_LENGTH) {
             throw new PasswordException(
                 'Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n",

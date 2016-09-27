@@ -35,16 +35,16 @@ class ReportController extends Controller
         RequestValidator $requestValidator,
         ApplicationConfig $appConfig,
         Response $response
-    )
-    {
+    ) {
         parent::__construct($request, $requestValidator, $appConfig, $response);
 
-        $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
-            , $this->appConfig->mongoUsername
-            , $this->appConfig->mongoPassword
-            , $this->appConfig->mongoHost
-            , 27017
-            , $this->appConfig->mongoDatabase
+        $uri = sprintf(
+            'mongodb://%s:%s@%s:%d/%s',
+            $this->appConfig->mongoUsername,
+            $this->appConfig->mongoPassword,
+            $this->appConfig->mongoHost,
+            27017,
+            $this->appConfig->mongoDatabase
         );
 
         $client = new \MongoDB\Client(
@@ -269,9 +269,11 @@ class ReportController extends Controller
 
     public function deleteReportAction()
     {
-        if ($this->isAuthorized('TRAINEE') && $this->service->findById($this->formData('reportId'), $this->sessionData('userId'))->status() !== Report::STATUS_DISAPPROVED) {
-            $this->service->deleteReport($this->formData('reportId'));
-            $this->redirect("/report/list");
+        if ($this->isAuthorized('TRAINEE') && $this->service
+            ->findById($this->formData('reportId'), $this->sessionData('userId'))
+            ->status() !== Report::STATUS_DISAPPROVED) {
+                $this->service->deleteReport($this->formData('reportId'));
+                $this->redirect("/report/list");
         }
     }
 

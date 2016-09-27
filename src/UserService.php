@@ -34,8 +34,7 @@ class UserService
         string $username,
         string $email,
         string $password
-    )
-    {
+    ) {
         $user = $this->registerUser($forename, $surname, $username, $email, new Role(Role::TRAINEE), $password);
         return $user;
     }
@@ -56,8 +55,7 @@ class UserService
         string $username,
         string $email,
         string $password
-    )
-    {
+    ) {
         $user = $this->registerUser($forename, $surname, $username, $email, new Role(Role::TRAINER), $password);
         return $user;
     }
@@ -186,8 +184,7 @@ class UserService
         string $email,
         Role $role,
         string $password
-    ): ReadOnlyUser
-    {
+    ): ReadOnlyUser {
         $user = $this->userRepository->createUser($forename, $surname, $username, $email, $role, $password);
         return new ReadOnlyUser($user);
     }

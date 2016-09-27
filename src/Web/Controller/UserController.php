@@ -34,8 +34,7 @@ class UserController extends Controller
         RequestValidator $requestValidator,
         ApplicationConfig $appConfig,
         Response $response
-    )
-    {
+    ) {
         parent::__construct($request, $requestValidator, $appConfig, $response);
 
         $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
@@ -83,7 +82,13 @@ class UserController extends Controller
         $loginWithAdminDefaultPassword = false;
         if ($identifier === self::ADMIN_DEFAULT_USER && $password === self::ADMIN_DEFAULT_PASSWORD) {
             if (!$this->service->exists($identifier)) {
-                $adminUser = $this->service->registerTrainer('admin', 'admin', self::ADMIN_DEFAULT_USER, 'admin', self::ADMIN_DEFAULT_PASSWORD);
+                $adminUser = $this->service->registerTrainer(
+                    'admin',
+                    'admin',
+                    self::ADMIN_DEFAULT_USER,
+                    'admin',
+                    self::ADMIN_DEFAULT_PASSWORD
+                );
                 $this->service->approveRole($adminUser->email());
             }
             $loginWithAdminDefaultPassword = true;

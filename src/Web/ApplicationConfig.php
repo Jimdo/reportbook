@@ -6,21 +6,26 @@ use Symfony\Component\Yaml\Yaml;
 
 class ApplicationConfig
 {
+    /** @var string */
     private $yml;
 
+    /** @var string */
     private $path;
 
+    /**
+     * @param string $path
+     */
     public function __construct(string $path)
     {
         $this->path = $path;
         $this->yml = $this->readYaml();
     }
 
-        /**
+    /**
      * @param string $key
-     * @return mixed
+     * @return string
      */
-    public function __get(string $key)
+    public function __get(string $key): string
     {
         $env = getenv('APPLICATION_ENV');
 
@@ -43,12 +48,19 @@ class ApplicationConfig
         }
     }
 
-    private function readYaml()
+    /**
+     * @return array
+     */
+    private function readYaml(): array
     {
         return $this->yml = Yaml::parse(file_get_contents($this->path));
     }
 
-    private function envString(string $camelString)
+    /**
+     * @param string $camelString
+     * @return string
+     */
+    private function envString(string $camelString): string
     {
         $lastCharacterUpper = ctype_upper($camelString[0]);
         for ($i=0; $i < strlen($camelString); $i++) {
@@ -58,12 +70,16 @@ class ApplicationConfig
             }
 
             $lastCharacterUpper = true;
-            $camelString = substr_replace($camelString , '_', $i,0);
+            $camelString = substr_replace($camelString, '_', $i, 0);
             $i++;
         }
         return strtoupper($camelString);
     }
 
+    /**
+     * @param string $camelString
+     * @return string
+     */
     private function yamlString(string $camelString)
     {
         return strtolower($this->envString($camelString));

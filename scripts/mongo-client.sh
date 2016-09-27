@@ -18,5 +18,4 @@ fi
 
 eval $(docker-machine env)
 mongo $(docker-machine ip)/$MONGO_DATABASE \
-    --authenticationDatabase admin \
     -u $MONGO_USERNAME -p $MONGO_PASSWORD

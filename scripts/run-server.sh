@@ -8,6 +8,6 @@ if [ -z ${APPLICATION_ENV+x} ]; then
     export APPLICATION_ENV=dev
 fi
 
-export APPLICATION_ENV=development
+export APPLICATION_ENV=dev
 
 php -S localhost:8000 -t app/ app/router.php

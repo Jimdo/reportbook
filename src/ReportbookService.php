@@ -30,8 +30,7 @@ class ReportbookService
         string $content,
         string $date,
         string $calendarWeek
-    ): \Jimdo\Reports\Views\Report
-    {
+    ): \Jimdo\Reports\Views\Report {
         $report = $this->reportRepository->create($traineeId, $content, $date, $calendarWeek);
         return new ReadOnlyReport($report);
     }

@@ -43,8 +43,7 @@ class Report
         string $calendarWeek,
         string $id,
         string $status = null
-    )
-    {
+    ) {
         $this->content = $content;
         $this->traineeId = $traineeId;
         $this->date = $date;

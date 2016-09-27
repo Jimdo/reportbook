@@ -46,10 +46,7 @@ class UserController extends Controller
             , $this->appConfig->mongoDatabase
         );
 
-        $client = new \MongoDB\Client(
-            $uri,
-            [ 'authSource' => 'admin' ]
-        );
+        $client = new \MongoDB\Client($uri);
 
         $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
         $this->service = new UserService($userRepository);

@@ -29,10 +29,7 @@ class ReportMongoRepositoryTest extends TestCase
             , $this->appConfig->mongoDatabase
         );
 
-        $this->client = new \MongoDB\Client(
-            $uri,
-            [ 'authSource' => 'admin' ]
-        );
+        $this->client = new \MongoDB\Client($uri);
 
         $reportbook = $this->client->selectDatabase($this->appConfig->mongoDatabase);
         $this->reports = $reportbook->reports;

@@ -38,19 +38,15 @@ class ReportController extends Controller
     ) {
         parent::__construct($request, $requestValidator, $appConfig, $response);
 
-        $uri = sprintf(
-            'mongodb://%s:%s@%s:%d/%s',
-            $this->appConfig->mongoUsername,
-            $this->appConfig->mongoPassword,
-            $this->appConfig->mongoHost,
-            27017,
-            $this->appConfig->mongoDatabase
+        $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
+            , $this->appConfig->mongoUsername
+            , $this->appConfig->mongoPassword
+            , $this->appConfig->mongoHost
+            , $this->appConfig->mongoPort
+            , $this->appConfig->mongoDatabase
         );
 
-        $client = new \MongoDB\Client(
-            $uri,
-            [ 'authSource' => 'admin' ]
-        );
+        $client = new \MongoDB\Client($uri);
 
         $reportRepository = new ReportMongoRepository($client, new Serializer(), $appConfig);
         $this->service = new ReportbookService($reportRepository);

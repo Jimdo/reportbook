@@ -26,6 +26,8 @@ COPY vhost.conf /etc/apache2/sites-enabled/000-default.conf
 
 COPY composer.json /var/www
 
+COPY config.yml /var/www
+
 RUN scripts/install-composer.sh && scripts/composer install --no-dev
 
 COPY app/ /var/www/app

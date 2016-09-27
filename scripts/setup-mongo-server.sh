@@ -24,11 +24,11 @@ sed "s/PASSWORD/$MONGO_ADMIN_PASSWORD/g" /scripts/mongo/create-admin-user.js | m
 # Create dev user
 sed "s/USERNAME/$MONGO_USERNAME-dev/g" /scripts/mongo/create-user.js \
     | sed "s/PASSWORD/$MONGO_PASSWORD/g" \
-    | sed "s/DATABASE/$MONGO_DATABASE-dev/g" \
+    | sed "s/DATABASE/${MONGO_DATABASE}_dev/g" \
     | mongo admin -u admin -p $MONGO_ADMIN_PASSWORD
 
 # Create test user
 sed "s/USERNAME/$MONGO_USERNAME-test/g" /scripts/mongo/create-user.js \
     | sed "s/PASSWORD/$MONGO_PASSWORD/g" \
-    | sed "s/DATABASE/$MONGO_DATABASE-test/g" \
+    | sed "s/DATABASE/${MONGO_DATABASE}_test/g" \
     | mongo admin -u admin -p $MONGO_ADMIN_PASSWORD

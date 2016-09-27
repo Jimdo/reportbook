@@ -2,41 +2,70 @@
 
 namespace Jimdo\Reports\Web;
 
+use Symfony\Component\Yaml\Yaml;
+
 class ApplicationConfig
 {
-    /** @var string */
-    private $db;
+    private $yml;
 
-    /** @var string */
-    private $uri;
+    private $path;
 
-    public function __construct()
+    public function __construct(string $path)
     {
-        $MONGO_SERVER_IP = getenv('MONGO_SERVER_IP');
-        $MONGO_SERVER_PORT = 27017;
-
-        $MONGO_USERNAME = getenv('MONGO_USERNAME');
-        $MONGO_PASSWORD = getenv('MONGO_PASSWORD');
-        $MONGO_DATABASE = getenv('MONGO_DATABASE');
-
-        $this->db = $MONGO_DATABASE;
-
-        $this->uri = sprintf('mongodb://%s:%s@%s:%d/%s'
-            , $MONGO_USERNAME
-            , $MONGO_PASSWORD
-            , $MONGO_SERVER_IP
-            , $MONGO_SERVER_PORT
-            , $MONGO_DATABASE
-        );
+        $this->path = $path;
+        $this->yml = $this->readYaml();
     }
 
-    public function mongoDb()
+        /**
+     * @param string $key
+     * @return mixed
+     */
+    public function __get(string $key)
     {
-        return $this->db;
+        $env = getenv('APPLICATION_ENV');
+
+        if ($env === false) {
+            throw new \Jimdo\Reports\Web\ApplicationConfigException('No value found!');
+        }
+
+        $envString = getenv($this->envString($key));
+        $ymlString;
+        if (isset($this->yml[$env][$this->yamlString($key)])) {
+            $ymlString = $this->yml[$env][$this->yamlString($key)];
+        }
+
+        if ($envString !== false) {
+            return $envString;
+        }
+
+        if (isset($ymlString)) {
+            return $ymlString;
+        }
     }
 
-    public function mongoUri()
+    private function readYaml()
     {
-        return $this->uri;
+        return $this->yml = Yaml::parse(file_get_contents($this->path));
+    }
+
+    private function envString(string $camelString)
+    {
+        $lastCharacterUpper = ctype_upper($camelString[0]);
+        for ($i=0; $i < strlen($camelString); $i++) {
+            if (ctype_upper($camelString[$i]) === false || $lastCharacterUpper === true) {
+                $lastCharacterUpper = false;
+                continue;
+            }
+
+            $lastCharacterUpper = true;
+            $camelString = substr_replace($camelString , '_', $i,0);
+            $i++;
+        }
+        return strtoupper($camelString);
+    }
+
+    private function yamlString(string $camelString)
+    {
+        return strtolower($this->envString($camelString));
     }
 }

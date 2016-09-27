@@ -16,7 +16,6 @@ use Jimdo\Reports\UserService as UserService;
 use Jimdo\Reports\UserMongoRepository as UserMongoRepository;
 use Jimdo\Reports\Web\Validator\Validator as Validator;
 
-
 class ReportController extends Controller
 {
     /** @var ReportbookService */
@@ -31,11 +30,27 @@ class ReportController extends Controller
     /**
      * @param Request $request
      */
-    public function __construct(Request $request, RequestValidator $requestValidator, ApplicationConfig $appConfig, Response $response)
+    public function __construct(
+        Request $request,
+        RequestValidator $requestValidator,
+        ApplicationConfig $appConfig,
+        Response $response
+    )
     {
         parent::__construct($request, $requestValidator, $appConfig, $response);
 
-        $client = new \MongoDB\Client($appConfig->mongoUri());
+        $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
+            , $this->appConfig->mongoUsername
+            , $this->appConfig->mongoPassword
+            , $this->appConfig->mongoHost
+            , 27017
+            , $this->appConfig->mongoDatabase
+        );
+
+        $client = new \MongoDB\Client(
+            $uri,
+            [ 'authSource' => 'admin' ]
+        );
 
         $reportRepository = new ReportMongoRepository($client, new Serializer(), $appConfig);
         $this->service = new ReportbookService($reportRepository);
@@ -65,13 +80,10 @@ class ReportController extends Controller
         $footerView->backButton = 'nope';
 
         if ($this->isAuthorized('TRAINEE')) {
-
             $reportView = $this->view('app/views/TraineeView.php');
             $reportView->reports = $this->service->findByTraineeId($this->sessionData('userId'));
             $reportView->viewHelper = $this->viewHelper;
-
         } elseif ($this->isAuthorized('TRAINER')) {
-
             $reportView = $this->view('app/views/TrainerView.php');
             $reportView->userService = $this->userService;
             $reportView->viewHelper = $this->viewHelper;
@@ -81,16 +93,11 @@ class ReportController extends Controller
                 $this->service->findByStatus(Report::STATUS_DISAPPROVED),
                 $this->service->findByStatus(Report::STATUS_REVISED)
             );
-
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
-
         } else {
-
             $this->redirect("/user");
-
         }
-
         $this->response->addBody($headerView->render());
         $this->response->addBody($infobarView->render());
         $this->response->addBody($reportView->render());
@@ -139,14 +146,12 @@ class ReportController extends Controller
 
         if ($this->isRequestValid()) {
             $this->service->createReport(
-                $this->sessionData('userId')
-                , $this->formData('content')
-                , $this->formData('date')
-                , $this->formData('calendarWeek')
+                $this->sessionData('userId'),
+                $this->formData('content'),
+                $this->formData('date'),
+                $this->formData('calendarWeek')
             );
-
             $this->redirect("/report/list");
-
         } else {
             $reportView = $this->view('app/views/Report.php');
             $reportView->errorMessages = $this->requestValidator->errorMessages();
@@ -215,28 +220,23 @@ class ReportController extends Controller
     public function editAction()
     {
         if ($this->isAuthorized('TRAINEE')) {
-
-        $this->addRequestValidation('content', 'string');
-        $this->addRequestValidation('date', 'date');
-        $this->addRequestValidation('calendarWeek', 'integer');
-
+            $this->addRequestValidation('content', 'string');
+            $this->addRequestValidation('date', 'date');
+            $this->addRequestValidation('calendarWeek', 'integer');
             if ($this->isRequestValid()) {
                 $this->service->editReport(
-                      $this->formData('reportId')
-                    , $this->formData('content')
-                    , $this->formData('date')
-                    , $this->formData('calendarWeek')
+                    $this->formData('reportId'),
+                    $this->formData('content'),
+                    $this->formData('date'),
+                    $this->formData('calendarWeek')
                 );
-
                 $this->redirect("/report/list");
-
             } else {
                 $reportView = $this->view('app/views/Report.php');
 
                 foreach ($this->requestValidator->errorCodes() as $errorCode) {
                     $errorMessage[] = $this->getErrorMessageForErrorCode($errorCode);
                 }
-
                 $reportView->errorMessages = $errorMessage;
                 $reportView->action = '/report/edit';
                 $reportView->legend = 'Bericht bearbeiten';
@@ -283,7 +283,7 @@ class ReportController extends Controller
         }
     }
 
-    function viewReportAction()
+    public function viewReportAction()
     {
         if ($this->isAuthorized('TRAINER') || $this->isAuthorized('TRAINEE')) {
             $report = $this->service->findById($this->formData('reportId'), $this->formData('traineeId'));
@@ -341,13 +341,11 @@ class ReportController extends Controller
     public function getErrorMessageForErrorCode(int $errorCode)
     {
         switch ($errorCode) {
-
             case Validator::ERR_VALIDATOR_DATE:
                 return 'Der eingegebene Wert ist kein Datum!' . "\n";
 
             case Validator::ERR_VALIDATOR_INT:
                 return 'Der eingegebene Wert ist keine Kalenderwoche!' . "\n";
-
         }
     }
 }

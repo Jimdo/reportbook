@@ -25,7 +25,12 @@ class ReportbookService
      * @return \Jimdo\Reports\Views\Report
      * @throws ReportFileRepositoryException
      */
-    public function createReport(string $traineeId, string $content, string $date, string $calendarWeek): \Jimdo\Reports\Views\Report
+    public function createReport(
+        string $traineeId,
+        string $content,
+        string $date,
+        string $calendarWeek
+    ): \Jimdo\Reports\Views\Report
     {
         $report = $this->reportRepository->create($traineeId, $content, $date, $calendarWeek);
         return new ReadOnlyReport($report);

@@ -13,7 +13,7 @@ if [ -z ${MONGO_PASSWORD+x} ]; then
 fi
 
 if [ -z ${MONGO_DATABASE+x} ]; then
-  MONGO_DATABASE=reportbook-$APPLICATION_ENV
+  MONGO_DATABASE=reportbook_$APPLICATION_ENV
 fi
 
 eval $(docker-machine env)

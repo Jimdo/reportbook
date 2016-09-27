@@ -39,13 +39,14 @@ class Serializer
         if ($serializedUser['role']['roleStatus'] === Role::STATUS_APPROVED) {
             $role->approve();
         }
-        return new User($serializedUser['forename'],
-                        $serializedUser['surname'],
-                        $serializedUser['username'],
-                        $serializedUser['email'],
-                        $role,
-                        $serializedUser['password'],
-                        $serializedUser['id']
+        return new User(
+            $serializedUser['forename'],
+            $serializedUser['surname'],
+            $serializedUser['username'],
+            $serializedUser['email'],
+            $role,
+            $serializedUser['password'],
+            $serializedUser['id']
         );
     }
 
@@ -71,12 +72,13 @@ class Serializer
      */
     public function unserializeReport(array $serializedReport): Report
     {
-        return new Report($serializedReport['traineeId'],
-                          $serializedReport['content'],
-                          $serializedReport['date'],
-                          $serializedReport['calendarWeek'],
-                          $serializedReport['id'],
-                          $serializedReport['status']
+        return new Report(
+            $serializedReport['traineeId'],
+            $serializedReport['content'],
+            $serializedReport['date'],
+            $serializedReport['calendarWeek'],
+            $serializedReport['id'],
+            $serializedReport['status']
         );
     }
 }

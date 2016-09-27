@@ -1,7 +1,11 @@
 #!/bin/sh
 
-if [ -z ${MONGO_SERVER_IP+x} ]; then
-  export MONGO_SERVER_IP=$(docker-machine ip)
+if [ -z ${MONGO_HOST+x} ]; then
+  export MONGO_HOST=$(docker-machine ip)
+fi
+
+if [ -z ${APPLICATION_ENV+x} ]; then
+    export APPLICATION_ENV=dev
 fi
 
 php -S localhost:8000 -t app/ app/router.php

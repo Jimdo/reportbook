@@ -40,10 +40,21 @@ class User
      * @param string $password
      * @param string $id
      */
-    public function __construct(string $forename, string $surname, string $username, string $email, Role $role, string $password, string $id)
+    public function __construct(
+        string $forename,
+        string $surname,
+        string $username,
+        string $email,
+        Role $role,
+        string $password,
+        string $id
+    )
     {
         if (strlen($password) < self::PASSWORD_LENGTH) {
-            throw new PasswordException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n", self::ERR_PASSWORD_LENGTH);
+            throw new PasswordException(
+                'Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n",
+                self::ERR_PASSWORD_LENGTH
+            );
         }
         $this->forename = $forename;
         $this->surname = $surname;
@@ -152,23 +163,26 @@ class User
     public function editPassword(string $oldPassword, string $newPassword)
     {
         if ($this->password() === $oldPassword) {
-
             if ($this->password() !== $newPassword) {
-
                 if (strlen($newPassword) >= self::PASSWORD_LENGTH) {
-
                     $this->password = $newPassword;
-
                 } else {
-                    throw new PasswordException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n", self::ERR_PASSWORD_LENGTH);
+                    throw new PasswordException(
+                        'Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n",
+                        self::ERR_PASSWORD_LENGTH
+                    );
                 }
-
             } else {
-                throw new PasswordException("The new password must be different as the old one!", self::ERR_PASSWORD_NOT_NEW);
+                throw new PasswordException(
+                    "The new password must be different as the old one!",
+                    self::ERR_PASSWORD_NOT_NEW
+                );
             }
-
         } else {
-            throw new PasswordException("The current password is wrong!", self::ERR_PASSWORD_WRONG);
+            throw new PasswordException(
+                "The current password is wrong!",
+                self::ERR_PASSWORD_WRONG
+            );
         }
     }
 }

@@ -1,0 +1,4 @@
+name: reportbook-mongo-backup
+schedule: "*/10 * * * *"
+description:
+  iamge: registry.jimdo-platform.net/reportbook-mongo-backup

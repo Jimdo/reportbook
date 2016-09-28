@@ -204,4 +204,29 @@ class ControllerTest extends TestCase
 
         $this->assertTrue($controller->testIsRequestValid());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldSayIfSessionNeeded()
+    {
+        $queryParams = [];
+        $formData = [];
+        $sessionData = [];
+
+        $request = new Request($queryParams, $formData, $sessionData);
+        $requestValidator = new RequestValidator();
+        $controller = new FixtureController($request, $requestValidator, new ApplicationConfig(__DIR__ . '/../../config.yml'), new Response());
+
+        $action1 = 'Hase';
+        $action2 = 'Fuchs';
+
+        $controller->testExcludeFromSession($action1);
+        $controller->testExcludeFromSession($action2);
+
+        $this->assertFalse($controller->testNeedSession($action1));
+        $this->assertFalse($controller->testNeedSession($action2));
+
+        $this->assertTrue($controller->testNeedSession('Igel'));
+    }
 }

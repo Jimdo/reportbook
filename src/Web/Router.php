@@ -2,6 +2,10 @@
 
 namespace Jimdo\Reports\Web;
 
+use Jimdo\Reports\Web\ApplicationConfig;
+use Monolog\Logger;
+use Altmetric\MongoSessionHandler;
+
 class Router
 {
     /** @var string */
@@ -11,7 +15,7 @@ class Router
     private $defaultAction = 'index';
 
     /** @var Request */
-    private $requestObject;
+    private $defaultRequestObject;
 
     /** @var Response */
     private $responseObject;
@@ -34,9 +38,7 @@ class Router
             $this->defaultAction = $config['defaultAction'];
         }
         if (isset($config['defaultRequestObject'])) {
-            $this->requestObject = $config['defaultRequestObject'];
-        } else {
-            $this->requestObject = new Request($_GET, $_POST, $_SESSION);
+            $this->defaultRequestObject = $config['defaultRequestObject'];
         }
         if (isset($config['defaultRequestValidatorObject'])) {
             $this->requestValidatorObject = $config['defaultRequestValidatorObject'];
@@ -98,8 +100,18 @@ class Router
             }
         }
 
+        $controllerClass = $this->controllerName($controller);
+
+        if (!class_exists($controllerClass)) {
+            throw new ControllerNotFoundException("Could not find controller class for '$controller'!");
+        }
+
+        if ($controllerClass::needSession($action)) {
+            $this->startSession();
+        }
 
         $controller = $this->createController($controller);
+
         $action = $action . 'Action';
         $actionString = $controller->$action();
 
@@ -138,8 +150,19 @@ class Router
         }
 
         $applicationConfig = new ApplicationConfig(realpath(__DIR__ . '/../../config.yml'));
+
+        if ($this->defaultRequestObject === null) {
+            if (session_status() === PHP_SESSION_ACTIVE) {
+                $requestObject = new Request($_GET, $_POST, $_SESSION);
+            } else {
+                $requestObject = new Request($_GET, $_POST, []);
+            }
+        } else {
+            $requestObject = $this->defaultRequestObject;
+        }
+
         return new $class(
-            $this->requestObject,
+            $requestObject,
             $this->requestValidatorObject,
             $applicationConfig,
             $this->responseObject
@@ -169,5 +192,29 @@ class Router
     public function ignoreList(): array
     {
         return $this->ignoreList;
+    }
+
+    protected function startSession()
+    {
+        if (getenv('APPLICATION_ENV') === 'dev' || getenv('APPLICATION_ENV') === 'production') {
+            $applicationConfig = new ApplicationConfig(realpath(__DIR__ . '/../../config.yml'));
+
+            $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
+                , $applicationConfig->mongoUsername
+                , $applicationConfig->mongoPassword
+                , $applicationConfig->mongoHost
+                , $applicationConfig->mongoPort
+                , $applicationConfig->mongoDatabase
+            );
+
+            $client = new \MongoDB\Client($uri);
+            $db = $client->selectDatabase($applicationConfig->mongoDatabase);
+
+            $handler = new MongoSessionHandler($db->sessions, new Logger('session'));
+
+            session_set_save_handler($handler);
+
+            session_start();
+        }
     }
 }

@@ -34,6 +34,16 @@ class FixtureController extends Controller
         return $this->isAuthorized($role);
     }
 
+    public function testExcludeFromSession(string $action)
+    {
+        return $this->excludeFromSession($action);
+    }
+
+    public function testNeedSession(string $action)
+    {
+        return $this->needSession($action);
+    }
+
     public function testView(string $path)
     {
         return $this->view($path);

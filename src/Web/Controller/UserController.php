@@ -75,7 +75,6 @@ class UserController extends Controller
             $this->redirect('/user');
         }
 
-
         $identifier = $this->formData('identifier');
         $password = $this->formData('password');
 

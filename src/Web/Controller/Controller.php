@@ -22,6 +22,9 @@ abstract class Controller
     /** @var Response */
     protected $response;
 
+    /** @var Array */
+    protected static $sessionExclude = [];
+
     /**
      * @param Request $request
      */
@@ -35,6 +38,24 @@ abstract class Controller
         $this->requestValidator = $requestValidator;
         $this->appConfig = $appConfig;
         $this->response = $response;
+    }
+
+    /**
+     * @param string $action
+     * @return bool
+     */
+    public static function needSession(string $action)
+    {
+        return !in_array($action, self::$sessionExclude);
+    }
+
+
+    /**
+    * @param string $action
+    */
+    public static function excludeFromSession(string $action)
+    {
+        self::$sessionExclude[] = $action;
     }
 
     /**

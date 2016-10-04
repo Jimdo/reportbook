@@ -1,11 +1,11 @@
 name: reportbook-mongo-backup
-schedule: "*/10 * * * *"
+schedule: "@hourly"
 description:
-  iamge: registry.jimdo-platform.net/reportbook-mongo-backup
+  image: registry.jimdo-platform.net/reportbook-mongo-backup
   arguments:
     - ds019996.mlab.com
-    - 19996
+    - "19996"
     - reportbook
     - admin
   env:
-    - $ref_secrets: vault+secret://vault.jimdo-platform.net/azubis/reportbook/mongodump
+    $ref_secrets: vault+secret://vault.jimdo-platform.net/azubis/reportbook/mongodump

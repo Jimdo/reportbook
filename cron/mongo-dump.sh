@@ -2,21 +2,34 @@
 
 set -e
 
-SERVER=$1
-PORT=$2
-DB=$3
-USER=$4
-PASS=$5
+MONGO_SERVER=$1
+MONGO_PORT=$2
+MONGO_DB=$3
+MONGO_USER=$4
+
+if [ -z ${MONGO_PASSWORD+x} ]; then
+  echo "MONGO_PASSWORD not set!"
+  exit
+fi
+
+if [ -z ${AWS_ACCESS_KEY_ID+x} ]; then
+  echo "AWS_ACCESS_KEY_ID not set!"
+  exit
+fi
+
+if [ -z ${AWS_SECRET_ACCESS_KEY+x} ]; then
+  echo "AWS_SECRET_ACCESS_KEY not set!"
+  exit
+fi
 
 BACKUP=$(date '+reportbook_%Y%m%d_%k%M%S')
 mongodump \
-  --host=$SERVER \
-  --port=$PORT \
-  --db=$DB \
+  --host=$MONGO_SERVER \
+  --port=$MONGO_PORT \
+  --db=$MONGO_DB \
   --excludeCollection sessions \
-  -u $USER \
-  -p $PASS \
+  -u $MONGO_USER \
+  -p $MONGO_PASSWORD \
   --out $BACKUP
 
-AWS_ACCESS_KEY_ID=$6 AWS_SECRET_ACCESS_KEY=$7 aws s3 cp $BACKUP s3://azubi-reportbook-storage/$BACKUP --recursive
-
+aws s3 cp $BACKUP s3://azubi-reportbook-storage/$BACKUP --recursive

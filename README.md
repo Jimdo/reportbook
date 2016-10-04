@@ -37,7 +37,7 @@ tests        Execute test suite and create code coverage report
 update       Update composer packages
 ```
 
-## Roadmap
+## Changelog
 
 ### v0.1
 
@@ -65,3 +65,15 @@ update       Update composer packages
 ### v0.3
   - Add `UserService` to GUI
   - Initial admin user
+
+### v0.3.1
+  - Implement MongoDB to User and Report Service
+
+### v0.3.2
+  - Implement `ResponseObject`
+
+### v0.3.3
+  - Implement `ApplicationConfig`
+
+### v0.3.4
+  - Configure session start via controller

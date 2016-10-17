@@ -4,6 +4,7 @@ namespace Jimdo\Reports\Web\Controller;
 
 use Jimdo\Reports\Web\Request as Request;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
+use Jimdo\Reports\Role as Role;
 use Jimdo\Reports\Web\View as View;
 use Jimdo\Reports\Web\Response as Response;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;

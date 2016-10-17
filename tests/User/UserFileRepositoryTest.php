@@ -1,10 +1,10 @@
 <?php
 
-namespace Jimdo\Reports;
+namespace Jimdo\Reports\User;
 
 use PHPUnit\Framework\TestCase;
-use Jimdo\Reports\Role as Role;
 
+use Jimdo\Reports\User\Role as Role;
 
 class UserFileRepositoryTest extends TestCase
 {
@@ -168,7 +168,7 @@ class UserFileRepositoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException Jimdo\Reports\UserRepositoryException
+     * @expectedException Jimdo\Reports\User\UserRepositoryException
      */
     public function itShouldThrowUserRepositoryExceptionOnDuplicateEmail()
     {

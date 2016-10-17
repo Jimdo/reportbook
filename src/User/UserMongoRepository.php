@@ -1,8 +1,9 @@
 <?php
 
-namespace Jimdo\Reports;
+namespace Jimdo\Reports\User;
 
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
+use Jimdo\Reports\Serializer as Serializer;
 
 class UserMongoRepository implements UserRepository
 {
@@ -27,7 +28,7 @@ class UserMongoRepository implements UserRepository
      */
     public function __construct(\MongoDB\Client $client, Serializer $serializer, ApplicationConfig $applicationConfig)
     {
-        $this->applicationConfig = new ApplicationConfig(__DIR__ . '/../config.yml');
+        $this->applicationConfig = new ApplicationConfig(__DIR__ . '/../../config.yml');
         $this->serializer = $serializer;
         $this->client = $client;
         $this->reportbook = $this->client->selectDatabase($this->applicationConfig->mongoDatabase);

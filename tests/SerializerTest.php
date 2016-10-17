@@ -3,7 +3,9 @@
 namespace Jimdo\Reports;
 
 use PHPUnit\Framework\TestCase;
-use Jimdo\Reports\User as User;
+use Jimdo\Reports\User\User as User;
+use Jimdo\Reports\User\Role as Role;
+use Jimdo\Reports\User\UserId as UserId;
 
 class SerializerTest extends TestCase
 {

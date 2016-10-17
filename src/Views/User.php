@@ -10,7 +10,7 @@ class User
     /**
      * @param \Jimdo\Reports\User $user
      */
-    public function __construct(\Jimdo\Reports\User $user)
+    public function __construct(\Jimdo\Reports\User\User $user)
     {
         $this->user = $user;
     }

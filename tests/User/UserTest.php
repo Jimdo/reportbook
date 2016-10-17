@@ -1,6 +1,6 @@
 <?php
 
-namespace Jimdo\Reports;
+namespace Jimdo\Reports\User;
 
 use PHPUnit\Framework\TestCase;
 

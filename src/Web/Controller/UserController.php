@@ -146,8 +146,6 @@ class UserController extends Controller
         $passwordConfirmation = $this->formData('passwordConfirmation');
         $role = $this->formData('role');
 
-
-
         if ($password !== $passwordConfirmation) {
             $headerView = $this->view('app/views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
@@ -175,7 +173,7 @@ class UserController extends Controller
 
     public function userlistAction()
     {
-        if ($this->isAuthorized('TRAINER')) {
+        if ($this->isTrainer()) {
             $headerView = $this->view('app/views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
 
@@ -206,7 +204,7 @@ class UserController extends Controller
 
     public function changeStatusAction()
     {
-        if ($this->isAuthorized('TRAINER')) {
+        if ($this->isTrainer()) {
             if ($this->formData('action') === 'approve') {
                 $this->service->approveRole($this->formData('email'));
             } elseif ($this->formData('action') === 'disapprove') {
@@ -220,6 +218,10 @@ class UserController extends Controller
 
     public function changePasswordAction()
     {
+        if (!$this->isTrainer() && !$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+
         $headerView = $this->view('app/views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
 
@@ -242,7 +244,7 @@ class UserController extends Controller
     {
         $exceptions = [];
 
-        if ($this->isAuthorized('TRAINER') || $this->isAuthorized('TRAINEE')) {
+        if ($this->isTrainer() || $this->isTrainee()) {
             if ($this->formData('newPassword') === $this->formData('passwordConfirmation')) {
                 try {
                     $this->service->editPassword(
@@ -256,6 +258,8 @@ class UserController extends Controller
             } else {
                 $exceptions[] = 'Die eingegebenen Passwörter stimmen nicht überein!';
             }
+        } else {
+            $this->redirect("/user");
         }
 
         if ($exceptions !== []) {

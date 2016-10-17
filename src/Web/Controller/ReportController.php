@@ -5,6 +5,7 @@ namespace Jimdo\Reports\Web\Controller;
 use Jimdo\Reports\Web\View as View;
 use Jimdo\Reports\Web\ViewHelper as ViewHelper;
 use Jimdo\Reports\Report as Report;
+use Jimdo\Reports\TraineeId as TraineeId;
 use Jimdo\Reports\ReportMongoRepository as ReportMongoRepository;
 use Jimdo\Reports\ReportbookService as ReportbookService;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
@@ -75,11 +76,11 @@ class ReportController extends Controller
         $footerView = $this->view('app/views/Footer.php');
         $footerView->backButton = 'nope';
 
-        if ($this->isAuthorized('TRAINEE')) {
+        if ($this->isTrainee()) {
             $reportView = $this->view('app/views/TraineeView.php');
             $reportView->reports = $this->service->findByTraineeId($this->sessionData('userId'));
             $reportView->viewHelper = $this->viewHelper;
-        } elseif ($this->isAuthorized('TRAINER')) {
+        } elseif ($this->isTrainer()) {
             $reportView = $this->view('app/views/TrainerView.php');
             $reportView->userService = $this->userService;
             $reportView->viewHelper = $this->viewHelper;
@@ -102,7 +103,9 @@ class ReportController extends Controller
 
     public function createReportAction()
     {
-        if ($this->isAuthorized('TRAINEE')) {
+        if (!$this->isTrainee()) {
+            $this->redirect("/user");
+        }
             $traineeId = $this->sessionData('userId');
 
             $reportView = $this->view('app/views/Report.php');
@@ -131,18 +134,21 @@ class ReportController extends Controller
             $this->response->addBody($infobarView->render());
             $this->response->addBody($reportView->render());
             $this->response->addBody($footerView->render());
-        }
     }
 
     public function createAction()
     {
+        if (!$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+
         $this->addRequestValidation('content', 'string');
         $this->addRequestValidation('date', 'date');
         $this->addRequestValidation('calendarWeek', 'integer');
 
         if ($this->isRequestValid()) {
             $this->service->createReport(
-                $this->sessionData('userId'),
+                new TraineeId($this->sessionData('userId')),
                 $this->formData('content'),
                 $this->formData('date'),
                 $this->formData('calendarWeek')
@@ -180,18 +186,72 @@ class ReportController extends Controller
 
     public function editReportAction()
     {
-        if ($this->isAuthorized('TRAINEE')) {
-            $reportId = $this->formData('reportId');
-            $report = $this->service->findById($reportId, $this->sessionData('userId'));
+        if (!$this->isTrainee()) {
+            $this->redirect("/user");
+        }
 
+        $reportId = $this->formData('reportId');
+        $report = $this->service->findById($reportId, $this->sessionData('userId'));
+
+        $reportView = $this->view('app/views/Report.php');
+        $reportView->action = '/report/edit';
+        $reportView->legend = 'Bericht bearbeiten';
+        $reportView->calendarWeek = $report->calendarWeek();
+        $reportView->date = $report->date();
+        $reportView->content = $report->content();
+        $reportView->buttonName = 'Speichern';
+        $reportView->reportId = $reportId;
+        $reportView->backButton = 'show';
+        $reportView->role = 'TRAINEE';
+
+        $headerView = $this->view('app/views/Header.php');
+        $headerView->tabTitle = 'Berichtsheft';
+
+        $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView->viewHelper = $this->viewHelper;
+        $infobarView->username = $this->sessionData('username');
+        $infobarView->role = $this->sessionData('role');
+
+        $footerView = $this->view('app/views/Footer.php');
+        $footerView->backButton = 'show';
+
+        $this->response->addBody($headerView->render());
+        $this->response->addBody($infobarView->render());
+        $this->response->addBody($reportView->render());
+        $this->response->addBody($footerView->render());
+    }
+
+    public function editAction()
+    {
+        if (!$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+
+        $this->addRequestValidation('content', 'string');
+        $this->addRequestValidation('date', 'date');
+        $this->addRequestValidation('calendarWeek', 'integer');
+        if ($this->isRequestValid()) {
+            $this->service->editReport(
+                $this->formData('reportId'),
+                $this->formData('content'),
+                $this->formData('date'),
+                $this->formData('calendarWeek')
+            );
+            $this->redirect("/report/list");
+        } else {
             $reportView = $this->view('app/views/Report.php');
+
+            foreach ($this->requestValidator->errorCodes() as $errorCode) {
+                $errorMessage[] = $this->getErrorMessageForErrorCode($errorCode);
+            }
+            $reportView->errorMessages = $errorMessage;
             $reportView->action = '/report/edit';
             $reportView->legend = 'Bericht bearbeiten';
-            $reportView->calendarWeek = $report->calendarWeek();
-            $reportView->date = $report->date();
-            $reportView->content = $report->content();
+            $reportView->calendarWeek = $this->formData('calendarWeek');
+            $reportView->date = $this->formData('date');
+            $reportView->content = $this->formData('content');
             $reportView->buttonName = 'Speichern';
-            $reportView->reportId = $reportId;
+            $reportView->reportId = $this->formData('reportId');
             $reportView->backButton = 'show';
             $reportView->role = 'TRAINEE';
 
@@ -213,69 +273,23 @@ class ReportController extends Controller
         }
     }
 
-    public function editAction()
-    {
-        if ($this->isAuthorized('TRAINEE')) {
-            $this->addRequestValidation('content', 'string');
-            $this->addRequestValidation('date', 'date');
-            $this->addRequestValidation('calendarWeek', 'integer');
-            if ($this->isRequestValid()) {
-                $this->service->editReport(
-                    $this->formData('reportId'),
-                    $this->formData('content'),
-                    $this->formData('date'),
-                    $this->formData('calendarWeek')
-                );
-                $this->redirect("/report/list");
-            } else {
-                $reportView = $this->view('app/views/Report.php');
-
-                foreach ($this->requestValidator->errorCodes() as $errorCode) {
-                    $errorMessage[] = $this->getErrorMessageForErrorCode($errorCode);
-                }
-                $reportView->errorMessages = $errorMessage;
-                $reportView->action = '/report/edit';
-                $reportView->legend = 'Bericht bearbeiten';
-                $reportView->calendarWeek = $this->formData('calendarWeek');
-                $reportView->date = $this->formData('date');
-                $reportView->content = $this->formData('content');
-                $reportView->buttonName = 'Speichern';
-                $reportView->reportId = $this->formData('reportId');
-                $reportView->backButton = 'show';
-                $reportView->role = 'TRAINEE';
-
-                $headerView = $this->view('app/views/Header.php');
-                $headerView->tabTitle = 'Berichtsheft';
-
-                $infobarView = $this->view('app/views/Infobar.php');
-                $infobarView->viewHelper = $this->viewHelper;
-                $infobarView->username = $this->sessionData('username');
-                $infobarView->role = $this->sessionData('role');
-
-                $footerView = $this->view('app/views/Footer.php');
-                $footerView->backButton = 'show';
-
-                $this->response->addBody($headerView->render());
-                $this->response->addBody($infobarView->render());
-                $this->response->addBody($reportView->render());
-                $this->response->addBody($footerView->render());
-            }
-        }
-    }
-
     public function deleteReportAction()
     {
-        if ($this->isAuthorized('TRAINEE') && $this->service
+        if ($this->isTrainee() && $this->service
             ->findById($this->formData('reportId'), $this->sessionData('userId'))
             ->status() !== Report::STATUS_DISAPPROVED) {
                 $this->service->deleteReport($this->formData('reportId'));
                 $this->redirect("/report/list");
+        } else {
+            $this->redirect("/user");
         }
     }
 
     public function requestApprovalAction()
     {
-        if ($this->isAuthorized('TRAINEE')) {
+        if (!$this->isTrainee()) {
+            $this->redirect("/user");
+        } else {
             $this->service->requestApproval($this->formData('reportId'));
             $this->redirect("/report/list");
         }
@@ -283,43 +297,47 @@ class ReportController extends Controller
 
     public function viewReportAction()
     {
-        if ($this->isAuthorized('TRAINER') || $this->isAuthorized('TRAINEE')) {
-            $report = $this->service->findById($this->formData('reportId'), $this->formData('traineeId'));
-
-            $reportView = $this->view('app/views/Report.php');
-            $reportView->title = 'Bericht';
-            $reportView->legend = 'Vorschau';
-            $reportView->calendarWeek = $report->calendarWeek();
-            $reportView->date = $report->date();
-            $reportView->content = $report->content();
-            $reportView->buttonName = 'Speichern';
-            $reportView->reportId = $this->formData('reportId');
-            $reportView->backButton = 'show';
-            $reportView->readonly = 'readonly';
-            $reportView->role = $this->sessionData('role');
-            $reportView->status = $report->status();
-
-            $headerView = $this->view('app/views/Header.php');
-            $headerView->tabTitle = 'Berichtsheft';
-
-            $infobarView = $this->view('app/views/Infobar.php');
-            $infobarView->viewHelper = $this->viewHelper;
-            $infobarView->username = $this->sessionData('username');
-            $infobarView->role = $this->sessionData('role');
-
-            $footerView = $this->view('app/views/Footer.php');
-            $footerView->backButton = 'show';
-
-            $this->response->addBody($headerView->render());
-            $this->response->addBody($infobarView->render());
-            $this->response->addBody($reportView->render());
-            $this->response->addBody($footerView->render());
+        if (!$this->isTrainee() && !$this->isTrainer()) {
+            $this->redirect("/user");
         }
+
+        $report = $this->service->findById($this->formData('reportId'), $this->formData('traineeId'));
+
+        $reportView = $this->view('app/views/Report.php');
+        $reportView->title = 'Bericht';
+        $reportView->legend = 'Vorschau';
+        $reportView->calendarWeek = $report->calendarWeek();
+        $reportView->date = $report->date();
+        $reportView->content = $report->content();
+        $reportView->buttonName = 'Speichern';
+        $reportView->reportId = $this->formData('reportId');
+        $reportView->backButton = 'show';
+        $reportView->readonly = 'readonly';
+        $reportView->role = $this->sessionData('role');
+        $reportView->status = $report->status();
+
+        $headerView = $this->view('app/views/Header.php');
+        $headerView->tabTitle = 'Berichtsheft';
+
+        $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView->viewHelper = $this->viewHelper;
+        $infobarView->username = $this->sessionData('username');
+        $infobarView->role = $this->sessionData('role');
+
+        $footerView = $this->view('app/views/Footer.php');
+        $footerView->backButton = 'show';
+
+        $this->response->addBody($headerView->render());
+        $this->response->addBody($infobarView->render());
+        $this->response->addBody($reportView->render());
+        $this->response->addBody($footerView->render());
     }
 
     public function approveReportAction()
     {
-        if ($this->isAuthorized('TRAINER')) {
+        if (!$this->isTrainer()) {
+            $this->redirect("/user");
+        } else {
             $this->service->approveReport($this->formData('reportId'));
             $this->redirect("/report/list");
         }
@@ -327,7 +345,9 @@ class ReportController extends Controller
 
     public function disapproveReportAction()
     {
-        if ($this->isAuthorized('TRAINER')) {
+        if (!$this->isTrainer()) {
+            $this->redirect("/user");
+        } else {
             $this->service->disapproveReport($this->formData('reportId'));
             $this->redirect("/report/list");
         }

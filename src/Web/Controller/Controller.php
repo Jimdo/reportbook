@@ -97,12 +97,22 @@ abstract class Controller
     }
 
     /**
-     * @param string $role
      * @return bool
      */
-    protected function isAuthorized(string $role): bool
+    protected function isTrainee(): bool
     {
-        if ((!$this->sessionData('authorized') || $this->sessionData('role') !== $role)) {
+        if ((!$this->sessionData('authorized') || $this->sessionData('role') !== Role::TRAINEE)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isTrainer(): bool
+    {
+        if ((!$this->sessionData('authorized') || $this->sessionData('role') !== Role::TRAINER)) {
             return false;
         }
         return true;

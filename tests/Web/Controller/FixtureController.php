@@ -29,9 +29,14 @@ class FixtureController extends Controller
         return $this->sessionData($key, $default);
     }
 
-    public function testIsAuthorized(string $role)
+    public function testIsTrainee()
     {
-        return $this->isAuthorized($role);
+        return $this->isTrainee();
+    }
+
+    public function testIsTrainer()
+    {
+        return $this->isTrainer();
     }
 
     public function testExcludeFromSession(string $action)

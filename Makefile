@@ -30,11 +30,21 @@ server: ## Start up local development web server
 build: ## Generate docker container image
 	docker build -t $(IMAGE) .
 
+build-cron: ## Generate docker container for mongoDB backup job
+	docker build -t registry.jimdo-platform.net/$(NAME)-mongo-backup cron
+
 push: login ## Push container image to hub.docker.com
 	docker push $(IMAGE)
 
+push-cron: ## Push mongoDB cron job container to wonderland registry
+	docker push registry.jimdo-platform.net/$(NAME)-mongo-backup
+
 deploy: build push $(WL) ## Deploy the app to the wonderland
 	$(WL) deploy --watch $(NAME)
+
+deploy-cron: $(WL) ## Deploy the mongoDB backup cron job to the wonderland
+	$(WL) cron run -f cron/cron.yaml
+	wl cron status reportbook-mongo-backup
 
 login:
 	@docker login -u="$(DOCKER_LOGIN)" -p="$(DOCKER_PASSWORD)" $(REGISTRY)
@@ -56,3 +66,6 @@ mongo-client: ## Connects to mongoDB
 
 mongo-setup: ## Initial user setup
 	./scripts/mongo-setup.sh
+
+mongo-reset: ## Drop all collections
+	./scripts/drop-all-collections.sh

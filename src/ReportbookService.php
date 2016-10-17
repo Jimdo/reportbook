@@ -26,7 +26,7 @@ class ReportbookService
      * @throws ReportFileRepositoryException
      */
     public function createReport(
-        string $traineeId,
+        TraineeId $traineeId,
         string $content,
         string $date,
         string $calendarWeek

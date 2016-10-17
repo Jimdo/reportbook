@@ -14,14 +14,14 @@ class ReportFakeRepository implements ReportRepository
     public $saveMethodCalled = false;
 
     /**
-     * @param string $traineeId
+     * @param TraineeId $traineeId
      * @param string $content
      * @param string $date
      * @param string $calendarWeek
      * @param string $id
      * @return Report
      */
-    public function create(string $traineeId, string $content, string $date, string $calendarWeek): Report
+    public function create(TraineeId $traineeId, string $content, string $date, string $calendarWeek): Report
     {
         $report = new Report($traineeId, $content, $date, $calendarWeek, uniqid());
         $this->reports[] = $report;

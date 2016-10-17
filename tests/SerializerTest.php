@@ -74,7 +74,7 @@ class SerializerTest extends TestCase
     {
         $serializer = new Serializer();
 
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $content = 'some content';
         $date = '10.10.10';
         $calendarWeek = '35';
@@ -84,7 +84,7 @@ class SerializerTest extends TestCase
 
         $serializedReport = $serializer->serializeReport($report);
 
-        $this->assertEquals($traineeId, $serializedReport['traineeId']);
+        $this->assertEquals($traineeId->id(), $serializedReport['traineeId']);
         $this->assertEquals($content, $serializedReport['content']);
         $this->assertEquals($date, $serializedReport['date']);
         $this->assertEquals($calendarWeek, $serializedReport['calendarWeek']);
@@ -99,7 +99,7 @@ class SerializerTest extends TestCase
     {
         $serializer = new Serializer();
 
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $content = 'some content';
         $date = '10.10.10';
         $calendarWeek = '35';
@@ -111,7 +111,7 @@ class SerializerTest extends TestCase
 
         $unserializedReport = $serializer->unserializeReport($serializedReport);
 
-        $this->assertEquals($traineeId, $unserializedReport->traineeId());
+        $this->assertEquals($traineeId->id(), $unserializedReport->traineeId());
         $this->assertEquals($content, $unserializedReport->content());
         $this->assertEquals($date, $unserializedReport->date());
         $this->assertEquals($calendarWeek, $unserializedReport->calendarWeek());

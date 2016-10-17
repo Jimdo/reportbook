@@ -25,7 +25,7 @@ class ReportbookServiceTest extends TestCase
      */
     public function itShouldCreateReport()
     {
-        $expectedTraineeId = uniqid();
+        $expectedTraineeId = new TraineeId();
         $expectedContent = 'some content';
 
         $report = $this->reportbookService->createReport($expectedTraineeId, $expectedContent, '10.10.10', '34');
@@ -34,7 +34,7 @@ class ReportbookServiceTest extends TestCase
 
         $createdReport = $this->reportRepository->reports[0];
 
-        $this->assertEquals($expectedTraineeId, $createdReport->traineeId());
+        $this->assertEquals($expectedTraineeId->id(), $createdReport->traineeId());
         $this->assertEquals($expectedContent, $createdReport->content());
     }
 
@@ -43,7 +43,7 @@ class ReportbookServiceTest extends TestCase
      */
     public function itShouldEditReport()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $content = 'some content';
 
         $report = $this->reportbookService->createReport($traineeId, $content, '10.10.10', '34');
@@ -59,7 +59,7 @@ class ReportbookServiceTest extends TestCase
      */
     public function itShouldHaveNewCalendarweekAndDateToEditReport()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $content = 'some content';
 
         $report = $this->reportbookService->createReport($traineeId, $content, '10.10.10', '34');
@@ -79,8 +79,8 @@ class ReportbookServiceTest extends TestCase
      */
     public function itShouldReturnAllReports()
     {
-        $tomId = uniqid();
-        $jennyId = uniqid();
+        $tomId = new TraineeId();
+        $jennyId = new TraineeId();
 
         $tomsContent = "tom's content";
         $jennysContent = "jenny's content";
@@ -103,7 +103,7 @@ class ReportbookServiceTest extends TestCase
      */
     public function itShouldReturnDateOfReport()
     {
-        $expectedTraineeId = uniqid();
+        $expectedTraineeId = new TraineeId();
         $expectedContent = 'some content';
         $expectedDate = '23.08.2016';
 
@@ -117,7 +117,7 @@ class ReportbookServiceTest extends TestCase
      */
     public function itShouldReturnCalendarWeek()
     {
-        $expectedTraineeId = uniqid();
+        $expectedTraineeId = new TraineeId();
         $expectedContent = 'some content';
         $expectedDate = '23.08.2016';
         $expectedWeek = '34';
@@ -133,17 +133,17 @@ class ReportbookServiceTest extends TestCase
      */
     public function itShouldReturnAllReportsForTraineeId()
     {
-        $tomId = uniqid();
-        $jennyId = uniqid();
+        $tomId = new TraineeId();
+        $jennyId = new TraineeId();
 
-        $this->assertCount(0, $this->reportbookService->findByTraineeId($tomId));
-        $this->assertCount(0, $this->reportbookService->findByTraineeId($jennyId));
+        $this->assertCount(0, $this->reportbookService->findByTraineeId($tomId->id()));
+        $this->assertCount(0, $this->reportbookService->findByTraineeId($jennyId->id()));
 
         $this->reportbookService->createReport($tomId, 'some content', '10.10.10', '34');
         $this->reportbookService->createReport($jennyId, 'some content', '10.10.10', '34');
 
-        $tomsReports = $this->reportbookService->findByTraineeId($tomId);
-        $jennysReports = $this->reportbookService->findByTraineeId($jennyId);
+        $tomsReports = $this->reportbookService->findByTraineeId($tomId->id());
+        $jennysReports = $this->reportbookService->findByTraineeId($jennyId->id());
 
         $this->assertCount(1, $tomsReports);
         $this->assertCount(1, $jennysReports);
@@ -162,7 +162,7 @@ class ReportbookServiceTest extends TestCase
      */
     public function itShouldDeleteReport()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
 
         $report = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34');
         $this->assertCount(1, $this->reportbookService->findAll());
@@ -176,12 +176,12 @@ class ReportbookServiceTest extends TestCase
      */
     public function itShouldFindById()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
 
         $report = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34');
         $reportId = $report->id();
 
-        $foundReport = $this->reportbookService->findById($reportId, $traineeId);
+        $foundReport = $this->reportbookService->findById($reportId, $traineeId->id());
 
         $this->assertEquals($report->content(), $foundReport->content());
         $this->assertEquals($report->traineeId(), $foundReport->traineeId());
@@ -192,9 +192,12 @@ class ReportbookServiceTest extends TestCase
      */
     public function itShouldOnlyFindReportOfMatchingTrainee()
     {
-        $report = $this->reportbookService->createReport('some trainee id', 'some content', '10.10.10', '34');
+        $traineeId = new TraineeId();
+        $wrongTraineeId = new TraineeId();
 
-        $foundReport = $this->reportbookService->findById($report->id(), 'some other trainee id');
+        $report = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34');
+
+        $foundReport = $this->reportbookService->findById($report->id(), $wrongTraineeId->id());
 
         $this->assertNull($foundReport);
     }
@@ -204,7 +207,7 @@ class ReportbookServiceTest extends TestCase
      */
     public function itShouldRequestApproval()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
 
         $report = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34');
 
@@ -217,7 +220,7 @@ class ReportbookServiceTest extends TestCase
      */
     public function itShouldSaveStateAfterRequestApproval()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
 
         $report = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34');
 
@@ -233,7 +236,7 @@ class ReportbookServiceTest extends TestCase
      */
     public function itShouldApproveReport()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
 
         $report= $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34');
         $reportId = $report->id();
@@ -248,7 +251,7 @@ class ReportbookServiceTest extends TestCase
      */
     public function itShouldDisapproveReport()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
 
         $report= $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34');
         $reportId = $report->id();
@@ -263,7 +266,7 @@ class ReportbookServiceTest extends TestCase
      */
     public function itShouldReturnReportsByStatus()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
 
         $expectedReports = [];
         $expectedReports[] = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34');

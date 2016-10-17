@@ -129,7 +129,7 @@ class ControllerTest extends TestCase
         $queryParams = [];
         $formData = [];
         $sessionData = [
-            'role' => 'Trainee',
+            'role' => 'TRAINEE',
             'authorized' => true
         ];
 
@@ -137,7 +137,7 @@ class ControllerTest extends TestCase
         $requestValidator = new RequestValidator();
         $controller = new FixtureController($request, $requestValidator, new ApplicationConfig(__DIR__ . '/../../config.yml'), new Response());
 
-        $this->assertEquals(true, $controller->testIsAuthorized('Trainee'));
+        $this->assertEquals(true, $controller->testIsTrainee());
     }
 
     /**

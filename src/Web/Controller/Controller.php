@@ -4,6 +4,7 @@ namespace Jimdo\Reports\Web\Controller;
 
 use Jimdo\Reports\Web\Request as Request;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
+use Jimdo\Reports\Role as Role;
 use Jimdo\Reports\Web\View as View;
 use Jimdo\Reports\Web\Response as Response;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
@@ -97,12 +98,22 @@ abstract class Controller
     }
 
     /**
-     * @param string $role
      * @return bool
      */
-    protected function isAuthorized(string $role): bool
+    protected function isTrainee(): bool
     {
-        if ((!$this->sessionData('authorized') || $this->sessionData('role') !== $role)) {
+        if ((!$this->sessionData('authorized') || $this->sessionData('role') !== Role::TRAINEE)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isTrainer(): bool
+    {
+        if ((!$this->sessionData('authorized') || $this->sessionData('role') !== Role::TRAINER)) {
             return false;
         }
         return true;

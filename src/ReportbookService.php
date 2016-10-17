@@ -18,7 +18,7 @@ class ReportbookService
     }
 
     /**
-     * @param string $traineeId
+     * @param TraineeId $traineeId
      * @param string $content
      * @param string $date
      * @param string $calendarWeek

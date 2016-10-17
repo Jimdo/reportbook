@@ -4,9 +4,9 @@ namespace Jimdo\Reports;
 
 use Jimdo\Reports\User\User as User;
 use Jimdo\Reports\User\Role as Role;
-// use Jimdo\Reports\Reportbook\Report as Report;
+use Jimdo\Reports\Reportbook\Report as Report;
 use Jimdo\Reports\User\UserId as UserId;
-// use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
+use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
 
 class Serializer
 {

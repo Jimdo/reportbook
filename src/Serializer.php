@@ -73,7 +73,7 @@ class Serializer
     public function unserializeReport(array $serializedReport): Report
     {
         return new Report(
-            $serializedReport['traineeId'],
+            new TraineeId($serializedReport['traineeId']),
             $serializedReport['content'],
             $serializedReport['date'],
             $serializedReport['calendarWeek'],

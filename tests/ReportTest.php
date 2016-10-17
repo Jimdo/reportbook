@@ -11,7 +11,7 @@ class ReportTest extends TestCase
      */
     public function itShouldReturnContent()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $content = 'some content';
         $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
 
@@ -28,7 +28,7 @@ class ReportTest extends TestCase
      */
     public function itShouldEditContent()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $content = 'some content';
         $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
 
@@ -46,10 +46,10 @@ class ReportTest extends TestCase
      */
     public function itShouldHaveTraineeId()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $report = new Report($traineeId, 'some content', '10.10.10', '34', uniqid());
 
-        $this->assertEquals($traineeId, $report->traineeId());
+        $this->assertEquals($traineeId->id(), $report->traineeId());
     }
 
     /**
@@ -57,7 +57,7 @@ class ReportTest extends TestCase
      */
     public function itShouldHaveStatusNewAfterCreate()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $content = 'some content';
         $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
 
@@ -69,7 +69,7 @@ class ReportTest extends TestCase
      */
     public function itShouldHaveStatusEditedAfterEdit()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $content = 'some content';
         $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
 
@@ -82,7 +82,7 @@ class ReportTest extends TestCase
      */
     public function itShouldApproveReport()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $content = 'some content';
         $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
 
@@ -95,7 +95,7 @@ class ReportTest extends TestCase
      */
     public function itShouldDisapproveReport()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $content = 'some content';
         $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
 
@@ -108,7 +108,7 @@ class ReportTest extends TestCase
      */
     public function itShouldRequestApproval()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $content = 'some content';
         $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
 
@@ -121,7 +121,7 @@ class ReportTest extends TestCase
      */
     public function itShouldHaveStatusRevisedAfterSavingADisapprovedReport()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $content = 'some content';
         $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
 
@@ -140,7 +140,7 @@ class ReportTest extends TestCase
      */
     public function itShouldHaveId()
     {
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $content = 'some content';
         $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
 

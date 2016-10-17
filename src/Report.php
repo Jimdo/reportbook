@@ -14,7 +14,7 @@ class Report
     /** @var string */
     private $content;
 
-    /** @var string */
+    /** @var TraineeId */
     private $traineeId;
 
     /** @var string */
@@ -37,7 +37,7 @@ class Report
      * @param string $id
      */
     public function __construct(
-        string $traineeId,
+        TraineeId $traineeId,
         string $content,
         string $date,
         string $calendarWeek,
@@ -45,7 +45,7 @@ class Report
         string $status = null
     ) {
         $this->content = $content;
-        $this->traineeId = $traineeId;
+        $this->traineeId = $traineeId->id();
         $this->date = $date;
         $this->calendarWeek = $calendarWeek;
         $this->id = $id;

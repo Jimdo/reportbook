@@ -44,7 +44,7 @@ class ReportMongoRepositoryTest extends TestCase
     {
         $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
 
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $expectedContent = 'some content';
         $date = '10.10.10';
         $calendarWeek = '34';
@@ -64,7 +64,7 @@ class ReportMongoRepositoryTest extends TestCase
     {
         $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
 
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $expectedContent = 'some content';
         $date = '10.10.10';
         $calendarWeek = '34';
@@ -87,8 +87,8 @@ class ReportMongoRepositoryTest extends TestCase
     {
         $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
 
-        $traineeId1 = '12345';
-        $traineeId2 = '54321';
+        $traineeId1 = new TraineeId();
+        $traineeId2 = new TraineeId();
         $expectedContent = 'some content';
         $date = '10.10.10';
         $calendarWeek = '34';
@@ -98,10 +98,10 @@ class ReportMongoRepositoryTest extends TestCase
 
         $report3 = $repository->create($traineeId2, $expectedContent, $date, $calendarWeek);
 
-        $foundReports = $repository->findByTraineeId($traineeId1);
+        $foundReports = $repository->findByTraineeId($traineeId1->id());
         $this->assertCount(2, $foundReports);
 
-        $foundReports = $repository->findByTraineeId($traineeId2);
+        $foundReports = $repository->findByTraineeId($traineeId2->id());
         $this->assertCount(1, $foundReports);
     }
 
@@ -112,8 +112,8 @@ class ReportMongoRepositoryTest extends TestCase
     {
         $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
 
-        $traineeId1 = '12345';
-        $traineeId2 = '54321';
+        $traineeId1 = new TraineeId();
+        $traineeId2 = new TraineeId();
         $expectedContent = 'some content';
         $date = '10.10.10';
         $calendarWeek = '34';
@@ -133,7 +133,7 @@ class ReportMongoRepositoryTest extends TestCase
     {
         $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
 
-        $traineeId = '12345';
+        $traineeId = new TraineeId();
         $expectedContent = 'some content';
         $date = '10.10.10';
         $calendarWeek = '34';
@@ -152,7 +152,7 @@ class ReportMongoRepositoryTest extends TestCase
     {
         $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
 
-        $traineeId = uniqid();
+        $traineeId = new TraineeId();
         $expectedContent = 'some content';
         $date = '10.10.10';
         $calendarWeek = '34';

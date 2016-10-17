@@ -5,13 +5,13 @@ namespace Jimdo\Reports;
 interface ReportRepository
 {
     /**
-     * @param string $traineeId
+     * @param TraineeId $traineeId
      * @param string $content
      * @param string $date
      * @param string $calendarWeek
      * @return Report
      */
-    public function create(string $traineeId, string $content, string $date, string $calendarWeek): Report;
+    public function create(TraineeId $traineeId, string $content, string $date, string $calendarWeek): Report;
 
     /**
      * @param Report $report

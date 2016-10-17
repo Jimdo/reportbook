@@ -16,7 +16,7 @@ class UserTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
         $password = 'strongpassword';
-        $user = new User($forename, $surname, 'Hase', $email, $role, $password, uniqid());
+        $user = new User($forename, $surname, 'Hase', $email, $role, $password, new UserId());
 
         $this->assertEquals($forename, $user->forename());
         $this->assertEquals($surname, $user->surname());
@@ -34,7 +34,7 @@ class UserTest extends TestCase
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $user = new User($forename, $surname, 'Hase', $email, $role, '12345678910', uniqid());
+        $user = new User($forename, $surname, 'Hase', $email, $role, '12345678910', new UserId());
 
         $this->assertEquals($forename, $user->forename());
 
@@ -55,7 +55,7 @@ class UserTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
         $oldPassword = '1111111';
-        $user = new User($forename, $surname, 'Hase', $email, $role, $oldPassword, uniqid());
+        $user = new User($forename, $surname, 'Hase', $email, $role, $oldPassword, new UserId());
 
         $newPassword = 'peterlustig';
 
@@ -73,7 +73,7 @@ class UserTest extends TestCase
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $roleName = 'trainee';
-        $user = new User($forename, $surname, 'Hase', $email, new Role($roleName), '12345678910', uniqid());
+        $user = new User($forename, $surname, 'Hase', $email, new Role($roleName), '12345678910', new UserId());
 
         $this->assertEquals($roleName, $user->roleName());
 
@@ -89,7 +89,7 @@ class UserTest extends TestCase
         $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $user = new User($forename, $surname, 'Hase', $email, $role, '12345678910', uniqid());
+        $user = new User($forename, $surname, 'Hase', $email, $role, '12345678910', new UserId());
 
         $user->approve();
         $this->assertEquals(Role::STATUS_APPROVED, $user->roleStatus());

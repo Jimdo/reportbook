@@ -28,8 +28,8 @@ class User
     /** @var string */
     private $password;
 
-    /** @var string */
-    private $id;
+    /** @var UserId */
+    private $userId;
 
     /**
      * @param string $forename
@@ -38,7 +38,7 @@ class User
      * @param string $email
      * @param Role $role
      * @param string $password
-     * @param string $id
+     * @param UserId $userId
      */
     public function __construct(
         string $forename,
@@ -47,7 +47,7 @@ class User
         string $email,
         Role $role,
         string $password,
-        string $id
+        UserId $userId
     ) {
         if (strlen($password) < self::PASSWORD_LENGTH) {
             throw new PasswordException(
@@ -61,7 +61,7 @@ class User
         $this->email = $email;
         $this->role = $role;
         $this->password = $password;
-        $this->id = $id;
+        $this->userId = $userId;
     }
 
     /**
@@ -101,7 +101,7 @@ class User
      */
     public function id():string
     {
-        return $this->id;
+        return $this->userId->id();
     }
 
     /**

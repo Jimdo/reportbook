@@ -46,7 +46,7 @@ class Serializer
             $serializedUser['email'],
             $role,
             $serializedUser['password'],
-            $serializedUser['id']
+            new UserId($serializedUser['id'])
         );
     }
 

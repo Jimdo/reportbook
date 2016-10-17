@@ -20,7 +20,7 @@ class SerializerTest extends TestCase
         $email = 'tom.stich@example.com';
         $role = new Role('TRAINER');
         $password = '1234567';
-        $id = uniqid();
+        $id = new UserId();
 
         $user = new User($forename, $surname, $username, $email, $role, $password, $id);
 
@@ -49,7 +49,7 @@ class SerializerTest extends TestCase
         $email = 'tom.stich@example.com';
         $role = new Role('TRAINER');
         $password = '1234567';
-        $id = uniqid();
+        $id = new UserId();
 
         $user = new User($forename, $surname, $username, $email, $role, $password, $id);
 

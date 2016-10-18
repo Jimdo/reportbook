@@ -217,6 +217,27 @@ class UserController extends Controller
         }
     }
 
+    public function profileAction()
+    {
+        $headerView = $this->view('app/views/Header.php');
+        $headerView->tabTitle = 'Berichtsheft';
+
+        $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView->viewHelper = $this->viewHelper;
+        $infobarView->username = $this->sessionData('username');
+        $infobarView->role = $this->sessionData('role');
+        $infobarView->hideInfos = true;
+
+        $profileView = $this->view('app/views/ProfileView.php');
+
+        $footerView = $this->view('app/views/Footer.php');
+
+        $this->response->addBody($headerView->render());
+        $this->response->addBody($infobarView->render());
+        $this->response->addBody($profileView->render());
+        $this->response->addBody($footerView->render());
+    }
+
     public function changePasswordAction()
     {
         if (!$this->isTrainer() && !$this->isTrainee()) {

@@ -153,6 +153,86 @@ class UserTest extends TestCase
     /**
     * @test
     */
+    public function itShouldEditSchool()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newSchool = 'Penny in Hamburg';
+
+        $user->editSchool($newSchool);
+
+        $this->assertEquals($newSchool, $user->school());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldEditJobTitle()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newJobTitle = 'Fachinformatiker Anwendungsentwicklung';
+
+        $user->editJobTitle($newJobTitle);
+
+        $this->assertEquals($newJobTitle, $user->jobTitle());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldEditTrainingYear()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newTrainingYear = 1;
+
+        $user->editTrainingYear($newTrainingYear);
+
+        $this->assertEquals($newTrainingYear, $user->trainingYear());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldEditCompany()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newCompany = 'Jimdo GmbH';
+
+        $user->editCompany($newCompany);
+
+        $this->assertEquals($newCompany, $user->company());
+    }
+
+    /**
+    * @test
+    */
     public function itShouldEditDateOfBirth()
     {
         $forename = 'Max';

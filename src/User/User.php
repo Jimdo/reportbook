@@ -266,6 +266,7 @@ class User
     {
         $this->email = $newEmail;
     }
+
     /**
      * @param string $newForename
      */
@@ -273,6 +274,7 @@ class User
     {
         $this->forename = $newForename;
     }
+
     /**
      * @param string $newSurname
      */
@@ -280,11 +282,44 @@ class User
     {
         $this->surname = $newSurname;
     }
+
     /**
      * @param string $newDateOfBirth
      */
     public function editDateOfBirth(string $newDateOfBirth)
     {
         $this->dateOfBirth = $newDateOfBirth;
+    }
+
+    /**
+     * @param string $newSchool
+     */
+    public function editSchool(string $newSchool)
+    {
+        $this->school = $newSchool;
+    }
+
+    /**
+     * @param string $newJobTitle
+     */
+    public function editJobTitle(string $newJobTitle)
+    {
+        $this->jobTitle = $newJobTitle;
+    }
+
+    /**
+     * @param string $newTrainingYear
+     */
+    public function editTrainingYear(string $newTrainingYear)
+    {
+        $this->trainingYear = $newTrainingYear;
+    }
+
+    /**
+     * @param string $newCompany
+     */
+    public function editCompany(string $newCompany)
+    {
+        $this->company = $newCompany;
     }
 }

@@ -77,3 +77,11 @@ update       Update composer packages
 
 ### v0.3.4
   - Configure session start via controller
+
+### v0.3.5
+  - Implement TraineeId Object
+  - Implement UserId Object
+  - Change Namespaces  
+
+### v0.3.6
+  - Create a simple profile view

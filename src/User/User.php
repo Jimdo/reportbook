@@ -31,6 +31,24 @@ class User
     /** @var UserId */
     private $userId;
 
+    /** @var string */
+    private $dateOfBirth = '';
+
+    /** @var string */
+    private $school = '';
+
+    /** @var string */
+    private $grade = '';
+
+    /** @var string */
+    private $jobTitle = '';
+
+    /** @var string */
+    private $trainingYear = '';
+
+    /** @var string */
+    private $company = '';
+
     /**
      * @param string $forename
      * @param string $surname
@@ -99,9 +117,57 @@ class User
     /**
      * @return string
      */
+    public function dateOfBirth(): string
+    {
+        return $this->dateOfBirth;
+    }
+
+    /**
+     * @return string
+     */
     public function id():string
     {
         return $this->userId->id();
+    }
+
+    /**
+     * @return string
+     */
+    public function school():string
+    {
+        return $this->school;
+    }
+
+    /**
+     * @return string
+     */
+    public function company():string
+    {
+        return $this->company;
+    }
+
+    /**
+     * @return string
+     */
+    public function jobTitle():string
+    {
+        return $this->jobTitle;
+    }
+
+    /**
+     * @return string
+     */
+    public function trainingYear():string
+    {
+        return $this->trainingYear;
+    }
+
+    /**
+     * @return string
+     */
+    public function grade():string
+    {
+        return $this->grade;
     }
 
     /**

@@ -23,6 +23,12 @@ class UserTest extends TestCase
         $this->assertEquals($email, $user->email());
         $this->assertEquals($password, $user->password());
         $this->assertInternalType('string', $user->id());
+        $this->assertEquals('', $user->dateOfBirth());
+        $this->assertEquals('', $user->school());
+        $this->assertEquals('', $user->grade());
+        $this->assertEquals('', $user->jobTitle());
+        $this->assertEquals('', $user->trainingYear());
+        $this->assertEquals('', $user->company());
     }
 
     /**

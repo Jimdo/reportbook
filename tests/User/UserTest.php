@@ -73,6 +73,26 @@ class UserTest extends TestCase
     /**
     * @test
     */
+    public function itShouldEditUsername()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newUsername = 'jennypenny';
+
+        $user->editUsername($newUsername);
+
+        $this->assertEquals($newUsername, $user->username());
+    }
+
+    /**
+    * @test
+    */
     public function itShouldHaveRoleConstruct()
     {
         $forename = 'Max';

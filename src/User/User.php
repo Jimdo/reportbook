@@ -233,7 +233,7 @@ class User
                     $this->password = $newPassword;
                 } else {
                     throw new PasswordException(
-                        'Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n",
+                        'Password should have at least ' . self::PASSWORD_LENGTH . ' characters!',
                         self::ERR_PASSWORD_LENGTH
                     );
                 }
@@ -249,5 +249,13 @@ class User
                 self::ERR_PASSWORD_WRONG
             );
         }
+    }
+
+    /**
+     * @param string $newUsername
+     */
+    public function editUsername(string $newUsername)
+    {
+        $this->username = $newUsername;
     }
 }

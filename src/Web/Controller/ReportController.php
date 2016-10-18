@@ -4,17 +4,17 @@ namespace Jimdo\Reports\Web\Controller;
 
 use Jimdo\Reports\Web\View as View;
 use Jimdo\Reports\Web\ViewHelper as ViewHelper;
-use Jimdo\Reports\Report as Report;
-use Jimdo\Reports\TraineeId as TraineeId;
-use Jimdo\Reports\ReportMongoRepository as ReportMongoRepository;
-use Jimdo\Reports\ReportbookService as ReportbookService;
+use Jimdo\Reports\Reportbook\Report as Report;
+use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
+use Jimdo\Reports\Reportbook\ReportMongoRepository as ReportMongoRepository;
+use Jimdo\Reports\Reportbook\ReportbookService as ReportbookService;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 use Jimdo\Reports\Web\Response as Response;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\Web\Request as Request;
-use Jimdo\Reports\UserService as UserService;
-use Jimdo\Reports\UserMongoRepository as UserMongoRepository;
+use Jimdo\Reports\User\UserService as UserService;
+use Jimdo\Reports\User\UserMongoRepository as UserMongoRepository;
 use Jimdo\Reports\Web\Validator\Validator as Validator;
 
 class ReportController extends Controller

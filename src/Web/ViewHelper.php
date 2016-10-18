@@ -2,8 +2,8 @@
 
 namespace Jimdo\Reports\Web;
 
-use Jimdo\Reports\Report as Report;
-use Jimdo\Reports\Role as Role;
+use Jimdo\Reports\Reportbook\Report as Report;
+use Jimdo\Reports\User\Role as Role;
 
 class ViewHelper
 {

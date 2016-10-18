@@ -1,9 +1,9 @@
 <?php
 
-namespace Jimdo\Reports;
+namespace Jimdo\Reports\User;
 
 use Jimdo\Reports\Views\User as ReadOnlyUser;
-use Jimdo\Reports\Role as Role;
+use Jimdo\Reports\User\Role as Role;
 
 class UserService
 {

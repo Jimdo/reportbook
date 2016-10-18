@@ -1,11 +1,11 @@
 <?php
 
-namespace Jimdo\Reports;
+namespace Jimdo\Reports\User;
 
 use PHPUnit\Framework\TestCase;
-use Jimdo\Reports\Role as Role;
+use Jimdo\Reports\User\Role as Role;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-
+use Jimdo\Reports\Serializer as Serializer;
 
 class UserMongoRepositoryTest extends TestCase
 {
@@ -20,7 +20,7 @@ class UserMongoRepositoryTest extends TestCase
 
     protected function setUp()
     {
-        $this->appConfig = new ApplicationConfig(__DIR__ . '/../config.yml');
+        $this->appConfig = new ApplicationConfig(__DIR__ . '/../../config.yml');
 
         $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
             , $this->appConfig->mongoUsername

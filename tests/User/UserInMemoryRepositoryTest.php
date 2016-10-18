@@ -1,9 +1,9 @@
 <?php
 
-namespace Jimdo\Reports;
+namespace Jimdo\Reports\User;
 
 use PHPUnit\Framework\TestCase;
-use Jimdo\Reports\Role as Role;
+use Jimdo\Reports\User\Role as Role;
 
 class UserRepositoryTest extends TestCase
 {
@@ -125,7 +125,7 @@ class UserRepositoryTest extends TestCase
 
    /**
     * @test
-    * @expectedException Jimdo\Reports\UserRepositoryException
+    * @expectedException Jimdo\Reports\User\UserRepositoryException
     */
    public function itShouldThrowUserRepositoryExceptionOnDuplicateEmail()
     {
@@ -142,7 +142,7 @@ class UserRepositoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException Jimdo\Reports\UserRepositoryException
+     * @expectedException Jimdo\Reports\User\UserRepositoryException
      */
     public function itShouldThrowExceptionWhenPasswordIsShorterThatSevenChars()
     {

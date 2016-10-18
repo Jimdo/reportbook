@@ -4,13 +4,13 @@ namespace Jimdo\Reports\Views;
 
 class User
 {
-    /** @var \Jimdo\Reports\User */
+    /** @var \Jimdo\Reports\User\User */
     private $user;
 
     /**
-     * @param \Jimdo\Reports\User $user
+     * @param \Jimdo\Reports\User\User $user
      */
-    public function __construct(\Jimdo\Reports\User $user)
+    public function __construct(\Jimdo\Reports\User\User $user)
     {
         $this->user = $user;
     }

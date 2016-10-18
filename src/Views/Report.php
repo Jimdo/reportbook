@@ -4,13 +4,13 @@ namespace Jimdo\Reports\Views;
 
 class Report
 {
-    /** @var \Jimdo\Reports\Report */
+    /** @var \Jimdo\Reports\Reportbook\Report */
     private $report;
 
     /**
-     * @param \Jimdo\Reports\Report $report
+     * @param \Jimdo\Reports\Reportbook\Report $report
      */
-    public function __construct(\Jimdo\Reports\Report $report)
+    public function __construct(\Jimdo\Reports\Reportbook\Report $report)
     {
         $this->report = $report;
     }

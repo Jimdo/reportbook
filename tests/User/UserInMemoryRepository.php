@@ -1,9 +1,9 @@
 <?php
 
-namespace Jimdo\Reports;
+namespace Jimdo\Reports\User;
 
-use Jimdo\Reports\User as User;
-use Jimdo\Reports\Role as Role;
+use Jimdo\Reports\User\User as User;
+use Jimdo\Reports\User\Role as Role;
 
 class UserInMemoryRepository implements UserRepository
 {

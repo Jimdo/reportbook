@@ -1,8 +1,8 @@
 <?php
 
-namespace Jimdo\Reports;
+namespace Jimdo\Reports\User;
 
-class TraineeId
+class UserId
 {
     /** @var string */
     private $id;

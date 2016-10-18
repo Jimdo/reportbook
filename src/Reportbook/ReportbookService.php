@@ -1,6 +1,6 @@
 <?php
 
-namespace Jimdo\Reports;
+namespace Jimdo\Reports\Reportbook;
 
 use Jimdo\Reports\Views\Report as ReadOnlyReport;
 

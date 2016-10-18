@@ -4,15 +4,15 @@ namespace Jimdo\Reports\Web\Controller;
 
 use Jimdo\Reports\Web\View as View;
 use Jimdo\Reports\Web\ViewHelper as ViewHelper;
-use Jimdo\Reports\User as User;
-use Jimdo\Reports\Role as Role;
-use Jimdo\Reports\UserService as UserService;
-use Jimdo\Reports\UserMongoRepository as UserMongoRepository;
+use Jimdo\Reports\User\User as User;
+use Jimdo\Reports\User\Role as Role;
+use Jimdo\Reports\User\UserService as UserService;
+use Jimdo\Reports\User\UserMongoRepository as UserMongoRepository;
 use Jimdo\Reports\Web\Request as Request;
 use Jimdo\Reports\Web\Response as Response;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-use Jimdo\Reports\PasswordException as PasswordException;
+use Jimdo\Reports\User\PasswordException as PasswordException;
 use Jimdo\Reports\Serializer as Serializer;
 
 class UserController extends Controller

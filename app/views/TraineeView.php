@@ -1,4 +1,4 @@
-<?php use \Jimdo\Reports\Report as Report; ?>
+<?php use \Jimdo\Reports\Reportbook\Report as Report; ?>
 <?php use \Jimdo\Reports\Web\Controller\ReportController as ReportController; ?>
 <table class="table table-hover">
     <tr>

@@ -72,6 +72,7 @@ class ReportController extends Controller
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->infoHeadline = ' | Übersicht';
+        $infobarView->hideInfos = false;
 
         $footerView = $this->view('app/views/Footer.php');
         $footerView->backButton = 'nope';
@@ -126,6 +127,7 @@ class ReportController extends Controller
             $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
+            $infobarView->hideInfos = false;
 
             $footerView = $this->view('app/views/Footer.php');
             $footerView->backButton = 'show';
@@ -173,6 +175,7 @@ class ReportController extends Controller
             $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
+            $infobarView->hideInfos = false;
 
             $footerView = $this->view('app/views/Footer.php');
             $footerView->backButton = 'show';
@@ -211,6 +214,7 @@ class ReportController extends Controller
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
+        $infobarView->hideInfos = false;
 
         $footerView = $this->view('app/views/Footer.php');
         $footerView->backButton = 'show';
@@ -262,6 +266,7 @@ class ReportController extends Controller
             $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
+            $infobarView->hideInfos = false;
 
             $footerView = $this->view('app/views/Footer.php');
             $footerView->backButton = 'show';
@@ -323,6 +328,7 @@ class ReportController extends Controller
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
+        $infobarView->hideInfos = false;
 
         $footerView = $this->view('app/views/Footer.php');
         $footerView->backButton = 'show';

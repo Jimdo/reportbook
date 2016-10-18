@@ -1,4 +1,4 @@
-<?php use \Jimdo\Reports\Report as Report; ?>
+<?php use \Jimdo\Reports\Reportbook\Report as Report; ?>
 <form action="<?php echo $this->action; ?>" method="POST">
   <fieldset>
 

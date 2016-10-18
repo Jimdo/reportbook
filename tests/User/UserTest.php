@@ -93,6 +93,86 @@ class UserTest extends TestCase
     /**
     * @test
     */
+    public function itShouldEditEmail()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newEmail = 'jenny@hotmail.de';
+
+        $user->editEmail($newEmail);
+
+        $this->assertEquals($newEmail, $user->email());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldEditForename()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newForename = 'Jenny';
+
+        $user->editForename($newForename);
+
+        $this->assertEquals($newForename, $user->forename());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldEditSurname()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newSurname = 'Penny';
+
+        $user->editSurname($newSurname);
+
+        $this->assertEquals($newSurname, $user->surname());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldEditDateOfBirth()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newDateOfBirth = '31.10.1995';
+
+        $user->editDateOfBirth($newDateOfBirth);
+
+        $this->assertEquals($newDateOfBirth, $user->dateOfBirth());
+    }
+
+    /**
+    * @test
+    */
     public function itShouldHaveRoleConstruct()
     {
         $forename = 'Max';

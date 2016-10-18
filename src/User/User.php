@@ -258,4 +258,33 @@ class User
     {
         $this->username = $newUsername;
     }
+
+    /**
+     * @param string $newEmail
+     */
+    public function editEmail(string $newEmail)
+    {
+        $this->email = $newEmail;
+    }
+    /**
+     * @param string $newForename
+     */
+    public function editForename(string $newForename)
+    {
+        $this->forename = $newForename;
+    }
+    /**
+     * @param string $newSurname
+     */
+    public function editSurname(string $newSurname)
+    {
+        $this->surname = $newSurname;
+    }
+    /**
+     * @param string $newDateOfBirth
+     */
+    public function editDateOfBirth(string $newDateOfBirth)
+    {
+        $this->dateOfBirth = $newDateOfBirth;
+    }
 }

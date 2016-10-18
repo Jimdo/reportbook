@@ -35,10 +35,14 @@
     </nav>
 
 </div>
-<div class="row">
-  <div class="col-sm-offset-0 col-sm-3">
-     <label>Benutzer: <?php echo $this->username; ?> | <?php echo $this->viewHelper->getTranslationForRole($this->role); ?></label></br>
-     <label>Datum: <?php echo date("d.m.Y"); ?> | <?php echo date("W"); ?></label>
-  </div>
-</div></br>
-<!-- <h4><?php echo $this->infoHeadline; ?></h4> -->
+
+<?php if ($this->hideInfos === false): ?>
+    <div class="row">
+      <div class="col-sm-offset-0 col-sm-3">
+         <label>Benutzer: <?php echo $this->username; ?> | <?php echo $this->viewHelper->getTranslationForRole($this->role); ?></label></br>
+         <label>Datum: <?php echo date("d.m.Y"); ?> | <?php echo date("W"); ?></label>
+      </div>
+    </div>
+<?php endif; ?>
+
+</br>

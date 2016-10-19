@@ -127,6 +127,17 @@ class UserService
     }
 
     /**
+     * @param string $userId
+     * @param string $dateOfBirth
+     */
+    public function editDateOfBirth(string $userId, string $dateOfBirth)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editDateOfBirth($dateOfBirth);
+        $this->userRepository->save($user);
+    }
+
+    /**
      * @param string $email
      * @param string $password
      * @return bool

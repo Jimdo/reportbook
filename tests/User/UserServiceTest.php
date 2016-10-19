@@ -159,6 +159,28 @@ class UserServiceTest extends TestCase
     /**
      * @test
      */
+    public function itShouldEditDateOfBirth()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = '123456789';
+        $username = 'jenny';
+
+        $dateOfBirth = '31.10.1995';
+
+        $user = $this->userService->registerTrainer($forename, $surname, $username, $email, $password);
+
+        $this->userService->editDateOfBirth($user->id(), $dateOfBirth);
+
+        $user = $this->userService->findUserById($user->id());
+
+        $this->assertEquals($dateOfBirth, $user->dateOfBirth());
+    }
+
+    /**
+     * @test
+     */
     public function itShouldAuthUser()
     {
         $forename = 'Max';

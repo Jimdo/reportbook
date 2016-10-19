@@ -84,4 +84,6 @@ update       Update composer packages
   - Change Namespaces  
 
 ### v0.3.6
-  - Create a simple profile view
+  - Create a Profile View
+  - Add more Profile Data to User
+  - Add more edit functions to the User and UserService

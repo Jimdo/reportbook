@@ -67,9 +67,15 @@ class UserMongoRepository implements UserRepository
     /**
      * @param User $user
      */
-    public function save(User $user)
+    public function save(User $user, string $identifier = null)
     {
-        if ($this->exists($user->username())) {
+        $id = $user->username();
+
+        if ($identifier !== null) {
+            $id = $identifier;
+        }
+
+        if ($this->exists($id)) {
             $this->deleteUser($user);
             $this->users->insertOne($this->serializer->serializeUser($user));
         } else {

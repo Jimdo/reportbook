@@ -25,8 +25,21 @@ class SerializerTest extends TestCase
         $role = new Role('TRAINER');
         $password = '1234567';
         $id = new UserId();
+        $dateOfBirth = '10.10.10';
+        $company = 'Jimdo';
+        $grade = '1';
+        $school = 'bla';
+        $trainingYear = '2';
+        $jobTitle = 'programmer';
 
         $user = new User($forename, $surname, $username, $email, $role, $password, $id);
+
+        $user->editDateOfBirth($dateOfBirth);
+        $user->editCompany($company);
+        $user->editGrade($grade);
+        $user->editSchool($school);
+        $user->editTrainingYear($trainingYear);
+        $user->editJobTitle($jobTitle);
 
         $serialezedUser = $serializer->serializeUser($user);
 
@@ -38,6 +51,12 @@ class SerializerTest extends TestCase
         $this->assertEquals($user->roleStatus(), $serialezedUser['role']['roleStatus']);
         $this->assertEquals($user->password(), $serialezedUser['password']);
         $this->assertEquals($user->id(), $serialezedUser['id']);
+        $this->assertEquals($user->dateOfBirth(), $serialezedUser['dateOfBirth']);
+        $this->assertEquals($user->company(), $serialezedUser['company']);
+        $this->assertEquals($user->school(), $serialezedUser['school']);
+        $this->assertEquals($user->grade(), $serialezedUser['grade']);
+        $this->assertEquals($user->trainingYear(), $serialezedUser['trainingYear']);
+        $this->assertEquals($user->jobTitle(), $serialezedUser['jobTitle']);
     }
 
     /**
@@ -54,6 +73,12 @@ class SerializerTest extends TestCase
         $role = new Role('TRAINER');
         $password = '1234567';
         $id = new UserId();
+        $dateOfBirth = '10.10.10';
+        $company = 'Jimdo';
+        $grade = '1';
+        $school = 'bla';
+        $trainingYear = '2';
+        $jobTitle = 'programmer';
 
         $user = new User($forename, $surname, $username, $email, $role, $password, $id);
 
@@ -69,6 +94,12 @@ class SerializerTest extends TestCase
         $this->assertEquals($user->roleStatus(), $unserializedUser->roleStatus());
         $this->assertEquals($user->password(), $unserializedUser->password());
         $this->assertEquals($user->id(), $unserializedUser->id());
+        $this->assertEquals($user->dateOfBirth(), $unserializedUser->dateOfBirth());
+        $this->assertEquals($user->company(), $unserializedUser->company());
+        $this->assertEquals($user->school(), $unserializedUser->school());
+        $this->assertEquals($user->grade(), $unserializedUser->grade());
+        $this->assertEquals($user->trainingYear(), $unserializedUser->trainingYear());
+        $this->assertEquals($user->jobTitle(), $unserializedUser->jobTitle());
     }
 
     /**

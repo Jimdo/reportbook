@@ -104,7 +104,7 @@ class UserController extends Controller
                 $_SESSION['role'] = $user->roleName();
                 $_SESSION['authorized'] = true;
                 $_SESSION['userId'] = $user->id();
-                $_SESSION['username'] = $user->forename();
+                $_SESSION['username'] = $user->username();
 
                 if ($loginWithAdminDefaultPassword) {
                     $this->redirect('/user/changePassword');
@@ -229,6 +229,7 @@ class UserController extends Controller
         $infobarView->hideInfos = true;
 
         $profileView = $this->view('app/views/ProfileView.php');
+        $profileView->user = $this->service->findUserById($this->sessionData('userId'));
 
         $footerView = $this->view('app/views/Footer.php');
 
@@ -236,6 +237,105 @@ class UserController extends Controller
         $this->response->addBody($infobarView->render());
         $this->response->addBody($profileView->render());
         $this->response->addBody($footerView->render());
+    }
+
+    public function changeForenameAction()
+    {
+        if (!$this->isTrainer() && !$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+        $this->service->editForename($this->sessionData('userId'), $this->formData('forename'));
+        $this->redirect('/user/profile');
+    }
+
+    public function changeSurnameAction()
+    {
+        if (!$this->isTrainer() && !$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+        $this->service->editSurname($this->sessionData('userId'), $this->formData('surname'));
+        $this->redirect('/user/profile');
+    }
+
+    public function changeDateOfBirthAction()
+    {
+        if (!$this->isTrainer() && !$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+        $user = $this->service->findUserById($this->sessionData('userId'));
+        $this->service->editDateOfBirth($this->sessionData('userId'), $this->formData('dateOfBirth'));
+        $this->redirect('/user/profile');
+    }
+
+    public function changeUsernameAction()
+    {
+        if (!$this->isTrainer() && !$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+        $user = $this->service->findUserById($this->sessionData('userId'));
+        $this->service->editUsername($this->sessionData('userId'), $this->formData('username'));
+        $_SESSION['username'] = $this->formData('username');
+        $this->redirect('/user/profile');
+    }
+
+    public function changeEmailAction()
+    {
+        if (!$this->isTrainer() && !$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+        $user = $this->service->findUserById($this->sessionData('userId'));
+        $this->service->editEmail($this->sessionData('userId'), $this->formData('email'));
+        $this->redirect('/user/profile');
+    }
+
+    public function changeCompanyAction()
+    {
+        if (!$this->isTrainer() && !$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+        $user = $this->service->findUserById($this->sessionData('userId'));
+        $this->service->editCompany($this->sessionData('userId'), $this->formData('company'));
+        $this->redirect('/user/profile');
+    }
+
+    public function changeJobTitleAction()
+    {
+        if (!$this->isTrainer() && !$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+        $user = $this->service->findUserById($this->sessionData('userId'));
+        $this->service->editJobTitle($this->sessionData('userId'), $this->formData('jobTitle'));
+        $this->redirect('/user/profile');
+    }
+
+    public function changeSchoolAction()
+    {
+        if (!$this->isTrainer() && !$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+        $user = $this->service->findUserById($this->sessionData('userId'));
+        $this->service->editSchool($this->sessionData('userId'), $this->formData('school'));
+        $this->redirect('/user/profile');
+    }
+
+    public function changeGradeAction()
+    {
+        if (!$this->isTrainer() && !$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+        $user = $this->service->findUserById($this->sessionData('userId'));
+        $this->service->editGrade($this->sessionData('userId'), $this->formData('grade'));
+        $this->redirect('/user/profile');
+    }
+
+    public function changeTrainingYearAction()
+    {
+        if (!$this->isTrainer() && !$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+        $user = $this->service->findUserById($this->sessionData('userId'));
+        $this->service->editTrainingYear($this->sessionData('userId'), $this->formData('trainingYear'));
+        $this->redirect('/user/profile');
     }
 
     public function changePasswordAction()

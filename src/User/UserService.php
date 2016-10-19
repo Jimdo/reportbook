@@ -73,6 +73,28 @@ class UserService
     }
 
     /**
+     * @param string $userId
+     * @param string $username
+     */
+    public function editUsername(string $userId, string $username)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editUsername($username);
+        $this->userRepository->save($user);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $email
+     */
+    public function editEmail(string $userId, string $email)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editEmail($email);
+        $this->userRepository->save($user);
+    }
+
+    /**
      * @param string $email
      * @param string $password
      * @return bool

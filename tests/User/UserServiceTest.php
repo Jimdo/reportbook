@@ -73,6 +73,48 @@ class UserServiceTest extends TestCase
     /**
      * @test
      */
+    public function itShouldEditUsername()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = '123456789';
+        $username = 'jenny';
+        $newUsername = 'jennyPenny';
+
+        $user = $this->userService->registerTrainer($forename, $surname, $username, $email, $password);
+
+        $this->userService->editUsername($user->id(), $newUsername);
+
+        $user = $this->userService->findUserById($user->id());
+
+        $this->assertEquals($newUsername, $user->username());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditEmail()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $newEmail = 'jennyPenny@hotmail.de';
+        $password = '123456789';
+        $username = 'jenny';
+
+        $user = $this->userService->registerTrainer($forename, $surname, $username, $email, $password);
+
+        $this->userService->editEmail($user->id(), $newEmail);
+
+        $user = $this->userService->findUserById($user->id());
+
+        $this->assertEquals($newEmail, $user->email());
+    }
+
+    /**
+     * @test
+     */
     public function itShouldAuthUser()
     {
         $forename = 'Max';

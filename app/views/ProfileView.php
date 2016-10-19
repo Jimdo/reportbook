@@ -173,12 +173,14 @@
              </div>
 
              <div class="collapse" id="changeJobTitle">
-                 <div class="card card-block">
-                     <div class="col-sm-offset-6 col-sm-6">
-                         <input type="text" name="newJobTitle" class="form-control" id="newJobTitle" placeholder="Neue Berufsbezeichung"></br>
-                         <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                 <form action="/user/changeJobTitle" method="POST" class="form-horizontal">
+                     <div class="card card-block">
+                         <div class="col-sm-offset-6 col-sm-6">
+                             <input type="text" name="jobTitle" class="form-control" id="jobTitle" placeholder="Neue Berufsbezeichung"></br>
+                             <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                         </div>
                      </div>
-                 </div>
+                 </form>
              </div>
 
         </div>

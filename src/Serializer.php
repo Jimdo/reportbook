@@ -26,7 +26,13 @@ class Serializer
                 'roleName' => $user->roleName(),
                 'roleStatus' => $user->roleStatus()
                 ],
-            'password' => $user->password()
+            'password' => $user->password(),
+            'dateOfBirth' => $user->dateOfBirth(),
+            'school' => $user->school(),
+            'grade' => $user->grade(),
+            'trainingYear' => $user->trainingYear(),
+            'company' => $user->company(),
+            'jobTitle' => $user->jobTitle(),
         ];
     }
 
@@ -45,7 +51,8 @@ class Serializer
         if ($serializedUser['role']['roleStatus'] === Role::STATUS_APPROVED) {
             $role->approve();
         }
-        return new User(
+
+        $user = new User(
             $serializedUser['forename'],
             $serializedUser['surname'],
             $serializedUser['username'],
@@ -54,6 +61,15 @@ class Serializer
             $serializedUser['password'],
             new UserId($serializedUser['id'])
         );
+
+        $user->editDateOfBirth($serializedUser['dateOfBirth']);
+        $user->editSchool($serializedUser['school']);
+        $user->editGrade($serializedUser['grade']);
+        $user->editTrainingYear($serializedUser['trainingYear']);
+        $user->editCompany($serializedUser['company']);
+        $user->editJobTitle($serializedUser['jobTitle']);
+
+        return $user;
     }
 
     /**

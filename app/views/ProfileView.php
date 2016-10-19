@@ -191,7 +191,7 @@
     <div class="col-sm-offset-1 col-sm-10">
         <h4>Schulische Daten</h4><br>
     </div>
-    <form action="/user/editPassword" method="POST" class="form-horizontal">
+    <div class="form-horizontal">
 
         <div class="form-group">
 
@@ -204,12 +204,14 @@
              </div>
 
              <div class="collapse" id="changeSchool">
-                 <div class="card card-block">
-                     <div class="col-sm-offset-6 col-sm-6">
-                         <input type="text" name="newSchool" class="form-control" id="newSchool" placeholder="Neue Schule"></br>
-                         <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                 <form action="/user/changeSchool" method="POST" class="form-horizontal">
+                     <div class="card card-block">
+                         <div class="col-sm-offset-6 col-sm-6">
+                             <input type="text" name="school" class="form-control" id="school" placeholder="Neue Schule"></br>
+                             <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                         </div>
                      </div>
-                 </div>
+                 </form>
              </div>
 
         </div>
@@ -255,5 +257,5 @@
              </div>
 
         </div>
-    </form>
+    </div>
 </div>

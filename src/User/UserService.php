@@ -182,6 +182,17 @@ class UserService
     }
 
     /**
+     * @param string $userId
+     * @param string $grade
+     */
+    public function editGrade(string $userId, string $grade)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editGrade($grade);
+        $this->userRepository->save($user);
+    }
+
+    /**
      * @param string $email
      * @param string $password
      * @return bool

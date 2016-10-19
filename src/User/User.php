@@ -31,6 +31,24 @@ class User
     /** @var UserId */
     private $userId;
 
+    /** @var string */
+    private $dateOfBirth = '';
+
+    /** @var string */
+    private $school = '';
+
+    /** @var string */
+    private $grade = '';
+
+    /** @var string */
+    private $jobTitle = '';
+
+    /** @var string */
+    private $trainingYear = '';
+
+    /** @var string */
+    private $company = '';
+
     /**
      * @param string $forename
      * @param string $surname
@@ -99,9 +117,57 @@ class User
     /**
      * @return string
      */
+    public function dateOfBirth(): string
+    {
+        return $this->dateOfBirth;
+    }
+
+    /**
+     * @return string
+     */
     public function id():string
     {
         return $this->userId->id();
+    }
+
+    /**
+     * @return string
+     */
+    public function school():string
+    {
+        return $this->school;
+    }
+
+    /**
+     * @return string
+     */
+    public function company():string
+    {
+        return $this->company;
+    }
+
+    /**
+     * @return string
+     */
+    public function jobTitle():string
+    {
+        return $this->jobTitle;
+    }
+
+    /**
+     * @return string
+     */
+    public function trainingYear():string
+    {
+        return $this->trainingYear;
+    }
+
+    /**
+     * @return string
+     */
+    public function grade():string
+    {
+        return $this->grade;
     }
 
     /**
@@ -167,7 +233,7 @@ class User
                     $this->password = $newPassword;
                 } else {
                     throw new PasswordException(
-                        'Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n",
+                        'Password should have at least ' . self::PASSWORD_LENGTH . ' characters!',
                         self::ERR_PASSWORD_LENGTH
                     );
                 }
@@ -183,5 +249,77 @@ class User
                 self::ERR_PASSWORD_WRONG
             );
         }
+    }
+
+    /**
+     * @param string $newUsername
+     */
+    public function editUsername(string $newUsername)
+    {
+        $this->username = $newUsername;
+    }
+
+    /**
+     * @param string $newEmail
+     */
+    public function editEmail(string $newEmail)
+    {
+        $this->email = $newEmail;
+    }
+
+    /**
+     * @param string $newForename
+     */
+    public function editForename(string $newForename)
+    {
+        $this->forename = $newForename;
+    }
+
+    /**
+     * @param string $newSurname
+     */
+    public function editSurname(string $newSurname)
+    {
+        $this->surname = $newSurname;
+    }
+
+    /**
+     * @param string $newDateOfBirth
+     */
+    public function editDateOfBirth(string $newDateOfBirth)
+    {
+        $this->dateOfBirth = $newDateOfBirth;
+    }
+
+    /**
+     * @param string $newSchool
+     */
+    public function editSchool(string $newSchool)
+    {
+        $this->school = $newSchool;
+    }
+
+    /**
+     * @param string $newJobTitle
+     */
+    public function editJobTitle(string $newJobTitle)
+    {
+        $this->jobTitle = $newJobTitle;
+    }
+
+    /**
+     * @param string $newTrainingYear
+     */
+    public function editTrainingYear(string $newTrainingYear)
+    {
+        $this->trainingYear = $newTrainingYear;
+    }
+
+    /**
+     * @param string $newCompany
+     */
+    public function editCompany(string $newCompany)
+    {
+        $this->company = $newCompany;
     }
 }

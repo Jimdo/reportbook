@@ -23,6 +23,12 @@ class UserTest extends TestCase
         $this->assertEquals($email, $user->email());
         $this->assertEquals($password, $user->password());
         $this->assertInternalType('string', $user->id());
+        $this->assertEquals('', $user->dateOfBirth());
+        $this->assertEquals('', $user->school());
+        $this->assertEquals('', $user->grade());
+        $this->assertEquals('', $user->jobTitle());
+        $this->assertEquals('', $user->trainingYear());
+        $this->assertEquals('', $user->company());
     }
 
     /**
@@ -62,6 +68,186 @@ class UserTest extends TestCase
         $user->editPassword($oldPassword, $newPassword);
 
         $this->assertEquals($newPassword, $user->password());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldEditUsername()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newUsername = 'jennypenny';
+
+        $user->editUsername($newUsername);
+
+        $this->assertEquals($newUsername, $user->username());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldEditEmail()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newEmail = 'jenny@hotmail.de';
+
+        $user->editEmail($newEmail);
+
+        $this->assertEquals($newEmail, $user->email());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldEditForename()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newForename = 'Jenny';
+
+        $user->editForename($newForename);
+
+        $this->assertEquals($newForename, $user->forename());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldEditSurname()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newSurname = 'Penny';
+
+        $user->editSurname($newSurname);
+
+        $this->assertEquals($newSurname, $user->surname());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldEditSchool()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newSchool = 'Penny in Hamburg';
+
+        $user->editSchool($newSchool);
+
+        $this->assertEquals($newSchool, $user->school());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldEditJobTitle()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newJobTitle = 'Fachinformatiker Anwendungsentwicklung';
+
+        $user->editJobTitle($newJobTitle);
+
+        $this->assertEquals($newJobTitle, $user->jobTitle());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldEditTrainingYear()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newTrainingYear = 1;
+
+        $user->editTrainingYear($newTrainingYear);
+
+        $this->assertEquals($newTrainingYear, $user->trainingYear());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldEditCompany()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newCompany = 'Jimdo GmbH';
+
+        $user->editCompany($newCompany);
+
+        $this->assertEquals($newCompany, $user->company());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldEditDateOfBirth()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newDateOfBirth = '31.10.1995';
+
+        $user->editDateOfBirth($newDateOfBirth);
+
+        $this->assertEquals($newDateOfBirth, $user->dateOfBirth());
     }
 
     /**

@@ -137,7 +137,7 @@
         <h4>Betriebliche Daten</h4><br>
     </div>
 
-    <form action="/user/editPassword" method="POST" class="form-horizontal">
+    <div class="form-horizontal">
 
         <div class="form-group">
 
@@ -150,12 +150,14 @@
              </div>
 
              <div class="collapse" id="changeCompany">
-                 <div class="card card-block">
-                     <div class="col-sm-offset-6 col-sm-6">
-                         <input type="text" name="newCompany" class="form-control" id="newCompany" placeholder="Neue Firma"></br>
-                         <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                 <form action="/user/changeCompany" method="POST" class="form-horizontal">
+                     <div class="card card-block">
+                         <div class="col-sm-offset-6 col-sm-6">
+                             <input type="text" name="company" class="form-control" id="company" placeholder="Neue Firma"></br>
+                             <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                         </div>
                      </div>
-                 </div>
+                 </form>
              </div>
 
         </div>
@@ -180,7 +182,7 @@
              </div>
 
         </div>
-    </form>
+    </div>
 </div>
 
 <div class="col-sm-offset-2 col-sm-5">

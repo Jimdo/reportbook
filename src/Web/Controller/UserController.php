@@ -408,6 +408,28 @@ class UserController extends Controller
         }
     }
 
+    public function viewProfileAction()
+    {
+        $headerView = $this->view('app/views/Header.php');
+        $headerView->tabTitle = 'Berichtsheft';
+
+        $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView->viewHelper = $this->viewHelper;
+        $infobarView->username = $this->sessionData('username');
+        $infobarView->role = $this->sessionData('role');
+        $infobarView->hideInfos = true;
+
+        $viewProfileView = $this->view('app/views/UserProfileView.php');
+        $viewProfileView->user = $this->service->findUserById($this->queryParams('userId'));
+
+        $footerView = $this->view('app/views/Footer.php');
+
+        $this->response->addBody($headerView->render());
+        $this->response->addBody($infobarView->render());
+        $this->response->addBody($viewProfileView->render());
+        $this->response->addBody($footerView->render());
+    }
+
     public function logoutAction()
     {
         $_SESSION['authorized'] = false;

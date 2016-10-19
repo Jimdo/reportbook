@@ -21,7 +21,7 @@
 
               <div class="collapse" id="changeForename">
                   <form action="/user/changeForename" method="POST" class="form-horizontal">
-                      <div class="card card-block" >
+                      <div class="card card-block">
                           <div class="col-sm-offset-6 col-sm-6">
                               <input type="text" name="forename" class="form-control" id="forename" placeholder="Neuer Vorname"></br>
                               <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -43,7 +43,7 @@
 
              <div class="collapse" id="changeSurname">
                  <form action="/user/changeSurname" method="POST" class="form-horizontal">
-                     <div class="card card-block" >
+                     <div class="card card-block">
                          <div class="col-sm-offset-6 col-sm-6">
                              <input type="text" name="surname" class="form-control" id="surname" placeholder="Neuer Nachname"></br>
                              <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -66,7 +66,7 @@
 
              <div class="collapse" id="changeDateOfBirth">
                  <form action="/user/changeDateOfBirth" method="POST" class="form-horizontal">
-                     <div class="card card-block" >
+                     <div class="card card-block">
                          <div class="col-sm-offset-6 col-sm-6">
                              <input type="text" name="dateOfBirth" class="form-control" id="dateOfBirth" placeholder="Neues Geburtsdatum"></br>
                              <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -88,12 +88,14 @@
              </div>
 
              <div class="collapse" id="changeUsername">
-                 <div class="card card-block" >
-                     <div class="col-sm-offset-6 col-sm-6">
-                         <input type="text" name="newUsername" class="form-control" id="newUsername" placeholder="Neuer Benutzername"></br>
-                         <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                 <form action="/user/changeUsername" method="POST" class="form-horizontal">
+                     <div class="card card-block">
+                         <div class="col-sm-offset-6 col-sm-6">
+                             <input type="text" name="username" class="form-control" id="username" placeholder="Neuer Benutzername"></br>
+                             <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                         </div>
                      </div>
-                 </div>
+                 </form>
              </div>
 
         </div>
@@ -109,7 +111,7 @@
              </div>
 
              <div class="collapse" id="changeEmail">
-                 <div class="card card-block" >
+                 <div class="card card-block">
                      <div class="col-sm-offset-6 col-sm-6">
                          <input type="text" name="newEmail" class="form-control" id="newEmail" placeholder="Neue E-Mail"></br>
                          <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -146,7 +148,7 @@
              </div>
 
              <div class="collapse" id="changeCompany">
-                 <div class="card card-block" >
+                 <div class="card card-block">
                      <div class="col-sm-offset-6 col-sm-6">
                          <input type="text" name="newCompany" class="form-control" id="newCompany" placeholder="Neue Firma"></br>
                          <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -167,7 +169,7 @@
              </div>
 
              <div class="collapse" id="changeJobTitle">
-                 <div class="card card-block" >
+                 <div class="card card-block">
                      <div class="col-sm-offset-6 col-sm-6">
                          <input type="text" name="newJobTitle" class="form-control" id="newJobTitle" placeholder="Neue Berufsbezeichung"></br>
                          <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -196,7 +198,7 @@
              </div>
 
              <div class="collapse" id="changeSchool">
-                 <div class="card card-block" >
+                 <div class="card card-block">
                      <div class="col-sm-offset-6 col-sm-6">
                          <input type="text" name="newSchool" class="form-control" id="newSchool" placeholder="Neue Schule"></br>
                          <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -217,7 +219,7 @@
              </div>
 
              <div class="collapse" id="changeGrade">
-                 <div class="card card-block" >
+                 <div class="card card-block">
                      <div class="col-sm-offset-6 col-sm-6">
                          <input type="text" name="newGrade" class="form-control" id="newGrade" placeholder="Neue Klasse"></br>
                          <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -238,7 +240,7 @@
              </div>
 
              <div class="collapse" id="changeTrainingYear">
-                 <div class="card card-block" >
+                 <div class="card card-block">
                      <div class="col-sm-offset-6 col-sm-6">
                          <input type="text" name="newTrainingYear" class="form-control" id="newTrainingYear" placeholder="Neues Ausbildungsjahr"></br>
                          <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>

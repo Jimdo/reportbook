@@ -239,6 +239,34 @@ class UserController extends Controller
         $this->response->addBody($footerView->render());
     }
 
+    public function changeForenameAction()
+    {
+        if (!$this->isTrainer() && !$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+        $this->service->editForename($this->sessionData('userId'), $this->formData('forename'));
+        $this->redirect('/user/profile');
+    }
+
+    public function changeSurnameAction()
+    {
+        if (!$this->isTrainer() && !$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+        $this->service->editSurname($this->sessionData('userId'), $this->formData('surname'));
+        $this->redirect('/user/profile');
+    }
+
+    public function changeDateOfBirthAction()
+    {
+        if (!$this->isTrainer() && !$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+        $user = $this->service->findUserById($this->sessionData('userId'));
+        $this->service->editDateOfBirth($this->sessionData('userId'), $this->formData('dateOfBirth'));
+        $this->redirect('/user/profile');
+    }
+
     public function changePasswordAction()
     {
         if (!$this->isTrainer() && !$this->isTrainee()) {

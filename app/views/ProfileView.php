@@ -227,12 +227,14 @@
              </div>
 
              <div class="collapse" id="changeGrade">
-                 <div class="card card-block">
-                     <div class="col-sm-offset-6 col-sm-6">
-                         <input type="text" name="newGrade" class="form-control" id="newGrade" placeholder="Neue Klasse"></br>
-                         <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                 <form action="/user/changeGrade" method="POST" class="form-horizontal">
+                     <div class="card card-block">
+                         <div class="col-sm-offset-6 col-sm-6">
+                             <input type="text" name="grade" class="form-control" id="grade" placeholder="Neue Klasse"></br>
+                             <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                         </div>
                      </div>
-                 </div>
+                 </form>
              </div>
 
         </div>

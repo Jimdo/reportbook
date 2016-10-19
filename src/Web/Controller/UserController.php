@@ -317,6 +317,16 @@ class UserController extends Controller
         $this->redirect('/user/profile');
     }
 
+    public function changeGradeAction()
+    {
+        if (!$this->isTrainer() && !$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+        $user = $this->service->findUserById($this->sessionData('userId'));
+        $this->service->editGrade($this->sessionData('userId'), $this->formData('grade'));
+        $this->redirect('/user/profile');
+    }
+
     public function changePasswordAction()
     {
         if (!$this->isTrainer() && !$this->isTrainee()) {

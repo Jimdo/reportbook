@@ -73,6 +73,126 @@ class UserService
     }
 
     /**
+     * @param string $userId
+     * @param string $username
+     */
+    public function editUsername(string $userId, string $username)
+    {
+        if ($this->exists($username)) {
+            throw new ProfileException(
+                'The Username already exists!'
+            );
+        }
+        $user = $this->userRepository->findUserById($userId);
+        $user->editUsername($username);
+        $this->userRepository->save($user);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $email
+     */
+    public function editEmail(string $userId, string $email)
+    {
+        if ($this->exists($email)) {
+            throw new ProfileException(
+                'The Email already exists!'
+            );
+        }
+        $user = $this->userRepository->findUserById($userId);
+        $user->editEmail($email);
+        $this->userRepository->save($user);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $forename
+     */
+    public function editForename(string $userId, string $forename)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editForename($forename);
+        $this->userRepository->save($user);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $surname
+     */
+    public function editSurname(string $userId, string $surname)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editSurname($surname);
+        $this->userRepository->save($user);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $dateOfBirth
+     */
+    public function editDateOfBirth(string $userId, string $dateOfBirth)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editDateOfBirth($dateOfBirth);
+        $this->userRepository->save($user);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $school
+     */
+    public function editSchool(string $userId, string $school)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editSchool($school);
+        $this->userRepository->save($user);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $company
+     */
+    public function editCompany(string $userId, string $company)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editCompany($company);
+        $this->userRepository->save($user);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $jobTitle
+     */
+    public function editJobTitle(string $userId, string $jobTitle)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editJobTitle($jobTitle);
+        $this->userRepository->save($user);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $trainingYear
+     */
+    public function editTrainingYear(string $userId, string $trainingYear)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editTrainingYear($trainingYear);
+        $this->userRepository->save($user);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $grade
+     */
+    public function editGrade(string $userId, string $grade)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editGrade($grade);
+        $this->userRepository->save($user);
+    }
+
+    /**
      * @param string $email
      * @param string $password
      * @return bool

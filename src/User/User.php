@@ -322,4 +322,12 @@ class User
     {
         $this->company = $newCompany;
     }
+
+    /**
+     * @param string $newGrade
+     */
+    public function editGrade(string $newGrade)
+    {
+        $this->grade = $newGrade;
+    }
 }

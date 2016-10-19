@@ -73,6 +73,224 @@ class UserServiceTest extends TestCase
     /**
      * @test
      */
+    public function itShouldEditUsername()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = '123456789';
+        $username = 'jenny';
+        $newUsername = 'jennyPenny';
+
+        $user = $this->userService->registerTrainer($forename, $surname, $username, $email, $password);
+
+        $this->userService->editUsername($user->id(), $newUsername);
+
+        $user = $this->userService->findUserById($user->id());
+
+        $this->assertEquals($newUsername, $user->username());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditEmail()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $newEmail = 'jennyPenny@hotmail.de';
+        $password = '123456789';
+        $username = 'jenny';
+
+        $user = $this->userService->registerTrainer($forename, $surname, $username, $email, $password);
+
+        $this->userService->editEmail($user->id(), $newEmail);
+
+        $user = $this->userService->findUserById($user->id());
+
+        $this->assertEquals($newEmail, $user->email());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditForename()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = '123456789';
+        $username = 'jenny';
+
+        $newForename = 'jennypenny';
+
+        $user = $this->userService->registerTrainer($forename, $surname, $username, $email, $password);
+
+        $this->userService->editForename($user->id(), $newForename);
+
+        $user = $this->userService->findUserById($user->id());
+
+        $this->assertEquals($newForename, $user->forename());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditSurname()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = '123456789';
+        $username = 'jenny';
+
+        $newSurname = 'jennypenny';
+
+        $user = $this->userService->registerTrainer($forename, $surname, $username, $email, $password);
+
+        $this->userService->editSurname($user->id(), $newSurname);
+
+        $user = $this->userService->findUserById($user->id());
+
+        $this->assertEquals($newSurname, $user->surname());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditDateOfBirth()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = '123456789';
+        $username = 'jenny';
+
+        $dateOfBirth = '31.10.1995';
+
+        $user = $this->userService->registerTrainer($forename, $surname, $username, $email, $password);
+
+        $this->userService->editDateOfBirth($user->id(), $dateOfBirth);
+
+        $user = $this->userService->findUserById($user->id());
+
+        $this->assertEquals($dateOfBirth, $user->dateOfBirth());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditSchool()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = '123456789';
+        $username = 'jenny';
+
+        $school = 'New school';
+
+        $user = $this->userService->registerTrainer($forename, $surname, $username, $email, $password);
+
+        $this->userService->editSchool($user->id(), $school);
+
+        $user = $this->userService->findUserById($user->id());
+
+        $this->assertEquals($school, $user->school());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditCompany()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = '123456789';
+        $username = 'jenny';
+
+        $company = 'Jimdo GmbH';
+
+        $user = $this->userService->registerTrainer($forename, $surname, $username, $email, $password);
+
+        $this->userService->editCompany($user->id(), $company);
+
+        $user = $this->userService->findUserById($user->id());
+
+        $this->assertEquals($company, $user->company());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditJobTitle()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = '123456789';
+        $username = 'jenny';
+
+        $jobTitle = 'Fachinformatiker Anwendungsentwicklung';
+
+        $user = $this->userService->registerTrainer($forename, $surname, $username, $email, $password);
+
+        $this->userService->editJobTitle($user->id(), $jobTitle);
+
+        $user = $this->userService->findUserById($user->id());
+
+        $this->assertEquals($jobTitle, $user->jobTitle());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditTrainingYear()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = '123456789';
+        $username = 'jenny';
+
+        $trainingYear = '1';
+
+        $user = $this->userService->registerTrainer($forename, $surname, $username, $email, $password);
+
+        $this->userService->editTrainingYear($user->id(), $trainingYear);
+
+        $user = $this->userService->findUserById($user->id());
+
+        $this->assertEquals($trainingYear, $user->trainingYear());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditGrade()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = '123456789';
+        $username = 'jenny';
+
+        $grade = 'It6bc';
+
+        $user = $this->userService->registerTrainer($forename, $surname, $username, $email, $password);
+
+        $this->userService->editGrade($user->id(), $grade);
+
+        $user = $this->userService->findUserById($user->id());
+
+        $this->assertEquals($grade, $user->grade());
+    }
+
+    /**
+     * @test
+     */
     public function itShouldAuthUser()
     {
         $forename = 'Max';

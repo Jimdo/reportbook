@@ -149,6 +149,17 @@ class UserService
     }
 
     /**
+     * @param string $userId
+     * @param string $company
+     */
+    public function editCompany(string $userId, string $company)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editCompany($company);
+        $this->userRepository->save($user);
+    }
+
+    /**
      * @param string $email
      * @param string $password
      * @return bool

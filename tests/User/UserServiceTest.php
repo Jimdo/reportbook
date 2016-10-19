@@ -189,7 +189,7 @@ class UserServiceTest extends TestCase
         $password = '123456789';
         $username = 'jenny';
 
-        $school = '31.10.1995';
+        $school = 'New school';
 
         $user = $this->userService->registerTrainer($forename, $surname, $username, $email, $password);
 
@@ -198,6 +198,28 @@ class UserServiceTest extends TestCase
         $user = $this->userService->findUserById($user->id());
 
         $this->assertEquals($school, $user->school());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditCompany()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = '123456789';
+        $username = 'jenny';
+
+        $company = 'Jimdo GmbH';
+
+        $user = $this->userService->registerTrainer($forename, $surname, $username, $email, $password);
+
+        $this->userService->editCompany($user->id(), $company);
+
+        $user = $this->userService->findUserById($user->id());
+
+        $this->assertEquals($company, $user->company());
     }
 
     /**

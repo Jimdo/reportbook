@@ -171,6 +171,17 @@ class UserService
     }
 
     /**
+     * @param string $userId
+     * @param string $trainingYear
+     */
+    public function editTrainingYear(string $userId, string $trainingYear)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editTrainingYear($trainingYear);
+        $this->userRepository->save($user);
+    }
+
+    /**
      * @param string $email
      * @param string $password
      * @return bool

@@ -229,6 +229,7 @@ class UserController extends Controller
         $infobarView->hideInfos = true;
 
         $profileView = $this->view('app/views/ProfileView.php');
+        $profileView->user = $this->service->findUserById($this->sessionData('userId'));
 
         $footerView = $this->view('app/views/Footer.php');
 

@@ -13,7 +13,7 @@
             <label class="col-sm-6 control-label">Vorname</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static">Tom
+                <p class="form-control-static"><?php echo $this->user->forename(); ?>
                     <a href="#changeForename" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                 </p>
              </div>
@@ -34,7 +34,7 @@
             <label class="col-sm-6 control-label">Nachname</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static">Stich
+                <p class="form-control-static"><?php echo $this->user->surname(); ?>
                     <a href="#changeSurname" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                 </p>
              </div>
@@ -55,7 +55,7 @@
             <label class="col-sm-6 control-label">Geburtsdatum</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static">31.10.1995
+                <p class="form-control-static"><?php echo $this->user->dateOfBirth(); ?>
                     <a href="#changeDateOfBirth" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                 </p>
              </div>
@@ -76,7 +76,7 @@
             <label class="col-sm-6 control-label">Benutzername</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static">tomstich
+                <p class="form-control-static"><?php echo $this->user->username(); ?>
                     <a href="#changeUsername" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                 </p>
              </div>
@@ -97,7 +97,7 @@
             <label class="col-sm-6 control-label">E-Mail</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static">tomstich@jimdo.com
+                <p class="form-control-static"><?php echo $this->user->email(); ?>
                     <a href="#changeEmail" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                 </p>
              </div>
@@ -134,7 +134,7 @@
             <label class="col-sm-6 control-label">Firma</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static">Jimdo GmbH
+                <p class="form-control-static"><?php echo $this->user->company(); ?>
                     <a href="#changeCompany" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                 </p>
              </div>
@@ -155,7 +155,7 @@
             <label class="col-sm-6 control-label">Berufsbezeichung</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static">Fachinformatiker Anwendungsentwicklung
+                <p class="form-control-static"><?php echo $this->user->jobTitle(); ?>
                     <a href="#changeJobTitle" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                 </p>
              </div>
@@ -184,7 +184,7 @@
             <label class="col-sm-6 control-label">Schule</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static">Itech
+                <p class="form-control-static"><?php echo $this->user->school(); ?>
                     <a href="#changeSchool" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                 </p>
              </div>
@@ -205,7 +205,7 @@
             <label class="col-sm-6 control-label">Klasse</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static">It6ec
+                <p class="form-control-static"><?php echo $this->user->grade(); ?>
                     <a href="#changeGrade" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                 </p>
              </div>
@@ -226,7 +226,7 @@
             <label class="col-sm-6 control-label">Ausbildungsjahr</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static">1
+                <p class="form-control-static"><?php echo $this->user->trainingYear(); ?>
                     <a href="#changeTrainingYear" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                 </p>
              </div>

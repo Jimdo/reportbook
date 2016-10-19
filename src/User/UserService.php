@@ -85,7 +85,7 @@ class UserService
         }
         $user = $this->userRepository->findUserById($userId);
         $user->editUsername($username);
-        $this->userRepository->save($user);
+        $this->userRepository->save($user, $user->email());
     }
 
     /**
@@ -101,7 +101,7 @@ class UserService
         }
         $user = $this->userRepository->findUserById($userId);
         $user->editEmail($email);
-        $this->userRepository->save($user);
+        $this->userRepository->save($user, $user->username());
     }
 
     /**

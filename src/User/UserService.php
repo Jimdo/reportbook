@@ -160,6 +160,17 @@ class UserService
     }
 
     /**
+     * @param string $userId
+     * @param string $jobTitle
+     */
+    public function editJobTitle(string $userId, string $jobTitle)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editJobTitle($jobTitle);
+        $this->userRepository->save($user);
+    }
+
+    /**
      * @param string $email
      * @param string $password
      * @return bool

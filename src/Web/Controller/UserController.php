@@ -104,7 +104,7 @@ class UserController extends Controller
                 $_SESSION['role'] = $user->roleName();
                 $_SESSION['authorized'] = true;
                 $_SESSION['userId'] = $user->id();
-                $_SESSION['username'] = $user->forename();
+                $_SESSION['username'] = $user->username();
 
                 if ($loginWithAdminDefaultPassword) {
                     $this->redirect('/user/changePassword');
@@ -274,6 +274,7 @@ class UserController extends Controller
         }
         $user = $this->service->findUserById($this->sessionData('userId'));
         $this->service->editUsername($this->sessionData('userId'), $this->formData('username'));
+        $_SESSION['username'] = $this->formData('username');
         $this->redirect('/user/profile');
     }
 

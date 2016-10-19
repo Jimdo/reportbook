@@ -116,6 +116,17 @@ class UserService
     }
 
     /**
+     * @param string $userId
+     * @param string $surname
+     */
+    public function editSurname(string $userId, string $surname)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editSurname($surname);
+        $this->userRepository->save($user);
+    }
+
+    /**
      * @param string $email
      * @param string $password
      * @return bool

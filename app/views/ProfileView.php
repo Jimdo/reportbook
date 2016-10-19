@@ -250,12 +250,14 @@
              </div>
 
              <div class="collapse" id="changeTrainingYear">
-                 <div class="card card-block">
-                     <div class="col-sm-offset-6 col-sm-6">
-                         <input type="text" name="newTrainingYear" class="form-control" id="newTrainingYear" placeholder="Neues Ausbildungsjahr"></br>
-                         <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                 <form action="/user/changeTrainingYear" method="POST" class="form-horizontal">
+                     <div class="card card-block">
+                         <div class="col-sm-offset-6 col-sm-6">
+                             <input type="text" name="trainingYear" class="form-control" id="trainingYear" placeholder="Neues Ausbildungsjahr"></br>
+                             <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                         </div>
                      </div>
-                 </div>
+                 </form>
              </div>
 
         </div>

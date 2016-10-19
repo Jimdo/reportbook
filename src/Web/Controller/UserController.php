@@ -327,6 +327,16 @@ class UserController extends Controller
         $this->redirect('/user/profile');
     }
 
+    public function changeTrainingYearAction()
+    {
+        if (!$this->isTrainer() && !$this->isTrainee()) {
+            $this->redirect("/user");
+        }
+        $user = $this->service->findUserById($this->sessionData('userId'));
+        $this->service->editTrainingYear($this->sessionData('userId'), $this->formData('trainingYear'));
+        $this->redirect('/user/profile');
+    }
+
     public function changePasswordAction()
     {
         if (!$this->isTrainer() && !$this->isTrainee()) {

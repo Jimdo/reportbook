@@ -78,6 +78,11 @@ class UserService
      */
     public function editUsername(string $userId, string $username)
     {
+        if ($this->exists($username)) {
+            throw new ProfileException(
+                'The Username already exists!'
+            );
+        }
         $user = $this->userRepository->findUserById($userId);
         $user->editUsername($username);
         $this->userRepository->save($user);
@@ -89,6 +94,11 @@ class UserService
      */
     public function editEmail(string $userId, string $email)
     {
+        if ($this->exists($email)) {
+            throw new ProfileException(
+                'The Email already exists!'
+            );
+        }
         $user = $this->userRepository->findUserById($userId);
         $user->editEmail($email);
         $this->userRepository->save($user);

@@ -105,6 +105,17 @@ class UserService
     }
 
     /**
+     * @param string $userId
+     * @param string $forename
+     */
+    public function editForename(string $userId, string $forename)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editForename($forename);
+        $this->userRepository->save($user);
+    }
+
+    /**
      * @param string $email
      * @param string $password
      * @return bool

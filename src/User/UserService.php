@@ -7,8 +7,8 @@ use Jimdo\Reports\User\Role as Role;
 
 class UserService
 {
-    const ERR_USERNAME_EXISTS = 4;
-    const ERR_EMAIL_EXISTS = 5;
+    const ERR_USERNAME_EXISTS = 6;
+    const ERR_EMAIL_EXISTS = 7;
 
     /** @var userRepository */
     private $userRepository;

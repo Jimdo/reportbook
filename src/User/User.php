@@ -6,9 +6,9 @@ class User
 {
     const PASSWORD_LENGTH = 7;
 
-    const ERR_PASSWORD_LENGTH = 1;
-    const ERR_PASSWORD_NOT_NEW = 2;
-    const ERR_PASSWORD_WRONG = 3;
+    const ERR_PASSWORD_LENGTH = 8;
+    const ERR_PASSWORD_NOT_NEW = 9;
+    const ERR_PASSWORD_WRONG = 10;
 
     /** @var string */
     private $forename;

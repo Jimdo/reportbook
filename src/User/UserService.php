@@ -188,6 +188,17 @@ class UserService
 
     /**
      * @param string $userId
+     * @param string $startOfTraining
+     */
+    public function editStartOfTraining(string $userId, string $startOfTraining)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editStartOfTraining($startOfTraining);
+        $this->userRepository->save($user);
+    }
+
+    /**
+     * @param string $userId
      * @param string $grade
      */
     public function editGrade(string $userId, string $grade)

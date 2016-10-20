@@ -12,7 +12,7 @@
               $traineeId = $report->traineeId();
               $user = $this->userService->findUserById($traineeId);?>
         <tr>
-            <td><?php echo $user->forename() . ' ' . $user->surname(); ?></td>
+            <td><a href="/user/viewProfile?userId=<?php echo $user->id(); ?>"><?php echo $user->forename() . ' ' . $user->surname(); ?></a></td>
             <td><?php echo substr($report->content(), 0, 20); ?></td>
             <td><?php echo $report->date(); ?></td>
             <td><?php echo $report->calendarWeek(); ?></td>

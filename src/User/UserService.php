@@ -7,6 +7,8 @@ use Jimdo\Reports\User\Role as Role;
 
 class UserService
 {
+    const ERR_USERNAME_EXISTS = 0;
+
     /** @var userRepository */
     private $userRepository;
 
@@ -80,7 +82,8 @@ class UserService
     {
         if ($this->exists($username)) {
             throw new ProfileException(
-                'The Username already exists!'
+                'The Username already exists!',
+                self::ERR_USERNAME_EXISTS
             );
         }
         $user = $this->userRepository->findUserById($userId);

@@ -2,6 +2,14 @@
             <legend>Dein Profil</legend>
         </div>
 
+        <div class="row">
+            <?php if (is_array($this->errorMessages)):
+            foreach ($this->errorMessages as $error): ?>
+                    <div class="alert alert-danger col-sm-12" role="alert"><strong><?php echo $error; ?></strong></div>
+            <?php endforeach;
+            endif; ?>
+        </div>
+
 <div class="col-sm-offset-2 col-sm-5">
     <div class="col-sm-offset-1 col-sm-10">
         <h4>Persönliche Daten</h4><br>

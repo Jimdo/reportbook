@@ -14,6 +14,8 @@ use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 use Jimdo\Reports\User\PasswordException as PasswordException;
 use Jimdo\Reports\Serializer as Serializer;
+use Jimdo\Reports\User\ProfileException as ProfileException;
+
 
 class UserController extends Controller
 {
@@ -269,13 +271,43 @@ class UserController extends Controller
 
     public function changeUsernameAction()
     {
+        $exceptions = [];
         if (!$this->isTrainer() && !$this->isTrainee()) {
             $this->redirect("/user");
         }
+
         $user = $this->service->findUserById($this->sessionData('userId'));
-        $this->service->editUsername($this->sessionData('userId'), $this->formData('username'));
         $_SESSION['username'] = $this->formData('username');
-        $this->redirect('/user/profile');
+
+        try {
+            $this->service->editUsername($this->sessionData('userId'), $this->formData('username'));
+        } catch (ProfileException $e) {
+            $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
+        }
+
+        if ($exceptions !== []) {
+            $headerView = $this->view('app/views/Header.php');
+            $headerView->tabTitle = 'Berichtsheft';
+
+            $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView->viewHelper = $this->viewHelper;
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+            $infobarView->hideInfos = true;
+
+            $profileView = $this->view('app/views/ProfileView.php');
+            $profileView->user = $this->service->findUserById($this->sessionData('userId'));
+            $profileView->errorMessages = $exceptions;
+
+            $footerView = $this->view('app/views/Footer.php');
+
+            $this->response->addBody($headerView->render());
+            $this->response->addBody($infobarView->render());
+            $this->response->addBody($profileView->render());
+            $this->response->addBody($footerView->render());
+        } else {
+            $this->redirect('/user/profile');
+        }
     }
 
     public function changeEmailAction()
@@ -454,6 +486,9 @@ class UserController extends Controller
 
             case User::ERR_PASSWORD_WRONG:
                 return 'Das derzeitige Passwort ist falsch!' . "\n";
+
+            case UserService::ERR_USERNAME_EXISTS:
+                return 'Der Benutzername existiert bereits!' . "\n";
         }
     }
 }

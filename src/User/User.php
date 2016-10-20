@@ -49,6 +49,9 @@ class User
     /** @var string */
     private $company = '';
 
+    /** @var string */
+    private $startOfTraining = '';
+
     /**
      * @param string $forename
      * @param string $surname
@@ -152,6 +155,14 @@ class User
     public function jobTitle():string
     {
         return $this->jobTitle;
+    }
+
+    /**
+     * @return string
+     */
+    public function startOfTraining():string
+    {
+        return $this->startOfTraining;
     }
 
     /**
@@ -305,6 +316,14 @@ class User
     public function editJobTitle(string $newJobTitle)
     {
         $this->jobTitle = $newJobTitle;
+    }
+
+    /**
+     * @param string $newStartOfTraining
+     */
+    public function editStartOfTraining(string $newStartOfTraining)
+    {
+        $this->startOfTraining = $newStartOfTraining;
     }
 
     /**

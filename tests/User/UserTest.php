@@ -29,6 +29,7 @@ class UserTest extends TestCase
         $this->assertEquals('', $user->jobTitle());
         $this->assertEquals('', $user->trainingYear());
         $this->assertEquals('', $user->company());
+        $this->assertEquals('', $user->startOfTraining());
     }
 
     /**
@@ -188,6 +189,26 @@ class UserTest extends TestCase
         $user->editJobTitle($newJobTitle);
 
         $this->assertEquals($newJobTitle, $user->jobTitle());
+    }
+
+    /**
+    * @test
+    */
+    public function itShouldEditStartOfTraining()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newStartOfTraining = '12.12.12';
+
+        $user->editStartOfTraining($newStartOfTraining);
+
+        $this->assertEquals($newStartOfTraining, $user->startOfTraining());
     }
 
     /**

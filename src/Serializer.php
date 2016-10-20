@@ -33,6 +33,7 @@ class Serializer
             'trainingYear' => $user->trainingYear(),
             'company' => $user->company(),
             'jobTitle' => $user->jobTitle(),
+            'startOfTraining' => $user->startOfTraining(),
         ];
     }
 
@@ -68,6 +69,7 @@ class Serializer
         $user->editTrainingYear($serializedUser['trainingYear']);
         $user->editCompany($serializedUser['company']);
         $user->editJobTitle($serializedUser['jobTitle']);
+        $user->editStartOfTraining($serializedUser['startOfTraining']);
 
         return $user;
     }

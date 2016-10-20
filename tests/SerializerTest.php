@@ -31,6 +31,7 @@ class SerializerTest extends TestCase
         $school = 'bla';
         $trainingYear = '2';
         $jobTitle = 'programmer';
+        $startOfTraining = '20.20.20';
 
         $user = new User($forename, $surname, $username, $email, $role, $password, $id);
 
@@ -40,6 +41,7 @@ class SerializerTest extends TestCase
         $user->editSchool($school);
         $user->editTrainingYear($trainingYear);
         $user->editJobTitle($jobTitle);
+        $user->editJobTitle($startOfTraining);
 
         $serialezedUser = $serializer->serializeUser($user);
 
@@ -57,6 +59,7 @@ class SerializerTest extends TestCase
         $this->assertEquals($user->grade(), $serialezedUser['grade']);
         $this->assertEquals($user->trainingYear(), $serialezedUser['trainingYear']);
         $this->assertEquals($user->jobTitle(), $serialezedUser['jobTitle']);
+        $this->assertEquals($user->startOfTraining(), $serialezedUser['startOfTraining']);
     }
 
     /**
@@ -79,6 +82,7 @@ class SerializerTest extends TestCase
         $school = 'bla';
         $trainingYear = '2';
         $jobTitle = 'programmer';
+        $startOfTraining = '20.20.20';
 
         $user = new User($forename, $surname, $username, $email, $role, $password, $id);
 
@@ -100,6 +104,7 @@ class SerializerTest extends TestCase
         $this->assertEquals($user->grade(), $unserializedUser->grade());
         $this->assertEquals($user->trainingYear(), $unserializedUser->trainingYear());
         $this->assertEquals($user->jobTitle(), $unserializedUser->jobTitle());
+        $this->assertEquals($user->startOfTraining(), $unserializedUser->startOfTraining());
     }
 
     /**

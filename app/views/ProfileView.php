@@ -249,6 +249,29 @@
 
         <div class="form-group">
 
+            <label class="col-sm-6 control-label">Ausbildungsbeginn</label>
+            <div class="col-sm-6">
+
+                <p class="form-control-static"><?php echo $this->user->startOfTraining(); ?>
+                    <a href="#changeStartOfTraining" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
+                </p>
+             </div>
+
+             <div class="collapse" id="changeStartOfTraining">
+                 <form action="/user/changeStartOfTraining" method="POST" class="form-horizontal">
+                     <div class="card card-block">
+                         <div class="col-sm-offset-6 col-sm-6">
+                             <input type="text" name="startOfTraining" class="form-control" id="startOfTraining" placeholder="Neuer Ausbildungsbeginn"></br>
+                             <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                         </div>
+                     </div>
+                 </form>
+             </div>
+
+        </div>
+
+        <div class="form-group">
+
             <label class="col-sm-6 control-label">Ausbildungsjahr</label>
             <div class="col-sm-6">
 

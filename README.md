@@ -87,3 +87,5 @@ update       Update composer packages
   - Create a Profile View
   - Add more Profile Data to User
   - Add more edit functions to the User and UserService
+  - Add Validation to Profile View
+  - Implement read only Profile View

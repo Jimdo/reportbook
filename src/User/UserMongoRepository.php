@@ -19,9 +19,6 @@ class UserMongoRepository implements UserRepository
     /** @var MongoDB\Collection */
     private $users;
 
-    private $gridFSObject;
-    private $gridFS;
-
     /** @var ApplicationConfig */
     private $applicationConfig;
 
@@ -36,8 +33,6 @@ class UserMongoRepository implements UserRepository
         $this->client = $client;
         $this->reportbook = $this->client->selectDatabase($this->applicationConfig->mongoDatabase);
         $this->users = $this->reportbook->users;
-        $this->gridFSObject = new \Mongo\GridFS($this->reportbook);
-        $this->gridFS = $this->gridFSObject->getGridFS();
     }
 
     /**
@@ -86,21 +81,6 @@ class UserMongoRepository implements UserRepository
         } else {
             $this->users->insertOne($this->serializer->serializeUser($user));
         }
-    }
-
-    public function saveImage(string $path)
-    {
-        $grid = $this->gridFS;
-
-        $name = 'asd';
-
-        $storedfile = $grid->storeFile($path,
-             array("metadata" => array("filename" => $name),
-             "filename" => $name));
-
-
-        // Return newly stored file's Document ID
-        echo $storedfile;
     }
 
     /**

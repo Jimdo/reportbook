@@ -314,3 +314,5 @@
     </div>
 
 <?php endif ?>
+
+<div class="row"></div>

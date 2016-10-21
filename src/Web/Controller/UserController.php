@@ -242,6 +242,7 @@ class UserController extends Controller
         $profileView->user = $this->service->findUserById($this->sessionData('userId'));
 
         $footerView = $this->view('app/views/Footer.php');
+        $footerView->backButton = 'show';
 
         $this->response->addBody($headerView->render());
         $this->response->addBody($infobarView->render());

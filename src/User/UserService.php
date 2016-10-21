@@ -269,6 +269,11 @@ class UserService
         return $users = $this->userRepository->findUserByEmail($email);
     }
 
+    public function saveImage(string $path)
+    {
+        $this->userRepository->saveImage($path);
+    }
+
     /**
      * @param string $email
      */

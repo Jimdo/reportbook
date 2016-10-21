@@ -1,14 +1,34 @@
-        <div class="row">
-            <legend>Dein Profil</legend>
-        </div>
+<div class="row">
+    <legend>Dein Profil</legend>
+</div>
 
-        <div class="row">
-            <?php if (is_array($this->errorMessages)):
-            foreach ($this->errorMessages as $error): ?>
-                    <div class="alert alert-danger col-sm-12" role="alert"><strong><?php echo $error; ?></strong></div>
-            <?php endforeach;
-            endif; ?>
-        </div>
+<div class="row">
+    <?php if (is_array($this->errorMessages)):
+    foreach ($this->errorMessages as $error): ?>
+            <div class="alert alert-danger col-sm-12" role="alert"><strong><?php echo $error; ?></strong></div>
+    <?php endforeach;
+    endif; ?>
+</div>
+
+
+
+
+
+
+<form action="/user/upload" method="post" enctype="multipart/form-data">
+    Select image to upload:
+    <input type="file" name="fileToUpload" id="fileToUpload">
+    <input type="submit" value="Upload Image" name="submit">
+</form>
+
+
+
+
+
+
+
+
+
 
 <div class="col-sm-offset-2 col-sm-5">
     <div class="col-sm-offset-1 col-sm-10">

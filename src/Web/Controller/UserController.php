@@ -17,7 +17,6 @@ use Jimdo\Reports\User\PasswordException as PasswordException;
 use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\User\ProfileException as ProfileException;
 
-
 class UserController extends Controller
 {
     const ADMIN_DEFAULT_PASSWORD = 'adminadmin';
@@ -241,6 +240,7 @@ class UserController extends Controller
 
         $profileView = $this->view('app/views/ProfileView.php');
         $profileView->user = $this->service->findUserById($this->sessionData('userId'));
+
         $footerView = $this->view('app/views/Footer.php');
 
         $this->response->addBody($headerView->render());

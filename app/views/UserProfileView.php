@@ -80,32 +80,34 @@
     </div>
 </div>
 
-<div class="col-sm-offset-2 col-sm-5">
-    <div class="col-sm-offset-1 col-sm-10">
-        <h4>Schulische Daten</h4><br>
-    </div>
-    <div class="form-horizontal">
-        <div class="form-group">
-            <label class="col-sm-6 control-label">Schule</label>
-            <div class="col-sm-6">
-                <p class="form-control-static"><?php echo $this->user->school(); ?></p>
-             </div>
+<?php if ($this->user->roleName() === 'TRAINEE'): ?>
+    <div class="col-sm-offset-2 col-sm-5">
+        <div class="col-sm-offset-1 col-sm-10">
+            <h4>Schulische Daten</h4><br>
         </div>
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-6 control-label">Schule</label>
+                <div class="col-sm-6">
+                    <p class="form-control-static"><?php echo $this->user->school(); ?></p>
+                 </div>
+            </div>
 
-        <div class="form-group">
-            <label class="col-sm-6 control-label">Klasse</label>
-            <div class="col-sm-6">
-                <p class="form-control-static"><?php echo $this->user->grade(); ?></p>
-             </div>
-        </div>
+            <div class="form-group">
+                <label class="col-sm-6 control-label">Klasse</label>
+                <div class="col-sm-6">
+                    <p class="form-control-static"><?php echo $this->user->grade(); ?></p>
+                 </div>
+            </div>
 
-        <div class="form-group">
-            <label class="col-sm-6 control-label">Ausbildungsjahr</label>
-            <div class="col-sm-6">
-                <p class="form-control-static"><?php echo $this->user->trainingYear(); ?></p>
-             </div>
+            <div class="form-group">
+                <label class="col-sm-6 control-label">Ausbildungsjahr</label>
+                <div class="col-sm-6">
+                    <p class="form-control-static"><?php echo $this->user->trainingYear(); ?></p>
+                 </div>
+            </div>
         </div>
     </div>
-</div>
+<?php endif ?>
 
 <div class="row"></div>

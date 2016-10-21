@@ -10,28 +10,27 @@
     endif; ?>
 </div>
 
-    <div class="col-sm-12" >
-        <img src="data:image/gif;base64,<?php echo  $this->user->image(); ?>"  style="width:212px;height:212px;border:1px solid gray;"/>
-        <a href="#changeImage" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
-        <br>
-        <br>
-        <div class="collapse" id="changeImage">
-            <form action="/user/upload" method="post" enctype="multipart/form-data">
-                <label class="btn btn-default btn-file">
-                Bild öffnen <input type="file" name="fileToUpload" id="fileToUpload" style="display: none;">
-                </label>
-                <input type="submit" value="Upload Image" name="submit" class="btn btn-primary">
-            </form>
-        </div>
+<div class="col-sm-12" >
+    <img src="data:image/gif;base64,<?php echo  $this->user->image(); ?>"  style="width:212px;height:212px;border:1px solid gray;"/>
+    <a href="#changeImage" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
 
-        <a href="/user/changePassword">Passwort ändern</a>
+    <br>
+    <br>
 
+    <div class="collapse" id="changeImage">
+        <form action="/user/upload" method="post" enctype="multipart/form-data">
+            <label class="btn btn-default btn-file">
+            Bild öffnen <input type="file" name="fileToUpload" id="fileToUpload" style="display: none;">
+            </label>
+            <input type="submit" value="Upload Image" name="submit" class="btn btn-primary">
+        </form>
     </div>
 
+    <a href="/user/changePassword">Passwort ändern</a>
+
+</div>
+
 <div class="row"></div>
-
-
-
 
 <div class="col-sm-offset-2 col-sm-5">
     <div class="col-sm-offset-1 col-sm-10">

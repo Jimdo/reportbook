@@ -10,22 +10,25 @@
     endif; ?>
 </div>
 
+    <div class="col-sm-12" >
+        <img src="data:image/gif;base64,<?php echo  $this->user->image(); ?>"  style="width:212px;height:212px;border:1px solid gray;"/>
+        <a href="#changeImage" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
+        <br>
+        <br>
+        <div class="collapse" id="changeImage">
+            <form action="/user/upload" method="post" enctype="multipart/form-data">
+                <label class="btn btn-default btn-file">
+                Bild öffnen <input type="file" name="fileToUpload" id="fileToUpload" style="display: none;">
+                </label>
+                <input type="submit" value="Upload Image" name="submit" class="btn btn-primary">
+            </form>
+        </div>
 
+        <a href="/user/changePassword">Passwort ändern</a>
 
+    </div>
 
-
-
-<form action="/user/upload" method="post" enctype="multipart/form-data">
-    Select image to upload:
-    <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Upload Image" name="submit">
-</form>
-
-
-
-
-
-
+<div class="row"></div>
 
 
 
@@ -47,10 +50,10 @@
                 </p>
              </div>
 
-              <div class="collapse" id="changeForename">
-                  <form action="/user/changeForename" method="POST" class="form-horizontal">
-                      <div class="card card-block">
-                          <div class="col-sm-offset-6 col-sm-6">
+             <div class="collapse" id="changeForename">
+                 <form action="/user/changeForename" method="POST" class="form-horizontal">
+                     <div class="card card-block">
+                         <div class="col-sm-offset-6 col-sm-6">
                               <input type="text" name="forename" class="form-control" id="forename" placeholder="Neuer Vorname"></br>
                               <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                           </div>
@@ -148,15 +151,8 @@
                      </div>
                  </form>
              </div>
-
         </div>
-
     </div>
-
-    <div class="col-sm-offset-6 col-sm-5">
-        <button class="btn btn-md btn-default btn-block" type="submit">Passwort ändern</button><br>
-    </div>
-
 </div>
 
 <div class="col-sm-offset-2 col-sm-5">

@@ -15,7 +15,6 @@
     <a href="#changeImage" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
 
     <br>
-    <br>
 
     <div class="collapse" id="changeImage">
         <form action="/user/upload" method="post" enctype="multipart/form-data">
@@ -25,6 +24,8 @@
             <input type="submit" value="Upload Image" name="submit" class="btn btn-primary">
         </form>
     </div>
+
+    <br>
 
     <a href="/user/changePassword">Passwort ändern</a>
 

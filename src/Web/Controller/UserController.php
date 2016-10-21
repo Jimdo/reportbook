@@ -56,11 +56,28 @@ class UserController extends Controller
 
     public function uploadAction()
     {
-        $image = file_get_contents($_FILES["fileToUpload"]["tmp_name"]);
-        $base64 = base64_encode($image);
+        $uploadOk = true;
 
-        $this->service->editImage($this->sessionData('userId'), $base64);
-        $this->redirect('/user/profile');
+        $allowed =  array('gif','png', 'jpg', 'JPG', 'PNG');
+        $filename = $_FILES['fileToUpload']['name'];
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+        if(!in_array($ext,$allowed) ) {
+            echo "Folgenden File-Typen sind erlaub: JPG, JPEG, PNG, GIF \n";
+            $uploadOk = false;
+        }
+
+        if ($_FILES["fileToUpload"]["size"] > 1000000) {
+            echo "Das Bild darf maximal 1MB groß sein! \n";
+            $uploadOk = false;
+        }
+
+        if ($uploadOk) {
+            $image = file_get_contents($_FILES["fileToUpload"]["tmp_name"]);
+            $base64 = base64_encode($image);
+            $this->service->editImage($this->sessionData('userId'), $base64);
+            $this->redirect('/user/profile');
+        }
     }
 
     public function indexAction()

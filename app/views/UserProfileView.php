@@ -101,6 +101,13 @@
             </div>
 
             <div class="form-group">
+                <label class="col-sm-6 control-label">Ausbildungsbeginn:</label>
+                <div class="col-sm-6">
+                    <p class="form-control-static"><?php echo $this->user->startOfTraining(); ?></p>
+                 </div>
+            </div>
+
+            <div class="form-group">
                 <label class="col-sm-6 control-label">Ausbildungsjahr</label>
                 <div class="col-sm-6">
                     <p class="form-control-static"><?php echo $this->user->trainingYear(); ?></p>

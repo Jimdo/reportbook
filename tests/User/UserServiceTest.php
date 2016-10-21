@@ -313,6 +313,28 @@ class UserServiceTest extends TestCase
     /**
      * @test
      */
+    public function itShouldEditImage()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = '123456789';
+        $username = 'jenny';
+
+        $image = '3213213213213213221321';
+
+        $user = $this->userService->registerTrainer($forename, $surname, $username, $email, $password);
+
+        $this->userService->editImage($user->id(), $image);
+
+        $user = $this->userService->findUserById($user->id());
+
+        $this->assertEquals($image, $user->image());
+    }
+
+    /**
+     * @test
+     */
     public function itShouldAuthUser()
     {
         $forename = 'Max';

@@ -209,6 +209,17 @@ class UserService
     }
 
     /**
+     * @param string $userId
+     * @param string $image
+     */
+    public function editImage(string $userId, string $image)
+    {
+        $user = $this->userRepository->findUserById($userId);
+        $user->editImage($image);
+        $this->userRepository->save($user);
+    }
+
+    /**
      * @param string $email
      * @param string $password
      * @return bool

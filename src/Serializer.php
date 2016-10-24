@@ -4,8 +4,9 @@ namespace Jimdo\Reports;
 
 use Jimdo\Reports\User\User as User;
 use Jimdo\Reports\User\Role as Role;
-use Jimdo\Reports\Reportbook\Report as Report;
 use Jimdo\Reports\User\UserId as UserId;
+use Jimdo\Reports\Profile\Profile as Profile;
+use Jimdo\Reports\Reportbook\Report as Report;
 use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
 
 class Serializer
@@ -74,6 +75,51 @@ class Serializer
         $user->editImage($serializedUser['image']);
 
         return $user;
+    }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    public function serializeProfile(Profile $profile): array
+    {
+        return [
+            'userId' => $profile->userId(),
+            'forename' => $profile->forename(),
+            'surname' => $profile->surname(),
+            'dateOfBirth' => $profile->dateOfBirth(),
+            'company' => $profile->company(),
+            'jobTitle' => $profile->jobTitle(),
+            'school' => $profile->school(),
+            'grade' => $profile->grade(),
+            'trainingYear' => $profile->trainingYear(),
+            'startOfTraining' => $profile->startOfTraining(),
+            'image' => $profile->image()
+        ];
+    }
+
+    /**
+     * @param array $serializedProfile
+     * @return Profile
+     */
+    public function unserializeProfile(array $serializedProfile): Profile
+    {
+        $profile = new Profile(
+            $serializedProfile['userId'],
+            $serializedProfile['forename'],
+            $serializedProfile['surname']
+        );
+
+        $profile->editDateOfBirth($serializedProfile['dateOfBirth']);
+        $profile->editCompany($serializedProfile['company']);
+        $profile->editJobTitle($serializedProfile['jobTitle']);
+        $profile->editSchool($serializedProfile['school']);
+        $profile->editGrade($serializedProfile['grade']);
+        $profile->editTrainingYear($serializedProfile['trainingYear']);
+        $profile->editStartOfTraining($serializedProfile['startOfTraining']);
+        $profile->editImage($serializedProfile['image']);
+
+        return $profile;
     }
 
     /**

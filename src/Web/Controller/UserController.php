@@ -17,7 +17,6 @@ use Jimdo\Reports\User\PasswordException as PasswordException;
 use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\User\ProfileException as ProfileException;
 
-
 class UserController extends Controller
 {
     const ADMIN_DEFAULT_PASSWORD = 'adminadmin';
@@ -55,6 +54,31 @@ class UserController extends Controller
         $this->viewHelper = new ViewHelper();
     }
 
+    public function uploadAction()
+    {
+        $uploadOk = true;
+
+        $allowed =  array('gif','png', 'jpg', 'JPG', 'PNG');
+        $filename = $_FILES['fileToUpload']['name'];
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+        if(!in_array($ext,$allowed) ) {
+            echo "Folgende File-Typen sind erlaubt: JPG, JPEG, PNG, GIF. \n";
+            $uploadOk = false;
+        }
+
+        if ($_FILES["fileToUpload"]["size"] > 1000000) {
+            echo "Das Bild darf maximal 1MB groß sein! \n";
+            $uploadOk = false;
+        }
+
+        if ($uploadOk) {
+            $image = file_get_contents($_FILES["fileToUpload"]["tmp_name"]);
+            $base64 = base64_encode($image);
+            $this->service->editImage($this->sessionData('userId'), $base64);
+            $this->redirect('/user/profile');
+        }
+    }
 
     public function indexAction()
     {
@@ -235,6 +259,7 @@ class UserController extends Controller
         $profileView->user = $this->service->findUserById($this->sessionData('userId'));
 
         $footerView = $this->view('app/views/Footer.php');
+        $footerView->backButton = 'show';
 
         $this->response->addBody($headerView->render());
         $this->response->addBody($infobarView->render());
@@ -424,9 +449,36 @@ class UserController extends Controller
         if (!$this->isTrainer() && !$this->isTrainee()) {
             $this->redirect("/user");
         }
+        
+        $this->addRequestValidation('startOfTraining', 'date');
         $user = $this->service->findUserById($this->sessionData('userId'));
-        $this->service->editStartOfTraining($this->sessionData('userId'), $this->formData('startOfTraining'));
-        $this->redirect('/user/profile');
+
+        if ($this->isRequestValid()) {
+            $this->service->editStartOfTraining($this->sessionData('userId'), $this->formData('startOfTraining'));
+            $this->redirect('/user/profile');
+        }
+
+        $errorMessages[] = $this->getErrorMessageForErrorCode($this->requestValidator->errorCodes()['startOfTraining']);
+
+        $headerView = $this->view('app/views/Header.php');
+        $headerView->tabTitle = 'Berichtsheft';
+
+        $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView->viewHelper = $this->viewHelper;
+        $infobarView->username = $this->sessionData('username');
+        $infobarView->role = $this->sessionData('role');
+        $infobarView->hideInfos = true;
+
+        $profileView = $this->view('app/views/ProfileView.php');
+        $profileView->user = $this->service->findUserById($this->sessionData('userId'));
+        $profileView->errorMessages = $errorMessages;
+
+        $footerView = $this->view('app/views/Footer.php');
+
+        $this->response->addBody($headerView->render());
+        $this->response->addBody($infobarView->render());
+        $this->response->addBody($profileView->render());
+        $this->response->addBody($footerView->render());
     }
 
     public function changeTrainingYearAction()

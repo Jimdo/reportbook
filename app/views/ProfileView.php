@@ -1,14 +1,37 @@
-        <div class="row">
-            <legend>Dein Profil</legend>
-        </div>
+<div class="row">
+    <legend>Dein Profil</legend>
+</div>
 
-        <div class="row">
-            <?php if (is_array($this->errorMessages)):
-            foreach ($this->errorMessages as $error): ?>
-                    <div class="alert alert-danger col-sm-12" role="alert"><strong><?php echo $error; ?></strong></div>
-            <?php endforeach;
-            endif; ?>
-        </div>
+<div class="row">
+    <?php if (is_array($this->errorMessages)):
+    foreach ($this->errorMessages as $error): ?>
+            <div class="alert alert-danger col-sm-12" role="alert"><strong><?php echo $error; ?></strong></div>
+    <?php endforeach;
+    endif; ?>
+</div>
+
+<div class="col-sm-12" >
+    <img src="data:image/gif;base64,<?php echo  $this->user->image(); ?>"  style="width:212px;height:212px;border:1px solid gray;"/>
+    <a href="#changeImage" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
+
+    <br>
+
+    <div class="collapse" id="changeImage">
+        <form action="/user/upload" method="post" enctype="multipart/form-data">
+            <label class="btn btn-default btn-file">
+            Bild öffnen <input type="file" name="fileToUpload" id="fileToUpload" style="display: none;">
+            </label>
+            <input type="submit" value="Upload Image" name="submit" class="btn btn-primary">
+        </form>
+    </div>
+
+    <br>
+
+    <a href="/user/changePassword">Passwort ändern</a>
+
+</div>
+
+<div class="row"></div>
 
 <div class="col-sm-offset-2 col-sm-5">
     <div class="col-sm-offset-1 col-sm-10">
@@ -27,10 +50,10 @@
                 </p>
              </div>
 
-              <div class="collapse" id="changeForename">
-                  <form action="/user/changeForename" method="POST" class="form-horizontal">
-                      <div class="card card-block">
-                          <div class="col-sm-offset-6 col-sm-6">
+             <div class="collapse" id="changeForename">
+                 <form action="/user/changeForename" method="POST" class="form-horizontal">
+                     <div class="card card-block">
+                         <div class="col-sm-offset-6 col-sm-6">
                               <input type="text" name="forename" class="form-control" id="forename" placeholder="Neuer Vorname"></br>
                               <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                           </div>
@@ -128,15 +151,8 @@
                      </div>
                  </form>
              </div>
-
         </div>
-
     </div>
-
-    <div class="col-sm-offset-6 col-sm-5">
-        <button class="btn btn-md btn-default btn-block" type="submit">Passwort ändern</button><br>
-    </div>
-
 </div>
 
 <div class="col-sm-offset-2 col-sm-5">
@@ -195,102 +211,108 @@
     </div>
 </div>
 
-<div class="col-sm-offset-2 col-sm-5">
-    <div class="col-sm-offset-1 col-sm-10">
-        <h4>Schulische Daten</h4><br>
+<?php if ($this->user->roleName() === 'TRAINEE'): ?>
+
+    <div class="col-sm-offset-2 col-sm-5">
+        <div class="col-sm-offset-1 col-sm-10">
+            <h4>Schulische Daten</h4><br>
+        </div>
+        <div class="form-horizontal">
+
+            <div class="form-group">
+
+                <label class="col-sm-6 control-label">Schule</label>
+                <div class="col-sm-6">
+
+                    <p class="form-control-static"><?php echo $this->user->school(); ?>
+                        <a href="#changeSchool" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
+                    </p>
+                 </div>
+
+                 <div class="collapse" id="changeSchool">
+                     <form action="/user/changeSchool" method="POST" class="form-horizontal">
+                         <div class="card card-block">
+                             <div class="col-sm-offset-6 col-sm-6">
+                                 <input type="text" name="school" class="form-control" id="school" placeholder="Neue Schule"></br>
+                                 <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                             </div>
+                         </div>
+                     </form>
+                 </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label class="col-sm-6 control-label">Klasse</label>
+                <div class="col-sm-6">
+
+                    <p class="form-control-static"><?php echo $this->user->grade(); ?>
+                        <a href="#changeGrade" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
+                    </p>
+                 </div>
+
+                 <div class="collapse" id="changeGrade">
+                     <form action="/user/changeGrade" method="POST" class="form-horizontal">
+                         <div class="card card-block">
+                             <div class="col-sm-offset-6 col-sm-6">
+                                 <input type="text" name="grade" class="form-control" id="grade" placeholder="Neue Klasse"></br>
+                                 <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                             </div>
+                         </div>
+                     </form>
+                 </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label class="col-sm-6 control-label">Ausbildungsbeginn</label>
+                <div class="col-sm-6">
+
+                    <p class="form-control-static"><?php echo $this->user->startOfTraining(); ?>
+                        <a href="#changeStartOfTraining" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
+                    </p>
+                 </div>
+
+                 <div class="collapse" id="changeStartOfTraining">
+                     <form action="/user/changeStartOfTraining" method="POST" class="form-horizontal">
+                         <div class="card card-block">
+                             <div class="col-sm-offset-6 col-sm-6">
+                                 <input type="text" name="startOfTraining" class="form-control" id="startOfTraining" placeholder="Neuer Ausbildungsbeginn"></br>
+                                 <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                             </div>
+                         </div>
+                     </form>
+                 </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label class="col-sm-6 control-label">Ausbildungsjahr</label>
+                <div class="col-sm-6">
+
+                    <p class="form-control-static"><?php echo $this->user->trainingYear(); ?>
+                        <a href="#changeTrainingYear" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
+                    </p>
+                 </div>
+
+                 <div class="collapse" id="changeTrainingYear">
+                     <form action="/user/changeTrainingYear" method="POST" class="form-horizontal">
+                         <div class="card card-block">
+                             <div class="col-sm-offset-6 col-sm-6">
+                                 <input type="text" name="trainingYear" class="form-control" id="trainingYear" placeholder="Neues Ausbildungsjahr"></br>
+                                 <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                             </div>
+                         </div>
+                     </form>
+                 </div>
+
+            </div>
+        </div>
     </div>
-    <div class="form-horizontal">
 
-        <div class="form-group">
+<?php endif ?>
 
-            <label class="col-sm-6 control-label">Schule</label>
-            <div class="col-sm-6">
-
-                <p class="form-control-static"><?php echo $this->user->school(); ?>
-                    <a href="#changeSchool" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
-                </p>
-             </div>
-
-             <div class="collapse" id="changeSchool">
-                 <form action="/user/changeSchool" method="POST" class="form-horizontal">
-                     <div class="card card-block">
-                         <div class="col-sm-offset-6 col-sm-6">
-                             <input type="text" name="school" class="form-control" id="school" placeholder="Neue Schule"></br>
-                             <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
-                         </div>
-                     </div>
-                 </form>
-             </div>
-
-        </div>
-
-        <div class="form-group">
-
-            <label class="col-sm-6 control-label">Klasse</label>
-            <div class="col-sm-6">
-
-                <p class="form-control-static"><?php echo $this->user->grade(); ?>
-                    <a href="#changeGrade" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
-                </p>
-             </div>
-
-             <div class="collapse" id="changeGrade">
-                 <form action="/user/changeGrade" method="POST" class="form-horizontal">
-                     <div class="card card-block">
-                         <div class="col-sm-offset-6 col-sm-6">
-                             <input type="text" name="grade" class="form-control" id="grade" placeholder="Neue Klasse"></br>
-                             <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
-                         </div>
-                     </div>
-                 </form>
-             </div>
-
-        </div>
-
-        <div class="form-group">
-
-            <label class="col-sm-6 control-label">Ausbildungsbeginn</label>
-            <div class="col-sm-6">
-
-                <p class="form-control-static"><?php echo $this->user->startOfTraining(); ?>
-                    <a href="#changeStartOfTraining" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
-                </p>
-             </div>
-
-             <div class="collapse" id="changeStartOfTraining">
-                 <form action="/user/changeStartOfTraining" method="POST" class="form-horizontal">
-                     <div class="card card-block">
-                         <div class="col-sm-offset-6 col-sm-6">
-                             <input type="text" name="startOfTraining" class="form-control" id="startOfTraining" placeholder="Neuer Ausbildungsbeginn"></br>
-                             <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
-                         </div>
-                     </div>
-                 </form>
-             </div>
-
-        </div>
-
-        <div class="form-group">
-
-            <label class="col-sm-6 control-label">Ausbildungsjahr</label>
-            <div class="col-sm-6">
-
-                <p class="form-control-static"><?php echo $this->user->trainingYear(); ?>
-                    <a href="#changeTrainingYear" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
-                </p>
-             </div>
-
-             <div class="collapse" id="changeTrainingYear">
-                 <form action="/user/changeTrainingYear" method="POST" class="form-horizontal">
-                     <div class="card card-block">
-                         <div class="col-sm-offset-6 col-sm-6">
-                             <input type="text" name="trainingYear" class="form-control" id="trainingYear" placeholder="Neues Ausbildungsjahr"></br>
-                             <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
-                         </div>
-                     </div>
-                 </form>
-             </div>
-
-        </div>
-    </div>
-</div>
+<div class="row"></div>

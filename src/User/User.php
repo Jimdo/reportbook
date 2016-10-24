@@ -52,6 +52,9 @@ class User
     /** @var string */
     private $startOfTraining = '';
 
+    /** @var string */
+    private $image = '';
+
     /**
      * @param string $forename
      * @param string $surname
@@ -179,6 +182,14 @@ class User
     public function grade():string
     {
         return $this->grade;
+    }
+
+    /**
+     * @return string
+     */
+    public function image():string
+    {
+        return $this->image;
     }
 
     /**
@@ -348,5 +359,13 @@ class User
     public function editGrade(string $newGrade)
     {
         $this->grade = $newGrade;
+    }
+
+    /**
+     * @param string $newImage
+     */
+    public function editImage(string $newImage)
+    {
+        $this->image = $newImage;
     }
 }

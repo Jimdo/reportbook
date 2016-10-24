@@ -34,6 +34,7 @@ class Serializer
             'company' => $user->company(),
             'jobTitle' => $user->jobTitle(),
             'startOfTraining' => $user->startOfTraining(),
+            'image' => $user->image()
         ];
     }
 
@@ -70,6 +71,7 @@ class Serializer
         $user->editCompany($serializedUser['company']);
         $user->editJobTitle($serializedUser['jobTitle']);
         $user->editStartOfTraining($serializedUser['startOfTraining']);
+        $user->editImage($serializedUser['image']);
 
         return $user;
     }

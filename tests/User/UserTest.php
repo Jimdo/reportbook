@@ -254,6 +254,26 @@ class UserTest extends TestCase
     /**
     * @test
     */
+    public function itShouldEditImage()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '1111111';
+        $username = 'jenny';
+        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+
+        $newImage = '321321321321321321321231312';
+
+        $user->editImage($newImage);
+
+        $this->assertEquals($newImage, $user->image());
+    }
+
+    /**
+    * @test
+    */
     public function itShouldEditDateOfBirth()
     {
         $forename = 'Max';

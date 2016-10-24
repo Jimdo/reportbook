@@ -46,6 +46,7 @@ class ProfileServiceTest extends TestCase
         $this->repository = new ProfileMongoRepository($this->client, new Serializer(), $this->appConfig);
         $this->service = new ProfileService($this->repository);
     }
+
     /**
      * @test
      */
@@ -58,5 +59,21 @@ class ProfileServiceTest extends TestCase
         $profile = $this->service->createProfile($userId, $forename, $surname);
 
         $this->assertEquals($forename, $profile->forename());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldFindProfileByUserId()
+    {
+        $userId = uniqid();
+        $forename = 'Tom';
+        $surname = 'TomTom';
+
+        $profile = $this->service->createProfile($userId, $forename, $surname);
+
+        $foundProfile = $this->service->findProfileByUserId($userId);
+
+        $this->assertEquals($profile->forename(), $foundProfile->forename());
     }
 }

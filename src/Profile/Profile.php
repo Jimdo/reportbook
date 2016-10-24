@@ -39,7 +39,11 @@ class Profile
     /** @var string */
     private $image = '';
 
-
+    /**
+     * @param string $userId
+     * @param string $forename
+     * @param string $surname
+     */
     public function __construct(string $userId, string $forename, string $surname)
     {
         $this->userId = $userId;
@@ -47,7 +51,10 @@ class Profile
         $this->surname = $surname;
     }
 
-    public function userId()
+    /**
+     * @return string
+     */
+    public function userId(): string
     {
         return $this->userId;
     }
@@ -130,6 +137,86 @@ class Profile
     public function image():string
     {
         return $this->image;
+    }
+
+    /**
+     * @param string $newForename
+     */
+    public function editForename(string $newForename)
+    {
+        $this->forename = $newForename;
+    }
+
+    /**
+     * @param string $newSurname
+     */
+    public function editSurname(string $newSurname)
+    {
+        $this->surname = $newSurname;
+    }
+
+    /**
+     * @param string $newDateOfBirth
+     */
+    public function editDateOfBirth(string $newDateOfBirth)
+    {
+        $this->dateOfBirth = $newDateOfBirth;
+    }
+
+    /**
+     * @param string $newSchool
+     */
+    public function editSchool(string $newSchool)
+    {
+        $this->school = $newSchool;
+    }
+
+    /**
+     * @param string $newJobTitle
+     */
+    public function editJobTitle(string $newJobTitle)
+    {
+        $this->jobTitle = $newJobTitle;
+    }
+
+    /**
+     * @param string $newStartOfTraining
+     */
+    public function editStartOfTraining(string $newStartOfTraining)
+    {
+        $this->startOfTraining = $newStartOfTraining;
+    }
+
+    /**
+     * @param string $newTrainingYear
+     */
+    public function editTrainingYear(string $newTrainingYear)
+    {
+        $this->trainingYear = $newTrainingYear;
+    }
+
+    /**
+     * @param string $newCompany
+     */
+    public function editCompany(string $newCompany)
+    {
+        $this->company = $newCompany;
+    }
+
+    /**
+     * @param string $newGrade
+     */
+    public function editGrade(string $newGrade)
+    {
+        $this->grade = $newGrade;
+    }
+
+    /**
+     * @param string $newImage
+     */
+    public function editImage(string $newImage)
+    {
+        $this->image = $newImage;
     }
 
 }

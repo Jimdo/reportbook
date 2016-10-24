@@ -63,7 +63,7 @@ class UserController extends Controller
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
         if(!in_array($ext,$allowed) ) {
-            echo "Folgenden File-Typen sind erlaub: JPG, JPEG, PNG, GIF \n";
+            echo "Folgende File-Typen sind erlaubt: JPG, JPEG, PNG, GIF. \n";
             $uploadOk = false;
         }
 
@@ -449,9 +449,35 @@ class UserController extends Controller
         if (!$this->isTrainer() && !$this->isTrainee()) {
             $this->redirect("/user");
         }
+        $this->addRequestValidation('startOfTraining', 'date');
         $user = $this->service->findUserById($this->sessionData('userId'));
-        $this->service->editStartOfTraining($this->sessionData('userId'), $this->formData('startOfTraining'));
-        $this->redirect('/user/profile');
+
+        if ($this->isRequestValid()) {
+            $this->service->editStartOfTraining($this->sessionData('userId'), $this->formData('startOfTraining'));
+            $this->redirect('/user/profile');
+        }
+
+        $errorMessages[] = $this->getErrorMessageForErrorCode($this->requestValidator->errorCodes()['startOfTraining']);
+
+        $headerView = $this->view('app/views/Header.php');
+        $headerView->tabTitle = 'Berichtsheft';
+
+        $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView->viewHelper = $this->viewHelper;
+        $infobarView->username = $this->sessionData('username');
+        $infobarView->role = $this->sessionData('role');
+        $infobarView->hideInfos = true;
+
+        $profileView = $this->view('app/views/ProfileView.php');
+        $profileView->user = $this->service->findUserById($this->sessionData('userId'));
+        $profileView->errorMessages = $errorMessages;
+
+        $footerView = $this->view('app/views/Footer.php');
+
+        $this->response->addBody($headerView->render());
+        $this->response->addBody($infobarView->render());
+        $this->response->addBody($profileView->render());
+        $this->response->addBody($footerView->render());
     }
 
     public function changeTrainingYearAction()

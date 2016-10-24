@@ -34,10 +34,7 @@ class Serializer
             'company' => $user->company(),
             'jobTitle' => $user->jobTitle(),
             'startOfTraining' => $user->startOfTraining(),
-<<<<<<< HEAD
-            'image' => $user->image(),
-=======
->>>>>>> origin/master
+            'image' => $user->image()
         ];
     }
 

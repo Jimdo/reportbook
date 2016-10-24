@@ -449,6 +449,7 @@ class UserController extends Controller
         if (!$this->isTrainer() && !$this->isTrainee()) {
             $this->redirect("/user");
         }
+        
         $this->addRequestValidation('startOfTraining', 'date');
         $user = $this->service->findUserById($this->sessionData('userId'));
 

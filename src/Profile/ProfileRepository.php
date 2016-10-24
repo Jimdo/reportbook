@@ -10,11 +10,7 @@ interface ProfileRepository
      * @param string $surname
      * @return Profile
      */
-    public function createProfile(
-        string $userId
-        string $forename,
-        string $surname,
-    ): Profile;
+    public function createProfile(string $userId, string $forename, string $surname): Profile;
 
     /**
      * @param Profile $profile

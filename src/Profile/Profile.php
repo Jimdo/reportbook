@@ -218,5 +218,4 @@ class Profile
     {
         $this->image = $newImage;
     }
-
 }

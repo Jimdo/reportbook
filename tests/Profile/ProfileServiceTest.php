@@ -76,4 +76,203 @@ class ProfileServiceTest extends TestCase
 
         $this->assertEquals($profile->forename(), $foundProfile->forename());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldEditForename()
+    {
+        $userId = uniqid();
+        $forename = 'Max';
+        $surname = 'Mustermann';
+
+        $profile = $this->service->createProfile($userId, $forename, $surname);
+
+        $newForename = 'jennypenny';
+        $this->service->editForename($userId, $newForename);
+
+        $foundProfile = $this->service->findProfileByUserId($userId);
+
+        $this->assertEquals($newForename, $foundProfile->forename());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditSurname()
+    {
+        $userId = uniqid();
+        $forename = 'Max';
+        $surname = 'Mustermann';
+
+        $profile = $this->service->createProfile($userId, $forename, $surname);
+
+        $newSurname = 'jennypenny';
+
+        $this->service->editSurname($userId, $newSurname);
+
+        $profile = $this->service->findProfileByUserId($userId);
+
+        $this->assertEquals($newSurname, $profile->surname());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditDateOfBirth()
+    {
+        $userId = uniqid();
+        $forename = 'Max';
+        $surname = 'Mustermann';
+
+        $profile = $this->service->createProfile($userId, $forename, $surname);
+
+        $newDateOfBirth = '11.11.11';
+
+        $this->service->editDateOfBirth($userId, $newDateOfBirth);
+
+        $profile = $this->service->findProfileByUserId($userId);
+
+        $this->assertEquals($newDateOfBirth, $profile->dateOfBirth());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditSchool()
+    {
+        $userId = uniqid();
+        $forename = 'Max';
+        $surname = 'Mustermann';
+
+        $profile = $this->service->createProfile($userId, $forename, $surname);
+
+        $newSchool = '11.11.11';
+
+        $this->service->editSchool($userId, $newSchool);
+
+        $profile = $this->service->findProfileByUserId($userId);
+
+        $this->assertEquals($newSchool, $profile->school());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditCompany()
+    {
+        $userId = uniqid();
+        $forename = 'Max';
+        $surname = 'Mustermann';
+
+        $profile = $this->service->createProfile($userId, $forename, $surname);
+
+        $newCompany = 'Jimdo';
+
+        $this->service->editCompany($userId, $newCompany);
+
+        $profile = $this->service->findProfileByUserId($userId);
+
+        $this->assertEquals($newCompany, $profile->company());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditJobTitle()
+    {
+        $userId = uniqid();
+        $forename = 'Max';
+        $surname = 'Mustermann';
+
+        $profile = $this->service->createProfile($userId, $forename, $surname);
+
+        $newJobTitle = '11.11.11';
+
+        $this->service->editJobTitle($userId, $newJobTitle);
+
+        $profile = $this->service->findProfileByUserId($userId);
+
+        $this->assertEquals($newJobTitle, $profile->jobTitle());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditStartOfTraining()
+    {
+        $userId = uniqid();
+        $forename = 'Max';
+        $surname = 'Mustermann';
+
+        $profile = $this->service->createProfile($userId, $forename, $surname);
+
+        $newStartOfTraining = '11.11.11';
+
+        $this->service->editStartOfTraining($userId, $newStartOfTraining);
+
+        $profile = $this->service->findProfileByUserId($userId);
+
+        $this->assertEquals($newStartOfTraining, $profile->startOfTraining());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditTrainingYear()
+    {
+        $userId = uniqid();
+        $forename = 'Max';
+        $surname = 'Mustermann';
+
+        $profile = $this->service->createProfile($userId, $forename, $surname);
+
+        $newTrainingYear = '1';
+
+        $this->service->editTrainingYear($userId, $newTrainingYear);
+
+        $profile = $this->service->findProfileByUserId($userId);
+
+        $this->assertEquals($newTrainingYear, $profile->trainingYear());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditGrade()
+    {
+        $userId = uniqid();
+        $forename = 'Max';
+        $surname = 'Mustermann';
+
+        $profile = $this->service->createProfile($userId, $forename, $surname);
+
+        $newGrade = '1fc';
+
+        $this->service->editGrade($userId, $newGrade);
+
+        $profile = $this->service->findProfileByUserId($userId);
+
+        $this->assertEquals($newGrade, $profile->grade());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditImage()
+    {
+        $userId = uniqid();
+        $forename = 'Max';
+        $surname = 'Mustermann';
+
+        $profile = $this->service->createProfile($userId, $forename, $surname);
+
+        $newImage = '1fc';
+
+        $this->service->editImage($userId, $newImage);
+
+        $profile = $this->service->findProfileByUserId($userId);
+
+        $this->assertEquals($newImage, $profile->image());
+    }
 }

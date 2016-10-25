@@ -16,21 +16,21 @@
         <div class="form-group">
             <label class="col-sm-6 control-label">Vorname</label>
             <div class="col-sm-6">
-                <p class="form-control-static"><?php echo $this->user->forename(); ?></p>
+                <p class="form-control-static"><?php echo $this->profile->forename(); ?></p>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-6 control-label">Nachname</label>
             <div class="col-sm-6">
-                <p class="form-control-static"><?php echo $this->user->surname(); ?></p>
+                <p class="form-control-static"><?php echo $this->profile->surname(); ?></p>
              </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-6 control-label">Geburtsdatum</label>
             <div class="col-sm-6">
-                <p class="form-control-static"><?php echo $this->user->dateOfBirth(); ?></p>
+                <p class="form-control-static"><?php echo $this->profile->dateOfBirth(); ?></p>
              </div>
         </div>
 
@@ -65,7 +65,7 @@
             <label class="col-sm-6 control-label">Firma</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static"><?php echo $this->user->company(); ?></p>
+                <p class="form-control-static"><?php echo $this->profile->company(); ?></p>
             </div>
         </div>
 
@@ -74,7 +74,7 @@
             <label class="col-sm-6 control-label">Berufsbezeichung</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static"><?php echo $this->user->jobTitle(); ?></p>
+                <p class="form-control-static"><?php echo $this->profile->jobTitle(); ?></p>
              </div>
         </div>
     </div>
@@ -89,28 +89,28 @@
             <div class="form-group">
                 <label class="col-sm-6 control-label">Schule</label>
                 <div class="col-sm-6">
-                    <p class="form-control-static"><?php echo $this->user->school(); ?></p>
+                    <p class="form-control-static"><?php echo $this->profile->school(); ?></p>
                  </div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-6 control-label">Klasse</label>
                 <div class="col-sm-6">
-                    <p class="form-control-static"><?php echo $this->user->grade(); ?></p>
+                    <p class="form-control-static"><?php echo $this->profile->grade(); ?></p>
                  </div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-6 control-label">Ausbildungsbeginn:</label>
                 <div class="col-sm-6">
-                    <p class="form-control-static"><?php echo $this->user->startOfTraining(); ?></p>
+                    <p class="form-control-static"><?php echo $this->profile->startOfTraining(); ?></p>
                  </div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-6 control-label">Ausbildungsjahr</label>
                 <div class="col-sm-6">
-                    <p class="form-control-static"><?php echo $this->user->trainingYear(); ?></p>
+                    <p class="form-control-static"><?php echo $this->profile->trainingYear(); ?></p>
                  </div>
             </div>
         </div>

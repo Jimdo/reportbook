@@ -11,12 +11,6 @@ class User
     const ERR_PASSWORD_WRONG = 10;
 
     /** @var string */
-    private $forename;
-
-    /** @var string */
-    private $surname;
-
-    /** @var string */
     private $username;
 
     /** @var string */
@@ -31,33 +25,7 @@ class User
     /** @var UserId */
     private $userId;
 
-    /** @var string */
-    private $dateOfBirth = '';
-
-    /** @var string */
-    private $school = '';
-
-    /** @var string */
-    private $grade = '';
-
-    /** @var string */
-    private $jobTitle = '';
-
-    /** @var string */
-    private $trainingYear = '';
-
-    /** @var string */
-    private $company = '';
-
-    /** @var string */
-    private $startOfTraining = '';
-
-    /** @var string */
-    private $image = '';
-
     /**
-     * @param string $forename
-     * @param string $surname
      * @param string $username
      * @param string $email
      * @param Role $role
@@ -65,8 +33,6 @@ class User
      * @param UserId $userId
      */
     public function __construct(
-        string $forename,
-        string $surname,
         string $username,
         string $email,
         Role $role,
@@ -79,29 +45,11 @@ class User
                 self::ERR_PASSWORD_LENGTH
             );
         }
-        $this->forename = $forename;
-        $this->surname = $surname;
         $this->username = $username;
         $this->email = $email;
         $this->role = $role;
         $this->password = $password;
         $this->userId = $userId;
-    }
-
-    /**
-     * @return string
-     */
-    public function forename(): string
-    {
-        return $this->forename;
-    }
-
-    /**
-     * @return string
-     */
-    public function surname(): string
-    {
-        return $this->surname;
     }
 
     /**
@@ -227,17 +175,13 @@ class User
     }
 
     /**
-     * @param string $forename
-     * @param string $surname
      * @param string $username
      * @param string $email
      * @param Role $role
      * @param string $password
      */
-    public function edit(string $forename, string $surname, string $username, string $email, string $password)
+    public function edit(string $username, string $email, string $password)
     {
-        $this->forename = $forename;
-        $this->surname = $surname;
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
@@ -287,85 +231,5 @@ class User
     public function editEmail(string $newEmail)
     {
         $this->email = $newEmail;
-    }
-
-    /**
-     * @param string $newForename
-     */
-    public function editForename(string $newForename)
-    {
-        $this->forename = $newForename;
-    }
-
-    /**
-     * @param string $newSurname
-     */
-    public function editSurname(string $newSurname)
-    {
-        $this->surname = $newSurname;
-    }
-
-    /**
-     * @param string $newDateOfBirth
-     */
-    public function editDateOfBirth(string $newDateOfBirth)
-    {
-        $this->dateOfBirth = $newDateOfBirth;
-    }
-
-    /**
-     * @param string $newSchool
-     */
-    public function editSchool(string $newSchool)
-    {
-        $this->school = $newSchool;
-    }
-
-    /**
-     * @param string $newJobTitle
-     */
-    public function editJobTitle(string $newJobTitle)
-    {
-        $this->jobTitle = $newJobTitle;
-    }
-
-    /**
-     * @param string $newStartOfTraining
-     */
-    public function editStartOfTraining(string $newStartOfTraining)
-    {
-        $this->startOfTraining = $newStartOfTraining;
-    }
-
-    /**
-     * @param string $newTrainingYear
-     */
-    public function editTrainingYear(string $newTrainingYear)
-    {
-        $this->trainingYear = $newTrainingYear;
-    }
-
-    /**
-     * @param string $newCompany
-     */
-    public function editCompany(string $newCompany)
-    {
-        $this->company = $newCompany;
-    }
-
-    /**
-     * @param string $newGrade
-     */
-    public function editGrade(string $newGrade)
-    {
-        $this->grade = $newGrade;
-    }
-
-    /**
-     * @param string $newImage
-     */
-    public function editImage(string $newImage)
-    {
-        $this->image = $newImage;
     }
 }

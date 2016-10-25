@@ -27,12 +27,10 @@ class UserFileRepositoryTest extends TestCase
     {
         $repository = new UserFileRepository(self::USERS_ROOT_PATH);
 
-        $forename = 'Max';
-        $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
-        $expectedUser = $repository->createUser($forename, $surname, 'Hans', $email, $role, '12345678910');
+        $expectedUser = $repository->createUser('Hans', $email, $role, '12345678910');
 
         $userFileName = sprintf('%s/%s', self::USERS_ROOT_PATH, $expectedUser->id());
 
@@ -48,12 +46,10 @@ class UserFileRepositoryTest extends TestCase
     {
         $repository = new UserFileRepository(self::USERS_ROOT_PATH);
 
-        $forename = 'Max';
-        $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
-        $user = $repository->createUser($forename, $surname, 'Hans', $email, $role, '12345678910');
+        $user = $repository->createUser('Hans', $email, $role, '12345678910');
 
         $userFileName = sprintf('%s/%s', self::USERS_ROOT_PATH, $user->id());
 
@@ -71,12 +67,10 @@ class UserFileRepositoryTest extends TestCase
     {
         $repository = new UserFileRepository(self::USERS_ROOT_PATH);
 
-        $forename = 'Max';
-        $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
-        $expectedUser = $repository->createUser($forename, $surname, 'Hans', $email, $role, '12345678910');
+        $expectedUser = $repository->createUser('Hans', $email, $role, '12345678910');
 
         $user = $repository->findUserByEmail($email);
 
@@ -90,38 +84,17 @@ class UserFileRepositoryTest extends TestCase
     {
         $repository = new UserFileRepository(self::USERS_ROOT_PATH);
 
-        $forename = 'Max';
-        $surname = 'Mustermann';
         $role = new Role('trainee');
 
-        $expectedUser = $repository->createUser($forename, $surname, 'Hase', 'max.mustermann@hotmail.de', $role, '12345678910');
+        $expectedUser = $repository->createUser('Hase', 'max.mustermann@hotmail.de', $role, '12345678910');
         $foundUsers = $repository->findAllUsers();
 
         $this->assertCount(1, $foundUsers);
 
-        $expectedUser = $repository->createUser($forename, $surname, 'Igel', 'peter.mustermann@hotmail.de', $role, '12345678910');
+        $expectedUser = $repository->createUser('Igel', 'peter.mustermann@hotmail.de', $role, '12345678910');
         $foundUsers = $repository->findAllUsers();
 
         $this->assertCount(2, $foundUsers);
-    }
-
-    /**
-     * @test
-     */
-    public function itShouldFindUserBySurname()
-    {
-        $repository = new UserFileRepository(self::USERS_ROOT_PATH);
-
-        $forename = 'Max';
-        $surname = 'Mustermann';
-        $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
-
-        $expectedUser = $repository->createUser($forename, $surname, 'Hans', $email, $role, '12345678910');
-
-        $user = $repository->findUserBySurname($surname);
-
-        $this->assertEquals($expectedUser->surname(), $user->surname());
     }
 
     /**
@@ -131,12 +104,10 @@ class UserFileRepositoryTest extends TestCase
     {
         $repository = new UserFileRepository(self::USERS_ROOT_PATH);
 
-        $forename = 'Max';
-        $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
-        $expectedUser = $repository->createUser($forename, $surname, 'Hans', $email, $role, '12345678910');
+        $expectedUser = $repository->createUser('Hans', $email, $role, '12345678910');
 
         $user = $repository->findUserById($expectedUser->id());
 
@@ -150,17 +121,15 @@ class UserFileRepositoryTest extends TestCase
     {
         $repository = new UserFileRepository(self::USERS_ROOT_PATH);
 
-        $forename = 'Max';
-        $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
-        $expectedUser1 = $repository->createUser($forename, $surname, 'Hans', $email, $role, '12345678910');
+        $expectedUser1 = $repository->createUser('Hans', $email, $role, '12345678910');
         $users = $repository->findUsersByStatus(Role::STATUS_NOT_APPROVED);
 
         $this->assertCount(1, $users);
 
-        $expectedUser2 = $repository->createUser($forename, $surname, 'Igel', 'maxi.mustermann@hotmail.de', $role, '12345678910');
+        $expectedUser2 = $repository->createUser('Igel', 'maxi.mustermann@hotmail.de', $role, '12345678910');
         $users = $repository->findUsersByStatus(Role::STATUS_NOT_APPROVED);
 
         $this->assertCount(2, $users);
@@ -174,13 +143,11 @@ class UserFileRepositoryTest extends TestCase
     {
         $userRepository = new UserFileRepository(self::USERS_ROOT_PATH);
 
-        $forename = 'Max';
-        $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
-        $jenny = $userRepository->createUser('Max', 'Mustermann', 'Hase', 'max.mustermann@hotmail.de', $role, '12345678910');
-        $tom = $userRepository->createUser('Max', 'Mustermann', 'Igel', 'max.mustermann@hotmail.de', $role, '12345678910');
+        $jenny = $userRepository->createUser('Hase', 'max.mustermann@hotmail.de', $role, '12345678910');
+        $tom = $userRepository->createUser('Igel', 'max.mustermann@hotmail.de', $role, '12345678910');
     }
 
     /**
@@ -196,7 +163,7 @@ class UserFileRepositoryTest extends TestCase
         $this->assertFalse($userRepository->exists($username));
         $this->assertFalse($userRepository->exists($mail));
 
-        $userRepository->createUser('Hans', 'Hase', $username, $mail, new Role('trainer'), 'some password');
+        $userRepository->createUser($username, $mail, new Role('trainer'), 'some password');
 
         $this->assertTrue($userRepository->exists($username));
         $this->assertTrue($userRepository->exists($mail));
@@ -216,7 +183,7 @@ class UserFileRepositoryTest extends TestCase
          $role = new Role('trainee');
          $password = '1234567';
 
-         $user = $userRepository->createUser($forename, $surname, $username, $email, $role, $password);
+         $user = $userRepository->createUser($username, $email, $role, $password);
 
          $this->assertInternalType('string', $user->id());
      }

@@ -14,17 +14,15 @@ class ProfileTest extends TestCase
      */
     public function itShouldHaveProfileData()
     {
+        $userId = uniqid();
         $forename = 'hauke';
         $surname = 'mauke';
-
-        $user = new User($forename, $surname, 'maxmusti', 'maxmusti@hotmail.de', new Role('TRAINER'), 'geheim123', new UserId());
-
-        $userId = $user->id();
+        $userId = uniqid();
 
 
-        $profile = new Profile($user->id(), $forename, $surname);
+        $profile = new Profile($userId, $forename, $surname);
 
-        $this->assertEquals($user->id(), $profile->userId());
+        $this->assertEquals($userId, $profile->userId());
         $this->assertEquals($forename, $profile->forename());
         $this->assertEquals($surname, $profile->surname());
         $this->assertEquals('', $profile->school());
@@ -48,7 +46,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -70,7 +68,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -92,7 +90,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -114,7 +112,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -136,7 +134,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -158,7 +156,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -180,7 +178,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -202,7 +200,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -224,7 +222,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 

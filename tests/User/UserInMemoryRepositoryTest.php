@@ -12,15 +12,13 @@ class UserRepositoryTest extends TestCase
      */
     public function itShouldCreateUser()
     {
-        $forename = 'Max';
-        $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
         $userRepository = new UserInMemoryRepository();
-        $createdUser = $userRepository->createUser($forename, $surname, 'Hase', $email, $role, '12345678910');
+        $createdUser = $userRepository->createUser('Hase', $email, $role, '12345678910');
 
-        $this->assertEquals($forename, $createdUser->forename());
+        $this->assertEquals($email, $createdUser->email());
     }
 
     /**
@@ -28,14 +26,12 @@ class UserRepositoryTest extends TestCase
      */
     public function itShouldDeleteUser()
     {
-        $forename = 'Max';
-        $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
         $userRepository = new UserInMemoryRepository();
 
-        $createdUser = $userRepository->createUser($forename, $surname, 'Hase', $email, $role, '12345678910');
+        $createdUser = $userRepository->createUser('Hase', $email, $role, '12345678910');
         $this->assertCount(1, $userRepository->users);
 
         $userRepository->deleteUser($createdUser);
@@ -48,14 +44,12 @@ class UserRepositoryTest extends TestCase
      */
     public function itShouldFindUserByEmail()
     {
-        $forename = 'Max';
-        $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
         $userRepository = new UserInMemoryRepository();
 
-        $createdUser = $userRepository->createUser($forename, $surname, 'Hase', $email, $role, '12345678910');
+        $createdUser = $userRepository->createUser('Hase', $email, $role, '12345678910');
 
         $foundUser = $userRepository->findUserByEmail($email);
 
@@ -67,14 +61,12 @@ class UserRepositoryTest extends TestCase
      */
     public function itShouldFindUserById()
     {
-        $forename = 'Max';
-        $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
         $userRepository = new UserInMemoryRepository();
 
-        $createdUser = $userRepository->createUser($forename, $surname, 'Hase', $email, $role, '12345678910');
+        $createdUser = $userRepository->createUser('Hase', $email, $role, '12345678910');
 
         $foundUser = $userRepository->findUserById($createdUser->id());
 
@@ -86,18 +78,16 @@ class UserRepositoryTest extends TestCase
      */
     public function itShouldFindUserBySurname()
     {
-        $forename = 'Max';
-        $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
         $userRepository = new UserInMemoryRepository();
 
-        $createdUser = $userRepository->createUser($forename, $surname, 'Hase', $email, $role, '12345678910');
+        $createdUser = $userRepository->createUser('Hase', $email, $role, '12345678910');
 
-        $foundUser = $userRepository->findUserBySurname($surname);
+        $foundUser = $userRepository->findUserById($createdUser->id());
 
-        $this->assertEquals($surname, $foundUser->surname());
+        $this->assertEquals($email, $foundUser->email());
     }
 
     /**
@@ -107,16 +97,14 @@ class UserRepositoryTest extends TestCase
     {
         $userRepository = new UserInMemoryRepository();
 
-        $forename = 'Max';
-        $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
         $foundUsers = $userRepository->findAllUsers();
         $this->assertCount(0, $foundUsers);
 
-        $user1 = $userRepository->createUser('Max', 'Mustermann', 'Hase', 'max.mustermann@hotmail.de', $role, '12345678910');
-        $user2 = $userRepository->createUser('Hauke', 'Stange', 'Igel', 'hauke.stange@live.de', $role, '12345678910');
+        $user1 = $userRepository->createUser('Hase', 'max.mustermann@hotmail.de', $role, '12345678910');
+        $user2 = $userRepository->createUser('Igel', 'hauke.stange@live.de', $role, '12345678910');
 
         $foundUsers = $userRepository->findAllUsers();
         $this->assertCount(2, $foundUsers);
@@ -131,13 +119,11 @@ class UserRepositoryTest extends TestCase
     {
         $userRepository = new UserInMemoryRepository();
 
-        $forename = 'Max';
-        $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
-        $jenny = $userRepository->createUser('Max', 'Mustermann', 'Hase', 'max.mustermann@hotmail.de', $role, '12345678910');
-        $tom = $userRepository->createUser('Max', 'Mustermann', 'Igel', 'max.mustermann@hotmail.de', $role, '12345678910');
+        $jenny = $userRepository->createUser('Hase', 'max.mustermann@hotmail.de', $role, '12345678910');
+        $tom = $userRepository->createUser('Igel', 'max.mustermann@hotmail.de', $role, '12345678910');
     }
 
     /**
@@ -148,12 +134,10 @@ class UserRepositoryTest extends TestCase
     {
         $userRepository = new UserInMemoryRepository();
 
-        $forename = 'Max';
-        $surname = 'Mustermann';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
         $password = '123456';
 
-        $jenny = $userRepository->createUser('Max', 'Mustermann', 'Hase', 'max.mustermann@hotmail.de', $role, $password);
+        $jenny = $userRepository->createUser('Hase', 'max.mustermann@hotmail.de', $role, $password);
     }
 }

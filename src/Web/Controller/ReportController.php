@@ -8,6 +8,8 @@ use Jimdo\Reports\Reportbook\Report as Report;
 use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
 use Jimdo\Reports\Reportbook\ReportMongoRepository as ReportMongoRepository;
 use Jimdo\Reports\Reportbook\ReportbookService as ReportbookService;
+use Jimdo\Reports\Profile\ProfileService as ProfileService;
+use Jimdo\Reports\Profile\ProfileMongoRepository as ProfileMongoRepository;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 use Jimdo\Reports\Web\Response as Response;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
@@ -24,6 +26,9 @@ class ReportController extends Controller
 
     /** @var UserService */
     private $userService;
+
+    /** @var ProfileService */
+    private $profileService;
 
     /** @var ViewHelper */
     private $viewHelper;
@@ -55,6 +60,9 @@ class ReportController extends Controller
         $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
         $this->userService = new UserService($userRepository);
         $this->viewHelper = new ViewHelper();
+
+        $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);
+        $this->profileService = new ProfileService($profileRepository);
     }
 
     public function indexAction()
@@ -84,6 +92,7 @@ class ReportController extends Controller
         } elseif ($this->isTrainer()) {
             $reportView = $this->view('app/views/TrainerView.php');
             $reportView->userService = $this->userService;
+            $reportView->profileService = $this->profileService;
             $reportView->viewHelper = $this->viewHelper;
             $reportView->reports = array_merge(
                 $this->service->findByStatus(Report::STATUS_APPROVAL_REQUESTED),

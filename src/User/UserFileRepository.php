@@ -18,8 +18,6 @@ class UserFileRepository implements UserRepository
     }
 
     /**
-     * @param string $forename
-     * @param string $surname
      * @param string $username
      * @param string $email
      * @param Role $role
@@ -28,8 +26,6 @@ class UserFileRepository implements UserRepository
      * @return User
      */
     public function createUser(
-        string $forename,
-        string $surname,
         string $username,
         string $email,
         Role $role,
@@ -39,7 +35,7 @@ class UserFileRepository implements UserRepository
             throw new UserRepositoryException("Email already exists!\n");
         }
 
-        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, $password, new UserId());
         $this->ensureUsersPath();
         $this->save($user);
 
@@ -81,21 +77,6 @@ class UserFileRepository implements UserRepository
 
         foreach ($allUsers as $user) {
             if ($user->email() === $email) {
-                return $user;
-            }
-        }
-    }
-
-    /**
-     * @param string $surname
-     * @return User|null
-     */
-    public function findUserBySurname(string $surname)
-    {
-        $allUsers = $this->findAllUsers();
-
-        foreach ($allUsers as $user) {
-            if ($user->surname() === $surname) {
                 return $user;
             }
         }

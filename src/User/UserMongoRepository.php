@@ -36,8 +36,6 @@ class UserMongoRepository implements UserRepository
     }
 
     /**
-     * @param string $forename
-     * @param string $surname
      * @param string $username
      * @param string $email
      * @param Role $role
@@ -46,8 +44,6 @@ class UserMongoRepository implements UserRepository
      * @return User
      */
     public function createUser(
-        string $forename,
-        string $surname,
         string $username,
         string $email,
         Role $role,
@@ -57,7 +53,7 @@ class UserMongoRepository implements UserRepository
             throw new UserRepositoryException("Email already exists!\n");
         }
 
-        $user = new User($forename, $surname, $username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $this->save($user);
 

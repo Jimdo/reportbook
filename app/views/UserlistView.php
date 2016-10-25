@@ -8,10 +8,11 @@
         <th>Aktionen</th>
     </tr>
     <?php foreach ($this->users as $user):
-        $userEmail = $user->email()?>
+        $profile = $this->profileService->findProfileByUserId($user->id());
+        $userEmail = $user->email(); ?>
         <tr>
-            <td><?php echo $user->forename(); ?></td>
-            <td><?php echo $user->surname(); ?></td>
+            <td><?php echo $profile->forename(); ?></td>
+            <td><?php echo $profile->surname(); ?></td>
             <td><?php echo $userEmail; ?></td>
             <td><?php echo $this->viewHelper->getTranslationForRole($user->roleName()); ?></td>
             <td><?php echo $this->viewHelper->getTranslationForStatus($user->roleStatus()); ?></td>

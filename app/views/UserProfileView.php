@@ -1,9 +1,9 @@
 <div class="row">
-    <legend><?php echo 'Profil von ' . $this->user->forename() . ' ' . $this->user->surname(); ?></legend>
+    <legend><?php echo 'Profil von ' . $this->profile->forename() . ' ' . $this->profile->surname(); ?></legend>
 </div>
 
 <div class="col-sm-12" >
-    <img src="data:image/gif;base64,<?php echo  $this->user->image(); ?>"  style="width:212px;height:212px;border:1px solid gray;"/>
+    <img src= "/profile/image?id=<?php echo $this->profile->userId(); ?>" alt="Profilbild" style="width:212px; height:212px; border:1px solid gray;">
 </div>
 
 <div class="col-sm-offset-2 col-sm-5">

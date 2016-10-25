@@ -206,7 +206,7 @@ class ProfileTest extends TestCase
 
         $newImage = '321321321321321321321231312';
 
-        $profile->editImage($newImage);
+        $profile->editImage($newImage, 'png');
 
         $this->assertEquals($newImage, $profile->image());
     }

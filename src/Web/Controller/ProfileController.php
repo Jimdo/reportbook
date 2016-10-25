@@ -46,9 +46,10 @@ class ProfileController extends Controller
         $profileId = $this->queryParams('id');
         $profile = $this->profileService->findProfileByUserId($profileId);
         $base64 = $profile->image();
+        $imageType = $profile->imageType();
         $data = base64_decode($base64);
 
-        header('Content-Type: image/jpeg');
+        header('Content-Type: image/' . $imageType);
 
         echo $data;
     }

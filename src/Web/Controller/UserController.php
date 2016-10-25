@@ -82,7 +82,7 @@ class UserController extends Controller
         if ($uploadOk) {
             $image = file_get_contents($_FILES["fileToUpload"]["tmp_name"]);
             $base64 = base64_encode($image);
-            $this->profileService->editImage($this->sessionData('userId'), $base64);
+            $this->profileService->editImage($this->sessionData('userId'), $base64, $ext);
             $this->redirect('/user/profile');
         }
     }

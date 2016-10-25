@@ -269,7 +269,7 @@ class ProfileServiceTest extends TestCase
 
         $newImage = '1fc';
 
-        $this->service->editImage($userId, $newImage);
+        $this->service->editImage($userId, $newImage, 'png');
 
         $profile = $this->service->findProfileByUserId($userId);
 

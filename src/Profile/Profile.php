@@ -39,6 +39,9 @@ class Profile
     /** @var string */
     private $image = '';
 
+    /** @var string */
+    private $imageType = '';
+
     /**
      * @param string $userId
      * @param string $forename
@@ -140,6 +143,14 @@ class Profile
     }
 
     /**
+     * @return string
+     */
+    public function imageType():string
+    {
+        return $this->imageType;
+    }
+
+    /**
      * @param string $newForename
      */
     public function editForename(string $newForename)
@@ -214,8 +225,9 @@ class Profile
     /**
      * @param string $newImage
      */
-    public function editImage(string $newImage)
+    public function editImage(string $newImage, string $imageType)
     {
-        $this->image = $newImage;
+        $this->image =  $newImage;
+        $this->imageType = $imageType;
     }
 }

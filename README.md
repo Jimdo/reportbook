@@ -89,3 +89,7 @@ update       Update composer packages
   - Add more edit functions to the User and UserService
   - Add Validation to Profile View
   - Implement read only Profile View
+
+### v0.3.7
+  - Implement Profile for User
+  - Implement ProfileController

@@ -71,7 +71,10 @@ class Serializer
             'grade' => $profile->grade(),
             'trainingYear' => $profile->trainingYear(),
             'startOfTraining' => $profile->startOfTraining(),
-            'image' => $profile->image()
+            'image' => [
+                'base64' => $profile->image(),
+                'type' => $profile->imageType()
+            ]
         ];
     }
 
@@ -94,7 +97,7 @@ class Serializer
         $profile->editGrade($serializedProfile['grade']);
         $profile->editTrainingYear($serializedProfile['trainingYear']);
         $profile->editStartOfTraining($serializedProfile['startOfTraining']);
-        $profile->editImage($serializedProfile['image']);
+        $profile->editImage($serializedProfile['image']['base64'], $serializedProfile['image']['type']);
 
         return $profile;
     }

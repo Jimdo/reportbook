@@ -11,7 +11,7 @@
 </div>
 
 <div class="col-sm-12" >
-    <img src="data:image/gif;base64,<?php echo  $this->profile->image(); ?>"  style="width:212px;height:212px;border:1px solid gray;"/>
+    <img src= "/profile/image?id=<?php echo $this->profile->userId(); ?>" alt="Profilbild" style="width:212px; height:212px; border:1px solid gray;">
     <a href="#changeImage" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
 
     <br>

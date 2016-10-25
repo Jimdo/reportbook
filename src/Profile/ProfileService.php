@@ -138,10 +138,10 @@ class ProfileService
      * @param string $userId
      * @param string $image
      */
-    public function editImage(string $userId, string $image)
+    public function editImage(string $userId, string $image, string $type)
     {
         $profile = $this->repository->findProfileByUserId($userId);
-        $profile->editImage($image);
+        $profile->editImage($image, $type);
         $this->repository->save($profile);
     }
 }

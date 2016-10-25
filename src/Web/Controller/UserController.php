@@ -123,7 +123,7 @@ class UserController extends Controller
                 $this->service->approveRole($adminUser->email());
                 $this->profileService->createProfile($adminUser->id(), 'admin', 'admin');
             }
-            $loginWithDefaultPassword = true;
+            $loginWithAdminDefaultPassword = true;
         }
 
         if ($this->service->authUser($identifier, $password)) {

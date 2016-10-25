@@ -37,7 +37,7 @@ class Profile
     private $startOfTraining = '';
 
     /** @var string */
-    private $image = '';
+    private $image = [];
 
     /**
      * @param string $userId
@@ -136,7 +136,15 @@ class Profile
      */
     public function image():string
     {
-        return $this->image;
+        return $this->image['base64'];
+    }
+
+    /**
+     * @return string
+     */
+    public function imageType():string
+    {
+        return $this->image['type'];
     }
 
     /**
@@ -214,8 +222,11 @@ class Profile
     /**
      * @param string $newImage
      */
-    public function editImage(string $newImage)
+    public function editImage(string $newImage, string $imageType)
     {
-        $this->image = $newImage;
+        $this->image = [
+            'base64' => $newImage,
+            'type' => $imageType
+        ];
     }
 }

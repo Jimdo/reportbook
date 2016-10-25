@@ -11,7 +11,7 @@
 </div>
 
 <div class="col-sm-12" >
-    <img src="data:image/gif;base64,<?php echo  $this->user->image(); ?>"  style="width:212px;height:212px;border:1px solid gray;"/>
+    <img src="data:image/gif;base64,<?php echo  $this->profile->image(); ?>"  style="width:212px;height:212px;border:1px solid gray;"/>
     <a href="#changeImage" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
 
     <br>
@@ -45,7 +45,7 @@
             <label class="col-sm-6 control-label">Vorname</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static"><?php echo $this->user->forename(); ?>
+                <p class="form-control-static"><?php echo $this->profile->forename(); ?>
                     <a href="#changeForename" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                 </p>
              </div>
@@ -67,7 +67,7 @@
             <label class="col-sm-6 control-label">Nachname</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static"><?php echo $this->user->surname(); ?>
+                <p class="form-control-static"><?php echo $this->profile->surname(); ?>
                     <a href="#changeSurname" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                 </p>
              </div>
@@ -90,7 +90,7 @@
             <label class="col-sm-6 control-label">Geburtsdatum</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static"><?php echo $this->user->dateOfBirth(); ?>
+                <p class="form-control-static"><?php echo $this->profile->dateOfBirth(); ?>
                     <a href="#changeDateOfBirth" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                 </p>
              </div>
@@ -168,7 +168,7 @@
             <label class="col-sm-6 control-label">Firma</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static"><?php echo $this->user->company(); ?>
+                <p class="form-control-static"><?php echo $this->profile->company(); ?>
                     <a href="#changeCompany" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                 </p>
              </div>
@@ -191,7 +191,7 @@
             <label class="col-sm-6 control-label">Berufsbezeichung</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static"><?php echo $this->user->jobTitle(); ?>
+                <p class="form-control-static"><?php echo $this->profile->jobTitle(); ?>
                     <a href="#changeJobTitle" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                 </p>
              </div>
@@ -224,7 +224,7 @@
                 <label class="col-sm-6 control-label">Schule</label>
                 <div class="col-sm-6">
 
-                    <p class="form-control-static"><?php echo $this->user->school(); ?>
+                    <p class="form-control-static"><?php echo $this->profile->school(); ?>
                         <a href="#changeSchool" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                     </p>
                  </div>
@@ -247,7 +247,7 @@
                 <label class="col-sm-6 control-label">Klasse</label>
                 <div class="col-sm-6">
 
-                    <p class="form-control-static"><?php echo $this->user->grade(); ?>
+                    <p class="form-control-static"><?php echo $this->profile->grade(); ?>
                         <a href="#changeGrade" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                     </p>
                  </div>
@@ -270,7 +270,7 @@
                 <label class="col-sm-6 control-label">Ausbildungsbeginn</label>
                 <div class="col-sm-6">
 
-                    <p class="form-control-static"><?php echo $this->user->startOfTraining(); ?>
+                    <p class="form-control-static"><?php echo $this->profile->startOfTraining(); ?>
                         <a href="#changeStartOfTraining" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                     </p>
                  </div>
@@ -293,7 +293,7 @@
                 <label class="col-sm-6 control-label">Ausbildungsjahr</label>
                 <div class="col-sm-6">
 
-                    <p class="form-control-static"><?php echo $this->user->trainingYear(); ?>
+                    <p class="form-control-static"><?php echo $this->profile->trainingYear(); ?>
                         <a href="#changeTrainingYear" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                     </p>
                  </div>

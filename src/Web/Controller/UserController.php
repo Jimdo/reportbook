@@ -123,7 +123,7 @@ class UserController extends Controller
                 $this->service->approveRole($adminUser->email());
                 $this->profileService->createProfile($adminUser->id(), 'admin', 'admin');
             }
-            $loginWith34DefaultPassword = true;
+            $loginWithDefaultPassword = true;
         }
 
         if ($this->service->authUser($identifier, $password)) {
@@ -138,6 +138,12 @@ class UserController extends Controller
                 $_SESSION['authorized'] = true;
                 $_SESSION['userId'] = $user->id();
                 $_SESSION['username'] = $user->username();
+
+                $profile = $this->profileService->findProfileByUserId($user->id());
+
+                if ($profile === null) {
+                    $this->profileService->createProfile($user->id(), ' ', ' ');
+                }
 
                 if ($loginWithAdminDefaultPassword) {
                     $this->redirect('/user/changePassword');

@@ -10,9 +10,10 @@
     <?php foreach ($this->reports as $report):
               $reportId = $report->id();
               $traineeId = $report->traineeId();
+              $profile = $this->profileService->findProfileByUserId($traineeId);
               $user = $this->userService->findUserById($traineeId);?>
         <tr>
-            <td><a href="/user/viewProfile?userId=<?php echo $user->id(); ?>"><?php echo $user->forename() . ' ' . $user->surname(); ?></a></td>
+            <td><a href="/user/viewProfile?userId=<?php echo $user->id(); ?>"><?php echo $profile->forename() . ' ' . $profile->surname(); ?></a></td>
             <td><?php echo substr($report->content(), 0, 20); ?></td>
             <td><?php echo $report->date(); ?></td>
             <td><?php echo $report->calendarWeek(); ?></td>

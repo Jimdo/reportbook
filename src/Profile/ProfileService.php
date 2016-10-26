@@ -7,12 +7,17 @@ class ProfileService
     /** @var ProfileMongoRepository */
     private $repository;
 
+    /** @var string */
+    private $imagePath;
+
     /**
      * @param ProfileMongoRepository $repository
+     * @param string $imagePath
      */
-    public function __construct(ProfileMongoRepository $repository)
+    public function __construct(ProfileMongoRepository $repository, string $imagePath)
     {
         $this->repository = $repository;
+        $this->imagePath = $imagePath;
     }
 
     /**
@@ -32,7 +37,13 @@ class ProfileService
      */
     public function findProfileByUserId(string $userId)
     {
-        return $this->repository->findProfileByUserId($userId);
+        $profile = $this->repository->findProfileByUserId($userId);
+        if ($profile->image() === '') {
+            $image = file_get_contents($this->imagePath);
+            $base64 = base64_encode($image);
+            $profile->editImage($base64, 'jpg');
+        }
+        return $profile;
     }
 
     /**

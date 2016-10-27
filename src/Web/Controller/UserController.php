@@ -89,11 +89,11 @@ class UserController extends Controller
 
     public function indexAction()
     {
-        $headerView = $this->view('app/views/Header.php');
+        $headerView = $this->view('src/Web/Controller/Views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
 
-        $loginView = $this->view('app/views/LoginView.php');
-        $footerView = $this->view('app/views/Footer.php');
+        $loginView = $this->view('src/Web/Controller/Views/LoginView.php');
+        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
         $footerView->backButton = 'nope';
 
@@ -162,13 +162,13 @@ class UserController extends Controller
 
     public function registerAction()
     {
-        $headerView = $this->view('app/views/Header.php');
+        $headerView = $this->view('src/Web/Controller/Views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
 
-        $registerView = $this->view('app/views/RegisterView.php');
+        $registerView = $this->view('src/Web/Controller/Views/RegisterView.php');
         $registerView->role = $this->queryParams('role');
 
-        $footerView = $this->view('app/views/Footer.php');
+        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
         $this->response->addBody($headerView->render());
         $this->response->addBody($registerView->render());
@@ -186,13 +186,13 @@ class UserController extends Controller
         $role = $this->formData('role');
 
         if ($password !== $passwordConfirmation) {
-            $headerView = $this->view('app/views/Header.php');
+            $headerView = $this->view('src/Web/Controller/Views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
 
-            $registerView = $this->view('app/views/RegisterView.php');
+            $registerView = $this->view('src/Web/Controller/Views/RegisterView.php');
             $registerView->role = $role;
             $registerView->errorMessages = ['Die eingegebenen Passwörter stimmen nicht überein'];
-            $footerView = $this->view('app/views/Footer.php');
+            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
             $this->response->addBody($headerView->render());
             $this->response->addBody($registerView->render());
@@ -215,20 +215,20 @@ class UserController extends Controller
     public function userlistAction()
     {
         if ($this->isTrainer()) {
-            $headerView = $this->view('app/views/Header.php');
+            $headerView = $this->view('src/Web/Controller/Views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
 
-            $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
             $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->infoHeadline = ' | Benutzeranfragen';
             $infobarView->hideInfos = false;
 
-            $footerView = $this->view('app/views/Footer.php');
+            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
             $footerView->backButton = 'show';
 
-            $userView = $this->view('app/views/UserlistView.php');
+            $userView = $this->view('src/Web/Controller/Views/UserlistView.php');
             $userView->users = $this->service->findUsersByStatus(Role::STATUS_NOT_APPROVED);
             $userView->viewHelper = $this->viewHelper;
             $userView->profileService = $this->profileService;
@@ -261,20 +261,20 @@ class UserController extends Controller
 
     public function profileAction()
     {
-        $headerView = $this->view('app/views/Header.php');
+        $headerView = $this->view('src/Web/Controller/Views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
 
-        $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->hideInfos = true;
 
-        $profileView = $this->view('app/views/ProfileView.php');
+        $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
         $profileView->user = $this->service->findUserById($this->sessionData('userId'));
         $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
 
-        $footerView = $this->view('app/views/Footer.php');
+        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
         $footerView->backButton = 'show';
 
         $this->response->addBody($headerView->render());
@@ -318,20 +318,20 @@ class UserController extends Controller
 
         $errorMessages[] = $this->getErrorMessageForErrorCode($this->requestValidator->errorCodes()['dateOfBirth']);
 
-        $headerView = $this->view('app/views/Header.php');
+        $headerView = $this->view('src/Web/Controller/Views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
 
-        $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->hideInfos = true;
 
-        $profileView = $this->view('app/views/ProfileView.php');
+        $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
         $profileView->user = $this->service->findUserById($this->sessionData('userId'));
         $profileView->errorMessages = $errorMessages;
 
-        $footerView = $this->view('app/views/Footer.php');
+        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
         $this->response->addBody($headerView->render());
         $this->response->addBody($infobarView->render());
@@ -356,20 +356,20 @@ class UserController extends Controller
         }
 
         if ($exceptions !== []) {
-            $headerView = $this->view('app/views/Header.php');
+            $headerView = $this->view('src/Web/Controller/Views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
 
-            $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
             $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->hideInfos = true;
 
-            $profileView = $this->view('app/views/ProfileView.php');
+            $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
             $profileView->user = $this->service->findUserById($this->sessionData('userId'));
             $profileView->errorMessages = $exceptions;
 
-            $footerView = $this->view('app/views/Footer.php');
+            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
             $this->response->addBody($headerView->render());
             $this->response->addBody($infobarView->render());
@@ -396,20 +396,20 @@ class UserController extends Controller
         }
 
         if ($exceptions !== []) {
-            $headerView = $this->view('app/views/Header.php');
+            $headerView = $this->view('src/Web/Controller/Views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
 
-            $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
             $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->hideInfos = true;
 
-            $profileView = $this->view('app/views/ProfileView.php');
+            $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
             $profileView->user = $this->service->findUserById($this->sessionData('userId'));
             $profileView->errorMessages = $exceptions;
 
-            $footerView = $this->view('app/views/Footer.php');
+            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
             $this->response->addBody($headerView->render());
             $this->response->addBody($infobarView->render());
@@ -476,20 +476,20 @@ class UserController extends Controller
 
         $errorMessages[] = $this->getErrorMessageForErrorCode($this->requestValidator->errorCodes()['startOfTraining']);
 
-        $headerView = $this->view('app/views/Header.php');
+        $headerView = $this->view('src/Web/Controller/Views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
 
-        $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->hideInfos = true;
 
-        $profileView = $this->view('app/views/ProfileView.php');
+        $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
         $profileView->user = $this->service->findUserById($this->sessionData('userId'));
         $profileView->errorMessages = $errorMessages;
 
-        $footerView = $this->view('app/views/Footer.php');
+        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
         $this->response->addBody($headerView->render());
         $this->response->addBody($infobarView->render());
@@ -512,20 +512,20 @@ class UserController extends Controller
         $errorCodes = $this->requestValidator->errorCodes();
         $errorMessages[] = $this->getErrorMessageForErrorCode($errorCodes['trainingYear']);
 
-        $headerView = $this->view('app/views/Header.php');
+        $headerView = $this->view('src/Web/Controller/Views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
 
-        $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->hideInfos = true;
 
-        $profileView = $this->view('app/views/ProfileView.php');
+        $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
         $profileView->user = $this->service->findUserById($this->sessionData('userId'));
         $profileView->errorMessages = $errorMessages;
 
-        $footerView = $this->view('app/views/Footer.php');
+        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
         $this->response->addBody($headerView->render());
         $this->response->addBody($infobarView->render());
@@ -539,18 +539,18 @@ class UserController extends Controller
             $this->redirect("/user");
         }
 
-        $headerView = $this->view('app/views/Header.php');
+        $headerView = $this->view('src/Web/Controller/Views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
 
-        $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->hideInfos = true;
 
-        $changePasswordView = $this->view('app/views/ChangePasswordView.php');
+        $changePasswordView = $this->view('src/Web/Controller/Views/ChangePasswordView.php');
 
-        $footerView = $this->view('app/views/Footer.php');
+        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
         $this->response->addBody($headerView->render());
         $this->response->addBody($infobarView->render());
@@ -581,18 +581,18 @@ class UserController extends Controller
         }
 
         if ($exceptions !== []) {
-            $headerView = $this->view('app/views/Header.php');
+            $headerView = $this->view('src/Web/Controller/Views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
 
-            $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->hideInfos = true;
 
-            $changePasswordView = $this->view('app/views/ChangePasswordView.php');
+            $changePasswordView = $this->view('src/Web/Controller/Views/ChangePasswordView.php');
             $changePasswordView->errorMessages = $exceptions;
 
-            $footerView = $this->view('app/views/Footer.php');
+            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
             $this->response->addBody($headerView->render());
             $this->response->addBody($infobarView->render());
@@ -605,20 +605,20 @@ class UserController extends Controller
 
     public function viewProfileAction()
     {
-        $headerView = $this->view('app/views/Header.php');
+        $headerView = $this->view('src/Web/Controller/Views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
 
-        $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->hideInfos = true;
 
-        $viewProfileView = $this->view('app/views/UserProfileView.php');
+        $viewProfileView = $this->view('src/Web/Controller/Views/UserProfileView.php');
         $viewProfileView->user = $this->service->findUserById($this->queryParams('userId'));
         $viewProfileView->profile = $this->profileService->findProfileByUserId($this->queryParams('userId'));
 
-        $footerView = $this->view('app/views/Footer.php');
+        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
         $footerView->backButton = 'show';
 
         $this->response->addBody($headerView->render());

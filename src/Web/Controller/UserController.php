@@ -58,14 +58,14 @@ class UserController extends Controller
         $this->service = new UserService($userRepository);
         $this->viewHelper = new ViewHelper();
         $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);
-        $this->profileService = new ProfileService($profileRepository);
+        $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile);
     }
 
     public function uploadAction()
     {
         $uploadOk = true;
 
-        $allowed =  array('gif','png', 'jpg', 'JPG', 'PNG');
+        $allowed =  array('png', 'jpg', 'JPG', 'PNG');
         $filename = $_FILES['fileToUpload']['name'];
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
 

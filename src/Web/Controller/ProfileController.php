@@ -38,7 +38,7 @@ class ProfileController extends Controller
         $client = new \MongoDB\Client($uri);
 
         $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);
-        $this->profileService = new ProfileService($profileRepository);
+        $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile);
     }
 
     public function imageAction()

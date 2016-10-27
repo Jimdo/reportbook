@@ -85,6 +85,13 @@ class CommentMongoRepository implements CommentRepository
      */
     public function findCommentsByReportId(string $reportId): array
     {
-
+        $foundComments = [];
+        foreach ($this->comments->find() as $comment) {
+            $comment = $this->serializer->unserializeComment($comment->getArrayCopy());
+            if ($reportId === $comment->reportId()) {
+                $foundComments[] = $comment;
+            }
+        }
+        return $foundComments;
     }
 }

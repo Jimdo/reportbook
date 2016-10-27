@@ -4,6 +4,7 @@ namespace Jimdo\Reports;
 
 use Jimdo\Reports\User\User as User;
 use Jimdo\Reports\User\Role as Role;
+use Jimdo\Reports\Comment\Comment as Comment;
 use Jimdo\Reports\User\UserId as UserId;
 use Jimdo\Reports\Profile\Profile as Profile;
 use Jimdo\Reports\Reportbook\Report as Report;
@@ -131,6 +132,34 @@ class Serializer
             $serializedReport['calendarWeek'],
             $serializedReport['id'],
             $serializedReport['status']
+        );
+    }
+
+    /**
+     * @param Comment $comment
+     * @return array
+     */
+    public function serializeComment(Comment $comment): array
+    {
+        return [
+            'reportId' => $comment->reportId(),
+            'userId' => $comment->userId(),
+            'date' => $comment->date(),
+            'content' => $comment->content(),
+        ];
+    }
+
+    /**
+     * @param array $serializedComment
+     * @return Comment
+     */
+    public function unserializeComment(array $serializedComment): Comment
+    {
+        return new Comment(
+            $serializedComment['reportId'],
+            $serializedComment['userId'],
+            $serializedComment['date'],
+            $serializedComment['content']
         );
     }
 }

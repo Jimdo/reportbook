@@ -5,6 +5,7 @@ namespace Jimdo\Reports;
 use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\User\User as User;
 use Jimdo\Reports\User\Role as Role;
+use Jimdo\Reports\Comment\Comment as Comment;
 use Jimdo\Reports\User\UserId as UserId;
 use Jimdo\Reports\Profile\Profile as Profile;
 use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
@@ -185,5 +186,51 @@ class SerializerTest extends TestCase
         $this->assertEquals($calendarWeek, $unserializedReport->calendarWeek());
         $this->assertEquals($reportId, $unserializedReport->id());
         $this->assertEquals($report->status(), $unserializedReport->status());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldSerializeComment()
+    {
+        $serializer = new Serializer();
+
+        $reportId = uniqid();
+        $userId = uniqid();
+        $date = '10.10.10';
+        $content = 'some content';
+
+        $comment = new Comment($reportId, $userId, $date, $content);
+
+        $serializedComment = $serializer->serializeComment($comment);
+
+        $this->assertEquals($reportId, $serializedComment['reportId']);
+        $this->assertEquals($userId, $serializedComment['userId']);
+        $this->assertEquals($date, $serializedComment['date']);
+        $this->assertEquals($content, $serializedComment['content']);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldUnserializeComment()
+    {
+        $serializer = new Serializer();
+
+        $reportId = uniqid();
+        $userId = uniqid();
+        $date = '10.10.10';
+        $content = 'some content';
+
+        $comment = new Comment($reportId, $userId, $date, $content);
+
+        $serializedComment = $serializer->serializeComment($comment);
+
+        $unserializedComment = $serializer->unserializeComment($serializedComment);
+
+        $this->assertEquals($reportId, $unserializedComment->reportId());
+        $this->assertEquals($userId, $unserializedComment->userId());
+        $this->assertEquals($date, $unserializedComment->date());
+        $this->assertEquals($content, $unserializedComment->content());
     }
 }

@@ -329,6 +329,7 @@ class UserController extends Controller
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
         $profileView->user = $this->service->findUserById($this->sessionData('userId'));
+        $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
         $profileView->errorMessages = $errorMessages;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -367,6 +368,7 @@ class UserController extends Controller
 
             $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
             $profileView->user = $this->service->findUserById($this->sessionData('userId'));
+            $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
             $profileView->errorMessages = $exceptions;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -407,6 +409,7 @@ class UserController extends Controller
 
             $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
             $profileView->user = $this->service->findUserById($this->sessionData('userId'));
+            $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
             $profileView->errorMessages = $exceptions;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -487,6 +490,7 @@ class UserController extends Controller
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
         $profileView->user = $this->service->findUserById($this->sessionData('userId'));
+        $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
         $profileView->errorMessages = $errorMessages;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -523,6 +527,7 @@ class UserController extends Controller
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
         $profileView->user = $this->service->findUserById($this->sessionData('userId'));
+        $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
         $profileView->errorMessages = $errorMessages;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');

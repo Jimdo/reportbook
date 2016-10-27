@@ -45,7 +45,11 @@ class CommentMongoRepository implements CommentRepository
      */
     public function createComment(string $reportId, string $userId, string $date, string $content): Comment
     {
-        return new Comment($reportId, $userId, $date, $content);
+        $comment = new Comment($reportId, $userId, $date, $content);
+
+        $this->save($comment);
+
+        return $comment;
     }
 
     /**
@@ -62,7 +66,8 @@ class CommentMongoRepository implements CommentRepository
      */
     public function save(Comment $comment)
     {
-
+        // $this->deleteComment($comment);
+        $this->comments->insertOne($this->serializer->serializeComment($comment));
     }
 
     /**

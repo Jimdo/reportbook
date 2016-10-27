@@ -63,6 +63,8 @@ class UserController extends Controller
 
     public function uploadAction()
     {
+        $exceptions = [];
+
         $uploadOk = true;
 
         $allowed =  array('png', 'jpg', 'JPG', 'PNG');
@@ -70,12 +72,12 @@ class UserController extends Controller
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
         if(!in_array($ext,$allowed) ) {
-            echo "Folgende File-Typen sind erlaubt: JPG, JPEG, PNG, GIF. \n";
+            $exceptions[] = "Folgende File-Typen sind erlaubt: JPG, JPEG, PNG.";
             $uploadOk = false;
         }
 
         if ($_FILES["fileToUpload"]["size"] > 1000000) {
-            echo "Das Bild darf maximal 1MB groß sein! \n";
+            $exceptions[] = "Das Bild darf maximal 1MB groß sein!";
             $uploadOk = false;
         }
 
@@ -85,6 +87,28 @@ class UserController extends Controller
             $this->profileService->editImage($this->sessionData('userId'), $base64, $ext);
             $this->redirect('/user/profile');
         }
+
+        $headerView = $this->view('src/Web/Controller/Views/Header.php');
+        $headerView->tabTitle = 'Berichtsheft';
+
+        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
+        $infobarView->viewHelper = $this->viewHelper;
+        $infobarView->username = $this->sessionData('username');
+        $infobarView->role = $this->sessionData('role');
+        $infobarView->hideInfos = true;
+
+        $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
+        $profileView->user = $this->service->findUserById($this->sessionData('userId'));
+        $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
+        $profileView->errorMessages = $exceptions;
+
+        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
+        $footerView->backButton = 'show';
+
+        $this->response->addBody($headerView->render());
+        $this->response->addBody($infobarView->render());
+        $this->response->addBody($profileView->render());
+        $this->response->addBody($footerView->render());
     }
 
     public function indexAction()
@@ -329,6 +353,7 @@ class UserController extends Controller
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
         $profileView->user = $this->service->findUserById($this->sessionData('userId'));
+        $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
         $profileView->errorMessages = $errorMessages;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -367,6 +392,7 @@ class UserController extends Controller
 
             $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
             $profileView->user = $this->service->findUserById($this->sessionData('userId'));
+            $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
             $profileView->errorMessages = $exceptions;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -407,6 +433,7 @@ class UserController extends Controller
 
             $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
             $profileView->user = $this->service->findUserById($this->sessionData('userId'));
+            $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
             $profileView->errorMessages = $exceptions;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -487,6 +514,7 @@ class UserController extends Controller
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
         $profileView->user = $this->service->findUserById($this->sessionData('userId'));
+        $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
         $profileView->errorMessages = $errorMessages;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -523,6 +551,7 @@ class UserController extends Controller
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
         $profileView->user = $this->service->findUserById($this->sessionData('userId'));
+        $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
         $profileView->errorMessages = $errorMessages;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');

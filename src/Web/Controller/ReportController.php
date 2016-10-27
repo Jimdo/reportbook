@@ -72,25 +72,25 @@ class ReportController extends Controller
 
     public function listAction()
     {
-        $headerView = $this->view('app/views/Header.php');
+        $headerView = $this->view('src/Web/Controller/Views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
 
-        $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->infoHeadline = ' | Übersicht';
         $infobarView->hideInfos = false;
 
-        $footerView = $this->view('app/views/Footer.php');
+        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
         $footerView->backButton = 'nope';
 
         if ($this->isTrainee()) {
-            $reportView = $this->view('app/views/TraineeView.php');
+            $reportView = $this->view('src/Web/Controller/Views/TraineeView.php');
             $reportView->reports = $this->service->findByTraineeId($this->sessionData('userId'));
             $reportView->viewHelper = $this->viewHelper;
         } elseif ($this->isTrainer()) {
-            $reportView = $this->view('app/views/TrainerView.php');
+            $reportView = $this->view('src/Web/Controller/Views/TrainerView.php');
             $reportView->userService = $this->userService;
             $reportView->profileService = $this->profileService;
             $reportView->viewHelper = $this->viewHelper;
@@ -118,7 +118,7 @@ class ReportController extends Controller
         }
             $traineeId = $this->sessionData('userId');
 
-            $reportView = $this->view('app/views/Report.php');
+            $reportView = $this->view('src/Web/Controller/Views/Report.php');
             $reportView->action = '/report/create';
             $reportView->legend = 'Neuen Bericht erstellen';
             $reportView->calendarWeek = date('W');
@@ -129,16 +129,16 @@ class ReportController extends Controller
             $reportView->backButton = 'show';
             $reportView->role = 'TRAINEE';
 
-            $headerView = $this->view('app/views/Header.php');
+            $headerView = $this->view('src/Web/Controller/Views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
 
-            $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
             $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->hideInfos = false;
 
-            $footerView = $this->view('app/views/Footer.php');
+            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
             $footerView->backButton = 'show';
 
             $this->response->addBody($headerView->render());
@@ -166,7 +166,7 @@ class ReportController extends Controller
             );
             $this->redirect("/report/list");
         } else {
-            $reportView = $this->view('app/views/Report.php');
+            $reportView = $this->view('src/Web/Controller/Views/Report.php');
             $reportView->errorMessages = $this->requestValidator->errorMessages();
             $reportView->action = '/report/create';
             $reportView->legend = 'Neuen Bericht erstellen';
@@ -177,16 +177,16 @@ class ReportController extends Controller
             $reportView->backButton = 'show';
             $reportView->role = 'TRAINEE';
 
-            $headerView = $this->view('app/views/Header.php');
+            $headerView = $this->view('src/Web/Controller/Views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
 
-            $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
             $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->hideInfos = false;
 
-            $footerView = $this->view('app/views/Footer.php');
+            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
             $footerView->backButton = 'show';
 
             $this->response->addBody($headerView->render());
@@ -205,7 +205,7 @@ class ReportController extends Controller
         $reportId = $this->formData('reportId');
         $report = $this->service->findById($reportId, $this->sessionData('userId'));
 
-        $reportView = $this->view('app/views/Report.php');
+        $reportView = $this->view('src/Web/Controller/Views/Report.php');
         $reportView->action = '/report/edit';
         $reportView->legend = 'Bericht bearbeiten';
         $reportView->calendarWeek = $report->calendarWeek();
@@ -216,16 +216,16 @@ class ReportController extends Controller
         $reportView->backButton = 'show';
         $reportView->role = 'TRAINEE';
 
-        $headerView = $this->view('app/views/Header.php');
+        $headerView = $this->view('src/Web/Controller/Views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
 
-        $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->hideInfos = false;
 
-        $footerView = $this->view('app/views/Footer.php');
+        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
         $footerView->backButton = 'show';
 
         $this->response->addBody($headerView->render());
@@ -252,7 +252,7 @@ class ReportController extends Controller
             );
             $this->redirect("/report/list");
         } else {
-            $reportView = $this->view('app/views/Report.php');
+            $reportView = $this->view('src/Web/Controller/Views/Report.php');
 
             foreach ($this->requestValidator->errorCodes() as $errorCode) {
                 $errorMessage[] = $this->getErrorMessageForErrorCode($errorCode);
@@ -268,16 +268,16 @@ class ReportController extends Controller
             $reportView->backButton = 'show';
             $reportView->role = 'TRAINEE';
 
-            $headerView = $this->view('app/views/Header.php');
+            $headerView = $this->view('src/Web/Controller/Views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
 
-            $infobarView = $this->view('app/views/Infobar.php');
+            $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
             $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->hideInfos = false;
 
-            $footerView = $this->view('app/views/Footer.php');
+            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
             $footerView->backButton = 'show';
 
             $this->response->addBody($headerView->render());
@@ -317,7 +317,7 @@ class ReportController extends Controller
 
         $report = $this->service->findById($this->formData('reportId'), $this->formData('traineeId'));
 
-        $reportView = $this->view('app/views/Report.php');
+        $reportView = $this->view('src/Web/Controller/Views/Report.php');
         $reportView->title = 'Bericht';
         $reportView->legend = 'Vorschau';
         $reportView->calendarWeek = $report->calendarWeek();
@@ -330,16 +330,16 @@ class ReportController extends Controller
         $reportView->role = $this->sessionData('role');
         $reportView->status = $report->status();
 
-        $headerView = $this->view('app/views/Header.php');
+        $headerView = $this->view('src/Web/Controller/Views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
 
-        $infobarView = $this->view('app/views/Infobar.php');
+        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->hideInfos = false;
 
-        $footerView = $this->view('app/views/Footer.php');
+        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
         $footerView->backButton = 'show';
 
         $this->response->addBody($headerView->render());

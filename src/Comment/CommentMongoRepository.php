@@ -45,7 +45,7 @@ class CommentMongoRepository implements CommentRepository
      */
     public function createComment(string $reportId, string $userId, string $date, string $content): Comment
     {
-        $comment = new Comment($reportId, $userId, $date, $content);
+        $comment = new Comment(uniqid(), $reportId, $userId, $date, $content);
 
         $this->save($comment);
 

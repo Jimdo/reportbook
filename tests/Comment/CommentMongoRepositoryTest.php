@@ -45,6 +45,7 @@ class CommentMongoRepositoryTest extends TestCase
     {
         $repository = new CommentMongoRepository($this->client, new Serializer(), $this->appConfig);
 
+        $commentId = uniqid();
         $reportId = uniqid();
         $userId = uniqid();
         $date = '20.20.20';

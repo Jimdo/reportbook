@@ -9,14 +9,15 @@
          </div>
 
          <div class="collapse" id="createComment">
-             <form action="/user/changeForename" method="POST" class="form-horizontal">
+             <form action="/comment/createComment" method="POST" class="form-horizontal">
                  <div class="card card-block">
 
                      <div class="col-sm-offset-2 col-sm-10">
-                         <textarea type="textarea" name="forename" class="form-control" id="createComment" rows="5" placeholder="Dein Kommentar"></textarea></br>
+                         <textarea type="textarea" name="content" class="form-control" id="createComment" rows="5" placeholder="Dein Kommentar"></textarea></br>
                      </div>
 
                      <div class="col-sm-offset-10 col-sm-2">
+                         <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>" />
                          <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                      </div>
 

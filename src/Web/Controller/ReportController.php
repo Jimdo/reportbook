@@ -331,6 +331,7 @@ class ReportController extends Controller
         $reportView->status = $report->status();
 
         $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
+        $commentsView->reportId = $this->formData('reportId');
 
 
         $headerView = $this->view('src/Web/Controller/Views/Header.php');

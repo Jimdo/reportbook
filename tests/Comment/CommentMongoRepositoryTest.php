@@ -118,4 +118,23 @@ class CommentMongoRepositoryTest extends TestCase
         $comments = $repository->findCommentsByReportId($reportId);
         $this->assertCount(0, $comments);
     }
+
+    /**
+     * @test
+     */
+    public function itShouldFindCommentById()
+    {
+        $repository = new CommentMongoRepository($this->client, new Serializer(), $this->appConfig);
+
+        $reportId = uniqid();
+        $userId = uniqid();
+        $date = '20.20.20';
+        $content = 'Inhalt';
+
+        $comment = $repository->createComment($reportId, $userId, $date, $content);
+
+        $foundComment = $repository->findCommentById($comment->id());
+
+        $this->assertEquals($comment->id(), $foundComment->id());
+    }
 }

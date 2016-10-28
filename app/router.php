@@ -4,7 +4,7 @@ namespace Jimdo\Reports\Web;
 
 require 'bootstrap.php';
 
-$router = new Router();
+$router = new Router($appConfig);
 
 $uri = $_SERVER['REQUEST_URI'];
 

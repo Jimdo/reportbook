@@ -9,6 +9,9 @@ class RouterTest extends TestCase
     /** @var Router */
     private $router;
 
+    /** @var ApplicationConfig */
+    private $applicationConfig;
+
     /** @var array */
     private $queryParams = [];
 
@@ -20,7 +23,9 @@ class RouterTest extends TestCase
 
     protected function setUp()
     {
+        $this->applicationConfig = new ApplicationConfig(__DIR__ . '/../../config.yml');
         $this->router = new Router(
+            $this->applicationConfig,
             [
                 'defaultRequestObject' => new Request(
                     $this->queryParams,
@@ -55,16 +60,19 @@ class RouterTest extends TestCase
      */
     public function itShouldConfigureDefaultControllerAndDefaultAction()
     {
-        $router = new Router([
-            'defaultController' => 'default',
-            'defaultAction' => 'default',
-            'defaultRequestObject' => new Request(
-                $this->queryParams,
-                $this->formData,
-                $this->sessionData
-            ),
-            'defaultResponseObject' => new Response()
-        ]);
+        $router = new Router(
+            $this->applicationConfig,
+            [
+                'defaultController' => 'default',
+                'defaultAction' => 'default',
+                'defaultRequestObject' => new Request(
+                    $this->queryParams,
+                    $this->formData,
+                    $this->sessionData
+                ),
+                'defaultResponseObject' => new Response()
+            ]
+        );
 
         $this->assertEquals(
             'Jimdo\Reports\Web\Controller\DefaultController',
@@ -93,16 +101,19 @@ class RouterTest extends TestCase
     public function itShouldDispatchToDefaultControllerAndDefaultAction()
     {
         $uri = "/";
-        $router = new Router([
-            'defaultController' => 'fixture',
-            'defaultAction' => 'default',
-            'defaultRequestObject' => new Request(
-                $this->queryParams,
-                $this->formData,
-                $this->sessionData
-            ),
-            'defaultResponseObject' => new Response()
-        ]);
+        $router = new Router(
+            $this->applicationConfig,
+            [
+                'defaultController' => 'fixture',
+                'defaultAction' => 'default',
+                'defaultRequestObject' => new Request(
+                    $this->queryParams,
+                    $this->formData,
+                    $this->sessionData
+                ),
+                'defaultResponseObject' => new Response()
+            ]
+        );
         $this->assertEquals('defaultAction called', $router->dispatch($uri));
     }
 

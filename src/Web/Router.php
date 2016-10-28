@@ -20,6 +20,9 @@ class Router
     /** @var Response */
     private $responseObject;
 
+    /** @var ApplicationConfig */
+    private $applicationConfig;
+
     /** @var RequestValidator */
     private $requestValidator;
 
@@ -27,10 +30,13 @@ class Router
     private $ignoreList = [];
 
     /**
+     * @param ApplicationConfig $applicationConfig
      * @param array $config
      */
-    public function __construct(array $config = [])
+    public function __construct(ApplicationConfig $applicationConfig, array $config = [])
     {
+        $this->applicationConfig = $applicationConfig;
+
         if (isset($config['defaultController'])) {
             $this->defaultController = $config['defaultController'];
         }
@@ -197,18 +203,17 @@ class Router
     protected function startSession()
     {
         if (getenv('APPLICATION_ENV') === 'dev' || getenv('APPLICATION_ENV') === 'production') {
-            $applicationConfig = new ApplicationConfig(realpath(__DIR__ . '/../../config.yml'));
 
             $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
-                , $applicationConfig->mongoUsername
-                , $applicationConfig->mongoPassword
-                , $applicationConfig->mongoHost
-                , $applicationConfig->mongoPort
-                , $applicationConfig->mongoDatabase
+                , $this->applicationConfig->mongoUsername
+                , $this->applicationConfig->mongoPassword
+                , $this->applicationConfig->mongoHost
+                , $this->applicationConfig->mongoPort
+                , $this->applicationConfig->mongoDatabase
             );
 
             $client = new \MongoDB\Client($uri);
-            $db = $client->selectDatabase($applicationConfig->mongoDatabase);
+            $db = $client->selectDatabase($this->applicationConfig->mongoDatabase);
 
             $handler = new MongoSessionHandler($db->sessions, new Logger('session'));
 

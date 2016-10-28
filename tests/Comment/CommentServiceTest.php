@@ -82,4 +82,26 @@ class CommentServiceTest extends TestCase
 
         $this->assertCount(2, $comments);
     }
+
+    /**
+     * @test
+     */
+    public function itShouldDeleteComment()
+    {
+        $reportId = uniqid();
+        $userId = uniqid();
+        $date = date('d.m.Y');
+        $content = 'Hallo';
+
+        $comment1 = $this->service->createComment($reportId, $userId, $date, $content);
+        $comment2 = $this->service->createComment($reportId, $userId, $date, $content);
+
+        $comments = $this->service->findCommentsByReportId($reportId);
+        $this->assertCount(2, $comments);
+
+        $this->service->deleteComment($comment1->id());
+
+        $comments = $this->service->findCommentsByReportId($reportId);
+        $this->assertCount(1, $comments);
+    }
 }

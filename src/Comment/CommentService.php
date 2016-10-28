@@ -38,4 +38,12 @@ class CommentService
     {
         return $this->repository->findCommentsByReportId($reportId);
     }
+
+    /**
+     * @param string $id
+     */
+    public function deleteComment($id)
+    {
+        return $this->repository->deleteComment($id);
+    }
 }

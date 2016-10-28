@@ -25,10 +25,10 @@ interface CommentRepository
     public function save(Comment $comment);
 
     /**
-     * @param Comment $deleteComment
+     * @param string $id
      * @throws CommentRepositoryException
      */
-    public function deleteComment(Comment $deleteComment);
+    public function deleteComment(string $id);
 
     /**
      * @param string $reportId

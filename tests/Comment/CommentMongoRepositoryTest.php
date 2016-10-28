@@ -97,4 +97,25 @@ class CommentMongoRepositoryTest extends TestCase
 
         $this->assertCount(1, $comments);
     }
+
+    /**
+     * @test
+     */
+    public function itShouldDeleteComment()
+    {
+        $repository = new CommentMongoRepository($this->client, new Serializer(), $this->appConfig);
+
+        $reportId = uniqid();
+        $userId = uniqid();
+        $date = '20.20.20';
+        $content = 'Inhalt';
+
+        $comment = $repository->createComment($reportId, $userId, $date, $content);
+        $comments = $repository->findCommentsByReportId($reportId);
+        $this->assertCount(1, $comments);
+
+        $repository->deleteComment($comment->id());
+        $comments = $repository->findCommentsByReportId($reportId);
+        $this->assertCount(0, $comments);
+    }
 }

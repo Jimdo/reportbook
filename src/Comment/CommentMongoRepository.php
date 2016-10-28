@@ -66,17 +66,17 @@ class CommentMongoRepository implements CommentRepository
      */
     public function save(Comment $comment)
     {
-        // $this->deleteComment($comment);
+        $this->deleteComment($comment->id());
         $this->comments->insertOne($this->serializer->serializeComment($comment));
     }
 
     /**
-     * @param Comment $deleteComment
+     * @param string $id
      * @throws CommentRepositoryException
      */
-    public function deleteComment(Comment $deleteComment)
+    public function deleteComment(string $id)
     {
-
+        $this->comments->deleteOne(['id' => $id]);
     }
 
     /**

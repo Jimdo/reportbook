@@ -64,4 +64,22 @@ class CommentServiceTest extends TestCase
         $this->assertEquals($date, $comment->date());
         $this->assertEquals($content, $comment->content());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldFindCommentsByReport()
+    {
+        $reportId = uniqid();
+        $userId = uniqid();
+        $date = date('d.m.Y');
+        $content = 'Hallo';
+
+        $comment = $this->service->createComment($reportId, $userId, $date, $content);
+        $comment = $this->service->createComment($reportId, $userId, $date, $content);
+
+        $comments = $this->service->findCommentsByReportId($reportId);
+
+        $this->assertCount(2, $comments);
+    }
 }

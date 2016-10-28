@@ -25,8 +25,17 @@ class CommentService
      * @param string $content
      * @return Comment
      */
-    public function createComment(string $reportId, string $userId, string $date, string $content)
+    public function createComment(string $reportId, string $userId, string $date, string $content): Comment
     {
         return $this->repository->createComment($reportId, $userId, $date, $content);
+    }
+
+    /**
+     * @param string $reportId
+     * @return array
+     */
+    public function findCommentsByReportId(string $reportId): array
+    {
+        return $this->repository->findCommentsByReportId($reportId);
     }
 }

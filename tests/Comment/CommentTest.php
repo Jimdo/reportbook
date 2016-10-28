@@ -11,17 +11,19 @@ class CommentTest extends TestCase
      */
     public function itShouldHaveCommentConstruct()
     {
+        $id = uniqid();
         $reportId = uniqid();
         $userId = uniqid();
         $date = '20.12.2016';
         $content = 'Verbesserung 1';
 
-        $comment = new Comment($reportId, $userId, $date, $content);
+        $comment = new Comment($id, $reportId, $userId, $date, $content);
 
         $this->assertEquals($reportId, $comment->reportId());
         $this->assertEquals($userId, $comment->userId());
         $this->assertEquals($date, $comment->date());
         $this->assertEquals($content, $comment->content());
+        $this->assertInternalType('string', $comment->id());
     }
 
     /**
@@ -29,12 +31,13 @@ class CommentTest extends TestCase
      */
     public function itShouldHaveEditContent()
     {
+        $id = uniqid();
         $reportId = uniqid();
         $userId = uniqid();
         $date = '20.12.2016';
         $content = 'Verbesserung 1';
 
-        $comment = new Comment($reportId, $userId, $date, $content);
+        $comment = new Comment($id, $reportId, $userId, $date, $content);
 
         $newContent = 'Neuer schöner Content';
 

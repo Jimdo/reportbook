@@ -195,15 +195,17 @@ class SerializerTest extends TestCase
     {
         $serializer = new Serializer();
 
+        $id = uniqid();
         $reportId = uniqid();
         $userId = uniqid();
         $date = '10.10.10';
         $content = 'some content';
 
-        $comment = new Comment($reportId, $userId, $date, $content);
+        $comment = new Comment($id, $reportId, $userId, $date, $content);
 
         $serializedComment = $serializer->serializeComment($comment);
 
+        $this->assertEquals($id, $serializedComment['id']);
         $this->assertEquals($reportId, $serializedComment['reportId']);
         $this->assertEquals($userId, $serializedComment['userId']);
         $this->assertEquals($date, $serializedComment['date']);
@@ -217,17 +219,19 @@ class SerializerTest extends TestCase
     {
         $serializer = new Serializer();
 
+        $id = uniqid();
         $reportId = uniqid();
         $userId = uniqid();
         $date = '10.10.10';
         $content = 'some content';
 
-        $comment = new Comment($reportId, $userId, $date, $content);
+        $comment = new Comment($id, $reportId, $userId, $date, $content);
 
         $serializedComment = $serializer->serializeComment($comment);
 
         $unserializedComment = $serializer->unserializeComment($serializedComment);
 
+        $this->assertEquals($id, $unserializedComment->id());
         $this->assertEquals($reportId, $unserializedComment->reportId());
         $this->assertEquals($userId, $unserializedComment->userId());
         $this->assertEquals($date, $unserializedComment->date());

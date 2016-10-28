@@ -142,6 +142,7 @@ class Serializer
     public function serializeComment(Comment $comment): array
     {
         return [
+            'id' => $comment->id(),
             'reportId' => $comment->reportId(),
             'userId' => $comment->userId(),
             'date' => $comment->date(),
@@ -156,6 +157,7 @@ class Serializer
     public function unserializeComment(array $serializedComment): Comment
     {
         return new Comment(
+            $serializedComment['id'],
             $serializedComment['reportId'],
             $serializedComment['userId'],
             $serializedComment['date'],

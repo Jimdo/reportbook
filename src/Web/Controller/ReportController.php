@@ -330,6 +330,9 @@ class ReportController extends Controller
         $reportView->role = $this->sessionData('role');
         $reportView->status = $report->status();
 
+        $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
+
+
         $headerView = $this->view('src/Web/Controller/Views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
 
@@ -345,6 +348,7 @@ class ReportController extends Controller
         $this->response->addBody($headerView->render());
         $this->response->addBody($infobarView->render());
         $this->response->addBody($reportView->render());
+        $this->response->addBody($commentsView->render());
         $this->response->addBody($footerView->render());
     }
 

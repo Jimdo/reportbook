@@ -121,4 +121,23 @@ class CommentServiceTest extends TestCase
         $comments = $this->service->findCommentsByReportId($reportId);
         $this->assertCount(1, $comments);
     }
+
+    /**
+     * @test
+     */
+    public function itShouldEditComment()
+    {
+        $reportId = uniqid();
+        $userId = uniqid();
+        $date = date('d.m.Y');
+        $content = 'Hallo';
+
+        $comment = $this->service->createComment($reportId, $userId, $date, $content);
+
+        $newContent = "Ciao";
+
+        $comment = $this->service->editComment($comment->id(), $newContent);
+
+        $this->assertEquals($newContent, $comment->content());
+    }
 }

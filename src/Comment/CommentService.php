@@ -51,8 +51,20 @@ class CommentService
     /**
      * @param string $id
      */
-    public function deleteComment($id)
+    public function deleteComment(string $id)
     {
-        return $this->repository->deleteComment($id);
+        $this->repository->deleteComment($id);
+    }
+
+    /**
+     * @param string $id
+     * @return Comment
+     */
+    public function editComment(string $id, string $content): Comment
+    {
+        $comment = $this->findCommentById($id);
+        $comment->editContent($content);
+        $this->repository->save($comment);
+        return $comment;
     }
 }

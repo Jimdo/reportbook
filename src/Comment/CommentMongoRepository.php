@@ -53,14 +53,6 @@ class CommentMongoRepository implements CommentRepository
     }
 
     /**
-     * @param string $newContent
-     */
-    public function editComment(string $newContent)
-    {
-
-    }
-
-    /**
      * @param Comment $comment
      * @throws CommentRepositoryException
      */

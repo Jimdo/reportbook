@@ -14,11 +14,6 @@ interface CommentRepository
     public function createComment(string $reportId, string $userId, string $date, string $content): Comment;
 
     /**
-     * @param string $newContent
-     */
-    public function editComment(string $newContent);
-
-    /**
      * @param Comment $comment
      * @throws CommentRepositoryException
      */

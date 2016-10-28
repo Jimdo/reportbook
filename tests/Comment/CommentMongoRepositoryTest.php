@@ -77,23 +77,23 @@ class CommentMongoRepositoryTest extends TestCase
         $this->assertCount(4, $comments);
     }
 
-    // /**
-    //  * @test
-    //  */
-    // public function itShouldSaveComment()
-    // {
-    //     $repository = new CommentMongoRepository($this->client, new Serializer(), $this->appConfig);
-    //
-    //     $reportId = uniqid();
-    //     $userId = uniqid();
-    //     $date = '20.20.20';
-    //     $content = 'Inhalt';
-    //
-    //     $comment = $repository->createComment($reportId, $userId, $date, $content);
-    //
-    //     $comments = $this->comments->findOne();
-    //
-    //
-    //     $this->assertCount(1, $comments);
-    // }
+    /**
+     * @test
+     */
+    public function itShouldSaveComment()
+    {
+        $repository = new CommentMongoRepository($this->client, new Serializer(), $this->appConfig);
+
+        $reportId = uniqid();
+        $userId = uniqid();
+        $date = '20.20.20';
+        $content = 'Inhalt';
+
+        $comment = $repository->createComment($reportId, $userId, $date, $content);
+
+        $comments = $repository->findCommentsByReportId($reportId);
+
+
+        $this->assertCount(1, $comments);
+    }
 }

@@ -6,17 +6,19 @@ use Jimdo\Reports\Web\View as View;
 use Jimdo\Reports\Web\ViewHelper as ViewHelper;
 use Jimdo\Reports\Reportbook\Report as Report;
 use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
+use Jimdo\Reports\Comment\CommentMongoRepository as CommentMongoRepository;
+use Jimdo\Reports\Comment\CommentService as CommentService;
 use Jimdo\Reports\Reportbook\ReportMongoRepository as ReportMongoRepository;
 use Jimdo\Reports\Reportbook\ReportbookService as ReportbookService;
 use Jimdo\Reports\Profile\ProfileService as ProfileService;
 use Jimdo\Reports\Profile\ProfileMongoRepository as ProfileMongoRepository;
+use Jimdo\Reports\User\UserMongoRepository as UserMongoRepository;
+use Jimdo\Reports\User\UserService as UserService;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 use Jimdo\Reports\Web\Response as Response;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\Web\Request as Request;
-use Jimdo\Reports\User\UserService as UserService;
-use Jimdo\Reports\User\UserMongoRepository as UserMongoRepository;
 use Jimdo\Reports\Web\Validator\Validator as Validator;
 
 class ReportController extends Controller
@@ -29,6 +31,9 @@ class ReportController extends Controller
 
     /** @var ProfileService */
     private $profileService;
+
+    /** @var CommentService */
+    private $commentService;
 
     /** @var ViewHelper */
     private $viewHelper;
@@ -63,6 +68,9 @@ class ReportController extends Controller
 
         $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);
         $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile);
+
+        $commentRepository = new CommentMongoRepository($client, new Serializer(), $appConfig);
+        $this->commentService = new CommentService($commentRepository);
     }
 
     public function indexAction()
@@ -332,6 +340,7 @@ class ReportController extends Controller
 
         $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
         $commentsView->reportId = $this->formData('reportId');
+        $commentsView->commentService = $this->commentService;
 
 
         $headerView = $this->view('src/Web/Controller/Views/Header.php');

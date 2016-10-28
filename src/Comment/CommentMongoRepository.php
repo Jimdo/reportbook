@@ -86,4 +86,18 @@ class CommentMongoRepository implements CommentRepository
         }
         return $foundComments;
     }
+
+    /**
+     * @param string $id
+     * @return Comment|null
+     */
+    public function findCommentById(string $id): Comment
+    {
+        foreach ($this->comments->find() as $comment) {
+            $comment = $this->serializer->unserializeComment($comment->getArrayCopy());
+            if ($id === $comment->id()) {
+                return $comment;
+            }
+        }
+    }
 }

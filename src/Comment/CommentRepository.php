@@ -30,4 +30,10 @@ interface CommentRepository
      * @return array
      */
     public function findCommentsByReportId(string $reportId): array;
+
+    /**
+     * @param string $id
+     * @return Comment|null
+     */
+    public function findCommentById(string $id): Comment;
 }

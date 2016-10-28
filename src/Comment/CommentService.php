@@ -41,6 +41,15 @@ class CommentService
 
     /**
      * @param string $id
+     * @return Comment
+     */
+    public function findCommentById(string $id): Comment
+    {
+        return $this->repository->findCommentById($id);
+    }
+
+    /**
+     * @param string $id
      */
     public function deleteComment($id)
     {

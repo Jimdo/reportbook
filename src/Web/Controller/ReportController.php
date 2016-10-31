@@ -345,7 +345,6 @@ class ReportController extends Controller
             $reportView->role = $this->sessionData('role');
             $reportView->status = $report->status();
 
-
             $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
             $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
@@ -368,7 +367,9 @@ class ReportController extends Controller
             $this->response->addBody($reportView->render());
             $this->response->addBody($commentsView->render());
             $this->response->addBody($footerView->render());
+
         } else {
+
             $report = $this->service->findById($reportIdPost, $traineeIdPost);
 
             $reportView = $this->view('src/Web/Controller/Views/Report.php');
@@ -383,7 +384,6 @@ class ReportController extends Controller
             $reportView->readonly = 'readonly';
             $reportView->role = $this->sessionData('role');
             $reportView->status = $report->status();
-
 
             $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
             $infobarView->viewHelper = $this->viewHelper;

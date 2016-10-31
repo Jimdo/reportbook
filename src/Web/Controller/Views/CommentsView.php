@@ -22,10 +22,10 @@
         <div class="col-sm-9">
         <div class="panel panel-default">
         <div class="panel-heading">
-        <strong>myusername</strong> <span class="text-muted">commented 5 days ago</span>
+        <strong><?php echo $comment->userId(); ?></strong> <span class="text-muted"><?php echo $comment->date(); ?></span>
         </div>
         <div class="panel-body">
-        Panel content
+        <?php echo $comment->content(); ?>
         </div><!-- /panel-body -->
         </div><!-- /panel panel-default -->
     </div><!-- /col-sm-5 -->

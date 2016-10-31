@@ -55,8 +55,34 @@ class CommentController extends Controller
             $this->formData('content')
         );
 
+        $comments = $this->commentService->findCommentsByReportId($reportId);
+
+        $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
+    }
+
+    public function editContentAction()
+    {
+        $comments = $this->commentService->findCommentsByReportId($this->queryParams('reportId'));
+
+        foreach ($comments as $comment) {
+            if ($comment->id() === $this->formData('commentId')) {
+                $content = $comment->content();
+                $userId = $this->sessionData('userId');
+                $reportId = $this->formData('reportId');
+                $traineeId = $this->formData('traineeId');
+
+                $this->commentService->editComment(
+                    $this->formData('commentId'),
+                    $this->formData('NewContent')
+                );
+            }
+        }
+
+        $date = date('d.m.Y H:i:s');
+
         $comment = $this->commentService->findCommentsByReportId($reportId);
 
         $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
+
     }
 }

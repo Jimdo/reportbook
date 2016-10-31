@@ -356,6 +356,7 @@ class ReportController extends Controller
 
             $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
             $commentsView->reportId = $reportIdGet;
+            $commentsView->id = $this->formData('commentId');
             $commentsView->traineeId = $this->formData('traineeId');
             $commentsView->commentService = $this->commentService;
 
@@ -396,6 +397,7 @@ class ReportController extends Controller
 
             $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
             $commentsView->reportId = $reportIdPost;
+            $commentsView->id = $this->formData('commentId');
             $commentsView->traineeId = $traineeIdPost;
             $commentsView->commentService = $this->commentService;
 

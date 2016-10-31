@@ -28,16 +28,10 @@
         Panel content
         </div><!-- /panel-body -->
         </div><!-- /panel panel-default -->
-        </div><!-- /col-sm-5 -->
+    </div><!-- /col-sm-5 -->
 
+     <?php endforeach; ?>
 
-
-
-
-
-
-
-    <?php endforeach; ?>
 
 
 
@@ -60,6 +54,7 @@
 
                          <div class="col-sm-offset-10 col-sm-2">
                              <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>" />
+
                              <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                          </div>
 

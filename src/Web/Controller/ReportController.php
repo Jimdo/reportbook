@@ -325,6 +325,11 @@ class ReportController extends Controller
 
         $report = $this->service->findById($this->formData('reportId'), $this->formData('traineeId'));
 
+        if ($report->id() === null) {
+            $reportId = $comment->reportId();
+            $report = $this->service->findById($reportId, $this->formData('traineeId'));
+
+        }
         $reportView = $this->view('src/Web/Controller/Views/Report.php');
         $reportView->title = 'Bericht';
         $reportView->legend = 'Vorschau';
@@ -338,19 +343,19 @@ class ReportController extends Controller
         $reportView->role = $this->sessionData('role');
         $reportView->status = $report->status();
 
-        $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
-        $commentsView->reportId = $this->formData('reportId');
-        $commentsView->commentService = $this->commentService;
-
-
-        $headerView = $this->view('src/Web/Controller/Views/Header.php');
-        $headerView->tabTitle = 'Berichtsheft';
 
         $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->hideInfos = false;
+
+        $headerView = $this->view('src/Web/Controller/Views/Header.php');
+        $headerView->tabTitle = 'Berichtsheft';
+
+        $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
+        $commentsView->reportId = $this->formData('reportId');
+        $commentsView->commentService = $this->commentService;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
         $footerView->backButton = 'show';

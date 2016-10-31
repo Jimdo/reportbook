@@ -44,6 +44,8 @@ class CommentController extends Controller
     {
         $date = date('d.m.Y H:m:i');
         $reportId = $this->formData('reportId');
+        $userId = $this->sessionData('userId');
+        $content = $this->formData('content');
 
         $this->commentService->createComment(
             $reportId,

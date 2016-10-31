@@ -323,48 +323,91 @@ class ReportController extends Controller
             $this->redirect("/user");
         }
 
-        $report = $this->service->findById($this->formData('reportId'), $this->formData('traineeId'));
+        $reportIdPost = $this->formData('reportId');
+        $traineeIdPost = $this->formData('traineeId');
 
-        if ($report->id() === null) {
-            $reportId = $comment->reportId();
-            $report = $this->service->findById($reportId, $this->formData('traineeId'));
+        if ($reportIdPost === null && $traineeIdPost === null) {
 
+            $reportIdGet = $_GET['reportId'];
+            $traineeIdGet = $_GET['traineeId'];
+            $report = $this->service->findById($reportIdGet, $traineeIdGet);
+
+            $reportView = $this->view('src/Web/Controller/Views/Report.php');
+            $reportView->title = 'Bericht';
+            $reportView->legend = 'Vorschau';
+            $reportView->calendarWeek = $report->calendarWeek();
+            $reportView->date = $report->date();
+            $reportView->content = $report->content();
+            $reportView->buttonName = 'Speichern';
+            $reportView->reportId = $reportIdGet;
+            $reportView->backButton = 'show';
+            $reportView->readonly = 'readonly';
+            $reportView->role = $this->sessionData('role');
+            $reportView->status = $report->status();
+
+
+            $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
+            $infobarView->viewHelper = $this->viewHelper;
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+            $infobarView->hideInfos = false;
+
+            $headerView = $this->view('src/Web/Controller/Views/Header.php');
+            $headerView->tabTitle = 'Berichtsheft';
+
+            $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
+            $commentsView->reportId = $reportIdGet;
+            $commentsView->traineeId = $this->formData('traineeId');
+            $commentsView->commentService = $this->commentService;
+
+            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
+            $footerView->backButton = 'show';
+
+            $this->response->addBody($headerView->render());
+            $this->response->addBody($infobarView->render());
+            $this->response->addBody($reportView->render());
+            $this->response->addBody($commentsView->render());
+            $this->response->addBody($footerView->render());
+        } else {
+            $report = $this->service->findById($reportIdPost, $traineeIdPost);
+
+            $reportView = $this->view('src/Web/Controller/Views/Report.php');
+            $reportView->title = 'Bericht';
+            $reportView->legend = 'Vorschau';
+            $reportView->calendarWeek = $report->calendarWeek();
+            $reportView->date = $report->date();
+            $reportView->content = $report->content();
+            $reportView->buttonName = 'Speichern';
+            $reportView->reportId = $reportIdPost;
+            $reportView->backButton = 'show';
+            $reportView->readonly = 'readonly';
+            $reportView->role = $this->sessionData('role');
+            $reportView->status = $report->status();
+
+
+            $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
+            $infobarView->viewHelper = $this->viewHelper;
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+            $infobarView->hideInfos = false;
+
+            $headerView = $this->view('src/Web/Controller/Views/Header.php');
+            $headerView->tabTitle = 'Berichtsheft';
+
+            $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
+            $commentsView->reportId = $reportIdPost;
+            $commentsView->traineeId = $traineeIdPost;
+            $commentsView->commentService = $this->commentService;
+
+            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
+            $footerView->backButton = 'show';
+
+            $this->response->addBody($headerView->render());
+            $this->response->addBody($infobarView->render());
+            $this->response->addBody($reportView->render());
+            $this->response->addBody($commentsView->render());
+            $this->response->addBody($footerView->render());
         }
-        $reportView = $this->view('src/Web/Controller/Views/Report.php');
-        $reportView->title = 'Bericht';
-        $reportView->legend = 'Vorschau';
-        $reportView->calendarWeek = $report->calendarWeek();
-        $reportView->date = $report->date();
-        $reportView->content = $report->content();
-        $reportView->buttonName = 'Speichern';
-        $reportView->reportId = $this->formData('reportId');
-        $reportView->backButton = 'show';
-        $reportView->readonly = 'readonly';
-        $reportView->role = $this->sessionData('role');
-        $reportView->status = $report->status();
-
-
-        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
-        $infobarView->viewHelper = $this->viewHelper;
-        $infobarView->username = $this->sessionData('username');
-        $infobarView->role = $this->sessionData('role');
-        $infobarView->hideInfos = false;
-
-        $headerView = $this->view('src/Web/Controller/Views/Header.php');
-        $headerView->tabTitle = 'Berichtsheft';
-
-        $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
-        $commentsView->reportId = $this->formData('reportId');
-        $commentsView->commentService = $this->commentService;
-
-        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-        $footerView->backButton = 'show';
-
-        $this->response->addBody($headerView->render());
-        $this->response->addBody($infobarView->render());
-        $this->response->addBody($reportView->render());
-        $this->response->addBody($commentsView->render());
-        $this->response->addBody($footerView->render());
     }
 
     public function approveReportAction()

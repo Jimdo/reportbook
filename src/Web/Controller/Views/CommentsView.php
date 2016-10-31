@@ -54,7 +54,7 @@
 
                          <div class="col-sm-offset-10 col-sm-2">
                              <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>" />
-
+                             <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $this->traineeId; ?>" />
                              <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                          </div>
 

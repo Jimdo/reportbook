@@ -46,6 +46,7 @@ class CommentController extends Controller
         $reportId = $this->formData('reportId');
         $userId = $this->sessionData('userId');
         $content = $this->formData('content');
+        $traineeId = $this->formData('traineeId');
 
         $this->commentService->createComment(
             $reportId,
@@ -56,6 +57,6 @@ class CommentController extends Controller
 
         $comment = $this->commentService->findCommentsByReportId($reportId);
 
-        $this->redirect("/report/viewReport");
+        $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
     }
 }

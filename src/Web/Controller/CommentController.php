@@ -42,7 +42,7 @@ class CommentController extends Controller
 
     public function createCommentAction()
     {
-        $date = date('d.m.Y H:m:i');
+        $date = date('d.m.Y H:i:s');
         $reportId = $this->formData('reportId');
         $userId = $this->sessionData('userId');
         $content = $this->formData('content');

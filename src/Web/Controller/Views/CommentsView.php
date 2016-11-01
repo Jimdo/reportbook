@@ -33,6 +33,15 @@
                               </div>
                           </form>
                     </div>
+
+                    <form action="/comment/deleteComment?commentId=<?php echo $comment->id(); ?>" method="POST">
+
+                        <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>"/>
+                        <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $this->traineeId; ?>"/>
+                        <button type="submit" class="btn-link glyphicon glyphicon-trash" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')" aria-hidden="true"></button>
+
+                    </form>
+
                 </div>
             </div>
         </div>

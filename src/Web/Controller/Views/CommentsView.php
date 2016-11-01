@@ -1,7 +1,6 @@
 <div class="form-horizontal">
 
-<?php $comments = $this->commentService->findCommentsByReportId($this->reportId);
-      foreach ($comments as $comment): ?>
+<?php foreach ($this->comments as $comment): ?>
 
     <div class="row">
         <div class="col-sm-offset-2 col-sm-1">
@@ -24,10 +23,11 @@
                          <form action="/comment/editComment?commentId=<?php echo $comment->id(); ?>" method="POST" class="form-horizontal">
                              <div class="card card-block">
                                  <div class="col-sm-offset-6 col-sm-6">
-                                      <input type="text" name="newComment" class="form-control" id="newComment" placeholder="Neuer Inhalt"></br>
+
                                       <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
+                                      <input type="hidden" name="userId" value="<?php echo $this->userId; ?>">
                                       <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $this->traineeId; ?>">
-                                      <input type="hidden" id="id" name="id" value="<?php echo $this->id; ?>">
+                                      <input type="text" name="newComment" class="form-control" id="newComment" placeholder="Neuer Inhalt"></br>
                                       <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                                   </div>
                               </div>

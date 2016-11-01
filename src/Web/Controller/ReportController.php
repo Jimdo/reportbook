@@ -356,11 +356,11 @@ class ReportController extends Controller
         $reportView->reportId = $reportId;
 
         $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
-        $commentsView->id = $this->formData('commentId');
-        $commentsView->userId = $this->formData('userId');
+        $commentsView->commentService = $this->commentService;
+        $commentsView->comments = $this->commentService->findCommentsByReportId($reportId);
+        $commentsView->userId = $this->sessionData('userId');
         $commentsView->reportId = $reportId;
         $commentsView->traineeId = $traineeId;
-        $commentsView->commentService = $this->commentService;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
         $footerView->backButton = 'show';

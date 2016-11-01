@@ -66,6 +66,7 @@ class CommentController extends Controller
 
         $commentId = $comment->id();
         $newContent = $this->formData('newComment');
+        $userId = $this->formData('userId');
         $reportId = $this->formData('reportId');
         $traineeId = $this->formData('traineeId');
 

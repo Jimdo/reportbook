@@ -28,7 +28,7 @@ class CommentMongoRepository implements CommentRepository
      */
     public function __construct(\MongoDB\Client $client, Serializer $serializer, ApplicationConfig $applicationConfig)
     {
-        $this->applicationConfig = new ApplicationConfig(__DIR__ . '/../../config.yml');
+        $this->applicationConfig = $applicationConfig;
         $this->serializer = $serializer;
         $this->client = $client;
         $this->reportbook = $this->client->selectDatabase($this->applicationConfig->mongoDatabase);

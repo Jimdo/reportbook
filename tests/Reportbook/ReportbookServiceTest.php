@@ -5,6 +5,8 @@ namespace Jimdo\Reports\Reportbook;
 use PHPUnit\Framework\TestCase;
 
 use Jimdo\Reports\Views\Report as ReadOnlyReport;
+use Jimdo\Reports\Comment\CommentFakeRepository as CommentFakeRepository;
+use Jimdo\Reports\Comment\CommentService as CommentService;
 
 class ReportbookServiceTest extends TestCase
 {
@@ -14,10 +16,20 @@ class ReportbookServiceTest extends TestCase
     /** @var ReportRepository */
     private $reportRepository;
 
+    /** @var CommentRepository */
+    private $commentRepository;
+
+    /** @var CommentService */
+    private $commentService;
+
     protected function setUp()
     {
         $this->reportRepository = new ReportFakeRepository();
-        $this->reportbookService = new ReportbookService($this->reportRepository);
+
+        $this->commentRepository = new CommentFakeRepository();
+        $this->commentService = new CommentService($this->commentRepository);
+        
+        $this->reportbookService = new ReportbookService($this->reportRepository, $this->commentService);
     }
 
     /**
@@ -288,5 +300,28 @@ class ReportbookServiceTest extends TestCase
 
         $this->assertEquals($expectedReports[0]->status(), $reports[0]->status());
         $this->assertEquals($expectedReports[1]->status(), $reports[1]->status());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldCreateComment()
+    {
+        $date = 'Date';
+        $content = 'some content';
+        $reportId = uniqid();
+        $userId = uniqid();
+
+        $comment = $this->reportbookService->createComment($reportId, $userId, $date, $content);
+
+        // $this->assertInstanceOf('\Jimdo\Reports\Comment\Comment', $comment);
+
+        $createdComment = $this->commentRepository->comments[0];
+        var_dump($this->commentRepository->comments);
+
+        $this->assertEquals($date, $createdComment->date());
+        $this->assertEquals($content, $createdComment->content());
+        $this->assertEquals($reportId, $createdComment->reportId());
+        $this->assertEquals($userId, $createdComment->userId());
     }
 }

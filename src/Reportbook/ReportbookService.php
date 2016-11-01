@@ -3,18 +3,23 @@
 namespace Jimdo\Reports\Reportbook;
 
 use Jimdo\Reports\Views\Report as ReadOnlyReport;
+use Jimdo\Reports\Comment\CommentService as CommentService;
 
 class ReportbookService
 {
     /** @var ReportRepository */
     private $reportRepository;
 
+    /** @var CommentService */
+    private $commentService;
+
     /**
      * @param ReportRepository $reportRepository
      */
-    public function __construct(ReportRepository $reportRepository)
+    public function __construct(ReportRepository $reportRepository, CommentService $commentService)
     {
         $this->reportRepository = $reportRepository;
+        $this->commentService = $commentService;
     }
 
     /**
@@ -139,6 +144,11 @@ class ReportbookService
             return $report;
         }
         return null;
+    }
+
+    public function createComment()
+    {
+
     }
 
     /**

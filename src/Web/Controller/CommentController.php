@@ -79,11 +79,15 @@ class CommentController extends Controller
 
     public function deleteCommentAction()
     {
-        $comment = $this->commentService->findCommentById($this->queryParams('commentId'));
         $reportId = $this->formData('reportId');
         $traineeId = $this->formData('traineeId');
+        $userId = $this->formData('userId');
 
-        $this->commentService->deleteComment($comment->id());
+        if ($comment->userId() === $userId) {
+            $this->commentService->deleteComment($comment->id(), $userId);
+        }
+
+        $this->reportbookService->deleteComment($commentId, $userId);
 
         $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
     }

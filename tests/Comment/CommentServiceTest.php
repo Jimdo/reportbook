@@ -44,7 +44,7 @@ class CommentServiceTest extends TestCase
         $this->comments->deleteMany([]);
 
         $this->repository = new CommentMongoRepository($this->client, new Serializer(), $this->appConfig);
-        $this->service = new CommentService($this->repository, $this->appConfig->defaultProfile);
+        $this->service = new CommentService($this->repository);
     }
 
     /**

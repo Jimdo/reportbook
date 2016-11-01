@@ -18,17 +18,16 @@
                 <div class="panel-body">
                     <?php echo $comment->content(); ?>
 
-                    <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
-                    <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $this->traineeId; ?>">
-                    <input type="hidden" id="id" name="id" value="<?php echo $this->id; ?>">
+                    <a href="#changeComment" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
 
-                    <a href="#changeContent" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
-
-                     <div class="collapse" id="changeContent">
-                         <form action="/comment/editContent?commentId=<?php echo $comment->id(); ?>" method="POST" class="form-horizontal">
+                     <div class="collapse" id="changeComment">
+                         <form action="/comment/editComment?commentId=<?php echo $comment->id(); ?>" method="POST" class="form-horizontal">
                              <div class="card card-block">
                                  <div class="col-sm-offset-6 col-sm-6">
-                                      <input type="text" name="newContent" class="form-control" id="newContent" placeholder="Neuer Inhalt"></br>
+                                      <input type="text" name="newComment" class="form-control" id="newComment" placeholder="Neuer Inhalt"></br>
+                                      <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
+                                      <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $this->traineeId; ?>">
+                                      <input type="hidden" id="id" name="id" value="<?php echo $this->id; ?>">
                                       <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                                   </div>
                               </div>

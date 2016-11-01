@@ -65,12 +65,14 @@ class CommentController extends Controller
         $comment = $this->commentService->findCommentById($this->queryParams('commentId'));
 
         $commentId = $comment->id();
-        $newContent = $this->formData('newContent');
+        $newContent = $this->formData('newComment');
+        $reportId = $this->formData('reportId');
+        $traineeId = $this->formData('traineeId');
 
         $this->commentService->editComment($commentId, $newContent);
 
         $date = date('d.m.Y H:i:s');
 
-        $this->redirect("/report/viewReport");
+        $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
     }
 }

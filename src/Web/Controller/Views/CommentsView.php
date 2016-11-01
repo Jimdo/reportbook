@@ -20,12 +20,13 @@
                     <a href="#changeComment" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
 
                      <div class="collapse" id="changeComment">
-                         <form action="/comment/editComment?commentId=<?php echo $comment->id(); ?>" method="POST" class="form-horizontal">
+                         <form action="/comment/editComment" method="POST" class="form-horizontal">
                              <div class="card card-block">
                                  <div class="col-sm-offset-6 col-sm-6">
 
                                       <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
                                       <input type="hidden" name="userId" value="<?php echo $this->userId; ?>">
+                                      <input type="hidden" name="comment" value="<?php echo $comment->id(); ?>">
                                       <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $this->traineeId; ?>">
                                       <input type="text" name="newComment" class="form-control" id="newComment" placeholder="Neuer Inhalt"></br>
                                       <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -34,10 +35,12 @@
                           </form>
                     </div>
 
-                    <form action="/comment/deleteComment?commentId=<?php echo $comment->id(); ?>" method="POST">
+                    <form action="/comment/deleteComment" method="POST">
 
                         <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>"/>
                         <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $this->traineeId; ?>"/>
+                        <input type="hidden" name="userId" value="<?php echo $this->userId; ?>">
+                        <input type="hidden" name="comment" value="<?php echo $comment->id(); ?>">
                         <button type="submit" class="btn-link glyphicon glyphicon-trash" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')" aria-hidden="true"></button>
 
                     </form>

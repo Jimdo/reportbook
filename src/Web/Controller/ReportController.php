@@ -326,10 +326,10 @@ class ReportController extends Controller
         if ($this->formData('reportId') !== null && $this->formData('traineeId') !== null) {
             $reportId = $this->formData('reportId');
             $traineeId = $this->formData('traineeId');
+        } else {
+            $reportId = $this->queryParams('reportId');
+            $traineeId = $this->queryParams('traineeId');
         }
-        
-        $reportId = $this->queryParams('reportId');
-        $traineeId = $this->queryParams('traineeId');
 
         $report = $this->service->findById($reportId, $traineeId);
 

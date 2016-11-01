@@ -44,15 +44,15 @@ class CommentController extends Controller
     {
         $date = date('d.m.Y H:i:s');
         $reportId = $this->formData('reportId');
-        $userId = $this->sessionData('userId');
         $content = $this->formData('content');
         $traineeId = $this->formData('traineeId');
+        $userId = $this->sessionData('userId');
 
         $this->commentService->createComment(
             $reportId,
-            $this->sessionData('userId'),
+            $userId,
             $date,
-            $this->formData('content')
+            $content
         );
 
         $comments = $this->commentService->findCommentsByReportId($reportId);
@@ -60,29 +60,17 @@ class CommentController extends Controller
         $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
     }
 
-    public function editContentAction()
+    public function editCommentAction()
     {
-        $comments = $this->commentService->findCommentsByReportId($this->queryParams('reportId'));
+        $comment = $this->commentService->findCommentById($this->queryParams('commentId'));
 
-        foreach ($comments as $comment) {
-            if ($comment->id() === $this->formData('commentId')) {
-                $content = $comment->content();
-                $userId = $this->sessionData('userId');
-                $reportId = $this->formData('reportId');
-                $traineeId = $this->formData('traineeId');
+        $commentId = $comment->id();
+        $newContent = $this->formData('newContent');
 
-                $this->commentService->editComment(
-                    $this->formData('commentId'),
-                    $this->formData('NewContent')
-                );
-            }
-        }
+        $this->commentService->editComment($commentId, $newContent);
 
         $date = date('d.m.Y H:i:s');
 
-        $comment = $this->commentService->findCommentsByReportId($reportId);
-
-        $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
-
+        $this->redirect("/report/viewReport");
     }
 }

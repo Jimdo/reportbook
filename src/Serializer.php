@@ -4,7 +4,7 @@ namespace Jimdo\Reports;
 
 use Jimdo\Reports\User\User as User;
 use Jimdo\Reports\User\Role as Role;
-use Jimdo\Reports\Comment\Comment as Comment;
+use Jimdo\Reports\Reportbook\Comment as Comment;
 use Jimdo\Reports\User\UserId as UserId;
 use Jimdo\Reports\Profile\Profile as Profile;
 use Jimdo\Reports\Reportbook\Report as Report;

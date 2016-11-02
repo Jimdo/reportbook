@@ -5,6 +5,8 @@ namespace Jimdo\Reports\Reportbook;
 use PHPUnit\Framework\TestCase;
 
 use Jimdo\Reports\Views\Report as ReadOnlyReport;
+use Jimdo\Reports\Reportbook\CommentFakeRepository as CommentFakeRepository;
+use Jimdo\Reports\Reportbook\CommentService as CommentService;
 
 class ReportbookServiceTest extends TestCase
 {
@@ -14,10 +16,20 @@ class ReportbookServiceTest extends TestCase
     /** @var ReportRepository */
     private $reportRepository;
 
+    /** @var CommentRepository */
+    private $commentRepository;
+
+    /** @var CommentService */
+    private $commentService;
+
     protected function setUp()
     {
         $this->reportRepository = new ReportFakeRepository();
-        $this->reportbookService = new ReportbookService($this->reportRepository);
+
+        $this->commentRepository = new CommentFakeRepository();
+        $this->commentService = new CommentService($this->commentRepository);
+
+        $this->reportbookService = new ReportbookService($this->reportRepository, $this->commentService);
     }
 
     /**
@@ -288,5 +300,106 @@ class ReportbookServiceTest extends TestCase
 
         $this->assertEquals($expectedReports[0]->status(), $reports[0]->status());
         $this->assertEquals($expectedReports[1]->status(), $reports[1]->status());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldCreateComment()
+    {
+        $date = 'Date';
+        $content = 'some content';
+        $reportId = uniqid();
+        $userId = uniqid();
+
+        $comment = $this->reportbookService->createComment($reportId, $userId, $date, $content);
+
+        $this->assertInstanceOf('\Jimdo\Reports\Reportbook\Comment', $comment);
+
+        $createdComment = $this->commentRepository->comments[0];
+
+        $this->assertEquals($date, $createdComment->date());
+        $this->assertEquals($content, $createdComment->content());
+        $this->assertEquals($reportId, $createdComment->reportId());
+        $this->assertEquals($userId, $createdComment->userId());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditComment()
+    {
+        $date = 'Date';
+        $content = 'some content';
+        $reportId = uniqid();
+        $userId = uniqid();
+
+        $comment = $this->reportbookService->createComment($reportId, $userId, $date, $content);
+
+        $this->assertInstanceOf('\Jimdo\Reports\Reportbook\Comment', $comment);
+
+        $createdComment = $this->commentRepository->comments[0];
+
+        $newContent = 'Hallo';
+        $editedComment = $this->reportbookService->editComment($comment->id(), $newContent);
+
+        $this->assertEquals($newContent, $editedComment->content());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldFindCommentsByReportId()
+    {
+        $date = 'Date';
+        $content = 'some content';
+        $reportId = uniqid();
+        $userId = uniqid();
+
+        $foundComments = $this->reportbookService->findCommentsByReportId($reportId);
+        $this->assertCount(0, $foundComments);
+
+        $comment1 = $this->reportbookService->createComment($reportId, $userId, $date, $content);
+        $comment2 = $this->reportbookService->createComment($reportId, $userId, $date, $content);
+
+        $foundComments = $this->reportbookService->findCommentsByReportId($reportId);
+        $this->assertCount(2, $foundComments);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldFindCommentById()
+    {
+        $date = 'Date';
+        $content = 'some content';
+        $reportId = uniqid();
+        $userId = uniqid();
+
+        $comment = $this->reportbookService->createComment($reportId, $userId, $date, $content);
+
+        $foundComment = $this->reportbookService->findCommentById($comment->id());
+
+        $this->assertEquals($comment->date(), $foundComment->date());
+        $this->assertEquals($comment->content(), $foundComment->content());
+        $this->assertEquals($comment->reportId(), $foundComment->reportId());
+        $this->assertEquals($comment->userId(), $foundComment->userId());
+    }
+    
+    /**
+     * @test
+     */
+    public function itShouldDeleteComment()
+    {
+        $date = 'Date';
+        $content = 'some content';
+        $reportId = uniqid();
+        $userId = uniqid();
+
+        $comment = $this->reportbookService->createComment($reportId, $userId, $date, $content);
+        $this->assertCount(1, $this->reportbookService->findCommentsByReportId($reportId));
+
+        $this->reportbookService->deleteComment($comment->id());
+        $this->assertCount(0, $this->reportbookService->findCommentsByReportId($reportId));
     }
 }

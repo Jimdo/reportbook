@@ -3,18 +3,23 @@
 namespace Jimdo\Reports\Reportbook;
 
 use Jimdo\Reports\Views\Report as ReadOnlyReport;
+use Jimdo\Reports\Reportbook\CommentService as CommentService;
 
 class ReportbookService
 {
     /** @var ReportRepository */
     private $reportRepository;
 
+    /** @var CommentService */
+    private $commentService;
+
     /**
      * @param ReportRepository $reportRepository
      */
-    public function __construct(ReportRepository $reportRepository)
+    public function __construct(ReportRepository $reportRepository, CommentService $commentService)
     {
         $this->reportRepository = $reportRepository;
+        $this->commentService = $commentService;
     }
 
     /**
@@ -139,6 +144,53 @@ class ReportbookService
             return $report;
         }
         return null;
+    }
+
+    /**
+     * @param string $reportId
+     * @param string $userId
+     * @param string $date
+     * @param string $content
+     * @return Comment
+     */
+    public function createComment(string $reportId, string $userId, string $date, string $content): Comment
+    {
+        return $this->commentService->createComment($reportId, $userId, $date, $content);
+    }
+
+    /**
+     * @param string $id
+     * @return Comment
+     */
+    public function editComment(string $id, string $newContent): Comment
+    {
+        return $this->commentService->editComment($id, $newContent);
+    }
+
+    /**
+     * @param string $commentId
+     */
+    public function deleteComment(string $commentId)
+    {
+        $this->commentService->deleteComment($commentId);
+    }
+
+    /**
+     * @param string $reportId
+     * @return array
+     */
+    public function findCommentsByReportId(string $reportId): array
+    {
+        return $this->commentService->findCommentsByReportId($reportId);
+    }
+
+    /**
+     * @param string $commentId
+     * @return Comment
+     */
+    public function findCommentById(string $commentId): Comment
+    {
+        return $this->commentService->findCommentById($commentId);
     }
 
     /**

@@ -90,3 +90,13 @@ update       Update composer packages
   - Add Validation to Profile View
   - Implement read only Profile View
   - Implement ProfileController
+
+### v0.3.7
+  - Add Comment
+  - Add CommentRepository
+  - Add CommentService
+  - Add timezone to `ApplicationConfig`
+
+### v0.3.8
+  - Add CommentController
+  - Implement CommentView in ViewReport

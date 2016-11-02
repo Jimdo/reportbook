@@ -1,6 +1,6 @@
 <?php
 
-namespace Jimdo\Reports\Comment;
+namespace Jimdo\Reports\Reportbook;
 
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 use Jimdo\Reports\Serializer as Serializer;
@@ -11,9 +11,9 @@ class CommentService
     private $repository;
 
     /**
-     * @param CommentMongoRepository $repository
+     * @param CommentRepository $repository
      */
-    public function __construct(CommentMongoRepository $repository)
+    public function __construct(CommentRepository $repository)
     {
         $this->repository = $repository;
     }

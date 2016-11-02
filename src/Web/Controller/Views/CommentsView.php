@@ -15,7 +15,8 @@
                     <span class="text-muted"><?php echo $comment->date(); ?></span>
                 </div>
                 <div class="panel-body">
-                    <?php echo $comment->content(); ?>
+                    <?php echo $comment->content();
+                    if ($comment->userId() === $this->userId):?>
 
                     <a href="#changeComment" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
 
@@ -45,6 +46,7 @@
 
                     </form>
 
+                <?php endif; ?>
                 </div>
             </div>
         </div>

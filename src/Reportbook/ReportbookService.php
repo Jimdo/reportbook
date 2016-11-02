@@ -162,9 +162,18 @@ class ReportbookService
      * @param string $id
      * @return Comment
      */
-    public function editComment(string $id, string $newContent)
+    public function editComment(string $id, string $newContent): Comment
     {
         return $this->commentService->editComment($id, $newContent);
+    }
+
+    /**
+     * @param string $reportId
+     * @return array
+     */
+    public function findCommentsByReportId(string $reportId): array
+    {
+        return $this->commentService->findCommentsByReportId($reportId);
     }
 
     /**

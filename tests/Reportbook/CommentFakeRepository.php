@@ -55,6 +55,7 @@ class CommentFakeRepository implements CommentRepository
      */
     public function findCommentsByReportId(string $reportId): array
     {
+        $newComments = [];
         foreach ($this->comments as $comment) {
             if ($comment->reportId() === $reportId) {
                 $newComments[] = $comment;

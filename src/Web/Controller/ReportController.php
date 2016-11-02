@@ -358,6 +358,7 @@ class ReportController extends Controller
         $commentsView->userId = $this->sessionData('userId');
         $commentsView->reportId = $reportId;
         $commentsView->traineeId = $traineeId;
+        $commentsView->userService = $this->userService;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
         $footerView->backButton = 'show';

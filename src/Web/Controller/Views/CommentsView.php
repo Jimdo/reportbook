@@ -15,8 +15,8 @@
                     <span class="text-muted"><?php echo $comment->date(); ?></span>
                 </div>
                 <div class="panel-body">
-                    <?php echo $comment->content();
-                    if ($comment->userId() === $this->userId):?>
+                    <?php echo nl2br($comment->content());?>
+                    <?php if ($comment->userId() === $this->userId):?>
 
 
                     <a href="#changeComment<?php echo $comment->id(); ?>" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>

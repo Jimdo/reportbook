@@ -1,6 +1,6 @@
 <?php
 
-namespace Jimdo\Reports\Comment;
+namespace Jimdo\Reports\Reportbook;
 
 class CommentFakeRepository implements CommentRepository
 {
@@ -22,7 +22,7 @@ class CommentFakeRepository implements CommentRepository
      */
     public function createComment(string $reportId, string $userId, string $date, string $content): Comment
     {
-        $comment = new Comment($reportId, $userId, $date, $content);
+        $comment = new Comment(uniqid(), $reportId, $userId, $date, $content);
         $this->comments[] = $comment;
         return $comment;
 

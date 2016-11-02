@@ -1,6 +1,6 @@
 <?php
 
-namespace Jimdo\Reports\Comment;
+namespace Jimdo\Reports\Reportbook;
 
 interface CommentRepository
 {

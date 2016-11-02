@@ -1,6 +1,6 @@
 <?php
 
-namespace Jimdo\Reports\Comment;
+namespace Jimdo\Reports\Reportbook;
 
 use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;

@@ -5,8 +5,8 @@ namespace Jimdo\Reports\Reportbook;
 use PHPUnit\Framework\TestCase;
 
 use Jimdo\Reports\Views\Report as ReadOnlyReport;
-use Jimdo\Reports\Comment\CommentFakeRepository as CommentFakeRepository;
-use Jimdo\Reports\Comment\CommentService as CommentService;
+use Jimdo\Reports\Reportbook\CommentFakeRepository as CommentFakeRepository;
+use Jimdo\Reports\Reportbook\CommentService as CommentService;
 
 class ReportbookServiceTest extends TestCase
 {

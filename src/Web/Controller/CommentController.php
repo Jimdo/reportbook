@@ -2,8 +2,8 @@
 
 namespace Jimdo\Reports\Web\Controller;
 
-use Jimdo\Reports\Comment\CommentService as CommentService;
-use Jimdo\Reports\Comment\CommentMongoRepository as CommentMongoRepository;
+use Jimdo\Reports\Reportbook\CommentService as CommentService;
+use Jimdo\Reports\Reportbook\CommentMongoRepository as CommentMongoRepository;
 use Jimdo\Reports\Web\Request as Request;
 use Jimdo\Reports\Web\Response as Response;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;

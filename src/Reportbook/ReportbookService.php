@@ -3,7 +3,7 @@
 namespace Jimdo\Reports\Reportbook;
 
 use Jimdo\Reports\Views\Report as ReadOnlyReport;
-use Jimdo\Reports\Comment\CommentService as CommentService;
+use Jimdo\Reports\Reportbook\CommentService as CommentService;
 
 class ReportbookService
 {

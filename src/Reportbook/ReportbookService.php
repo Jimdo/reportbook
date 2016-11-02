@@ -192,7 +192,10 @@ class ReportbookService
      */
     public function findCommentsByReportId(string $reportId): array
     {
-        return $this->commentService->findCommentsByReportId($reportId);
+        $comments = $this->commentService->findCommentsByReportId($reportId);
+        $this->sortCommentsByDate($comments);
+
+        return $comments;
     }
 
     /**

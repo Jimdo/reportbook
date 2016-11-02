@@ -341,7 +341,7 @@ class ReportbookServiceTest extends TestCase
         $createdComment = $this->commentRepository->comments[0];
 
         $newContent = 'Hallo';
-        $editedComment = $this->reportbookService->editComment($comment->id(), $newContent);
+        $editedComment = $this->reportbookService->editComment($comment->id(), $newContent, $userId);
 
         $this->assertEquals($newContent, $editedComment->content());
     }
@@ -385,7 +385,7 @@ class ReportbookServiceTest extends TestCase
         $this->assertEquals($comment->reportId(), $foundComment->reportId());
         $this->assertEquals($comment->userId(), $foundComment->userId());
     }
-    
+
     /**
      * @test
      */
@@ -399,7 +399,7 @@ class ReportbookServiceTest extends TestCase
         $comment = $this->reportbookService->createComment($reportId, $userId, $date, $content);
         $this->assertCount(1, $this->reportbookService->findCommentsByReportId($reportId));
 
-        $this->reportbookService->deleteComment($comment->id());
+        $this->reportbookService->deleteComment($comment->id(), $userId);
         $this->assertCount(0, $this->reportbookService->findCommentsByReportId($reportId));
     }
 }

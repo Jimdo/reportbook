@@ -32,9 +32,6 @@ class ReportController extends Controller
     /** @var ProfileService */
     private $profileService;
 
-    /** @var CommentService */
-    private $commentService;
-
     /** @var ViewHelper */
     private $viewHelper;
 
@@ -60,7 +57,8 @@ class ReportController extends Controller
         $client = new \MongoDB\Client($uri);
 
         $reportRepository = new ReportMongoRepository($client, new Serializer(), $appConfig);
-        $this->service = new ReportbookService($reportRepository);
+        $commentRepository = new CommentMongoRepository($client, new Serializer(), $appConfig);
+        $this->service = new ReportbookService($reportRepository, new CommentService($commentRepository));
 
         $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
         $this->userService = new UserService($userRepository);
@@ -69,8 +67,7 @@ class ReportController extends Controller
         $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);
         $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile);
 
-        $commentRepository = new CommentMongoRepository($client, new Serializer(), $appConfig);
-        $this->commentService = new CommentService($commentRepository);
+
     }
 
     public function indexAction()
@@ -356,8 +353,8 @@ class ReportController extends Controller
         $reportView->reportId = $reportId;
 
         $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
-        $commentsView->commentService = $this->commentService;
-        $commentsView->comments = $this->commentService->findCommentsByReportId($reportId);
+        $commentsView->commentService = $this->service;
+        $commentsView->comments = $this->service->findCommentsByReportId($reportId);
         $commentsView->userId = $this->sessionData('userId');
         $commentsView->reportId = $reportId;
         $commentsView->traineeId = $traineeId;

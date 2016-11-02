@@ -26,7 +26,7 @@
 
                                       <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
                                       <input type="hidden" name="userId" value="<?php echo $this->userId; ?>">
-                                      <input type="hidden" name="comment" value="<?php echo $comment->id(); ?>">
+                                      <input type="hidden" name="commentId" value="<?php echo $comment->id(); ?>">
                                       <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $this->traineeId; ?>">
                                       <input type="text" name="newComment" class="form-control" id="newComment" placeholder="Neuer Inhalt"></br>
                                       <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>

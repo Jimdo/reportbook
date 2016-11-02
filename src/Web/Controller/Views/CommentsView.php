@@ -11,7 +11,7 @@
         <div class="col-sm-9">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong><?php echo $comment->userId(); ?></strong>
+                    <strong><?php echo $this->userService->findUserById($comment->userId())->username(); ?></strong>
                     <span class="text-muted"><?php echo $comment->date(); ?></span>
                 </div>
                 <div class="panel-body">

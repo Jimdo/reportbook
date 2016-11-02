@@ -48,7 +48,7 @@ $editActive = false;?>
                                     <input type="hidden" name="userId" value="<?php echo $this->userId; ?>">
                                     <input type="hidden" name="commentId" value="<?php echo $comment->id(); ?>">
                                     <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $this->traineeId; ?>">
-                                    <textarea rows="5" name="newComment" class="form-control"><?php echo nl2br($comment->content());?></textarea><br>
+                                    <textarea rows="5" name="newComment" class="form-control"><?php echo $comment->content();?></textarea><br>
                             </div>
 
                             <div class="form-group">

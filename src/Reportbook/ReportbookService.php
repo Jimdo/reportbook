@@ -162,9 +162,12 @@ class ReportbookService
      * @param string $id
      * @return Comment
      */
-    public function editComment(string $id, string $newContent): Comment
+    public function editComment(string $id, string $newContent, string $userId): Comment
     {
-        return $this->commentService->editComment($id, $newContent);
+        $comment = $this->findCommentById($id);
+        if ($userId === $comment->userId()) {
+            return $this->commentService->editComment($id, $newContent);
+        }
     }
 
     /**

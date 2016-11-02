@@ -28,7 +28,7 @@ class ReportbookServiceTest extends TestCase
 
         $this->commentRepository = new CommentFakeRepository();
         $this->commentService = new CommentService($this->commentRepository);
-        
+
         $this->reportbookService = new ReportbookService($this->reportRepository, $this->commentService);
     }
 
@@ -314,10 +314,9 @@ class ReportbookServiceTest extends TestCase
 
         $comment = $this->reportbookService->createComment($reportId, $userId, $date, $content);
 
-        // $this->assertInstanceOf('\Jimdo\Reports\Comment\Comment', $comment);
+        $this->assertInstanceOf('\Jimdo\Reports\Reportbook\Comment', $comment);
 
         $createdComment = $this->commentRepository->comments[0];
-        var_dump($this->commentRepository->comments);
 
         $this->assertEquals($date, $createdComment->date());
         $this->assertEquals($content, $createdComment->content());

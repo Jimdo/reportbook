@@ -146,9 +146,16 @@ class ReportbookService
         return null;
     }
 
-    public function createComment()
+    /**
+     * @param string $reportId
+     * @param string $userId
+     * @param string $date
+     * @param string $content
+     * @return Comment
+     */
+    public function createComment(string $reportId, string $userId, string $date, string $content): Comment
     {
-
+        return $this->commentService->createComment($reportId, $userId, $date, $content);
     }
 
     /**

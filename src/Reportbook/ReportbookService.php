@@ -4,6 +4,7 @@ namespace Jimdo\Reports\Reportbook;
 
 use Jimdo\Reports\Views\Report as ReadOnlyReport;
 use Jimdo\Reports\Reportbook\CommentService as CommentService;
+use Jimdo\Reports\Serializer as Serializer;
 
 class ReportbookService
 {
@@ -13,6 +14,9 @@ class ReportbookService
     /** @var CommentService */
     private $commentService;
 
+    /** @var Serializer */
+    private $serializer;
+
     /**
      * @param ReportRepository $reportRepository
      */
@@ -20,6 +24,7 @@ class ReportbookService
     {
         $this->reportRepository = $reportRepository;
         $this->commentService = $commentService;
+        $this->serializer = new Serializer();
     }
 
     /**
@@ -210,5 +215,35 @@ class ReportbookService
             $readOnlyReports[] = new ReadOnlyReport($report);
         }
         return $readOnlyReports;
+    }
+
+    /**
+     * @param array $array
+     */
+    private function sortCommentsByDate(&$array) {
+        $direction = SORT_ASC;
+
+        $reference_array = [];
+        $comments = [];
+
+        foreach ($array as $comment) {
+            $comment = $this->serializer->serializeComment($comment);
+            $comments[] = $comment;
+        }
+
+        $array = $comments;
+
+        foreach($array as $key => $row) {
+            $reference_array[$key] = $row['date'];
+        }
+
+        array_multisort($reference_array, $direction, $array);
+
+        $newComments = [];
+        foreach ($array as $comment) {
+            $newComments[] = $this->serializer->unserializeComment($comment);
+        }
+
+        $array = $newComments;
     }
 }

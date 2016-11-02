@@ -177,6 +177,15 @@ class ReportbookService
     }
 
     /**
+     * @param string $commentId
+     * @return Comment
+     */
+    public function findCommentById(string $commentId): Comment
+    {
+        return $this->commentService->findCommentById($commentId);
+    }
+
+    /**
      * @param Reports[] $reports
      * @return \Jimdo\Reports\Views\Report[]
      */

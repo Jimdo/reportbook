@@ -365,4 +365,24 @@ class ReportbookServiceTest extends TestCase
         $foundComments = $this->reportbookService->findCommentsByReportId($reportId);
         $this->assertCount(2, $foundComments);
     }
+
+    /**
+     * @test
+     */
+    public function itShouldFindCommentById()
+    {
+        $date = 'Date';
+        $content = 'some content';
+        $reportId = uniqid();
+        $userId = uniqid();
+
+        $comment = $this->reportbookService->createComment($reportId, $userId, $date, $content);
+
+        $foundComment = $this->reportbookService->findCommentById($comment->id());
+
+        $this->assertEquals($comment->date(), $foundComment->date());
+        $this->assertEquals($comment->content(), $foundComment->content());
+        $this->assertEquals($comment->reportId(), $foundComment->reportId());
+        $this->assertEquals($comment->userId(), $foundComment->userId());
+    }
 }

@@ -385,4 +385,21 @@ class ReportbookServiceTest extends TestCase
         $this->assertEquals($comment->reportId(), $foundComment->reportId());
         $this->assertEquals($comment->userId(), $foundComment->userId());
     }
+    
+    /**
+     * @test
+     */
+    public function itShouldDeleteComment()
+    {
+        $date = 'Date';
+        $content = 'some content';
+        $reportId = uniqid();
+        $userId = uniqid();
+
+        $comment = $this->reportbookService->createComment($reportId, $userId, $date, $content);
+        $this->assertCount(1, $this->reportbookService->findCommentsByReportId($reportId));
+
+        $this->reportbookService->deleteComment($comment->id());
+        $this->assertCount(0, $this->reportbookService->findCommentsByReportId($reportId));
+    }
 }

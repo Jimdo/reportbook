@@ -168,6 +168,14 @@ class ReportbookService
     }
 
     /**
+     * @param string $commentId
+     */
+    public function deleteComment(string $commentId)
+    {
+        $this->commentService->deleteComment($commentId);
+    }
+
+    /**
      * @param string $reportId
      * @return array
      */

@@ -159,6 +159,15 @@ class ReportbookService
     }
 
     /**
+     * @param string $id
+     * @return Comment
+     */
+    public function editComment(string $id, string $newContent)
+    {
+        return $this->commentService->editComment($id, $newContent);
+    }
+
+    /**
      * @param Reports[] $reports
      * @return \Jimdo\Reports\Views\Report[]
      */

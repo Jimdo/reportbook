@@ -323,4 +323,26 @@ class ReportbookServiceTest extends TestCase
         $this->assertEquals($reportId, $createdComment->reportId());
         $this->assertEquals($userId, $createdComment->userId());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldEditComment()
+    {
+        $date = 'Date';
+        $content = 'some content';
+        $reportId = uniqid();
+        $userId = uniqid();
+
+        $comment = $this->reportbookService->createComment($reportId, $userId, $date, $content);
+
+        $this->assertInstanceOf('\Jimdo\Reports\Reportbook\Comment', $comment);
+
+        $createdComment = $this->commentRepository->comments[0];
+
+        $newContent = 'Hallo';
+        $editedComment = $this->reportbookService->editComment($comment->id(), $newContent);
+
+        $this->assertEquals($newContent, $editedComment->content());
+    }
 }

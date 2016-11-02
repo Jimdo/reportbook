@@ -18,9 +18,10 @@
                     <?php echo $comment->content();
                     if ($comment->userId() === $this->userId):?>
 
-                    <a href="#changeComment" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
 
-                     <div class="collapse" id="changeComment">
+                    <a href="#changeComment<?php echo $comment->id(); ?>" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
+
+                     <div class="collapse" id="changeComment<?php echo $comment->id(); ?>">
                          <form action="/comment/editComment" method="POST" class="form-horizontal">
                              <div class="card card-block">
                                  <div class="col-sm-offset-6 col-sm-6">
@@ -35,6 +36,7 @@
                               </div>
                           </form>
                     </div>
+
 
                     <form action="/comment/deleteComment" method="POST">
 

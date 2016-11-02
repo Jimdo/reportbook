@@ -173,9 +173,12 @@ class ReportbookService
     /**
      * @param string $commentId
      */
-    public function deleteComment(string $commentId)
+    public function deleteComment(string $commentId, string $userId)
     {
-        $this->commentService->deleteComment($commentId);
+        $comment = $this->findCommentById($commentId);
+        if ($userId === $comment->userId()) {
+            $this->commentService->deleteComment($commentId);
+        }
     }
 
     /**

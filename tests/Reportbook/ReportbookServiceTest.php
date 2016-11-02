@@ -399,7 +399,7 @@ class ReportbookServiceTest extends TestCase
         $comment = $this->reportbookService->createComment($reportId, $userId, $date, $content);
         $this->assertCount(1, $this->reportbookService->findCommentsByReportId($reportId));
 
-        $this->reportbookService->deleteComment($comment->id());
+        $this->reportbookService->deleteComment($comment->id(), $userId);
         $this->assertCount(0, $this->reportbookService->findCommentsByReportId($reportId));
     }
 }

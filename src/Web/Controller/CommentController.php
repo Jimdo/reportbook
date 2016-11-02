@@ -3,7 +3,9 @@
 namespace Jimdo\Reports\Web\Controller;
 
 use Jimdo\Reports\Reportbook\CommentService as CommentService;
+use Jimdo\Reports\Reportbook\ReportbookService as ReportbookService;
 use Jimdo\Reports\Reportbook\CommentMongoRepository as CommentMongoRepository;
+use Jimdo\Reports\Reportbook\ReportMongoRepository as ReportMongoRepository;
 use Jimdo\Reports\Web\Request as Request;
 use Jimdo\Reports\Web\Response as Response;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
@@ -12,8 +14,8 @@ use Jimdo\Reports\Serializer as Serializer;
 
 class CommentController extends Controller
 {
-    /** @var CommentService */
-    private $commentService;
+    /** @var ReportbookService */
+    private $service;
 
     /**
      * @param Request $request
@@ -36,8 +38,9 @@ class CommentController extends Controller
 
         $client = new \MongoDB\Client($uri);
 
+        $reportRepository = new ReportMongoRepository($client, new Serializer(), $appConfig);
         $commentRepository = new CommentMongoRepository($client, new Serializer(), $appConfig);
-        $this->commentService = new CommentService($commentRepository);
+        $this->service = new ReportbookService($reportRepository, new CommentService($commentRepository));
     }
 
     public function createCommentAction()
@@ -48,21 +51,21 @@ class CommentController extends Controller
         $traineeId = $this->formData('traineeId');
         $userId = $this->sessionData('userId');
 
-        $this->commentService->createComment(
+        $this->service->createComment(
             $reportId,
             $userId,
             $date,
             $content
         );
 
-        $comments = $this->commentService->findCommentsByReportId($reportId);
+        $comments = $this->service->findCommentsByReportId($reportId);
 
         $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
     }
 
     public function editCommentAction()
     {
-        $comment = $this->commentService->findCommentById($this->queryParams('commentId'));
+        $comment = $this->service->findCommentById($this->formData('commentId'));
 
         $commentId = $comment->id();
         $newContent = $this->formData('newComment');
@@ -70,24 +73,19 @@ class CommentController extends Controller
         $reportId = $this->formData('reportId');
         $traineeId = $this->formData('traineeId');
 
-        $this->commentService->editComment($commentId, $newContent);
-
-        $date = date('d.m.Y H:i:s');
+        $this->service->editComment($commentId, $newContent, $userId);
 
         $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
     }
 
     public function deleteCommentAction()
     {
+        $commentId = $this->formData('commentId');
         $reportId = $this->formData('reportId');
         $traineeId = $this->formData('traineeId');
         $userId = $this->formData('userId');
 
-        if ($comment->userId() === $userId) {
-            $this->commentService->deleteComment($comment->id(), $userId);
-        }
-
-        $this->reportbookService->deleteComment($commentId, $userId);
+        $this->service->deleteComment($commentId, $userId);
 
         $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
     }

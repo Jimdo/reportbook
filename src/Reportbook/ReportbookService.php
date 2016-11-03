@@ -178,7 +178,7 @@ class ReportbookService
             return $this->commentService->editComment($id, $newContent);
         } else {
             throw new ReportbookServiceException(
-                'You are not allowed to edit this Comment!' . "\n",
+                'You are not allowed to edit this comment!',
                 self::ERR_EDIT_COMMENT_DENIED
             );
         }
@@ -195,7 +195,7 @@ class ReportbookService
             $this->commentService->deleteComment($commentId);
         } else {
             throw new ReportbookServiceException(
-                'You are not allowed to delete this Comment!' . "\n",
+                'You are not allowed to delete this comment!',
                 self::ERR_DELETE_COMMENT_DENIED
             );
         }

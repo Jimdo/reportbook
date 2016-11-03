@@ -8,6 +8,9 @@ use Jimdo\Reports\Serializer as Serializer;
 
 class ReportbookService
 {
+    const ERR_EDIT_COMMENT_DENIED = 11;
+    const ERR_DELETE_COMMENT_DENIED = 12;
+
     /** @var ReportRepository */
     private $reportRepository;
 
@@ -165,6 +168,7 @@ class ReportbookService
 
     /**
      * @param string $id
+     * @throws ReportbookServiceException
      * @return Comment
      */
     public function editComment(string $id, string $newContent, string $userId): Comment
@@ -172,17 +176,28 @@ class ReportbookService
         $comment = $this->findCommentById($id);
         if ($userId === $comment->userId()) {
             return $this->commentService->editComment($id, $newContent);
+        } else {
+            throw new ReportbookServiceException(
+                'You are not allowed to edit this comment!',
+                self::ERR_EDIT_COMMENT_DENIED
+            );
         }
     }
 
     /**
      * @param string $commentId
+     * @throws ReportbookServiceException
      */
     public function deleteComment(string $commentId, string $userId)
     {
         $comment = $this->findCommentById($commentId);
         if ($userId === $comment->userId()) {
             $this->commentService->deleteComment($commentId);
+        } else {
+            throw new ReportbookServiceException(
+                'You are not allowed to delete this comment!',
+                self::ERR_DELETE_COMMENT_DENIED
+            );
         }
     }
 

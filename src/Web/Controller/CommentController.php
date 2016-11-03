@@ -73,9 +73,21 @@ class CommentController extends Controller
         $reportId = $this->formData('reportId');
         $traineeId = $this->formData('traineeId');
 
-        $this->service->editComment($commentId, $newContent, $userId);
+        $noPermissions = false;
 
-        $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
+        try {
+            $this->service->editComment($commentId, $newContent, $userId);
+        } catch (\Jimdo\Reports\Reportbook\ReportbookServiceException $e) {
+            $errorMessages = $this->getErrorMessageForErrorCode($e->getCode());
+        }
+
+        if ($errorMessages === null) {
+            $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
+        }
+
+        header("Content-type: text/html");
+        echo "<h1>$errorMessages</h1>";
+        http_response_code(401);
     }
 
     public function deleteCommentAction()
@@ -85,8 +97,32 @@ class CommentController extends Controller
         $traineeId = $this->formData('traineeId');
         $userId = $this->formData('userId');
 
-        $this->service->deleteComment($commentId, $userId);
+        try {
+            $this->service->deleteComment($commentId, $userId);
+        } catch (\Jimdo\Reports\Reportbook\ReportbookServiceException $e) {
+            $errorMessages = $this->getErrorMessageForErrorCode($e->getCode());
+        }
 
-        $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
+        if ($errorMessages === null) {
+            $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
+        }
+
+        header("Content-type: text/html");
+        echo "<h1>$errorMessages</h1>";
+        http_response_code(401);
+    }
+
+    /**
+     * @param int $errorCode
+     */
+    public function getErrorMessageForErrorCode(int $errorCode)
+    {
+        switch ($errorCode) {
+            case ReportbookService::ERR_EDIT_COMMENT_DENIED:
+                return 'Du darfst diesen Kommentar nicht bearbeiten!' . "\n";
+
+            case ReportbookService::ERR_DELETE_COMMENT_DENIED:
+                return 'Du darfst diesen Kommentar nicht löschen!' . "\n";
+        }
     }
 }

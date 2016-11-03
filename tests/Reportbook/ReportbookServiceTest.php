@@ -398,4 +398,24 @@ class ReportbookServiceTest extends TestCase
         $this->reportbookService->deleteComment($comment->id(), $userId);
         $this->assertCount(0, $this->reportbookService->findCommentsByReportId($reportId));
     }
+
+
+    /**
+     * @test
+     * @expectedException Jimdo\Reports\Reportbook\ReportbookServiceException
+     */
+    public function itShouldThrowExceptionIfUserIsNotAllowedToEditComment()
+    {
+        $date = 'Date';
+        $content = 'some content';
+        $reportId = uniqid();
+        $userId = uniqid();
+
+        $comment = $this->reportbookService->createComment($reportId, $userId, $date, $content);
+
+        $newContent = 'Hallo';
+        $falseUserId = uniqid();
+
+        $this->reportbookService->editComment($comment->id(), $newContent, $falseUserId);
+    }
 }

@@ -336,10 +336,6 @@ class ReportbookServiceTest extends TestCase
 
         $comment = $this->reportbookService->createComment($reportId, $userId, $date, $content);
 
-        $this->assertInstanceOf('\Jimdo\Reports\Reportbook\Comment', $comment);
-
-        $createdComment = $this->commentRepository->comments[0];
-
         $newContent = 'Hallo';
         $editedComment = $this->reportbookService->editComment($comment->id(), $newContent, $userId);
 
@@ -359,8 +355,8 @@ class ReportbookServiceTest extends TestCase
         $foundComments = $this->reportbookService->findCommentsByReportId($reportId);
         $this->assertCount(0, $foundComments);
 
-        $comment1 = $this->reportbookService->createComment($reportId, $userId, $date, $content);
-        $comment2 = $this->reportbookService->createComment($reportId, $userId, $date, $content);
+        $this->reportbookService->createComment($reportId, $userId, $date, $content);
+        $this->reportbookService->createComment($reportId, $userId, $date, $content);
 
         $foundComments = $this->reportbookService->findCommentsByReportId($reportId);
         $this->assertCount(2, $foundComments);

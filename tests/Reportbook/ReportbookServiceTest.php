@@ -399,7 +399,6 @@ class ReportbookServiceTest extends TestCase
         $this->assertCount(0, $this->reportbookService->findCommentsByReportId($reportId));
     }
 
-
     /**
      * @test
      * @expectedException Jimdo\Reports\Reportbook\ReportbookServiceException
@@ -417,5 +416,23 @@ class ReportbookServiceTest extends TestCase
         $falseUserId = uniqid();
 
         $this->reportbookService->editComment($comment->id(), $newContent, $falseUserId);
+    }
+
+    /**
+     * @test
+     * @expectedException Jimdo\Reports\Reportbook\ReportbookServiceException
+     */
+    public function itShouldThrowExceptionIfUserIsNotAllowedToDeleteComment()
+    {
+        $date = 'Date';
+        $content = 'some content';
+        $reportId = uniqid();
+        $userId = uniqid();
+
+        $comment = $this->reportbookService->createComment($reportId, $userId, $date, $content);
+
+        $falseUserId = uniqid();
+
+        $this->reportbookService->deleteComment($comment->id(), $falseUserId);
     }
 }

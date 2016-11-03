@@ -186,12 +186,18 @@ class ReportbookService
 
     /**
      * @param string $commentId
+     * @throws ReportbookServiceException
      */
     public function deleteComment(string $commentId, string $userId)
     {
         $comment = $this->findCommentById($commentId);
         if ($userId === $comment->userId()) {
             $this->commentService->deleteComment($commentId);
+        } else {
+            throw new ReportbookServiceException(
+                'You are not allowed to delete this Comment!' . "\n",
+                self::ERR_DELETE_COMMENT_DENIED
+            );
         }
     }
 

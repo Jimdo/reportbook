@@ -100,3 +100,8 @@ update       Update composer packages
 ### v0.3.8
   - Add CommentController
   - Implement CommentView in ViewReport
+
+### v0.4
+  - Create Event for Notification Service
+  - Create Subscriber for Notification Service
+  - Create Notification Service

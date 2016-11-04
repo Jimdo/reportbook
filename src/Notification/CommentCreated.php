@@ -33,6 +33,9 @@ class CommentCreated implements Event
      */
     public function payload(): array
     {
-
+        return [
+            'userId' => $this->userId,
+            'content' => $this->content
+        ];
     }
 }

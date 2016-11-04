@@ -21,7 +21,7 @@ class DummySubscriber implements Subscriber
      */
     public function isResponsibleFor(Event $event): bool
     {
-
+        return in_array($event->type(), $this->validEventTypes);
     }
 
     /**

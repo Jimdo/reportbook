@@ -45,4 +45,24 @@ class DummySubscriberTest extends TestCase
         $dummySubscriber = new DummySubscriber($eventTypes);
         $this->assertTrue($dummySubscriber->isResponsibleFor($event));
     }
+
+    /**
+     * @test
+     */
+    public function itShouldNotifyOnRightEventType()
+    {
+        $eventTypes = [
+            'commentCreated'
+        ];
+
+        $userId = uniqid();
+        $comment = new Comment(uniqid(), uniqid(), $userId, '11.11.11', 'Some content');
+        $event = new CommentCreated($comment);
+
+        $dummySubscriber = new DummySubscriber($eventTypes);
+
+        $dummySubscriber->notify($event);
+
+        $this->assertTrue($dummySubscriber->notified);
+    }
 }

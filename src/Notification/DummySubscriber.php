@@ -7,6 +7,9 @@ class DummySubscriber implements Subscriber
     /** @var array */
     public $validEventTypes = [];
 
+    /** @var bool */
+    public $notified = false;
+
     /**
      * @param array $eventTypes
      */
@@ -29,6 +32,10 @@ class DummySubscriber implements Subscriber
      */
     public function notify(Event $event)
     {
-
+        switch ($event->type()) {
+            case 'commentCreated':
+                $this->notified = true;
+                break;
+        }
     }
 }

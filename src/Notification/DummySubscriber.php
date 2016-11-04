@@ -33,7 +33,7 @@ class DummySubscriber implements Subscriber
     public function notify(Event $event)
     {
         switch ($event->type()) {
-            case 'commentCreated':
+            case 'dummyEvent':
                 $this->notified = true;
                 break;
         }

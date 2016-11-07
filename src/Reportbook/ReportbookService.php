@@ -6,6 +6,9 @@ use Jimdo\Reports\Views\Report as ReadOnlyReport;
 use Jimdo\Reports\Reportbook\CommentService as CommentService;
 use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\Web\ApplicationConfig;
+use Jimdo\Reports\Notification\NotificationService;
+use Jimdo\Reports\Notification\LoggingSubscriber;
+use Jimdo\Reports\Notification\Events as Events;
 
 class ReportbookService
 {
@@ -20,6 +23,9 @@ class ReportbookService
 
     /** @var Serializer */
     private $serializer;
+
+    /** @var NotificaionService */
+    private $notificationService;
 
     /**
      * @param ReportRepository $reportRepository
@@ -41,8 +47,8 @@ class ReportbookService
             'reportEdited',
             'reportDisapproved'
         ];
-        // $notificationService = new NotificationService();
-        // $notificationService->register(new LoggingSubscriber($eventTypes, $appConfig));
+        $this->notificationService = new NotificationService();
+        $this->notificationService->register(new LoggingSubscriber($eventTypes, $appConfig));
     }
 
     /**
@@ -60,6 +66,14 @@ class ReportbookService
         string $calendarWeek
     ): \Jimdo\Reports\Views\Report {
         $report = $this->reportRepository->create($traineeId, $content, $date, $calendarWeek);
+
+        $payload = [
+            'userId' => $traineeId->id(),
+            'reportId' => $report->id()
+        ];
+        $event = new Events\ReportCreated($payload);
+        $this->notificationService->notify($event);
+
         return new ReadOnlyReport($report);
     }
 

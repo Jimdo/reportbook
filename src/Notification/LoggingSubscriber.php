@@ -2,8 +2,8 @@
 
 namespace Jimdo\Reports\Notification;
 
-use Jimdo\Reports\Notification\Events\Event as Event;
-use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
+use Jimdo\Reports\Notification\Events\Event;
+use Jimdo\Reports\Web\ApplicationConfig;
 
 class LoggingSubscriber implements Subscriber
 {
@@ -38,5 +38,11 @@ class LoggingSubscriber implements Subscriber
     public function notify(Event $event)
     {
 
+    /**
+     * @param string $logDescription
+     */
+    private function writeLog(string $logDescription)
+    {
+        file_put_contents($this->appConfig->logPath, date('d.m.Y H:i:s') . " | $logDescription\n", FILE_APPEND);
     }
 }

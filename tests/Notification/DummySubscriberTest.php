@@ -31,8 +31,8 @@ class DummySubscriberTest extends TestCase
             'dummyEvent'
         ];
 
-        $eventName = 'dummyEvent';
-        $event = new Events\DummyEvent($eventName);
+        $payload = [];
+        $event = new Events\DummyEvent($payload);
 
         $dummySubscriber = new DummySubscriber($eventTypes);
         $this->assertTrue($dummySubscriber->isResponsibleFor($event));
@@ -47,8 +47,8 @@ class DummySubscriberTest extends TestCase
             'dummyEvent'
         ];
 
-        $eventName = 'dummyEvent';
-        $event = new Events\DummyEvent($eventName);
+        $payload = [];
+        $event = new Events\DummyEvent($payload);
 
         $dummySubscriber = new DummySubscriber($eventTypes);
 

@@ -4,15 +4,15 @@ namespace Jimdo\Reports\Notification\Events;
 
 class DummyEvent implements Event
 {
-    /** @var string */
-    private $eventName;
+    /** @var array */
+    private $payload;
 
     /**
      * @param Comment $comment
      */
-    public function __construct(string $eventName)
+    public function __construct(array $payload)
     {
-        $this->eventName = $eventName;
+        $this->payload = $payload;
     }
     /**
      * @return string
@@ -27,8 +27,6 @@ class DummyEvent implements Event
      */
     public function payload(): array
     {
-        return [
-            'eventName' => $this->eventName,
-        ];
+        return $this->payload;
     }
 }

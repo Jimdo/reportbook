@@ -4,7 +4,7 @@ namespace Jimdo\Reports\Notification\Events;
 
 use PHPUnit\Framework\TestCase;
 
-class ReportCreatedTest extends TestCase
+class UsernameEditedTest extends TestCase
 {
     /**
      * @test
@@ -12,9 +12,9 @@ class ReportCreatedTest extends TestCase
     public function itShouldHaveType()
     {
         $payload = [];
-        $event = new ReportCreated($payload);
+        $event = new UsernameEdited($payload);
 
-        $this->assertEquals('reportCreated', $event->type());
+        $this->assertEquals('usernameEdited', $event->type());
     }
 
     /**
@@ -28,7 +28,7 @@ class ReportCreatedTest extends TestCase
             'content' => 'dsbds'
         ];
 
-        $event = new ReportCreated($payload);
+        $event = new UsernameEdited($payload);
 
         $this->assertEquals($payload, $event->payload());
     }

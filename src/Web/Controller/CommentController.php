@@ -40,7 +40,7 @@ class CommentController extends Controller
 
         $reportRepository = new ReportMongoRepository($client, new Serializer(), $appConfig);
         $commentRepository = new CommentMongoRepository($client, new Serializer(), $appConfig);
-        $this->service = new ReportbookService($reportRepository, new CommentService($commentRepository));
+        $this->service = new ReportbookService($reportRepository, new CommentService($commentRepository), $appConfig);
     }
 
     public function createCommentAction()

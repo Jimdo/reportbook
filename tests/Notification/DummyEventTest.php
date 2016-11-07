@@ -12,7 +12,7 @@ class DummyEventTest extends TestCase
     public function itShouldHaveType()
     {
         $eventName = 'dummyEvent';
-        $event = new DummyEvent($eventName);
+        $event = new Events\DummyEvent($eventName);
 
         $this->assertEquals($eventName, $event->type());
     }
@@ -23,7 +23,7 @@ class DummyEventTest extends TestCase
     public function itShouldHavePayload()
     {
         $eventName = 'dummyEvent';
-        $event = new DummyEvent($eventName);
+        $event = new Events\DummyEvent($eventName);
 
         $expectedPayload = [
             'eventName' => $eventName,

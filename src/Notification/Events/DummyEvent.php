@@ -1,6 +1,6 @@
 <?php
 
-namespace Jimdo\Reports\Notification;
+namespace Jimdo\Reports\Notification\Events;
 
 class DummyEvent implements Event
 {

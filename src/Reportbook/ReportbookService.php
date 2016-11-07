@@ -29,6 +29,20 @@ class ReportbookService
         $this->reportRepository = $reportRepository;
         $this->commentService = $commentService;
         $this->serializer = new Serializer();
+
+        $eventTypes = [
+            'approvalRequested',
+            'commentCreated',
+            'commentDeleted',
+            'commentEdited',
+            'reportApproved',
+            'reportCreated',
+            'reportDeleted',
+            'reportEdited',
+            'reportDisapproved'
+        ];
+        // $notificationService = new NotificationService();
+        // $notificationService->register(new LoggingSubscriber($eventTypes, $appConfig));
     }
 
     /**

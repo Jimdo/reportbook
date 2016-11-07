@@ -37,7 +37,7 @@ class LoggingSubscriberTest extends TestCase
 
         $payload = [
             'userId' => uniqid(),
-            'calendarWeek' => '34',
+            'reportId' => uniqid(),
             'content' => 'some content'
         ];
 

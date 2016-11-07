@@ -37,6 +37,12 @@ class LoggingSubscriber implements Subscriber
      */
     public function notify(Event $event)
     {
+        switch ($event->type()) {
+            case 'reportCreated':
+            $this->writeLog("Report created by user: {$event->payload()['userId']}");
+                break;
+        }
+    }
 
     /**
      * @param string $logDescription

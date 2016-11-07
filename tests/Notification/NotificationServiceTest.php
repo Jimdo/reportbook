@@ -18,8 +18,8 @@ class NotificationServiceTest extends TestCase
 
         $notificationService = new NotificationService();
         $subscriber = new DummySubscriber($eventTypes);
-        $event = new DummyEvent('eventName');
-        
+        $event = new Events\DummyEvent([]);
+
         $notificationService->register($subscriber);
         $notificationService->notify($event);
 

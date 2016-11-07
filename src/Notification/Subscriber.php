@@ -2,6 +2,8 @@
 
 namespace Jimdo\Reports\Notification;
 
+use Jimdo\Reports\Notification\Events\Event as Event;
+
 interface Subscriber
 {
     /**

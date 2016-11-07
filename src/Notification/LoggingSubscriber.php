@@ -3,18 +3,24 @@
 namespace Jimdo\Reports\Notification;
 
 use Jimdo\Reports\Notification\Events\Event as Event;
+use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 
 class LoggingSubscriber implements Subscriber
 {
     /** @var array */
     private $validEventTypes;
 
+    /** @var ApplicationConfig */
+    public $appConfig;
+
     /**
      * @param array $eventTypes
+     * @param ApplicationConfig $appConfig
      */
-    public function __construct(array $eventTypes)
+    public function __construct(array $eventTypes, ApplicationConfig $appConfig)
     {
         $this->validEventTypes = $eventTypes;
+        $this->appConfig = $appConfig;
     }
 
     /**

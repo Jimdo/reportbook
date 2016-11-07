@@ -6,31 +6,30 @@ use PHPUnit\Framework\TestCase;
 
 class ReportCreatedTest extends TestCase
 {
-    // /**
-    //  * @test
-    //  */
-    // public function itShouldHaveType()
-    // {
-    //     $eventName = 'reportCreated';
-    //     $event = new ReportCreated($eventName);
-    //
-    //     $this->assertEquals($eventName, $event->type());
-    // }
-    //
-    // /**
-    //  * @test
-    //  */
-    // public function itShouldHavePayload()
-    // {
-    //     $eventName = 'reportCreated';
-    //     $event = new ReportCreated($eventName);
-    //
-    //     $expectedPayload = [
-    //         'userId' => ,
-    //         'calendarWeek' => ,
-    //         'content' =>
-    //     ];
-    //
-    //     $this->assertEquals($expectedPayload, $event->payload());
-    // }
+    /**
+     * @test
+     */
+    public function itShouldHaveType()
+    {
+        $payload = [];
+        $event = new ReportCreated($payload);
+
+        $this->assertEquals('reportCreated', $event->type());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldHavePayload()
+    {
+        $payload = [
+            'userId' => 'afhoafdo',
+            'calendarWeek' => 'nfsdk',
+            'content' => 'dsbds'
+        ];
+
+        $event = new ReportCreated($payload);
+
+        $this->assertEquals($payload, $event->payload());
+    }
 }

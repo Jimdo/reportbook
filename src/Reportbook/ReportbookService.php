@@ -89,6 +89,13 @@ class ReportbookService
         $report = $this->reportRepository->findById($reportId);
         $report->edit($content, $date, $calendarWeek);
         $this->reportRepository->save($report);
+
+        $payload = [
+            'userId' => $report->traineeId(),
+            'reportId' => $report->id()
+        ];
+        $event = new Events\ReportCreated($payload);
+        $this->notificationService->notify($event);
     }
 
     /**

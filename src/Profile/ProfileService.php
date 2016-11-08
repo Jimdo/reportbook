@@ -219,5 +219,10 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editImage($image, $type);
         $this->repository->save($profile);
+
+        $event = new Events\ImageEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 }

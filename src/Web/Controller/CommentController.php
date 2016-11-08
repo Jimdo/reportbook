@@ -83,11 +83,11 @@ class CommentController extends Controller
 
         if ($errorMessages === null) {
             $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
+        } else {
+            header("Content-type: text/html");
+            echo "<h1>$errorMessages</h1>";
+            http_response_code(401);
         }
-
-        header("Content-type: text/html");
-        echo "<h1>$errorMessages</h1>";
-        http_response_code(401);
     }
 
     public function deleteCommentAction()
@@ -105,11 +105,11 @@ class CommentController extends Controller
 
         if ($errorMessages === null) {
             $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
+        } else {
+            header("Content-type: text/html");
+            echo "<h1>$errorMessages</h1>";
+            http_response_code(401);
         }
-
-        header("Content-type: text/html");
-        echo "<h1>$errorMessages</h1>";
-        http_response_code(401);
     }
 
     /**

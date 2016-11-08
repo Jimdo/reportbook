@@ -127,6 +127,12 @@ class ReportbookService
     {
         $report = $this->reportRepository->findById($reportId);
         $this->reportRepository->delete($report);
+
+        $event = new Events\ReportDeleted([
+            'userId' => $report->traineeId(),
+            'reportId' => $report->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**

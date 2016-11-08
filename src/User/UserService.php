@@ -348,6 +348,11 @@ class UserService
         $user = $this->userRepository->findUserbyEmail($email);
         $user->disapprove();
         $this->userRepository->save($user);
+
+        $event = new Events\RoleDisapproved([
+            'userId' => $user->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     public function ensureUsersPath()

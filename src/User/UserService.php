@@ -4,21 +4,42 @@ namespace Jimdo\Reports\User;
 
 use Jimdo\Reports\Views\User as ReadOnlyUser;
 use Jimdo\Reports\User\Role as Role;
+use Jimdo\Reports\Web\ApplicationConfig;
+use Jimdo\Reports\Notification\NotificationService;
+use Jimdo\Reports\Notification\LoggingSubscriber;
+use Jimdo\Reports\Notification\Events as Events;
 
 class UserService
 {
     const ERR_USERNAME_EXISTS = 6;
     const ERR_EMAIL_EXISTS = 7;
 
-    /** @var userRepository */
+    /** @var UserRepository */
     private $userRepository;
 
+    /** @var NotificaionService */
+    private $notificationService;
+
     /**
-     * @param userRepository $userRepository
+     * @param UserRepository $userRepository
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, ApplicationConfig $appConfig)
     {
         $this->userRepository = $userRepository;
+
+        $eventTypes = [
+            'usernameEdited',
+            'emailEdited',
+            'passwordEdited',
+            'roleApproved',
+            'roleDisapproved',
+            'traineeRegistered',
+            'trainerRegistered',
+            'userAuthorized'
+        ];
+
+        $this->notificationService = new NotificationService();
+        $this->notificationService->register(new LoggingSubscriber($eventTypes, $appConfig));
     }
 
     /**
@@ -35,6 +56,12 @@ class UserService
         string $password
     ) {
         $user = $this->registerUser($username, $email, new Role(Role::TRAINEE), $password);
+
+        $event = new Events\TraineeRegistered([
+            'userId' => $user->id()
+        ]);
+        $this->notificationService->notify($event);
+
         return $user;
     }
 
@@ -52,6 +79,12 @@ class UserService
         string $password
     ) {
         $user = $this->registerUser($username, $email, new Role(Role::TRAINER), $password);
+
+        $event = new Events\TrainerRegistered([
+            'userId' => $user->id()
+        ]);
+        $this->notificationService->notify($event);
+
         return $user;
     }
 
@@ -65,6 +98,11 @@ class UserService
         $user = $this->userRepository->findUserById($userId);
         $user->editPassword($oldPassword, $newPassword);
         $this->userRepository->save($user);
+
+        $event = new Events\PasswordEdited([
+            'userId' => $user->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -82,6 +120,11 @@ class UserService
         $user = $this->userRepository->findUserById($userId);
         $user->editUsername($username);
         $this->userRepository->save($user, $user->email());
+
+        $event = new Events\UsernameEdited([
+            'userId' => $user->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -99,6 +142,11 @@ class UserService
         $user = $this->userRepository->findUserById($userId);
         $user->editEmail($email);
         $this->userRepository->save($user, $user->username());
+
+        $event = new Events\EmailEdited([
+            'userId' => $user->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -223,12 +271,22 @@ class UserService
 
         if ($userByMail !== null) {
             if ($userByMail->password() === $password) {
+                $event = new Events\UserAuthorized([
+                    'userId' => $userByMail->id()
+                ]);
+                $this->notificationService->notify($event);
+
                 return true;
             }
         }
 
         if ($userByUsername !== null) {
             if ($userByUsername->password() === $password) {
+                $event = new Events\UserAuthorized([
+                    'userId' => $userByUsername->id()
+                ]);
+                $this->notificationService->notify($event);
+
                 return true;
             }
         }
@@ -285,6 +343,11 @@ class UserService
         $user = $this->userRepository->findUserbyEmail($email);
         $user->approve();
         $this->userRepository->save($user);
+
+        $event = new Events\RoleApproved([
+            'userId' => $user->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -295,6 +358,11 @@ class UserService
         $user = $this->userRepository->findUserbyEmail($email);
         $user->disapprove();
         $this->userRepository->save($user);
+
+        $event = new Events\RoleDisapproved([
+            'userId' => $user->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     public function ensureUsersPath()

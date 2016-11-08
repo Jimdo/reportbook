@@ -105,3 +105,9 @@ update       Update composer packages
   - Create Event for Notification Service
   - Create Subscriber for Notification Service
   - Create Notification Service
+
+### v0.4.1
+  - Add LoggingSubscriber
+  - Add Events for ReportbookService and UserService
+  - Add NotificationService to UserService
+  - Add NotificationService to ReportbookService

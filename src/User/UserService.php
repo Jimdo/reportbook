@@ -130,6 +130,11 @@ class UserService
         $user = $this->userRepository->findUserById($userId);
         $user->editUsername($username);
         $this->userRepository->save($user, $user->email());
+
+        $event = new Events\UsernameEdited([
+            'userId' => $user->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**

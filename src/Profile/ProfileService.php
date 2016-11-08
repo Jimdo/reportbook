@@ -176,6 +176,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editTrainingYear($trainingYear);
         $this->repository->save($profile);
+
+        $event = new Events\TrainingYearEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**

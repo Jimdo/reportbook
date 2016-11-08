@@ -144,6 +144,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editCompany($company);
         $this->repository->save($profile);
+
+        $event = new Events\CompanyEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**

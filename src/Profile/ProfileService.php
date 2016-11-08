@@ -160,6 +160,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editJobTitle($jobTitle);
         $this->repository->save($profile);
+
+        $event = new Events\JobTitleEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**

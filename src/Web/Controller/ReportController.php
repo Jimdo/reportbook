@@ -360,6 +360,7 @@ class ReportController extends Controller
         $commentsView->traineeId = $traineeId;
         $commentsView->report = $this->service->findById($reportId, $traineeId);
         $commentsView->userService = $this->userService;
+        $commentsView->showCreateCommentButton = ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED');
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
         $footerView->backButton = 'show';

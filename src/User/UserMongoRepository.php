@@ -73,7 +73,9 @@ class UserMongoRepository implements UserRepository
 
         if ($this->exists($id)) {
             $this->deleteUser($user);
-            $this->users->insertOne($this->serializer->serializeUser($user));
+            if ($user->roleStatus() !== Role::STATUS_DISAPPROVED) {
+                $this->users->insertOne($this->serializer->serializeUser($user));
+            }
         } else {
             $this->users->insertOne($this->serializer->serializeUser($user));
         }

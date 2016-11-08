@@ -28,21 +28,11 @@ class UserService
         $this->userRepository = $userRepository;
 
         $eventTypes = [
-            'dateOfBirthEdited',
-            'companyEdited',
-            'schoolEdited',
-            'forenameEdited',
-            'surnameEdited',
             'usernameEdited',
             'emailEdited',
             'passwordEdited',
-            'gradeEdited',
-            'imageEdited',
-            'jobTitleEdited',
             'roleApproved',
             'roleDisapproved',
-            'startOfTrainingEdited',
-            'trainingYearEdited',
             'traineeRegistered',
             'trainerRegistered',
             'userAuthorized'
@@ -343,6 +333,11 @@ class UserService
         $user = $this->userRepository->findUserbyEmail($email);
         $user->approve();
         $this->userRepository->save($user);
+
+        $event = new Events\RoleApproved([
+            'userId' => $user->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**

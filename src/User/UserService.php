@@ -152,6 +152,11 @@ class UserService
         $user = $this->userRepository->findUserById($userId);
         $user->editEmail($email);
         $this->userRepository->save($user, $user->username());
+
+        $event = new Events\EmailEdited([
+            'userId' => $user->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**

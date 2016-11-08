@@ -203,6 +203,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editGrade($grade);
         $this->repository->save($profile);
+
+        $event = new Events\GradeEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**

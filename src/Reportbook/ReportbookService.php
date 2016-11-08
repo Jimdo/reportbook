@@ -67,11 +67,10 @@ class ReportbookService
     ): \Jimdo\Reports\Views\Report {
         $report = $this->reportRepository->create($traineeId, $content, $date, $calendarWeek);
 
-        $payload = [
+        $event = new Events\ReportCreated([
             'userId' => $traineeId->id(),
             'reportId' => $report->id()
-        ];
-        $event = new Events\ReportCreated($payload);
+        ]);
         $this->notificationService->notify($event);
 
         return new ReadOnlyReport($report);
@@ -90,11 +89,10 @@ class ReportbookService
         $report->edit($content, $date, $calendarWeek);
         $this->reportRepository->save($report);
 
-        $payload = [
+        $event = new Events\ReportEdited([
             'userId' => $report->traineeId(),
             'reportId' => $report->id()
-        ];
-        $event = new Events\ReportCreated($payload);
+        ]);
         $this->notificationService->notify($event);
     }
 

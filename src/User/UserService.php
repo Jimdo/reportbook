@@ -271,12 +271,22 @@ class UserService
 
         if ($userByMail !== null) {
             if ($userByMail->password() === $password) {
+                $event = new Events\UserAuthorized([
+                    'userId' => $userByMail->id()
+                ]);
+                $this->notificationService->notify($event);
+
                 return true;
             }
         }
 
         if ($userByUsername !== null) {
             if ($userByUsername->password() === $password) {
+                $event = new Events\UserAuthorized([
+                    'userId' => $userByUsername->id()
+                ]);
+                $this->notificationService->notify($event);
+
                 return true;
             }
         }

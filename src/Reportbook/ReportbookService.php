@@ -29,6 +29,8 @@ class ReportbookService
 
     /**
      * @param ReportRepository $reportRepository
+     * @param CommentService $commentService
+     * @param ApplicationConfig $appConfig
      */
     public function __construct(ReportRepository $reportRepository, CommentService $commentService, ApplicationConfig $appConfig)
     {

@@ -22,6 +22,7 @@ class UserService
 
     /**
      * @param UserRepository $userRepository
+     * @param ApplicationConfig $appConfig
      */
     public function __construct(UserRepository $userRepository, ApplicationConfig $appConfig)
     {

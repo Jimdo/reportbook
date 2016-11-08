@@ -22,6 +22,7 @@ class ProfileService
     /**
      * @param ProfileMongoRepository $repository
      * @param string $imagePath
+     * @param ApplicationConfig $appConfig
      */
     public function __construct(ProfileMongoRepository $repository, string $imagePath, ApplicationConfig $appConfig)
     {

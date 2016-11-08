@@ -262,6 +262,12 @@ class ReportbookService
     {
         $comment = $this->findCommentById($commentId);
         if ($userId === $comment->userId()) {
+            $event = new Events\CommentDeleted([
+                'userId' => $comment->userId(),
+                'reportId' => $comment->reportId()
+            ]);
+            $this->notificationService->notify($event);
+
             $this->commentService->deleteComment($commentId);
         } else {
             throw new ReportbookServiceException(

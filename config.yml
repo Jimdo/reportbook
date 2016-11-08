@@ -20,4 +20,4 @@
   mongo_port: 27017
   default_profile: app/default_profile.jpg
   timezone: Europe/Berlin
-  log_path: tests/Notification/log.txt
+  log_path: app/log.txt

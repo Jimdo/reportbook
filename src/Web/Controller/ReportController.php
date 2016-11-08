@@ -58,7 +58,7 @@ class ReportController extends Controller
 
         $reportRepository = new ReportMongoRepository($client, new Serializer(), $appConfig);
         $commentRepository = new CommentMongoRepository($client, new Serializer(), $appConfig);
-        $this->service = new ReportbookService($reportRepository, new CommentService($commentRepository));
+        $this->service = new ReportbookService($reportRepository, new CommentService($commentRepository), $appConfig);
 
         $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
         $this->userService = new UserService($userRepository);

@@ -5,6 +5,10 @@ namespace Jimdo\Reports\Reportbook;
 use Jimdo\Reports\Views\Report as ReadOnlyReport;
 use Jimdo\Reports\Reportbook\CommentService as CommentService;
 use Jimdo\Reports\Serializer as Serializer;
+use Jimdo\Reports\Web\ApplicationConfig;
+use Jimdo\Reports\Notification\NotificationService;
+use Jimdo\Reports\Notification\LoggingSubscriber;
+use Jimdo\Reports\Notification\Events as Events;
 
 class ReportbookService
 {
@@ -20,14 +24,31 @@ class ReportbookService
     /** @var Serializer */
     private $serializer;
 
+    /** @var NotificaionService */
+    private $notificationService;
+
     /**
      * @param ReportRepository $reportRepository
      */
-    public function __construct(ReportRepository $reportRepository, CommentService $commentService)
+    public function __construct(ReportRepository $reportRepository, CommentService $commentService, ApplicationConfig $appConfig)
     {
         $this->reportRepository = $reportRepository;
         $this->commentService = $commentService;
         $this->serializer = new Serializer();
+
+        $eventTypes = [
+            'approvalRequested',
+            'commentCreated',
+            'commentDeleted',
+            'commentEdited',
+            'reportApproved',
+            'reportCreated',
+            'reportDeleted',
+            'reportEdited',
+            'reportDisapproved'
+        ];
+        $this->notificationService = new NotificationService();
+        $this->notificationService->register(new LoggingSubscriber($eventTypes, $appConfig));
     }
 
     /**
@@ -45,6 +66,13 @@ class ReportbookService
         string $calendarWeek
     ): \Jimdo\Reports\Views\Report {
         $report = $this->reportRepository->create($traineeId, $content, $date, $calendarWeek);
+
+        $event = new Events\ReportCreated([
+            'userId' => $traineeId->id(),
+            'reportId' => $report->id()
+        ]);
+        $this->notificationService->notify($event);
+
         return new ReadOnlyReport($report);
     }
 
@@ -60,6 +88,12 @@ class ReportbookService
         $report = $this->reportRepository->findById($reportId);
         $report->edit($content, $date, $calendarWeek);
         $this->reportRepository->save($report);
+
+        $event = new Events\ReportEdited([
+            'userId' => $report->traineeId(),
+            'reportId' => $report->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -93,6 +127,12 @@ class ReportbookService
     {
         $report = $this->reportRepository->findById($reportId);
         $this->reportRepository->delete($report);
+
+        $event = new Events\ReportDeleted([
+            'userId' => $report->traineeId(),
+            'reportId' => $report->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -104,6 +144,12 @@ class ReportbookService
         $report = $this->reportRepository->findById($reportId);
         $report->requestApproval();
         $this->reportRepository->save($report);
+
+        $event = new Events\ApprovalRequested([
+            'userId' => $report->traineeId(),
+            'reportId' => $report->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -115,6 +161,12 @@ class ReportbookService
         $report = $this->reportRepository->findById($reportId);
         $report->approve();
         $this->reportRepository->save($report);
+
+        $event = new Events\ReportApproved([
+            'userId' => $report->traineeId(),
+            'reportId' => $report->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -126,6 +178,12 @@ class ReportbookService
         $report = $this->reportRepository->findById($reportId);
         $report->disapprove();
         $this->reportRepository->save($report);
+
+        $event = new Events\ReportDisapproved([
+            'userId' => $report->traineeId(),
+            'reportId' => $report->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -163,6 +221,12 @@ class ReportbookService
      */
     public function createComment(string $reportId, string $userId, string $date, string $content): Comment
     {
+        $event = new Events\CommentCreated([
+            'userId' => $userId,
+            'reportId' => $reportId
+        ]);
+        $this->notificationService->notify($event);
+
         return $this->commentService->createComment($reportId, $userId, $date, $content);
     }
 
@@ -175,6 +239,12 @@ class ReportbookService
     {
         $comment = $this->findCommentById($id);
         if ($userId === $comment->userId()) {
+            $event = new Events\CommentEdited([
+                'userId' => $comment->userId(),
+                'reportId' => $comment->reportId()
+            ]);
+            $this->notificationService->notify($event);
+
             return $this->commentService->editComment($id, $newContent);
         } else {
             throw new ReportbookServiceException(
@@ -192,6 +262,12 @@ class ReportbookService
     {
         $comment = $this->findCommentById($commentId);
         if ($userId === $comment->userId()) {
+            $event = new Events\CommentDeleted([
+                'userId' => $comment->userId(),
+                'reportId' => $comment->reportId()
+            ]);
+            $this->notificationService->notify($event);
+
             $this->commentService->deleteComment($commentId);
         } else {
             throw new ReportbookServiceException(

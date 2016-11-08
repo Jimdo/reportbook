@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\Views\Report as ReadOnlyReport;
 use Jimdo\Reports\Reportbook\CommentFakeRepository as CommentFakeRepository;
 use Jimdo\Reports\Reportbook\CommentService as CommentService;
+use Jimdo\Reports\Web\ApplicationConfig;
 
 class ReportbookServiceTest extends TestCase
 {
@@ -29,7 +30,7 @@ class ReportbookServiceTest extends TestCase
         $this->commentRepository = new CommentFakeRepository();
         $this->commentService = new CommentService($this->commentRepository);
 
-        $this->reportbookService = new ReportbookService($this->reportRepository, $this->commentService);
+        $this->reportbookService = new ReportbookService($this->reportRepository, $this->commentService, new ApplicationConfig(__DIR__ . '/../../config.yml'));
     }
 
     /**

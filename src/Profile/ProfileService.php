@@ -96,6 +96,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editSurname($surname);
         $this->repository->save($profile);
+
+        $event = new Events\SurnameEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**

@@ -66,6 +66,12 @@ class UserService
         string $password
     ) {
         $user = $this->registerUser($username, $email, new Role(Role::TRAINEE), $password);
+
+        $event = new Events\TraineeRegistered([
+            'userId' => $user->id()
+        ]);
+        $this->notificationService->notify($event);
+
         return $user;
     }
 

@@ -108,6 +108,11 @@ class UserService
         $user = $this->userRepository->findUserById($userId);
         $user->editPassword($oldPassword, $newPassword);
         $this->userRepository->save($user);
+
+        $event = new Events\PasswordEdited([
+            'userId' => $user->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**

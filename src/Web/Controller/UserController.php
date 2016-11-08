@@ -95,6 +95,7 @@ class UserController extends Controller
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
+        $infobarView->trainerRole = $this->isTrainer();
         $infobarView->hideInfos = true;
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
@@ -246,6 +247,7 @@ class UserController extends Controller
             $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
+            $infobarView->trainerRole = $this->isTrainer();
             $infobarView->infoHeadline = ' | Benutzeranfragen';
             $infobarView->hideInfos = false;
 
@@ -256,9 +258,6 @@ class UserController extends Controller
             $userView->users = $this->service->findUsersByStatus(Role::STATUS_NOT_APPROVED);
             $userView->viewHelper = $this->viewHelper;
             $userView->profileService = $this->profileService;
-
-            $infobarView->username = $this->sessionData('username');
-            $infobarView->role = $this->sessionData('role');
 
             $this->response->addBody($headerView->render());
             $this->response->addBody($infobarView->render());
@@ -292,6 +291,7 @@ class UserController extends Controller
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
+        $infobarView->trainerRole = $this->isTrainer();
         $infobarView->hideInfos = true;
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
@@ -349,6 +349,7 @@ class UserController extends Controller
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
+        $infobarView->trainerRole = $this->isTrainer();
         $infobarView->hideInfos = true;
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
@@ -388,6 +389,7 @@ class UserController extends Controller
             $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
+            $infobarView->trainerRole = $this->isTrainer();
             $infobarView->hideInfos = true;
 
             $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
@@ -429,6 +431,7 @@ class UserController extends Controller
             $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
+            $infobarView->trainerRole = $this->isTrainer();
             $infobarView->hideInfos = true;
 
             $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
@@ -510,6 +513,7 @@ class UserController extends Controller
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
+        $infobarView->trainerRole = $this->isTrainer();
         $infobarView->hideInfos = true;
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
@@ -547,6 +551,7 @@ class UserController extends Controller
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
+        $infobarView->trainerRole = $this->isTrainer();
         $infobarView->hideInfos = true;
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
@@ -575,6 +580,7 @@ class UserController extends Controller
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
+        $infobarView->trainerRole = $this->isTrainer();
         $infobarView->hideInfos = true;
 
         $changePasswordView = $this->view('src/Web/Controller/Views/ChangePasswordView.php');
@@ -616,6 +622,7 @@ class UserController extends Controller
             $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
+            $infobarView->trainerRole = $this->isTrainer();
             $infobarView->hideInfos = true;
 
             $changePasswordView = $this->view('src/Web/Controller/Views/ChangePasswordView.php');
@@ -641,6 +648,7 @@ class UserController extends Controller
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
+        $infobarView->trainerRole = $this->isTrainer();
         $infobarView->hideInfos = true;
 
         $viewProfileView = $this->view('src/Web/Controller/Views/UserProfileView.php');

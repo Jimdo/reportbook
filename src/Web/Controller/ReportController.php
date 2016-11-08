@@ -84,6 +84,7 @@ class ReportController extends Controller
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
+        $infobarView->trainerRole = $this->isTrainer();
         $infobarView->infoHeadline = ' | Übersicht';
         $infobarView->hideInfos = false;
 
@@ -107,6 +108,7 @@ class ReportController extends Controller
             );
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
+            $infobarView->trainerRole = $this->isTrainer();
         } else {
             $this->redirect("/user");
         }
@@ -141,6 +143,7 @@ class ReportController extends Controller
             $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
+            $infobarView->trainerRole = $this->isTrainer();
             $infobarView->hideInfos = false;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -189,6 +192,7 @@ class ReportController extends Controller
             $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
+            $infobarView->trainerRole = $this->isTrainer();
             $infobarView->hideInfos = false;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -228,6 +232,7 @@ class ReportController extends Controller
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
+        $infobarView->trainerRole = $this->isTrainer();
         $infobarView->hideInfos = false;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -280,6 +285,7 @@ class ReportController extends Controller
             $infobarView->viewHelper = $this->viewHelper;
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
+            $infobarView->trainerRole = $this->isTrainer();
             $infobarView->hideInfos = false;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -337,6 +343,7 @@ class ReportController extends Controller
         $infobarView->viewHelper = $this->viewHelper;
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
+        $infobarView->trainerRole = $this->isTrainer();
         $infobarView->hideInfos = false;
 
         $reportView = $this->view('src/Web/Controller/Views/Report.php');
@@ -349,6 +356,7 @@ class ReportController extends Controller
         $reportView->backButton = true;
         $reportView->readonly = 'readonly';
         $reportView->role = $this->sessionData('role');
+        $reportView->trainerRole = $this->isTrainer();
         $reportView->status = $report->status();
         $reportView->reportId = $reportId;
 

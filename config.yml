@@ -5,7 +5,7 @@
   mongo_username: reportbook
   default_profile: /var/www/app/default_profile.jpg
   timezone: Europe/Berlin
-  log_path: app/log.txt
+  log_path: /var/www/app/log.txt
 'test':
   mongo_username: reportbook-test
   mongo_password: geheim

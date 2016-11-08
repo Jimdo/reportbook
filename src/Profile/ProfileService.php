@@ -2,6 +2,11 @@
 
 namespace Jimdo\Reports\Profile;
 
+use Jimdo\Reports\Web\ApplicationConfig;
+use Jimdo\Reports\Notification\NotificationService;
+use Jimdo\Reports\Notification\LoggingSubscriber;
+use Jimdo\Reports\Notification\Events as Events;
+
 class ProfileService
 {
     /** @var ProfileMongoRepository */
@@ -10,14 +15,34 @@ class ProfileService
     /** @var string */
     private $imagePath;
 
+
+    /** @var NotificaionService */
+    private $notificationService;
+
     /**
      * @param ProfileMongoRepository $repository
      * @param string $imagePath
      */
-    public function __construct(ProfileMongoRepository $repository, string $imagePath)
+    public function __construct(ProfileMongoRepository $repository, string $imagePath, ApplicationConfig $appConfig)
     {
         $this->repository = $repository;
         $this->imagePath = $imagePath;
+
+        $eventTypes = [
+            'forenameEdited',
+            'surnameEdited',
+            'dateOfBirthEdited',
+            'schoolEdited',
+            'gradeEdited',
+            'companyEdited',
+            'jobTitleEdited',
+            'trainingYearEdited',
+            'startOfTrainingEdited',
+            'imageEdited'
+        ];
+
+        $this->notificationService = new NotificationService();
+        $this->notificationService->register(new LoggingSubscriber($eventTypes, $appConfig));
     }
 
     /**
@@ -55,6 +80,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editForename($forename);
         $this->repository->save($profile);
+
+        $event = new Events\ForenameEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -66,6 +96,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editSurname($surname);
         $this->repository->save($profile);
+
+        $event = new Events\SurnameEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -77,6 +112,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editDateOfBirth($dateOfBirth);
         $this->repository->save($profile);
+
+        $event = new Events\DateOfBirthEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -88,6 +128,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editSchool($school);
         $this->repository->save($profile);
+
+        $event = new Events\SchoolEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -99,6 +144,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editCompany($company);
         $this->repository->save($profile);
+
+        $event = new Events\CompanyEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -110,6 +160,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editJobTitle($jobTitle);
         $this->repository->save($profile);
+
+        $event = new Events\JobTitleEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -121,6 +176,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editTrainingYear($trainingYear);
         $this->repository->save($profile);
+
+        $event = new Events\TrainingYearEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -132,6 +192,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editStartOfTraining($startOfTraining);
         $this->repository->save($profile);
+
+        $event = new Events\StartOfTrainingEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -143,6 +208,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editGrade($grade);
         $this->repository->save($profile);
+
+        $event = new Events\GradeEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -154,5 +224,10 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editImage($image, $type);
         $this->repository->save($profile);
+
+        $event = new Events\ImageEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 }

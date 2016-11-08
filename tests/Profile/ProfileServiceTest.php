@@ -44,7 +44,7 @@ class ProfileServiceTest extends TestCase
         $this->profiles->deleteMany([]);
 
         $this->repository = new ProfileMongoRepository($this->client, new Serializer(), $this->appConfig);
-        $this->service = new ProfileService($this->repository, $this->appConfig->defaultProfile);
+        $this->service = new ProfileService($this->repository, $this->appConfig->defaultProfile, $this->appConfig);
     }
 
     /**

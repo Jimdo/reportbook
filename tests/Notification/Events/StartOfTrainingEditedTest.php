@@ -14,7 +14,7 @@ class StartOfTrainingEditedTest extends TestCase
         $payload = [];
         $event = new StartOfTrainingEdited($payload);
 
-        $this->assertEquals('startofTrainingEdited', $event->type());
+        $this->assertEquals('startOfTrainingEdited', $event->type());
     }
 
     /**

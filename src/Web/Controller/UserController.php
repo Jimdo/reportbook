@@ -58,7 +58,7 @@ class UserController extends Controller
         $this->service = new UserService($userRepository, $appConfig);
         $this->viewHelper = new ViewHelper();
         $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);
-        $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile);
+        $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig);
     }
 
     public function uploadAction()

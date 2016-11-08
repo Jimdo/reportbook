@@ -1,5 +1,6 @@
 wl
 /app/log.txt
+/tests/Notification/log.txt
 /reports/
 /users/
 /vendor/

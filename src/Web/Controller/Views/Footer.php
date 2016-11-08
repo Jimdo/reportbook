@@ -1,4 +1,4 @@
-<?php if ($this->backButton === 'show'): ?>
+<?php if ($this->backButton === true): ?>
 <div id="back">
   <a href="/report/list">zurück zur Übersicht</a>
 </div>

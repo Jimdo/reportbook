@@ -103,7 +103,7 @@ class UserController extends Controller
         $profileView->errorMessages = $exceptions;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-        $footerView->backButton = 'show';
+        $footerView->backButton = true;
 
         $this->response->addBody($headerView->render());
         $this->response->addBody($infobarView->render());
@@ -119,7 +119,7 @@ class UserController extends Controller
         $loginView = $this->view('src/Web/Controller/Views/LoginView.php');
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
-        $footerView->backButton = 'nope';
+        $footerView->backButton = false;
 
         $this->response->addBody($headerView->render());
         $this->response->addBody($loginView->render());
@@ -250,7 +250,7 @@ class UserController extends Controller
             $infobarView->hideInfos = false;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-            $footerView->backButton = 'show';
+            $footerView->backButton = true;
 
             $userView = $this->view('src/Web/Controller/Views/UserlistView.php');
             $userView->users = $this->service->findUsersByStatus(Role::STATUS_NOT_APPROVED);
@@ -299,7 +299,7 @@ class UserController extends Controller
         $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-        $footerView->backButton = 'show';
+        $footerView->backButton = true;
 
         $this->response->addBody($headerView->render());
         $this->response->addBody($infobarView->render());
@@ -648,7 +648,7 @@ class UserController extends Controller
         $viewProfileView->profile = $this->profileService->findProfileByUserId($this->queryParams('userId'));
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-        $footerView->backButton = 'show';
+        $footerView->backButton = true;
 
         $this->response->addBody($headerView->render());
         $this->response->addBody($infobarView->render());

@@ -88,7 +88,7 @@ class ReportController extends Controller
         $infobarView->hideInfos = false;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-        $footerView->backButton = 'nope';
+        $footerView->backButton = false;
 
         if ($this->isTrainee()) {
             $reportView = $this->view('src/Web/Controller/Views/TraineeView.php');
@@ -131,7 +131,7 @@ class ReportController extends Controller
             $reportView->content = '';
             $reportView->buttonName = 'Bericht erstellen';
             $reportView->reportId = null;
-            $reportView->backButton = 'show';
+            $reportView->backButton = true;
             $reportView->role = 'TRAINEE';
 
             $headerView = $this->view('src/Web/Controller/Views/Header.php');
@@ -144,7 +144,7 @@ class ReportController extends Controller
             $infobarView->hideInfos = false;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-            $footerView->backButton = 'show';
+            $footerView->backButton = true;
 
             $this->response->addBody($headerView->render());
             $this->response->addBody($infobarView->render());
@@ -179,7 +179,7 @@ class ReportController extends Controller
             $reportView->date = $this->formData('date');
             $reportView->content = $this->formData('content');
             $reportView->buttonName = 'Bericht erstellen';
-            $reportView->backButton = 'show';
+            $reportView->backButton = true;
             $reportView->role = 'TRAINEE';
 
             $headerView = $this->view('src/Web/Controller/Views/Header.php');
@@ -192,7 +192,7 @@ class ReportController extends Controller
             $infobarView->hideInfos = false;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-            $footerView->backButton = 'show';
+            $footerView->backButton = true;
 
             $this->response->addBody($headerView->render());
             $this->response->addBody($infobarView->render());
@@ -218,7 +218,7 @@ class ReportController extends Controller
         $reportView->content = $report->content();
         $reportView->buttonName = 'Speichern';
         $reportView->reportId = $reportId;
-        $reportView->backButton = 'show';
+        $reportView->backButton = true;
         $reportView->role = 'TRAINEE';
 
         $headerView = $this->view('src/Web/Controller/Views/Header.php');
@@ -231,7 +231,7 @@ class ReportController extends Controller
         $infobarView->hideInfos = false;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-        $footerView->backButton = 'show';
+        $footerView->backButton = true;
 
         $this->response->addBody($headerView->render());
         $this->response->addBody($infobarView->render());
@@ -270,7 +270,7 @@ class ReportController extends Controller
             $reportView->content = $this->formData('content');
             $reportView->buttonName = 'Speichern';
             $reportView->reportId = $this->formData('reportId');
-            $reportView->backButton = 'show';
+            $reportView->backButton = true;
             $reportView->role = 'TRAINEE';
 
             $headerView = $this->view('src/Web/Controller/Views/Header.php');
@@ -283,7 +283,7 @@ class ReportController extends Controller
             $infobarView->hideInfos = false;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-            $footerView->backButton = 'show';
+            $footerView->backButton = true;
 
             $this->response->addBody($headerView->render());
             $this->response->addBody($infobarView->render());
@@ -346,7 +346,7 @@ class ReportController extends Controller
         $reportView->date = $report->date();
         $reportView->content = $report->content();
         $reportView->buttonName = 'Speichern';
-        $reportView->backButton = 'show';
+        $reportView->backButton = true;
         $reportView->readonly = 'readonly';
         $reportView->role = $this->sessionData('role');
         $reportView->status = $report->status();
@@ -363,7 +363,7 @@ class ReportController extends Controller
         $commentsView->showCreateCommentButton = ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED');
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-        $footerView->backButton = 'show';
+        $footerView->backButton = true;
 
         $this->response->addBody($headerView->render());
         $this->response->addBody($infobarView->render());

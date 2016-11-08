@@ -65,7 +65,7 @@ class ReportController extends Controller
         $this->viewHelper = new ViewHelper();
 
         $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);
-        $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile);
+        $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig);
 
 
     }

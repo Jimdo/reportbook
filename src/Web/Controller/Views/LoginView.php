@@ -17,12 +17,6 @@
     </div>
 </div>
 
-  <!-- <div class="checkbox">
-    <label>
-      <input type="checkbox" value="remember-me"> Remember me
-    </label>
-  </div> -->
-
   <div class="form-group">
       <div class="col-sm-8 col-sm-offset-4">
           <button class="btn btn-md btn-primary btn-block" type="submit">Anmelden</button>

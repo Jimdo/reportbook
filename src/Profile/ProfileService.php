@@ -112,6 +112,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editDateOfBirth($dateOfBirth);
         $this->repository->save($profile);
+
+        $event = new Events\DateOfBirthEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**

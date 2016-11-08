@@ -178,6 +178,12 @@ class ReportbookService
         $report = $this->reportRepository->findById($reportId);
         $report->disapprove();
         $this->reportRepository->save($report);
+
+        $event = new Events\ReportDisapproved([
+            'userId' => $report->traineeId(),
+            'reportId' => $report->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**

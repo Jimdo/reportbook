@@ -192,6 +192,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editStartOfTraining($startOfTraining);
         $this->repository->save($profile);
+
+        $event = new Events\StartOfTrainingEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**

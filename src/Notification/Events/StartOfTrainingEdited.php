@@ -20,7 +20,7 @@ class StartOfTrainingEdited implements Event
      */
     public function type(): string
     {
-        return 'startofTrainingEdited';
+        return 'startOfTrainingEdited';
     }
 
     /**

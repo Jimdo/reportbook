@@ -221,6 +221,12 @@ class ReportbookService
      */
     public function createComment(string $reportId, string $userId, string $date, string $content): Comment
     {
+        $event = new Events\CommentCreated([
+            'userId' => $userId,
+            'reportId' => $reportId
+        ]);
+        $this->notificationService->notify($event);
+
         return $this->commentService->createComment($reportId, $userId, $date, $content);
     }
 

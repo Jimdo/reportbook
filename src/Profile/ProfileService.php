@@ -80,6 +80,11 @@ class ProfileService
         $profile = $this->repository->findProfileByUserId($userId);
         $profile->editForename($forename);
         $this->repository->save($profile);
+
+        $event = new Events\ForenameEdited([
+            'userId' => $profile->userId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**

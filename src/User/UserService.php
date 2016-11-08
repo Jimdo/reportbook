@@ -4,6 +4,10 @@ namespace Jimdo\Reports\User;
 
 use Jimdo\Reports\Views\User as ReadOnlyUser;
 use Jimdo\Reports\User\Role as Role;
+use Jimdo\Reports\Web\ApplicationConfig;
+use Jimdo\Reports\Notification\NotificationService;
+use Jimdo\Reports\Notification\LoggingSubscriber;
+use Jimdo\Reports\Notification\Events as Events;
 
 class UserService
 {

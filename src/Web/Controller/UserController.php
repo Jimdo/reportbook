@@ -55,7 +55,7 @@ class UserController extends Controller
         $client = new \MongoDB\Client($uri);
 
         $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
-        $this->service = new UserService($userRepository);
+        $this->service = new UserService($userRepository, $appConfig);
         $this->viewHelper = new ViewHelper();
         $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);
         $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile);

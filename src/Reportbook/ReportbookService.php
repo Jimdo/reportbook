@@ -161,6 +161,12 @@ class ReportbookService
         $report = $this->reportRepository->findById($reportId);
         $report->approve();
         $this->reportRepository->save($report);
+
+        $event = new Events\ReportApproved([
+            'userId' => $report->traineeId(),
+            'reportId' => $report->id()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**

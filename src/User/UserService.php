@@ -10,15 +10,42 @@ class UserService
     const ERR_USERNAME_EXISTS = 6;
     const ERR_EMAIL_EXISTS = 7;
 
-    /** @var userRepository */
+    /** @var UserRepository */
     private $userRepository;
 
+    /** @var NotificaionService */
+    private $notificationService;
+
     /**
-     * @param userRepository $userRepository
+     * @param UserRepository $userRepository
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, ApplicationConfig $appConfig)
     {
         $this->userRepository = $userRepository;
+
+        $eventTypes = [
+            'dateOfBirthEdited',
+            'companyEdited',
+            'schoolEdited',
+            'forenameEdited',
+            'surnameEdited',
+            'usernameEdited',
+            'emailEdited',
+            'passwordEdited',
+            'gradeEdited',
+            'imageEdited',
+            'jobTitleEdited',
+            'roleApproved',
+            'roleDisapproved',
+            'startOfTrainingEdited',
+            'trainingYearEdited',
+            'traineeRegistered',
+            'trainerRegistered',
+            'userAuthorized'
+        ];
+
+        $this->notificationService = new NotificationService();
+        $this->notificationService->register(new LoggingSubscriber($eventTypes, $appConfig));
     }
 
     /**

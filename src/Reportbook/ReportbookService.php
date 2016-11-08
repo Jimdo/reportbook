@@ -239,6 +239,12 @@ class ReportbookService
     {
         $comment = $this->findCommentById($id);
         if ($userId === $comment->userId()) {
+            $event = new Events\CommentEdited([
+                'userId' => $comment->userId(),
+                'reportId' => $comment->reportId()
+            ]);
+            $this->notificationService->notify($event);
+
             return $this->commentService->editComment($id, $newContent);
         } else {
             throw new ReportbookServiceException(

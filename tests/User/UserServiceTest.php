@@ -6,6 +6,8 @@ use PHPUnit\Framework\TestCase;
 
 use Jimdo\Reports\Views\User as ReadOnlyUser;
 use Jimdo\Reports\Web\ApplicationConfig;
+use Jimdo\Reports\Notification\DummySubscriber;
+use Jimdo\Reports\Notification\NotificationService;
 
 class UserServiceTest extends TestCase
 {
@@ -17,8 +19,13 @@ class UserServiceTest extends TestCase
 
     protected function setUp()
     {
+        $dummySubscriber = new DummySubscriber(['dummyEvent']);
+
+        $notificationService = new NotificationService();
         $this->userRepository = new UserInMemoryRepository();
-        $this->userService = new UserService($this->userRepository, new ApplicationConfig(__DIR__ . '/../../config.yml'));
+        $this->userService = new UserService($this->userRepository, new ApplicationConfig(__DIR__ . '/../../config.yml'), $notificationService);
+
+        $notificationService->register($dummySubscriber);
     }
 
     /**

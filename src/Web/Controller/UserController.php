@@ -18,6 +18,8 @@ use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 use Jimdo\Reports\User\PasswordException as PasswordException;
 use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\User\ProfileException as ProfileException;
+use Jimdo\Reports\Notification\NotificationService;
+use Jimdo\Reports\Notification\LoggingSubscriber;
 
 class UserController extends Controller
 {
@@ -35,6 +37,9 @@ class UserController extends Controller
 
     /**
      * @param Request $request
+     * @param RequestValidator $requestValidator
+     * @param ApplicationConfig $appConfig
+     * @param Response $response
      */
     public function __construct(
         Request $request,
@@ -54,11 +59,34 @@ class UserController extends Controller
 
         $client = new \MongoDB\Client($uri);
 
+        $notificationService = new NotificationService();
         $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
-        $this->service = new UserService($userRepository, $appConfig);
+        $this->service = new UserService($userRepository, $appConfig, $notificationService);
         $this->viewHelper = new ViewHelper();
         $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);
-        $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig);
+        $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig, $notificationService);
+
+        $eventTypes = [
+            'usernameEdited',
+            'emailEdited',
+            'passwordEdited',
+            'roleApproved',
+            'roleDisapproved',
+            'traineeRegistered',
+            'trainerRegistered',
+            'userAuthorized',
+            'forenameEdited',
+            'surnameEdited',
+            'dateOfBirthEdited',
+            'schoolEdited',
+            'gradeEdited',
+            'companyEdited',
+            'jobTitleEdited',
+            'trainingYearEdited',
+            'startOfTrainingEdited'
+        ];
+
+        $notificationService->register(new LoggingSubscriber($eventTypes, $appConfig));
     }
 
     public function uploadAction()

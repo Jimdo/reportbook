@@ -19,6 +19,9 @@ class CommentController extends Controller
 
     /**
      * @param Request $request
+     * @param RequestValidator $requestValidator
+     * @param ApplicationConfig $appConfig
+     * @param Response $response
      */
     public function __construct(
         Request $request,

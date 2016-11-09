@@ -15,7 +15,6 @@ class ProfileService
     /** @var string */
     private $imagePath;
 
-
     /** @var NotificaionService */
     private $notificationService;
 

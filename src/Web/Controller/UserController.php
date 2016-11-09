@@ -64,7 +64,7 @@ class UserController extends Controller
         $this->service = new UserService($userRepository, $appConfig, $notificationService);
         $this->viewHelper = new ViewHelper();
         $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);
-        $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig);
+        $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig, $notificationService);
 
         $eventTypes = [
             'usernameEdited',
@@ -74,7 +74,16 @@ class UserController extends Controller
             'roleDisapproved',
             'traineeRegistered',
             'trainerRegistered',
-            'userAuthorized'
+            'userAuthorized',
+            'forenameEdited',
+            'surnameEdited',
+            'dateOfBirthEdited',
+            'schoolEdited',
+            'gradeEdited',
+            'companyEdited',
+            'jobTitleEdited',
+            'trainingYearEdited',
+            'startOfTrainingEdited'
         ];
 
         $notificationService->register(new LoggingSubscriber($eventTypes, $appConfig));

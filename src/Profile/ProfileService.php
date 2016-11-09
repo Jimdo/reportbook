@@ -22,27 +22,13 @@ class ProfileService
      * @param ProfileMongoRepository $repository
      * @param string $imagePath
      * @param ApplicationConfig $appConfig
+     * @param NotificaionService $notificationService
      */
-    public function __construct(ProfileMongoRepository $repository, string $imagePath, ApplicationConfig $appConfig)
+    public function __construct(ProfileMongoRepository $repository, string $imagePath, ApplicationConfig $appConfig, NotificationService $notificationService)
     {
         $this->repository = $repository;
         $this->imagePath = $imagePath;
-
-        $eventTypes = [
-            'forenameEdited',
-            'surnameEdited',
-            'dateOfBirthEdited',
-            'schoolEdited',
-            'gradeEdited',
-            'companyEdited',
-            'jobTitleEdited',
-            'trainingYearEdited',
-            'startOfTrainingEdited',
-            'imageEdited'
-        ];
-
-        $this->notificationService = new NotificationService();
-        $this->notificationService->register(new LoggingSubscriber($eventTypes, $appConfig));
+        $this->notificationService = $notificationService;
     }
 
     /**

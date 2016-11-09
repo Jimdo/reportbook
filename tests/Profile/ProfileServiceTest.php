@@ -5,6 +5,8 @@ namespace Jimdo\Reports\Profile;
 use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 use Jimdo\Reports\Serializer as Serializer;
+use Jimdo\Reports\Notification\DummySubscriber;
+use Jimdo\Reports\Notification\NotificationService;
 
 class ProfileServiceTest extends TestCase
 {
@@ -43,8 +45,13 @@ class ProfileServiceTest extends TestCase
 
         $this->profiles->deleteMany([]);
 
+        $dummySubscriber = new DummySubscriber(['dummyEvent']);
+        $notificationService = new NotificationService();
+
         $this->repository = new ProfileMongoRepository($this->client, new Serializer(), $this->appConfig);
-        $this->service = new ProfileService($this->repository, $this->appConfig->defaultProfile, $this->appConfig);
+        $this->service = new ProfileService($this->repository, $this->appConfig->defaultProfile, $this->appConfig, $notificationService);
+
+        $notificationService->register($dummySubscriber);
     }
 
     /**

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a18fe5bd4d2dd1c04602e8a3e9e6f9d8",
-    "content-hash": "7edc14fb2952d5d75bf827aa3c475293",
+    "hash": "21837e1a58b449276ad0e80f5084d912",
+    "content-hash": "f947771b51f767c4367cfed3db8709d2",
     "packages": [
         {
             "name": "altmetric/mongo-session-handler",
@@ -229,6 +229,49 @@
                 "psr-3"
             ],
             "time": "2016-09-19 16:02:08"
+        },
+        {
+            "name": "stephanecoinon/papertrail",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stephanecoinon/papertrail.git",
+                "reference": "003492d3c699ea079a12fa2637930e3950439309"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stephanecoinon/papertrail/zipball/003492d3c699ea079a12fa2637930e3950439309",
+                "reference": "003492d3c699ea079a12fa2637930e3950439309",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "crysalead/kahlan": "^1.2",
+                "guzzlehttp/guzzle": "^6.1",
+                "illuminate/log": "~4.2",
+                "monolog/monolog": "~1.11"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "StephaneCoinon\\Papertrail\\": "src/",
+                    "StephaneCoinon\\Papertrail\\Spec\\": "spec//"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephane Coinon",
+                    "email": "me@stephanecoinon.co.uk"
+                }
+            ],
+            "description": "Integrate Papertrail log monitor in your PHP applications",
+            "time": "2015-11-01 22:51:31"
         },
         {
             "name": "symfony/yaml",

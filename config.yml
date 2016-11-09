@@ -6,6 +6,9 @@
   default_profile: /var/www/app/default_profile.jpg
   timezone: Europe/Berlin
   log_path: /var/www/app/log.txt
+  papertrail_host: logs2.papertrailapp.com
+  papertrail_port: 11559
+  papertrail_system: reportbook
 'test':
   mongo_username: reportbook-test
   mongo_password: geheim
@@ -21,3 +24,4 @@
   default_profile: app/default_profile.jpg
   timezone: Europe/Berlin
   log_path: app/log.txt
+  papertrail_system: reportbook_dev

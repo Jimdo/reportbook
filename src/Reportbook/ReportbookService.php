@@ -7,7 +7,6 @@ use Jimdo\Reports\Reportbook\CommentService as CommentService;
 use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Notification\NotificationService;
-use Jimdo\Reports\Notification\LoggingSubscriber;
 use Jimdo\Reports\Notification\Events as Events;
 
 class ReportbookService
@@ -32,25 +31,13 @@ class ReportbookService
      * @param CommentService $commentService
      * @param ApplicationConfig $appConfig
      */
-    public function __construct(ReportRepository $reportRepository, CommentService $commentService, ApplicationConfig $appConfig)
+    public function __construct(ReportRepository $reportRepository, CommentService $commentService, ApplicationConfig $appConfig, NotificationService $notificationService)
     {
         $this->reportRepository = $reportRepository;
         $this->commentService = $commentService;
         $this->serializer = new Serializer();
 
-        $eventTypes = [
-            'approvalRequested',
-            'commentCreated',
-            'commentDeleted',
-            'commentEdited',
-            'reportApproved',
-            'reportCreated',
-            'reportDeleted',
-            'reportEdited',
-            'reportDisapproved'
-        ];
-        $this->notificationService = new NotificationService();
-        $this->notificationService->register(new LoggingSubscriber($eventTypes, $appConfig));
+        $this->notificationService = $notificationService;
     }
 
     /**

@@ -20,6 +20,8 @@ use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\Web\Request as Request;
 use Jimdo\Reports\Web\Validator\Validator as Validator;
+use Jimdo\Reports\Notification\NotificationService;
+use Jimdo\Reports\Notification\LoggingSubscriber;
 
 class ReportController extends Controller
 {
@@ -56,9 +58,25 @@ class ReportController extends Controller
 
         $client = new \MongoDB\Client($uri);
 
+        $notificationService = new NotificationService();
+
         $reportRepository = new ReportMongoRepository($client, new Serializer(), $appConfig);
         $commentRepository = new CommentMongoRepository($client, new Serializer(), $appConfig);
-        $this->service = new ReportbookService($reportRepository, new CommentService($commentRepository), $appConfig);
+        $this->service = new ReportbookService($reportRepository, new CommentService($commentRepository), $appConfig, $notificationService);
+
+        $eventTypes = [
+            'approvalRequested',
+            'commentCreated',
+            'commentDeleted',
+            'commentEdited',
+            'reportApproved',
+            'reportCreated',
+            'reportDeleted',
+            'reportEdited',
+            'reportDisapproved'
+        ];
+
+        $notificationService->register(new LoggingSubscriber($eventTypes, $appConfig));
 
         $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
         $this->userService = new UserService($userRepository, $appConfig);

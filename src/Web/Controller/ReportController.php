@@ -79,7 +79,7 @@ class ReportController extends Controller
         $notificationService->register(new LoggingSubscriber($eventTypes, $appConfig));
 
         $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
-        $this->userService = new UserService($userRepository, $appConfig);
+        $this->userService = new UserService($userRepository, $appConfig, $notificationService);
         $this->viewHelper = new ViewHelper();
 
         $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);

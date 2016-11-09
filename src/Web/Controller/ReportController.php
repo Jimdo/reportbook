@@ -69,9 +69,6 @@ class ReportController extends Controller
 
         $eventTypes = [
             'approvalRequested',
-            'commentCreated',
-            'commentDeleted',
-            'commentEdited',
             'reportApproved',
             'reportCreated',
             'reportDeleted',
@@ -86,9 +83,7 @@ class ReportController extends Controller
         $this->viewHelper = new ViewHelper();
 
         $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);
-        $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig);
-
-
+        $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig, $notificationService);
     }
 
     public function indexAction()

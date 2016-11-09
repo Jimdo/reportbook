@@ -231,6 +231,16 @@ class ReportController extends Controller
         $reportView->createButton = true;
         $reportView->statusButtons = false;
 
+        $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
+        $commentsView->commentService = $this->service;
+        $commentsView->comments = $this->service->findCommentsByReportId($reportId);
+        $commentsView->userId = $this->sessionData('userId');
+        $commentsView->reportId = $reportId;
+        $commentsView->traineeId = $this->sessionData('userId');
+        $commentsView->report = $this->service->findById($reportId, $this->sessionData('userId'));
+        $commentsView->userService = $this->userService;
+        $commentsView->showCreateCommentButton = ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED');
+
         $headerView = $this->view('src/Web/Controller/Views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
 
@@ -247,6 +257,7 @@ class ReportController extends Controller
         $this->response->addBody($headerView->render());
         $this->response->addBody($infobarView->render());
         $this->response->addBody($reportView->render());
+        $this->response->addBody($commentsView->render());
         $this->response->addBody($footerView->render());
     }
 

@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="form-group">
     <?php if ($this->isTrainee): ?>
         <?php if ($this->createButton): ?>
             <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>" />
@@ -45,8 +45,9 @@
         <?php endif; ?>
     <?php endif; ?>
     </div>
+
   </fieldset>
-</form>
+</form></br>
 
 <?php if ($this->statusButtons): ?>
 

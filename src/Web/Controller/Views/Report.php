@@ -38,8 +38,8 @@
     </div>
 
     <div class="row">
-    <?php if ($this->role === 'TRAINEE'): ?>
-        <?php if ($this->status !== Report::STATUS_APPROVED && $this->status !== Report::STATUS_APPROVAL_REQUESTED): ?>
+    <?php if ($this->isTrainee): ?>
+        <?php if ($this->createButton): ?>
             <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>" />
             <button type="submit" class="btn btn-primary col-md-offset-10 col-md-2"><?php echo $this->buttonName; ?></button>
         <?php endif; ?>
@@ -48,7 +48,7 @@
   </fieldset>
 </form>
 
-<?php if ($this->role === 'TRAINER' && $this->status !== Report::STATUS_DISAPPROVED && $this->status !== Report::STATUS_APPROVED && $this->status !== Report::STATUS_REVISED): ?>
+<?php if ($this->statusButtons): ?>
 
 <div class="form-group form-group-md col-md-offset-8 col-md-12">
 

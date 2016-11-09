@@ -134,7 +134,9 @@ class ReportController extends Controller
             $reportView->buttonName = 'Bericht erstellen';
             $reportView->reportId = null;
             $reportView->backButton = true;
-            $reportView->role = 'TRAINEE';
+            $reportView->isTrainee = $this->isTrainee();
+            $reportView->createButton = true;
+            $reportView->statusButtons = false;
 
             $headerView = $this->view('src/Web/Controller/Views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
@@ -183,7 +185,9 @@ class ReportController extends Controller
             $reportView->content = $this->formData('content');
             $reportView->buttonName = 'Bericht erstellen';
             $reportView->backButton = true;
-            $reportView->role = 'TRAINEE';
+            $reportView->isTrainee = $this->isTrainee();
+            $reportView->createButton = true;
+            $reportView->statusButtons = false;
 
             $headerView = $this->view('src/Web/Controller/Views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
@@ -223,7 +227,9 @@ class ReportController extends Controller
         $reportView->buttonName = 'Speichern';
         $reportView->reportId = $reportId;
         $reportView->backButton = true;
-        $reportView->role = 'TRAINEE';
+        $reportView->isTrainee = $this->isTrainee();
+        $reportView->createButton = true;
+        $reportView->statusButtons = false;
 
         $headerView = $this->view('src/Web/Controller/Views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
@@ -276,7 +282,9 @@ class ReportController extends Controller
             $reportView->buttonName = 'Speichern';
             $reportView->reportId = $this->formData('reportId');
             $reportView->backButton = true;
-            $reportView->role = 'TRAINEE';
+            $reportView->isTrainee = $this->isTrainee();
+            $reportView->createButton = true;
+            $reportView->statusButtons = false;
 
             $headerView = $this->view('src/Web/Controller/Views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
@@ -355,10 +363,11 @@ class ReportController extends Controller
         $reportView->buttonName = 'Speichern';
         $reportView->backButton = true;
         $reportView->readonly = 'readonly';
-        $reportView->role = $this->sessionData('role');
         $reportView->trainerRole = $this->isTrainer();
-        $reportView->status = $report->status();
+        $reportView->creatButton = false;
         $reportView->reportId = $reportId;
+        $reportView->isTrainee = $this->isTrainee();
+        $reportView->statusButtons = ($this->isTrainer() && $report->status() !== Report::STATUS_DISAPPROVED && $report->status() !== Report::STATUS_APPROVED && $report->status() !== Report::STATUS_REVISED);
 
         $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
         $commentsView->commentService = $this->service;

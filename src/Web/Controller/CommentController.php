@@ -12,7 +12,7 @@ use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\Notification\NotificationService;
-use Jimdo\Reports\Notification\LoggingSubscriber;
+use Jimdo\Reports\Notification\PapertrailSubscriber;
 
 class CommentController extends Controller
 {
@@ -55,7 +55,7 @@ class CommentController extends Controller
         $commentRepository = new CommentMongoRepository($client, new Serializer(), $appConfig);
         $this->service = new ReportbookService($reportRepository, new CommentService($commentRepository), $appConfig, $notificationService);
 
-        $notificationService->register(new LoggingSubscriber($eventTypes, $appConfig));
+        $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
     }
 
     public function createCommentAction()

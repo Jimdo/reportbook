@@ -42,85 +42,85 @@ class PapertrailSubscriber implements Subscriber
     {
         switch ($event->type()) {
             case 'reportCreated':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'reportEdited':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'reportDeleted':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}] [reportid={$event->payload()['reportId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}, reportid={$event->payload()['reportId']}");
                 break;
             case 'approvalRequested':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}] [reportid={$event->payload()['reportId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}, reportid={$event->payload()['reportId']}");
                 break;
             case 'commentCreated':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}] [reportid={$event->payload()['reportId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}, reportid={$event->payload()['reportId']}");
                 break;
             case 'commentEdited':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}] [reportid={$event->payload()['reportId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}, reportid={$event->payload()['reportId']}");
                 break;
             case 'commentDeleted':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}] [reportid={$event->payload()['reportId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}, reportid={$event->payload()['reportId']}");
                 break;
             case 'companyEdited':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'dateOfBirthEdited':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'emailEdited':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'forenameEdited':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'gradeEdited':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'imageEdited':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'jobTitleEdited':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'passwordEdited':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'reportApproved':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}] [reportid={$event->payload()['reportId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}, reportid={$event->payload()['reportId']}");
                 break;
             case 'reportDisapproved':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}] [reportid={$event->payload()['reportId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}, reportid={$event->payload()['reportId']}");
                 break;
             case 'roleApproved':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'roleDisapproved':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'schoolEdited':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'startOfTrainingEdited':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'surnameEdited':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'traineeRegistered':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'trainerRegistered':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'trainingYearEdited':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'userAuthorized':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
             case 'usernameEdited':
-                $this->sendToPaperTrail("[event=$event->type()] [userid={$event->payload()['userId']}]");
+                $this->sendToPaperTrail("event={$event->type()}, userid={$event->payload()['userId']}");
                 break;
         }
     }
@@ -134,7 +134,7 @@ class PapertrailSubscriber implements Subscriber
         $program = $this->appConfig->papertrailSystem;
         $sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
         foreach(explode("\n", $message) as $line) {
-          $syslog_message = "<22>" . date('M d H:i:s ') . $program . ' ' . ': ' . $line;
+          $syslog_message = "<22>" . date('M d H:i:s ') . $program . ' ' . 'web' . ': ' . $line;
           socket_sendto($sock, $syslog_message, strlen($syslog_message), 0, $this->appConfig->papertrailHost, $this->appConfig->papertrailPort);
         }
         socket_close($sock);

@@ -111,3 +111,7 @@ update       Update composer packages
   - Add Events for ReportbookService and UserService
   - Add NotificationService to UserService
   - Add NotificationService to ReportbookService
+
+### v0.4.2
+  - Add PapertrailSubscriber
+  - Add PapertrailSubscriber to Controllers

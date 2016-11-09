@@ -98,10 +98,24 @@ class UserController extends Controller
         $infobarView->trainerRole = $this->isTrainer();
         $infobarView->hideInfos = true;
 
+        $user = $this->service->findUserById($this->sessionData('userId'));
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
-        $profileView->user = $this->service->findUserById($this->sessionData('userId'));
-        $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
+        $profileView->isTrainee = $this->isTrainee();
+        $profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
         $profileView->errorMessages = $exceptions;
+        $profileView->forename = $profile->forename();
+        $profileView->surname = $profile->surname();
+        $profileView->dateOfBirth = $profile->dateOfBirth();
+        $profileView->company = $profile->company();
+        $profileView->jobTitle = $profile->jobTitle();
+        $profileView->school = $profile->school();
+        $profileView->grade = $profile->grade();
+        $profileView->trainingYear = $profile->trainingYear();
+        $profileView->startOfTraining = $profile->startOfTraining();
+        $profileView->userId = $profile->userId();
+        $user = $this->service->findUserById($this->sessionData('userId'));
+        $profileView->username = $user->username();
+        $profileView->email = $user->email();
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
         $footerView->backButton = true;
@@ -295,8 +309,22 @@ class UserController extends Controller
         $infobarView->hideInfos = true;
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
-        $profileView->user = $this->service->findUserById($this->sessionData('userId'));
+        $profileView->isTrainee = $this->isTrainee();
         $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
+        $profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
+        $profileView->forename = $profile->forename();
+        $profileView->surname = $profile->surname();
+        $profileView->dateOfBirth = $profile->dateOfBirth();
+        $profileView->company = $profile->company();
+        $profileView->jobTitle = $profile->jobTitle();
+        $profileView->school = $profile->school();
+        $profileView->grade = $profile->grade();
+        $profileView->trainingYear = $profile->trainingYear();
+        $profileView->startOfTraining = $profile->startOfTraining();
+        $profileView->userId = $profile->userId();
+        $user = $this->service->findUserById($this->sessionData('userId'));
+        $profileView->username = $user->username();
+        $profileView->email = $user->email();
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
         $footerView->backButton = true;
@@ -353,9 +381,22 @@ class UserController extends Controller
         $infobarView->hideInfos = true;
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
-        $profileView->user = $this->service->findUserById($this->sessionData('userId'));
-        $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
+        $profileView->isTrainee = $this->isTrainee();
         $profileView->errorMessages = $errorMessages;
+        $profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
+        $profileView->forename = $profile->forename();
+        $profileView->surname = $profile->surname();
+        $profileView->dateOfBirth = $profile->dateOfBirth();
+        $profileView->company = $profile->company();
+        $profileView->jobTitle = $profile->jobTitle();
+        $profileView->school = $profile->school();
+        $profileView->grade = $profile->grade();
+        $profileView->trainingYear = $profile->trainingYear();
+        $profileView->startOfTraining = $profile->startOfTraining();
+        $profileView->userId = $profile->userId();
+        $user = $this->service->findUserById($this->sessionData('userId'));
+        $profileView->username = $user->username();
+        $profileView->email = $user->email();
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
@@ -393,9 +434,22 @@ class UserController extends Controller
             $infobarView->hideInfos = true;
 
             $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
-            $profileView->user = $this->service->findUserById($this->sessionData('userId'));
-            $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
+            $profileView->isTrainee = $this->isTrainee();
             $profileView->errorMessages = $exceptions;
+            $profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
+            $profileView->forename = $profile->forename();
+            $profileView->surname = $profile->surname();
+            $profileView->dateOfBirth = $profile->dateOfBirth();
+            $profileView->company = $profile->company();
+            $profileView->jobTitle = $profile->jobTitle();
+            $profileView->school = $profile->school();
+            $profileView->grade = $profile->grade();
+            $profileView->trainingYear = $profile->trainingYear();
+            $profileView->startOfTraining = $profile->startOfTraining();
+            $profileView->userId = $profile->userId();
+            $user = $this->service->findUserById($this->sessionData('userId'));
+            $profileView->username = $user->username();
+            $profileView->email = $user->email();
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
@@ -435,9 +489,22 @@ class UserController extends Controller
             $infobarView->hideInfos = true;
 
             $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
-            $profileView->user = $this->service->findUserById($this->sessionData('userId'));
-            $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
+            $profileView->isTrainee = $this->isTrainee();
             $profileView->errorMessages = $exceptions;
+            $profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
+            $profileView->forename = $profile->forename();
+            $profileView->surname = $profile->surname();
+            $profileView->dateOfBirth = $profile->dateOfBirth();
+            $profileView->company = $profile->company();
+            $profileView->jobTitle = $profile->jobTitle();
+            $profileView->school = $profile->school();
+            $profileView->grade = $profile->grade();
+            $profileView->trainingYear = $profile->trainingYear();
+            $profileView->startOfTraining = $profile->startOfTraining();
+            $profileView->userId = $profile->userId();
+            $user = $this->service->findUserById($this->sessionData('userId'));
+            $profileView->username = $user->username();
+            $profileView->email = $user->email();
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
@@ -517,9 +584,22 @@ class UserController extends Controller
         $infobarView->hideInfos = true;
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
-        $profileView->user = $this->service->findUserById($this->sessionData('userId'));
-        $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
+        $profileView->isTrainee = $this->isTrainee();
         $profileView->errorMessages = $errorMessages;
+        $profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
+        $profileView->forename = $profile->forename();
+        $profileView->surname = $profile->surname();
+        $profileView->dateOfBirth = $profile->dateOfBirth();
+        $profileView->company = $profile->company();
+        $profileView->jobTitle = $profile->jobTitle();
+        $profileView->school = $profile->school();
+        $profileView->grade = $profile->grade();
+        $profileView->trainingYear = $profile->trainingYear();
+        $profileView->startOfTraining = $profile->startOfTraining();
+        $profileView->userId = $profile->userId();
+        $user = $this->service->findUserById($this->sessionData('userId'));
+        $profileView->username = $user->username();
+        $profileView->email = $user->email();
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
@@ -555,9 +635,22 @@ class UserController extends Controller
         $infobarView->hideInfos = true;
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
-        $profileView->user = $this->service->findUserById($this->sessionData('userId'));
-        $profileView->profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
+        $profileView->isTrainee = $this->isTrainee();
         $profileView->errorMessages = $errorMessages;
+        $profile = $this->profileService->findProfileByUserId($this->sessionData('userId'));
+        $profileView->forename = $profile->forename();
+        $profileView->surname = $profile->surname();
+        $profileView->dateOfBirth = $profile->dateOfBirth();
+        $profileView->company = $profile->company();
+        $profileView->jobTitle = $profile->jobTitle();
+        $profileView->school = $profile->school();
+        $profileView->grade = $profile->grade();
+        $profileView->trainingYear = $profile->trainingYear();
+        $profileView->startOfTraining = $profile->startOfTraining();
+        $profileView->userId = $profile->userId();
+        $user = $this->service->findUserById($this->sessionData('userId'));
+        $profileView->username = $user->username();
+        $profileView->email = $user->email();
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
@@ -652,8 +745,21 @@ class UserController extends Controller
         $infobarView->hideInfos = true;
 
         $viewProfileView = $this->view('src/Web/Controller/Views/UserProfileView.php');
-        $viewProfileView->user = $this->service->findUserById($this->queryParams('userId'));
-        $viewProfileView->profile = $this->profileService->findProfileByUserId($this->queryParams('userId'));
+        $profile = $this->profileService->findProfileByUserId($this->queryParams('userId'));
+        $viewProfileView->forename = $profile->forename();
+        $viewProfileView->surname = $profile->surname();
+        $viewProfileView->dateOfBirth = $profile->dateOfBirth();
+        $viewProfileView->company = $profile->company();
+        $viewProfileView->jobTitle = $profile->jobTitle();
+        $viewProfileView->school = $profile->school();
+        $viewProfileView->grade = $profile->grade();
+        $viewProfileView->trainingYear = $profile->trainingYear();
+        $viewProfileView->startOfTraining = $profile->startOfTraining();
+        $viewProfileView->userId = $profile->userId();
+        $user = $this->service->findUserById($this->queryParams('userId'));
+        $viewProfileView->username = $user->username();
+        $viewProfileView->email = $user->email();
+        $viewProfileView->isTrainee = ($user->roleName() === 'TRAINEE');
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
         $footerView->backButton = true;

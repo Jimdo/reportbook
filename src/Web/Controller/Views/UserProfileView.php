@@ -1,9 +1,9 @@
 <div class="row">
-    <legend><?php echo 'Profil von ' . $this->profile->forename() . ' ' . $this->profile->surname(); ?></legend>
+    <legend><?php echo 'Profil von ' . $this->forename . ' ' . $this->surname ?></legend>
 </div>
 
 <div class="col-sm-12" >
-    <img src= "/profile/image?id=<?php echo $this->profile->userId(); ?>" alt="Profilbild" style="width:212px; height:212px; border:1px solid gray;">
+    <img src= "/profile/image?id=<?php echo $this->userId; ?>" alt="Profilbild" style="width:212px; height:212px; border:1px solid gray;">
 </div>
 
 <div class="col-sm-offset-2 col-sm-5">
@@ -16,28 +16,28 @@
         <div class="form-group">
             <label class="col-sm-6 control-label">Vorname</label>
             <div class="col-sm-6">
-                <p class="form-control-static"><?php echo $this->profile->forename(); ?></p>
+                <p class="form-control-static"><?php echo $this->forename; ?></p>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-6 control-label">Nachname</label>
             <div class="col-sm-6">
-                <p class="form-control-static"><?php echo $this->profile->surname(); ?></p>
+                <p class="form-control-static"><?php echo $this->surname; ?></p>
              </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-6 control-label">Geburtsdatum</label>
             <div class="col-sm-6">
-                <p class="form-control-static"><?php echo $this->profile->dateOfBirth(); ?></p>
+                <p class="form-control-static"><?php echo $this->dateOfBirth; ?></p>
              </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-6 control-label">Benutzername</label>
             <div class="col-sm-6">
-                <p class="form-control-static"><?php echo $this->user->username(); ?></p>
+                <p class="form-control-static"><?php echo $this->username; ?></p>
              </div>
         </div>
 
@@ -46,7 +46,7 @@
             <label class="col-sm-6 control-label">E-Mail</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static"><?php echo $this->user->email(); ?></p>
+                <p class="form-control-static"><?php echo $this->email; ?></p>
              </div>
         </div>
     </div>
@@ -65,7 +65,7 @@
             <label class="col-sm-6 control-label">Firma</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static"><?php echo $this->profile->company(); ?></p>
+                <p class="form-control-static"><?php echo $this->company; ?></p>
             </div>
         </div>
 
@@ -74,13 +74,13 @@
             <label class="col-sm-6 control-label">Berufsbezeichung</label>
             <div class="col-sm-6">
 
-                <p class="form-control-static"><?php echo $this->profile->jobTitle(); ?></p>
+                <p class="form-control-static"><?php echo $this->jobTitle; ?></p>
              </div>
         </div>
     </div>
 </div>
 
-<?php if ($this->user->roleName() === 'TRAINEE'): ?>
+<?php if ($this->isTrainee): ?>
     <div class="col-sm-offset-2 col-sm-5">
         <div class="col-sm-offset-1 col-sm-10">
             <h4>Schulische Daten</h4><br>
@@ -89,28 +89,28 @@
             <div class="form-group">
                 <label class="col-sm-6 control-label">Schule</label>
                 <div class="col-sm-6">
-                    <p class="form-control-static"><?php echo $this->profile->school(); ?></p>
+                    <p class="form-control-static"><?php echo $this->school; ?></p>
                  </div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-6 control-label">Klasse</label>
                 <div class="col-sm-6">
-                    <p class="form-control-static"><?php echo $this->profile->grade(); ?></p>
+                    <p class="form-control-static"><?php echo $this->grade; ?></p>
                  </div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-6 control-label">Ausbildungsbeginn:</label>
                 <div class="col-sm-6">
-                    <p class="form-control-static"><?php echo $this->profile->startOfTraining(); ?></p>
+                    <p class="form-control-static"><?php echo $this->startOfTraining; ?></p>
                  </div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-6 control-label">Ausbildungsjahr</label>
                 <div class="col-sm-6">
-                    <p class="form-control-static"><?php echo $this->profile->trainingYear(); ?></p>
+                    <p class="form-control-static"><?php echo $this->trainingYear; ?></p>
                  </div>
             </div>
         </div>

@@ -10,7 +10,7 @@ use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\Notification\NotificationService;
-use Jimdo\Reports\Notification\LoggingSubscriber;
+use Jimdo\Reports\Notification\PapertrailSubscriber;
 
 class ProfileController extends Controller
 {
@@ -46,7 +46,7 @@ class ProfileController extends Controller
         $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);
         $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig, $notificationService);
 
-        $notificationService->register(new LoggingSubscriber(['imageEdited'], $appConfig));
+        $notificationService->register(new PapertrailSubscriber(['imageEdited'], $appConfig));
     }
 
     public function imageAction()

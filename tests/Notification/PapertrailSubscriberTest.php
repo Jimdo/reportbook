@@ -8,7 +8,7 @@ use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 class PapertrailSubscriberTest extends TestCase
 {
     /**
-     * @notest
+     * @test
      */
     public function itShouldHaveValidEventTypesAndShouldBeResponsibleFor()
     {

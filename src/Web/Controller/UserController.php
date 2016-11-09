@@ -19,7 +19,7 @@ use Jimdo\Reports\User\PasswordException as PasswordException;
 use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\User\ProfileException as ProfileException;
 use Jimdo\Reports\Notification\NotificationService;
-use Jimdo\Reports\Notification\LoggingSubscriber;
+use Jimdo\Reports\Notification\PapertrailSubscriber;
 
 class UserController extends Controller
 {
@@ -86,7 +86,7 @@ class UserController extends Controller
             'startOfTrainingEdited'
         ];
 
-        $notificationService->register(new LoggingSubscriber($eventTypes, $appConfig));
+        $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
     }
 
     public function uploadAction()

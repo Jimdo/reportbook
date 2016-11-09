@@ -21,7 +21,7 @@ use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\Web\Request as Request;
 use Jimdo\Reports\Web\Validator\Validator as Validator;
 use Jimdo\Reports\Notification\NotificationService;
-use Jimdo\Reports\Notification\LoggingSubscriber;
+use Jimdo\Reports\Notification\PapertrailSubscriber;
 
 class ReportController extends Controller
 {
@@ -76,7 +76,7 @@ class ReportController extends Controller
             'reportDisapproved'
         ];
 
-        $notificationService->register(new LoggingSubscriber($eventTypes, $appConfig));
+        $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
 
         $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
         $this->userService = new UserService($userRepository, $appConfig, $notificationService);

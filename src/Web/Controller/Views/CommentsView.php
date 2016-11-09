@@ -70,7 +70,7 @@ $editActive = false;?>
     <div class="form-group">
         <div class="col-sm-offset-10 col-sm-2">
 
-            <?php if ($this->report->status() !== 'NEW' && $this->report->status() !== 'EDITED' && $this->report->status() !== 'APPROVED'): ?>
+            <?php if ($this->showCreateCommentButton): ?>
                 <p class="form-control-static">
                     <button class="btn btn-md btn-default btn-block" data-toggle="collapse" data-target="#createComment">Kommentar verfassen</button>
                 </p>

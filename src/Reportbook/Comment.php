@@ -31,14 +31,14 @@ class Comment
      * @param string $date
      * @param string $content
      */
-    public function __construct(string $id, string $reportId, string $userId, string $date, string $content)
+    public function __construct(string $id, string $reportId, string $userId, string $date, string $content, string $status = self::STATUS_NEW)
     {
         $this->id = $id;
         $this->reportId = $reportId;
         $this->userId = $userId;
         $this->date = $date;
         $this->content = $content;
-        $this->status = self::STATUS_NEW;
+        $this->status = $status;
     }
 
     /**

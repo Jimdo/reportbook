@@ -75,7 +75,11 @@ class CommentController extends Controller
 
         $comments = $this->service->findCommentsByReportId($reportId);
 
-        $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
+        $queryParams = [
+            'reportId' => $reportId,
+            'traineeId' => $traineeId
+        ];
+        $this->redirect("/report/viewReport", $queryParams);
     }
 
     public function editCommentAction()
@@ -97,7 +101,11 @@ class CommentController extends Controller
         }
 
         if ($errorMessages === null) {
-            $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
+            $queryParams = [
+                'reportId' => $reportId,
+                'traineeId' => $traineeId
+            ];
+            $this->redirect("/report/viewReport", $queryParams);
         } else {
             header("Content-type: text/html");
             echo "<h1>$errorMessages</h1>";
@@ -119,7 +127,11 @@ class CommentController extends Controller
         }
 
         if ($errorMessages === null) {
-            $this->redirect("/report/viewReport?reportId=$reportId&traineeId=$traineeId");
+            $queryParams = [
+                'reportId' => $reportId,
+                'traineeId' => $traineeId
+            ];
+            $this->redirect("/report/viewReport", $queryParams);
         } else {
             header("Content-type: text/html");
             echo "<h1>$errorMessages</h1>";

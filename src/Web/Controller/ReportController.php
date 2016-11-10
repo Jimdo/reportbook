@@ -255,6 +255,7 @@ class ReportController extends Controller
         $commentsView->traineeId = $this->sessionData('userId');
         $commentsView->report = $this->service->findById($reportId, $this->sessionData('userId'));
         $commentsView->userService = $this->userService;
+        $commentsView->viewHelper = $this->viewHelper;
         $commentsView->showCreateCommentButton = ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED');
 
         $headerView = $this->view('src/Web/Controller/Views/Header.php');
@@ -405,6 +406,7 @@ class ReportController extends Controller
         $commentsView->report = $this->service->findById($reportId, $traineeId);
         $commentsView->userService = $this->userService;
         $commentsView->showCreateCommentButton = ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED');
+        $commentsView->viewHelper = $this->viewHelper;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
         $footerView->backButton = true;

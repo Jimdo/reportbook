@@ -35,6 +35,12 @@ $editActive = false;?>
 
                     <?php endif; ?>
 
+                    <div style="float:right">
+                        <?php if ($comment->status() === 'EDITED'): ?>
+                            <span class="text-muted" style="margin-right:0.5em;"><?php echo $this->viewHelper->getTranslationForStatus($comment->status()); ?></span>
+                        <?php endif; ?>
+                    </div>
+
                 </div>
                 <div class="panel-body">
 

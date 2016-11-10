@@ -1,13 +1,10 @@
 #!/bin/sh
 
-if [ -z ${MONGO_HOST+x} ]; then
-  export MONGO_HOST=$(docker-machine ip)
-fi
+APPLICATION_ENV=dev
 
-if [ -z ${APPLICATION_ENV+x} ]; then
-    export APPLICATION_ENV=dev
-fi
-
-export APPLICATION_ENV=dev
-
-php -S localhost:8000 -t app/ app/router.php
+docker run -it --rm \
+    -p 80:80 \
+    -e APPLICATION_ENV='dev' \
+    -e MONGO_HOST=$(docker-machine ip) \
+    -v $(PWD)/:/var/www/ \
+    jimdo/reportbook

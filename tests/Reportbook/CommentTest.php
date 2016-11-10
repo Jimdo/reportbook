@@ -23,6 +23,7 @@ class CommentTest extends TestCase
         $this->assertEquals($userId, $comment->userId());
         $this->assertEquals($date, $comment->date());
         $this->assertEquals($content, $comment->content());
+        $this->assertEquals(Comment::STATUS_NEW, $comment->status());
         $this->assertInternalType('string', $comment->id());
     }
 
@@ -45,6 +46,4 @@ class CommentTest extends TestCase
 
         $this->assertEquals($newContent, $comment->content());
     }
-
-
 }

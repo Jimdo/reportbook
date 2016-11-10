@@ -4,6 +4,8 @@ namespace Jimdo\Reports\Reportbook;
 
 class Comment
 {
+    const STATUS_NEW = 'NEW';
+
     /** @var string */
     private $id;
 
@@ -19,6 +21,9 @@ class Comment
     /** @var string */
     private $content;
 
+    /** @var string */
+    private $status;
+
     /**
      * @param string $reportId
      * @param string $userId
@@ -32,6 +37,7 @@ class Comment
         $this->userId = $userId;
         $this->date = $date;
         $this->content = $content;
+        $this->status = self::STATUS_NEW;
     }
 
     /**
@@ -72,6 +78,14 @@ class Comment
     public function content(): string
     {
         return $this->content;
+    }
+
+    /**
+    * @return string
+    */
+    public function status(): string
+    {
+        return $this->status;
     }
 
     /**

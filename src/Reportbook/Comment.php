@@ -5,6 +5,7 @@ namespace Jimdo\Reports\Reportbook;
 class Comment
 {
     const STATUS_NEW = 'NEW';
+    const STATUS_EDITED = 'EDITED';
 
     /** @var string */
     private $id;
@@ -94,5 +95,6 @@ class Comment
     public function editContent(string $newContent)
     {
         $this->content = $newContent;
+        $this->status = self::STATUS_EDITED;
     }
 }

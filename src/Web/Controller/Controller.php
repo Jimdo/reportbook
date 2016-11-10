@@ -91,10 +91,22 @@ abstract class Controller
 
     /**
      * @param string $path
+     * @param array $queryParams
      */
-    protected function redirect(string $path)
+    protected function redirect(string $path, array $queryParams = null)
     {
-        header("Location: $path");
+        if ($queryParams !== null) {
+            $queryString = '?';
+            foreach ($queryParams as $key => $value) {
+                if ($queryString === '?') {
+                    $queryString = $queryString . $key . '=' . $value;
+                } else {
+                    $queryString = $queryString . '&' . $key . '=' . $value;
+                }
+            }
+        }
+        $uri = $path . $queryString;
+        header("Location: $uri");
     }
 
     /**

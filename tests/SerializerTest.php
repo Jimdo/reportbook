@@ -210,6 +210,7 @@ class SerializerTest extends TestCase
         $this->assertEquals($userId, $serializedComment['userId']);
         $this->assertEquals($date, $serializedComment['date']);
         $this->assertEquals($content, $serializedComment['content']);
+        $this->assertEquals($comment->status(), $serializedComment['status']);
     }
 
     /**
@@ -236,5 +237,6 @@ class SerializerTest extends TestCase
         $this->assertEquals($userId, $unserializedComment->userId());
         $this->assertEquals($date, $unserializedComment->date());
         $this->assertEquals($content, $unserializedComment->content());
+        $this->assertEquals($comment->status(), $unserializedComment->status());
     }
 }

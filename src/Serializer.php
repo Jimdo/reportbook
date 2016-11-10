@@ -147,6 +147,7 @@ class Serializer
             'userId' => $comment->userId(),
             'date' => $comment->date(),
             'content' => $comment->content(),
+            'status' => $comment->status(),
         ];
     }
 
@@ -161,7 +162,8 @@ class Serializer
             $serializedComment['reportId'],
             $serializedComment['userId'],
             $serializedComment['date'],
-            $serializedComment['content']
+            $serializedComment['content'],
+            $serializedComment['status']
         );
     }
 }

@@ -95,15 +95,9 @@ abstract class Controller
      */
     protected function redirect(string $path, array $queryParams = null)
     {
+        $queryString = '';
         if ($queryParams !== null) {
-            $queryString = '?';
-            foreach ($queryParams as $key => $value) {
-                if ($queryString === '?') {
-                    $queryString = $queryString . $key . '=' . $value;
-                } else {
-                    $queryString = $queryString . '&' . $key . '=' . $value;
-                }
-            }
+            $queryString = '?' . http_build_query($queryParams);
         }
         $uri = $path . $queryString;
         header("Location: $uri");

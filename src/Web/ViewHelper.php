@@ -4,10 +4,10 @@ namespace Jimdo\Reports\Web;
 
 use Jimdo\Reports\Reportbook\Report as Report;
 use Jimdo\Reports\User\Role as Role;
+use Jimdo\Reports\Reportbook\Comment;
 
 class ViewHelper
 {
-
     /**
     * @param string $status
     */
@@ -32,6 +32,8 @@ class ViewHelper
                 return 'Freigeschaltet';
             case Role::STATUS_DISAPPROVED:
                 return 'Abgelehnt';
+            case Comment::STATUS_EDITED;
+                return 'Bearbeitet';
         }
     }
 

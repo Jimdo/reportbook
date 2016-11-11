@@ -6,6 +6,7 @@ use Jimdo\Reports\Notification\Events\Event;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\User\UserService;
 use Jimdo\Reports\User\UserMongoRepository;
+use Jimdo\Reports\Reportbook\ReportMongoRepository;
 use Jimdo\Reports\Serializer;
 use Mailgun\Mailgun;
 
@@ -19,6 +20,9 @@ class MailgunSubscriber implements Subscriber
 
     /** @var UserService */
     private $userService;
+
+    /** @var ReportMongoRepository */
+    private $reportRepository;
 
     /** @var string */
     private $domain;
@@ -47,9 +51,13 @@ class MailgunSubscriber implements Subscriber
         );
 
         $client = new \MongoDB\Client($uri);
+        $serializer = new Serializer();
+        $notificationService = new NotificationService();
 
-        $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
-        $this->userService = new UserService($userRepository, $appConfig, new NotificationService());
+        $userRepository = new UserMongoRepository($client, $serializer, $appConfig);
+        $this->userService = new UserService($userRepository, $appConfig, $notificationService);
+
+        $this->reportRepository = new ReportMongoRepository($client, $serializer, $appConfig);
     }
 
     /**
@@ -100,10 +108,11 @@ class MailgunSubscriber implements Subscriber
                 $this->sendMail("{$user->username()} <{$user->email()}>", $event->payload()['emailSubject'], $message);
                 break;
             case 'commentCreated':
-                $user = $this->userService->findUserById($event->payload()['emailTo']);
+                $report = $this->reportRepository->findById($event->payload()['reportId']);
+                $user = $this->userService->findUserById($report->traineeId());
                 if ($user->id() !== $event->payload()['commentUserId']) {
                     $message =  "Hallo {$user->username()}, \n\n" .
-                                "Dein Bericht von der Kalenderwoche {$event->payload()['calendarWeek']} wurde kommentiert. \n\n" .
+                                "Dein Bericht von der Kalenderwoche {$report->calendarWeek()} wurde kommentiert. \n\n" .
                                 "Online Berichtsheft";
                     $this->sendMail("{$user->username()} <{$user->email()}>", $event->payload()['emailSubject'], $message);
                 }
@@ -129,10 +138,14 @@ class MailgunSubscriber implements Subscriber
                                 "Online Berichtsheft";
                     $this->sendMail("{$user->username()} <{$user->email()}>", $event->payload()['emailSubject'], $message);
                 break;
-
         }
     }
 
+    /**
+     * @param string $emailTo
+     * @param string $emailSubject
+     * @param string $emailText
+     */
     protected function sendMail(string $emailTo, string $emailSubject, string $emailText)
     {
         $result = $this->mailgunClient->sendMessage("$this->domain", [

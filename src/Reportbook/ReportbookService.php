@@ -218,19 +218,15 @@ class ReportbookService
      */
     public function createComment(string $reportId, string $userId, string $date, string $content): Comment
     {
-        $report = $this->reportRepository->findById($reportId);
-        $comment = $this->commentService->createComment($reportId, $userId, $date, $content);
         $event = new Events\CommentCreated([
             'userId' => $userId,
             'reportId' => $reportId,
-            'emailTo' => $report->traineeId(),
             'emailSubject' => 'Kommentar erstellt',
-            'commentUserId' => $comment->userId(),
-            'calendarWeek' => $report->calendarWeek()
+            'commentUserId' => $userId
         ]);
         $this->notificationService->notify($event);
 
-        return $comment;
+        return $this->commentService->createComment($reportId, $userId, $date, $content);
     }
 
     /**

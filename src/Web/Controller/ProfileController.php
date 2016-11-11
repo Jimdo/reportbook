@@ -44,9 +44,9 @@ class ProfileController extends Controller
 
         $notificationService = new NotificationService();
         $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);
-        $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig, $notificationService);
 
-        $notificationService->register(new PapertrailSubscriber(['imageEdited'], $appConfig));
+        $notificationService->register(new PapertrailSubscriber([], $appConfig));
+        $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig, $notificationService);
     }
 
     public function imageAction()

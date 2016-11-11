@@ -83,7 +83,8 @@ class UserController extends Controller
             'companyEdited',
             'jobTitleEdited',
             'trainingYearEdited',
-            'startOfTrainingEdited'
+            'startOfTrainingEdited',
+            'imageEdited'
         ];
 
         $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));

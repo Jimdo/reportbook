@@ -88,7 +88,8 @@ class UserService
         $this->userRepository->save($user);
 
         $event = new Events\PasswordEdited([
-            'userId' => $user->id()
+            'userId' => $user->id(),
+            'emailSubject' => 'Passwortänderung'
         ]);
         $this->notificationService->notify($event);
     }
@@ -333,7 +334,8 @@ class UserService
         $this->userRepository->save($user);
 
         $event = new Events\RoleApproved([
-            'userId' => $user->id()
+            'userId' => $user->id(),
+            'emailSubject' => 'Zugang freigeschaltet'
         ]);
         $this->notificationService->notify($event);
     }
@@ -345,12 +347,14 @@ class UserService
     {
         $user = $this->userRepository->findUserbyEmail($email);
         $user->disapprove();
-        $this->userRepository->save($user);
 
         $event = new Events\RoleDisapproved([
-            'userId' => $user->id()
+            'userId' => $user->id(),
+            'emailSubject' => 'Zugang abgelehnt'
         ]);
         $this->notificationService->notify($event);
+
+        $this->userRepository->save($user);
     }
 
     public function ensureUsersPath()

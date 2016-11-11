@@ -13,6 +13,7 @@ use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
+use Jimdo\Reports\Notification\MailgunSubscriber;
 
 class CommentController extends Controller
 {
@@ -56,6 +57,7 @@ class CommentController extends Controller
         $this->service = new ReportbookService($reportRepository, new CommentService($commentRepository), $appConfig, $notificationService);
 
         $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
+        $notificationService->register(new MailgunSubscriber(['commentCreated'], $appConfig));
     }
 
     public function createCommentAction()

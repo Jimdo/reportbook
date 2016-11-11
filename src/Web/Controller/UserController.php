@@ -20,6 +20,7 @@ use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\User\ProfileException as ProfileException;
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
+use Jimdo\Reports\Notification\MailgunSubscriber;
 
 class UserController extends Controller
 {
@@ -87,7 +88,14 @@ class UserController extends Controller
             'imageEdited'
         ];
 
+        $emailEventTypes = [
+            'roleApproved',
+            'roleDisapproved',
+            'passwordEdited'
+        ];
+
         $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
+        $notificationService->register(new MailgunSubscriber($emailEventTypes, $appConfig));
     }
 
     public function uploadAction()

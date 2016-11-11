@@ -39,8 +39,8 @@ class MailgunSubscriber implements Subscriber
         $this->validEventTypes = $eventTypes;
         $this->appConfig = $appConfig;
 
-        $this->mailgunClient = new Mailgun('key-1beb90fc6968263d6ba2cf95fc6ca8bb');
-        $this->domain = "sandboxd9e5c670536f4828a8ded4df88519471.mailgun.org";
+        $this->mailgunClient = new Mailgun($this->appConfig->mailgunKey);
+        $this->domain = $this->appConfig->mailgunDomain;
 
         $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
             , $appConfig->mongoUsername

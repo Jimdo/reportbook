@@ -15,3 +15,4 @@ wl
 /scripts/phpunit
 /scripts/validate-json
 .DS_Store
+.env

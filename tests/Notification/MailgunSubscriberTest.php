@@ -18,4 +18,15 @@ class MailgunSubscriberTest extends TestCase
 
         $this->assertTrue($mailgunSubscriber->isResponsibleFor($event));
     }
+
+    /**
+     * @notest
+     */
+    public function itShouldSendToMailgun()
+    {
+        $event = new Events\DummyEvent([]);
+
+        $mailgunSubscriber = new MailgunSubscriber(['dummyEvent'], new ApplicationConfig(__DIR__ . '/../../config.yml'));
+        $mailgunSubscriber->notify($event);
+    }
 }

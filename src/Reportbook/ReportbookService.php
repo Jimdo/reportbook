@@ -59,7 +59,10 @@ class ReportbookService
 
         $event = new Events\ReportCreated([
             'userId' => $traineeId->id(),
-            'reportId' => $report->id()
+            'reportId' => $report->id(),
+            'emailSubject' => 'Bericht erstellt',
+            'calendarWeek' => $calendarWeek,
+            'content' => $content
         ]);
         $this->notificationService->notify($event);
 
@@ -137,7 +140,8 @@ class ReportbookService
 
         $event = new Events\ApprovalRequested([
             'userId' => $report->traineeId(),
-            'reportId' => $report->id()
+            'reportId' => $report->id(),
+            'emailSubject' => 'Bericht eingereicht'
         ]);
         $this->notificationService->notify($event);
     }
@@ -154,7 +158,8 @@ class ReportbookService
 
         $event = new Events\ReportApproved([
             'userId' => $report->traineeId(),
-            'reportId' => $report->id()
+            'reportId' => $report->id(),
+            'emailSubject' => 'Bericht genehmigt'
         ]);
         $this->notificationService->notify($event);
     }
@@ -171,7 +176,9 @@ class ReportbookService
 
         $event = new Events\ReportDisapproved([
             'userId' => $report->traineeId(),
-            'reportId' => $report->id()
+            'reportId' => $report->id(),
+            'emailSubject' => 'Bericht abgelehnt',
+            'calendarWeek' => $report->calendarWeek()
         ]);
         $this->notificationService->notify($event);
     }
@@ -211,13 +218,19 @@ class ReportbookService
      */
     public function createComment(string $reportId, string $userId, string $date, string $content): Comment
     {
+        $report = $this->reportRepository->findById($reportId);
+        $comment = $this->commentService->createComment($reportId, $userId, $date, $content);
         $event = new Events\CommentCreated([
             'userId' => $userId,
-            'reportId' => $reportId
+            'reportId' => $reportId,
+            'emailTo' => $report->traineeId(),
+            'emailSubject' => 'Kommentar erstellt',
+            'commentUserId' => $comment->userId(),
+            'calendarWeek' => $report->calendarWeek()
         ]);
         $this->notificationService->notify($event);
 
-        return $this->commentService->createComment($reportId, $userId, $date, $content);
+        return $comment;
     }
 
     /**

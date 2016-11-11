@@ -22,6 +22,7 @@ use Jimdo\Reports\Web\Request as Request;
 use Jimdo\Reports\Web\Validator\Validator as Validator;
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
+use Jimdo\Reports\Notification\MailgunSubscriber;
 
 class ReportController extends Controller
 {
@@ -76,7 +77,15 @@ class ReportController extends Controller
             'reportDisapproved'
         ];
 
+        $emailEventTypes =[
+            'reportCreated',
+            'approvalRequested',
+            'reportApproved',
+            'reportDisapproved'
+        ];
+
         $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
+        $notificationService->register(new MailgunSubscriber($emailEventTypes, $appConfig));
 
         $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
         $this->userService = new UserService($userRepository, $appConfig, $notificationService);

@@ -224,6 +224,23 @@ class ReportbookServiceTest extends TestCase
     /**
      * @test
      */
+    public function itShouldFindReportsByString()
+    {
+        $traineeId = new TraineeId();
+
+        $report1 = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34');
+        $report2 = $this->reportbookService->createReport($traineeId, 'other text', '10.10.10', '34');
+        $report3 = $this->reportbookService->createReport($traineeId, 'no content', '10.10.10', '34');
+
+        $foundReports = $this->reportbookService->findReportsByString('content', $traineeId->id(), 'TRAINEE');
+
+        $this->assertCount(2, $foundReports);
+        $this->assertEquals('some content', $foundReports[0]->content());
+    }
+
+    /**
+     * @test
+     */
     public function itShouldRequestApproval()
     {
         $traineeId = new TraineeId();

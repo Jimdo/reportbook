@@ -447,6 +447,45 @@ class ReportController extends Controller
         }
     }
 
+    public function searchAction()
+    {
+        $headerView = $this->view('src/Web/Controller/Views/Header.php');
+        $headerView->tabTitle = 'Berichtsheft';
+
+        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
+        $infobarView->viewHelper = $this->viewHelper;
+        $infobarView->username = $this->sessionData('username');
+        $infobarView->role = $this->sessionData('role');
+        $infobarView->trainerRole = $this->isTrainer();
+        $infobarView->infoHeadline = ' | Übersicht';
+        $infobarView->hideInfos = false;
+
+        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
+        $footerView->backButton = false;
+
+        if ($this->isTrainee()) {
+            $reportView = $this->view('src/Web/Controller/Views/TraineeView.php');
+            $reportView->reports = $this->service->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
+            $reportView->viewHelper = $this->viewHelper;
+        } elseif ($this->isTrainer()) {
+            $reportView = $this->view('src/Web/Controller/Views/TrainerView.php');
+            $reportView->userService = $this->userService;
+            $reportView->profileService = $this->profileService;
+            $reportView->viewHelper = $this->viewHelper;
+            $reportView->reports = $this->service->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
+
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+            $infobarView->trainerRole = $this->isTrainer();
+        } else {
+            $this->redirect("/user");
+        }
+        $this->response->addBody($headerView->render());
+        $this->response->addBody($infobarView->render());
+        $this->response->addBody($reportView->render());
+        $this->response->addBody($footerView->render());
+    }
+
     /**
      * @param int $errorCode
      */

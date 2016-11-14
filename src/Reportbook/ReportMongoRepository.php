@@ -127,11 +127,24 @@ class ReportMongoRepository implements ReportRepository
     public function findReportsByString(string $text): array
     {
         $foundReports = $this->findAll();
+
+        if ($text === '') {
+            return $foundReports;
+        }
+
         $reports = [];
 
-        foreach ($foundReports as $report) {
-            if (strpos($report->content(), $text) !== false) {
-                $reports[] = $report;
+        if (is_numeric($text)) {
+            foreach ($foundReports as $report) {
+                if (strpos($report->calendarWeek(), $text) !== false) {
+                    $reports[] = $report;
+                }
+            }
+        } else {
+            foreach ($foundReports as $report) {
+                if (strpos($report->content(), $text) !== false) {
+                    $reports[] = $report;
+                }
             }
         }
         return $reports;

@@ -461,7 +461,7 @@ class ReportController extends Controller
         $infobarView->hideInfos = false;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-        $footerView->backButton = false;
+        $footerView->backButton = true;
 
         if ($this->isTrainee()) {
             $reportView = $this->view('src/Web/Controller/Views/TraineeView.php');

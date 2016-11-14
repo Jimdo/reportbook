@@ -41,6 +41,12 @@ interface ReportRepository
     public function findByStatus(string $status): array;
 
     /**
+     * @param string $text
+     * @return Report[]
+     */
+    public function findReportsByString(string $text): array;
+
+    /**
      * @param string $id
      * @return Report
      */

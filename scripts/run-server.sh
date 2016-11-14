@@ -2,6 +2,8 @@
 
 APPLICATION_ENV=dev
 
+source .env
+
 docker run -it --rm \
     -p 80:80 \
     -e APPLICATION_ENV='dev' \

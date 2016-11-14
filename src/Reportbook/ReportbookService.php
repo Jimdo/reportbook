@@ -8,6 +8,7 @@ use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\Events as Events;
+use Jimdo\Reports\User\Role;
 
 class ReportbookService
 {
@@ -191,6 +192,27 @@ class ReportbookService
     public function findByStatus(string $status): array
     {
         return $this->reportRepository->findByStatus($status);
+    }
+
+    /**
+     * @param string $text
+     * @return array
+     */
+    public function findReportsByString(string $text, string $userId, string $role): array
+    {
+        $foundReports = $this->reportRepository->findReportsByString($text);
+
+        if ($role === Role::TRAINER) {
+            return $foundReports;
+        }
+
+        $returnReports = [];
+        foreach ($foundReports as $report) {
+            if ($userId === $report->traineeId()) {
+                $returnReports[] = $report;
+            }
+        }
+        return $returnReports;
     }
 
     /**

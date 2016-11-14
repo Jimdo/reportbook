@@ -201,15 +201,22 @@ class ReportbookService
     public function findReportsByString(string $text, string $userId, string $role): array
     {
         $foundReports = $this->reportRepository->findReportsByString($text);
+        $returnReports = [];
 
         if ($role === Role::TRAINER) {
-            return $foundReports;
-        }
-
-        $returnReports = [];
-        foreach ($foundReports as $report) {
-            if ($userId === $report->traineeId()) {
-                $returnReports[] = $report;
+            foreach ($foundReports as $report) {
+                if ($report->status() === Report::STATUS_APPROVAL_REQUESTED ||
+                    $report->status() === Report::STATUS_APPROVED ||
+                    $report->status() === Report::STATUS_DISAPPROVED ||
+                    $report->status() === Report::STATUS_REVISED) {
+                    $returnReports[] = $report;
+                }
+            }
+        } elseif ($role === Role::TRAINEE) {
+            foreach ($foundReports as $report) {
+                if ($userId === $report->traineeId()) {
+                    $returnReports[] = $report;
+                }
             }
         }
         return $returnReports;

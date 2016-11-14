@@ -115,3 +115,10 @@ update       Update composer packages
 ### v0.4.2
   - Add PapertrailSubscriber
   - Add PapertrailSubscriber to Controllers
+
+### v0.4.3
+  - Add MailgunSubscriber
+  - Add MailgunSubscriber to Controllers for specific Events
+
+### v0.4.4
+  - Add a search function

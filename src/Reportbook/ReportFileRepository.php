@@ -145,6 +145,23 @@ class ReportFileRepository implements ReportRepository
     }
 
     /**
+     * @param string $text
+     * @return Report[]
+     */
+    public function findReportsByString(string $text): array
+    {
+        $foundReports = $this->findAll();
+        $reports = [];
+
+        foreach ($foundReports as $report) {
+            if (strpos($report->content(), $text) !== false) {
+                $reports[] = $report;
+            }
+        }
+        return $reports;
+    }
+
+    /**
      * @param string $id
      * @return Report
      * @throws ReportFileRepositoryException

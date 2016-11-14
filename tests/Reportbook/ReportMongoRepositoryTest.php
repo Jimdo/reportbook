@@ -109,6 +109,27 @@ class ReportMongoRepositoryTest extends TestCase
     /**
      * @test
      */
+    public function itShouldFindReportsByString()
+    {
+        $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
+
+        $traineeId = new TraineeId();
+        $date = '10.10.10';
+        $calendarWeek = '34';
+
+        $report1 = $repository->create($traineeId, 'some content', $date, $calendarWeek);
+        $report2 = $repository->create($traineeId, 'hello world', $date, $calendarWeek);
+        $report3 = $repository->create($traineeId, 'hello world', $date, $calendarWeek);
+
+        $foundReports = $repository->findReportsByString('world');
+
+        $this->assertCount(2, $foundReports);
+        $this->assertEquals('hello world', $foundReports[0]->content());
+    }
+
+    /**
+     * @test
+     */
     public function itShouldFindReportsByStatus()
     {
         $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);

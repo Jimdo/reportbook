@@ -1,3 +1,10 @@
+<form action="/report/search" method="POST">
+    <div class="input-group input-group-md col-md-3 col-md-offset-9">
+        <input type="text" name="text" class="form-control">
+        <span type="submit" class="input-group-addon"><span class=" glyphicon glyphicon-search"></span></span>
+    </div></br>
+</form>
+
 <table class="table table-hover">
     <tr>
         <th>Name</th>

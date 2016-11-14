@@ -37,3 +37,9 @@
         </tr>
     <?php endforeach ?>
 </table>
+
+<div>
+    <?php if ($this->reports === []): ?>
+        <label>Keine Berichte gefunden</label>
+    <?php endif; ?>
+</div></br>

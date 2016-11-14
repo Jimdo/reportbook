@@ -4,12 +4,13 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 
-if (file_exists('/../.env')) {
-    $Loader = new josegonzalez\Dotenv\Loader('/../.env');
+$appConfig = new ApplicationConfig(__DIR__ . '/../config.yml');
+
+if (file_exists(__DIR__ . '/../.env') && $appConfig->mailgunDomain === null) {
+    $Loader = new josegonzalez\Dotenv\Loader(__DIR__ . '/../.env');
     $Loader->parse();
     $Loader->toEnv();
 }
 
-$appConfig = new ApplicationConfig(__DIR__ . '/../config.yml');
 
 date_default_timezone_set($appConfig->timezone);

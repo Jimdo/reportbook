@@ -77,6 +77,13 @@
         </tr>
     <?php endforeach; ?>
 </table>
+
+<div>
+    <?php if ($this->reports === []): ?>
+        <label>Keine Berichte gefunden</label>
+    <?php endif; ?>
+</div></br>
+
 <div>
     <form action="/report/createReport" method="POST">
         <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Neuen Bericht erstellen</button>

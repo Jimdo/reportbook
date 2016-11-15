@@ -135,16 +135,12 @@ class ReportMongoRepository implements ReportRepository
         $reports = [];
 
         if (is_numeric($text)) {
-            foreach ($foundReports as $report) {
-                if (strpos($report->calendarWeek(), $text) !== false) {
-                    $reports[] = $report;
-                }
-            }
+             foreach ($this->reports->find(['calendarWeek' => $text]) as $report) {
+                 $reports [] = $this->serializer->unserializeReport($report->getArrayCopy());
+             }
         } else {
-            foreach ($foundReports as $report) {
-                if (strpos($report->content(), $text) !== false) {
-                    $reports[] = $report;
-                }
+            foreach ($this->reports->find(array('content' => new \MongoDB\BSON\Regex($text, 'i'))) as $report) {
+                $reports [] = $this->serializer->unserializeReport($report->getArrayCopy());
             }
         }
         return $reports;

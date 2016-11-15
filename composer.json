@@ -5,11 +5,12 @@
     "require-dev": {
         "phpunit/phpunit": "^5.4",
         "phpdocumentor/phpdocumentor": "dev-master",
-        "squizlabs/php_codesniffer": "^2.6"
+        "squizlabs/php_codesniffer": "^2.6",
+        "phpbench/phpbench": "@dev"
     },
     "autoload": {
         "psr-4": {
-          "Jimdo\\Reports\\": [ "src/", "tests/" ]
+          "Jimdo\\Reports\\": [ "src/", "tests/", "benchmarks/" ]
         }
     },
     "config": {

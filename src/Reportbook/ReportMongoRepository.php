@@ -139,7 +139,7 @@ class ReportMongoRepository implements ReportRepository
                  $reports [] = $this->serializer->unserializeReport($report->getArrayCopy());
              }
         } else {
-            foreach ($this->reports->find(['content' => $text]) as $report) {
+            foreach ($this->reports->find(array('content' => new \MongoDB\BSON\Regex($text, 'i'))) as $report) {
                 $reports [] = $this->serializer->unserializeReport($report->getArrayCopy());
             }
         }

@@ -16,3 +16,4 @@ wl
 /scripts/validate-json
 .DS_Store
 .env
+/benchmarks/FixtureReports/

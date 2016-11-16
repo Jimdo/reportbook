@@ -63,12 +63,12 @@ class DataRetrievalApproachesBench
      * @param string $reportId
      * @return array
      */
-    public function mongoFindById(string $reportId): array
+    public function mongoFindById(int $reportId): array
     {
         foreach ($this->reports->find() as $report) {
             $report = $report->getArrayCopy();
 
-            if ($report['id'] == $reportId) {
+            if ($report['id'] === $reportId) {
                 return $report;
             }
         }
@@ -88,7 +88,7 @@ class DataRetrievalApproachesBench
             }
             $serializedReport = file_get_contents($reportsPath . '/' . $reports);
             $unserializedReport = unserialize($serializedReport);
-            if ($unserializedReport['id'] == $reportId) {
+            if ($unserializedReport['id'] === $reportId) {
                 return $unserializedReport;
             }
         }

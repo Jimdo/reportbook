@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export APPLICATION_ENV=dev
+export APPLICATION_ENV=test
 
 export MONGO_HOST=$(docker-machine ip)
 

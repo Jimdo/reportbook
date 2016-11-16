@@ -11,9 +11,13 @@ class DataRetrievalApproachesBench
 {
     private $reportAmount = 1000;
 
-    public function benchDisk()
+    /**
+     * @Revs({10, 100, 1000, 10000})
+     * @Iterations(5)
+     */
+    public function benchFetchByIdFromDisk()
     {
-        
+        $this->diskFindById($this->reportAmount - 1);
     }
 
     public function setUp()
@@ -23,8 +27,31 @@ class DataRetrievalApproachesBench
 
     public function tearDown()
     {
-        for ($i=0; $i < $this->reportAmount; $i++) {
-            unlink(__DIR__ . '/FixtureReports/' . $i);
+        $files = scandir(__DIR__ . '/FixtureReports/');
+        foreach ($files as $filename) {
+            if ($filename !== '.' && $filename !== '..') {
+                unlink(__DIR__ . '/FixtureReports/' . $filename);
+            }
+        }
+    }
+
+    /**
+     * @param string $reportId
+     * @return array
+     */
+    public function diskFindById(string $reportId): array
+    {
+        $reportsPath = __DIR__ . '/FixtureReports/';
+
+        foreach (scandir($reportsPath) as $reports) {
+            if ($reports === '.' || $reports === '..') {
+                continue;
+            }
+            $serializedReport = file_get_contents($reportsPath . '/' . $reports);
+            $unserializedReport = unserialize($serializedReport);
+            if ($unserializedReport['id'] == $reportId) {
+                return $unserializedReport;
+            }
         }
     }
 

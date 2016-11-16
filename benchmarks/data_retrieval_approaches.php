@@ -41,6 +41,15 @@ class DataRetrievalApproachesBench
         $this->mongoFindById($this->reportAmount - 1);
     }
 
+    /**
+     * @Revs({10, 100, 1000})
+     * @Iterations(5)
+     */
+    public function benchFetchByIdFromMongoDBWithQuery()
+    {
+        $this->mongoFindByIdWithQuery($this->reportAmount - 1);
+    }
+
     public function setUp()
     {
         $this->createRandomReports('disk');
@@ -78,7 +87,16 @@ class DataRetrievalApproachesBench
      * @param string $reportId
      * @return array
      */
-    public function diskFindById(string $reportId): array
+    public function mongoFindByIdWithQuery(int $reportId): array
+    {
+        return $this->reports->findOne(['id' => $reportId])->getArrayCopy();
+    }
+
+    /**
+     * @param string $reportId
+     * @return array
+     */
+    public function diskFindById(int $reportId): array
     {
         $reportsPath = __DIR__ . '/FixtureReports/';
 

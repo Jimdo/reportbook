@@ -27,6 +27,9 @@ doc: ## Generate documentation
 server: ## Start up local development web server
 	./scripts/run-server.sh
 
+bench: ## Starts the benchmarks
+	./scripts/run-bench.sh
+
 build: ## Generate docker container image
 	docker build -t $(IMAGE) .
 

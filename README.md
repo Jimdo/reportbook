@@ -122,3 +122,7 @@ update       Update composer packages
 
 ### v0.4.4
   - Add a search function
+
+### v0.4.5
+  - Add PHPBench
+  - Add Benchmarks to Project

@@ -9,7 +9,7 @@ namespace Jimdo\Reports;
  */
 class DataRetrievalApproachesBench
 {
-    private $reportAmount = 10000;
+    private $reportAmount = 1000;
 
     public function benchDisk()
     {

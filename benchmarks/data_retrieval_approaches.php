@@ -36,6 +36,15 @@ class DataRetrievalApproachesBench
      * @Revs({10, 100, 1000})
      * @Iterations(5)
      */
+    public function benchFetchByDateFromDisk()
+    {
+        $this->diskFindByDate('11.11.11');
+    }
+
+    /**
+     * @Revs({10, 100, 1000})
+     * @Iterations(5)
+     */
     public function benchFetchByIdFromMongoDB()
     {
         $this->mongoFindById($this->reportAmount);
@@ -110,6 +119,27 @@ class DataRetrievalApproachesBench
                 return $unserializedReport;
             }
         }
+    }
+
+    /**
+     * @param string $date
+     * @return array
+     */
+    public function diskFindByDate(string $date): array
+    {
+        $reportsPath = __DIR__ . '/FixtureReports/';
+
+        foreach (scandir($reportsPath) as $reports) {
+            if ($reports === '.' || $reports === '..') {
+                continue;
+            }
+            $serializedReport = file_get_contents($reportsPath . '/' . $reports);
+            $unserializedReport = unserialize($serializedReport);
+            if ($unserializedReport['date'] === $date) {
+                $foundReports[] = $unserializedReport;
+            }
+        }
+        return $foundReports;
     }
 
     /**

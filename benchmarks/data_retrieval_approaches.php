@@ -68,6 +68,15 @@ class DataRetrievalApproachesBench
         $this->mongoFindByIdWithQuery($this->reportAmount);
     }
 
+    /**
+     * @Revs({10, 100, 1000})
+     * @Iterations(5)
+     */
+    public function benchFetchByDateFromMongoDBWithQuery()
+    {
+        $this->mongoFindByDateWithQuery('11.11.11');
+    }
+
     public function setUp()
     {
         $this->createRandomReports('disk');
@@ -102,6 +111,22 @@ class DataRetrievalApproachesBench
     }
 
     /**
+    * @param string $date
+    * @return array
+    */
+    public function mongoFindByDate(string $date): array
+    {
+        foreach ($this->reports->find() as $report) {
+            $report = $report->getArrayCopy();
+
+            if ($report['date'] === $date) {
+                $foundReports[] = $report;
+            }
+        }
+        return $foundReports;
+    }
+
+    /**
      * @param string $reportId
      * @return array
      */
@@ -114,16 +139,9 @@ class DataRetrievalApproachesBench
      * @param string $date
      * @return array
      */
-    public function mongoFindByDate(string $date)
+    public function mongoFindByDateWithQuery(string $date): array
     {
-        foreach ($this->reports->find() as $report) {
-            $report = $report->getArrayCopy();
-
-            if ($report['date'] === $date) {
-                $foundReports[] = $report;
-            }
-        }
-        return $foundReports;
+        return $this->reports->findOne(['date' => $date])->getArrayCopy();
     }
 
     /**

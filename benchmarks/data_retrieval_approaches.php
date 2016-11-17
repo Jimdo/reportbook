@@ -69,6 +69,15 @@ class DataRetrievalApproachesBench
     }
 
     /**
+    * @Revs({10, 100, 1000})
+    * @Iterations(5)
+    */
+    public function benchFetchByTextFromMongoDB()
+    {
+        $this->mongoFindByText('text:' . $this->reportAmount);
+    }
+
+    /**
      * @Revs({10, 100, 1000})
      * @Iterations(5)
      */
@@ -129,6 +138,22 @@ class DataRetrievalApproachesBench
             $report = $report->getArrayCopy();
 
             if ($report['date'] === $date) {
+                $foundReports[] = $report;
+            }
+        }
+        return $foundReports;
+    }
+
+    /**
+    * @param string $text
+    * @return array
+    */
+    public function mongoFindByText(string $text): array
+    {
+        foreach ($this->reports->find() as $report) {
+            $report = $report->getArrayCopy();
+
+            if ($report['content'] === $text) {
                 $foundReports[] = $report;
             }
         }

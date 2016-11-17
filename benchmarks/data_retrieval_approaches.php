@@ -12,7 +12,7 @@ use Jimdo\Reports\Web\ApplicationConfig;
 class DataRetrievalApproachesBench
 {
     /** @var integer */
-    private $reportAmount = 10;
+    private $reportAmount = 1000;
 
     /** @var Client $client */
     private $client;

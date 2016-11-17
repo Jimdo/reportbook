@@ -12,7 +12,7 @@ use Jimdo\Reports\Web\ApplicationConfig;
 class DataRetrievalApproachesBench
 {
     /** @var integer */
-    private $reportAmount = 1000;
+    private $reportAmount = 10;
 
     /** @var Client $client */
     private $client;
@@ -29,7 +29,7 @@ class DataRetrievalApproachesBench
      */
     public function benchFetchByIdFromDisk()
     {
-        $this->diskFindById($this->reportAmount - 1);
+        $this->diskFindById($this->reportAmount);
     }
 
     /**
@@ -38,7 +38,7 @@ class DataRetrievalApproachesBench
      */
     public function benchFetchByIdFromMongoDB()
     {
-        $this->mongoFindById($this->reportAmount - 1);
+        $this->mongoFindById($this->reportAmount);
     }
 
     /**
@@ -47,7 +47,7 @@ class DataRetrievalApproachesBench
      */
     public function benchFetchByIdFromMongoDBWithQuery()
     {
-        $this->mongoFindByIdWithQuery($this->reportAmount - 1);
+        $this->mongoFindByIdWithQuery($this->reportAmount);
     }
 
     public function setUp()
@@ -118,7 +118,7 @@ class DataRetrievalApproachesBench
     protected function createRandomReports(string $persistence)
     {
         $reports = [];
-        for ($i=0; $i < $this->reportAmount; $i++) {
+        for ($i=1; $i <= $this->reportAmount; $i++) {
             $reports[] = [
                 'traineeId' => uniqid(),
                 'content' => 'bla',

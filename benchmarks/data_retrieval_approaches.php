@@ -45,6 +45,15 @@ class DataRetrievalApproachesBench
      * @Revs({10, 100, 1000})
      * @Iterations(5)
      */
+    public function benchFetchByTextFromDisk()
+    {
+        $this->diskFindByText('text:' . $this->reportAmount);
+    }
+
+    /**
+     * @Revs({10, 100, 1000})
+     * @Iterations(5)
+     */
     public function benchFetchByIdFromMongoDB()
     {
         $this->mongoFindById($this->reportAmount);
@@ -186,6 +195,28 @@ class DataRetrievalApproachesBench
     }
 
     /**
+     * @param string $text
+     * @return array
+     */
+    public function diskFindByText(string $text)
+    {
+        $reportsPath = __DIR__ . '/FixtureReports/';
+
+        foreach (scandir($reportsPath) as $reports) {
+            if ($reports === '.' || $reports === '..') {
+                continue;
+            }
+            $serializedReport = file_get_contents($reportsPath . '/' . $reports);
+            $unserializedReport = unserialize($serializedReport);
+            if ($unserializedReport['content'] === $text) {
+                $foundReports[] = $unserializedReport;
+            }
+        }
+        return $foundReports;
+
+    }
+
+    /**
      * @param string $persistence
      */
     protected function createRandomReports(string $persistence)
@@ -194,7 +225,7 @@ class DataRetrievalApproachesBench
         for ($i=1; $i <= $this->reportAmount; $i++) {
             $reports[] = [
                 'traineeId' => uniqid(),
-                'content' => 'bla',
+                'content' => 'text:' . $i,
                 'date' => '11.11.11',
                 'calendarWeek' => '11',
                 'id' => $i

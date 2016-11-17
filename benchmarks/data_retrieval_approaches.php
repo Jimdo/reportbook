@@ -95,6 +95,15 @@ class DataRetrievalApproachesBench
         $this->mongoFindByDateWithQuery('11.11.11');
     }
 
+    /**
+     * @Revs({10, 100, 1000})
+     * @Iterations(5)
+     */
+    public function benchFetchByTextFromMongoDBWithQuery()
+    {
+        $this->mongoFindByTextWithQuery('text:' . $this->reportAmount);
+    }
+
     public function setUp()
     {
         $this->createRandomReports('disk');
@@ -176,6 +185,15 @@ class DataRetrievalApproachesBench
     public function mongoFindByDateWithQuery(string $date): array
     {
         return $this->reports->findOne(['date' => $date])->getArrayCopy();
+    }
+
+    /**
+     * @param string $text
+     * @return array
+     */
+    public function mongoFindByTextWithQuery(string $text): array
+    {
+        return $this->reports->findOne(['content' => $text])->getArrayCopy();
     }
 
     /**

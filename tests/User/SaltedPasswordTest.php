@@ -11,11 +11,9 @@ class SaltedPasswordTest extends TestCase
      */
     public function itShouldCreateSalt()
     {
-        $saltedPassword = new SaltedPassword();
-
         $password = 'dasIstEinSuperHartesPasswort';
-        $hash = $saltedPassword->encrypt($password);
+        $saltedPassword = new SaltedPassword($password);
 
-        $this->assertTrue($saltedPassword->verify($password, $hash));
+        $this->assertTrue($saltedPassword->verify($password));
     }
 }

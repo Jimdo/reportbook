@@ -5,6 +5,7 @@ namespace Jimdo\Reports\Profile;
 use Jimdo\Reports\User\User as User;
 use Jimdo\Reports\User\Role as Role;
 use Jimdo\Reports\User\UserId as UserId;
+use Jimdo\Reports\User\ClearTextPassword;
 use PHPUnit\Framework\TestCase;
 
 class ProfileTest extends TestCase
@@ -46,7 +47,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, new ClearTextPassword($password), new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -68,7 +69,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, new ClearTextPassword($password), new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -90,7 +91,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, new ClearTextPassword($password), new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -112,7 +113,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, new ClearTextPassword($password), new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -134,7 +135,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, new ClearTextPassword($password), new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -156,7 +157,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, new ClearTextPassword($password), new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -178,7 +179,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, new ClearTextPassword($password), new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -200,7 +201,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, new ClearTextPassword($password), new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -222,7 +223,7 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, new ClearTextPassword($password), new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 

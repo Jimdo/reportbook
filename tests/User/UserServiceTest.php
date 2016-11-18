@@ -8,6 +8,7 @@ use Jimdo\Reports\Views\User as ReadOnlyUser;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Notification\DummySubscriber;
 use Jimdo\Reports\Notification\NotificationService;
+use Jimdo\Reports\User\ClearTextPassword;
 
 class UserServiceTest extends TestCase
 {
@@ -36,7 +37,7 @@ class UserServiceTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
 
-        $user = $this->userService->registerTrainee('Hase', $email, $password);
+        $user = $this->userService->registerTrainee('Hase', $email, new ClearTextPassword($password));
 
         $this->assertEquals($email, $user->email());
     }
@@ -49,7 +50,7 @@ class UserServiceTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
 
-        $user = $this->userService->registerTrainer('Hase', $email, $password);
+        $user = $this->userService->registerTrainer('Hase', $email, new ClearTextPassword($password));
 
         $this->assertEquals($email, $user->email());
     }
@@ -63,7 +64,7 @@ class UserServiceTest extends TestCase
         $oldPassword = '123456789';
         $newPassword = '1111111111';
 
-        $user = $this->userService->registerTrainer('Hase', $email, $oldPassword);
+        $user = $this->userService->registerTrainer('Hase', $email, new ClearTextPassword($oldPassword));
 
         $this->userService->editPassword($user->id(), $oldPassword, $newPassword);
 
@@ -82,7 +83,7 @@ class UserServiceTest extends TestCase
         $username = 'jenny';
         $newUsername = 'jennyPenny';
 
-        $user = $this->userService->registerTrainer($username, $email, $password);
+        $user = $this->userService->registerTrainer($username, $email, new ClearTextPassword($password));
 
         $this->userService->editUsername($user->id(), $newUsername);
 
@@ -101,7 +102,7 @@ class UserServiceTest extends TestCase
         $password = '123456789';
         $username = 'jenny';
 
-        $user = $this->userService->registerTrainer($username, $email, $password);
+        $user = $this->userService->registerTrainer($username, $email, new ClearTextPassword($password));
 
         $this->userService->editEmail($user->id(), $newEmail);
 
@@ -119,7 +120,7 @@ class UserServiceTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
 
-        $user = $this->userService->registerTrainee($username, $email, $password);
+        $user = $this->userService->registerTrainee($username, $email, new ClearTextPassword($password));
 
         $authStatus = $this->userService->authUser($email, $password);
         $this->assertTrue($authStatus);
@@ -136,7 +137,7 @@ class UserServiceTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
 
-        $user = $this->userService->registerTrainee('Hase', $email, $password);
+        $user = $this->userService->registerTrainee('Hase', $email, new ClearTextPassword($password));
 
         $this->assertEquals(Role::TRAINEE, $user->roleName());
     }
@@ -149,7 +150,7 @@ class UserServiceTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
 
-        $user = $this->userService->registerTrainee('Hase', $email, $password);
+        $user = $this->userService->registerTrainee('Hase', $email, new ClearTextPassword($password));
 
         $this->userService->approveRole($user->email());
 
@@ -164,7 +165,7 @@ class UserServiceTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
 
-        $user = $this->userService->registerTrainee('Hase', $email, $password);
+        $user = $this->userService->registerTrainee('Hase', $email, new ClearTextPassword($password));
 
         $this->userService->disapproveRole($user->email());
 
@@ -179,7 +180,7 @@ class UserServiceTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
 
-        $user = $this->userService->registerTrainee('Hase', $email, $password);
+        $user = $this->userService->registerTrainee('Hase', $email, new ClearTextPassword($password));
 
         $this->assertFalse($this->userRepository->saveMethodCalled);
         $this->userService->disapproveRole($user->email());
@@ -199,16 +200,16 @@ class UserServiceTest extends TestCase
     {
         $email = 'max.mustermann@hotmail.de';
 
-        $expectedUser1 = $this->userService->registerTrainee('Hase', $email, '12345678910');
+        $expectedUser1 = $this->userService->registerTrainee('Hase', $email, new ClearTextPassword('12345678910'));
         $users = $this->userService->findUsersByStatus(Role::STATUS_NOT_APPROVED);
 
         $this->assertCount(1, $users);
 
-        $expectedUser2 = $this->userService->registerTrainee('Igel', 'maxi.mustermann@hotmail.de', '12345678910');
+        $expectedUser2 = $this->userService->registerTrainee('Igel', 'maxi.mustermann@hotmail.de', new ClearTextPassword('12345678910'));
         $users = $this->userService->findUsersByStatus(Role::STATUS_NOT_APPROVED);
         $this->assertCount(2, $users);
 
-        $expectedUser3 = $this->userService->registerTrainee('Hans', 'peter.mustermann@web.de', '12345678910');
+        $expectedUser3 = $this->userService->registerTrainee('Hans', 'peter.mustermann@web.de', new ClearTextPassword('12345678910'));
         $this->userService->approveRole($expectedUser3->email());
         $users = $this->userService->findUsersByStatus(Role::STATUS_APPROVED);
         $this->assertCount(1, $users);
@@ -225,7 +226,7 @@ class UserServiceTest extends TestCase
         $this->assertFalse($this->userService->exists($username));
         $this->assertFalse($this->userService->exists($mail));
 
-        $expectedUser1 = $this->userService->registerTrainee($username, $mail, '12345678910');
+        $expectedUser1 = $this->userService->registerTrainee($username, $mail, new ClearTextPassword('12345678910'));
 
         $this->assertTrue($this->userService->exists($username));
         $this->assertTrue($this->userService->exists($mail));

@@ -19,19 +19,19 @@ class UserInMemoryRepository implements UserRepository
      * @param string $username
      * @param string $email
      * @param Role $role
-     * @param string $password
+     * @param Password $password
      * @throws UserRepositoryException
      * @return User
      */
-    public function createUser(string $username, string $email, Role $role, string $password): User
+    public function createUser(string $username, string $email, Role $role, Password $password): User
     {
         if ($this->findUserByEmail($email) !== null) {
             throw new UserRepositoryException("Email already exists!\n");
         }
 
-        if (strlen($password) < self::PASSWORD_LENGTH) {
-            throw new UserRepositoryException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n");
-        }
+        // if (strlen($password) < self::PASSWORD_LENGTH) {
+        //     throw new UserRepositoryException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n");
+        // }
 
         $user = new User($username, $email, $role, $password, new UserId());
         $this->users[] = $user;

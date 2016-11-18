@@ -4,6 +4,7 @@ namespace Jimdo\Reports\User;
 
 use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\User\Role as Role;
+use Jimdo\Reports\User\ClearTextPassword;
 
 class UserRepositoryTest extends TestCase
 {
@@ -16,7 +17,7 @@ class UserRepositoryTest extends TestCase
         $role = new Role('trainee');
 
         $userRepository = new UserInMemoryRepository();
-        $createdUser = $userRepository->createUser('Hase', $email, $role, '12345678910');
+        $createdUser = $userRepository->createUser('Hase', $email, $role, new ClearTextPassword('12345678910'));
 
         $this->assertEquals($email, $createdUser->email());
     }
@@ -31,7 +32,7 @@ class UserRepositoryTest extends TestCase
 
         $userRepository = new UserInMemoryRepository();
 
-        $createdUser = $userRepository->createUser('Hase', $email, $role, '12345678910');
+        $createdUser = $userRepository->createUser('Hase', $email, $role, new ClearTextPassword('12345678910'));
         $this->assertCount(1, $userRepository->users);
 
         $userRepository->deleteUser($createdUser);
@@ -49,7 +50,7 @@ class UserRepositoryTest extends TestCase
 
         $userRepository = new UserInMemoryRepository();
 
-        $createdUser = $userRepository->createUser('Hase', $email, $role, '12345678910');
+        $createdUser = $userRepository->createUser('Hase', $email, $role, new ClearTextPassword('12345678910'));
 
         $foundUser = $userRepository->findUserByEmail($email);
 
@@ -66,7 +67,7 @@ class UserRepositoryTest extends TestCase
 
         $userRepository = new UserInMemoryRepository();
 
-        $createdUser = $userRepository->createUser('Hase', $email, $role, '12345678910');
+        $createdUser = $userRepository->createUser('Hase', $email, $role, new ClearTextPassword('12345678910'));
 
         $foundUser = $userRepository->findUserById($createdUser->id());
 
@@ -83,7 +84,7 @@ class UserRepositoryTest extends TestCase
 
         $userRepository = new UserInMemoryRepository();
 
-        $createdUser = $userRepository->createUser('Hase', $email, $role, '12345678910');
+        $createdUser = $userRepository->createUser('Hase', $email, $role, new ClearTextPassword('12345678910'));
 
         $foundUser = $userRepository->findUserById($createdUser->id());
 
@@ -103,8 +104,8 @@ class UserRepositoryTest extends TestCase
         $foundUsers = $userRepository->findAllUsers();
         $this->assertCount(0, $foundUsers);
 
-        $user1 = $userRepository->createUser('Hase', 'max.mustermann@hotmail.de', $role, '12345678910');
-        $user2 = $userRepository->createUser('Igel', 'hauke.stange@live.de', $role, '12345678910');
+        $user1 = $userRepository->createUser('Hase', 'max.mustermann@hotmail.de', $role, new ClearTextPassword('12345678910'));
+        $user2 = $userRepository->createUser('Igel', 'hauke.stange@live.de', $role, new ClearTextPassword('12345678910'));
 
         $foundUsers = $userRepository->findAllUsers();
         $this->assertCount(2, $foundUsers);
@@ -122,22 +123,7 @@ class UserRepositoryTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
 
-        $jenny = $userRepository->createUser('Hase', 'max.mustermann@hotmail.de', $role, '12345678910');
-        $tom = $userRepository->createUser('Igel', 'max.mustermann@hotmail.de', $role, '12345678910');
-    }
-
-    /**
-     * @test
-     * @expectedException Jimdo\Reports\User\UserRepositoryException
-     */
-    public function itShouldThrowExceptionWhenPasswordIsShorterThatSevenChars()
-    {
-        $userRepository = new UserInMemoryRepository();
-
-        $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
-        $password = '123456';
-
-        $jenny = $userRepository->createUser('Hase', 'max.mustermann@hotmail.de', $role, $password);
+        $jenny = $userRepository->createUser('Hase', 'max.mustermann@hotmail.de', $role, new ClearTextPassword('12345678910'));
+        $tom = $userRepository->createUser('Igel', 'max.mustermann@hotmail.de', $role, new ClearTextPassword('12345678910'));
     }
 }

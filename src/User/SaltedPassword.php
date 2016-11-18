@@ -4,6 +4,22 @@ namespace Jimdo\Reports\User;
 
 class SaltedPassword implements Password
 {
+    /** @var string */
+    private $hash;
+
+    /**
+     * @param string $password
+     * @param string $hash
+     */
+    public function __construct(string $password, string $hash = null)
+    {
+        if ($hash === null) {
+            $this->hash = $this->encrypt($password);
+        } else {
+            $this->hash = $hash;
+        }
+    }
+
     /**
      * @param string $password
      * @return string
@@ -15,11 +31,18 @@ class SaltedPassword implements Password
 
     /**
      * @param string $password
-     * @param string $hash
      * @return bool
      */
-    public function verify(string $password, string $hash): bool
+    public function verify(string $password): bool
     {
-        return password_verify($password, $hash);
+        return password_verify($password, $this->hash);
+    }
+
+    /**
+     * @return string
+     */
+    public function password(): string
+    {
+        return $this->hash;
     }
 }

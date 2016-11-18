@@ -4,17 +4,6 @@ namespace Jimdo\Reports\User;
 
 class ClearTextPassword implements Password
 {
-    /** @var string */
-    private $password;
-
-    /**
-     * @param string $password
-     */
-    public function __construct(string $password)
-    {
-        $this->password = $user->password();
-    }
-
     /**
      * @param string $password
      * @return string
@@ -26,10 +15,11 @@ class ClearTextPassword implements Password
 
     /**
      * @param string $password
-     * @return string
+     * @param string $hash
+     * @return bool
      */
-    public function decrypt(string $password): string
+    public function verify(string $password, string $hash): bool
     {
-        return $this->password;
+
     }
 }

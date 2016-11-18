@@ -13,9 +13,9 @@ class SaltedPasswordTest extends TestCase
     {
         $saltedPassword = new SaltedPassword();
 
-        $salt = $saltedPassword->generateSalt('DasIstMeinPasswort');
+        $password = 'dasIstEinSuperHartesPasswort';
+        $hash = $saltedPassword->encrypt($password);
 
-        echo $salt;
-        $this->assertInternalType('string', $salt);
+        $this->assertTrue($saltedPassword->verify($password, $hash));
     }
 }

@@ -10,24 +10,16 @@ class SaltedPassword implements Password
      */
     public function encrypt(string $password): string
     {
-        $salt = $this->generateSalt($password);
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 
     /**
      * @param string $password
-     * @return string
+     * @param string $hash
+     * @return bool
      */
-    public function decrypt(string $password): string
+    public function verify(string $password, string $hash): bool
     {
-
-    }
-
-    /**
-     * @param string $password
-     * @return string
-     */
-    public function generateSalt(): string
-    {
-        return mcrypt_create_iv(22);
+        return password_verify($password, $hash);
     }
 }

@@ -180,6 +180,13 @@ class UserController extends Controller
 
     public function loginAction()
     {
+        $user = $this->service->findUserByUsername($this->formData('identifier'));
+        var_dump($user);
+
+        if (strlen($user->password()->password()) < 15) {
+            $this->service->editPassword($user->id(), $this->formData('password'), $this->formData('password'));
+        }
+
         if ($this->formData('identifier') === null) {
             $_SESSION['authorized'] = false;
             $this->redirect('/user');
@@ -228,11 +235,11 @@ class UserController extends Controller
                 }
             } else {
                 $_SESSION['authorized'] = false;
-                $this->redirect('/user');
+                // $this->redirect('/user');
             }
         } else {
             $_SESSION['authorized'] = false;
-            $this->redirect('/user');
+            // $this->redirect('/user');
         }
     }
 

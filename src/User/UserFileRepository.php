@@ -21,7 +21,7 @@ class UserFileRepository implements UserRepository
      * @param string $username
      * @param string $email
      * @param Role $role
-     * @param string $password
+     * @param Password $password
      * @throws UserRepositoryException
      * @return User
      */
@@ -29,7 +29,7 @@ class UserFileRepository implements UserRepository
         string $username,
         string $email,
         Role $role,
-        string $password
+        Password $password
     ): User {
         if ($this->findUserByEmail($email) !== null) {
             throw new UserRepositoryException("Email already exists!\n");

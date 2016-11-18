@@ -6,6 +6,7 @@ use Jimdo\Reports\User\User as User;
 use Jimdo\Reports\User\Role as Role;
 use Jimdo\Reports\Reportbook\Comment as Comment;
 use Jimdo\Reports\User\UserId as UserId;
+use Jimdo\Reports\User\SaltedPassword;
 use Jimdo\Reports\Profile\Profile as Profile;
 use Jimdo\Reports\Reportbook\Report as Report;
 use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
@@ -26,7 +27,7 @@ class Serializer
                 'roleName' => $user->roleName(),
                 'roleStatus' => $user->roleStatus()
             ],
-            'password' => $user->password()
+            'password' => $user->password()->password()
         ];
     }
 
@@ -50,7 +51,7 @@ class Serializer
             $serializedUser['username'],
             $serializedUser['email'],
             $role,
-            $serializedUser['password'],
+            new SaltedPassword('', $serializedUser['password']),
             new UserId($serializedUser['id'])
         );
     }

@@ -34,14 +34,14 @@ class UserService
      * @param string $username
      * @param string $email
      * @param Role $role
-     * @param string $password
+     * @param Password $password
      * @throws UserRepositoryException
      * @return ReadOnlyUser
      */
     public function registerTrainee(
         string $username,
         string $email,
-        string $password
+        Password $password
     ) {
         $user = $this->registerUser($username, $email, new Role(Role::TRAINEE), $password);
 
@@ -57,14 +57,14 @@ class UserService
      * @param string $username
      * @param string $email
      * @param Role $role
-     * @param string $password
+     * @param Password $password
      * @throws UserRepositoryException
      * @return ReadOnlyUser
      */
     public function registerTrainer(
         string $username,
         string $email,
-        string $password
+        Password $password
     ) {
         $user = $this->registerUser($username, $email, new Role(Role::TRAINER), $password);
 
@@ -259,7 +259,7 @@ class UserService
         $userByUsername = $this->userRepository->findUserByUsername($identifier);
 
         if ($userByMail !== null) {
-            if ($userByMail->password() === $password) {
+            if ($userByMail->password()->verify($password)) {
                 $event = new Events\UserAuthorized([
                     'userId' => $userByMail->id()
                 ]);
@@ -270,7 +270,7 @@ class UserService
         }
 
         if ($userByUsername !== null) {
-            if ($userByUsername->password() === $password) {
+            if ($userByUsername->password()->verify($password)) {
                 $event = new Events\UserAuthorized([
                     'userId' => $userByUsername->id()
                 ]);
@@ -375,7 +375,7 @@ class UserService
      * @param string $username
      * @param string $email
      * @param Role $role
-     * @param string $password
+     * @param Password $password
      * @throws UserRepositoryException
      * @return ReadOnlyUser
      */
@@ -383,7 +383,7 @@ class UserService
         string $username,
         string $email,
         Role $role,
-        string $password
+        Password $password
     ): ReadOnlyUser {
         $user = $this->userRepository->createUser($username, $email, $role, $password);
         return new ReadOnlyUser($user);

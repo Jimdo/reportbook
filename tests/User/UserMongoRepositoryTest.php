@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\User\Role as Role;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 use Jimdo\Reports\Serializer as Serializer;
+use Jimdo\Reports\User\ClearTextPassword;
 
 class UserMongoRepositoryTest extends TestCase
 {
@@ -51,7 +52,7 @@ class UserMongoRepositoryTest extends TestCase
         $role = new Role('trainee');
         $password = '1234567';
 
-        $user = $repository->createUser($username, $email, $role, $password);
+        $user = $repository->createUser($username, $email, $role, new ClearTextPassword($password));
 
         $serializedUser = $this->users->findOne(['username' => $username]);
         $unserializedUser = $repository->serializer->unserializeUser($serializedUser->getArrayCopy());
@@ -71,7 +72,7 @@ class UserMongoRepositoryTest extends TestCase
         $role = new Role('trainee');
         $password = '1234567';
 
-        $user = $repository->createUser($username, $email, $role, $password);
+        $user = $repository->createUser($username, $email, $role, new ClearTextPassword($password));
 
         $foundUser = $repository->findUserByEmail($email);
 
@@ -90,7 +91,7 @@ class UserMongoRepositoryTest extends TestCase
         $role = new Role('trainee');
         $password = '1234567';
 
-        $user = $repository->createUser($username, $email, $role, $password);
+        $user = $repository->createUser($username, $email, $role, new ClearTextPassword($password));
 
         $foundUser = $repository->findUserById($user->id());
 
@@ -109,7 +110,7 @@ class UserMongoRepositoryTest extends TestCase
         $role = new Role('trainee');
         $password = '1234567';
 
-        $user = $repository->createUser($username, $email, $role, $password);
+        $user = $repository->createUser($username, $email, $role, new ClearTextPassword($password));
 
         $foundUser = $repository->findUserByUsername($username);
 
@@ -126,9 +127,9 @@ class UserMongoRepositoryTest extends TestCase
         $role = new Role('trainee');
         $password = '1234567';
 
-        $user1 = $repository->createUser('max', 'max.mustermann@hotmail.de', $role, $password);
-        $user2 = $repository->createUser('maxi', 'maxi.mustermann@hotmail.de', $role, $password);
-        $user3 = $repository->createUser('maximan', 'maximan.mustermann@hotmail.de', $role, $password);
+        $user1 = $repository->createUser('max', 'max.mustermann@hotmail.de', $role, new ClearTextPassword($password));
+        $user2 = $repository->createUser('maxi', 'maxi.mustermann@hotmail.de', $role, new ClearTextPassword($password));
+        $user3 = $repository->createUser('maximan', 'maximan.mustermann@hotmail.de', $role, new ClearTextPassword($password));
 
         $foundUsers = $repository->findUsersByStatus(Role::STATUS_NOT_APPROVED);
 
@@ -149,8 +150,8 @@ class UserMongoRepositoryTest extends TestCase
         $role = new Role('trainee');
         $password = '1234567';
 
-        $user1 = $repository->createUser($username1, $email1, $role, $password);
-        $user2 = $repository->createUser($username2, $email2, $role, $password);
+        $user1 = $repository->createUser($username1, $email1, $role, new ClearTextPassword($password));
+        $user2 = $repository->createUser($username2, $email2, $role, new ClearTextPassword($password));
 
         $foundUsers = $repository->findAllUsers();
 
@@ -169,7 +170,7 @@ class UserMongoRepositoryTest extends TestCase
         $role = new Role('trainee');
         $password = '1234567';
 
-        $user = $repository->createUser($username, $email, $role, $password);
+        $user = $repository->createUser($username, $email, $role, new ClearTextPassword($password));
 
         $foundUser = $repository->findUserByEmail($email);
         $this->assertEquals($user->email(), $foundUser->email());
@@ -195,7 +196,7 @@ class UserMongoRepositoryTest extends TestCase
         $this->assertFalse($repository->exists($username));
         $this->assertFalse($repository->exists($email));
 
-        $user = $repository->createUser($username, $email, $role, $password);
+        $user = $repository->createUser($username, $email, $role, new ClearTextPassword($password));
 
         $this->assertTrue($repository->exists($username));
         $this->assertTrue($repository->exists($email));

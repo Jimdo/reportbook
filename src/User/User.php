@@ -29,22 +29,22 @@ class User
      * @param string $username
      * @param string $email
      * @param Role $role
-     * @param string $password
+     * @param Password $password
      * @param UserId $userId
      */
     public function __construct(
         string $username,
         string $email,
         Role $role,
-        string $password,
+        Password $password,
         UserId $userId
     ) {
-        if (strlen($password) < self::PASSWORD_LENGTH) {
-            throw new PasswordException(
-                'Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n",
-                self::ERR_PASSWORD_LENGTH
-            );
-        }
+        // if (strlen($password) < self::PASSWORD_LENGTH) {
+        //     throw new PasswordException(
+        //         'Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n",
+        //         self::ERR_PASSWORD_LENGTH
+        //     );
+        // }
         $this->username = $username;
         $this->email = $email;
         $this->role = $role;
@@ -157,9 +157,9 @@ class User
     }
 
     /**
-     * @return string
+     * @return Password
      */
-    public function password(): string
+    public function password()
     {
         return $this->password;
     }
@@ -193,7 +193,7 @@ class User
      */
     public function editPassword(string $oldPassword, string $newPassword)
     {
-        if ($this->password() === $oldPassword) {
+        if ($this->password->verify($oldPassword, $this->password->password())) {
             if ($this->password() !== $newPassword) {
                 if (strlen($newPassword) >= self::PASSWORD_LENGTH) {
                     $this->password = $newPassword;

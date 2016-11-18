@@ -5,6 +5,7 @@ namespace Jimdo\Reports;
 use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\User\User as User;
 use Jimdo\Reports\User\Role as Role;
+use Jimdo\Reports\User\ClearTextPassword;
 use Jimdo\Reports\Reportbook\Comment as Comment;
 use Jimdo\Reports\User\UserId as UserId;
 use Jimdo\Reports\Profile\Profile as Profile;
@@ -26,7 +27,7 @@ class SerializerTest extends TestCase
         $password = '1234567';
         $id = new UserId();
 
-        $user = new User($username, $email, $role, $password, $id);
+        $user = new User($username, $email, $role, new ClearTextPassword($password), $id);
 
         $serialezedUser = $serializer->serializeUser($user);
 
@@ -34,7 +35,7 @@ class SerializerTest extends TestCase
         $this->assertEquals($user->email(), $serialezedUser['email']);
         $this->assertEquals($user->roleName(), $serialezedUser['role']['roleName']);
         $this->assertEquals($user->roleStatus(), $serialezedUser['role']['roleStatus']);
-        $this->assertEquals($user->password(), $serialezedUser['password']);
+        $this->assertEquals($user->password()->password(), $serialezedUser['password']);
         $this->assertEquals($user->id(), $serialezedUser['id']);
     }
 
@@ -51,7 +52,7 @@ class SerializerTest extends TestCase
         $password = '1234567';
         $id = new UserId();
 
-        $user = new User($username, $email, $role, $password, $id);
+        $user = new User($username, $email, $role, new ClearTextPassword($password), $id);
 
         $serializedUser = $serializer->serializeUser($user);
 
@@ -61,7 +62,7 @@ class SerializerTest extends TestCase
         $this->assertEquals($user->email(), $unserializedUser->email());
         $this->assertEquals($user->roleName(), $unserializedUser->roleName());
         $this->assertEquals($user->roleStatus(), $unserializedUser->roleStatus());
-        $this->assertEquals($user->password(), $unserializedUser->password());
+        $this->assertEquals($user->password()->password(), $unserializedUser->password()->password());
         $this->assertEquals($user->id(), $unserializedUser->id());
     }
 

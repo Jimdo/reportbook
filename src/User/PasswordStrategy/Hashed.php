@@ -2,7 +2,7 @@
 
 namespace Jimdo\Reports\User\PasswordStrategy;
 
-class Hashed implements PasswordStrategy
+class Hashed extends PasswordStrategy
 {
     /**
      * @param string $password

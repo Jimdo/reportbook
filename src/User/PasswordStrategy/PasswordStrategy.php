@@ -2,18 +2,18 @@
 
 namespace Jimdo\Reports\User\PasswordStrategy;
 
-interface PasswordStrategy
+abstract class PasswordStrategy
 {
     /**
      * @param string $password
      * @return string
      */
-    public function encrypt(string $password): string;
+    public abstract function encrypt(string $password): string;
 
     /**
     * @param string $password1
     * @param string $hash
     * @return bool
     */
-    public function verify(string $password1, string $hash): bool;
+    public abstract function verify(string $password1, string $hash): bool;
 }

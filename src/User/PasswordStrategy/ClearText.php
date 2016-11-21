@@ -2,7 +2,7 @@
 
 namespace Jimdo\Reports\User\PasswordStrategy;
 
-class ClearText implements PasswordStrategy
+class ClearText extends PasswordStrategy
 {
     /**
      * @param string $password

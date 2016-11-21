@@ -24,24 +24,6 @@ class UserTest extends TestCase
     /**
     * @test
     */
-    public function itShouldEditUser()
-    {
-        $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
-        $user = new User('Hase', $email, $role, '12345678910', new UserId());
-
-        $this->assertEquals($email, $user->email());
-
-        $forename = 'Peter';
-
-        $user->edit('Hase', $email, '12345678910');
-
-        $this->assertEquals($email, $user->email());
-    }
-
-    /**
-    * @test
-    */
     public function itShouldEditPassword()
     {
         $email = 'max.mustermann@hotmail.de';

@@ -12,8 +12,8 @@ interface PasswordStrategy
 
     /**
     * @param string $password1
-    * @param string $password2
+    * @param string $hash
     * @return bool
     */
-    public function verify(string $password1, string $password2): bool;
+    public function verify(string $password1, string $hash): bool;
 }

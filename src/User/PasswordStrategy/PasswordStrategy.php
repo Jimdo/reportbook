@@ -11,8 +11,9 @@ interface PasswordStrategy
     public function encrypt(string $password): string;
 
     /**
-    * @param string $password
+    * @param string $password1
+    * @param string $password2
     * @return bool
     */
-    public function verify(string $password): bool;
+    public function verify(string $password1, string $password2): bool;
 }

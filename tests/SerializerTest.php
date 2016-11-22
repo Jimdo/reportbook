@@ -26,7 +26,7 @@ class SerializerTest extends TestCase
         $password = '1234567';
         $id = new UserId();
 
-        $user = new User($username, $email, $role, $password, $id);
+        $user = new User($username, $email, $role, $password, $id, false);
 
         $serialezedUser = $serializer->serializeUser($user);
 
@@ -51,7 +51,7 @@ class SerializerTest extends TestCase
         $password = '1234567';
         $id = new UserId();
 
-        $user = new User($username, $email, $role, $password, $id);
+        $user = new User($username, $email, $role, $password, $id, false);
 
         $serializedUser = $serializer->serializeUser($user);
 

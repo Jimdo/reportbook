@@ -175,19 +175,6 @@ class User
     }
 
     /**
-     * @param string $username
-     * @param string $email
-     * @param Role $role
-     * @param string $password
-     */
-    public function edit(string $username, string $email, string $password)
-    {
-        $this->username = $username;
-        $this->email = $email;
-        $this->password = $password;
-    }
-
-    /**
      * @param string $oldPassword
      * @param string $newPassword
      */

@@ -26,7 +26,8 @@ class Serializer
                 'roleName' => $user->roleName(),
                 'roleStatus' => $user->roleStatus()
             ],
-            'password' => $user->password()
+            'password' => $user->password(),
+            'isHashedPassword' => $user->isHashedPassword()
         ];
     }
 

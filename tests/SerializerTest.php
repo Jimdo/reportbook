@@ -36,6 +36,7 @@ class SerializerTest extends TestCase
         $this->assertEquals($user->roleStatus(), $serialezedUser['role']['roleStatus']);
         $this->assertEquals($user->password(), $serialezedUser['password']);
         $this->assertEquals($user->id(), $serialezedUser['id']);
+        $this->assertEquals($user->isHashedPassword(), $serialezedUser['isHashedPassword']);
     }
 
     /**

@@ -14,11 +14,15 @@ class UserTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
         $password = 'strongpassword';
-        $user = new User('Hase', $email, $role, $password, new UserId());
+        $isHashedPassword = false;
+        $user = new User('Hase', $email, $role, $password, new UserId(), $isHashedPassword);
 
         $this->assertEquals($email, $user->email());
         $this->assertEquals($password, $user->password());
         $this->assertInternalType('string', $user->id());
+        $this->assertEquals($role->name(), $user->roleName());
+        $this->assertEquals($isHashedPassword, $user->isHashedPassword());
+        $this->assertEquals('Hase', $user->username());
     }
 
     /**
@@ -29,7 +33,8 @@ class UserTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
         $oldPassword = '1111111';
-        $user = new User('Hase', $email, $role, $oldPassword, new UserId());
+        $isHashedPassword = false;
+        $user = new User('Hase', $email, $role, $oldPassword, new UserId(), $isHashedPassword);
 
         $newPassword = 'peterlustig';
 
@@ -47,7 +52,8 @@ class UserTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($username, $email, $role, $password, new UserId());
+        $isHashedPassword = false;
+        $user = new User('Hase', $email, $role, $password, new UserId(), $isHashedPassword);
 
         $newUsername = 'jennypenny';
 
@@ -65,7 +71,8 @@ class UserTest extends TestCase
         $role = new Role('trainee');
         $password = '1111111';
         $username = 'jenny';
-        $user = new User($username, $email, $role, $password, new UserId());
+        $isHashedPassword = false;
+        $user = new User('Hase', $email, $role, $password, new UserId(), $isHashedPassword);
 
         $newEmail = 'jenny@hotmail.de';
 
@@ -80,10 +87,12 @@ class UserTest extends TestCase
     public function itShouldHaveRoleConstruct()
     {
         $email = 'max.mustermann@hotmail.de';
-        $roleName = 'trainee';
-        $user = new User('Hase', $email, new Role($roleName), '12345678910', new UserId());
+        $role = new Role('trainee');
+        $password = '12345678910';
+        $isHashedPassword = false;
+        $user = new User('Hase', $email, $role, $password, new UserId(), $isHashedPassword);
 
-        $this->assertEquals($roleName, $user->roleName());
+        $this->assertEquals('trainee', $user->roleName());
 
         $this->assertEquals(Role::STATUS_NOT_APPROVED, $user->roleStatus());
     }
@@ -95,7 +104,9 @@ class UserTest extends TestCase
     {
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $user = new User('Hase', $email, $role, '12345678910', new UserId());
+        $password = '12345678910';
+        $isHashedPassword = false;
+        $user = new User('Hase', $email, $role, $password, new UserId(), $isHashedPassword);
 
         $user->approve();
         $this->assertEquals(Role::STATUS_APPROVED, $user->roleStatus());

@@ -14,12 +14,12 @@ class Hashed extends PasswordStrategy
     }
 
     /**
-    * @param string $password1
+    * @param string $password
     * @param string $hash
     * @return bool
     */
-    public function verify(string $password1, string $hash): bool
+    public function verify(string $password, string $hash): bool
     {
-        return password_verify($password1, $hash);
+        return password_verify($password, $hash);
     }
 }

@@ -11,6 +11,7 @@ interface UserRepository
      * @param string $email
      * @param Role $role
      * @param string $password
+     * @param bool $isHashedPassword
      * @throws UserRepositoryException
      * @return User
      */
@@ -18,7 +19,8 @@ interface UserRepository
         string $username,
         string $email,
         Role $role,
-        string $password
+        string $password,
+        bool $isHashedPassword
     ): User;
 
     /**

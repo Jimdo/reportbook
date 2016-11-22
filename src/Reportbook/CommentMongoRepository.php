@@ -25,6 +25,7 @@ class CommentMongoRepository implements CommentRepository
     /**
      * @param Serializer $serializer
      * @param Client $client
+     * @param ApplicationConfig $applicationConfig
      */
     public function __construct(\MongoDB\Client $client, Serializer $serializer, ApplicationConfig $applicationConfig)
     {

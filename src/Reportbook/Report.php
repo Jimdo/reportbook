@@ -35,6 +35,7 @@ class Report
      * @param string $date
      * @param string $calendarWeek
      * @param string $id
+     * @param string $status
      */
     public function __construct(
         TraineeId $traineeId,

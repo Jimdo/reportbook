@@ -24,6 +24,7 @@ class UserMongoRepository implements UserRepository
 
     /**
      * @param Serializer $serializer
+     * @param ApplicationConfig $applicationConfig
      * @param Client $client
      */
     public function __construct(\MongoDB\Client $client, Serializer $serializer, ApplicationConfig $applicationConfig)
@@ -40,6 +41,7 @@ class UserMongoRepository implements UserRepository
      * @param string $email
      * @param Role $role
      * @param string $password
+     * @param bool $isHashedPassword
      * @throws UserRepositoryException
      * @return User
      */
@@ -47,13 +49,14 @@ class UserMongoRepository implements UserRepository
         string $username,
         string $email,
         Role $role,
-        string $password
+        string $password,
+        bool $isHashedPassword
     ): User {
         if ($this->findUserByEmail($email) !== null) {
             throw new UserRepositoryException("Email already exists!\n");
         }
 
-        $user = new User($username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, $password, new UserId(), $isHashedPassword);
 
         $this->save($user);
 

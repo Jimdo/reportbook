@@ -239,4 +239,27 @@ class SerializerTest extends TestCase
         $this->assertEquals($content, $unserializedComment->content());
         $this->assertEquals($comment->status(), $unserializedComment->status());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldUnserializeUserFromArrayWithoutIsPasswordHashedField()
+    {
+        $serializedUser = [
+            'username' => 'hase',
+            'email' => 'hans@email.com',
+            'role' => [
+                'roleStatus' => 'STATUS_APPROVED',
+                'roleName' => 'TRAINER'
+            ],
+            'password' => '12345678910',
+            'id' => '46494319689410'
+        ];
+
+        $serializer = new Serializer();
+
+        $unserializedUser = $serializer->unserializeUser($serializedUser);
+
+        $this->assertFalse($unserializedUser->isHashedPassword());
+    }
 }

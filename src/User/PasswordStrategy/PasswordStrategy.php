@@ -11,9 +11,9 @@ abstract class PasswordStrategy
     public abstract function encrypt(string $password): string;
 
     /**
-    * @param string $password1
+    * @param string $password
     * @param string $hash
     * @return bool
     */
-    public abstract function verify(string $password1, string $hash): bool;
+    public abstract function verify(string $password, string $hash): bool;
 }

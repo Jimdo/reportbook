@@ -26,10 +26,12 @@ class Comment
     private $status;
 
     /**
+     * @param string $id
      * @param string $reportId
      * @param string $userId
      * @param string $date
      * @param string $content
+     * @param string $status
      */
     public function __construct(string $id, string $reportId, string $userId, string $date, string $content, string $status = self::STATUS_NEW)
     {

@@ -2,6 +2,8 @@
 
 namespace Jimdo\Reports\User\PasswordStrategy;
 
+use Jimdo\Reports\User\User;
+
 abstract class PasswordStrategy
 {
     /**
@@ -16,4 +18,17 @@ abstract class PasswordStrategy
     * @return bool
     */
     public abstract function verify(string $password, string $hash): bool;
+
+    /**
+    * @param User $user
+    * @return PasswordStrategy
+    */
+    public static function for(User $user): PasswordStrategy
+    {
+        if ($user->isHashedPassword()) {
+            return new Hashed();
+        } else {
+            return new ClearText();
+        }
+    }
 }

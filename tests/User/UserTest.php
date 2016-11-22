@@ -2,6 +2,8 @@
 
 namespace Jimdo\Reports\User;
 
+use Jimdo\Repors\User\PasswordStrategy\Hashed;
+
 use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
@@ -113,5 +115,30 @@ class UserTest extends TestCase
 
         $user->disapprove();
         $this->assertEquals(Role::STATUS_DISAPPROVED, $user->roleStatus());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldVerifyPasswordWithCorrectStrategy()
+    {
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = '12345678910';
+        $isHashedPassword = false;
+        $user = new User('Hase', $email, $role, $password, new UserId(), $isHashedPassword);
+
+        $correctPassword = '12345678910';
+        $this->assertTrue($user->verify($correctPassword));
+
+        $hashed = new PasswordStrategy\Hashed();
+
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        $password = $hashed->encrypt('12345678910');
+        $isHashedPassword = true;
+        $user = new User('Hase', $email, $role, $password, new UserId(), $isHashedPassword);
+
+        $this->assertTrue($user->verify($correctPassword));
     }
 }

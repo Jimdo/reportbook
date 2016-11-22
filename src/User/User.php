@@ -233,4 +233,16 @@ class User
     {
         $this->email = $newEmail;
     }
+
+    /**
+     * @param string $password
+     * @return bool
+     */
+    public function verify(string $password): bool
+    {
+        return PasswordStrategy\PasswordStrategy::for($this)->verify(
+            $password,
+            $this->password()
+        );
+    }
 }

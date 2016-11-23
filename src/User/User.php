@@ -191,31 +191,25 @@ class User
     /**
      * @param string $oldPassword
      * @param string $newPassword
+     * @throws Jimdo\Reports\User\PasswordException
      */
     public function editPassword(string $oldPassword, string $newPassword)
     {
-        if ($this->password() === $oldPassword) {
-            if ($this->password() !== $newPassword) {
-                if (strlen($newPassword) >= self::PASSWORD_LENGTH) {
-                    $this->password = $newPassword;
-                } else {
-                    throw new PasswordException(
-                        'Password should have at least ' . self::PASSWORD_LENGTH . ' characters!',
-                        self::ERR_PASSWORD_LENGTH
-                    );
-                }
-            } else {
-                throw new PasswordException(
-                    "The new password must be different as the old one!",
-                    self::ERR_PASSWORD_NOT_NEW
-                );
-            }
-        } else {
+        if (!$this->verify($oldPassword)) {
             throw new PasswordException(
                 "The current password is wrong!",
                 self::ERR_PASSWORD_WRONG
             );
         }
+
+        if (strlen($newPassword) < self::PASSWORD_LENGTH) {
+            throw new PasswordException(
+                'Password should have at least ' . self::PASSWORD_LENGTH . ' characters!',
+                self::ERR_PASSWORD_LENGTH
+            );
+        }
+
+        $this->password = $newPassword;
     }
 
     /**

@@ -46,6 +46,38 @@ class UserTest extends TestCase
     }
 
     /**
+     * @test
+     * @expectedException Jimdo\Reports\User\PasswordException
+     */
+    public function itShouldThrowExceptionForViolationOfConstraints()
+    {
+        $password = '1234567';
+        $isHashedPassword = false;
+
+        $user = $this->user($password, $isHashedPassword);
+
+        $invalidPassword = 'abc';
+        $user->editPassword($password, $invalidPassword);
+    }
+
+    /**
+     * @test
+     * @expectedException Jimdo\Reports\User\PasswordException
+     */
+    public function itShouldThrowExceptionOnUnverifiedOldPassword()
+    {
+        $password = 'AAFFEE1234';
+        $isHashedPassword = false; // irrelevant for this test
+
+        $user = $this->user($password, $isHashedPassword);
+
+        $oldPassword = 'some wrong old password';
+        $newPassword = 'password to be set';
+
+        $user->editPassword($oldPassword, $newPassword);
+    }
+
+    /**
     * @test
     */
     public function itShouldEditUsername()
@@ -140,5 +172,17 @@ class UserTest extends TestCase
         $user = new User('Hase', $email, $role, $password, new UserId(), $isHashedPassword);
 
         $this->assertTrue($user->verify($correctPassword));
+    }
+
+    /**
+     * @param string $password
+     * @param bool $isHashedPassword
+     * @return User
+     */
+    private function user(string $password, bool $isHashedPassword): User
+    {
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role('trainee');
+        return $user = new User('Hase', $email, $role, $password, new UserId(), $isHashedPassword);
     }
 }

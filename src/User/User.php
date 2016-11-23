@@ -235,8 +235,8 @@ class User
     public function verify(string $password): bool
     {
         return PasswordStrategy\PasswordStrategy::for($this)->verify(
-            $password,
-            $this->password()
+            $password,        // clear text password
+            $this->password() // hash
         );
     }
 }

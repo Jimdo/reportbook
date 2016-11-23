@@ -12,7 +12,9 @@ class UserService
 {
     const ERR_USERNAME_EXISTS = 6;
     const ERR_EMAIL_EXISTS = 7;
+
     const ERR_USERNAME_EMPTY = 13;
+    const ERR_EMAIL_EMPTY = 14;
 
     /** @var UserRepository */
     private $userRepository;
@@ -137,6 +139,14 @@ class UserService
                 self::ERR_EMAIL_EXISTS
             );
         }
+
+        if (empty($email)) {
+            throw new ProfileException(
+                'It is not allowed to have an empty email!',
+                self::ERR_EMAIL_EMPTY
+            );
+        }
+
         $user = $this->userRepository->findUserById($userId);
         $user->editEmail($email);
         $this->userRepository->save($user, $user->username());

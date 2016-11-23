@@ -840,6 +840,9 @@ class UserController extends Controller
             case UserService::ERR_EMAIL_EXISTS:
                 return 'Die E-Mail existiert bereits!' . "\n";
 
+            case UserService::ERR_EMAIL_EMPTY:
+                return 'Die E-Mail Adresse darf nicht leer sein!' . "\n";
+
             case Validator::ERR_VALIDATOR_DATE:
                 return 'Der eingegebene Wert ist kein Datum!' . "\n";
 

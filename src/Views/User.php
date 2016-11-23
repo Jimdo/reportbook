@@ -80,4 +80,14 @@ class User
     {
         return $this->user->editUsername($userId, $newPassword);
     }
+
+    /**
+     * @param string $userId
+     * @param string $newEmail
+     * @return string
+     */
+    public function editEmail(string $userId, string $newEmail): string
+    {
+        return $this->user->editEmail($userId, $newEmail);
+    }
 }

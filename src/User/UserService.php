@@ -278,29 +278,22 @@ class UserService
      */
     public function authUser(string $identifier, string $password): bool
     {
-        $userByMail = $this->userRepository->findUserbyEmail($identifier);
-        $userByUsername = $this->userRepository->findUserByUsername($identifier);
+        if ($this->userRepository->findUserbyEmail($identifier) !== null) {
+            $user = $this->userRepository->findUserbyEmail($identifier);
 
-        if ($userByMail !== null) {
-            if ($userByMail->password() === $password) {
-                $event = new Events\UserAuthorized([
-                    'userId' => $userByMail->id()
-                ]);
-                $this->notificationService->notify($event);
-
-                return true;
-            }
+        } elseif ($this->userRepository->findUserByUsername($identifier) !== null) {
+            $user = $this->userRepository->findUserbyUsername($identifier);
         }
 
-        if ($userByUsername !== null) {
-            if ($userByUsername->password() === $password) {
-                $event = new Events\UserAuthorized([
-                    'userId' => $userByUsername->id()
-                ]);
-                $this->notificationService->notify($event);
+        $strategy = PasswordStrategy\PasswordStrategy::for($user);
 
-                return true;
-            }
+        if ($strategy->verify($password, $user->password())) {
+            $event = new Events\UserAuthorized([
+                'userId' => $user->id()
+            ]);
+            $this->notificationService->notify($event);
+
+            return true;
         }
 
         return false;

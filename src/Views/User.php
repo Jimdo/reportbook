@@ -66,8 +66,28 @@ class User
     /**
      * @return string
      */
-    public function id()
+    public function id(): string
     {
         return $this->user->id();
+    }
+
+    /**
+     * @param string $userId
+     * @param string $newPassword
+     * @return string
+     */
+    public function editUsername(string $userId, string $newPassword): string
+    {
+        return $this->user->editUsername($userId, $newPassword);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $newEmail
+     * @return string
+     */
+    public function editEmail(string $userId, string $newEmail): string
+    {
+        return $this->user->editEmail($userId, $newEmail);
     }
 }

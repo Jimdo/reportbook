@@ -278,11 +278,14 @@ class UserService
      */
     public function authUser(string $identifier, string $password): bool
     {
-        if ($this->userRepository->findUserbyEmail($identifier) !== null) {
-            $user = $this->userRepository->findUserbyEmail($identifier);
+        $user = $this->userRepository->findUserbyEmail($identifier);
 
-        } elseif ($this->userRepository->findUserByUsername($identifier) !== null) {
+        if ($user === null) {
             $user = $this->userRepository->findUserbyUsername($identifier);
+        }
+
+        if ($user === null) {
+            return false;
         }
 
         $strategy = PasswordStrategy\PasswordStrategy::for($user);

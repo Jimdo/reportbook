@@ -42,6 +42,14 @@ class User
     /**
      * @return string
      */
+    public function username(): string
+    {
+        return $this->user->username();
+    }
+
+    /**
+     * @return string
+     */
     public function roleName(): string
     {
         return $this->user->roleName();

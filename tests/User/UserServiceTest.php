@@ -261,8 +261,9 @@ class UserServiceTest extends TestCase
         $username = 'max_mustermann';
         $email = 'max.mustermann@hotmail.de';
         $password = 'defaultPassword';
+        $isHashedPassword = false;
 
-        $user = $this->userService->registerTrainee($username, $email, $password);
+        $user = $this->userService->registerTrainee($username, $email, $password, $isHashedPassword);
 
         $invalidUsername = '';
         $this->userService->editUsername($user->id(), $invalidUsername);
@@ -277,8 +278,9 @@ class UserServiceTest extends TestCase
         $username = 'max_mustermann';
         $email = 'max.mustermann@hotmail.de';
         $password = 'defaultPassword';
+        $isHashedPassword = false;
 
-        $user = $this->userService->registerTrainee($username, $email, $password);
+        $user = $this->userService->registerTrainee($username, $email, $password, $isHashedPassword);
 
         $invalidEmail = '';
         $this->userService->editEmail($user->id(), $invalidEmail);

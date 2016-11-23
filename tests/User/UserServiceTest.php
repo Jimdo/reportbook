@@ -254,6 +254,49 @@ class UserServiceTest extends TestCase
 
     /**
      * @test
+     */
+    public function itShouldAuthUserByVerifyingWithCurrentClearTextPassword()
+    {
+        $username = 'max_mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = 'defaultPassword';
+        $isHashedPassword = false;
+
+        $user = $this->userService->registerTrainee($username, $email, $password, $isHashedPassword);
+
+        $correctClearTextPassword = 'defaultPassword';
+        $this->assertTrue($this->userService->authUser($user->email(), $correctClearTextPassword));
+        $this->assertTrue($this->userService->authUser($user->username(), $correctClearTextPassword));
+
+        $wrongClearTextPassword = 'some wrong password';
+        $this->assertFalse($this->userService->authUser($user->username(), $wrongClearTextPassword));
+        $this->assertFalse($this->userService->authUser($user->email(), $wrongClearTextPassword));
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldAuthUserByVerifyingWithCurrentHashedPassword()
+    {
+        $hashed = new PasswordStrategy\Hashed();
+        $username = 'max_mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $hashedPassword = $hashed->encrypt('defaultPassword');
+        $isHashedPassword = true;
+
+        $user = $this->userService->registerTrainee($username, $email, $hashedPassword, $isHashedPassword);
+
+        $correctHashedPassword = 'defaultPassword';
+        $this->assertTrue($this->userService->authUser($user->email(), $correctHashedPassword));
+        $this->assertTrue($this->userService->authUser($user->username(), $correctHashedPassword));
+
+        $wrongHashedPassword = 'some wrong password';
+        $this->assertFalse($this->userService->authUser($user->username(), $wrongHashedPassword));
+        $this->assertFalse($this->userService->authUser($user->email(), $wrongHashedPassword));
+    }
+
+    /**
+     * @test
      * @expectedException Jimdo\Reports\User\ProfileException
      */
     public function itShouldThrowExceptionIfUsernameStringIsEmpty()

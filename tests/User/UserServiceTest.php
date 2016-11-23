@@ -230,4 +230,20 @@ class UserServiceTest extends TestCase
         $this->assertTrue($this->userService->exists($username));
         $this->assertTrue($this->userService->exists($mail));
     }
+
+    /**
+     * @test
+     * @expectedException Jimdo\Reports\User\ProfileException
+     */
+    public function itShouldThrowExceptionIfUsernameStringIsEmpty()
+    {
+        $username = 'max_mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = 'defaultPassword';
+
+        $user = $this->userService->registerTrainee($username, $email, $password);
+
+        $invalidUsername = '';
+        $this->userService->editUsername($user->id(), $invalidUsername);
+    }
 }

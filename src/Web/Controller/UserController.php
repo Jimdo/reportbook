@@ -834,6 +834,9 @@ class UserController extends Controller
             case UserService::ERR_USERNAME_EXISTS:
                 return 'Der Benutzername existiert bereits!' . "\n";
 
+            case UserService::ERR_USERNAME_EMPTY:
+                return 'Der Benutzername darf nicht leer sein!' . "\n";
+
             case UserService::ERR_EMAIL_EXISTS:
                 return 'Die E-Mail existiert bereits!' . "\n";
 

@@ -12,6 +12,7 @@ class UserService
 {
     const ERR_USERNAME_EXISTS = 6;
     const ERR_EMAIL_EXISTS = 7;
+    const ERR_USERNAME_EMPTY = 13;
 
     /** @var UserRepository */
     private $userRepository;
@@ -106,6 +107,14 @@ class UserService
                 self::ERR_USERNAME_EXISTS
             );
         }
+
+        if (empty($username)) {
+            throw new ProfileException(
+                'It is not allowed to have an empty username!',
+                self::ERR_USERNAME_EMPTY
+            );
+        }
+
         $user = $this->userRepository->findUserById($userId);
         $user->editUsername($username);
         $this->userRepository->save($user, $user->email());

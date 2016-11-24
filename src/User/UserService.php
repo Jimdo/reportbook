@@ -288,9 +288,7 @@ class UserService
             return false;
         }
 
-        $strategy = PasswordStrategy\PasswordStrategy::for($user);
-
-        if ($strategy->verify($password, $user->password())) {
+        if ($user->verify($password)) {
             $event = new Events\UserAuthorized([
                 'userId' => $user->id()
             ]);

@@ -40,6 +40,7 @@ class UserServiceTest extends TestCase
         $user = $this->userService->registerTrainee($username, $email, $password);
 
         $this->assertEquals($email, $user->email());
+        $this->assertTrue($user->isHashedPassword());
     }
 
     /**
@@ -54,6 +55,7 @@ class UserServiceTest extends TestCase
         $user = $this->userService->registerTrainee($username, $email, $password);
 
         $this->assertEquals($email, $user->email());
+        $this->assertTrue($user->isHashedPassword());
     }
 
     /**

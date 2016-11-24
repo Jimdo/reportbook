@@ -80,6 +80,14 @@ class User
     }
 
     /**
+     * @return bool
+     */
+    public function isHashedPassword(): bool
+    {
+        return $this->user->isHashedPassword();
+    }
+
+    /**
      * @param string $userId
      * @param string $newPassword
      * @return string

@@ -209,9 +209,9 @@ class User
             );
         }
 
-        $hashedStrategy = new PasswordStrategy\Hashed();
+        $strategy = PasswordStrategy\PasswordStrategy::for($this);
 
-        $this->password = $hashedStrategy->encrypt($newPassword);
+        $this->password = $strategy->encrypt($newPassword);
     }
 
     /**

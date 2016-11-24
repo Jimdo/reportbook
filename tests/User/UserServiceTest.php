@@ -36,9 +36,8 @@ class UserServiceTest extends TestCase
         $username = 'Hase';
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
-        $isHashedPassword = false;
 
-        $user = $this->userService->registerTrainee($username, $email, $password, $isHashedPassword);
+        $user = $this->userService->registerTrainee($username, $email, $password);
 
         $this->assertEquals($email, $user->email());
     }
@@ -51,9 +50,8 @@ class UserServiceTest extends TestCase
         $username = 'Hase';
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
-        $isHashedPassword = false;
 
-        $user = $this->userService->registerTrainee($username, $email, $password, $isHashedPassword);
+        $user = $this->userService->registerTrainee($username, $email, $password);
 
         $this->assertEquals($email, $user->email());
     }
@@ -67,17 +65,16 @@ class UserServiceTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $oldPassword = '123456789';
         $newPassword = '1111111111';
-        $isHashedPassword = false;
 
-        $user = $this->userService->registerTrainer($username, $email, $oldPassword, $isHashedPassword);
+        $user = $this->userService->registerTrainer($username, $email, $oldPassword);
 
         $this->userService->editPassword($user->id(), $oldPassword, $newPassword);
 
         $user = $this->userService->findUserById($user->id());
 
-        $hashed = new PasswordStrategy\Hashed();
+        $strategy = PasswordStrategy\PasswordStrategy::for($user);
 
-        $this->assertTrue($hashed->verify($newPassword, $user->password()));
+        $this->assertTrue($strategy->verify($newPassword, $user->password()));
     }
 
     /**
@@ -89,9 +86,8 @@ class UserServiceTest extends TestCase
         $password = '123456789';
         $username = 'jenny';
         $newUsername = 'jennyPenny';
-        $isHashedPassword = false;
 
-        $user = $this->userService->registerTrainer($username, $email, $password, $isHashedPassword);
+        $user = $this->userService->registerTrainer($username, $email, $password);
 
         $this->userService->editUsername($user->id(), $newUsername);
 
@@ -109,9 +105,8 @@ class UserServiceTest extends TestCase
         $newEmail = 'jennyPenny@hotmail.de';
         $password = '123456789';
         $username = 'jenny';
-        $isHashedPassword = false;
 
-        $user = $this->userService->registerTrainer($username, $email, $password, $isHashedPassword);
+        $user = $this->userService->registerTrainer($username, $email, $password);
 
         $this->userService->editEmail($user->id(), $newEmail);
 
@@ -128,9 +123,8 @@ class UserServiceTest extends TestCase
         $username = 'Hase';
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
-        $isHashedPassword = false;
 
-        $user = $this->userService->registerTrainee($username, $email, $password, $isHashedPassword);
+        $user = $this->userService->registerTrainee($username, $email, $password);
 
         $authStatus = $this->userService->authUser($email, $password);
         $this->assertTrue($authStatus);
@@ -147,9 +141,8 @@ class UserServiceTest extends TestCase
         $username = 'Hase';
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
-        $isHashedPassword = false;
 
-        $user = $this->userService->registerTrainee($username, $email, $password, $isHashedPassword);
+        $user = $this->userService->registerTrainee($username, $email, $password);
 
         $this->assertEquals(Role::TRAINEE, $user->roleName());
     }
@@ -162,9 +155,8 @@ class UserServiceTest extends TestCase
         $username = 'Hase';
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
-        $isHashedPassword = false;
 
-        $user = $this->userService->registerTrainee($username, $email, $password, $isHashedPassword);
+        $user = $this->userService->registerTrainee($username, $email, $password);
 
         $this->userService->approveRole($user->email());
 
@@ -179,9 +171,8 @@ class UserServiceTest extends TestCase
         $username = 'Hase';
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
-        $isHashedPassword = false;
 
-        $user = $this->userService->registerTrainee($username, $email, $password, $isHashedPassword);
+        $user = $this->userService->registerTrainee($username, $email, $password);
 
         $this->userService->disapproveRole($user->email());
 
@@ -196,9 +187,8 @@ class UserServiceTest extends TestCase
         $username = 'Hase';
         $email = 'max.mustermann@hotmail.de';
         $password = '123456789';
-        $isHashedPassword = false;
 
-        $user = $this->userService->registerTrainee($username, $email, $password, $isHashedPassword);
+        $user = $this->userService->registerTrainee($username, $email, $password);
 
         $this->assertFalse($this->userRepository->saveMethodCalled);
         $this->userService->disapproveRole($user->email());
@@ -218,18 +208,17 @@ class UserServiceTest extends TestCase
     {
         $email = 'max.mustermann@hotmail.de';
         $password = '12345678910';
-        $isHashedPassword = false;
 
-        $expectedUser1 = $this->userService->registerTrainee('Hase', $email, $password, $isHashedPassword);
+        $expectedUser1 = $this->userService->registerTrainee('Hase', $email, $password);
         $users = $this->userService->findUsersByStatus(Role::STATUS_NOT_APPROVED);
 
         $this->assertCount(1, $users);
 
-        $expectedUser2 = $this->userService->registerTrainee('Igel', 'maxi.mustermann@hotmail.de', $password, $isHashedPassword);
+        $expectedUser2 = $this->userService->registerTrainee('Igel', 'maxi.mustermann@hotmail.de', $password);
         $users = $this->userService->findUsersByStatus(Role::STATUS_NOT_APPROVED);
         $this->assertCount(2, $users);
 
-        $expectedUser3 = $this->userService->registerTrainee('Hans', 'peter.mustermann@web.de', $password, $isHashedPassword);
+        $expectedUser3 = $this->userService->registerTrainee('Hans', 'peter.mustermann@web.de', $password);
         $this->userService->approveRole($expectedUser3->email());
         $users = $this->userService->findUsersByStatus(Role::STATUS_APPROVED);
         $this->assertCount(1, $users);
@@ -243,12 +232,11 @@ class UserServiceTest extends TestCase
         $username = 'hase2000';
         $mail = 'hase@123.org';
         $password = '12345678910';
-        $isHashedPassword = false;
 
         $this->assertFalse($this->userService->exists($username));
         $this->assertFalse($this->userService->exists($mail));
 
-        $expectedUser1 = $this->userService->registerTrainee($username, $mail, $password, $isHashedPassword);
+        $expectedUser1 = $this->userService->registerTrainee($username, $mail, $password);
 
         $this->assertTrue($this->userService->exists($username));
         $this->assertTrue($this->userService->exists($mail));
@@ -262,9 +250,8 @@ class UserServiceTest extends TestCase
         $username = 'max_mustermann';
         $email = 'max.mustermann@hotmail.de';
         $password = 'defaultPassword';
-        $isHashedPassword = false;
 
-        $user = $this->userService->registerTrainee($username, $email, $password, $isHashedPassword);
+        $user = $this->userService->registerTrainee($username, $email, $password);
 
         $correctClearTextPassword = 'defaultPassword';
         $this->assertTrue($this->userService->authUser($user->email(), $correctClearTextPassword));
@@ -283,12 +270,12 @@ class UserServiceTest extends TestCase
         $hashed = new PasswordStrategy\Hashed();
         $username = 'max_mustermann';
         $email = 'max.mustermann@hotmail.de';
-        $hashedPassword = $hashed->encrypt('defaultPassword');
-        $isHashedPassword = true;
+        $password = 'defaultPassword';
 
-        $user = $this->userService->registerTrainee($username, $email, $hashedPassword, $isHashedPassword);
+        $user = $this->userService->registerTrainee($username, $email, $password);
 
         $correctHashedPassword = 'defaultPassword';
+
         $this->assertTrue($this->userService->authUser($user->email(), $correctHashedPassword));
         $this->assertTrue($this->userService->authUser($user->username(), $correctHashedPassword));
 
@@ -306,9 +293,8 @@ class UserServiceTest extends TestCase
         $username = 'max_mustermann';
         $email = 'max.mustermann@hotmail.de';
         $password = 'defaultPassword';
-        $isHashedPassword = false;
 
-        $user = $this->userService->registerTrainee($username, $email, $password, $isHashedPassword);
+        $user = $this->userService->registerTrainee($username, $email, $password);
 
         $invalidUsername = '';
         $this->userService->editUsername($user->id(), $invalidUsername);
@@ -323,9 +309,8 @@ class UserServiceTest extends TestCase
         $username = 'max_mustermann';
         $email = 'max.mustermann@hotmail.de';
         $password = 'defaultPassword';
-        $isHashedPassword = false;
 
-        $user = $this->userService->registerTrainee($username, $email, $password, $isHashedPassword);
+        $user = $this->userService->registerTrainee($username, $email, $password);
 
         $invalidEmail = '';
         $this->userService->editEmail($user->id(), $invalidEmail);

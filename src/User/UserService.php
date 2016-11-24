@@ -292,7 +292,6 @@ class UserService
 
             return true;
         }
-
         return false;
     }
 
@@ -398,7 +397,9 @@ class UserService
         Role $role,
         string $password
     ): ReadOnlyUser {
-        $user = $this->userRepository->createUser($username, $email, $role, $password);
+
+        $hashed = new PasswordStrategy\Hashed();
+        $user = $this->userRepository->createUser($username, $email, $role, $hashed->encrypt($password));
         return new ReadOnlyUser($user);
     }
 }

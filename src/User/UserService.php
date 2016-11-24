@@ -274,31 +274,24 @@ class UserService
      */
     public function authUser(string $identifier, string $password): bool
     {
-        $userByMail = $this->userRepository->findUserbyEmail($identifier);
-        $userByUsername = $this->userRepository->findUserByUsername($identifier);
+        $user = $this->userRepository->findUserbyEmail($identifier);
 
-        if ($userByMail !== null) {
-            if ($userByMail->password() === $password) {
-                $event = new Events\UserAuthorized([
-                    'userId' => $userByMail->id()
-                ]);
-                $this->notificationService->notify($event);
-
-                return true;
-            }
+        if ($user === null) {
+            $user = $this->userRepository->findUserbyUsername($identifier);
         }
 
-        if ($userByUsername !== null) {
-            if ($userByUsername->password() === $password) {
-                $event = new Events\UserAuthorized([
-                    'userId' => $userByUsername->id()
-                ]);
-                $this->notificationService->notify($event);
-
-                return true;
-            }
+        if ($user === null) {
+            return false;
         }
 
+        if ($user->verify($password)) {
+            $event = new Events\UserAuthorized([
+                'userId' => $user->id()
+            ]);
+            $this->notificationService->notify($event);
+
+            return true;
+        }
         return false;
     }
 
@@ -404,7 +397,9 @@ class UserService
         Role $role,
         string $password
     ): ReadOnlyUser {
-        $user = $this->userRepository->createUser($username, $email, $role, $password);
+
+        $hashed = new PasswordStrategy\Hashed();
+        $user = $this->userRepository->createUser($username, $email, $role, $hashed->encrypt($password));
         return new ReadOnlyUser($user);
     }
 }

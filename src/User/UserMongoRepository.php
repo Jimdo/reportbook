@@ -24,6 +24,7 @@ class UserMongoRepository implements UserRepository
 
     /**
      * @param Serializer $serializer
+     * @param ApplicationConfig $applicationConfig
      * @param Client $client
      */
     public function __construct(\MongoDB\Client $client, Serializer $serializer, ApplicationConfig $applicationConfig)
@@ -53,7 +54,7 @@ class UserMongoRepository implements UserRepository
             throw new UserRepositoryException("Email already exists!\n");
         }
 
-        $user = new User($username, $email, $role, $password, new UserId());
+        $user = new User($username, $email, $role, $password, new UserId(), true);
 
         $this->save($user);
 

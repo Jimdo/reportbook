@@ -42,6 +42,14 @@ class User
     /**
      * @return string
      */
+    public function username(): string
+    {
+        return $this->user->username();
+    }
+
+    /**
+     * @return string
+     */
     public function roleName(): string
     {
         return $this->user->roleName();
@@ -69,6 +77,14 @@ class User
     public function id(): string
     {
         return $this->user->id();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHashedPassword(): bool
+    {
+        return $this->user->isHashedPassword();
     }
 
     /**

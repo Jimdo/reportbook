@@ -25,19 +25,24 @@ class User
     /** @var UserId */
     private $userId;
 
+    /** @var bool */
+    private $isHashedPassword;
+
     /**
      * @param string $username
      * @param string $email
      * @param Role $role
      * @param string $password
      * @param UserId $userId
+     * @param bool $isHashedPassword
      */
     public function __construct(
         string $username,
         string $email,
         Role $role,
         string $password,
-        UserId $userId
+        UserId $userId,
+        bool $isHashedPassword
     ) {
         if (strlen($password) < self::PASSWORD_LENGTH) {
             throw new PasswordException(
@@ -50,6 +55,7 @@ class User
         $this->role = $role;
         $this->password = $password;
         $this->userId = $userId;
+        $this->isHashedPassword = $isHashedPassword;
     }
 
     /**
@@ -66,6 +72,14 @@ class User
     public function email(): string
     {
         return $this->email;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHashedPassword(): bool
+    {
+        return $this->isHashedPassword;
     }
 
     /**
@@ -177,31 +191,27 @@ class User
     /**
      * @param string $oldPassword
      * @param string $newPassword
+     * @throws Jimdo\Reports\User\PasswordException
      */
     public function editPassword(string $oldPassword, string $newPassword)
     {
-        if ($this->password() === $oldPassword) {
-            if ($this->password() !== $newPassword) {
-                if (strlen($newPassword) >= self::PASSWORD_LENGTH) {
-                    $this->password = $newPassword;
-                } else {
-                    throw new PasswordException(
-                        'Password should have at least ' . self::PASSWORD_LENGTH . ' characters!',
-                        self::ERR_PASSWORD_LENGTH
-                    );
-                }
-            } else {
-                throw new PasswordException(
-                    "The new password must be different as the old one!",
-                    self::ERR_PASSWORD_NOT_NEW
-                );
-            }
-        } else {
+        if (!$this->verify($oldPassword)) {
             throw new PasswordException(
                 "The current password is wrong!",
                 self::ERR_PASSWORD_WRONG
             );
         }
+
+        if (strlen($newPassword) < self::PASSWORD_LENGTH) {
+            throw new PasswordException(
+                'Password should have at least ' . self::PASSWORD_LENGTH . ' characters!',
+                self::ERR_PASSWORD_LENGTH
+            );
+        }
+
+        $strategy = PasswordStrategy\PasswordStrategy::for($this);
+
+        $this->password = $strategy->encrypt($newPassword);
     }
 
     /**
@@ -218,5 +228,17 @@ class User
     public function editEmail(string $newEmail)
     {
         $this->email = $newEmail;
+    }
+
+    /**
+     * @param string $password
+     * @return bool
+     */
+    public function verify(string $password): bool
+    {
+        return PasswordStrategy\PasswordStrategy::for($this)->verify(
+            $password,        // clear text password
+            $this->password() // hash
+        );
     }
 }

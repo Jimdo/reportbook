@@ -2,6 +2,8 @@
 
 namespace Jimdo\Reports\User;
 
+use Jimdo\Repors\User\PasswordStrategy\Hashed;
+
 use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
@@ -11,14 +13,15 @@ class UserTest extends TestCase
     */
     public function itShouldHaveUserConstruct()
     {
-        $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
-        $password = 'strongpassword';
-        $user = new User('Hase', $email, $role, $password, new UserId());
+        $optionsUsed = [];
+        $user = $this->user([], $optionsUsed);
 
-        $this->assertEquals($email, $user->email());
-        $this->assertEquals($password, $user->password());
+        $this->assertEquals($optionsUsed['email'], $user->email());
+        $this->assertEquals($optionsUsed['password'], $user->password());
         $this->assertInternalType('string', $user->id());
+        $this->assertEquals($optionsUsed['role']->name(), $user->roleName());
+        $this->assertEquals($optionsUsed['isHashedPassword'], $user->isHashedPassword());
+        $this->assertEquals($optionsUsed['username'], $user->username());
     }
 
     /**
@@ -26,16 +29,41 @@ class UserTest extends TestCase
     */
     public function itShouldEditPassword()
     {
-        $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
-        $oldPassword = '1111111';
-        $user = new User('Hase', $email, $role, $oldPassword, new UserId());
+        $user = $this->user();
 
-        $newPassword = 'peterlustig';
+        $newPassword = 'newPassword';
+
+        $user->editPassword($user->password(), $newPassword);
+
+        $strategy = PasswordStrategy\PasswordStrategy::for($user);
+
+        $this->assertTrue($strategy->verify($newPassword, $user->password()));
+    }
+
+    /**
+     * @test
+     * @expectedException Jimdo\Reports\User\PasswordException
+     */
+    public function itShouldThrowExceptionForViolationOfConstraints()
+    {
+        $user = $this->user();
+
+        $invalidPassword = 'abc';
+        $user->editPassword($user->password(), $invalidPassword);
+    }
+
+    /**
+     * @test
+     * @expectedException Jimdo\Reports\User\PasswordException
+     */
+    public function itShouldThrowExceptionOnUnverifiedOldPassword()
+    {
+        $user = $this->user();
+
+        $oldPassword = 'some wrong old password';
+        $newPassword = 'password to be set';
 
         $user->editPassword($oldPassword, $newPassword);
-
-        $this->assertEquals($newPassword, $user->password());
     }
 
     /**
@@ -43,11 +71,7 @@ class UserTest extends TestCase
     */
     public function itShouldEditUsername()
     {
-        $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
-        $password = '1111111';
-        $username = 'jenny';
-        $user = new User($username, $email, $role, $password, new UserId());
+        $user = $this->user();
 
         $newUsername = 'jennypenny';
 
@@ -61,11 +85,7 @@ class UserTest extends TestCase
     */
     public function itShouldEditEmail()
     {
-        $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
-        $password = '1111111';
-        $username = 'jenny';
-        $user = new User($username, $email, $role, $password, new UserId());
+        $user = $this->user();
 
         $newEmail = 'jenny@hotmail.de';
 
@@ -79,11 +99,9 @@ class UserTest extends TestCase
     */
     public function itShouldHaveRoleConstruct()
     {
-        $email = 'max.mustermann@hotmail.de';
-        $roleName = 'trainee';
-        $user = new User('Hase', $email, new Role($roleName), '12345678910', new UserId());
+        $user = $this->user();
 
-        $this->assertEquals($roleName, $user->roleName());
+        $this->assertEquals('trainee', $user->roleName());
 
         $this->assertEquals(Role::STATUS_NOT_APPROVED, $user->roleStatus());
     }
@@ -93,14 +111,65 @@ class UserTest extends TestCase
      */
     public function itShouldChangeStatusOfRole()
     {
-        $email = 'max.mustermann@hotmail.de';
-        $role = new Role('trainee');
-        $user = new User('Hase', $email, $role, '12345678910', new UserId());
+        $user = $this->user();
 
         $user->approve();
         $this->assertEquals(Role::STATUS_APPROVED, $user->roleStatus());
 
         $user->disapprove();
         $this->assertEquals(Role::STATUS_DISAPPROVED, $user->roleStatus());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldVerifyPasswordWithCorrectStrategy()
+    {
+        $clearTextPassword = 'some clear text password';
+        $user = $this->user([
+            'password' => $clearTextPassword,
+            'isHashedPassword' => false
+        ]);
+
+        $this->assertTrue($user->verify($clearTextPassword));
+
+        $hashed = new PasswordStrategy\Hashed();
+
+        $password = 'some encrypted password';
+        $encryptedPassword = $hashed->encrypt($password);
+        $user = $this->user([
+            'password' => $encryptedPassword,
+            'isHashedPassword' => true
+        ]);
+
+        $this->assertTrue($user->verify($password));
+    }
+
+    /**
+     * @param array $options
+     * @param array $optionsUsed
+     * @return User
+     */
+    private function user(array $options = [], array &$optionsUsed = []): User
+    {
+        $defaults = [
+            'username' => 'max_mustermann',
+            'email' => 'max.mustermann@hotmail.de',
+            'role' => new Role('trainee'),
+            'password' => 'defaultPassword',
+            'userId' => new UserId(),
+            'isHashedPassword' => false
+        ];
+
+        $optionsUsed = array_merge($defaults, $options);
+
+        return $user = new User(
+            $optionsUsed['username'],
+            $optionsUsed['email'],
+            $optionsUsed['role'],
+            $optionsUsed['password'],
+            $optionsUsed['userId'],
+            $optionsUsed['isHashedPassword']
+        );
     }
 }

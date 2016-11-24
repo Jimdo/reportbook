@@ -82,6 +82,11 @@ class User
         return $this->isHashedPassword;
     }
 
+    public function enableHashedPassword()
+    {
+        $this->isHashedPassword = true;
+    }
+
     /**
      * @return string
      */

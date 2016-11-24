@@ -146,6 +146,20 @@ class UserTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function itShouldEnableHashedPassword()
+    {
+        $user = $this->user();
+
+        $this->assertFalse($user->isHashedPassword());
+
+        $user->enableHashedPassword();
+
+        $this->assertTrue($user->isHashedPassword());
+    }
+
+    /**
      * @param array $options
      * @param array $optionsUsed
      * @return User

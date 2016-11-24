@@ -4,8 +4,6 @@ namespace Jimdo\Reports\User;
 
 class UserFileRepository implements UserRepository
 {
-
-
     /** @var string */
     private $usersPath;
 
@@ -22,7 +20,6 @@ class UserFileRepository implements UserRepository
      * @param string $email
      * @param Role $role
      * @param string $password
-     * @param bool $isHashedPassword
      * @throws UserRepositoryException
      * @return User
      */
@@ -30,14 +27,13 @@ class UserFileRepository implements UserRepository
         string $username,
         string $email,
         Role $role,
-        string $password,
-        bool $isHashedPassword
+        string $password
     ): User {
         if ($this->findUserByEmail($email) !== null) {
             throw new UserRepositoryException("Email already exists!\n");
         }
 
-        $user = new User($username, $email, $role, $password, new UserId(), $isHashedPassword);
+        $user = new User($username, $email, $role, $password, new UserId(), true);
         $this->ensureUsersPath();
         $this->save($user);
 

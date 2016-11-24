@@ -38,17 +38,15 @@ class UserService
      * @param string $email
      * @param Role $role
      * @param string $password
-     * @param bool $isHashedPassword
      * @throws UserRepositoryException
      * @return ReadOnlyUser
      */
     public function registerTrainee(
         string $username,
         string $email,
-        string $password,
-        bool $isHashedPassword
+        string $password
     ) {
-        $user = $this->registerUser($username, $email, new Role(Role::TRAINEE), $password, $isHashedPassword);
+        $user = $this->registerUser($username, $email, new Role(Role::TRAINEE), $password);
 
         $event = new Events\TraineeRegistered([
             'userId' => $user->id()
@@ -63,17 +61,15 @@ class UserService
      * @param string $email
      * @param Role $role
      * @param string $password
-     * @param bool $isHashedPassword
      * @throws UserRepositoryException
      * @return ReadOnlyUser
      */
     public function registerTrainer(
         string $username,
         string $email,
-        string $password,
-        bool $isHashedPassword
+        string $password
     ) {
-        $user = $this->registerUser($username, $email, new Role(Role::TRAINER), $password, $isHashedPassword);
+        $user = $this->registerUser($username, $email, new Role(Role::TRAINER), $password);
 
         $event = new Events\TrainerRegistered([
             'userId' => $user->id()
@@ -393,7 +389,6 @@ class UserService
      * @param string $email
      * @param Role $role
      * @param string $password
-     * @param bool $isHashedPassword
      * @throws UserRepositoryException
      * @return ReadOnlyUser
      */
@@ -401,10 +396,9 @@ class UserService
         string $username,
         string $email,
         Role $role,
-        string $password,
-        bool $isHashedPassword
+        string $password
     ): ReadOnlyUser {
-        $user = $this->userRepository->createUser($username, $email, $role, $password, $isHashedPassword);
+        $user = $this->userRepository->createUser($username, $email, $role, $password);
         return new ReadOnlyUser($user);
     }
 }

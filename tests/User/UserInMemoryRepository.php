@@ -20,11 +20,10 @@ class UserInMemoryRepository implements UserRepository
      * @param string $email
      * @param Role $role
      * @param string $password
-     * @param bool $isHashedPassword
      * @throws UserRepositoryException
      * @return User
      */
-    public function createUser(string $username, string $email, Role $role, string $password, bool $isHashedPassword): User
+    public function createUser(string $username, string $email, Role $role, string $password): User
     {
         if ($this->findUserByEmail($email) !== null) {
             throw new UserRepositoryException("Email already exists!\n");
@@ -34,7 +33,7 @@ class UserInMemoryRepository implements UserRepository
             throw new UserRepositoryException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n");
         }
 
-        $user = new User($username, $email, $role, $password, new UserId(), $isHashedPassword);
+        $user = new User($username, $email, $role, $password, new UserId(), true);
         $this->users[] = $user;
         return $user;
     }

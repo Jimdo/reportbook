@@ -75,7 +75,9 @@ class UserServiceTest extends TestCase
 
         $user = $this->userService->findUserById($user->id());
 
-        $this->assertEquals($newPassword, $user->password());
+        $hashed = new PasswordStrategy\Hashed();
+
+        $this->assertTrue($hashed->verify($newPassword, $user->password()));
     }
 
     /**

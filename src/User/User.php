@@ -209,7 +209,9 @@ class User
             );
         }
 
-        $this->password = $newPassword;
+        $hashedStrategy = new PasswordStrategy\Hashed();
+
+        $this->password = $hashedStrategy->encrypt($newPassword);
     }
 
     /**

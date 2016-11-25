@@ -200,4 +200,30 @@ class UserMongoRepositoryTest extends TestCase
         $this->assertTrue($repository->exists($username));
         $this->assertTrue($repository->exists($email));
     }
+
+    /**
+     * @test
+     * @expectedException Jimdo\Reports\User\UserRepositoryException
+     */
+    public function itShouldThrowExceptionIfUsernameOrEmailAlreadyExistsCauseOfUniqueConstraintsInDatabase()
+    {
+        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
+
+        $username = 'max_mustermann';
+        $email = 'max_mustermann@example.com';
+        $role = new Role('trainee');
+        $password = '1234567';
+
+        $user = $repository->createUser($username, $email, $role, $password);
+
+        $this->assertTrue($repository->exists($user->username()));
+        $this->assertTrue($repository->exists($user->email()));
+
+        $invalidUsername = 'max_mustermann';
+        $invalidEmail = 'max_mustermann@example.com';
+        $role = new Role('trainer');
+        $password = 'geheim123';
+
+        $user = $repository->createUser($invalidUsername, $invalidEmail, $role, $password);
+    }
 }

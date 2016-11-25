@@ -273,7 +273,6 @@ class UserServiceTest extends TestCase
      */
     public function itShouldAuthUserByVerifyingWithCurrentHashedPassword()
     {
-        $hashed = new PasswordStrategy\Hashed();
         $username = 'max_mustermann';
         $email = 'max.mustermann@hotmail.de';
         $password = 'defaultPassword';
@@ -281,7 +280,6 @@ class UserServiceTest extends TestCase
         $user = $this->userService->registerTrainee($username, $email, $password);
 
         $correctHashedPassword = 'defaultPassword';
-
         $this->assertTrue($this->userService->authUser($user->email(), $correctHashedPassword));
         $this->assertTrue($this->userService->authUser($user->username(), $correctHashedPassword));
 

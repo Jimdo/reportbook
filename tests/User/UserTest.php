@@ -35,7 +35,7 @@ class UserTest extends TestCase
 
         $user->editPassword($user->password(), $newPassword);
 
-        $strategy = PasswordStrategy\PasswordStrategy::for($user);
+        $strategy = new PasswordStrategy\Hashed();
 
         $this->assertTrue($strategy->verify($newPassword, $user->password()));
     }

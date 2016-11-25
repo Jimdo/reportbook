@@ -214,7 +214,7 @@ class User
             );
         }
 
-        $strategy = PasswordStrategy\PasswordStrategy::for($this);
+        $strategy = new PasswordStrategy\Hashed();
 
         $this->password = $strategy->encrypt($newPassword);
     }
@@ -241,7 +241,8 @@ class User
      */
     public function verify(string $password): bool
     {
-        return PasswordStrategy\PasswordStrategy::for($this)->verify(
+        $strategy = PasswordStrategy\PasswordStrategy::for($this);
+        return $strategy->verify(
             $password,        // clear text password
             $this->password() // hash
         );

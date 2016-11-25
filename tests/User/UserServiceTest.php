@@ -247,21 +247,25 @@ class UserServiceTest extends TestCase
     /**
      * @test
      */
-    public function itShouldAuthUserByVerifyingWithCurrentClearTextPassword()
+    public function itShouldSoftMigrateUserFromClearTextPasswordToHashedOne()
     {
         $username = 'max_mustermann';
-        $email = 'max.mustermann@hotmail.de';
+        $email = "max_mustermann@example.com";
+        $role = new Role('trainee');
         $password = 'defaultPassword';
+        $isHashedPassword = false;
+        $userId = new UserId();
 
-        $user = $this->userService->registerTrainee($username, $email, $password);
+        $user = new User($username, $email, $role, $password, $userId, $isHashedPassword);
+        $this->userRepository->users[] = $user;
 
-        $correctClearTextPassword = 'defaultPassword';
-        $this->assertTrue($this->userService->authUser($user->email(), $correctClearTextPassword));
-        $this->assertTrue($this->userService->authUser($user->username(), $correctClearTextPassword));
+        $this->assertEquals($password, $user->password());
+        $this->assertFalse($user->isHashedPassword());
 
-        $wrongClearTextPassword = 'some wrong password';
-        $this->assertFalse($this->userService->authUser($user->username(), $wrongClearTextPassword));
-        $this->assertFalse($this->userService->authUser($user->email(), $wrongClearTextPassword));
+        $this->userService->authUser($user->username(), $password);
+
+        $this->assertNotEquals($password, $user->password());
+        $this->assertTrue($user->isHashedPassword());
     }
 
     /**

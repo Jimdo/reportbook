@@ -263,7 +263,6 @@ class UserController extends Controller
         $role = $this->formData('role');
 
         $exceptions = [];
-
         if ($this->service->exists($username)) {
             $exceptions[] = $this->getErrorMessageForErrorCode(UserService::ERR_USERNAME_EXISTS);
         }
@@ -276,7 +275,7 @@ class UserController extends Controller
             $exceptions[] = $this->getErrorMessageForErrorCode(self::PASSWORD_CONFIRMATION_WRONG_MATCHING);
         }
 
-        if ($exceptions !== null) {
+        if ($exceptions !== []) {
             $headerView = $this->view('src/Web/Controller/Views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
 

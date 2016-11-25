@@ -26,6 +26,7 @@ class UserController extends Controller
 {
     const ADMIN_DEFAULT_PASSWORD = 'adminadmin';
     const ADMIN_DEFAULT_USER = 'admin';
+    const PASSWORD_CONFIRMATION_WRONG_MATCHING = 15;
 
     /** @var UserService */
     private $service;
@@ -261,18 +262,34 @@ class UserController extends Controller
         $passwordConfirmation = $this->formData('passwordConfirmation');
         $role = $this->formData('role');
 
+        $exceptions = [];
+
+        if ($this->service->exists($username)) {
+            $exceptions[] = $this->getErrorMessageForErrorCode(UserService::ERR_USERNAME_EXISTS);
+        }
+
+        if ($this->service->exists($email)) {
+            $exceptions[] = $this->getErrorMessageForErrorCode(UserService::ERR_EMAIL_EXISTS);
+        }
+
         if ($password !== $passwordConfirmation) {
+            $exceptions[] = $this->getErrorMessageForErrorCode(self::PASSWORD_CONFIRMATION_WRONG_MATCHING);
+        }
+
+        if ($exceptions !== null) {
             $headerView = $this->view('src/Web/Controller/Views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
 
             $registerView = $this->view('src/Web/Controller/Views/RegisterView.php');
             $registerView->role = $role;
-            $registerView->errorMessages = ['Die eingegebenen Passwörter stimmen nicht überein'];
+            $registerView->errorMessages = $exceptions;
+
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
             $this->response->addBody($headerView->render());
             $this->response->addBody($registerView->render());
             $this->response->addBody($footerView->render());
+
         } else {
             if ($role === 'TRAINER') {
                 $user = $this->service->registerTrainer($username, $email, $password);
@@ -739,7 +756,7 @@ class UserController extends Controller
                     $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
                 }
             } else {
-                $exceptions[] = 'Die eingegebenen Passwörter stimmen nicht überein!';
+                $exceptions[] =  $this->getErrorMessageForErrorCode(self::PASSWORD_CONFIRMATION_WRONG_MATCHING);
             }
         } else {
             $this->redirect("/user");
@@ -848,6 +865,9 @@ class UserController extends Controller
 
             case Validator::ERR_VALIDATOR_INT:
                 return 'Der eingegebene Wert ist keine Zahl!' . "\n";
+
+            case self::PASSWORD_CONFIRMATION_WRONG_MATCHING:
+                return 'Die eingegebenen Passwörter stimmen nicht überein' . "\n";
         }
     }
 }

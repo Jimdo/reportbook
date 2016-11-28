@@ -44,11 +44,14 @@ class User
         UserId $userId,
         bool $isHashedPassword
     ) {
-        if (strlen($password) < self::PASSWORD_LENGTH) {
-            throw new PasswordException(
-                'Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n",
-                self::ERR_PASSWORD_LENGTH
-            );
+        $constraints = PasswordConstraints\PasswordConstraintsFactory::constraints();
+        foreach ($constraints as $constraint) {
+            if (!$constraint->check($password)) {
+                throw new PasswordException(
+                    null,
+                    $constraint::ERR_CODE
+                );
+            }
         }
         $this->username = $username;
         $this->email = $email;
@@ -207,11 +210,14 @@ class User
             );
         }
 
-        if (strlen($newPassword) < self::PASSWORD_LENGTH) {
-            throw new PasswordException(
-                'Password should have at least ' . self::PASSWORD_LENGTH . ' characters!',
-                self::ERR_PASSWORD_LENGTH
-            );
+        $constraints = PasswordConstraints\PasswordConstraintsFactory::constraints();
+        foreach ($constraints as $constraint) {
+            if (!$constraint->check($newPassword)) {
+                throw new PasswordException(
+                    null,
+                    $constraint::ERR_CODE
+                );
+            }
         }
 
         $strategy = new PasswordStrategy\Hashed();

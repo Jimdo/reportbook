@@ -5,19 +5,30 @@ namespace Jimdo\Reports\Web\Controller;
 use Jimdo\Reports\Web\View as View;
 use Jimdo\Reports\Web\ViewHelper as ViewHelper;
 use Jimdo\Reports\Web\Validator\Validator as Validator;
+
 use Jimdo\Reports\User\User as User;
 use Jimdo\Reports\User\Role as Role;
+use Jimdo\Reports\User\PasswordException as PasswordException;
+use Jimdo\Reports\User\ProfileException as ProfileException;
 use Jimdo\Reports\User\UserService as UserService;
 use Jimdo\Reports\User\UserMongoRepository as UserMongoRepository;
+
+use Jimdo\Reports\User\PasswordConstraints\PasswordLength;
+use Jimdo\Reports\User\PasswordConstraints\PasswordUpperCase;
+use Jimdo\Reports\User\PasswordConstraints\PasswordLowerCase;
+use Jimdo\Reports\User\PasswordConstraints\PasswordNumbers;
+use Jimdo\Reports\User\PasswordConstraints\PasswordBlackList;
+
 use Jimdo\Reports\Profile\ProfileService as ProfileService;
 use Jimdo\Reports\Profile\ProfileMongoRepository as ProfileMongoRepository;
+
 use Jimdo\Reports\Web\Request as Request;
 use Jimdo\Reports\Web\Response as Response;
 use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-use Jimdo\Reports\User\PasswordException as PasswordException;
+
 use Jimdo\Reports\Serializer as Serializer;
-use Jimdo\Reports\User\ProfileException as ProfileException;
+
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
 use Jimdo\Reports\Notification\MailgunSubscriber;
@@ -281,6 +292,22 @@ class UserController extends Controller
             $exceptions[] = $this->getErrorMessageForErrorCode(self::PASSWORD_CONFIRMATION_WRONG_MATCHING);
         }
 
+        if ($role === 'TRAINER') {
+            try {
+                $user = $this->service->registerTrainer($username, $email, $password);
+                $this->profileService->createProfile($user->id(), $forename, $surname);
+            } catch (PasswordException $e) {
+                $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
+            }
+        } elseif ($role === 'TRAINEE') {
+            try {
+                $user = $this->service->registerTrainee($username, $email, $password);
+                $this->profileService->createProfile($user->id(), $forename, $surname);
+            } catch (PasswordException $e) {
+                $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
+            }
+        }
+
         if ($exceptions !== []) {
             $headerView = $this->view('src/Web/Controller/Views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
@@ -296,17 +323,7 @@ class UserController extends Controller
             $this->response->addBody($footerView->render());
 
         } else {
-            if ($role === 'TRAINER') {
-                $user = $this->service->registerTrainer($username, $email, $password);
-                $this->profileService->createProfile($user->id(), $forename, $surname);
-                header("Location: /user");
-            } elseif ($role === 'TRAINEE') {
-                $user = $this->service->registerTrainee($username, $email, $password);
-                $this->profileService->createProfile($user->id(), $forename, $surname);
-                header("Location: /user");
-            } else {
-                header("Location: /user");
-            }
+            header("Location: /user");
         }
     }
 
@@ -844,9 +861,6 @@ class UserController extends Controller
     public function getErrorMessageForErrorCode(int $errorCode)
     {
         switch ($errorCode) {
-            case User::ERR_PASSWORD_LENGTH:
-                return 'Das Passwort muss mindestens ' . User::PASSWORD_LENGTH . ' Zeichen lang sein!' . "\n";
-
             case User::ERR_PASSWORD_NOT_NEW:
                 return 'Das neue Passwort muss anders als das derzeitige Passwort sein!' . "\n";
 
@@ -876,6 +890,21 @@ class UserController extends Controller
 
             case self::PASSWORD_CONFIRMATION_WRONG_MATCHING:
                 return 'Die eingegebenen Passwörter stimmen nicht überein' . "\n";
+
+            case PasswordLength::ERR_CODE:
+                return 'Das Passwort muss mindestens ' .  PasswordLength::PASSWORD_LENGTH . ' Zeichen lang sein!';
+
+            case PasswordLowerCase::ERR_CODE:
+                return 'Das Passwort muss mindestens einen Kleinbuchstaben enthalten!';
+
+            case PasswordUpperCase::ERR_CODE:
+                return 'Das Passwort muss mindestens einen Großbuchstaben enthalten!';
+
+            case PasswordNumbers::ERR_CODE:
+                return 'Das Passwort muss mindestens 2 Zahlen enthalten!';
+
+            case PasswordBlackList::ERR_CODE:
+                return 'Dieses Passwort ist nicht erlaubt!';
         }
     }
 }

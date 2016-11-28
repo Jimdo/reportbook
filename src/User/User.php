@@ -4,9 +4,6 @@ namespace Jimdo\Reports\User;
 
 class User
 {
-    const PASSWORD_LENGTH = 7;
-
-    const ERR_PASSWORD_LENGTH = 8;
     const ERR_PASSWORD_NOT_NEW = 9;
     const ERR_PASSWORD_WRONG = 10;
 
@@ -44,15 +41,6 @@ class User
         UserId $userId,
         bool $isHashedPassword
     ) {
-        $constraints = PasswordConstraints\PasswordConstraintsFactory::constraints();
-        foreach ($constraints as $constraint) {
-            if (!$constraint->check($password)) {
-                throw new PasswordException(
-                    null,
-                    $constraint::ERR_CODE
-                );
-            }
-        }
         $this->username = $username;
         $this->email = $email;
         $this->role = $role;

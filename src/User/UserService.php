@@ -302,6 +302,19 @@ class UserService
     }
 
     /**
+     * @return bool
+     */
+    public function checkForTrainer(): bool
+    {
+        foreach ($this->userRepository->findAllUsers() as $user) {
+            if ($user->roleName() === Role::TRAINER) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * @param string $status
      * @return array
      */

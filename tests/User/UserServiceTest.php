@@ -319,4 +319,20 @@ class UserServiceTest extends TestCase
         $invalidEmail = '';
         $this->userService->editEmail($user->id(), $invalidEmail);
     }
+
+    /**
+     * @test
+     */
+    public function itShouldCheckIfTrainerExists()
+    {
+        $username = 'max_mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = 'defaultPassword';
+
+        $this->assertFalse($this->userService->checkForTrainer());
+
+        $user = $this->userService->registerTrainer($username, $email, $password);
+
+        $this->assertTrue($this->userService->checkForTrainer());
+    }
 }

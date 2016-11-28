@@ -5,6 +5,7 @@ namespace Jimdo\Reports\User\PasswordConstraints;
 class PasswordLength extends PasswordConstraintsFactory
 {
     const PASSWORD_LENGTH = 7;
+    const ERR_CODE = 17;
 
     /**
      * @param string $password

@@ -4,6 +4,8 @@ namespace Jimdo\Reports\User\PasswordConstraints;
 
 class PasswordLowerCase extends PasswordConstraintsFactory
 {
+    const ERR_CODE = 19;
+
     /**
      * @param string $password
      * @return bool

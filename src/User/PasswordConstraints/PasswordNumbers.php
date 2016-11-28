@@ -4,6 +4,8 @@ namespace Jimdo\Reports\User\PasswordConstraints;
 
 class PasswordNumbers extends PasswordConstraintsFactory
 {
+    const ERR_CODE = 20;
+
     /**
      * @param string $password
      * @return bool
@@ -20,7 +22,6 @@ class PasswordNumbers extends PasswordConstraintsFactory
         if ($numbers >= 2) {
             return true;
         }
-        
         return false;
     }
 }

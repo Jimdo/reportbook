@@ -13,7 +13,7 @@ class ClearTextTest extends TestCase
     {
         $clearText = new ClearText();
 
-        $password = 'Hase';
+        $password = 'SecurePassword123';
 
         $this->assertEquals($password, $clearText->encrypt($password));
     }
@@ -25,7 +25,7 @@ class ClearTextTest extends TestCase
     {
         $clearText = new ClearText();
 
-        $password = 'Hase';
+        $password = 'SecurePassword123';
 
         $this->assertTrue($clearText->verify($password, $password));
     }

@@ -66,7 +66,7 @@ class UserServiceTest extends TestCase
         $username = 'Hase';
         $email = 'max.mustermann@hotmail.de';
         $oldPassword = '123456789';
-        $newPassword = '1111111111';
+        $newPassword = 'newPassword123';
 
         $user = $this->userService->registerTrainer($username, $email, $oldPassword);
 
@@ -252,7 +252,7 @@ class UserServiceTest extends TestCase
         $username = 'max_mustermann';
         $email = "max_mustermann@example.com";
         $role = new Role('trainee');
-        $password = 'defaultPassword';
+        $password = 'SecurePassword123';
         $isHashedPassword = false;
         $userId = new UserId();
 

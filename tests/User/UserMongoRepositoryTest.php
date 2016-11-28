@@ -49,7 +49,7 @@ class UserMongoRepositoryTest extends TestCase
         $username = 'maxipro';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '1234567';
+        $password = 'SecurePassword123';
 
         $user = $repository->createUser($username, $email, $role, $password);
 
@@ -69,7 +69,7 @@ class UserMongoRepositoryTest extends TestCase
         $username = 'maxipro';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '1234567';
+        $password = 'SecurePassword123';
 
         $user = $repository->createUser($username, $email, $role, $password);
 
@@ -88,7 +88,7 @@ class UserMongoRepositoryTest extends TestCase
         $username = 'maxipro';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '1234567';
+        $password = 'SecurePassword123';
 
         $user = $repository->createUser($username, $email, $role, $password);
 
@@ -107,7 +107,7 @@ class UserMongoRepositoryTest extends TestCase
         $username = 'maxipro';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '1234567';
+        $password = 'SecurePassword123';
 
         $user = $repository->createUser($username, $email, $role, $password);
 
@@ -124,7 +124,7 @@ class UserMongoRepositoryTest extends TestCase
         $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
 
         $role = new Role('trainee');
-        $password = '1234567';
+        $password = 'SecurePassword123';
 
         $user1 = $repository->createUser('max', 'max.mustermann@hotmail.de', $role, $password);
         $user2 = $repository->createUser('maxi', 'maxi.mustermann@hotmail.de', $role, $password);
@@ -147,7 +147,7 @@ class UserMongoRepositoryTest extends TestCase
         $username2 = 'peterhans';
         $email2 = 'peter.hans@hotmail.de';
         $role = new Role('trainee');
-        $password = '1234567';
+        $password = 'SecurePassword123';
 
         $user1 = $repository->createUser($username1, $email1, $role, $password);
         $user2 = $repository->createUser($username2, $email2, $role, $password);
@@ -167,7 +167,7 @@ class UserMongoRepositoryTest extends TestCase
         $username = 'maxipropi';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '1234567';
+        $password = 'SecurePassword123';
 
         $user = $repository->createUser($username, $email, $role, $password);
 
@@ -190,7 +190,7 @@ class UserMongoRepositoryTest extends TestCase
         $username = 'maxipropi';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '1234567';
+        $password = 'SecurePassword123';
 
         $this->assertFalse($repository->exists($username));
         $this->assertFalse($repository->exists($email));
@@ -212,7 +212,7 @@ class UserMongoRepositoryTest extends TestCase
         $username = 'max_mustermann';
         $email = 'max_mustermann@example.com';
         $role = new Role('trainee');
-        $password = '1234567';
+        $password = 'SecurePassword123';
 
         $user = $repository->createUser($username, $email, $role, $password);
 

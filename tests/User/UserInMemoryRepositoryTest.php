@@ -15,7 +15,7 @@ class UserRepositoryTest extends TestCase
         $username = 'Hase';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '12345678910';
+        $password = 'SecurePassword123';
 
         $userRepository = new UserInMemoryRepository();
         $createdUser = $userRepository->createUser($username, $email, $role, $password);
@@ -31,7 +31,7 @@ class UserRepositoryTest extends TestCase
         $username = 'Hase';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '12345678910';
+        $password = 'SecurePassword123';
 
         $userRepository = new UserInMemoryRepository();
         $createdUser = $userRepository->createUser($username, $email, $role, $password);
@@ -50,7 +50,7 @@ class UserRepositoryTest extends TestCase
         $username = 'Hase';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '12345678910';
+        $password = 'SecurePassword123';
 
         $userRepository = new UserInMemoryRepository();
         $createdUser = $userRepository->createUser($username, $email, $role, $password);
@@ -68,7 +68,7 @@ class UserRepositoryTest extends TestCase
         $username = 'Hase';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '12345678910';
+        $password = 'SecurePassword123';
 
         $userRepository = new UserInMemoryRepository();
         $createdUser = $userRepository->createUser($username, $email, $role, $password);
@@ -86,7 +86,7 @@ class UserRepositoryTest extends TestCase
         $username = 'Hase';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '12345678910';
+        $password = 'SecurePassword123';
 
         $userRepository = new UserInMemoryRepository();
         $createdUser = $userRepository->createUser($username, $email, $role, $password);
@@ -107,7 +107,7 @@ class UserRepositoryTest extends TestCase
         $email1 = 'max.mustermann@hotmail.de';
         $email2 = 'hauke.stange@live.de';
         $role = new Role('trainee');
-        $password = '12345678910';
+        $password = 'SecurePassword123';
 
         $foundUsers = $userRepository->findAllUsers();
         $this->assertCount(0, $foundUsers);
@@ -129,7 +129,7 @@ class UserRepositoryTest extends TestCase
 
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '12345678920';
+        $password = 'SecurePassword123';
 
         $jenny = $userRepository->createUser('Hase', $email, $role, $password);
         $tom = $userRepository->createUser('Igel', $email, $role, $password);
@@ -145,7 +145,7 @@ class UserRepositoryTest extends TestCase
 
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '12345678920';
+        $password = 'SecurePassword123';
 
         $jenny = $userRepository->createUser('Hase', 'jenny@email.com', $role, $password);
         $tom = $userRepository->createUser('Hase', $email, $role, $password);

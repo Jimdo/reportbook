@@ -410,6 +410,7 @@ class UserService
      * @param Role $role
      * @param string $password
      * @throws UserRepositoryException
+     * @throws PasswordException
      * @return ReadOnlyUser
      */
     private function registerUser(
@@ -418,6 +419,15 @@ class UserService
         Role $role,
         string $password
     ): ReadOnlyUser {
+        $constraints = PasswordConstraints\PasswordConstraintsFactory::constraints();
+        foreach ($constraints as $constraint) {
+            if (!$constraint->check($password)) {
+                throw new PasswordException(
+                    null,
+                    $constraint::ERR_CODE
+                );
+            }
+        }
 
         $hashed = new PasswordStrategy\Hashed();
         $user = $this->userRepository->createUser($username, $email, $role, $hashed->encrypt($password));

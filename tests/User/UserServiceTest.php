@@ -322,6 +322,19 @@ class UserServiceTest extends TestCase
 
     /**
      * @test
+     * @expectedException Jimdo\Reports\User\PasswordException
+     */
+    public function itShouldThrowExceptionIfPasswordInsecure()
+    {
+        $username = 'max_mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $password = 'insecurePassword';
+
+        $user = $this->userService->registerTrainee($username, $email, $password);
+    }
+
+    /**
+     * @test
      */
     public function itShouldCheckIfTrainerExists()
     {

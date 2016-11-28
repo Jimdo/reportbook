@@ -309,7 +309,7 @@ class UserService
     public function checkForTrainer(): bool
     {
         foreach ($this->userRepository->findAllUsers() as $user) {
-            if ($user->roleName() === Role::TRAINER && $user->roleStatus === Role::STATUS_APPROVED) {
+            if ($user->roleName() === Role::TRAINER && $user->roleStatus() === Role::STATUS_APPROVED) {
                 return true;
             }
         }

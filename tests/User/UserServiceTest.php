@@ -345,6 +345,7 @@ class UserServiceTest extends TestCase
         $this->assertFalse($this->userService->checkForTrainer());
 
         $user = $this->userService->registerTrainer($username, $email, $password);
+        $this->userService->approveRole($email);
 
         $this->assertTrue($this->userService->checkForTrainer());
     }

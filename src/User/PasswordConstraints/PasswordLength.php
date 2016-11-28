@@ -7,6 +7,7 @@ class PasswordLength extends PasswordConstraintsFactory
     const PASSWORD_LENGTH = 7;
 
     /**
+     * @param string $password
      * @return bool
      */
     public function check(string $password): bool

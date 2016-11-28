@@ -5,6 +5,7 @@ namespace Jimdo\Reports\User\PasswordConstraints;
 class PasswordUpperCase extends PasswordConstraintsFactory
 {
     /**
+     * @param string $password
      * @return bool
      */
     public function check(string $password): bool

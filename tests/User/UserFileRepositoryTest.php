@@ -30,7 +30,7 @@ class UserFileRepositoryTest extends TestCase
         $username = 'Hans';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '12345678910';
+        $password = 'SecurePassword123';
         $isHashedPassword = false;
 
         $expectedUser = $repository->createUser($username, $email, $role, $password, $isHashedPassword);
@@ -52,7 +52,7 @@ class UserFileRepositoryTest extends TestCase
         $username = 'Hans';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '12345678910';
+        $password = 'SecurePassword123';
         $isHashedPassword = false;
 
         $user = $repository->createUser($username, $email, $role, $password, $isHashedPassword);
@@ -76,7 +76,7 @@ class UserFileRepositoryTest extends TestCase
         $username = 'Hans';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '12345678910';
+        $password = 'SecurePassword123';
         $isHashedPassword = false;
 
         $expectedUser = $repository->createUser($username, $email, $role, $password, $isHashedPassword);
@@ -96,7 +96,7 @@ class UserFileRepositoryTest extends TestCase
         $username = 'Hans';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '12345678910';
+        $password = 'SecurePassword123';
         $isHashedPassword = false;
 
         $expectedUser = $repository->createUser($username, $email, $role, $password, $isHashedPassword);
@@ -105,7 +105,7 @@ class UserFileRepositoryTest extends TestCase
 
         $this->assertCount(1, $foundUsers);
 
-        $expectedUser = $repository->createUser('Igel', 'peter.mustermann@hotmail.de', $role, '12345678910', $isHashedPassword);
+        $expectedUser = $repository->createUser('Igel', 'peter.mustermann@hotmail.de', $role, 'SecurePassword123', $isHashedPassword);
         $foundUsers = $repository->findAllUsers();
 
         $this->assertCount(2, $foundUsers);
@@ -121,7 +121,7 @@ class UserFileRepositoryTest extends TestCase
         $username = 'Hans';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '12345678910';
+        $password = 'SecurePassword123';
         $isHashedPassword = false;
 
         $expectedUser = $repository->createUser($username, $email, $role, $password, $isHashedPassword);
@@ -141,7 +141,7 @@ class UserFileRepositoryTest extends TestCase
         $username = 'Hans';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '12345678910';
+        $password = 'SecurePassword123';
         $isHashedPassword = false;
 
         $expectedUser = $repository->createUser($username, $email, $role, $password, $isHashedPassword);
@@ -149,7 +149,7 @@ class UserFileRepositoryTest extends TestCase
 
         $this->assertCount(1, $users);
 
-        $expectedUser2 = $repository->createUser('Igel', 'maxi.mustermann@hotmail.de', $role, '12345678910', $isHashedPassword);
+        $expectedUser2 = $repository->createUser('Igel', 'maxi.mustermann@hotmail.de', $role, 'SecurePassword123', $isHashedPassword);
         $users = $repository->findUsersByStatus(Role::STATUS_NOT_APPROVED);
 
         $this->assertCount(2, $users);
@@ -166,7 +166,7 @@ class UserFileRepositoryTest extends TestCase
         $username = 'Hans';
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = '12345678910';
+        $password = 'SecurePassword123';
         $isHashedPassword = false;
 
         $expectedUser1 = $userRepository->createUser($username, $email, $role, $password, $isHashedPassword);
@@ -184,7 +184,7 @@ class UserFileRepositoryTest extends TestCase
         $username = 'hase2000';
         $mail = 'hase@123.org';
         $role = new Role('trainer');
-        $password = 'some password';
+        $password = 'SecurePassword123';
         $isHashedPassword = false;
 
         $this->assertFalse($userRepository->exists($username));
@@ -208,7 +208,7 @@ class UserFileRepositoryTest extends TestCase
          $username = 'maxi';
          $email = 'max.mustermann@hotmail.de';
          $role = new Role('trainee');
-         $password = '1234567';
+         $password = 'SecurePassword123';
          $isHashedPassword = false;
 
          $user = $userRepository->createUser($username, $email, $role, $password, $isHashedPassword);

@@ -23,7 +23,7 @@ class SerializerTest extends TestCase
         $username = 'tomstich';
         $email = 'tom.stich@example.com';
         $role = new Role('TRAINER');
-        $password = '1234567';
+        $password = 'SecurePassword123';
         $id = new UserId();
 
         $user = new User($username, $email, $role, $password, $id, false);
@@ -49,7 +49,7 @@ class SerializerTest extends TestCase
         $username = 'tomstich';
         $email = 'tom.stich@example.com';
         $role = new Role('TRAINER');
-        $password = '1234567';
+        $password = 'SecurePassword123';
         $id = new UserId();
 
         $user = new User($username, $email, $role, $password, $id, false);
@@ -253,7 +253,7 @@ class SerializerTest extends TestCase
                 'roleStatus' => 'STATUS_APPROVED',
                 'roleName' => 'TRAINER'
             ],
-            'password' => '12345678910',
+            'password' => 'SecurePassword123',
             'id' => '46494319689410'
         ];
 

@@ -13,7 +13,7 @@ class HashedTest extends TestCase
     {
         $hashed = new Hashed();
 
-        $password = 'Hase';
+        $password = 'SecurePassword123';
         $this->assertNotEquals($password, $hashed->encrypt($password));
     }
 
@@ -24,7 +24,7 @@ class HashedTest extends TestCase
     {
         $hashed = new Hashed();
 
-        $password = 'Hase';
+        $password = 'SecurePassword123';
         $hashedPassword = $hashed->encrypt($password);
 
         $this->assertTrue($hashed->verify($password, $hashedPassword));

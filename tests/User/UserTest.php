@@ -31,7 +31,7 @@ class UserTest extends TestCase
     {
         $user = $this->user();
 
-        $newPassword = 'newPassword';
+        $newPassword = 'newPassword123';
 
         $user->editPassword($user->password(), $newPassword);
 
@@ -125,7 +125,7 @@ class UserTest extends TestCase
      */
     public function itShouldVerifyPasswordWithCorrectStrategy()
     {
-        $clearTextPassword = 'some clear text password';
+        $clearTextPassword = 'SomeClearTextPassword123';
         $user = $this->user([
             'password' => $clearTextPassword,
             'isHashedPassword' => false
@@ -135,7 +135,7 @@ class UserTest extends TestCase
 
         $hashed = new PasswordStrategy\Hashed();
 
-        $password = 'some encrypted password';
+        $password = 'some encrypted Password123';
         $encryptedPassword = $hashed->encrypt($password);
         $user = $this->user([
             'password' => $encryptedPassword,
@@ -170,7 +170,7 @@ class UserTest extends TestCase
             'username' => 'max_mustermann',
             'email' => 'max.mustermann@hotmail.de',
             'role' => new Role('trainee'),
-            'password' => 'defaultPassword',
+            'password' => 'SecurePassword123',
             'userId' => new UserId(),
             'isHashedPassword' => false
         ];

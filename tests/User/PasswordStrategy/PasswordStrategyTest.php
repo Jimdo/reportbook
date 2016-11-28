@@ -42,7 +42,7 @@ class PasswordStrategyTest extends TestCase
     {
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
-        $password = 'strongpassword';
+        $password = 'SecurePassword123';
         return new User('Hase', $email, $role, $password, new UserId(), $isHashedPassword);
     }
 }

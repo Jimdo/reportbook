@@ -24,7 +24,7 @@ use Jimdo\Reports\Notification\MailgunSubscriber;
 
 class UserController extends Controller
 {
-    const ADMIN_DEFAULT_PASSWORD = 'adminadmin';
+    const ADMIN_DEFAULT_PASSWORD = 'Adminadmin123';
     const ADMIN_DEFAULT_USER = 'admin';
     const PASSWORD_CONFIRMATION_WRONG_MATCHING = 15;
 

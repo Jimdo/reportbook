@@ -16,6 +16,8 @@ class UserService
     const ERR_USERNAME_EMPTY = 13;
     const ERR_EMAIL_EMPTY = 14;
 
+    const ERR_USERNAME_ADMIN = 16;
+
     /** @var UserRepository */
     private $userRepository;
 
@@ -297,6 +299,19 @@ class UserService
             $this->notificationService->notify($event);
 
             return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function checkForTrainer(): bool
+    {
+        foreach ($this->userRepository->findAllUsers() as $user) {
+            if ($user->roleName() === Role::TRAINER) {
+                return true;
+            }
         }
         return false;
     }

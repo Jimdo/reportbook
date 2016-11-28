@@ -192,13 +192,15 @@ class UserController extends Controller
         $loginWithAdminDefaultPassword = false;
         if ($identifier === self::ADMIN_DEFAULT_USER && $password === self::ADMIN_DEFAULT_PASSWORD) {
             if (!$this->service->exists($identifier)) {
-                $adminUser = $this->service->registerTrainer(
-                    self::ADMIN_DEFAULT_USER,
-                    'admin',
-                    self::ADMIN_DEFAULT_PASSWORD
-                );
-                $this->service->approveRole($adminUser->email());
-                $this->profileService->createProfile($adminUser->id(), 'admin', 'admin');
+                if (!$this->service->checkForTrainer()) {
+                    $adminUser = $this->service->registerTrainer(
+                        self::ADMIN_DEFAULT_USER,
+                        'admin',
+                        self::ADMIN_DEFAULT_PASSWORD
+                    );
+                    $this->service->approveRole($adminUser->email());
+                    $this->profileService->createProfile($adminUser->id(), 'admin', 'admin');
+                }
             }
             $loginWithAdminDefaultPassword = true;
         }
@@ -263,6 +265,10 @@ class UserController extends Controller
         $role = $this->formData('role');
 
         $exceptions = [];
+
+        if ($username === self::ADMIN_DEFAULT_USER) {
+            $exceptions[] = $this->getErrorMessageForErrorCode(UserService::ERR_USERNAME_ADMIN);
+        }
         if ($this->service->exists($username)) {
             $exceptions[] = $this->getErrorMessageForErrorCode(UserService::ERR_USERNAME_EXISTS);
         }
@@ -858,6 +864,9 @@ class UserController extends Controller
 
             case UserService::ERR_EMAIL_EMPTY:
                 return 'Die E-Mail Adresse darf nicht leer sein!' . "\n";
+
+            case UserService::ERR_USERNAME_ADMIN:
+                return 'Der Benutzername darf nicht admin heißen!' . "\n";
 
             case Validator::ERR_VALIDATOR_DATE:
                 return 'Der eingegebene Wert ist kein Datum!' . "\n";

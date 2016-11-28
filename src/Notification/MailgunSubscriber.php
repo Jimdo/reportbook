@@ -148,11 +148,16 @@ class MailgunSubscriber implements Subscriber
      */
     protected function sendMail(string $emailTo, string $emailSubject, string $emailText)
     {
-        $result = $this->mailgunClient->sendMessage("$this->domain", [
-            'from'    => 'Online Berichtsheft <postmaster@sandboxd9e5c670536f4828a8ded4df88519471.mailgun.org>',
-            'to'      => $emailTo,
-            'subject' => $emailSubject,
-            'text'    => $emailText
-        ]);
+        try {
+            $this->mailgunClient->sendMessage("$this->domain", [
+                'from'    => 'Online Berichtsheft <postmaster@sandboxd9e5c670536f4828a8ded4df88519471.mailgun.org>',
+                'to'      => $emailTo,
+                'subject' => $emailSubject,
+                'text'    => $emailText
+            ]);
+
+        } catch (\Mailgun\Connection\Exceptions\MissingRequiredParameters $e) {
+            // Ignore failed send for now
+        }
     }
 }

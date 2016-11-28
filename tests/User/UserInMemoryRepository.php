@@ -29,6 +29,10 @@ class UserInMemoryRepository implements UserRepository
             throw new UserRepositoryException("Email already exists!\n");
         }
 
+        if ($this->findUserByUsername($username) !== null) {
+            throw new UserRepositoryException("Username already exists!\n");
+        }
+
         if (strlen($password) < self::PASSWORD_LENGTH) {
             throw new UserRepositoryException('Password should have at least ' . self::PASSWORD_LENGTH . ' characters!' . "\n");
         }

@@ -50,9 +50,8 @@ class UserMongoRepositoryTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
         $password = '1234567';
-        $isHashedPassword = false;
 
-        $user = $repository->createUser($username, $email, $role, $password, $isHashedPassword);
+        $user = $repository->createUser($username, $email, $role, $password);
 
         $serializedUser = $this->users->findOne(['username' => $username]);
         $unserializedUser = $repository->serializer->unserializeUser($serializedUser->getArrayCopy());
@@ -71,9 +70,8 @@ class UserMongoRepositoryTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
         $password = '1234567';
-        $isHashedPassword = false;
 
-        $user = $repository->createUser($username, $email, $role, $password, $isHashedPassword);
+        $user = $repository->createUser($username, $email, $role, $password);
 
         $foundUser = $repository->findUserByEmail($email);
 
@@ -91,9 +89,8 @@ class UserMongoRepositoryTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
         $password = '1234567';
-        $isHashedPassword = false;
 
-        $user = $repository->createUser($username, $email, $role, $password, $isHashedPassword);
+        $user = $repository->createUser($username, $email, $role, $password);
 
         $foundUser = $repository->findUserById($user->id());
 
@@ -111,9 +108,8 @@ class UserMongoRepositoryTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
         $password = '1234567';
-        $isHashedPassword = false;
 
-        $user = $repository->createUser($username, $email, $role, $password, $isHashedPassword);
+        $user = $repository->createUser($username, $email, $role, $password);
 
         $foundUser = $repository->findUserByUsername($username);
 
@@ -129,11 +125,10 @@ class UserMongoRepositoryTest extends TestCase
 
         $role = new Role('trainee');
         $password = '1234567';
-        $isHashedPassword = false;
 
-        $user1 = $repository->createUser('max', 'max.mustermann@hotmail.de', $role, $password, $isHashedPassword);
-        $user2 = $repository->createUser('maxi', 'maxi.mustermann@hotmail.de', $role, $password, $isHashedPassword);
-        $user3 = $repository->createUser('maximan', 'maximan.mustermann@hotmail.de', $role, $password, $isHashedPassword);
+        $user1 = $repository->createUser('max', 'max.mustermann@hotmail.de', $role, $password);
+        $user2 = $repository->createUser('maxi', 'maxi.mustermann@hotmail.de', $role, $password);
+        $user3 = $repository->createUser('maximan', 'maximan.mustermann@hotmail.de', $role, $password);
 
         $foundUsers = $repository->findUsersByStatus(Role::STATUS_NOT_APPROVED);
 
@@ -153,10 +148,9 @@ class UserMongoRepositoryTest extends TestCase
         $email2 = 'peter.hans@hotmail.de';
         $role = new Role('trainee');
         $password = '1234567';
-        $isHashedPassword = false;
 
-        $user1 = $repository->createUser($username1, $email1, $role, $password, $isHashedPassword);
-        $user2 = $repository->createUser($username2, $email2, $role, $password, $isHashedPassword);
+        $user1 = $repository->createUser($username1, $email1, $role, $password);
+        $user2 = $repository->createUser($username2, $email2, $role, $password);
 
         $foundUsers = $repository->findAllUsers();
 
@@ -174,9 +168,8 @@ class UserMongoRepositoryTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
         $password = '1234567';
-        $isHashedPassword = false;
 
-        $user = $repository->createUser($username, $email, $role, $password, $isHashedPassword);
+        $user = $repository->createUser($username, $email, $role, $password);
 
         $foundUser = $repository->findUserByEmail($email);
         $this->assertEquals($user->email(), $foundUser->email());
@@ -198,14 +191,39 @@ class UserMongoRepositoryTest extends TestCase
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
         $password = '1234567';
-        $isHashedPassword = false;
 
         $this->assertFalse($repository->exists($username));
         $this->assertFalse($repository->exists($email));
 
-        $user = $repository->createUser($username, $email, $role, $password, $isHashedPassword);
+        $user = $repository->createUser($username, $email, $role, $password);
 
         $this->assertTrue($repository->exists($username));
         $this->assertTrue($repository->exists($email));
+    }
+
+    /**
+     * @test
+     * @expectedException Jimdo\Reports\User\UserRepositoryException
+     */
+    public function itShouldThrowExceptionIfUsernameOrEmailAlreadyExistsCauseOfUniqueConstraintsInDatabase()
+    {
+        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
+
+        $username = 'max_mustermann';
+        $email = 'max_mustermann@example.com';
+        $role = new Role('trainee');
+        $password = '1234567';
+
+        $user = $repository->createUser($username, $email, $role, $password);
+
+        $this->assertTrue($repository->exists($user->username()));
+        $this->assertTrue($repository->exists($user->email()));
+
+        $invalidUsername = 'max_mustermann';
+        $invalidEmail = 'max_mustermann@example.com';
+        $role = new Role('trainer');
+        $password = 'geheim123';
+
+        $user = $repository->createUser($invalidUsername, $invalidEmail, $role, $password);
     }
 }

@@ -88,6 +88,7 @@ class UserService
     {
         $user = $this->userRepository->findUserById($userId);
         $user->editPassword($oldPassword, $newPassword);
+
         $this->userRepository->save($user);
 
         $event = new Events\PasswordEdited([
@@ -282,6 +283,11 @@ class UserService
 
         if ($user === null) {
             return false;
+        }
+        if (!$user->isHashedPassword()) {
+            $user->editPassword($user->password(), $user->password());
+            $user->enableHashedPassword();
+            $this->userRepository->save($user);
         }
 
         if ($user->verify($password)) {

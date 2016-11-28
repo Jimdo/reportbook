@@ -35,7 +35,7 @@ class UserTest extends TestCase
 
         $user->editPassword($user->password(), $newPassword);
 
-        $strategy = PasswordStrategy\PasswordStrategy::for($user);
+        $strategy = new PasswordStrategy\Hashed();
 
         $this->assertTrue($strategy->verify($newPassword, $user->password()));
     }
@@ -143,6 +143,20 @@ class UserTest extends TestCase
         ]);
 
         $this->assertTrue($user->verify($password));
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEnableHashedPassword()
+    {
+        $user = $this->user();
+
+        $this->assertFalse($user->isHashedPassword());
+
+        $user->enableHashedPassword();
+
+        $this->assertTrue($user->isHashedPassword());
     }
 
     /**

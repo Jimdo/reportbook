@@ -70,5 +70,5 @@ mongo-client: ## Connects to mongoDB
 mongo-setup: ## Initial user setup
 	./scripts/mongo-setup.sh
 
-mongo-reset: ## Drop all collections
-	./scripts/drop-all-collections.sh
+mongo-reset: ## Remove reportbook-data
+	./scripts/mongo-volume-reset.sh

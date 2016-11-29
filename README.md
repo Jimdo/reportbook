@@ -126,3 +126,10 @@ update       Update composer packages
 ### v0.4.5
   - Add PHPBench
   - Add Benchmarks to Project
+
+### v0.4.6
+  - Implement hashing Password Strategy
+  - Soft Migration of Password Strategy for old Users
+
+### v0.4.7
+  - Add PasswordConstraints

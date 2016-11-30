@@ -16,5 +16,5 @@ if [ -z ${MONGO_DATABASE+x} ]; then
   MONGO_DATABASE=reportbook_$APPLICATION_ENV
 fi
 
-# Create unique indices
-mongo ${MONGO_DATABASE} -u $MONGO_USERNAME -p $MONGO_PASSWORD < scripts/mongo/mongo-migration-setup.js
+# Create collections
+mongo ${MONGO_DATABASE} -u $MONGO_USERNAME -p $MONGO_PASSWORD < scripts/mongo/create-collections.js

@@ -61,6 +61,9 @@ docker-setup:
 	-docker-machine start
 	./scripts/pull-image.sh mongo
 
+migration:
+	./scripts/mongo-migration.sh
+
 mongo-server: docker-setup ## Starts up mongoDB
 	./scripts/mongo-server.sh
 

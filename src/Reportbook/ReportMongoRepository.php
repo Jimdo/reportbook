@@ -75,7 +75,7 @@ class ReportMongoRepository implements ReportRepository
         foreach ($this->reports->find() as $report) {
             $foundReports [] = $this->serializer->unserializeReport($report->getArrayCopy());
         }
-
+        $this->sortReportsByCalendarWeek($foundReports);
         return $foundReports;
     }
 
@@ -158,5 +158,36 @@ class ReportMongoRepository implements ReportRepository
                 return $report;
             }
         }
+    }
+
+    /**
+     * @param array $array
+     */
+    public function sortReportsByCalendarWeek(&$array)
+    {
+        $direction = SORT_DESC;
+
+        $reference_array = [];
+        $reports = [];
+
+        foreach ($array as $report) {
+            $report = $this->serializer->serializeReport($report);
+            $reports[] = $report;
+        }
+
+        $array = $reports;
+
+        foreach ($array as $key => $row) {
+            $reference_array[$key] = $row['calendarWeek'];
+        }
+
+        array_multisort($reference_array, $direction, $array);
+
+        $newReports = [];
+        foreach ($array as $report) {
+            $newReports[] = $this->serializer->unserializeReport($report);
+        }
+
+        $array = $newReports;
     }
 }

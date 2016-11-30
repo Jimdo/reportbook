@@ -14,7 +14,7 @@ script:
   - make tests
 deploy:
   provider: script
-  script: make deploy
+  script: ./scripts/travis-deploy.sh
   on:
     branch: master
 env:

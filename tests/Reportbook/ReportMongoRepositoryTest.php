@@ -189,4 +189,22 @@ class ReportMongoRepositoryTest extends TestCase
         $foundReports = $repository->findAll();
         $this->assertCount(0, $foundReports);
     }
+
+    /**
+     * @test
+     */
+    public function itShouldSortReportsByCalendarweek()
+    {
+        $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
+
+        $repository->create(new TraineeId(), 'some content', '15.5.11', '3');
+        $repository->create(new TraineeId(), 'some content', '2.5.11', '1');
+        $repository->create(new TraineeId(), 'some content', '11.11.11', '2');
+
+        $foundReports = $repository->findAll();
+
+        $this->assertEquals($foundReports[0]->calendarWeek(), '3');
+        $this->assertEquals($foundReports[1]->calendarWeek(), '2');
+        $this->assertEquals($foundReports[2]->calendarWeek(), '1');
+    }
 }

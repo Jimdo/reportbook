@@ -51,20 +51,16 @@ class UserMongoRepository implements UserRepository
         string $password
     ): User {
 
-        if ($this->users->createIndex(['username' => 1], ["unique" => true])) {
-            if ($this->findUserByUsername($username) !== null) {
-                throw new UserRepositoryException(
-                    "Username already exists!\n",
-                    UserService::ERR_USERNAME_EXISTS);
-            }
+        if ($this->findUserByUsername($username) !== null) {
+            throw new UserRepositoryException(
+                "Username already exists!\n",
+                UserService::ERR_USERNAME_EXISTS);
         }
 
-        if ($this->users->createIndex(['email' => 1], ["unique" => true])) {
-            if ($this->findUserByEmail($email) !== null) {
-                throw new UserRepositoryException(
-                    "Email already exists!\n",
-                    UserService::ERR_EMAIL_EXISTS);
-            }
+        if ($this->findUserByEmail($email) !== null) {
+            throw new UserRepositoryException(
+                "Email already exists!\n",
+                UserService::ERR_EMAIL_EXISTS);
         }
 
         $user = new User($username, $email, $role, $password, new UserId(), true);

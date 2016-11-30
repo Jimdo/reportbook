@@ -32,3 +32,9 @@ sed "s/USERNAME/$MONGO_USERNAME-test/g" /scripts/mongo/create-user.js \
     | sed "s/PASSWORD/$MONGO_PASSWORD/g" \
     | sed "s/DATABASE/${MONGO_DATABASE}_test/g" \
     | mongo admin -u admin -p $MONGO_ADMIN_PASSWORD
+
+# Create collections
+/scripts/mongo-collections.sh
+
+# Create unique indices
+/scripts/mongo-indices.sh

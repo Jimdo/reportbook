@@ -17,6 +17,7 @@ if [ -z ${MONGO_DATABASE+x} ]; then
 fi
 
 eval $(docker-machine env)
-sed "s/DATABASE/${MONGO_DATABASE}/g" scripts/mongo/drop-all-collections.js\
-    | mongo $(docker-machine ip)/${MONGO_DATABASE} \
-      -u $MONGO_USERNAME -p $MONGO_PASSWORD
+
+docker stop reportbook-mongodb
+
+docker volume rm reportbook-data

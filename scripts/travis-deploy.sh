@@ -1,4 +1,5 @@
 #!/bin/sh
 
-make migration
+./scripts/mongo-migration.sh
+
 make deploy

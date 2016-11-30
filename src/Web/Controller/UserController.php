@@ -292,19 +292,21 @@ class UserController extends Controller
             $exceptions[] = $this->getErrorMessageForErrorCode(self::PASSWORD_CONFIRMATION_WRONG_MATCHING);
         }
 
-        if ($role === 'TRAINER') {
-            try {
-                $user = $this->service->registerTrainer($username, $email, $password);
-                $this->profileService->createProfile($user->id(), $forename, $surname);
-            } catch (PasswordException $e) {
-                $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
-            }
-        } elseif ($role === 'TRAINEE') {
-            try {
-                $user = $this->service->registerTrainee($username, $email, $password);
-                $this->profileService->createProfile($user->id(), $forename, $surname);
-            } catch (PasswordException $e) {
-                $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
+        if ($exceptions === []) {
+            if ($role === 'TRAINER') {
+                try {
+                    $user = $this->service->registerTrainer($username, $email, $password);
+                    $this->profileService->createProfile($user->id(), $forename, $surname);
+                } catch (PasswordException $e) {
+                    $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
+                }
+            } elseif ($role === 'TRAINEE') {
+                try {
+                    $user = $this->service->registerTrainee($username, $email, $password);
+                    $this->profileService->createProfile($user->id(), $forename, $surname);
+                } catch (PasswordException $e) {
+                    $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
+                }
             }
         }
 

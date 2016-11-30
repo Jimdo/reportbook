@@ -34,5 +34,4 @@ sed "s/USERNAME/$MONGO_USERNAME-test/g" /scripts/mongo/create-user.js \
     | mongo admin -u admin -p $MONGO_ADMIN_PASSWORD
 
 # Create unique indices
-mongo ${MONGO_DATABASE}_dev -u $MONGO_USERNAME-dev -p $MONGO_PASSWORD < /scripts/mongo/create-unique-collections.js
-mongo ${MONGO_DATABASE}_test -u $MONGO_USERNAME-test -p $MONGO_PASSWORD < /scripts/mongo/create-unique-collections.js
+/scripts/mongo-migration.sh

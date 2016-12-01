@@ -352,17 +352,17 @@ class UserServiceTest extends TestCase
     /**
      * @test
      */
-    public function itShouldCheckIfTrainerExists()
+    public function itShouldCheckIfAdminExists()
     {
         $username = 'max_mustermann';
         $email = 'max.mustermann@hotmail.de';
         $password = 'SecurePassword123';
 
-        $this->assertFalse($this->userService->checkForTrainer());
+        $this->assertFalse($this->userService->checkForAdmin());
 
-        $user = $this->userService->registerTrainer($username, $email, $password);
-        $this->userService->approveRole($email);
+        $user = $this->userService->registerAdmin($username, $email, $password);
 
-        $this->assertTrue($this->userService->checkForTrainer());
+        $this->assertEquals($user->roleStatus(), Role::STATUS_APPROVED);
+        $this->assertTrue($this->userService->checkForAdmin());
     }
 }

@@ -12,6 +12,7 @@ class Role
 
     const TRAINEE = 'TRAINEE';
     const TRAINER = 'TRAINER';
+    const ADMIN = 'ADMIN';
     const STATUS_NOT_APPROVED = 'NOT_APPROVED';
     const STATUS_APPROVED = 'APPROVED';
     const STATUS_DISAPPROVED = 'DISAPPROVED';

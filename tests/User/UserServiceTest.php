@@ -61,6 +61,22 @@ class UserServiceTest extends TestCase
     /**
      * @test
      */
+    public function itShouldRegisterAdmin()
+    {
+        $username = 'Hase';
+        $email = 'max.mustermann@hotmail.de';
+        $password = 'SecurePassword123';
+
+        $user = $this->userService->registerAdmin($username, $email, $password);
+
+        $this->assertEquals($email, $user->email());
+        $this->assertTrue($user->isHashedPassword());
+        $this->assertEquals(Role::ADMIN, $user->roleName());
+    }
+
+    /**
+     * @test
+     */
     public function itShouldEditPassword()
     {
         $username = 'Hase';

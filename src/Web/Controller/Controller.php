@@ -126,6 +126,17 @@ abstract class Controller
     }
 
     /**
+     * @return bool
+     */
+    protected function isAdmin(): bool
+    {
+        if ((!$this->sessionData('authorized') || $this->sessionData('role') !== Role::ADMIN)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * @param string $role
      * @return View
      */

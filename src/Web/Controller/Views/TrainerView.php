@@ -8,7 +8,7 @@
 <table class="table table-hover">
     <tr>
         <th>Name</th>
-        <th>Teaser</th>
+        <th>Vorschau</th>
         <th>Erstellungsdatum</th>
         <th>KW</th>
         <th>Status</th>

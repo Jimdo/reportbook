@@ -23,7 +23,12 @@ class Role
     public function __construct(string $name)
     {
         $this->name = $name;
-        $this->status = self::STATUS_NOT_APPROVED;
+
+        if ($name === self::ADMIN) {
+            $this->status = self::STATUS_APPROVED;
+        } else {
+            $this->status = self::STATUS_NOT_APPROVED;
+        }
     }
 
     /**

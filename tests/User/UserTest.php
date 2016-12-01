@@ -171,6 +171,17 @@ class UserTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function theAdminUserShouldBeApprovedAfterInit()
+    {
+        $role = ['role' => new Role(Role::ADMIN)];
+        $user = $this->user($role);
+
+        $this->assertEquals(Role::STATUS_APPROVED, $user->roleStatus());
+    }
+
+    /**
      * @param array $options
      * @param array $optionsUsed
      * @return User

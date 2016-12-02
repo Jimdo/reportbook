@@ -348,7 +348,9 @@ class ReportController extends Controller
     {
         if ($this->isTrainee() && $this->service
             ->findById($this->formData('reportId'), $this->sessionData('userId'))
-            ->status() !== Report::STATUS_DISAPPROVED) {
+            ->status() !== Report::STATUS_DISAPPROVED ||
+            $this->isAdmin()
+        ) {
                 $this->service->deleteReport($this->formData('reportId'));
                 $this->redirect("/report/list");
         } else {

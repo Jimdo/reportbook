@@ -203,13 +203,12 @@ class UserController extends Controller
         $loginWithAdminDefaultPassword = false;
         if ($identifier === self::ADMIN_DEFAULT_USER && $password === self::ADMIN_DEFAULT_PASSWORD) {
             if (!$this->service->exists($identifier)) {
-                if (!$this->service->checkForTrainer()) {
-                    $adminUser = $this->service->registerTrainer(
+                if (!$this->service->checkForAdmin()) {
+                    $adminUser = $this->service->registerAdmin(
                         self::ADMIN_DEFAULT_USER,
                         'admin',
                         self::ADMIN_DEFAULT_PASSWORD
                     );
-                    $this->service->approveRole($adminUser->email());
                     $this->profileService->createProfile($adminUser->id(), 'admin', 'admin');
                 }
             }

@@ -236,12 +236,12 @@ class ReportController extends Controller
 
     public function editReportAction()
     {
-        if (!$this->isTrainee()) {
+        if (!$this->isTrainee() && !$this->isAdmin()) {
             $this->redirect("/user");
         }
 
         $reportId = $this->formData('reportId');
-        $report = $this->service->findById($reportId, $this->sessionData('userId'));
+        $report = $this->service->findById($reportId, $this->sessionData('userId'), $this->isAdmin());
 
         $reportView = $this->view('src/Web/Controller/Views/Report.php');
         $reportView->action = '/report/edit';
@@ -253,6 +253,7 @@ class ReportController extends Controller
         $reportView->reportId = $reportId;
         $reportView->backButton = true;
         $reportView->isTrainee = $this->isTrainee();
+        $reportView->isAdmin = $this->isAdmin();
         $reportView->createButton = true;
         $reportView->statusButtons = false;
 

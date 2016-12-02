@@ -38,7 +38,7 @@
     </div>
 
     <div class="form-group">
-    <?php if ($this->isTrainee): ?>
+    <?php if ($this->isTrainee || $this->isAdmin): ?>
         <?php if ($this->createButton): ?>
             <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>" />
             <button type="submit" class="btn btn-primary col-md-offset-10 col-md-2"><?php echo $this->buttonName; ?></button>

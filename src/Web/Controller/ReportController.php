@@ -358,7 +358,7 @@ class ReportController extends Controller
 
     public function requestApprovalAction()
     {
-        if (!$this->isTrainee()) {
+        if (!$this->isTrainee() && !$this->isAdmin()) {
             $this->redirect("/user");
         } else {
             $this->service->requestApproval($this->formData('reportId'));

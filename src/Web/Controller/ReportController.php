@@ -134,6 +134,15 @@ class ReportController extends Controller
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->trainerRole = $this->isTrainer();
+        } elseif ($this->isAdmin()){
+            $reportView = $this->view('src/Web/Controller/Views/AdminView.php');
+            $reportView->userService = $this->userService;
+            $reportView->profileService = $this->profileService;
+            $reportView->viewHelper = $this->viewHelper;
+            $reportView->reports = $this->service->findAll();
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+            $infobarView->adminRole = $this->isAdmin();
         } else {
             $this->redirect("/user");
         }

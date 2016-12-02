@@ -180,6 +180,7 @@ class ReportController extends Controller
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->trainerRole = $this->isTrainer();
+            $infobarView->adminRole = $this->isAdmin();
             $infobarView->hideInfos = false;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -231,6 +232,7 @@ class ReportController extends Controller
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->trainerRole = $this->isTrainer();
+            $infobarView->adminRole = $this->isAdmin();
             $infobarView->hideInfos = false;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -285,6 +287,7 @@ class ReportController extends Controller
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->trainerRole = $this->isTrainer();
+        $infobarView->adminRole = $this->isAdmin();
         $infobarView->hideInfos = false;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -341,6 +344,7 @@ class ReportController extends Controller
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->trainerRole = $this->isTrainer();
+            $infobarView->adminRole = $this->isAdmin();
             $infobarView->hideInfos = false;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -477,6 +481,7 @@ class ReportController extends Controller
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->trainerRole = $this->isTrainer();
+        $infobarView->adminRole = $this->isAdmin();
         $infobarView->infoHeadline = ' | Übersicht';
         $infobarView->hideInfos = false;
 

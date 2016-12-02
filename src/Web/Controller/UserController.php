@@ -330,7 +330,7 @@ class UserController extends Controller
 
     public function userlistAction()
     {
-        if ($this->isTrainer()) {
+        if ($this->isTrainer() || $this->isAdmin()) {
             $headerView = $this->view('src/Web/Controller/Views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
 
@@ -339,6 +339,7 @@ class UserController extends Controller
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->trainerRole = $this->isTrainer();
+            $infobarView->adminRole = $this->isAdmin();
             $infobarView->infoHeadline = ' | Benutzeranfragen';
             $infobarView->hideInfos = false;
 
@@ -361,7 +362,7 @@ class UserController extends Controller
 
     public function changeStatusAction()
     {
-        if ($this->isTrainer()) {
+        if ($this->isTrainer() || $this->isAdmin()) {
             if ($this->formData('action') === 'approve') {
                 $this->service->approveRole($this->formData('email'));
             } elseif ($this->formData('action') === 'disapprove') {

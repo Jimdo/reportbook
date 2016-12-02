@@ -370,7 +370,7 @@ class ReportController extends Controller
 
     public function viewReportAction()
     {
-        if (!$this->isTrainee() && !$this->isTrainer()) {
+        if (!$this->isTrainee() && !$this->isTrainer() && !$this->isAdmin()) {
             $this->redirect("/user");
         }
 
@@ -392,6 +392,7 @@ class ReportController extends Controller
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->trainerRole = $this->isTrainer();
+        $infobarView->adminRole = $this->isAdmin();
         $infobarView->hideInfos = false;
 
         $reportView = $this->view('src/Web/Controller/Views/Report.php');
@@ -407,7 +408,14 @@ class ReportController extends Controller
         $reportView->creatButton = false;
         $reportView->reportId = $reportId;
         $reportView->isTrainee = $this->isTrainee();
-        $reportView->statusButtons = ($this->isTrainer() && $report->status() !== Report::STATUS_DISAPPROVED && $report->status() !== Report::STATUS_APPROVED && $report->status() !== Report::STATUS_REVISED);
+        $reportView->statusButtons = (
+            $this->isTrainer()
+            && $report->status() !== Report::STATUS_DISAPPROVED
+            && $report->status() !== Report::STATUS_APPROVED
+            && $report->status() !== Report::STATUS_REVISED
+            || $this->isAdmin()
+            && $report->status() === Report::STATUS_APPROVAL_REQUESTED
+        );
 
         $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
         $commentsView->commentService = $this->service;
@@ -432,7 +440,7 @@ class ReportController extends Controller
 
     public function approveReportAction()
     {
-        if (!$this->isTrainer()) {
+        if (!$this->isTrainer() && !$this->isAdmin()) {
             $this->redirect("/user");
         } else {
             $this->service->approveReport($this->formData('reportId'));
@@ -442,7 +450,7 @@ class ReportController extends Controller
 
     public function disapproveReportAction()
     {
-        if (!$this->isTrainer()) {
+        if (!$this->isTrainer() && !$this->isAdmin()) {
             $this->redirect("/user");
         } else {
             $this->service->disapproveReport($this->formData('reportId'));

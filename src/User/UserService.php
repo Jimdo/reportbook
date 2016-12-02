@@ -38,7 +38,6 @@ class UserService
     /**
      * @param string $username
      * @param string $email
-     * @param Role $role
      * @param string $password
      * @throws UserRepositoryException
      * @return ReadOnlyUser
@@ -61,7 +60,6 @@ class UserService
     /**
      * @param string $username
      * @param string $email
-     * @param Role $role
      * @param string $password
      * @throws UserRepositoryException
      * @return ReadOnlyUser
@@ -79,6 +77,21 @@ class UserService
         $this->notificationService->notify($event);
 
         return $user;
+    }
+
+    /**
+     * @param string $username
+     * @param string $email
+     * @param string $password
+     * @throws UserRepositoryException
+     * @return ReadOnlyUser
+     */
+    public function registerAdmin(
+        string $username,
+        string $email,
+        string $password
+    ) {
+        return $this->registerUser($username, $email, new Role(Role::ADMIN), $password);
     }
 
     /**
@@ -306,10 +319,10 @@ class UserService
     /**
      * @return bool
      */
-    public function checkForTrainer(): bool
+    public function checkForAdmin(): bool
     {
         foreach ($this->userRepository->findAllUsers() as $user) {
-            if ($user->roleName() === Role::TRAINER && $user->roleStatus() === Role::STATUS_APPROVED) {
+            if ($user->roleName() === Role::ADMIN && $user->roleStatus() === Role::STATUS_APPROVED) {
                 return true;
             }
         }

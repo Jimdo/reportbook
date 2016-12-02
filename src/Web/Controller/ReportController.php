@@ -134,6 +134,15 @@ class ReportController extends Controller
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->trainerRole = $this->isTrainer();
+        } elseif ($this->isAdmin()){
+            $reportView = $this->view('src/Web/Controller/Views/AdminView.php');
+            $reportView->userService = $this->userService;
+            $reportView->profileService = $this->profileService;
+            $reportView->viewHelper = $this->viewHelper;
+            $reportView->reports = $this->service->findAll();
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+            $infobarView->adminRole = $this->isAdmin();
         } else {
             $this->redirect("/user");
         }
@@ -171,6 +180,7 @@ class ReportController extends Controller
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->trainerRole = $this->isTrainer();
+            $infobarView->adminRole = $this->isAdmin();
             $infobarView->hideInfos = false;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -222,6 +232,7 @@ class ReportController extends Controller
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->trainerRole = $this->isTrainer();
+            $infobarView->adminRole = $this->isAdmin();
             $infobarView->hideInfos = false;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -236,12 +247,12 @@ class ReportController extends Controller
 
     public function editReportAction()
     {
-        if (!$this->isTrainee()) {
+        if (!$this->isTrainee() && !$this->isAdmin()) {
             $this->redirect("/user");
         }
 
         $reportId = $this->formData('reportId');
-        $report = $this->service->findById($reportId, $this->sessionData('userId'));
+        $report = $this->service->findById($reportId, $this->sessionData('userId'), $this->isAdmin());
 
         $reportView = $this->view('src/Web/Controller/Views/Report.php');
         $reportView->action = '/report/edit';
@@ -253,6 +264,7 @@ class ReportController extends Controller
         $reportView->reportId = $reportId;
         $reportView->backButton = true;
         $reportView->isTrainee = $this->isTrainee();
+        $reportView->isAdmin = $this->isAdmin();
         $reportView->createButton = true;
         $reportView->statusButtons = false;
 
@@ -275,6 +287,7 @@ class ReportController extends Controller
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->trainerRole = $this->isTrainer();
+        $infobarView->adminRole = $this->isAdmin();
         $infobarView->hideInfos = false;
 
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -331,6 +344,7 @@ class ReportController extends Controller
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->trainerRole = $this->isTrainer();
+            $infobarView->adminRole = $this->isAdmin();
             $infobarView->hideInfos = false;
 
             $footerView = $this->view('src/Web/Controller/Views/Footer.php');
@@ -347,7 +361,9 @@ class ReportController extends Controller
     {
         if ($this->isTrainee() && $this->service
             ->findById($this->formData('reportId'), $this->sessionData('userId'))
-            ->status() !== Report::STATUS_DISAPPROVED) {
+            ->status() !== Report::STATUS_DISAPPROVED ||
+            $this->isAdmin()
+        ) {
                 $this->service->deleteReport($this->formData('reportId'));
                 $this->redirect("/report/list");
         } else {
@@ -357,7 +373,7 @@ class ReportController extends Controller
 
     public function requestApprovalAction()
     {
-        if (!$this->isTrainee()) {
+        if (!$this->isTrainee() && !$this->isAdmin()) {
             $this->redirect("/user");
         } else {
             $this->service->requestApproval($this->formData('reportId'));
@@ -367,7 +383,7 @@ class ReportController extends Controller
 
     public function viewReportAction()
     {
-        if (!$this->isTrainee() && !$this->isTrainer()) {
+        if (!$this->isTrainee() && !$this->isTrainer() && !$this->isAdmin()) {
             $this->redirect("/user");
         }
 
@@ -389,6 +405,7 @@ class ReportController extends Controller
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->trainerRole = $this->isTrainer();
+        $infobarView->adminRole = $this->isAdmin();
         $infobarView->hideInfos = false;
 
         $reportView = $this->view('src/Web/Controller/Views/Report.php');
@@ -404,7 +421,14 @@ class ReportController extends Controller
         $reportView->creatButton = false;
         $reportView->reportId = $reportId;
         $reportView->isTrainee = $this->isTrainee();
-        $reportView->statusButtons = ($this->isTrainer() && $report->status() !== Report::STATUS_DISAPPROVED && $report->status() !== Report::STATUS_APPROVED && $report->status() !== Report::STATUS_REVISED);
+        $reportView->statusButtons = (
+            $this->isTrainer()
+            && $report->status() !== Report::STATUS_DISAPPROVED
+            && $report->status() !== Report::STATUS_APPROVED
+            && $report->status() !== Report::STATUS_REVISED
+            || $this->isAdmin()
+            && $report->status() === Report::STATUS_APPROVAL_REQUESTED
+        );
 
         $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
         $commentsView->commentService = $this->service;
@@ -429,7 +453,7 @@ class ReportController extends Controller
 
     public function approveReportAction()
     {
-        if (!$this->isTrainer()) {
+        if (!$this->isTrainer() && !$this->isAdmin()) {
             $this->redirect("/user");
         } else {
             $this->service->approveReport($this->formData('reportId'));
@@ -439,7 +463,7 @@ class ReportController extends Controller
 
     public function disapproveReportAction()
     {
-        if (!$this->isTrainer()) {
+        if (!$this->isTrainer() && !$this->isAdmin()) {
             $this->redirect("/user");
         } else {
             $this->service->disapproveReport($this->formData('reportId'));
@@ -457,6 +481,7 @@ class ReportController extends Controller
         $infobarView->username = $this->sessionData('username');
         $infobarView->role = $this->sessionData('role');
         $infobarView->trainerRole = $this->isTrainer();
+        $infobarView->adminRole = $this->isAdmin();
         $infobarView->infoHeadline = ' | Übersicht';
         $infobarView->hideInfos = false;
 
@@ -473,10 +498,12 @@ class ReportController extends Controller
             $reportView->profileService = $this->profileService;
             $reportView->viewHelper = $this->viewHelper;
             $reportView->reports = $this->service->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
-
-            $infobarView->username = $this->sessionData('username');
-            $infobarView->role = $this->sessionData('role');
-            $infobarView->trainerRole = $this->isTrainer();
+        } elseif ($this->isAdmin()) {
+            $reportView = $this->view('src/Web/Controller/Views/AdminView.php');
+            $reportView->userService = $this->userService;
+            $reportView->profileService = $this->profileService;
+            $reportView->viewHelper = $this->viewHelper;
+            $reportView->reports = $this->service->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
         } else {
             $this->redirect("/user");
         }

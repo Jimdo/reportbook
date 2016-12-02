@@ -133,3 +133,6 @@ update       Update composer packages
 
 ### v0.4.7
   - Add PasswordConstraints
+
+### v0.5
+  - Implement the admin user with special rights

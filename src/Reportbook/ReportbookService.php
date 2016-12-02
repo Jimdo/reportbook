@@ -218,6 +218,8 @@ class ReportbookService
                     $returnReports[] = $report;
                 }
             }
+        } elseif ($role === Role::ADMIN) {
+            $returnReports = $foundReports;
         }
         return $returnReports;
     }
@@ -228,11 +230,11 @@ class ReportbookService
      * @return \Jimdo\Reports\Views\Report
      * @throws ReportFileRepositoryException
      */
-    public function findById(string $reportId, string $traineeId)
+    public function findById(string $reportId, string $traineeId, bool $isAdmin = false)
     {
         $report = $this->reportRepository->findById($reportId);
         $report = new ReadOnlyReport($report);
-        if ($report->traineeId() === $traineeId) {
+        if ($report->traineeId() === $traineeId || $isAdmin) {
             return $report;
         }
         return null;

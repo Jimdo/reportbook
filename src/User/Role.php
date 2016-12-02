@@ -12,6 +12,7 @@ class Role
 
     const TRAINEE = 'TRAINEE';
     const TRAINER = 'TRAINER';
+    const ADMIN = 'ADMIN';
     const STATUS_NOT_APPROVED = 'NOT_APPROVED';
     const STATUS_APPROVED = 'APPROVED';
     const STATUS_DISAPPROVED = 'DISAPPROVED';
@@ -22,7 +23,12 @@ class Role
     public function __construct(string $name)
     {
         $this->name = $name;
-        $this->status = self::STATUS_NOT_APPROVED;
+
+        if ($name === self::ADMIN) {
+            $this->status = self::STATUS_APPROVED;
+        } else {
+            $this->status = self::STATUS_NOT_APPROVED;
+        }
     }
 
     /**

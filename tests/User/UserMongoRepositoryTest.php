@@ -226,4 +226,22 @@ class UserMongoRepositoryTest extends TestCase
 
         $user = $repository->createUser($invalidUsername, $invalidEmail, $role, $password);
     }
+
+    /**
+     * @test
+     */
+    public function itShouldSerializeAndUnserializeTheAdminUser()
+    {
+        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
+
+        $username = 'max_mustermann';
+        $email = 'max_mustermann@example.com';
+        $role = new Role(Role::ADMIN);
+        $password = 'SecurePassword123';
+
+        $user = $repository->createUser($username, $email, $role, $password);
+
+        $foundUser = $repository->findUserByUsername($user->username());
+        $this->assertEquals($foundUser->roleName(), $user->roleName());
+    }
 }

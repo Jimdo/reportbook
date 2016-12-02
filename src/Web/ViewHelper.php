@@ -48,6 +48,8 @@ class ViewHelper
                 return 'Azubi';
             case Role::TRAINER:
                 return 'Ausbilder';
+            case Role::ADMIN:
+                return 'Administrator';
         }
     }
 }

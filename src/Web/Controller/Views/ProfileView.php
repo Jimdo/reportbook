@@ -21,13 +21,17 @@
             <label class="btn btn-default btn-file">
             Bild öffnen <input type="file" name="fileToUpload" id="fileToUpload" style="display: none;">
             </label>
+            <input type="hidden" id="userId" name="userId" value="<?php echo $this->userId; ?>" />
             <input type="submit" value="Upload Image" name="submit" class="btn btn-primary">
         </form>
     </div>
 
     <br>
 
-    <a href="/user/changePassword">Passwort ändern</a>
+    <form action="/user/changePassword" method="post">
+      <input type="hidden" id="userId" name="userId" value="<?php echo $this->userId; ?>" />
+      <button type="submit" name="changePassword" value="changePassword" class="btn-link">Passwort ändern</button>
+    </form>
 
 </div>
 
@@ -55,6 +59,7 @@
                      <div class="card card-block">
                          <div class="col-sm-offset-6 col-sm-6">
                               <input type="text" name="forename" class="form-control" id="forename" placeholder="Neuer Vorname"></br>
+                              <input type="hidden" id="userId" name="userId" value="<?php echo $this->userId; ?>" />
                               <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                           </div>
                       </div>
@@ -77,6 +82,7 @@
                      <div class="card card-block">
                          <div class="col-sm-offset-6 col-sm-6">
                              <input type="text" name="surname" class="form-control" id="surname" placeholder="Neuer Nachname"></br>
+                             <input type="hidden" id="userId" name="userId" value="<?php echo $this->userId; ?>" />
                              <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                          </div>
                      </div>
@@ -100,6 +106,7 @@
                      <div class="card card-block">
                          <div class="col-sm-offset-6 col-sm-6">
                              <input type="text" name="dateOfBirth" class="form-control" id="dateOfBirth" placeholder="Neues Geburtsdatum"></br>
+                             <input type="hidden" id="userId" name="userId" value="<?php echo $this->userId; ?>" />
                              <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                          </div>
                      </div>
@@ -123,6 +130,7 @@
                      <div class="card card-block">
                          <div class="col-sm-offset-6 col-sm-6">
                              <input type="text" name="username" class="form-control" id="username" placeholder="Neuer Benutzername"></br>
+                             <input type="hidden" id="userId" name="userId" value="<?php echo $this->userId; ?>" />
                              <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                          </div>
                      </div>
@@ -146,6 +154,7 @@
                      <div class="card card-block">
                          <div class="col-sm-offset-6 col-sm-6">
                              <input type="text" name="email" class="form-control" id="email" placeholder="Neue E-Mail"></br>
+                             <input type="hidden" id="userId" name="userId" value="<?php echo $this->userId; ?>" />
                              <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                          </div>
                      </div>
@@ -178,6 +187,7 @@
                      <div class="card card-block">
                          <div class="col-sm-offset-6 col-sm-6">
                              <input type="text" name="company" class="form-control" id="company" placeholder="Neue Firma"></br>
+                             <input type="hidden" id="userId" name="userId" value="<?php echo $this->userId; ?>" />
                              <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                          </div>
                      </div>
@@ -201,6 +211,7 @@
                      <div class="card card-block">
                          <div class="col-sm-offset-6 col-sm-6">
                              <input type="text" name="jobTitle" class="form-control" id="jobTitle" placeholder="Neue Berufsbezeichung"></br>
+                             <input type="hidden" id="userId" name="userId" value="<?php echo $this->userId; ?>" />
                              <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                          </div>
                      </div>
@@ -211,7 +222,7 @@
     </div>
 </div>
 
-<?php if ($this->isTrainee): ?>
+<?php if ($this->isTrainee || $this->isAdmin): ?>
 
     <div class="col-sm-offset-2 col-sm-5">
         <div class="col-sm-offset-1 col-sm-10">
@@ -234,6 +245,7 @@
                          <div class="card card-block">
                              <div class="col-sm-offset-6 col-sm-6">
                                  <input type="text" name="school" class="form-control" id="school" placeholder="Neue Schule"></br>
+                                 <input type="hidden" id="userId" name="userId" value="<?php echo $this->userId; ?>" />
                                  <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                              </div>
                          </div>
@@ -257,6 +269,7 @@
                          <div class="card card-block">
                              <div class="col-sm-offset-6 col-sm-6">
                                  <input type="text" name="grade" class="form-control" id="grade" placeholder="Neue Klasse"></br>
+                                 <input type="hidden" id="userId" name="userId" value="<?php echo $this->userId; ?>" />
                                  <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                              </div>
                          </div>
@@ -280,6 +293,7 @@
                          <div class="card card-block">
                              <div class="col-sm-offset-6 col-sm-6">
                                  <input type="text" name="startOfTraining" class="form-control" id="startOfTraining" placeholder="Neuer Ausbildungsbeginn"></br>
+                                 <input type="hidden" id="userId" name="userId" value="<?php echo $this->userId; ?>" />
                                  <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                              </div>
                          </div>
@@ -303,6 +317,7 @@
                          <div class="card card-block">
                              <div class="col-sm-offset-6 col-sm-6">
                                  <input type="text" name="trainingYear" class="form-control" id="trainingYear" placeholder="Neues Ausbildungsjahr"></br>
+                                 <input type="hidden" id="userId" name="userId" value="<?php echo $this->userId; ?>" />
                                  <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
                              </div>
                          </div>

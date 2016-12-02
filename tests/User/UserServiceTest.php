@@ -61,6 +61,22 @@ class UserServiceTest extends TestCase
     /**
      * @test
      */
+    public function itShouldRegisterAdmin()
+    {
+        $username = 'Hase';
+        $email = 'max.mustermann@hotmail.de';
+        $password = 'SecurePassword123';
+
+        $user = $this->userService->registerAdmin($username, $email, $password);
+
+        $this->assertEquals($email, $user->email());
+        $this->assertTrue($user->isHashedPassword());
+        $this->assertEquals(Role::ADMIN, $user->roleName());
+    }
+
+    /**
+     * @test
+     */
     public function itShouldEditPassword()
     {
         $username = 'Hase';
@@ -336,17 +352,17 @@ class UserServiceTest extends TestCase
     /**
      * @test
      */
-    public function itShouldCheckIfTrainerExists()
+    public function itShouldCheckIfAdminExists()
     {
         $username = 'max_mustermann';
         $email = 'max.mustermann@hotmail.de';
         $password = 'SecurePassword123';
 
-        $this->assertFalse($this->userService->checkForTrainer());
+        $this->assertFalse($this->userService->checkForAdmin());
 
-        $user = $this->userService->registerTrainer($username, $email, $password);
-        $this->userService->approveRole($email);
+        $user = $this->userService->registerAdmin($username, $email, $password);
 
-        $this->assertTrue($this->userService->checkForTrainer());
+        $this->assertEquals($user->roleStatus(), Role::STATUS_APPROVED);
+        $this->assertTrue($this->userService->checkForAdmin());
     }
 }

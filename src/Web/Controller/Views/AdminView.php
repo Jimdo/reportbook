@@ -10,6 +10,7 @@
 
 <table class="table table-hover">
     <tr>
+        <th>Benutzer</th>
         <th>Vorschau</th>
         <th>Erstellungsdatum</th>
         <th>KW</th>
@@ -18,8 +19,11 @@
     </tr>
     <?php foreach ($this->reports as $report):
          $reportId = $report->id();
-         $traineeId = $report->traineeId();?>
+         $traineeId = $report->traineeId();
+         $profile = $this->profileService->findProfileByUserId($traineeId);
+         $user = $this->userService->findUserById($traineeId);?>
         <tr>
+            <td><a href="/user/profile?userId=<?php echo $user->id(); ?>"><?php echo $profile->forename() . ' ' . $profile->surname(); ?></a></td>
             <td><?php echo substr($report->content(), 0, 20); ?></td>
             <td><?php echo $report->date(); ?></td>
             <td><?php echo $report->calendarWeek(); ?></td>
@@ -30,22 +34,14 @@
 
                         <input type="hidden" id="reportId" name="reportId" value="<?php echo $reportId; ?>"/>
                         <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $traineeId; ?>"/>
-
-                        <?php if ($report->status() !== Report::STATUS_APPROVED
-                               && $report->status() !== Report::STATUS_APPROVAL_REQUESTED): ?>
-                            <button type="submit" class="btn-link glyphicon glyphicon-pencil"></button>
-                        <?php endif; ?>
+                        <button type="submit" class="btn-link glyphicon glyphicon-pencil"></button>
 
                     </form>
 
                     <form action="/report/requestApproval" method="POST">
 
                         <input type="hidden" id="reportId" name="reportId" value="<?php echo $reportId; ?>"/>
-
-                        <?php if ($report->status() !== Report::STATUS_DISAPPROVED
-                               && $report->status() !== Report::STATUS_APPROVED
-                               && $report->status() !== Report::STATUS_APPROVAL_REQUESTED): ?>
-                            <button type="submit" class="btn-link glyphicon glyphicon-send" onclick="return confirm('Soll der Bericht eingereicht werden?')" aria-hidden="true"></button>
+                        <button type="submit" class="btn-link glyphicon glyphicon-send" onclick="return confirm('Soll der Bericht eingereicht werden?')" aria-hidden="true"></button>
 
                     </form>
 
@@ -53,11 +49,7 @@
 
                         <input type="hidden" id="reportId" name="reportId" value="<?php echo $reportId; ?>"/>
                         <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $traineeId; ?>"/>
-
-                        <?php if ($report->status() !== Report::STATUS_REVISED): ?>
-                            <button type="submit" class="btn-link glyphicon glyphicon-trash" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')" aria-hidden="true"></button>
-                        <?php endif; ?>
-                        <?php endif; ?>
+                        <button type="submit" class="btn-link glyphicon glyphicon-trash" onclick="return confirm('Soll der Bericht wirklich gelöscht werden?')" aria-hidden="true"></button>
 
                     </form>
 
@@ -65,11 +57,7 @@
 
                         <input type="hidden" id="reportId" name="reportId" value="<?php echo $reportId; ?>"/>
                         <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $traineeId; ?>"/>
-
-                        <?php if ($report->status() === Report::STATUS_APPROVED
-                               || $report->status() === Report::STATUS_APPROVAL_REQUESTED): ?>
-                            <button type="submit" class="btn-link glyphicon glyphicon-eye-open"></button>
-                        <?php endif; ?>
+                        <button type="submit" class="btn-link glyphicon glyphicon-eye-open"></button>
 
                     </form>
 
@@ -83,10 +71,3 @@
         <label>Keine Berichte gefunden</label>
     <?php endif; ?>
 </div></br>
-
-<div>
-    <form action="/report/createReport" method="POST">
-        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Neuen Bericht erstellen</button>
-    </form>
-</div>
-</br>

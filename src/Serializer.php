@@ -37,10 +37,16 @@ class Serializer
      */
     public function unserializeUser(array $serializedUser): User
     {
-        if ($serializedUser['role']['roleName'] === Role::TRAINEE) {
-            $role = new Role(Role::TRAINEE);
-        } else {
-            $role = new Role(Role::TRAINER);
+        switch (strtoupper($serializedUser['role']['roleName'])) {
+            case Role::TRAINEE:
+                $role = new Role(Role::TRAINEE);
+                break;
+            case Role::TRAINER:
+                $role = new Role(Role::TRAINER);
+                break;
+            case Role::ADMIN:
+                $role = new Role(Role::ADMIN);
+                break;
         }
 
         if ($serializedUser['role']['roleStatus'] === Role::STATUS_APPROVED) {

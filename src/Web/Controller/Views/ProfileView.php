@@ -21,13 +21,17 @@
             <label class="btn btn-default btn-file">
             Bild öffnen <input type="file" name="fileToUpload" id="fileToUpload" style="display: none;">
             </label>
+            <input type="hidden" id="userId" name="userId" value="<?php echo $this->userId; ?>" />
             <input type="submit" value="Upload Image" name="submit" class="btn btn-primary">
         </form>
     </div>
 
     <br>
 
-    <a href="/user/changePassword">Passwort ändern</a>
+    <form action="/user/changePassword" method="post">
+      <input type="hidden" id="userId" name="userId" value="<?php echo $this->userId; ?>" />
+      <button type="submit" name="changePassword" value="changePassword" class="btn-link">Passwort ändern</button>
+    </form>
 
 </div>
 

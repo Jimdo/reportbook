@@ -218,6 +218,8 @@ class ReportbookService
                     $returnReports[] = $report;
                 }
             }
+        } elseif ($role === Role::ADMIN) {
+            $returnReports = $foundReports;
         }
         return $returnReports;
     }

@@ -80,6 +80,19 @@ class ReportTest extends TestCase
     /**
      * @test
      */
+    public function itShouldHaveCategory()
+    {
+        $traineeId = new TraineeId();
+        $content = 'some content';
+        $category = new Category(Category::SCHOOL);
+        $report = new Report($traineeId, $content, '10,10,10', '34', uniqid(), $category);
+
+        $this->assertEquals($report->category(), Category::SCHOOL);
+    }
+
+    /**
+     * @test
+     */
     public function itShouldApproveReport()
     {
         $traineeId = new TraineeId();

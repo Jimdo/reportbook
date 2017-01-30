@@ -62,4 +62,12 @@ class Report
     {
         return $this->report->calendarWeek();
     }
+
+    /**
+     * @return string
+     */
+    public function category(): string
+    {
+        return $this->report->category();
+    }
 }

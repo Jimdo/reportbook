@@ -141,13 +141,21 @@ class Serializer
      */
     public function unserializeReport(array $serializedReport): Report
     {
+        $category = $serializedReport['category'];
+
+        if ($category === null || $category === Category::COMPANY) {
+            $category = new Category(Category::COMPANY);
+        } elseif ($category === Category::SCHOOL) {
+            $category = new Category(Category::SCHOOL);
+        }
+
         return new Report(
             new TraineeId($serializedReport['traineeId']),
             $serializedReport['content'],
             $serializedReport['date'],
             $serializedReport['calendarWeek'],
             $serializedReport['id'],
-            new Category($serializedReport['category']),
+            $category,
             $serializedReport['status']
         );
     }

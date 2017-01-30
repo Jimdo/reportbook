@@ -365,6 +365,20 @@ class UserService
         return $users = $this->userRepository->findUserByEmail($email);
     }
 
+    /**
+     * @return array
+     */
+    public function findAllApprovedUsers(): array
+    {
+        $foundUsers = [];
+        foreach ($this->userRepository->findAllUsers() as $user) {
+            if ($user->roleStatus() === Role::STATUS_APPROVED) {
+                $foundUsers[] = $user;
+            }
+        }
+        return $foundUsers;
+    }
+
     public function saveImage(string $path)
     {
         $this->userRepository->saveImage($path);

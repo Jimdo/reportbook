@@ -13,12 +13,12 @@ class ReportTest extends TestCase
     {
         $traineeId = new TraineeId();
         $content = 'some content';
-        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
+        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid(), new Category(Category::SCHOOL));
 
         $this->assertEquals($content, $report->content());
 
         $content = 'some other content';
-        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
+        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid(), new Category(Category::SCHOOL));
 
         $this->assertEquals($content, $report->content());
     }
@@ -30,7 +30,7 @@ class ReportTest extends TestCase
     {
         $traineeId = new TraineeId();
         $content = 'some content';
-        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
+        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid(), new Category(Category::SCHOOL));
 
         $content = 'other content';
         $report->edit($content, '10.10.10', '34');
@@ -47,7 +47,7 @@ class ReportTest extends TestCase
     public function itShouldHaveTraineeId()
     {
         $traineeId = new TraineeId();
-        $report = new Report($traineeId, 'some content', '10.10.10', '34', uniqid());
+        $report = new Report($traineeId, 'some content', '10.10.10', '34', uniqid(), new Category(Category::SCHOOL));
 
         $this->assertEquals($traineeId->id(), $report->traineeId());
     }
@@ -59,7 +59,7 @@ class ReportTest extends TestCase
     {
         $traineeId = new TraineeId();
         $content = 'some content';
-        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
+        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid(), new Category(Category::SCHOOL));
 
         $this->assertEquals(Report::STATUS_NEW, $report->status());
     }
@@ -71,7 +71,7 @@ class ReportTest extends TestCase
     {
         $traineeId = new TraineeId();
         $content = 'some content';
-        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
+        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid(), new Category(Category::SCHOOL));
 
         $report->edit($content, '10.10.10', '34');
         $this->assertEquals(Report::STATUS_EDITED, $report->status());
@@ -97,7 +97,7 @@ class ReportTest extends TestCase
     {
         $traineeId = new TraineeId();
         $content = 'some content';
-        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
+        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid(), new Category(Category::SCHOOL));
 
         $report->approve();
         $this->assertEquals(Report::STATUS_APPROVED, $report->status());
@@ -110,7 +110,7 @@ class ReportTest extends TestCase
     {
         $traineeId = new TraineeId();
         $content = 'some content';
-        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
+        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid(), new Category(Category::SCHOOL));
 
         $report->disapprove();
         $this->assertEquals(Report::STATUS_DISAPPROVED, $report->status());
@@ -123,7 +123,7 @@ class ReportTest extends TestCase
     {
         $traineeId = new TraineeId();
         $content = 'some content';
-        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
+        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid(), new Category(Category::SCHOOL));
 
         $report->requestApproval();
         $this->assertEquals(Report::STATUS_APPROVAL_REQUESTED, $report->status());
@@ -136,7 +136,7 @@ class ReportTest extends TestCase
     {
         $traineeId = new TraineeId();
         $content = 'some content';
-        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
+        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid(), new Category(Category::SCHOOL));
 
         $report->requestApproval();
         $this->assertEquals(Report::STATUS_APPROVAL_REQUESTED, $report->status());
@@ -155,11 +155,11 @@ class ReportTest extends TestCase
     {
         $traineeId = new TraineeId();
         $content = 'some content';
-        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid());
+        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid(), new Category(Category::SCHOOL));
 
         $this->assertInternalType('string', $report->id());
 
-        $report1 = new Report($traineeId, $content, '10.10.10', '34', uniqid());
+        $report1 = new Report($traineeId, $content, '10.10.10', '34', uniqid(), new Category(Category::SCHOOL));
         $this->assertInternalType('string', $report->id());
 
         $this->assertNotEquals($report->id(), $report1->id());

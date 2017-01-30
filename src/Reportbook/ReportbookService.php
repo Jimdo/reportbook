@@ -54,9 +54,10 @@ class ReportbookService
         TraineeId $traineeId,
         string $content,
         string $date,
-        string $calendarWeek
+        string $calendarWeek,
+        Category $category
     ): \Jimdo\Reports\Views\Report {
-        $report = $this->reportRepository->create($traineeId, $content, $date, $calendarWeek);
+        $report = $this->reportRepository->create($traineeId, $content, $date, $calendarWeek, $category);
 
         $event = new Events\ReportCreated([
             'userId' => $traineeId->id(),

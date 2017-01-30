@@ -29,31 +29,33 @@
     <?php endforeach ?>
 </table>
 
-<label> Registrierte Benutzer </label>
-<table class="table table-hover">
-    <tr>
-        <th>Vorname</th>
-        <th>Nachname</th>
-        <th>Benutzername</th>
-        <th>E-Mail</th>
-        <th>Rolle</th>
-        <th>Aktionen</th>
-    </tr>
-    <?php foreach ($this->approvedUsers as $user):
-        $profile = $this->profileService->findProfileByUserId($user->id());
-        $userEmail = $user->email(); ?>
+<?php if ($this->isAdmin): ?>
+    <label> Registrierte Benutzer </label>
+    <table class="table table-hover">
         <tr>
-            <td><?php echo $profile->forename(); ?></td>
-            <td><?php echo $profile->surname(); ?></td>
-            <td><?php echo $user->username(); ?></td>
-            <td><?php echo $userEmail; ?></td>
-            <td><?php echo $this->viewHelper->getTranslationForRole($user->roleName()); ?></td>
-            <td>
-                <form action="/user/deleteUser" method="POST">
-                  <input type="hidden" id="email" name="email" value="<?php echo $userEmail; ?>"/>
-                  <button type="submit" id="deleteUser" name="action" class="btn-link glyphicon glyphicon-trash" value="deleteUser"></button>
-                </form>
-            </td>
+            <th>Vorname</th>
+            <th>Nachname</th>
+            <th>Benutzername</th>
+            <th>E-Mail</th>
+            <th>Rolle</th>
+            <th>Aktionen</th>
         </tr>
-    <?php endforeach ?>
-</table>
+        <?php foreach ($this->approvedUsers as $user):
+            $profile = $this->profileService->findProfileByUserId($user->id());
+            $userEmail = $user->email(); ?>
+            <tr>
+                <td><?php echo $profile->forename(); ?></td>
+                <td><?php echo $profile->surname(); ?></td>
+                <td><?php echo $user->username(); ?></td>
+                <td><?php echo $userEmail; ?></td>
+                <td><?php echo $this->viewHelper->getTranslationForRole($user->roleName()); ?></td>
+                <td>
+                    <form action="/user/deleteUser" method="POST">
+                      <input type="hidden" id="email" name="email" value="<?php echo $userEmail; ?>"/>
+                      <button type="submit" id="deleteUser" name="action" class="btn-link glyphicon glyphicon-trash" value="deleteUser"></button>
+                    </form>
+                </td>
+            </tr>
+        <?php endforeach ?>
+    </table>
+<?php endif; ?>

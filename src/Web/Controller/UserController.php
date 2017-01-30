@@ -356,6 +356,7 @@ class UserController extends Controller
             $userView->viewHelper = $this->viewHelper;
             $userView->profileService = $this->profileService;
             $userView->approvedUsers = $this->service->findAllApprovedUsers();
+            $userView->isAdmin = $this->isAdmin();
 
             $this->response->addBody($headerView->render());
             $this->response->addBody($infobarView->render());

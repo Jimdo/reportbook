@@ -77,6 +77,25 @@ class UserServiceTest extends TestCase
     /**
      * @test
      */
+    public function itShouldDeleteUser()
+    {
+        $username = 'Hase';
+        $email = 'max.mustermann@hotmail.de';
+        $password = 'SecurePassword123';
+
+        $this->userService->registerTrainee($username, $email, $password);
+        $user = $this->userService->findUserByEmail($email);
+
+        $this->assertCount(1, $this->userRepository->findAllUsers());
+
+        $this->userService->deleteUser($user);
+
+        $this->assertCount(0, $this->userRepository->findAllUsers());
+    }
+
+    /**
+     * @test
+     */
     public function itShouldEditPassword()
     {
         $username = 'Hase';

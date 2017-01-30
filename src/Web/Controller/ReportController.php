@@ -10,6 +10,7 @@ use Jimdo\Reports\Reportbook\CommentMongoRepository as CommentMongoRepository;
 use Jimdo\Reports\Reportbook\CommentService as CommentService;
 use Jimdo\Reports\Reportbook\ReportMongoRepository as ReportMongoRepository;
 use Jimdo\Reports\Reportbook\ReportbookService as ReportbookService;
+use Jimdo\Reports\Reportbook\Category as Category;
 use Jimdo\Reports\Profile\ProfileService as ProfileService;
 use Jimdo\Reports\Profile\ProfileMongoRepository as ProfileMongoRepository;
 use Jimdo\Reports\User\UserMongoRepository as UserMongoRepository;
@@ -201,13 +202,22 @@ class ReportController extends Controller
         $this->addRequestValidation('content', 'string');
         $this->addRequestValidation('date', 'date');
         $this->addRequestValidation('calendarWeek', 'integer');
+        $this->addRequestValidation('category', 'integer');
+
+
+        if ($this->formData('category') === '0') {
+            $category = new Category(Category::COMPANY);
+        } elseif ($this->formData('category') === '1') {
+            $category = new Category(Category::SCHOOL);
+        }
 
         if ($this->isRequestValid()) {
             $this->service->createReport(
                 new TraineeId($this->sessionData('userId')),
                 $this->formData('content'),
                 $this->formData('date'),
-                $this->formData('calendarWeek')
+                $this->formData('calendarWeek'),
+                $category
             );
             $this->redirect("/report/list");
         } else {

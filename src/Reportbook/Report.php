@@ -84,12 +84,15 @@ class Report
     * @param string $content
     * @param string $date
     * @param string $calendarWeek
+    * @param Category $category
     */
-    public function edit(string $content, string $date, string $calendarWeek)
+    public function edit(string $content, string $date, string $calendarWeek, Category $category)
     {
         $this->content = $content;
         $this->date = $date;
         $this->calendarWeek = $calendarWeek;
+        $this->category = $category;
+
         if ($this->status === self::STATUS_DISAPPROVED || $this->status === self::STATUS_REVISED) {
             $this->status = self::STATUS_REVISED;
         } else {

@@ -87,7 +87,7 @@ class ReportbookServiceTest extends TestCase
         $expectedDate = '20.12.2012';
         $expectedWeek = '20';
 
-        $this->reportbookService->editReport($report->id(), $expectedContent, $expectedDate, $expectedWeek);
+        $this->reportbookService->editReport($report->id(), $expectedContent, $expectedDate, $expectedWeek, new Category(Category::SCHOOL));
 
         $this->assertEquals($expectedDate, $report->date());
         $this->assertEquals($expectedWeek, $report->calendarWeek());

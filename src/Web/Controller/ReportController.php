@@ -319,12 +319,21 @@ class ReportController extends Controller
         $this->addRequestValidation('content', 'string');
         $this->addRequestValidation('date', 'date');
         $this->addRequestValidation('calendarWeek', 'integer');
+        $this->addRequestValidation('category', 'integer');
+
+        if ($this->formData('category') === '0') {
+            $category = new Category(Category::COMPANY);
+        } elseif ($this->formData('category') === '1') {
+            $category = new Category(Category::SCHOOL);
+        }
+
         if ($this->isRequestValid()) {
             $this->service->editReport(
                 $this->formData('reportId'),
                 $this->formData('content'),
                 $this->formData('date'),
-                $this->formData('calendarWeek')
+                $this->formData('calendarWeek'),
+                $category
             );
             $this->redirect("/report/list");
         } else {

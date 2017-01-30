@@ -33,11 +33,11 @@ class ReportTest extends TestCase
         $report = new Report($traineeId, $content, '10.10.10', '34', uniqid(), new Category(Category::SCHOOL));
 
         $content = 'other content';
-        $report->edit($content, '10.10.10', '34');
+        $report->edit($content, '10.10.10', '34', new Category(Category::SCHOOL));
         $this->assertEquals($content, $report->content());
 
         $content = 'some other content';
-        $report->edit($content, '10.10.10', '34');
+        $report->edit($content, '10.10.10', '34', new Category(Category::SCHOOL));
         $this->assertEquals($content, $report->content());
     }
 
@@ -73,7 +73,7 @@ class ReportTest extends TestCase
         $content = 'some content';
         $report = new Report($traineeId, $content, '10.10.10', '34', uniqid(), new Category(Category::SCHOOL));
 
-        $report->edit($content, '10.10.10', '34');
+        $report->edit($content, '10.10.10', '34', new Category(Category::SCHOOL));
         $this->assertEquals(Report::STATUS_EDITED, $report->status());
     }
 
@@ -144,7 +144,7 @@ class ReportTest extends TestCase
         $report->disapprove();
         $this->assertEquals(Report::STATUS_DISAPPROVED, $report->status());
 
-        $report->edit($content, '10.10.10', '34');
+        $report->edit($content, '10.10.10', '34', new Category(Category::SCHOOL));
         $this->assertEquals(Report::STATUS_REVISED, $report->status());
     }
 
@@ -163,5 +163,21 @@ class ReportTest extends TestCase
         $this->assertInternalType('string', $report->id());
 
         $this->assertNotEquals($report->id(), $report1->id());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldEditCategory()
+    {
+        $traineeId = new TraineeId();
+        $content = 'some content';
+        $report = new Report($traineeId, $content, '10.10.10', '34', uniqid(), new Category(Category::SCHOOL));
+
+        $newCategory = new Category(Category::COMPANY);
+
+        $report->edit($content, '10.10.10', '34', $newCategory);
+
+        $this->assertEquals($newCategory->name(), $report->category());
     }
 }

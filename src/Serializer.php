@@ -9,6 +9,7 @@ use Jimdo\Reports\User\UserId as UserId;
 use Jimdo\Reports\Profile\Profile as Profile;
 use Jimdo\Reports\Reportbook\Report as Report;
 use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
+use Jimdo\Reports\Reportbook\Category as Category;
 
 class Serializer
 {
@@ -129,6 +130,7 @@ class Serializer
             'calendarWeek' => $report->calendarWeek(),
             'content' => $report->content(),
             'traineeId' => $report->traineeId(),
+            'category' => $report->category(),
             'status' => $report->status()
         ];
     }
@@ -139,12 +141,21 @@ class Serializer
      */
     public function unserializeReport(array $serializedReport): Report
     {
+        $category = $serializedReport['category'];
+
+        if ($category === null || $category === Category::COMPANY) {
+            $category = new Category(Category::COMPANY);
+        } elseif ($category === Category::SCHOOL) {
+            $category = new Category(Category::SCHOOL);
+        }
+
         return new Report(
             new TraineeId($serializedReport['traineeId']),
             $serializedReport['content'],
             $serializedReport['date'],
             $serializedReport['calendarWeek'],
             $serializedReport['id'],
+            $category,
             $serializedReport['status']
         );
     }

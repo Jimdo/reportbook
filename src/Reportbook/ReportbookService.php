@@ -54,9 +54,10 @@ class ReportbookService
         TraineeId $traineeId,
         string $content,
         string $date,
-        string $calendarWeek
+        string $calendarWeek,
+        Category $category
     ): \Jimdo\Reports\Views\Report {
-        $report = $this->reportRepository->create($traineeId, $content, $date, $calendarWeek);
+        $report = $this->reportRepository->create($traineeId, $content, $date, $calendarWeek, $category);
 
         $event = new Events\ReportCreated([
             'userId' => $traineeId->id(),
@@ -75,12 +76,13 @@ class ReportbookService
      * @param string $content
      * @param string $date
      * @param string $calendarWeek
+     * @param Category $category
      * @throws ReportFileRepositoryException
      */
-    public function editReport(string $reportId, string $content, string $date, string $calendarWeek)
+    public function editReport(string $reportId, string $content, string $date, string $calendarWeek, Category $category)
     {
         $report = $this->reportRepository->findById($reportId);
-        $report->edit($content, $date, $calendarWeek);
+        $report->edit($content, $date, $calendarWeek, $category);
         $this->reportRepository->save($report);
 
         $event = new Events\ReportEdited([

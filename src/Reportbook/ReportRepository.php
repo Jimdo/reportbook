@@ -9,9 +9,10 @@ interface ReportRepository
      * @param string $content
      * @param string $date
      * @param string $calendarWeek
+     * @param Category $category
      * @return Report
      */
-    public function create(TraineeId $traineeId, string $content, string $date, string $calendarWeek): Report;
+    public function create(TraineeId $traineeId, string $content, string $date, string $calendarWeek, Category $category): Report;
 
     /**
      * @param Report $report

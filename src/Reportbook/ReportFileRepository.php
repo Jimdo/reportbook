@@ -28,12 +28,13 @@ class ReportFileRepository implements ReportRepository
      * @param string $content
      * @param string $date
      * @param string $calendarWeek
+     * @param Category $category
      * @return Report
      * @throws ReportFileRepositoryException
      */
-    public function create(TraineeId $traineeId, string $content, string $date, string $calendarWeek): Report
+    public function create(TraineeId $traineeId, string $content, string $date, string $calendarWeek, Category $category): Report
     {
-        $report = new Report($traineeId, $content, $date, $calendarWeek, uniqid());
+        $report = new Report($traineeId, $content, $date, $calendarWeek, uniqid(), $category);
         $this->save($report);
 
         return $report;

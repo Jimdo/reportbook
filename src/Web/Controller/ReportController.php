@@ -437,10 +437,12 @@ class ReportController extends Controller
         $reportView->buttonName = 'Speichern';
         $reportView->backButton = true;
         $reportView->readonly = 'readonly';
+        $reportView->radioReadonly = 'disabled';
         $reportView->trainerRole = $this->isTrainer();
         $reportView->creatButton = false;
         $reportView->reportId = $reportId;
         $reportView->isTrainee = $this->isTrainee();
+        $reportView->category = ($report->category() === Category::COMPANY);
         $reportView->statusButtons = (
             $this->isTrainer()
             && $report->status() !== Report::STATUS_DISAPPROVED

@@ -37,19 +37,19 @@
 
             <?php if ($this->category === true): ?>
                 <label class="radio-inline">
-                    <input checked type="radio" name="category" value="0">Betrieb
+                    <input <?php echo $this->radioReadonly; ?> checked type="radio" name="category" value="0">Betrieb
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" name="category" value="1">Schule
+                    <input <?php echo $this->radioReadonly; ?> type="radio" name="category" value="1">Schule
                 </label>
             <?php endif; ?>
 
             <?php if ($this->category === false): ?>
                 <label class="radio-inline">
-                    <input type="radio" name="category" value="0">Betrieb
+                    <input <?php echo $this->radioReadonly; ?> type="radio" name="category" value="0">Betrieb
                 </label>
                 <label class="radio-inline">
-                    <input checked type="radio" name="category" value="1">Schule
+                    <input <?php echo $this->radioReadonly; ?> checked type="radio" name="category" value="1">Schule
                 </label>
             <?php endif; ?>
 

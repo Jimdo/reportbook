@@ -277,6 +277,7 @@ class ReportController extends Controller
         $reportView->isAdmin = $this->isAdmin();
         $reportView->createButton = true;
         $reportView->statusButtons = false;
+        $reportView->category = ($report->category() === Category::COMPANY);
 
         $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
         $commentsView->commentService = $this->service;

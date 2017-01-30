@@ -31,6 +31,34 @@
     </div>
 
     <div class="row">
+
+        <label class="col-md-2 control-label" for="date">Kategorie: </label>
+        <div class="col-md-2 col-md-offset-0">
+
+            <?php if ($this->category === true): ?>
+                <label class="radio-inline">
+                    <input checked type="radio" name="category" value="0">Betrieb
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="category" value="1">Schule
+                </label>
+            <?php endif; ?>
+
+            <?php if ($this->category === false): ?>
+                <label class="radio-inline">
+                    <input type="radio" name="category" value="0">Betrieb
+                </label>
+                <label class="radio-inline">
+                    <input checked type="radio" name="category" value="1">Schule
+                </label>
+            <?php endif; ?>
+
+        </div>
+    </div>
+
+    </br>
+
+    <div class="row">
         <label class="col-md-2 control-label" for="calendarWeek">Bericht: </label>
         <div class="col-md-10 col-md-offset-0">
             <textarea <?php echo $this->readonly; ?> id="content" name="content" class="form-control" rows="15"><?php echo $this->content; ?></textarea></br>

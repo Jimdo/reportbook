@@ -50,7 +50,7 @@
                 <td><?php echo $userEmail; ?></td>
                 <td><?php echo $this->viewHelper->getTranslationForRole($user->roleName()); ?></td>
                 <td>
-                    <form action="/user/deleteUser" method="POST">
+                    <form action="/user/delete" method="POST">
                       <input type="hidden" id="email" name="email" value="<?php echo $userEmail; ?>"/>
                       <button type="submit" id="deleteUser" name="action" class="btn-link glyphicon glyphicon-trash" value="deleteUser"></button>
                     </form>

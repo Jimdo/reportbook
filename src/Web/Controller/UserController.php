@@ -367,6 +367,16 @@ class UserController extends Controller
         }
     }
 
+    public function deleteAction()
+    {
+        if ($this->isAdmin()) {
+            $user = $this->service->findUserbyEmail($this->formData('email'));
+            $this->service->deleteUser($user);
+        } else {
+            $this->redirect("/user");
+        }
+    }
+
     public function changeStatusAction()
     {
         if ($this->isTrainer() || $this->isAdmin()) {

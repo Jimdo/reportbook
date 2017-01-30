@@ -10,6 +10,7 @@ use Jimdo\Reports\User\UserId as UserId;
 use Jimdo\Reports\Profile\Profile as Profile;
 use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
 use Jimdo\Reports\Reportbook\Report as Report;
+use Jimdo\Reports\Reportbook\Category as Category;
 
 class SerializerTest extends TestCase
 {
@@ -149,8 +150,9 @@ class SerializerTest extends TestCase
         $date = '10.10.10';
         $calendarWeek = '35';
         $reportId = uniqid();
+        $category = new Category(Category::SCHOOL);
 
-        $report = new Report($traineeId, $content, $date, $calendarWeek, $reportId);
+        $report = new Report($traineeId, $content, $date, $calendarWeek, $reportId, $category);
 
         $serializedReport = $serializer->serializeReport($report);
 
@@ -160,6 +162,7 @@ class SerializerTest extends TestCase
         $this->assertEquals($calendarWeek, $serializedReport['calendarWeek']);
         $this->assertEquals($reportId, $serializedReport['id']);
         $this->assertEquals($report->status(), $serializedReport['status']);
+        $this->assertEquals($report->category(), $serializedReport['category']);
     }
 
     /**
@@ -174,8 +177,9 @@ class SerializerTest extends TestCase
         $date = '10.10.10';
         $calendarWeek = '35';
         $reportId = uniqid();
+        $category = new Category(Category::SCHOOL);
 
-        $report = new Report($traineeId, $content, $date, $calendarWeek, $reportId);
+        $report = new Report($traineeId, $content, $date, $calendarWeek, $reportId, $category);
 
         $serializedReport = $serializer->serializeReport($report);
 
@@ -187,6 +191,7 @@ class SerializerTest extends TestCase
         $this->assertEquals($calendarWeek, $unserializedReport->calendarWeek());
         $this->assertEquals($reportId, $unserializedReport->id());
         $this->assertEquals($report->status(), $unserializedReport->status());
+        $this->assertEquals($report->category(), $unserializedReport->category());
     }
 
     /**

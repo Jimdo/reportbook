@@ -355,6 +355,7 @@ class UserController extends Controller
             $userView->users = $this->service->findUsersByStatus(Role::STATUS_NOT_APPROVED);
             $userView->viewHelper = $this->viewHelper;
             $userView->profileService = $this->profileService;
+            $userView->approvedUsers = $this->service->findAllApprovedUsers();
 
             $this->response->addBody($headerView->render());
             $this->response->addBody($infobarView->render());

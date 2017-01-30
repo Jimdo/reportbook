@@ -29,12 +29,16 @@ class Report
     /** @var string */
     private $calendarWeek;
 
+    /** @var Category */
+    private $category;
+
     /**
-     * @param string $traineeId
+     * @param TraineeId $traineeId
      * @param string $content
      * @param string $date
      * @param string $calendarWeek
      * @param string $id
+     * @param Category $category
      * @param string $status
      */
     public function __construct(
@@ -43,6 +47,7 @@ class Report
         string $date,
         string $calendarWeek,
         string $id,
+        Category $category,
         string $status = null
     ) {
         $this->content = $content;
@@ -50,6 +55,7 @@ class Report
         $this->date = $date;
         $this->calendarWeek = $calendarWeek;
         $this->id = $id;
+        $this->category = $category;
 
         if ($status === null) {
             $this->status = self::STATUS_NEW;
@@ -121,6 +127,14 @@ class Report
     public function calendarWeek(): string
     {
         return $this->calendarWeek;
+    }
+
+    /**
+     * @return string
+     */
+    public function category(): string
+    {
+        return $this->category->name();
     }
 
     public function approve()

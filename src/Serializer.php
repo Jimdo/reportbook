@@ -143,10 +143,8 @@ class Serializer
     {
         $category = $serializedReport['category'];
 
-        if ($category === null || $category === Category::COMPANY) {
-            $category = new Category(Category::COMPANY);
-        } elseif ($category === Category::SCHOOL) {
-            $category = new Category(Category::SCHOOL);
+        if ($category === null) {
+            $category = Category::COMPANY;
         }
 
         return new Report(

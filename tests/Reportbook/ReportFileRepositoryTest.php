@@ -35,7 +35,7 @@ class ReportFileRepositoryTest extends TestCase
     {
         $repository = new ReportFileRepository(self::REPORTS_ROOT_PATH);
         $traineeId = new TraineeId();
-        $category = new Category(Category::SCHOOL);
+        $category = Category::SCHOOL;
         $expectedContent = 'some content';
 
         $expectedReport = $repository->create($traineeId, $expectedContent, '10.10.10', '34', $category);
@@ -59,7 +59,7 @@ class ReportFileRepositoryTest extends TestCase
     {
         $repository = new ReportFileRepository(self::REPORTS_ROOT_PATH);
         $traineeId = new TraineeId();
-        $category = new Category(Category::SCHOOL);
+        $category = Category::SCHOOL;
         $content = 'some content';
 
         $report = $repository->create($traineeId, $content, '10.10.10', '34', $category);
@@ -84,7 +84,7 @@ class ReportFileRepositoryTest extends TestCase
     {
         $repository = new ReportFileRepository(self::REPORTS_ROOT_PATH);
         $content = 'some content';
-        $category = new Category(Category::SCHOOL);
+        $category = Category::SCHOOL;
 
         $this->assertCount(0, $repository->findAll());
 
@@ -104,7 +104,7 @@ class ReportFileRepositoryTest extends TestCase
     public function itShouldFindByTraineeId()
     {
         $repository = new ReportFileRepository(self::REPORTS_ROOT_PATH);
-        $category = new Category(Category::SCHOOL);
+        $category = Category::SCHOOL;
         $content = 'some content';
 
         $traineeId1 = new TraineeId();
@@ -129,7 +129,7 @@ class ReportFileRepositoryTest extends TestCase
     public function itShouldFindByStatus()
     {
         $repository = new ReportFileRepository(self::REPORTS_ROOT_PATH);
-        $category = new Category(Category::SCHOOL);
+        $category = Category::SCHOOL;
         $content = 'some content';
 
         $reports = [];
@@ -148,7 +148,7 @@ class ReportFileRepositoryTest extends TestCase
     public function itShouldFindById()
     {
         $repository = new ReportFileRepository(self::REPORTS_ROOT_PATH);
-        $category = new Category(Category::SCHOOL);
+        $category = Category::SCHOOL;
         $content = 'some content';
 
         $report1 = $repository->create(new TraineeId(), $content, '10.10.10', '34', $category);

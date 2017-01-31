@@ -47,6 +47,7 @@ class ReportbookService
      * @param string $content
      * @param string $date
      * @param string $calendarWeek
+     * @param string $category
      * @return \Jimdo\Reports\Views\Report
      * @throws ReportFileRepositoryException
      */
@@ -55,7 +56,7 @@ class ReportbookService
         string $content,
         string $date,
         string $calendarWeek,
-        Category $category
+        string $category
     ): \Jimdo\Reports\Views\Report {
         $report = $this->reportRepository->create($traineeId, $content, $date, $calendarWeek, $category);
 
@@ -76,10 +77,10 @@ class ReportbookService
      * @param string $content
      * @param string $date
      * @param string $calendarWeek
-     * @param Category $category
+     * @param string $category
      * @throws ReportFileRepositoryException
      */
-    public function editReport(string $reportId, string $content, string $date, string $calendarWeek, Category $category)
+    public function editReport(string $reportId, string $content, string $date, string $calendarWeek, string $category)
     {
         $report = $this->reportRepository->findById($reportId);
         $report->edit($content, $date, $calendarWeek, $category);

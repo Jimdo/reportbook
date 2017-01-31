@@ -172,6 +172,7 @@ class ReportController extends Controller
             $reportView->isTrainee = $this->isTrainee();
             $reportView->createButton = true;
             $reportView->statusButtons = false;
+            $reportView->isCompany = 'checked';
 
             $headerView = $this->view('src/Web/Controller/Views/Header.php');
             $headerView->tabTitle = 'Berichtsheft';
@@ -202,14 +203,7 @@ class ReportController extends Controller
         $this->addRequestValidation('content', 'string');
         $this->addRequestValidation('date', 'date');
         $this->addRequestValidation('calendarWeek', 'integer');
-        $this->addRequestValidation('category', 'integer');
-
-
-        if ($this->formData('category') === '0') {
-            $category = new Category(Category::COMPANY);
-        } elseif ($this->formData('category') === '1') {
-            $category = new Category(Category::SCHOOL);
-        }
+        $this->addRequestValidation('category', 'string');
 
         if ($this->isRequestValid()) {
             $this->service->createReport(
@@ -217,7 +211,7 @@ class ReportController extends Controller
                 $this->formData('content'),
                 $this->formData('date'),
                 $this->formData('calendarWeek'),
-                $category
+                $this->formData('category')
             );
             $this->redirect("/report/list");
         } else {
@@ -264,6 +258,15 @@ class ReportController extends Controller
         $reportId = $this->formData('reportId');
         $report = $this->service->findById($reportId, $this->sessionData('userId'), $this->isAdmin());
 
+        $isSchool = '';
+        $isCompany = '';
+
+        if ($report->category() === Category::SCHOOL) {
+            $isSchool = 'checked';
+        } elseif ($report->category() === Category::COMPANY) {
+            $isCompany = 'checked';
+        }
+
         $reportView = $this->view('src/Web/Controller/Views/Report.php');
         $reportView->action = '/report/edit';
         $reportView->legend = 'Bericht bearbeiten';
@@ -277,7 +280,8 @@ class ReportController extends Controller
         $reportView->isAdmin = $this->isAdmin();
         $reportView->createButton = true;
         $reportView->statusButtons = false;
-        $reportView->category = ($report->category() === Category::COMPANY);
+        $reportView->isSchool = $isSchool;
+        $reportView->isCompany = $isCompany;
 
         $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
         $commentsView->commentService = $this->service;
@@ -320,13 +324,7 @@ class ReportController extends Controller
         $this->addRequestValidation('content', 'string');
         $this->addRequestValidation('date', 'date');
         $this->addRequestValidation('calendarWeek', 'integer');
-        $this->addRequestValidation('category', 'integer');
-
-        if ($this->formData('category') === '0') {
-            $category = new Category(Category::COMPANY);
-        } elseif ($this->formData('category') === '1') {
-            $category = new Category(Category::SCHOOL);
-        }
+        $this->addRequestValidation('category', 'string');
 
         if ($this->isRequestValid()) {
             $this->service->editReport(
@@ -334,7 +332,7 @@ class ReportController extends Controller
                 $this->formData('content'),
                 $this->formData('date'),
                 $this->formData('calendarWeek'),
-                $category
+                $this->formData('category')
             );
             $this->redirect("/report/list");
         } else {
@@ -417,6 +415,15 @@ class ReportController extends Controller
 
         $report = $this->service->findById($reportId, $traineeId);
 
+        $isSchool = '';
+        $isCompany = '';
+
+        if ($report->category() === Category::SCHOOL) {
+            $isSchool = 'checked';
+        } elseif ($report->category() === Category::COMPANY) {
+            $isCompany = 'checked';
+        }
+
         $headerView = $this->view('src/Web/Controller/Views/Header.php');
         $headerView->tabTitle = 'Berichtsheft';
 
@@ -442,7 +449,8 @@ class ReportController extends Controller
         $reportView->creatButton = false;
         $reportView->reportId = $reportId;
         $reportView->isTrainee = $this->isTrainee();
-        $reportView->category = ($report->category() === Category::COMPANY);
+        $reportView->isSchool = $isSchool;
+        $reportView->isCompany = $isCompany;
         $reportView->statusButtons = (
             $this->isTrainer()
             && $report->status() !== Report::STATUS_DISAPPROVED

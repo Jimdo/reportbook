@@ -51,7 +51,7 @@
     <div class="row">
         <label class="col-md-2 control-label" for="calendarWeek">Bericht: </label>
         <div class="col-md-10 col-md-offset-0">
-            <textarea <?php echo $this->readonly; ?> id="content" name="content" class="form-control" rows="15"><?php echo $this->content; ?></textarea></br>
+            <textarea style="resize: none" <?php echo $this->readonly; ?> id="content" name="content" class="form-control" rows="15"><?php echo $this->content; ?></textarea></br>
         </div>
     </div>
 

@@ -372,8 +372,9 @@ class UserController extends Controller
         if ($this->isAdmin()) {
             $user = $this->service->findUserbyEmail($this->formData('email'));
             $this->service->deleteUser($user);
+            $this->redirect('/user/userlist');
         } else {
-            $this->redirect("/user");
+            $this->redirect('/user');
         }
     }
 

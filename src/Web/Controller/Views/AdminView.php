@@ -10,7 +10,7 @@
 
 <table class="table table-hover">
     <tr>
-        <th>Benutzer</th>
+        <th>Name</th>
         <th>Vorschau</th>
         <th>Erstellungsdatum</th>
         <th>KW</th>

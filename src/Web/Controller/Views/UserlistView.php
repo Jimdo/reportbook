@@ -2,8 +2,8 @@
 <label> Benutzeranfragen </label>
 <table class="table table-hover">
     <tr>
-        <th>Vorname</th>
-        <th>Nachname</th>
+        <th>Name</th>
+        <th>Benutzername</th>
         <th>E-Mail</th>
         <th>Rolle</th>
         <th>Status</th>
@@ -13,8 +13,8 @@
         $profile = $this->profileService->findProfileByUserId($user->id());
         $userEmail = $user->email(); ?>
         <tr>
-            <td><?php echo $profile->forename(); ?></td>
-            <td><?php echo $profile->surname(); ?></td>
+            <td><a href="/user/viewProfile?userId=<?php echo $user->id(); ?>"><?php echo $profile->forename(); ?> <?php echo $profile->surname(); ?></td>
+            <td><?php echo $user->username(); ?></td>
             <td><?php echo $userEmail; ?></td>
             <td><?php echo $this->viewHelper->getTranslationForRole($user->roleName()); ?></td>
             <td><?php echo $this->viewHelper->getTranslationForStatus($user->roleStatus()); ?></td>
@@ -33,8 +33,7 @@
     <label> Registrierte Benutzer </label>
     <table class="table table-hover">
         <tr>
-            <th>Vorname</th>
-            <th>Nachname</th>
+            <th>Name</th>
             <th>Benutzername</th>
             <th>E-Mail</th>
             <th>Rolle</th>
@@ -45,8 +44,7 @@
             $userEmail = $user->email();
             if ($user->username() !== 'admin'): ?>
             <tr>
-                <td><?php echo $profile->forename(); ?></td>
-                <td><?php echo $profile->surname(); ?></td>
+                <td><a href="/user/viewProfile?userId=<?php echo $user->id(); ?>"><?php echo $profile->forename(); ?> <?php echo $profile->surname(); ?></td>
                 <td><?php echo $user->username(); ?></td>
                 <td><?php echo $userEmail; ?></td>
                 <td><?php echo $this->viewHelper->getTranslationForRole($user->roleName()); ?></td>

@@ -49,7 +49,7 @@ class ReportMongoRepositoryTest extends TestCase
         $expectedContent = 'some content';
         $date = '10.10.10';
         $calendarWeek = '34';
-        $category = new Category(Category::SCHOOL);
+        $category = Category::SCHOOL;
 
         $report = $repository->create($traineeId, $expectedContent, $date, $calendarWeek, $category);
 
@@ -70,7 +70,7 @@ class ReportMongoRepositoryTest extends TestCase
         $expectedContent = 'some content';
         $date = '10.10.10';
         $calendarWeek = '34';
-        $category = new Category(Category::SCHOOL);
+        $category = Category::SCHOOL;
 
         $foundReports = $repository->findAll();
         $this->assertCount(0, $foundReports);
@@ -95,7 +95,7 @@ class ReportMongoRepositoryTest extends TestCase
         $expectedContent = 'some content';
         $date = '10.10.10';
         $calendarWeek = '34';
-        $category = new Category(Category::SCHOOL);
+        $category = Category::SCHOOL;
 
         $report1 = $repository->create($traineeId1, $expectedContent, $date, $calendarWeek, $category);
         $report2 = $repository->create($traineeId1, $expectedContent, $date, $calendarWeek, $category);
@@ -119,7 +119,7 @@ class ReportMongoRepositoryTest extends TestCase
         $traineeId = new TraineeId();
         $date = '10.10.10';
         $calendarWeek = '34';
-        $category = new Category(Category::SCHOOL);
+        $category = Category::SCHOOL;
 
         $report1 = $repository->create($traineeId, 'some content', $date, $calendarWeek, $category);
         $report2 = $repository->create($traineeId, 'hello world', $date, $calendarWeek, $category);
@@ -143,7 +143,7 @@ class ReportMongoRepositoryTest extends TestCase
         $expectedContent = 'some content';
         $date = '10.10.10';
         $calendarWeek = '34';
-        $category = new Category(Category::COMPANY);
+        $category = Category::COMPANY;
 
         $report1 = $repository->create($traineeId1, $expectedContent, $date, $calendarWeek, $category);
         $report2 = $repository->create($traineeId1, $expectedContent, $date, $calendarWeek, $category);
@@ -164,7 +164,7 @@ class ReportMongoRepositoryTest extends TestCase
         $expectedContent = 'some content';
         $date = '10.10.10';
         $calendarWeek = '34';
-        $category = new Category(Category::SCHOOL);
+        $category = Category::SCHOOL;
 
         $report = $repository->create($traineeId, $expectedContent, $date, $calendarWeek, $category);
 
@@ -184,7 +184,7 @@ class ReportMongoRepositoryTest extends TestCase
         $expectedContent = 'some content';
         $date = '10.10.10';
         $calendarWeek = '34';
-        $category = new Category(Category::SCHOOL);
+        $category = Category::SCHOOL;
 
         $report = $repository->create($traineeId, $expectedContent, $date, $calendarWeek, $category);
 
@@ -204,9 +204,9 @@ class ReportMongoRepositoryTest extends TestCase
     {
         $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
 
-        $repository->create(new TraineeId(), 'some content', '15.5.11', '3', new Category(Category::SCHOOL));
-        $repository->create(new TraineeId(), 'some content', '2.5.11', '1', new Category(Category::SCHOOL));
-        $repository->create(new TraineeId(), 'some content', '11.11.11', '2', new Category(Category::SCHOOL));
+        $repository->create(new TraineeId(), 'some content', '15.5.11', '3', Category::SCHOOL);
+        $repository->create(new TraineeId(), 'some content', '2.5.11', '1', Category::SCHOOL);
+        $repository->create(new TraineeId(), 'some content', '11.11.11', '2', Category::SCHOOL);
 
         $foundReports = $repository->findAll();
 

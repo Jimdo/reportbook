@@ -150,7 +150,7 @@ class SerializerTest extends TestCase
         $date = '10.10.10';
         $calendarWeek = '35';
         $reportId = uniqid();
-        $category = new Category(Category::SCHOOL);
+        $category = Category::SCHOOL;
 
         $report = new Report($traineeId, $content, $date, $calendarWeek, $reportId, $category);
 
@@ -177,7 +177,7 @@ class SerializerTest extends TestCase
         $date = '10.10.10';
         $calendarWeek = '35';
         $reportId = uniqid();
-        $category = new Category(Category::SCHOOL);
+        $category = Category::SCHOOL;
 
         $report = new Report($traineeId, $content, $date, $calendarWeek, $reportId, $category);
 

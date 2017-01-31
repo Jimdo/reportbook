@@ -29,7 +29,7 @@ class Report
     /** @var string */
     private $calendarWeek;
 
-    /** @var Category */
+    /** @var string */
     private $category;
 
     /**
@@ -38,7 +38,7 @@ class Report
      * @param string $date
      * @param string $calendarWeek
      * @param string $id
-     * @param Category $category
+     * @param string $category
      * @param string $status
      */
     public function __construct(
@@ -47,7 +47,7 @@ class Report
         string $date,
         string $calendarWeek,
         string $id,
-        Category $category,
+        string $category,
         string $status = null
     ) {
         $this->content = $content;
@@ -84,9 +84,9 @@ class Report
     * @param string $content
     * @param string $date
     * @param string $calendarWeek
-    * @param Category $category
+    * @param string $category
     */
-    public function edit(string $content, string $date, string $calendarWeek, Category $category)
+    public function edit(string $content, string $date, string $calendarWeek, string $category)
     {
         $this->content = $content;
         $this->date = $date;
@@ -137,7 +137,7 @@ class Report
      */
     public function category(): string
     {
-        return $this->category->name();
+        return $this->category;
     }
 
     public function approve()

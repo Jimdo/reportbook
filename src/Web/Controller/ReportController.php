@@ -121,6 +121,7 @@ class ReportController extends Controller
             $reportView = $this->view('src/Web/Controller/Views/TraineeView.php');
             $reportView->reports = $this->service->findByTraineeId($this->sessionData('userId'));
             $reportView->viewHelper = $this->viewHelper;
+            $reportView->commentService = $this->service;
         } elseif ($this->isTrainer()) {
             $reportView = $this->view('src/Web/Controller/Views/TrainerView.php');
             $reportView->userService = $this->userService;

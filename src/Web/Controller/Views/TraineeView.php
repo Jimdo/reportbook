@@ -15,6 +15,7 @@
         <th>Erstellungsdatum</th>
         <th>KW</th>
         <th>Status</th>
+        <th>Kommentare</th>
         <th>Aktionen</th>
     </tr>
     <?php foreach ($this->reports as $report):
@@ -26,6 +27,7 @@
             <td><?php echo $report->date(); ?></td>
             <td><?php echo $report->calendarWeek(); ?></td>
             <td><?php echo $this->viewHelper->getTranslationForStatus($report->status()); ?></td>
+            <td><?php echo count($this->commentService->findCommentsByReportId($reportId)); ?></td>
                 <td>
 
                     <form action="/report/editReport" method="POST">

@@ -264,27 +264,6 @@ class UserServiceTest extends TestCase
     /**
      * @test
      */
-    public function itShouldFindAllApprovedUsers()
-    {
-        $password = 'SecurePassword123';
-
-        $user1 = $this->userService->registerTrainer('max_mustermann', 'max_mustermann@example.com', $password);
-        $user2 = $this->userService->registerTrainer('hallo', 'hallo@hallo.com', $password);
-
-        $this->userService->approveRole($user1->email());
-
-        $foundUsers = $this->userService->findAllApprovedUsers();
-        $this->assertCount(1, $foundUsers);
-
-        $this->userService->approveRole($user2->email());
-
-        $foundUsers = $this->userService->findAllApprovedUsers();
-        $this->assertCount(2, $foundUsers);
-    }
-
-    /**
-     * @test
-     */
     public function itShouldCheckIfUserExistsByEmailOrUsername()
     {
         $username = 'hase2000';

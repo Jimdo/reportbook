@@ -4,7 +4,7 @@
   <fieldset>
 
     <div class="row">
-        <legend><?php echo $this->legend; ?></legend>
+        <legend><?php echo $this->legend; ?> <?php echo $this->traineeName; ?> </legend>
     </div>
 
     <div class="row">

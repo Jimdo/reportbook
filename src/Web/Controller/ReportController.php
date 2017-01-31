@@ -465,6 +465,11 @@ class ReportController extends Controller
             && $report->status() === Report::STATUS_APPROVAL_REQUESTED
         );
 
+        if (!$this->isTrainee()) {
+            $user = $this->profileService->findProfileByUserId($traineeId);
+            $reportView->traineeName = 'von ' . $user->forename() . ' ' . $user->surname();
+        }
+
         $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
         $commentsView->commentService = $this->service;
         $commentsView->comments = $this->service->findCommentsByReportId($reportId);

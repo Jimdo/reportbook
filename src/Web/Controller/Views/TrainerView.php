@@ -9,6 +9,7 @@
     <tr>
         <th>Name</th>
         <th>Vorschau</th>
+        <th>Kategorie</th>
         <th>Erstellungsdatum</th>
         <th>KW</th>
         <th>Status</th>
@@ -22,6 +23,7 @@
         <tr>
             <td><a href="/user/viewProfile?userId=<?php echo $user->id(); ?>"><?php echo $profile->forename() . ' ' . $profile->surname(); ?></a></td>
             <td><?php echo substr($report->content(), 0, 20); ?></td>
+            <td><?php echo $this->viewHelper->getTranslationForCategory($report->category()); ?></td>
             <td><?php echo $report->date(); ?></td>
             <td><?php echo $report->calendarWeek(); ?></td>
             <td><?php echo $this->viewHelper->getTranslationForStatus($report->status()); ?></td>

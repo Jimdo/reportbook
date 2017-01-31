@@ -1,5 +1,5 @@
-<?php use \Jimdo\Reports\Reportbook\Report as Report; ?>
-<?php use \Jimdo\Reports\Web\Controller\ReportController as ReportController; ?>
+<?php use \Jimdo\Reports\Reportbook\Report;
+      use \Jimdo\Reports\Web\Controller\ReportController; ?>
 
 <form action="/report/search" method="POST">
     <div class="input-group input-group-md col-md-3 col-md-offset-9">
@@ -12,6 +12,7 @@
     <tr>
         <th>Name</th>
         <th>Vorschau</th>
+        <th>Kategorie</th>
         <th>Erstellungsdatum</th>
         <th>KW</th>
         <th>Status</th>
@@ -25,6 +26,7 @@
         <tr>
             <td><a href="/user/profile?userId=<?php echo $user->id(); ?>"><?php echo $profile->forename() . ' ' . $profile->surname(); ?></a></td>
             <td><?php echo substr($report->content(), 0, 20); ?></td>
+            <td><?php echo $this->viewHelper->getTranslationForCategory($report->category()); ?></td>
             <td><?php echo $report->date(); ?></td>
             <td><?php echo $report->calendarWeek(); ?></td>
             <td><?php echo $this->viewHelper->getTranslationForStatus($report->status()); ?></td>

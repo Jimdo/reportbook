@@ -134,6 +134,7 @@ class ReportController extends Controller
                 $this->service->findByStatus(Report::STATUS_REVISED)
             );
             $reportView->commentService = $this->service;
+
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->trainerRole = $this->isTrainer();
@@ -143,6 +144,8 @@ class ReportController extends Controller
             $reportView->profileService = $this->profileService;
             $reportView->viewHelper = $this->viewHelper;
             $reportView->reports = $this->service->findAll();
+            $reportView->commentService = $this->service;
+
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->adminRole = $this->isAdmin();

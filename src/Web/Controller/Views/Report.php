@@ -1,4 +1,5 @@
-<?php use \Jimdo\Reports\Reportbook\Report as Report; ?>
+<?php use \Jimdo\Reports\Reportbook\Report;
+      use \Jimdo\Reports\Reportbook\Category; ?>
 <form action="<?php echo $this->action; ?>" method="POST">
   <fieldset>
 
@@ -35,23 +36,12 @@
         <label class="col-md-2 control-label" for="date">Kategorie: </label>
         <div class="col-md-2 col-md-offset-0">
 
-            <?php if ($this->category === true): ?>
-                <label class="radio-inline">
-                    <input <?php echo $this->radioReadonly; ?> checked type="radio" name="category" value="0">Betrieb
-                </label>
-                <label class="radio-inline">
-                    <input <?php echo $this->radioReadonly; ?> type="radio" name="category" value="1">Schule
-                </label>
-            <?php endif; ?>
-
-            <?php if ($this->category === false): ?>
-                <label class="radio-inline">
-                    <input <?php echo $this->radioReadonly; ?> type="radio" name="category" value="0">Betrieb
-                </label>
-                <label class="radio-inline">
-                    <input <?php echo $this->radioReadonly; ?> checked type="radio" name="category" value="1">Schule
-                </label>
-            <?php endif; ?>
+            <label class="radio-inline">
+                <input <?php echo $this->radioReadonly; ?> <?php echo $this->isCompany; ?> type="radio" name="category" value="<?php echo Category::COMPANY ?>">Betrieb
+            </label>
+            <label class="radio-inline">
+                <input <?php echo $this->radioReadonly; ?> <?php echo $this->isSchool; ?> type="radio" name="category" value="<?php echo Category::SCHOOL ?>">Schule
+            </label>
 
         </div>
     </div>

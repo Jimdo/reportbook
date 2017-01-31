@@ -355,6 +355,8 @@ class UserController extends Controller
             $userView->users = $this->service->findUsersByStatus(Role::STATUS_NOT_APPROVED);
             $userView->viewHelper = $this->viewHelper;
             $userView->profileService = $this->profileService;
+            $userView->approvedUsers = $this->service->findUsersByStatus(Role::STATUS_APPROVED);
+            $userView->isAdmin = $this->isAdmin();
 
             $this->response->addBody($headerView->render());
             $this->response->addBody($infobarView->render());
@@ -362,6 +364,17 @@ class UserController extends Controller
             $this->response->addBody($footerView->render());
         } else {
             $this->redirect("/user");
+        }
+    }
+
+    public function deleteAction()
+    {
+        if ($this->isAdmin()) {
+            $user = $this->service->findUserbyEmail($this->formData('email'));
+            $this->service->deleteUser($user);
+            $this->redirect('/user/userlist');
+        } else {
+            $this->redirect('/user');
         }
     }
 

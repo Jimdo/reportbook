@@ -2,7 +2,10 @@
 
 APPLICATION_ENV=dev
 
-source .env
+if [ -e .env ]
+then
+    source .env
+fi
 
 docker run -it --rm \
     -p 80:80 \

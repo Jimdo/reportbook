@@ -95,6 +95,14 @@ class UserService
     }
 
     /**
+     * @param User $user
+     */
+    public function deleteUser(User $user)
+    {
+        $this->userRepository->deleteUser($user);
+    }
+
+    /**
      * @param string $userId
      * @param string $oldPassword
      * @param string $newPassword

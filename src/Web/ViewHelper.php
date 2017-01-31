@@ -5,13 +5,15 @@ namespace Jimdo\Reports\Web;
 use Jimdo\Reports\Reportbook\Report as Report;
 use Jimdo\Reports\User\Role as Role;
 use Jimdo\Reports\Reportbook\Comment;
+use Jimdo\Reports\Reportbook\Category;
 
 class ViewHelper
 {
     /**
     * @param string $status
+    * @return string
     */
-    public function getTranslationForStatus(string $status)
+    public function getTranslationForStatus(string $status): string
     {
         switch ($status) {
             case Report::STATUS_NEW:
@@ -40,8 +42,9 @@ class ViewHelper
 
     /**
     * @param string $role
+    * @return string
     */
-    public function getTranslationForRole(string $role)
+    public function getTranslationForRole(string $role): string
     {
         switch ($role) {
             case Role::TRAINEE:
@@ -50,6 +53,20 @@ class ViewHelper
                 return 'Ausbilder';
             case Role::ADMIN:
                 return 'Administrator';
+        }
+    }
+
+    /**
+    * @param string $category
+    * @return string
+    */
+    public function getTranslationForCategory(string $category): string
+    {
+        switch ($category) {
+            case Category::COMPANY:
+                return 'Betrieb';
+            case Category::SCHOOL:
+                return 'Schule';
         }
     }
 }

@@ -54,7 +54,7 @@ $editActive = false;?>
                                     <input type="hidden" name="userId" value="<?php echo $this->userId; ?>">
                                     <input type="hidden" name="commentId" value="<?php echo $comment->id(); ?>">
                                     <input type="hidden" id="traineeId" name="traineeId" value="<?php echo $this->traineeId; ?>">
-                                    <textarea rows="5" name="newComment" class="form-control"><?php echo $comment->content();?></textarea><br>
+                                    <textarea style="resize: none" rows="5" name="newComment" class="form-control"><?php echo $comment->content();?></textarea><br>
                             </div>
 
                             <div class="form-group">
@@ -87,7 +87,7 @@ $editActive = false;?>
             <form action="/comment/createComment" method="POST" class="form-horizontal">
                 <div class="card card-block">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <textarea type="textarea" name="content" class="form-control" id="createComment" rows="5" placeholder="Dein Kommentar"></textarea></br>
+                        <textarea  style="resize:none" type="textarea" name="content" class="form-control" id="createComment" rows="5" placeholder="Dein Kommentar"></textarea></br>
                     </div>
                     <div class="col-sm-offset-10 col-sm-2">
                         <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>" />

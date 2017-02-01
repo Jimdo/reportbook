@@ -241,6 +241,26 @@ class ReportbookServiceTest extends TestCase
     /**
      * @test
      */
+    public function itShouldFindReportsDescending()
+    {
+        $traineeId1 = new TraineeId('5891bc773d311');
+        $traineeId2 = new TraineeId('5891bc773d312');
+        $traineeId3 = new TraineeId('5891bc773d313');
+
+        $report1 = $this->reportbookService->createReport($traineeId3, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report2 = $this->reportbookService->createReport($traineeId1, 'other text', '10.10.10', '34', Category::SCHOOL);
+        $report3 = $this->reportbookService->createReport($traineeId2, 'no content', '10.10.10', '34', Category::SCHOOL);
+
+        $foundReports = $this->reportbookService->findReportsSortedDescending();
+
+        $this->assertEquals($foundReports[0]->traineeId(), '5891bc773d313');
+        $this->assertEquals($foundReports[1]->traineeId(), '5891bc773d312');
+        $this->assertEquals($foundReports[2]->traineeId(), '5891bc773d311');
+    }
+
+    /**
+     * @test
+     */
     public function itShouldRequestApproval()
     {
         $traineeId = new TraineeId();

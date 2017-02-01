@@ -116,6 +116,14 @@ class ReportbookService
         );
     }
 
+    public function findReportsSortedDescending()
+    {
+        $reports = $this->reportRepository->findAll();
+        $this->sortArrayDescending('traineeId', $reports);
+
+        return $reports;
+    }
+
     /**
      * @param string $reportId
      * @throws ReportFileRepositoryException
@@ -347,7 +355,7 @@ class ReportbookService
     /**
      * @param array $array
      */
-    private function sortCommentsByDate(&$array) {
+    private function sortCommentsByDate(array &$array) {
         $direction = SORT_ASC;
 
         $reference_array = [];
@@ -372,5 +380,39 @@ class ReportbookService
         }
 
         $array = $newComments;
+    }
+
+    /**
+     * @param string $key
+     * @param array $array
+     */
+    public function sortArrayDescending(string $key, array &$array)
+    {
+        $direction = SORT_DESC;
+
+        $value = $key;
+
+        $reference_array = [];
+        $reports = [];
+
+        foreach ($array as $report) {
+            $report = $this->serializer->serializeReport($report);
+            $reports[] = $report;
+        }
+
+        $array = $reports;
+
+        foreach ($array as $key => $row) {
+            $reference_array[$key] = $row[$value];
+        }
+
+        array_multisort($reference_array, $direction, $array);
+
+        $newReports = [];
+        foreach ($array as $report) {
+            $newReports[] = $this->serializer->unserializeReport($report);
+        }
+
+        $array = $newReports;
     }
 }

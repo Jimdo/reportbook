@@ -332,6 +332,73 @@ class ReportbookService
     }
 
     /**
+     * @param string $key
+     * @param array $array
+     */
+    public function sortArrayDescending(string $key, array &$array)
+    {
+        $direction = SORT_DESC;
+
+        $value = $key;
+
+        $reference_array = [];
+        $reports = [];
+
+        foreach ($array as $report) {
+            $report = $this->serializer->serializeReport($report);
+            $reports[] = $report;
+        }
+
+        $array = $reports;
+
+        foreach ($array as $key => $row) {
+            $reference_array[$key] = $row[$value];
+        }
+
+        array_multisort($reference_array, $direction, $array);
+
+        $newReports = [];
+        foreach ($array as $report) {
+            $newReports[] = $this->serializer->unserializeReport($report);
+        }
+
+        $array = $newReports;
+    }
+
+    /**
+     * @param array $array
+     */
+    public function sortReportsByAmountOfComments(array &$reportArray)
+    {
+        $direction = SORT_DESC;
+
+        $reference_array = [];
+        $reports = [];
+
+        $comments;
+
+        foreach ($reportArray as $report) {
+            $commentsOfReport[] = count($this->findCommentsByReportId($report->id()));
+        }
+
+        foreach ($reportArray as $report) {
+            $report = $this->serializer->serializeReport($report);
+            $reports[] = $report;
+        }
+
+        $reportArray = $reports;
+
+        array_multisort($commentsOfReport, $direction, $reportArray);
+
+        $newReports = [];
+        foreach ($reportArray as $report) {
+            $newReports[] = $this->serializer->unserializeReport($report);
+        }
+
+        $reportArray = $newReports;
+    }
+
+    /**
      * @param Reports[] $reports
      * @return \Jimdo\Reports\Views\Report[]
      */
@@ -372,39 +439,5 @@ class ReportbookService
         }
 
         $array = $newComments;
-    }
-
-    /**
-     * @param string $key
-     * @param array $array
-     */
-    public function sortArrayDescending(string $key, array &$array)
-    {
-        $direction = SORT_DESC;
-
-        $value = $key;
-
-        $reference_array = [];
-        $reports = [];
-
-        foreach ($array as $report) {
-            $report = $this->serializer->serializeReport($report);
-            $reports[] = $report;
-        }
-
-        $array = $reports;
-
-        foreach ($array as $key => $row) {
-            $reference_array[$key] = $row[$value];
-        }
-
-        array_multisort($reference_array, $direction, $array);
-
-        $newReports = [];
-        foreach ($array as $report) {
-            $newReports[] = $this->serializer->unserializeReport($report);
-        }
-
-        $array = $newReports;
     }
 }

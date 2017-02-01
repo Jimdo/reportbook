@@ -137,14 +137,14 @@ class ReportController extends Controller
                 $this->service->findByStatus(Report::STATUS_REVISED)
             );
             switch ($this->queryParams('sort')) {
-                case '':
-                    $reportView->reports = $reports;
-                    break;
                 case 'name':
                     $this->service->sortArrayDescending('traineeId', $reports);
-                    $reportView->reports = $reports;
+                    break;
+                case 'calendarWeek':
+                    $this->service->sortArrayDescending('calendarWeek', $reports);
                     break;
             }
+            $reportView->reports = $reports;
 
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');

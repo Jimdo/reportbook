@@ -8,13 +8,13 @@
 <div style="border:1px solid #BDBDBD; border-radius: 5px;">
     <table class="table table-hover">
         <tr>
-            <th>Name<button style="color: gray; outline: none;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></th>
+            <th>Name <a href="/report/list?sort=name" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
             <th>Vorschau</th>
-            <th>Kategorie<button style="color: gray; outline: none;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></th>
-            <th>Erstellungsdatum<button style="color: gray; outline: none;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></th>
-            <th>KW<button style="color: gray; outline: none;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></th>
-            <th>Status<button style="color: gray; outline: none;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></th>
-            <th>Kommentare<button style="color: gray; outline: none;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></th>
+            <th>Kategorie <a href="" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
+            <th>Erstellungsdatum <a href="" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
+            <th>KW <a href="" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
+            <th>Status <a href="" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
+            <th>Kommentare <a href="" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
             <th>Aktionen</th>
         </tr>
         <?php foreach ($this->reports as $report):

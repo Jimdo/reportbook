@@ -127,13 +127,24 @@ class ReportController extends Controller
             $reportView->userService = $this->userService;
             $reportView->profileService = $this->profileService;
             $reportView->viewHelper = $this->viewHelper;
-            $reportView->reports = array_merge(
+
+            $reportView->commentService = $this->service;
+
+            $reports = array_merge(
                 $this->service->findByStatus(Report::STATUS_APPROVAL_REQUESTED),
                 $this->service->findByStatus(Report::STATUS_APPROVED),
                 $this->service->findByStatus(Report::STATUS_DISAPPROVED),
                 $this->service->findByStatus(Report::STATUS_REVISED)
             );
-            $reportView->commentService = $this->service;
+            switch ($this->queryParams('sort')) {
+                case '':
+                    $reportView->reports = $reports;
+                    break;
+                case 'name':
+                    $this->service->sortArrayDescending('traineeId', $reports);
+                    $reportView->reports = $reports;
+                    break;
+            }
 
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');

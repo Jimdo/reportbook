@@ -12,11 +12,11 @@
     <table class="table table-hover">
         <tr>
             <th>Vorschau</th>
-            <th>Kategorie</th>
-            <th>Erstellungsdatum</th>
-            <th>KW</th>
-            <th>Status</th>
-            <th>Kommentare</th>
+            <th>Kategorie<button style="color: gray; outline: none;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></th>
+            <th>Erstellungsdatum<button style="color: gray; outline: none;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></th>
+            <th>KW<button style="color: gray; outline: none;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></th>
+            <th>Status<button style="color: gray; outline: none;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></th>
+            <th>Kommentare<button style="color: gray; outline: none;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></th>
             <th>Aktionen</th>
         </tr>
         <?php foreach ($this->reports as $report):

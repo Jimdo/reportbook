@@ -116,14 +116,6 @@ class ReportbookService
         );
     }
 
-    public function findReportsSortedDescending()
-    {
-        $reports = $this->reportRepository->findAll();
-        $this->sortArrayDescending('traineeId', $reports);
-
-        return $reports;
-    }
-
     /**
      * @param string $reportId
      * @throws ReportFileRepositoryException

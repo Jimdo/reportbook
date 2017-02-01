@@ -251,7 +251,8 @@ class ReportbookServiceTest extends TestCase
         $report2 = $this->reportbookService->createReport($traineeId1, 'other text', '10.10.10', '34', Category::SCHOOL);
         $report3 = $this->reportbookService->createReport($traineeId2, 'no content', '10.10.10', '34', Category::SCHOOL);
 
-        $foundReports = $this->reportbookService->findReportsSortedDescending();
+        $foundReports = $this->reportRepository->findAll();
+        $this->reportbookService->sortArrayDescending('traineeId', $foundReports);
 
         $this->assertEquals($foundReports[0]->traineeId(), '5891bc773d313');
         $this->assertEquals($foundReports[1]->traineeId(), '5891bc773d312');

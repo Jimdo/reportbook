@@ -332,6 +332,118 @@ class ReportbookService
     }
 
     /**
+     * @param string $key
+     * @param array $array
+     */
+    public function sortArrayDescending(string $key, array &$array)
+    {
+        $direction = SORT_DESC;
+
+        $value = $key;
+
+        $reference_array = [];
+        $reports = [];
+
+        foreach ($array as $report) {
+            $report = $this->serializer->serializeReport($report);
+            $reports[] = $report;
+        }
+
+        $array = $reports;
+
+        foreach ($array as $key => $row) {
+            $reference_array[$key] = $row[$value];
+        }
+
+        array_multisort($reference_array, $direction, $array);
+
+        $newReports = [];
+        foreach ($array as $report) {
+            $newReports[] = $this->serializer->unserializeReport($report);
+        }
+
+        $array = $newReports;
+    }
+
+    /**
+     * @param array $status
+     * @param array $array
+     */
+    public function sortReportsByStatus(array $status, array &$reports)
+    {
+        $sortedReports = [];
+        foreach ($reports as $report) {
+            switch ($report->status()) {
+                case $status[0]:
+                    $sortedReports[$status[0]][] = $report;
+                    break;
+
+                case $status[1]:
+                    $sortedReports[$status[1]][] = $report;
+                    break;
+
+                case $status[2]:
+                    $sortedReports[$status[2]][] = $report;
+                    break;
+
+                case $status[3]:
+                    $sortedReports[$status[3]][] = $report;
+                    break;
+
+                case $status[4]:
+                    $sortedReports[$status[4]][] = $report;
+                    break;
+
+                case $status[5]:
+                    $sortedReports[$status[5]][] = $report;
+                    break;
+                }
+        }
+
+        $returnReports = [];
+
+        for ($i=0; $i < count($status); $i++) {
+            if (array_key_exists($status[$i], $sortedReports)) {
+                $returnReports = array_merge($returnReports, $sortedReports[$status[$i]]);
+            }
+        }
+        $reports = $returnReports;
+    }
+
+    /**
+     * @param array $reportArray
+     */
+    public function sortReportsByAmountOfComments(array &$reportArray)
+    {
+        $direction = SORT_DESC;
+
+        $reference_array = [];
+        $reports = [];
+
+        $comments;
+
+        foreach ($reportArray as $report) {
+            $commentsOfReport[] = count($this->findCommentsByReportId($report->id()));
+        }
+
+        foreach ($reportArray as $report) {
+            $report = $this->serializer->serializeReport($report);
+            $reports[] = $report;
+        }
+
+        $reportArray = $reports;
+
+        array_multisort($commentsOfReport, $direction, $reportArray);
+
+        $newReports = [];
+        foreach ($reportArray as $report) {
+            $newReports[] = $this->serializer->unserializeReport($report);
+        }
+
+        $reportArray = $newReports;
+    }
+
+    /**
      * @param Reports[] $reports
      * @return \Jimdo\Reports\Views\Report[]
      */
@@ -347,7 +459,7 @@ class ReportbookService
     /**
      * @param array $array
      */
-    private function sortCommentsByDate(&$array) {
+    private function sortCommentsByDate(array &$array) {
         $direction = SORT_ASC;
 
         $reference_array = [];

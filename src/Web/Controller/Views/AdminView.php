@@ -11,13 +11,13 @@
 <div style="border:1px solid #BDBDBD; border-radius: 5px;">
     <table class="table table-hover">
         <tr>
-            <th>Name</th>
+            <th>Name <a href="/report/list?sort=name" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
             <th>Vorschau</th>
-            <th>Kategorie</th>
+            <th>Kategorie <a href="/report/list?sort=category" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
             <th>Erstellungsdatum</th>
-            <th>KW</th>
-            <th>Status</th>
-            <th>Kommentare</th>
+            <th>KW <a href="/report/list?sort=calendarWeek" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
+            <th>Status <a href="/report/list?sort=status" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
+            <th>Kommentare <a href="/report/list?sort=comment" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
             <th>Aktionen</th>
         </tr>
         <?php foreach ($this->reports as $report):

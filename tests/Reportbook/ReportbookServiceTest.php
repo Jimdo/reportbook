@@ -241,6 +241,27 @@ class ReportbookServiceTest extends TestCase
     /**
      * @test
      */
+    public function itShouldFindReportsDescending()
+    {
+        $traineeId1 = new TraineeId('5891bc773d311');
+        $traineeId2 = new TraineeId('5891bc773d312');
+        $traineeId3 = new TraineeId('5891bc773d313');
+
+        $report1 = $this->reportbookService->createReport($traineeId3, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report2 = $this->reportbookService->createReport($traineeId1, 'other text', '10.10.10', '34', Category::SCHOOL);
+        $report3 = $this->reportbookService->createReport($traineeId2, 'no content', '10.10.10', '34', Category::SCHOOL);
+
+        $foundReports = $this->reportRepository->findAll();
+        $this->reportbookService->sortArrayDescending('traineeId', $foundReports);
+
+        $this->assertEquals($foundReports[0]->traineeId(), '5891bc773d313');
+        $this->assertEquals($foundReports[1]->traineeId(), '5891bc773d312');
+        $this->assertEquals($foundReports[2]->traineeId(), '5891bc773d311');
+    }
+
+    /**
+     * @test
+     */
     public function itShouldRequestApproval()
     {
         $traineeId = new TraineeId();
@@ -404,6 +425,81 @@ class ReportbookServiceTest extends TestCase
         $this->assertEquals($comment->content(), $foundComment->content());
         $this->assertEquals($comment->reportId(), $foundComment->reportId());
         $this->assertEquals($comment->userId(), $foundComment->userId());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldSortReportsByAmmountOfComments()
+    {
+        $traineeId = new TraineeId();
+
+        $report1 = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report2 = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report3= $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+
+        $date = 'Date';
+        $content = 'some content';
+        $userId = uniqid();
+
+        $this->reportbookService->createComment($report1->id(), $userId, $date, $content);
+        $this->reportbookService->createComment($report1->id(), $userId, $date, $content);
+
+        $this->reportbookService->createComment($report2->id(), $userId, $date, $content);
+        $this->reportbookService->createComment($report2->id(), $userId, $date, $content);
+        $this->reportbookService->createComment($report2->id(), $userId, $date, $content);
+
+        $this->reportbookService->createComment($report3->id(), $userId, $date, $content);
+
+        $foundReports = $this->reportRepository->findAll();
+
+        $this->reportbookService->sortReportsByAmountOfComments($foundReports);
+
+        $this->assertEquals($foundReports[0]->id(), $report2->id());
+        $this->assertEquals($foundReports[1]->id(), $report1->id());
+        $this->assertEquals($foundReports[2]->id(), $report3->id());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldSortReportsByStatus()
+    {
+        $traineeId = new TraineeId();
+
+        $report1 = $this->reportRepository->create($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report2 = $this->reportRepository->create($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report3 = $this->reportRepository->create($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report4 = $this->reportRepository->create($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report5 = $this->reportRepository->create($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report6 = $this->reportRepository->create($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+
+        $report2->edit('alskd', '11.11.11', '24', Category::SCHOOL);
+        $report3->approve();
+        $report4->disapprove();
+        $report5->requestApproval();
+        $report6->disapprove();
+        $report6->edit('alskd', '11.11.11', '24', Category::SCHOOL);
+
+        $reports = $this->reportRepository->findAll();
+
+        $this->reportbookService->sortReportsByStatus([
+                Report::STATUS_APPROVAL_REQUESTED,
+                Report::STATUS_REVISED,
+                Report::STATUS_DISAPPROVED,
+                Report::STATUS_APPROVED,
+                Report::STATUS_EDITED,
+                Report::STATUS_NEW
+            ],
+            $reports
+        );
+
+        $this->assertEquals($reports[0]->status(), Report::STATUS_APPROVAL_REQUESTED);
+        $this->assertEquals($reports[1]->status(), Report::STATUS_REVISED);
+        $this->assertEquals($reports[2]->status(), Report::STATUS_DISAPPROVED);
+        $this->assertEquals($reports[3]->status(), Report::STATUS_APPROVED);
+        $this->assertEquals($reports[4]->status(), Report::STATUS_EDITED);
+        $this->assertEquals($reports[5]->status(), Report::STATUS_NEW);
     }
 
     /**

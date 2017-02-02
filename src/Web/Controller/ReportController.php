@@ -150,6 +150,16 @@ class ReportController extends Controller
                     $this->service->sortArrayDescending('category', $reports);
                     break;
                 case 'status':
+                    $this->service->sortReportsByStatus([
+                            Report::STATUS_APPROVAL_REQUESTED,
+                            Report::STATUS_REVISED,
+                            Report::STATUS_DISAPPROVED,
+                            Report::STATUS_APPROVED,
+                            Report::STATUS_EDITED,
+                            Report::STATUS_NEW
+                        ],
+                        $reports
+                    );
                     break;
             }
             $reportView->reports = $reports;

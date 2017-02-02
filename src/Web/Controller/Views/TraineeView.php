@@ -12,11 +12,11 @@
     <table class="table table-hover">
         <tr>
             <th>Vorschau</th>
-            <th>Kategorie<button style="color: gray; outline: none;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></th>
-            <th>Erstellungsdatum<button style="color: gray; outline: none;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></th>
-            <th>KW<button style="color: gray; outline: none;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></th>
-            <th>Status<button style="color: gray; outline: none;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></th>
-            <th>Kommentare<button style="color: gray; outline: none;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></th>
+            <th>Kategorie <a href="/report/list?sort=category" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
+            <th>Erstellungsdatum</th>
+            <th>KW <a href="/report/list?sort=calendarWeek" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
+            <th>Status <a href="/report/list?sort=status" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
+            <th>Kommentare <a href="/report/list?sort=comment" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
             <th>Aktionen</th>
         </tr>
         <?php foreach ($this->reports as $report):

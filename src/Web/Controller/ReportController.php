@@ -119,9 +119,38 @@ class ReportController extends Controller
 
         if ($this->isTrainee()) {
             $reportView = $this->view('src/Web/Controller/Views/TraineeView.php');
-            $reportView->reports = $this->service->findByTraineeId($this->sessionData('userId'));
             $reportView->viewHelper = $this->viewHelper;
             $reportView->commentService = $this->service;
+            $reports = $this->service->findByTraineeId($this->sessionData('userId'));
+
+            switch ($this->queryParams('sort')) {
+                case 'name':
+                    $this->service->sortArrayDescending('traineeId', $reports);
+                    break;
+                case 'calendarWeek':
+                    $this->service->sortArrayDescending('calendarWeek', $reports);
+                    break;
+                case 'comment':
+                    $this->service->sortReportsByAmountOfComments($reports);
+                    break;
+                case 'category':
+                    $this->service->sortArrayDescending('category', $reports);
+                    break;
+                case 'status':
+                    $this->service->sortReportsByStatus([
+                            Report::STATUS_DISAPPROVED,
+                            Report::STATUS_REVISED,
+                            Report::STATUS_NEW,
+                            Report::STATUS_EDITED,
+                            Report::STATUS_APPROVAL_REQUESTED,
+                            Report::STATUS_APPROVED
+                        ],
+                        $reports
+                    );
+                    break;
+            }
+            $reportView->reports = $reports;
+
         } elseif ($this->isTrainer()) {
             $reportView = $this->view('src/Web/Controller/Views/TrainerView.php');
             $reportView->userService = $this->userService;
@@ -174,14 +203,7 @@ class ReportController extends Controller
             $reportView->viewHelper = $this->viewHelper;
             $reportView->commentService = $this->service;
 
-            $reports = array_merge(
-                $this->service->findByStatus(Report::STATUS_APPROVAL_REQUESTED),
-                $this->service->findByStatus(Report::STATUS_APPROVED),
-                $this->service->findByStatus(Report::STATUS_DISAPPROVED),
-                $this->service->findByStatus(Report::STATUS_REVISED),
-                $this->service->findByStatus(Report::STATUS_EDITED),
-                $this->service->findByStatus(Report::STATUS_NEW)
-            );
+            $reports = $this->service->findAll();
 
             switch ($this->queryParams('sort')) {
                 case 'name':

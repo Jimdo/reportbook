@@ -497,9 +497,9 @@ class ReportbookServiceTest extends TestCase
         $this->assertEquals($reports[0]->status(), Report::STATUS_APPROVAL_REQUESTED);
         $this->assertEquals($reports[1]->status(), Report::STATUS_REVISED);
         $this->assertEquals($reports[2]->status(), Report::STATUS_DISAPPROVED);
-        $this->assertEquals($reports[2]->status(), Report::STATUS_APPROVED);
-        $this->assertEquals($reports[3]->status(), Report::STATUS_EDITED);
-        $this->assertEquals($reports[4]->status(), Report::STATUS_NEW);
+        $this->assertEquals($reports[3]->status(), Report::STATUS_APPROVED);
+        $this->assertEquals($reports[4]->status(), Report::STATUS_EDITED);
+        $this->assertEquals($reports[5]->status(), Report::STATUS_NEW);
     }
 
     /**

@@ -411,7 +411,7 @@ class ReportbookService
     }
 
     /**
-     * @param array $array
+     * @param array $reportArray
      */
     public function sortReportsByAmountOfComments(array &$reportArray)
     {

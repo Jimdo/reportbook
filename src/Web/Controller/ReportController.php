@@ -172,8 +172,44 @@ class ReportController extends Controller
             $reportView->userService = $this->userService;
             $reportView->profileService = $this->profileService;
             $reportView->viewHelper = $this->viewHelper;
-            $reportView->reports = $this->service->findAll();
             $reportView->commentService = $this->service;
+
+            $reports = array_merge(
+                $this->service->findByStatus(Report::STATUS_APPROVAL_REQUESTED),
+                $this->service->findByStatus(Report::STATUS_APPROVED),
+                $this->service->findByStatus(Report::STATUS_DISAPPROVED),
+                $this->service->findByStatus(Report::STATUS_REVISED),
+                $this->service->findByStatus(Report::STATUS_EDITED),
+                $this->service->findByStatus(Report::STATUS_NEW)
+            );
+
+            switch ($this->queryParams('sort')) {
+                case 'name':
+                    $this->service->sortArrayDescending('traineeId', $reports);
+                    break;
+                case 'calendarWeek':
+                    $this->service->sortArrayDescending('calendarWeek', $reports);
+                    break;
+                case 'comment':
+                    $this->service->sortReportsByAmountOfComments($reports);
+                    break;
+                case 'category':
+                    $this->service->sortArrayDescending('category', $reports);
+                    break;
+                case 'status':
+                    $this->service->sortReportsByStatus([
+                            Report::STATUS_APPROVAL_REQUESTED,
+                            Report::STATUS_REVISED,
+                            Report::STATUS_DISAPPROVED,
+                            Report::STATUS_APPROVED,
+                            Report::STATUS_EDITED,
+                            Report::STATUS_NEW
+                        ],
+                        $reports
+                    );
+                    break;
+            }
+            $reportView->reports = $reports;
 
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
@@ -181,6 +217,7 @@ class ReportController extends Controller
         } else {
             $this->redirect("/user");
         }
+
         $this->response->addBody($headerView->render());
         $this->response->addBody($infobarView->render());
         $this->response->addBody($reportView->render());

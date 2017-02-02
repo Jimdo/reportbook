@@ -122,7 +122,7 @@ class Serializer
      * @param Report $report
      * @return array
      */
-    public function serializeReport(Report $report): array
+    public function serializeReport($report): array
     {
         return [
             'id' => $report->id(),

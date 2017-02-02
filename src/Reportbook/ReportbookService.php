@@ -366,6 +366,51 @@ class ReportbookService
     }
 
     /**
+     * @param array $status
+     * @param array $array
+     */
+    public function sortReportsByStatus(array $status, array &$reports)
+    {
+        $sortedReports = [];
+        foreach ($reports as $report) {
+            switch ($report->status()) {
+                case $status[0]:
+                    $sortedReports[$status[0]][] = $report;
+                    break;
+
+                case $status[1]:
+                    $sortedReports[$status[1]][] = $report;
+                    break;
+
+                case $status[2]:
+                    $sortedReports[$status[2]][] = $report;
+                    break;
+
+                case $status[3]:
+                    $sortedReports[$status[3]][] = $report;
+                    break;
+
+                case $status[4]:
+                    $sortedReports[$status[4]][] = $report;
+                    break;
+
+                case $status[5]:
+                    $sortedReports[$status[5]][] = $report;
+                    break;
+                }
+        }
+
+        $returnReports = [];
+
+        for ($i=0; $i < count($status); $i++) {
+            if (array_key_exists($status[$i], $sortedReports)) {
+                $returnReports = array_merge($returnReports, $sortedReports[$status[$i]]);
+            }
+        }
+        $reports = $returnReports;
+    }
+
+    /**
      * @param array $array
      */
     public function sortReportsByAmountOfComments(array &$reportArray)

@@ -460,12 +460,6 @@ class ReportbookServiceTest extends TestCase
         $this->assertEquals($foundReports[2]->id(), $report3->id());
     }
 
-    const STATUS_NEW = 'NEW';
-    const STATUS_APPROVED = 'APPROVED';
-    const STATUS_DISAPPROVED = 'DISAPPROVED';
-    const STATUS_APPROVAL_REQUESTED = 'APPROVAL_REQUESTED';
-    const STATUS_EDITED = 'EDITED';
-    const STATUS_REVISED = 'REVISED';
     /**
      * @test
      */
@@ -489,14 +483,23 @@ class ReportbookServiceTest extends TestCase
 
         $reports = $this->reportRepository->findAll();
 
-        $this->reportbookService->sortReportsByStatus();
+        $this->reportbookService->sortReportsByStatus([
+                Report::STATUS_APPROVAL_REQUESTED,
+                Report::STATUS_REVISED,
+                Report::STATUS_DISAPPROVED,
+                Report::STATUS_APPROVED,
+                Report::STATUS_EDITED,
+                Report::STATUS_NEW
+            ],
+            $reports
+        );
 
         $this->assertEquals($reports[0]->status(), Report::STATUS_APPROVAL_REQUESTED);
         $this->assertEquals($reports[1]->status(), Report::STATUS_REVISED);
         $this->assertEquals($reports[2]->status(), Report::STATUS_DISAPPROVED);
-        $this->assertEquals($reports[3]->status(), Report::STATUS_APPROVED);
-        $this->assertEquals($reports[4]->status(), Report::STATUS_EDITED);
-        $this->assertEquals($reports[5]->status(), Report::STATUS_NEW);
+        $this->assertEquals($reports[2]->status(), Report::STATUS_APPROVED);
+        $this->assertEquals($reports[3]->status(), Report::STATUS_EDITED);
+        $this->assertEquals($reports[4]->status(), Report::STATUS_NEW);
     }
 
     /**

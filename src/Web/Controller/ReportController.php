@@ -246,6 +246,84 @@ class ReportController extends Controller
         $this->response->addBody($footerView->render());
     }
 
+    public function yearMonth($startDate, $endDate)
+    {
+        $begin = new \DateTime( $startDate );
+        $end = new \DateTime( $endDate);
+        $end->add(new \DateInterval('P1D'));
+        $interval = new \DateInterval('P1D');
+        $period = new \DatePeriod($begin, $interval, $end);
+        $aResult = array();
+
+        foreach ( $period as $dt )
+        {
+            $aResult[$dt->format('Y')][$dt->format('F')][$dt->format('j')] = $dt->format('D');
+        }
+
+        return $aResult;
+    }
+
+    public function calendarAction()
+    {
+        $headerView = $this->view('src/Web/Controller/Views/Header.php');
+        $headerView->tabTitle = 'Berichtsheft';
+
+        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
+        $infobarView->viewHelper = $this->viewHelper;
+        $infobarView->username = 'Bla';
+        $infobarView->role = 'TRAINER';
+        $infobarView->trainerRole = $this->isTrainer();
+        $infobarView->adminRole = $this->isAdmin();
+        $infobarView->infoHeadline = ' | Übersicht';
+        $infobarView->hideInfos = false;
+
+        $calendarView = $this->view('src/Web/Controller/Views/CalendarView.php');
+        $calendarView->yearArr = $this->yearMonth('2017-01-01', '2017-12-31');
+        $calendarView->months = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        ];
+
+        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
+        $footerView->backButton = true;
+
+
+
+        // if ($this->isTrainee()) {
+        //     $reportView = $this->view('src/Web/Controller/Views/TraineeView.php');
+        //     $reportView->reports = $this->service->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
+        //     $reportView->viewHelper = $this->viewHelper;
+        // } elseif ($this->isTrainer()) {
+        //     $reportView = $this->view('src/Web/Controller/Views/TrainerView.php');
+        //     $reportView->userService = $this->userService;
+        //     $reportView->profileService = $this->profileService;
+        //     $reportView->viewHelper = $this->viewHelper;
+        //     $reportView->reports = $this->service->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
+        // } elseif ($this->isAdmin()) {
+        //     $reportView = $this->view('src/Web/Controller/Views/AdminView.php');
+        //     $reportView->userService = $this->userService;
+        //     $reportView->profileService = $this->profileService;
+        //     $reportView->viewHelper = $this->viewHelper;
+        //     $reportView->reports = $this->service->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
+        // } else {
+        //     $this->redirect("/user");
+        // }
+        $this->response->addBody($headerView->render());
+        $this->response->addBody($infobarView->render());
+        $this->response->addBody($calendarView->render());
+        $this->response->addBody($footerView->render());
+    }
+
     public function createReportAction()
     {
         if (!$this->isTrainee()) {

@@ -143,4 +143,52 @@ class ViewHelper
                 return 'Schule';
         }
     }
+
+    /**
+     * @param int $week
+     * @param int $year
+     * @return array
+     */
+    private function getStartAndEndDate(int $week, int $year)
+    {
+        $week = $week -1;
+        $time = strtotime("1 January $year", time());
+        $day = date('w', $time);
+        $time += ((7*$week)+1-$day)*24*3600;
+        $return[0] = date('Y-n', $time);
+        $return[1] = date('j', $time);
+        $time += 6*24*3600;
+        $return[2] = date('Y-n', $time);
+        $return[3] = date('j', $time);
+
+        return $return;
+    }
+
+    /**
+     * @param int $day
+     * @param int $month
+     * @param int $year
+     * @return bool
+     */
+    private function checkIfDayIsInCalendarWeek(int $day, int $week, int $month, int $year)
+    {
+        $weekInfo = $this->getStartAndEndDate($week, $year);
+        $startYearMonth = $weekInfo[0];
+        $endYearMonth = $weekInfo[2];
+        $startDay = intVal($weekInfo[1]);
+        $endDay = intVal($weekInfo[3]);
+        $day = intVal($day);
+
+        if ("$year-$month" === $startYearMonth) {
+
+            if ($day >= $startDay && $day < ($startDay + 7)) {
+                    return true;
+            }
+        }
+
+        if ("$year-$month"  === $endYearMonth && $day <= $endDay){
+            return true;
+        }
+        return false;
+    }
 }

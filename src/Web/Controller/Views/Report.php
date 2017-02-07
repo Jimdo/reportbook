@@ -24,14 +24,6 @@
     </div>
 
     <div class="row">
-        <label class="col-md-2 control-label" for="date">Datum: </label>
-        <div class="col-md-2 col-md-offset-0">
-            <input class="form-control" type="text" placeholder="Datum"
-            <?php echo $this->readonly; ?> id="date" name="date" value="<?php echo $this->date; ?>"></br>
-        </div>
-    </div>
-
-    <div class="row">
 
         <label class="col-md-2 control-label" for="date">Kategorie: </label>
         <div class="col-md-2 col-md-offset-0">

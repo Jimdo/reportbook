@@ -54,11 +54,10 @@ class ReportbookService
     public function createReport(
         TraineeId $traineeId,
         string $content,
-        string $date,
         string $calendarWeek,
         string $category
     ): \Jimdo\Reports\Views\Report {
-        $report = $this->reportRepository->create($traineeId, $content, $date, $calendarWeek, $category);
+        $report = $this->reportRepository->create($traineeId, $content, date('d.m.Y'), $calendarWeek, $category);
 
         $event = new Events\ReportCreated([
             'userId' => $traineeId->id(),

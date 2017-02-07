@@ -295,6 +295,7 @@ class ReportController extends Controller
 
         $this->addRequestValidation('content', 'string');
         $this->addRequestValidation('calendarWeek', 'integer');
+        $this->addRequestValidation('calendarYear', 'integer');
         $this->addRequestValidation('category', 'string');
 
         if ($this->isRequestValid()) {
@@ -415,6 +416,7 @@ class ReportController extends Controller
 
         $this->addRequestValidation('content', 'string');
         $this->addRequestValidation('calendarWeek', 'integer');
+        $this->addRequestValidation('calendarYear', 'integer');
         $this->addRequestValidation('category', 'string');
 
         if ($this->isRequestValid()) {
@@ -422,6 +424,7 @@ class ReportController extends Controller
                 $this->formData('reportId'),
                 $this->formData('content'),
                 $this->formData('calendarWeek'),
+                $this->formData('calendarYear'),
                 $this->formData('category')
             );
             $this->redirect("/report/list");

@@ -373,6 +373,21 @@ class UserService
         return $users = $this->userRepository->findUserByEmail($email);
     }
 
+    /**
+     * @return array
+     */
+    public function findAllTrainees(): array
+    {
+        $users = $this->findUsersByStatus(Role::STATUS_APPROVED);
+
+        foreach ($users as $user) {
+            if ($user->roleName() === Role::TRAINEE) {
+                $returnUsers[] = $user;
+            }
+        }
+        return $returnUsers;
+    }
+
     public function saveImage(string $path)
     {
         $this->userRepository->saveImage($path);

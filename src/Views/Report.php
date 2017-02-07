@@ -66,6 +66,14 @@ class Report
     /**
      * @return string
      */
+    public function calendarYear(): string
+    {
+        return $this->report->calendarYear();
+    }
+
+    /**
+     * @return string
+     */
     public function category(): string
     {
         return $this->report->category();

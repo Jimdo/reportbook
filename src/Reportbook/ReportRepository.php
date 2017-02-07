@@ -12,7 +12,7 @@ interface ReportRepository
      * @param string $category
      * @return Report
      */
-    public function create(TraineeId $traineeId, string $content, string $date, string $calendarWeek, string $category): Report;
+    public function create(TraineeId $traineeId, string $content, string $date, string $calendarWeek, string $calendarYear, string $category): Report;
 
     /**
      * @param Report $report

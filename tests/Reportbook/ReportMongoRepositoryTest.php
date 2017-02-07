@@ -51,7 +51,7 @@ class ReportMongoRepositoryTest extends TestCase
         $calendarWeek = '34';
         $category = Category::SCHOOL;
 
-        $report = $repository->create($traineeId, $expectedContent, $date, $calendarWeek, $category);
+        $report = $repository->create($traineeId, $expectedContent, $date, $calendarWeek , '2016', $category);
 
         $serializedReport = $this->reports->findOne(['id' => $report->id()]);
         $unserializedReport = $repository->serializer->unserializeReport($serializedReport->getArrayCopy());
@@ -75,9 +75,9 @@ class ReportMongoRepositoryTest extends TestCase
         $foundReports = $repository->findAll();
         $this->assertCount(0, $foundReports);
 
-        $report1 = $repository->create($traineeId, $expectedContent, $date, $calendarWeek, $category);
-        $report2 = $repository->create($traineeId, $expectedContent, $date, $calendarWeek, $category);
-        $report3 = $repository->create($traineeId, $expectedContent, $date, $calendarWeek, $category);
+        $report1 = $repository->create($traineeId, $expectedContent, $date, $calendarWeek , '2016', $category);
+        $report2 = $repository->create($traineeId, $expectedContent, $date, $calendarWeek , '2016', $category);
+        $report3 = $repository->create($traineeId, $expectedContent, $date, $calendarWeek , '2016', $category);
 
         $foundReports = $repository->findAll();
         $this->assertCount(3, $foundReports);
@@ -97,10 +97,10 @@ class ReportMongoRepositoryTest extends TestCase
         $calendarWeek = '34';
         $category = Category::SCHOOL;
 
-        $report1 = $repository->create($traineeId1, $expectedContent, $date, $calendarWeek, $category);
-        $report2 = $repository->create($traineeId1, $expectedContent, $date, $calendarWeek, $category);
+        $report1 = $repository->create($traineeId1, $expectedContent, $date, $calendarWeek , '2016', $category);
+        $report2 = $repository->create($traineeId1, $expectedContent, $date, $calendarWeek , '2016', $category);
 
-        $report3 = $repository->create($traineeId2, $expectedContent, $date, $calendarWeek, $category);
+        $report3 = $repository->create($traineeId2, $expectedContent, $date, $calendarWeek , '2016', $category);
 
         $foundReports = $repository->findByTraineeId($traineeId1->id());
         $this->assertCount(2, $foundReports);
@@ -121,9 +121,9 @@ class ReportMongoRepositoryTest extends TestCase
         $calendarWeek = '34';
         $category = Category::SCHOOL;
 
-        $report1 = $repository->create($traineeId, 'some content', $date, $calendarWeek, $category);
-        $report2 = $repository->create($traineeId, 'hello world', $date, $calendarWeek, $category);
-        $report3 = $repository->create($traineeId, 'hello world', $date, $calendarWeek, $category);
+        $report1 = $repository->create($traineeId, 'some content', $date, $calendarWeek , '2016', $category);
+        $report2 = $repository->create($traineeId, 'hello world', $date, $calendarWeek , '2016', $category);
+        $report3 = $repository->create($traineeId, 'hello world', $date, $calendarWeek , '2016', $category);
 
         $foundReports = $repository->findReportsByString('world');
 
@@ -145,9 +145,9 @@ class ReportMongoRepositoryTest extends TestCase
         $calendarWeek = '34';
         $category = Category::COMPANY;
 
-        $report1 = $repository->create($traineeId1, $expectedContent, $date, $calendarWeek, $category);
-        $report2 = $repository->create($traineeId1, $expectedContent, $date, $calendarWeek, $category);
-        $report3 = $repository->create($traineeId2, $expectedContent, $date, $calendarWeek, $category);
+        $report1 = $repository->create($traineeId1, $expectedContent, $date, $calendarWeek , '2016', $category);
+        $report2 = $repository->create($traineeId1, $expectedContent, $date, $calendarWeek , '2016', $category);
+        $report3 = $repository->create($traineeId2, $expectedContent, $date, $calendarWeek , '2016', $category);
 
         $foundReports = $repository->findByStatus(Report::STATUS_NEW);
         $this->assertCount(3, $foundReports);
@@ -166,7 +166,7 @@ class ReportMongoRepositoryTest extends TestCase
         $calendarWeek = '34';
         $category = Category::SCHOOL;
 
-        $report = $repository->create($traineeId, $expectedContent, $date, $calendarWeek, $category);
+        $report = $repository->create($traineeId, $expectedContent, $date, $calendarWeek , '2016', $category);
 
         $foundReport = $repository->findById($report->id());
 
@@ -186,7 +186,7 @@ class ReportMongoRepositoryTest extends TestCase
         $calendarWeek = '34';
         $category = Category::SCHOOL;
 
-        $report = $repository->create($traineeId, $expectedContent, $date, $calendarWeek, $category);
+        $report = $repository->create($traineeId, $expectedContent, $date, $calendarWeek , '2016', $category);
 
         $foundReports = $repository->findAll();
         $this->assertCount(1, $foundReports);
@@ -204,9 +204,9 @@ class ReportMongoRepositoryTest extends TestCase
     {
         $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
 
-        $repository->create(new TraineeId(), 'some content', '15.5.11', '3', Category::SCHOOL);
-        $repository->create(new TraineeId(), 'some content', '2.5.11', '1', Category::SCHOOL);
-        $repository->create(new TraineeId(), 'some content', '11.11.11', '2', Category::SCHOOL);
+        $repository->create(new TraineeId(), 'some content', '15.5.11', '3', '2016', Category::SCHOOL);
+        $repository->create(new TraineeId(), 'some content', '2.5.11', '1', '2016', Category::SCHOOL);
+        $repository->create(new TraineeId(), 'some content', '11.11.11', '2', '2016', Category::SCHOOL);
 
         $foundReports = $repository->findAll();
 

@@ -79,10 +79,10 @@ class ReportbookService
      * @param string $category
      * @throws ReportFileRepositoryException
      */
-    public function editReport(string $reportId, string $content, string $date, string $calendarWeek, string $category)
+    public function editReport(string $reportId, string $content, string $calendarWeek, string $category)
     {
         $report = $this->reportRepository->findById($reportId);
-        $report->edit($content, $date, $calendarWeek, $category);
+        $report->edit($content, $report->date(), $calendarWeek, $category);
         $this->reportRepository->save($report);
 
         $event = new Events\ReportEdited([

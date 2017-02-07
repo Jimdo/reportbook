@@ -47,7 +47,7 @@ class ReportbookServiceTest extends TestCase
         $expectedTraineeId = new TraineeId();
         $expectedContent = 'some content';
 
-        $report = $this->reportbookService->createReport($expectedTraineeId, $expectedContent, '10.10.10', '34', Category::SCHOOL);
+        $report = $this->reportbookService->createReport($expectedTraineeId, $expectedContent,  '34', '2016', Category::SCHOOL);
 
         $this->assertInstanceOf('\Jimdo\Reports\Views\Report', $report);
 
@@ -65,10 +65,10 @@ class ReportbookServiceTest extends TestCase
         $traineeId = new TraineeId();
         $content = 'some content';
 
-        $report = $this->reportbookService->createReport($traineeId, $content, '10.10.10', '34', Category::SCHOOL);
+        $report = $this->reportbookService->createReport($traineeId, $content,  '34', '2016', Category::SCHOOL);
 
         $expectedContent = 'some modified content';
-        $this->reportbookService->editReport($report->id(), $expectedContent, '10.10.10', '34', Category::SCHOOL);
+        $this->reportbookService->editReport($report->id(), $expectedContent,  '34', '2016', Category::SCHOOL);
 
         $this->assertEquals($expectedContent, $report->content());
     }
@@ -81,15 +81,13 @@ class ReportbookServiceTest extends TestCase
         $traineeId = new TraineeId();
         $content = 'some content';
 
-        $report = $this->reportbookService->createReport($traineeId, $content, '10.10.10', '34', Category::SCHOOL);
+        $report = $this->reportbookService->createReport($traineeId, $content,  '34', '2016', Category::SCHOOL);
 
         $expectedContent = 'some modified content';
-        $expectedDate = '20.12.2012';
         $expectedWeek = '20';
 
-        $this->reportbookService->editReport($report->id(), $expectedContent, $expectedDate, $expectedWeek, Category::SCHOOL);
+        $this->reportbookService->editReport($report->id(), $expectedContent, $expectedWeek, ' 2016', Category::SCHOOL);
 
-        $this->assertEquals($expectedDate, $report->date());
         $this->assertEquals($expectedWeek, $report->calendarWeek());
     }
 
@@ -106,8 +104,8 @@ class ReportbookServiceTest extends TestCase
 
         $this->assertCount(0, $this->reportbookService->findAll());
 
-        $this->reportbookService->createReport($tomId, $tomsContent, '10.10.10', '34', Category::SCHOOL);
-        $this->reportbookService->createReport($jennyId, $jennysContent, '10.10.10', '34', Category::SCHOOL);
+        $this->reportbookService->createReport($tomId, $tomsContent,  '34', '2016', Category::SCHOOL);
+        $this->reportbookService->createReport($jennyId, $jennysContent,  '34', '2016', Category::SCHOOL);
 
         $reports = $this->reportbookService->findAll();
         $this->assertCount(2, $reports);
@@ -124,11 +122,11 @@ class ReportbookServiceTest extends TestCase
     {
         $expectedTraineeId = new TraineeId();
         $expectedContent = 'some content';
-        $expectedDate = '23.08.2016';
 
-        $report = $this->reportbookService->createReport($expectedTraineeId, $expectedContent, $expectedDate, '34', Category::SCHOOL);
 
-        $this->assertEquals($expectedDate, $report->date());
+        $report = $this->reportbookService->createReport($expectedTraineeId, $expectedContent,  '34', '2016', Category::SCHOOL);
+
+        $this->assertEquals(date('d.m.Y'), $report->date());
     }
 
     /**
@@ -138,11 +136,11 @@ class ReportbookServiceTest extends TestCase
     {
         $expectedTraineeId = new TraineeId();
         $expectedContent = 'some content';
-        $expectedDate = '23.08.2016';
         $expectedWeek = '34';
+        $expectedYear = '2016';
 
 
-        $report = $this->reportbookService->createReport($expectedTraineeId, $expectedContent, $expectedDate, $expectedWeek, Category::SCHOOL);
+        $report = $this->reportbookService->createReport($expectedTraineeId, $expectedContent, $expectedWeek, $expectedYear, Category::SCHOOL);
 
         $this->assertEquals($expectedWeek, $report->calendarWeek());
     }
@@ -158,8 +156,8 @@ class ReportbookServiceTest extends TestCase
         $this->assertCount(0, $this->reportbookService->findByTraineeId($tomId->id()));
         $this->assertCount(0, $this->reportbookService->findByTraineeId($jennyId->id()));
 
-        $this->reportbookService->createReport($tomId, 'some content', '10.10.10', '34', Category::SCHOOL);
-        $this->reportbookService->createReport($jennyId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $this->reportbookService->createReport($tomId, 'some content',  '34', '2016', Category::SCHOOL);
+        $this->reportbookService->createReport($jennyId, 'some content',  '34', '2016', Category::SCHOOL);
 
         $tomsReports = $this->reportbookService->findByTraineeId($tomId->id());
         $jennysReports = $this->reportbookService->findByTraineeId($jennyId->id());
@@ -183,7 +181,7 @@ class ReportbookServiceTest extends TestCase
     {
         $traineeId = new TraineeId();
 
-        $report = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report = $this->reportbookService->createReport($traineeId, 'some content',  '34', '2016', Category::SCHOOL);
         $this->assertCount(1, $this->reportbookService->findAll());
 
         $this->reportbookService->deleteReport($report->id());
@@ -197,7 +195,7 @@ class ReportbookServiceTest extends TestCase
     {
         $traineeId = new TraineeId();
 
-        $report = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report = $this->reportbookService->createReport($traineeId, 'some content',  '34', '2016', Category::SCHOOL);
         $reportId = $report->id();
 
         $foundReport = $this->reportbookService->findById($reportId, $traineeId->id());
@@ -214,7 +212,7 @@ class ReportbookServiceTest extends TestCase
         $traineeId = new TraineeId();
         $wrongTraineeId = new TraineeId();
 
-        $report = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report = $this->reportbookService->createReport($traineeId, 'some content',  '34', '2016', Category::SCHOOL);
 
         $foundReport = $this->reportbookService->findById($report->id(), $wrongTraineeId->id());
 
@@ -228,9 +226,9 @@ class ReportbookServiceTest extends TestCase
     {
         $traineeId = new TraineeId();
 
-        $report1 = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
-        $report2 = $this->reportbookService->createReport($traineeId, 'other text', '10.10.10', '34', Category::SCHOOL);
-        $report3 = $this->reportbookService->createReport($traineeId, 'no content', '10.10.10', '34', Category::SCHOOL);
+        $report1 = $this->reportbookService->createReport($traineeId, 'some content',  '34', '2016', Category::SCHOOL);
+        $report2 = $this->reportbookService->createReport($traineeId, 'other text',  '34', '2016', Category::SCHOOL);
+        $report3 = $this->reportbookService->createReport($traineeId, 'no content',  '34', '2016', Category::SCHOOL);
 
         $foundReports = $this->reportbookService->findReportsByString('content', $traineeId->id(), 'TRAINEE');
 
@@ -247,9 +245,9 @@ class ReportbookServiceTest extends TestCase
         $traineeId2 = new TraineeId('5891bc773d312');
         $traineeId3 = new TraineeId('5891bc773d313');
 
-        $report1 = $this->reportbookService->createReport($traineeId3, 'some content', '10.10.10', '34', Category::SCHOOL);
-        $report2 = $this->reportbookService->createReport($traineeId1, 'other text', '10.10.10', '34', Category::SCHOOL);
-        $report3 = $this->reportbookService->createReport($traineeId2, 'no content', '10.10.10', '34', Category::SCHOOL);
+        $report1 = $this->reportbookService->createReport($traineeId3, 'some content',  '34', '2016', Category::SCHOOL);
+        $report2 = $this->reportbookService->createReport($traineeId1, 'other text',  '34', '2016', Category::SCHOOL);
+        $report3 = $this->reportbookService->createReport($traineeId2, 'no content',  '34', '2016', Category::SCHOOL);
 
         $foundReports = $this->reportRepository->findAll();
         $this->reportbookService->sortArrayDescending('traineeId', $foundReports);
@@ -266,7 +264,7 @@ class ReportbookServiceTest extends TestCase
     {
         $traineeId = new TraineeId();
 
-        $report = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report = $this->reportbookService->createReport($traineeId, 'some content',  '34', '2016', Category::SCHOOL);
 
         $this->reportbookService->requestApproval($report->id());
         $this->assertEquals(Report::STATUS_APPROVAL_REQUESTED, $report->status());
@@ -279,7 +277,7 @@ class ReportbookServiceTest extends TestCase
     {
         $traineeId = new TraineeId();
 
-        $report = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report = $this->reportbookService->createReport($traineeId, 'some content',  '34', '2016', Category::SCHOOL);
 
         $this->reportRepository->saveMethodCalled = false;
 
@@ -295,7 +293,7 @@ class ReportbookServiceTest extends TestCase
     {
         $traineeId = new TraineeId();
 
-        $report= $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report= $this->reportbookService->createReport($traineeId, 'some content',  '34', '2016', Category::SCHOOL);
         $reportId = $report->id();
 
         $this->reportbookService->approveReport($reportId);
@@ -310,7 +308,7 @@ class ReportbookServiceTest extends TestCase
     {
         $traineeId = new TraineeId();
 
-        $report= $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report= $this->reportbookService->createReport($traineeId, 'some content',  '34', '2016', Category::SCHOOL);
         $reportId = $report->id();
 
         $this->reportbookService->disapproveReport($reportId);
@@ -326,8 +324,8 @@ class ReportbookServiceTest extends TestCase
         $traineeId = new TraineeId();
 
         $expectedReports = [];
-        $expectedReports[] = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
-        $expectedReports[] = $this->reportbookService->createReport($traineeId, 'some other content', '10.10.10', '34', Category::SCHOOL);
+        $expectedReports[] = $this->reportbookService->createReport($traineeId, 'some content',  '34', '2016', Category::SCHOOL);
+        $expectedReports[] = $this->reportbookService->createReport($traineeId, 'some other content',  '34', '2016', Category::SCHOOL);
 
         $reports = $this->reportbookService->findByStatus(Report::STATUS_NEW);
 
@@ -335,8 +333,8 @@ class ReportbookServiceTest extends TestCase
         $this->assertEquals($expectedReports[1]->status(), $reports[1]->status());
 
         $expectedReports = [];
-        $expectedReports[] = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
-        $expectedReports[] = $this->reportbookService->createReport($traineeId, 'some other content', '10.10.10', '34', Category::SCHOOL);
+        $expectedReports[] = $this->reportbookService->createReport($traineeId, 'some content',  '34', '2016', Category::SCHOOL);
+        $expectedReports[] = $this->reportbookService->createReport($traineeId, 'some other content',  '34', '2016', Category::SCHOOL);
 
         $this->reportbookService->requestApproval($expectedReports[0]->id());
         $this->reportbookService->requestApproval($expectedReports[1]->id());
@@ -434,9 +432,9 @@ class ReportbookServiceTest extends TestCase
     {
         $traineeId = new TraineeId();
 
-        $report1 = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
-        $report2 = $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
-        $report3= $this->reportbookService->createReport($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report1 = $this->reportbookService->createReport($traineeId, 'some content',  '34', '2016', Category::SCHOOL);
+        $report2 = $this->reportbookService->createReport($traineeId, 'some content',  '34', '2016', Category::SCHOOL);
+        $report3= $this->reportbookService->createReport($traineeId, 'some content',  '34', '2016', Category::SCHOOL);
 
         $date = 'Date';
         $content = 'some content';
@@ -467,19 +465,19 @@ class ReportbookServiceTest extends TestCase
     {
         $traineeId = new TraineeId();
 
-        $report1 = $this->reportRepository->create($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
-        $report2 = $this->reportRepository->create($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
-        $report3 = $this->reportRepository->create($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
-        $report4 = $this->reportRepository->create($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
-        $report5 = $this->reportRepository->create($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
-        $report6 = $this->reportRepository->create($traineeId, 'some content', '10.10.10', '34', Category::SCHOOL);
+        $report1 = $this->reportRepository->create($traineeId, 'some content', date('d.m.Y'),  '34', '2016', Category::SCHOOL);
+        $report2 = $this->reportRepository->create($traineeId, 'some content', date('d.m.Y'),  '34', '2016', Category::SCHOOL);
+        $report3 = $this->reportRepository->create($traineeId, 'some content', date('d.m.Y'),  '34', '2016', Category::SCHOOL);
+        $report4 = $this->reportRepository->create($traineeId, 'some content', date('d.m.Y'),  '34', '2016', Category::SCHOOL);
+        $report5 = $this->reportRepository->create($traineeId, 'some content', date('d.m.Y'),  '34', '2016', Category::SCHOOL);
+        $report6 = $this->reportRepository->create($traineeId, 'some content', date('d.m.Y'),  '34', '2016', Category::SCHOOL);
 
-        $report2->edit('alskd', '11.11.11', '24', Category::SCHOOL);
+        $report2->edit('alskd', '11.11.11', '24', '2016', Category::SCHOOL);
         $report3->approve();
         $report4->disapprove();
         $report5->requestApproval();
         $report6->disapprove();
-        $report6->edit('alskd', '11.11.11', '24', Category::SCHOOL);
+        $report6->edit('alskd', '11.11.11', '24', '2016', Category::SCHOOL);
 
         $reports = $this->reportRepository->findAll();
 

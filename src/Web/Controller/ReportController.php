@@ -299,7 +299,7 @@ class ReportController extends Controller
             $reportView->action = '/report/create';
             $reportView->legend = 'Neuen Bericht erstellen';
             $reportView->calendarWeek = date('W');
-            $reportView->date = date('d.m.Y');
+            $reportView->calendarYear = date('Y');
             $reportView->content = '';
             $reportView->buttonName = 'Bericht erstellen';
             $reportView->reportId = null;
@@ -336,16 +336,16 @@ class ReportController extends Controller
         }
 
         $this->addRequestValidation('content', 'string');
-        $this->addRequestValidation('date', 'date');
         $this->addRequestValidation('calendarWeek', 'integer');
+        $this->addRequestValidation('calendarYear', 'integer');
         $this->addRequestValidation('category', 'string');
 
         if ($this->isRequestValid()) {
             $this->service->createReport(
                 new TraineeId($this->sessionData('userId')),
                 $this->formData('content'),
-                $this->formData('date'),
                 $this->formData('calendarWeek'),
+                $this->formData('calendarYear'),
                 $this->formData('category')
             );
             $this->redirect("/report/list");
@@ -355,7 +355,7 @@ class ReportController extends Controller
             $reportView->action = '/report/create';
             $reportView->legend = 'Neuen Bericht erstellen';
             $reportView->calendarWeek = $this->formData('calendarWeek');
-            $reportView->date = $this->formData('date');
+            $reportView->calendarYear = $this->formData('calendarYear');
             $reportView->content = $this->formData('content');
             $reportView->buttonName = 'Bericht erstellen';
             $reportView->backButton = true;
@@ -406,7 +406,7 @@ class ReportController extends Controller
         $reportView->action = '/report/edit';
         $reportView->legend = 'Bericht bearbeiten';
         $reportView->calendarWeek = $report->calendarWeek();
-        $reportView->date = $report->date();
+        $reportView->calendarYear = $report->calendarYear();
         $reportView->content = $report->content();
         $reportView->buttonName = 'Speichern';
         $reportView->reportId = $reportId;
@@ -457,16 +457,16 @@ class ReportController extends Controller
         }
 
         $this->addRequestValidation('content', 'string');
-        $this->addRequestValidation('date', 'date');
         $this->addRequestValidation('calendarWeek', 'integer');
+        $this->addRequestValidation('calendarYear', 'integer');
         $this->addRequestValidation('category', 'string');
 
         if ($this->isRequestValid()) {
             $this->service->editReport(
                 $this->formData('reportId'),
                 $this->formData('content'),
-                $this->formData('date'),
                 $this->formData('calendarWeek'),
+                $this->formData('calendarYear'),
                 $this->formData('category')
             );
             $this->redirect("/report/list");
@@ -480,7 +480,7 @@ class ReportController extends Controller
             $reportView->action = '/report/edit';
             $reportView->legend = 'Bericht bearbeiten';
             $reportView->calendarWeek = $this->formData('calendarWeek');
-            $reportView->date = $this->formData('date');
+            $reportView->calendarYear = $this->formData('calendarYear');
             $reportView->content = $this->formData('content');
             $reportView->buttonName = 'Speichern';
             $reportView->reportId = $this->formData('reportId');
@@ -574,7 +574,7 @@ class ReportController extends Controller
         $reportView->title = 'Bericht';
         $reportView->legend = 'Vorschau';
         $reportView->calendarWeek = $report->calendarWeek();
-        $reportView->date = $report->date();
+        $reportView->calendarYear = $report->calendarYear();
         $reportView->content = $report->content();
         $reportView->buttonName = 'Speichern';
         $reportView->backButton = true;

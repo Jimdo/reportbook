@@ -128,6 +128,7 @@ class Serializer
             'id' => $report->id(),
             'date' => $report->date(),
             'calendarWeek' => $report->calendarWeek(),
+            'calendarYear' => $report->calendarYear(),
             'content' => $report->content(),
             'traineeId' => $report->traineeId(),
             'category' => $report->category(),
@@ -141,10 +142,10 @@ class Serializer
      */
     public function unserializeReport(array $serializedReport): Report
     {
-        $category = $serializedReport['category'];
+        $calendarYear = $serializedReport['calendarYear'];
 
-        if ($category === null) {
-            $category = Category::COMPANY;
+        if ($calendarYear === null) {
+            $calendarYear = explode('.', $serializedReport['date'])[2];
         }
 
         return new Report(
@@ -152,8 +153,9 @@ class Serializer
             $serializedReport['content'],
             $serializedReport['date'],
             $serializedReport['calendarWeek'],
+            $calendarYear,
             $serializedReport['id'],
-            $category,
+            $serializedReport['category'],
             $serializedReport['status']
         );
     }

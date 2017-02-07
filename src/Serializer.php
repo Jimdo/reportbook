@@ -143,9 +143,14 @@ class Serializer
     public function unserializeReport(array $serializedReport): Report
     {
         $calendarYear = $serializedReport['calendarYear'];
+        $category = $serializedReport['category'];
 
         if ($calendarYear === null) {
             $calendarYear = explode('.', $serializedReport['date'])[2];
+        }
+
+        if ($category === null) {
+            $category = Category::COMPANY;
         }
 
         return new Report(
@@ -155,7 +160,7 @@ class Serializer
             $serializedReport['calendarWeek'],
             $calendarYear,
             $serializedReport['id'],
-            $serializedReport['category'],
+            $category,
             $serializedReport['status']
         );
     }

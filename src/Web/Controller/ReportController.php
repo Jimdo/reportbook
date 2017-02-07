@@ -257,7 +257,6 @@ class ReportController extends Controller
             $reportView->action = '/report/create';
             $reportView->legend = 'Neuen Bericht erstellen';
             $reportView->calendarWeek = date('W');
-            $reportView->date = date('d.m.Y');
             $reportView->content = '';
             $reportView->buttonName = 'Bericht erstellen';
             $reportView->reportId = null;
@@ -294,7 +293,6 @@ class ReportController extends Controller
         }
 
         $this->addRequestValidation('content', 'string');
-        $this->addRequestValidation('date', 'date');
         $this->addRequestValidation('calendarWeek', 'integer');
         $this->addRequestValidation('category', 'string');
 
@@ -302,7 +300,6 @@ class ReportController extends Controller
             $this->service->createReport(
                 new TraineeId($this->sessionData('userId')),
                 $this->formData('content'),
-                $this->formData('date'),
                 $this->formData('calendarWeek'),
                 $this->formData('category')
             );
@@ -313,7 +310,6 @@ class ReportController extends Controller
             $reportView->action = '/report/create';
             $reportView->legend = 'Neuen Bericht erstellen';
             $reportView->calendarWeek = $this->formData('calendarWeek');
-            $reportView->date = $this->formData('date');
             $reportView->content = $this->formData('content');
             $reportView->buttonName = 'Bericht erstellen';
             $reportView->backButton = true;
@@ -364,7 +360,6 @@ class ReportController extends Controller
         $reportView->action = '/report/edit';
         $reportView->legend = 'Bericht bearbeiten';
         $reportView->calendarWeek = $report->calendarWeek();
-        $reportView->date = $report->date();
         $reportView->content = $report->content();
         $reportView->buttonName = 'Speichern';
         $reportView->reportId = $reportId;
@@ -415,7 +410,6 @@ class ReportController extends Controller
         }
 
         $this->addRequestValidation('content', 'string');
-        $this->addRequestValidation('date', 'date');
         $this->addRequestValidation('calendarWeek', 'integer');
         $this->addRequestValidation('category', 'string');
 
@@ -423,7 +417,6 @@ class ReportController extends Controller
             $this->service->editReport(
                 $this->formData('reportId'),
                 $this->formData('content'),
-                $this->formData('date'),
                 $this->formData('calendarWeek'),
                 $this->formData('category')
             );
@@ -438,7 +431,6 @@ class ReportController extends Controller
             $reportView->action = '/report/edit';
             $reportView->legend = 'Bericht bearbeiten';
             $reportView->calendarWeek = $this->formData('calendarWeek');
-            $reportView->date = $this->formData('date');
             $reportView->content = $this->formData('content');
             $reportView->buttonName = 'Speichern';
             $reportView->reportId = $this->formData('reportId');
@@ -532,7 +524,6 @@ class ReportController extends Controller
         $reportView->title = 'Bericht';
         $reportView->legend = 'Vorschau';
         $reportView->calendarWeek = $report->calendarWeek();
-        $reportView->date = $report->date();
         $reportView->content = $report->content();
         $reportView->buttonName = 'Speichern';
         $reportView->backButton = true;

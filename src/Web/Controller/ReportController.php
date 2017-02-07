@@ -696,4 +696,23 @@ class ReportController extends Controller
                 return 'Der eingegebene Wert ist keine Kalenderwoche!' . "\n";
         }
     }
+
+    /**
+     * @param string $traineeId
+     * @return array
+     */
+    private function createCalendarArray(string $traineeId): array
+    {
+        $reports = $this->service->findByTraineeId($traineeId);
+
+        for ($i=1; $i < 53; $i++) {
+            $arr[$i] = '';
+        }
+
+        foreach ($reports as $report) {
+            $arr[intVal($report->calendarWeek())] = $report->status();
+
+        }
+        return $arr;
+    }
 }

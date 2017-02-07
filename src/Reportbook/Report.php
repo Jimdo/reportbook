@@ -30,6 +30,9 @@ class Report
     private $calendarWeek;
 
     /** @var string */
+    private $calendarYear;
+
+    /** @var string */
     private $category;
 
     /**
@@ -46,6 +49,7 @@ class Report
         string $content,
         string $date,
         string $calendarWeek,
+        string $calendarYear,
         string $id,
         string $category,
         string $status = null
@@ -54,6 +58,7 @@ class Report
         $this->traineeId = $traineeId->id();
         $this->date = $date;
         $this->calendarWeek = $calendarWeek;
+        $this->calendarYear = $calendarYear;
         $this->id = $id;
         $this->category = $category;
 
@@ -86,11 +91,12 @@ class Report
     * @param string $calendarWeek
     * @param string $category
     */
-    public function edit(string $content, string $date, string $calendarWeek, string $category)
+    public function edit(string $content, string $date, string $calendarWeek, string $calendarYear, string $category)
     {
         $this->content = $content;
         $this->date = $date;
         $this->calendarWeek = $calendarWeek;
+        $this->calendarYear = $calendarYear;
         $this->category = $category;
 
         if ($this->status === self::STATUS_DISAPPROVED || $this->status === self::STATUS_REVISED) {
@@ -130,6 +136,14 @@ class Report
     public function calendarWeek(): string
     {
         return $this->calendarWeek;
+    }
+
+    /**
+     * @return string
+     */
+    public function calendarYear(): string
+    {
+        return $this->calendarYear;
     }
 
     /**

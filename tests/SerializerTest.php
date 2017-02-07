@@ -149,10 +149,11 @@ class SerializerTest extends TestCase
         $content = 'some content';
         $date = '10.10.10';
         $calendarWeek = '35';
+        $calendarYear = '2016';
         $reportId = uniqid();
         $category = Category::SCHOOL;
 
-        $report = new Report($traineeId, $content, $date, $calendarWeek, $reportId, $category);
+        $report = new Report($traineeId, $content, $date, $calendarWeek, $calendarYear, $reportId, $category);
 
         $serializedReport = $serializer->serializeReport($report);
 
@@ -176,10 +177,11 @@ class SerializerTest extends TestCase
         $content = 'some content';
         $date = '10.10.10';
         $calendarWeek = '35';
+        $calendarYear = '2016';
         $reportId = uniqid();
         $category = Category::SCHOOL;
 
-        $report = new Report($traineeId, $content, $date, $calendarWeek, $reportId, $category);
+        $report = new Report($traineeId, $content, $date, $calendarWeek, $calendarYear, $reportId, $category);
 
         $serializedReport = $serializer->serializeReport($report);
 

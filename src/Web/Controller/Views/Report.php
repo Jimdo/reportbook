@@ -17,9 +17,17 @@
 
     <div class="row">
         <label class="col-md-2 control-label" for="calendarWeek">Kalenderwoche: </label>
-        <div class="col-md-2 col-md-offset-0">
+        <div class="col-md-1 col-md-offset-0">
             <input class="form-control" type="text" placeholder="Kalenderwoche"
             <?php echo $this->readonly; ?> id="calendarWeek" name="calendarWeek" value="<?php echo $this->calendarWeek; ?>"></br>
+        </div>
+    </div>
+
+    <div class="row">
+        <label class="col-md-2 control-label" for="calendarWeek">Kalenderjahr: </label>
+        <div class="col-md-1 col-md-offset-0">
+            <input class="form-control" type="text"
+            <?php echo $this->readonly; ?> id="calendarYear" name="calendarYear" value="<?php echo $this->calendarYear; ?>"></br>
         </div>
     </div>
 

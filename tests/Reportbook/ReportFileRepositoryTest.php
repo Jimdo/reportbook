@@ -38,7 +38,7 @@ class ReportFileRepositoryTest extends TestCase
         $category = Category::SCHOOL;
         $expectedContent = 'some content';
 
-        $expectedReport = $repository->create($traineeId, $expectedContent, '10.10.10', '34', $category);
+        $expectedReport = $repository->create($traineeId, $expectedContent, '10.10.10', '34', '2016', $category);
         $reportId = $expectedReport->id();
 
         $reportFileName = sprintf('%s/%s/%s'
@@ -62,7 +62,7 @@ class ReportFileRepositoryTest extends TestCase
         $category = Category::SCHOOL;
         $content = 'some content';
 
-        $report = $repository->create($traineeId, $content, '10.10.10', '34', $category);
+        $report = $repository->create($traineeId, $content, '10.10.10', '34', '2016', $category);
 
         $reportFileName = sprintf('%s/%s/%s'
             , self::REPORTS_ROOT_PATH
@@ -89,9 +89,9 @@ class ReportFileRepositoryTest extends TestCase
         $this->assertCount(0, $repository->findAll());
 
         $reports = [];
-        $reports[] = $repository->create(new TraineeId(), $content, '10.10.10', '34', $category);
-        $reports[] = $repository->create(new TraineeId(), $content, '10.10.10', '34', $category);
-        $reports[] = $repository->create(new TraineeId(), $content, '10.10.10', '34', $category);
+        $reports[] = $repository->create(new TraineeId(), $content, '10.10.10', '34', '2016', $category);
+        $reports[] = $repository->create(new TraineeId(), $content, '10.10.10', '34', '2016', $category);
+        $reports[] = $repository->create(new TraineeId(), $content, '10.10.10', '34', '2016', $category);
 
         $foundReports = $repository->findAll();
 
@@ -111,10 +111,10 @@ class ReportFileRepositoryTest extends TestCase
         $traineeId2 = new TraineeId();
 
         $reports = [];
-        $reports[] = $repository->create($traineeId1, $content, '10.10.10', '34', $category);
-        $reports[] = $repository->create($traineeId1, $content, '10.10.10', '34', $category);
-        $reports[] = $repository->create($traineeId2, $content, '10.10.10', '34', $category);
-        $reports[] = $repository->create($traineeId2, $content, '10.10.10', '34', $category);
+        $reports[] = $repository->create($traineeId1, $content, '10.10.10', '34', '2016', $category);
+        $reports[] = $repository->create($traineeId1, $content, '10.10.10', '34', '2016', $category);
+        $reports[] = $repository->create($traineeId2, $content, '10.10.10', '34', '2016', $category);
+        $reports[] = $repository->create($traineeId2, $content, '10.10.10', '34', '2016', $category);
 
         $foundReports = $repository->findByTraineeId($traineeId1->id());
         $this->assertCount(2, $foundReports);
@@ -133,8 +133,8 @@ class ReportFileRepositoryTest extends TestCase
         $content = 'some content';
 
         $reports = [];
-        $reports[] = $repository->create(new TraineeId(), $content, '10.10.10', '34', $category);
-        $reports[] = $repository->create(new TraineeId(), $content, '10.10.10', '34', $category);
+        $reports[] = $repository->create(new TraineeId(), $content, '10.10.10', '34', '2016', $category);
+        $reports[] = $repository->create(new TraineeId(), $content, '10.10.10', '34', '2016', $category);
 
         $foundReports = $repository->findByStatus(Report::STATUS_NEW);
 
@@ -151,8 +151,8 @@ class ReportFileRepositoryTest extends TestCase
         $category = Category::SCHOOL;
         $content = 'some content';
 
-        $report1 = $repository->create(new TraineeId(), $content, '10.10.10', '34', $category);
-        $report2 = $repository->create(new TraineeId(), $content, '10.10.10', '34', $category);
+        $report1 = $repository->create(new TraineeId(), $content, '10.10.10', '34', '2016', $category);
+        $report2 = $repository->create(new TraineeId(), $content, '10.10.10', '34', '2016', $category);
 
         $foundReport = $repository->findById($report1->id());
         $this->assertEquals($report1, $foundReport);

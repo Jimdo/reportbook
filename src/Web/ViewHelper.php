@@ -163,20 +163,33 @@ class ViewHelper
      * @param int $year
      * @return array
      */
-    private function getStartAndEndDate(int $week, int $year)
-    {
-        $week = $week -1;
-        $time = strtotime("1 January $year", time());
-        $day = date('w', $time);
-        $time += ((7*$week)+1-$day)*24*3600;
-        $return[0] = date('Y-n', $time);
-        $return[1] = date('j', $time);
-        $time += 6*24*3600;
-        $return[2] = date('Y-n', $time);
-        $return[3] = date('j', $time);
+     public function getStartAndEndDate(int $week, int $year): array
+     {
+        $date = new \DateTime();
 
-        return $return;
-    }
+        //returns an array with date information
+        $date->setISODate($year, $week);
+
+        $startYear = intVal($date->format('Y'));
+        $startMonth = intVal($date->format('m'));
+        $startDay = intVal($date->format('d'));
+
+        // Adds six days for the end of the week
+        $date->modify('+6 days');
+
+        $endYear = intVal($date->format('Y'));
+        $endMonth = intVal($date->format('m'));
+        $endDay = intVal($date->format('d'));
+
+        return [
+            0 => $startYear,
+            1 => $startMonth,
+            2 => $startDay,
+            3 => $endYear,
+            4 => $endMonth,
+            5 => $endDay
+        ];
+     }
 
     /**
      * @param int $day
@@ -184,23 +197,23 @@ class ViewHelper
      * @param int $year
      * @return bool
      */
-    private function checkIfDayIsInCalendarWeek(int $day, int $week, int $month, int $year)
+    public function checkIfDayIsInCalendarWeek(int $day, int $week, int $month, int $year)
     {
         $weekInfo = $this->getStartAndEndDate($week, $year);
-        $startYearMonth = $weekInfo[0];
-        $endYearMonth = $weekInfo[2];
-        $startDay = intVal($weekInfo[1]);
-        $endDay = intVal($weekInfo[3]);
+        $startYearMonth = "$weekInfo[0]-$weekInfo[1]";
+        $endYearMonth = "$weekInfo[3]-$weekInfo[4]";
+        $startDay = $weekInfo[2];
+        $endDay = $weekInfo[5];
         $day = intVal($day);
 
-        if ("$year-$month" === $startYearMonth) {
+        if ("$year-$month" == $startYearMonth) {
 
             if ($day >= $startDay && $day < ($startDay + 7)) {
                     return true;
             }
         }
 
-        if ("$year-$month"  === $endYearMonth && $day <= $endDay){
+        if ("$year-$month"  == $endYearMonth && $day <= $endDay){
             return true;
         }
         return false;

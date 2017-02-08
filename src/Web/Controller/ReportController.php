@@ -246,6 +246,88 @@ class ReportController extends Controller
         $this->response->addBody($footerView->render());
     }
 
+    public function calendarAction()
+    {
+        if (!$this->isTrainee() && !$this->isAdmin() && !$this->isTrainer()) {
+            $this->redirect('/user');
+        } else {
+            $headerView = $this->view('src/Web/Controller/Views/Header.php');
+            $headerView->tabTitle = 'Berichtsheft';
+
+            $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
+            $infobarView->viewHelper = $this->viewHelper;
+            $infobarView->username = $this->sessionData('username');
+            $infobarView->role = $this->sessionData('role');
+            $infobarView->trainerRole = $this->isTrainer();
+            $infobarView->adminRole = $this->isAdmin();
+            $infobarView->infoHeadline = ' | Übersicht';
+            $infobarView->hideInfos = false;
+
+            $calendarView = $this->view('src/Web/Controller/Views/CalendarView.php');
+            $calendarView->viewHelper = $this->viewHelper;
+            $calendarView->trainerRole = $this->isTrainer();
+            $calendarView->adminRole = $this->isAdmin();
+            $calendarView->months = ['Januar', 'Febuar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+
+            $year = $this->queryParams('year');
+            if ($year === null) {
+                $year = date('Y');
+            }
+            $calendarView->year = $year;
+
+            if ($this->isAdmin() || $this->isTrainer()) {
+                $users = $this->userService->findAllTrainees();
+
+                foreach ($users as $user) {
+                    $profile = $this->profileService->findProfileByUserId($user->id());
+                    $traineeInfo[] = ['name' => $profile->forename() . ' ' .  $profile->surname(), 'id' => $user->id()];
+                }
+                $calendarView->users = $traineeInfo;
+                $calendarView->currentUserId = $this->queryParams('userId');
+                $calendarView->cwInfo = $this->createCalendarArray($this->queryParams('userId'), $year);
+
+            } elseif ($this->isTrainee()) {
+                $user = $this->queryParams('userId');
+                $calendarView->currentUserId = $user;
+                $calendarView->cwInfo = $this->createCalendarArray($user, $year);
+            }
+
+            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
+            $footerView->backButton = false;
+
+            $this->response->addBody($headerView->render());
+            $this->response->addBody($infobarView->render());
+            $this->response->addBody($calendarView->render());
+            $this->response->addBody($footerView->render());
+        }
+    }
+
+    public function yearLaterAction()
+    {
+        if (!$this->isTrainee() && !$this->isAdmin() && !$this->isTrainer()) {
+            $this->redirect('/user');
+        } else {
+            $year = intVal($this->queryParams('year'));
+            if ($year <= date('Y')) {
+                $year += 1;
+            }
+            $userId = $this->queryParams('userId');
+            $this->redirect("/report/calendar", ['userId' => $userId, 'year' => $year]);
+        }
+    }
+
+    public function yearBeforeAction()
+    {
+        if (!$this->isTrainee() && !$this->isAdmin() && !$this->isTrainer()) {
+            $this->redirect('/user');
+        } else {
+            $year = intVal($this->queryParams('year')) - 1;
+            $userId = $this->queryParams('userId');
+            $this->redirect("/report/calendar", ['userId' => $userId, 'year' => $year]);
+        }
+    }
+
+
     public function createReportAction()
     {
         if (!$this->isTrainee()) {
@@ -653,5 +735,26 @@ class ReportController extends Controller
             case Validator::ERR_VALIDATOR_INT:
                 return 'Der eingegebene Wert ist keine Kalenderwoche!' . "\n";
         }
+    }
+
+    /**
+     * @param string $traineeId
+     * @return array
+     */
+    private function createCalendarArray(string $traineeId, string $year): array
+    {
+        $reports = $this->service->findByTraineeId($traineeId);
+
+        for ($i=1; $i < 53; $i++) {
+            $arr[$i] = '';
+        }
+
+        foreach ($reports as $report) {
+            if ($year === $report->calendarYear()) {
+                $arr[intVal($report->calendarWeek())] = $report->status();
+            }
+
+        }
+        return $arr;
     }
 }

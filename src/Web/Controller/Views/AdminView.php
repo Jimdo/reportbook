@@ -1,5 +1,16 @@
-<?php use \Jimdo\Reports\Reportbook\Report;
-      use \Jimdo\Reports\Web\Controller\ReportController; ?>
+<?php
+use \Jimdo\Reports\Reportbook\Report;
+use \Jimdo\Reports\Web\Controller\ReportController;
+?>
+
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="/report/list">Listenansicht</a></li>
+        <li role="presentation"><a href="/report/calendar?userId=<?php echo $this->reports[0]->traineeId(); ?>">Kalenderansicht</a></li>
+    </ul>
+</div>
+
+</br>
 
 <form action="/report/search" method="POST">
     <div class="input-group input-group-md col-md-3 col-md-offset-9">

@@ -384,4 +384,22 @@ class UserServiceTest extends TestCase
         $this->assertEquals($user->roleStatus(), Role::STATUS_APPROVED);
         $this->assertTrue($this->userService->checkForAdmin());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldFindAllTrainees()
+    {
+        $user1 = $this->userService->registerTrainer('max_mustermann', 'max.mustermann@hotmail.de', 'SecurePassword123');
+        $user2 = $this->userService->registerTrainee('max_mustermann1', 'max1.mustermann@hotmail.de', 'SecurePassword123');
+        $user3 = $this->userService->registerTrainee('max_mustermann2', 'max2.mustermann@hotmail.de', 'SecurePassword123');
+        $user4 = $this->userService->registerTrainee('max_mustermann3', 'max3.mustermann@hotmail.de', 'SecurePassword123');
+
+        $this->userService->approveRole($user2->email());
+        $this->userService->approveRole($user3->email());
+        $foundUsers = $this->userService->findAllTrainees();
+
+        $this->assertCount(2, $foundUsers);
+        $this->assertEquals($user2->username(), $foundUsers[0]->username());
+    }
 }

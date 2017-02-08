@@ -48,7 +48,7 @@
 <div class="row">
     <?php for ($i=1; $i < 13; $i++): ?>
         <div class="col-md-3" style="padding: 5px;">
-            <div style="border: 1px solid #BDBDBD; border-radius: 5px; padding-left: 5px; padding-right: 5px;  height: 267px;">
+            <div style="border: 1px solid #BDBDBD; border-radius: 5px; padding-left: 5px; padding-right: 5px;  height: 280px;">
                 <p class="text-center" style="padding-top: 10px;"><b><?php echo $this->months[$i - 1]; ?></b></p>
                 <?php $this->viewHelper->showMonth($i, $this->year, $this->cwInfo); ?>
             </div>

@@ -136,3 +136,11 @@ update       Update composer packages
 
 ### v0.5
   - Implement the admin user with special rights
+
+### v0.5.1
+  - Implement Category to Report
+
+### v0.6
+  - Implement Calendar Overview for Reports
+  - Implement Calendar Year to Report
+  - Implement sortable Report Overview

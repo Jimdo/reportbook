@@ -741,7 +741,7 @@ class ReportController extends Controller
      * @param string $traineeId
      * @return array
      */
-    private function createCalendarArray(string $traineeId): array
+    private function createCalendarArray(string $traineeId, string $year): array
     {
         $reports = $this->service->findByTraineeId($traineeId);
 
@@ -750,7 +750,9 @@ class ReportController extends Controller
         }
 
         foreach ($reports as $report) {
-            $arr[intVal($report->calendarWeek())] = $report->status();
+            if ($year === $report->calendarYear()) {
+                $arr[intVal($report->calendarWeek())] = $report->status();
+            }
 
         }
         return $arr;

@@ -35,9 +35,9 @@
     <div class="col-sm-offset-5">
 
         <ul class="nav nav-pills">
-          <li><button class="btn btn-default btn-sm glyphicon glyphicon-chevron-left"></button></li>
-          <li><button class="btn-md" style="border: none; background: transparent; padding-top: 3px;"><font size="4">2017</font></button></li>
-          <li><button class="btn btn-default btn-sm glyphicon glyphicon-chevron-right"></button></li>
+          <li><a href="/report/yearBefore?userId=<?php echo $this->currentUserId; ?>&year=<?php echo $this->year; ?>" class="glyphicon glyphicon-chevron-left" style="color:black;" aria-hidden="true"></a></li>
+          <li><button class="btn-md" style="border: none; background: transparent; padding-top: 5px;"><font size="4"><?php echo $this->year; ?></font></button></li>
+          <li><a href="/report/yearLater?userId=<?php echo $this->currentUserId; ?>&year=<?php echo $this->year; ?>" class="glyphicon glyphicon-chevron-right" style="color:black;" aria-hidden="true"></a></li>
         </ul>
 
     </div>
@@ -48,9 +48,9 @@
 <div class="row">
     <?php for ($i=1; $i < 13; $i++): ?>
         <div class="col-md-3" style="padding: 5px;">
-            <div style="border: 1px solid #BDBDBD; border-radius: 5px; padding-left: 5px; padding-right: 5px;  height: 300px;">
+            <div style="border: 1px solid #BDBDBD; border-radius: 5px; padding-left: 5px; padding-right: 5px;  height: 267px;">
                 <p class="text-center" style="padding-top: 10px;"><b><?php echo $this->months[$i - 1]; ?></b></p>
-                <?php $this->viewHelper->showMonth($i, 2017, $this->cwInfo); ?>
+                <?php $this->viewHelper->showMonth($i, $this->year, $this->cwInfo); ?>
             </div>
         </div>
     <?php endfor; ?>

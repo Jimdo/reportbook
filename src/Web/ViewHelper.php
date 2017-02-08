@@ -28,28 +28,42 @@ class ViewHelper
         $rows = 1;
 
         echo "<table class=\"table-condensed table-bordered table-striped table table-curved\">\n";
-        echo "\t<tr><th>Mo</th><th>Di</th><th>Mi</th><th>Do</th><th>Fr</th><th>Sa</th><th>So</th></tr>";
+        echo
+        "\t<tr>
+            <th class=\"text-center\">KW</th>
+            <th class=\"text-center\">Mo</th>
+            <th class=\"text-center\">Di</th>
+            <th class=\"text-center\">Mi</th>
+            <th class=\"text-center\">Do</th>
+            <th class=\"text-center\">Fr</th>
+            <th class=\"text-center\">Sa</th>
+            <th class=\"text-center\">So</th>
+        </tr>";
         echo "\n\t<tr>";
-
 
         for($i = 1; $i <= $offset; $i++)
         {
-            echo "<td></td>";
-        }
+            if ($offset === 1 && $month === 1) {
+                echo "<td style=\"font-weight: bold;\" class=\"text-center\">1</td>";
+            } else {
+                echo "<td></td>";
+            }
 
+        }
 
         for($day = 1; $day <= $daysInMonth; $day++) {
 
             $currentWeek = intVal(date("W", strtotime("$year-$month-$day")));
 
             if( ($day + $offset - 1) % 7 == 0 && $day != 1) {
-                echo "</tr>\n\t<tr>";
+                echo "</tr>\n\t<tr><td style=\"font-weight: bold;\" class=\"text-center\">$currentWeek</td>";
 
                 $rows++;
+            } elseif ($day === 1 && $offset == 0) {
+                echo "<td style=\"font-weight: bold;\" class=\"text-center\">$currentWeek</td>";
+            } elseif ($day === 1) {
+                echo "<td></td>";
             }
-
-            // var_dump($cwInfo[10]);
-
 
             if ($this->checkIfDayIsInCalendarWeek(
                 $day, $currentWeek, $month, $year) &&

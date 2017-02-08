@@ -7,19 +7,29 @@
 
 </br>
 
-<div class"col-sm-10" style="float:right;">
-    <div class="dropdown">
-      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-        <?php echo $this->users[0]['name']; ?>
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-         <?php foreach ($this->users as $user): ?>
-             <li><a href="/report/calendar?userId=<?php echo $user['id']?>"><?php echo $user['name']; ?></a></li>
-         <?php endforeach; ?>
-      </ul>
+<?php if ($this->trainerRole || $this->adminRole): ?>
+    <div class"col-sm-10" style="float:right;">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+            <?php
+            foreach ($this->users as $user) {
+                if ($user['id'] === $this->currentUserId) {
+                    echo $user['name'];
+                }
+            }
+            ?>
+
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+             <?php foreach ($this->users as $user): ?>
+                 <li><a href="/report/calendar?userId=<?php echo $user['id']; ?>"><?php echo $user['name']; ?></a></li>
+             <?php endforeach; ?>
+          </ul>
+        </div>
     </div>
-</div>
+<?php endif; ?>
 
 <div style="width:800px; margin:0 auto;">
     <div class="col-sm-offset-5">

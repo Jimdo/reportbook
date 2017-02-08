@@ -302,8 +302,19 @@ class ReportController extends Controller
         }
     }
 
-        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-        $footerView->backButton = false;
+    public function yearLaterAction()
+    {
+        if (!$this->isTrainee() && !$this->isAdmin() && !$this->isTrainer()) {
+            $this->redirect('/user');
+        } else {
+            $year = intVal($this->queryParams('year'));
+            if ($year <= date('Y')) {
+                $year += 1;
+            }
+            $userId = $this->queryParams('userId');
+            $this->redirect("/report/calendar", ['userId' => $userId, 'year' => $year]);
+        }
+    }
 
         $this->response->addBody($headerView->render());
         $this->response->addBody($infobarView->render());

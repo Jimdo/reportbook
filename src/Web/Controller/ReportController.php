@@ -316,11 +316,17 @@ class ReportController extends Controller
         }
     }
 
-        $this->response->addBody($headerView->render());
-        $this->response->addBody($infobarView->render());
-        $this->response->addBody($calendarView->render());
-        $this->response->addBody($footerView->render());
+    public function yearBeforeAction()
+    {
+        if (!$this->isTrainee() && !$this->isAdmin() && !$this->isTrainer()) {
+            $this->redirect('/user');
+        } else {
+            $year = intVal($this->queryParams('year')) - 1;
+            $userId = $this->queryParams('userId');
+            $this->redirect("/report/calendar", ['userId' => $userId, 'year' => $year]);
+        }
     }
+
 
     public function createReportAction()
     {

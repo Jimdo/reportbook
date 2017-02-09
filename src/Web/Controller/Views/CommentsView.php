@@ -73,16 +73,16 @@ $editActive = false;?>
 
 <?php endforeach; ?>
 
+    <div class="col-sm-offset-10 col-sm-2">
+
+        <?php if ($this->showCreateCommentButton): ?>
+            <p class="form-control-static">
+                <button style="width: 175px; padding-right: 10px;" class="btn btn-md btn-default" data-toggle="collapse" data-target="#createComment">Kommentar verfassen</button>
+            </p>
+        <?php endif; ?>
+
+    </div>
     <div class="form-group">
-        <div class="col-sm-offset-10 col-sm-2">
-
-            <?php if ($this->showCreateCommentButton): ?>
-                <p class="form-control-static">
-                    <button class="btn btn-md btn-default btn-block" data-toggle="collapse" data-target="#createComment">Kommentar verfassen</button>
-                </p>
-            <?php endif; ?>
-
-        </div>
         <div class="collapse" id="createComment">
             <form action="/comment/createComment" method="POST" class="form-horizontal">
                 <div class="card card-block">

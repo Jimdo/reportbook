@@ -1,10 +1,11 @@
 <?php use \Jimdo\Reports\Reportbook\Report as Report; ?>
 <?php use \Jimdo\Reports\Web\Controller\ReportController as ReportController; ?>
-
 <div class="row">
     <ul class="nav nav-tabs">
         <li role="presentation" class="active"><a href="/report/list">Listenansicht</a></li>
-        <li role="presentation"><a href="/report/calendar?userId=<?php echo $this->reports[0]->traineeId(); ?>">Kalenderansicht</a></li>
+        <?php if ($this->reports !== []): ?>
+            <li role="presentation"><a href="/report/calendar?userId=<?php echo $this->reports[0]->traineeId(); ?>">Kalenderansicht</a></li>
+        <?php endif; ?>
     </ul>
 </div>
 

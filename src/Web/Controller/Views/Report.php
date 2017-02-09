@@ -55,36 +55,39 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="col-md-2 col-md-offset-10">
     <?php if ($this->isTrainee || $this->isAdmin): ?>
         <?php if ($this->createButton): ?>
             <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>" />
-            <button type="submit" class="btn btn-primary col-md-offset-10 col-md-2"><?php echo $this->buttonName; ?></button>
+            <button style="width: 175px;" type="submit" class="btn btn-primary col-md-1"><?php echo $this->buttonName; ?></button>
+            </br></br></br>
         <?php endif; ?>
     <?php endif; ?>
     </div>
 
   </fieldset>
-</form></br>
+</form>
 
 <?php if ($this->statusButtons): ?>
 
-<div class="form-group form-group-md col-md-offset-8 col-md-12">
-
     <form action="/report/approveReport" method="POST">
+        <div class="col-md-2 col-md-offset-8">
 
         <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
-        <button type="submit" class="btn btn-primary col-md-2 col-md-offset-0" style="margin-left: 5px; padding-right: 15px; width: 180px;"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Genehmigen</button>
+        <button style="width: 175px;" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Genehmigen</button>
 
+        </div>
     </form>
 
     <form action="/report/disapproveReport" method="POST">
+        <div class="col-md-1">
 
         <input type="hidden" name="reportId" value="<?php echo $this->reportId; ?>">
-        <button type="submit" class="btn btn-default col-md-2 col-md-offset-0" style="margin-right: 2px; padding-right: 15px; width: 180px;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Ablehnen</button>
+        <button style="width: 175px;" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Ablehnen</button>
 
+        </div>
     </form>
 
-</div>
+    </br></br></br>
 
 <?php endif; ?>

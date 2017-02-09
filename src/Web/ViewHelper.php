@@ -167,7 +167,6 @@ class ViewHelper
      {
         $date = new \DateTime();
 
-        //returns an array with date information
         $date->setISODate($year, $week);
 
         $startYear = intVal($date->format('Y'));
@@ -182,12 +181,12 @@ class ViewHelper
         $endDay = intVal($date->format('d'));
 
         return [
-            0 => $startYear,
-            1 => $startMonth,
-            2 => $startDay,
-            3 => $endYear,
-            4 => $endMonth,
-            5 => $endDay
+            $startYear,
+            $startMonth,
+            $startDay,
+            $endYear,
+            $endMonth,
+            $endDay
         ];
      }
 

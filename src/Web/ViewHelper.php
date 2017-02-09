@@ -100,6 +100,8 @@ class ViewHelper
                     case Report::STATUS_DISAPPROVED:
                     $color = 'red';
                         break;
+                    default:
+                    $color = '';
                 }
                 echo "<td bgcolor=\"$color\" class=\"text-center\">" . $day .  "</td>";
             } else {

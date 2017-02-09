@@ -749,9 +749,15 @@ class ReportController extends Controller
             $arr[$i] = '';
         }
 
+        $arr = [];
+
         foreach ($reports as $report) {
             if ($year === $report->calendarYear()) {
-                $arr[intVal($report->calendarWeek())] = $report->status();
+                $arr[intVal($report->calendarWeek())] = [
+                    'status' => $report->status(),
+                    'traineeId' => $traineeId,
+                    'reportId' => $report->id()
+                ];
             }
 
         }

@@ -128,7 +128,7 @@ class ReportController extends Controller
                     $this->service->sortArrayDescending('traineeId', $reports);
                     break;
                 case 'calendarWeek':
-                    $this->service->sortArrayDescending('calendarWeek', $reports);
+                    $reports = $this->service->sortReportsByCalendarWeekAndYear($reports);
                     break;
                 case 'comment':
                     $this->service->sortReportsByAmountOfComments($reports);

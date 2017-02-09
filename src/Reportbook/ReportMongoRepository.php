@@ -76,8 +76,8 @@ class ReportMongoRepository implements ReportRepository
         foreach ($this->reports->find() as $report) {
             $foundReports [] = $this->serializer->unserializeReport($report->getArrayCopy());
         }
-        $this->sortReportsByCalendarWeek($foundReports);
-        return $foundReports;
+
+        return $this->sortReportsByCalendarWeekAndYear($foundReports);
     }
 
     /**

@@ -340,30 +340,22 @@ class ReportbookService
     public function sortArrayDescending(string $key, array &$array)
     {
         $direction = SORT_DESC;
-
         $value = $key;
-
         $reference_array = [];
         $reports = [];
-
         foreach ($array as $report) {
             $report = $this->serializer->serializeReport($report);
             $reports[] = $report;
         }
-
         $array = $reports;
-
         foreach ($array as $key => $row) {
             $reference_array[$key] = $row[$value];
         }
-
         array_multisort($reference_array, $direction, $array);
-
         $newReports = [];
         foreach ($array as $report) {
             $newReports[] = $this->serializer->unserializeReport($report);
         }
-
         $array = $newReports;
     }
 
@@ -456,6 +448,15 @@ class ReportbookService
             $readOnlyReports[] = new ReadOnlyReport($report);
         }
         return $readOnlyReports;
+    }
+
+    /**
+     * @param array $reports
+     * @return array
+     */
+    public function sortReportsByCalendarWeekAndYear(array $reports): array
+    {
+        return $this->reportRepository->sortReportsByCalendarWeekAndYear($reports);
     }
 
     /**

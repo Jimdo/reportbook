@@ -204,14 +204,18 @@ class ReportMongoRepositoryTest extends TestCase
     {
         $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
 
-        $repository->create(new TraineeId(), 'some content', '15.5.11', '3', '2016', Category::SCHOOL);
-        $repository->create(new TraineeId(), 'some content', '2.5.11', '1', '2016', Category::SCHOOL);
+        $repository->create(new TraineeId(), 'some content', '15.5.11', '52', '2016', Category::SCHOOL);
+        $repository->create(new TraineeId(), 'some content', '2.5.11', '1', '2017', Category::SCHOOL);
+        $repository->create(new TraineeId(), 'some content', '11.11.11', '20', '2017', Category::SCHOOL);
+        $repository->create(new TraineeId(), 'some content', '11.11.11', '52', '2015', Category::SCHOOL);
         $repository->create(new TraineeId(), 'some content', '11.11.11', '2', '2016', Category::SCHOOL);
 
         $foundReports = $repository->findAll();
 
-        $this->assertEquals($foundReports[0]->calendarWeek(), '3');
-        $this->assertEquals($foundReports[1]->calendarWeek(), '2');
-        $this->assertEquals($foundReports[2]->calendarWeek(), '1');
+        $this->assertEquals($foundReports[0]->calendarWeek(), '20');
+        $this->assertEquals($foundReports[1]->calendarWeek(), '1');
+        $this->assertEquals($foundReports[2]->calendarWeek(), '52');
+        $this->assertEquals($foundReports[3]->calendarWeek(), '2');
+        $this->assertEquals($foundReports[4]->calendarWeek(), '52');
     }
 }

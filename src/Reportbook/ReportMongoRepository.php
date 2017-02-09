@@ -76,8 +76,8 @@ class ReportMongoRepository implements ReportRepository
         foreach ($this->reports->find() as $report) {
             $foundReports [] = $this->serializer->unserializeReport($report->getArrayCopy());
         }
-        $this->sortReportsByCalendarWeek($foundReports);
-        return $foundReports;
+
+        return $this->sortReportsByCalendarWeekAndYear($foundReports);
     }
 
     /**
@@ -190,5 +190,43 @@ class ReportMongoRepository implements ReportRepository
         }
 
         $array = $newReports;
+    }
+
+    /**
+     * @param array $array
+     * @return array
+     */
+    public function sortReportsByCalendarWeekAndYear(array $aReports): array
+    {
+        $years = [];
+        $yearsWithReports = [];
+        $sortedReports = [];
+
+        foreach ($aReports as $report) {
+
+          if (!in_array($report->calendarYear(), $years)) {
+              $years[] = $report->calendarYear();
+          }
+
+          foreach ($years as $year) {
+              if ($report->calendarYear() === $year) {
+                  $yearsWithReports[$year][] = $report;
+              }
+          }
+        }
+
+        foreach ($yearsWithReports as $year => $reports) {
+          $this->sortReportsByCalendarWeek($reports);
+          $sortedReports[$year] = $reports;
+        }
+
+        krsort($sortedReports);
+
+        $returnArr = [];
+        foreach ($sortedReports as $sortedReport) {
+          $returnArr = array_merge($returnArr, $sortedReport);
+        }
+
+        return $returnArr;
     }
 }

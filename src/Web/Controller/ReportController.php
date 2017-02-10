@@ -702,18 +702,21 @@ class ReportController extends Controller
             $reportView = $this->view('src/Web/Controller/Views/TraineeView.php');
             $reportView->reports = $this->service->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
             $reportView->viewHelper = $this->viewHelper;
+            $reportView->commentService = $this->service;
         } elseif ($this->isTrainer()) {
             $reportView = $this->view('src/Web/Controller/Views/TrainerView.php');
             $reportView->userService = $this->userService;
             $reportView->profileService = $this->profileService;
             $reportView->viewHelper = $this->viewHelper;
             $reportView->reports = $this->service->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
+            $reportView->commentService = $this->service;
         } elseif ($this->isAdmin()) {
             $reportView = $this->view('src/Web/Controller/Views/AdminView.php');
             $reportView->userService = $this->userService;
             $reportView->profileService = $this->profileService;
             $reportView->viewHelper = $this->viewHelper;
             $reportView->reports = $this->service->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
+            $reportView->commentService = $this->service;
         } else {
             $this->redirect("/user");
         }

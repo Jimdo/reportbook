@@ -238,6 +238,9 @@ class ReportbookService
     public function findById(string $reportId, string $traineeId, bool $isAdmin = false)
     {
         $report = $this->reportRepository->findById($reportId);
+        if ($report === null) {
+            return null;
+        }
         $report = new ReadOnlyReport($report);
         if ($report->traineeId() === $traineeId || $isAdmin) {
             return $report;

@@ -49,6 +49,15 @@ class CommentService
     }
 
     /**
+     * @param string $userId
+     * @return array
+     */
+    public function findCommentsByUserId(string $userId): array
+    {
+        return $this->repository->findCommentsByUserId($userId);
+    }
+
+    /**
      * @param string $id
      */
     public function deleteComment(string $id)

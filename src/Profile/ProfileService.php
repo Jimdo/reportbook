@@ -49,12 +49,23 @@ class ProfileService
     public function findProfileByUserId(string $userId)
     {
         $profile = $this->repository->findProfileByUserId($userId);
+        if ($profile === null) {
+            return null;
+        }
         if ($profile->image() === '') {
             $image = file_get_contents($this->imagePath);
             $base64 = base64_encode($image);
             $profile->editImage($base64, 'jpg');
         }
         return $profile;
+    }
+
+    /**
+     * @param Profile $deleteProfile
+     */
+    public function deleteProfile(Profile $deleteProfile)
+    {
+        $this->repository->deleteProfile($deleteProfile);
     }
 
     /**

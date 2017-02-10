@@ -238,6 +238,9 @@ class ReportbookService
     public function findById(string $reportId, string $traineeId, bool $isAdmin = false)
     {
         $report = $this->reportRepository->findById($reportId);
+        if ($report === null) {
+            return null;
+        }
         $report = new ReadOnlyReport($report);
         if ($report->traineeId() === $traineeId || $isAdmin) {
             return $report;
@@ -331,6 +334,15 @@ class ReportbookService
     public function findCommentById(string $commentId): Comment
     {
         return $this->commentService->findCommentById($commentId);
+    }
+
+    /**
+     * @param string $userId
+     * @return array
+     */
+    public function findCommentsByUserId(string $userId): array
+    {
+        return $this->commentService->findCommentsByUserId($userId);
     }
 
     /**

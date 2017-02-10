@@ -32,9 +32,9 @@ class ApplicationService
     }
 
     /*
-     * @param Jimdo\Reports|Views\User $user
+     * @param $user
      */
-    public function deleteUser(User $user)
+    public function deleteUser(\Jimdo\Reports\User\User $user)
     {
         $userId = $user->id();
 

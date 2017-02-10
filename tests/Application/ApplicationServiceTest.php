@@ -100,6 +100,8 @@ class ApplicationServiceTest extends TestCase
 
         $comment = $this->reportbookService->createComment($report->id(), $user->id(), $date, $content);
 
+        $user = $this->userService->findUserById($user->id());
+
         $this->applicationService->deleteUser($user);
 
         $this->assertEquals([], $this->reportbookService->findCommentsByUserId($comment->id()));

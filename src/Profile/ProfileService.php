@@ -58,6 +58,14 @@ class ProfileService
     }
 
     /**
+     * @param Profile $deleteProfile
+     */
+    public function deleteProfile(Profile $deleteProfile)
+    {
+        $this->repository->deleteProfile($deleteProfile);
+    }
+
+    /**
      * @param string $userId
      * @param string $forename
      */

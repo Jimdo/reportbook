@@ -103,6 +103,31 @@ class CommentServiceTest extends TestCase
     /**
      * @test
      */
+    public function itShouldFindCommentsByUserId()
+    {
+        $reportId1 = uniqid();
+        $userId = uniqid();
+        $date = date('d.m.Y');
+        $content = 'Hallo';
+
+        $comment = $this->service->createComment($reportId1, $userId, $date, $content);
+
+        $reportId2 = uniqid();
+
+        $comment = $this->service->createComment($reportId2, $userId, $date, $content);
+
+        $reportId3 = uniqid();
+
+        $comment = $this->service->createComment($reportId3, $userId, $date, $content);
+
+        $foundComment = $this->service->findCommentsByUserId($userId);
+
+        $this->assertCount(3, $foundComment);
+    }
+
+    /**
+     * @test
+     */
     public function itShouldDeleteComment()
     {
         $reportId = uniqid();

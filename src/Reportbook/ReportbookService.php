@@ -334,6 +334,15 @@ class ReportbookService
     }
 
     /**
+     * @param string $userId
+     * @return array
+     */
+    public function findCommentsByUserId(string $userId): array
+    {
+        return $this->commentService->findCommentsByUserId($userId);
+    }
+
+    /**
      * @param string $key
      * @param array $array
      */

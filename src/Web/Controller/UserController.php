@@ -6,6 +6,12 @@ use Jimdo\Reports\Web\View as View;
 use Jimdo\Reports\Web\ViewHelper as ViewHelper;
 use Jimdo\Reports\Web\Validator\Validator as Validator;
 
+use Jimdo\Reports\Reportbook\ReportMongoRepository;
+use Jimdo\Reports\Reportbook\ReportbookService;
+
+use Jimdo\Reports\Reportbook\CommentMongoRepository;
+use Jimdo\Reports\Reportbook\CommentService;
+
 use Jimdo\Reports\User\User as User;
 use Jimdo\Reports\User\Role as Role;
 use Jimdo\Reports\User\PasswordException as PasswordException;
@@ -28,6 +34,8 @@ use Jimdo\Reports\Web\RequestValidator as RequestValidator;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 
 use Jimdo\Reports\Serializer as Serializer;
+
+use Jimdo\Reports\Application\ApplicationService;
 
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
@@ -71,13 +79,21 @@ class UserController extends Controller
         );
 
         $client = new \MongoDB\Client($uri);
+        $serializer = new Serializer();
 
         $notificationService = new NotificationService();
-        $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
+        $userRepository = new UserMongoRepository($client, $serializer, $appConfig);
         $this->service = new UserService($userRepository, $appConfig, $notificationService);
         $this->viewHelper = new ViewHelper();
-        $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);
+        $profileRepository = new ProfileMongoRepository($client, $serializer, $appConfig);
         $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig, $notificationService);
+
+        $reportRepository = new ReportMongoRepository($client, $serializer, $appConfig);
+        $commentRepository = new CommentMongoRepository($client, $serializer, $appConfig);
+        $commentService = new CommentService($commentRepository, $serializer, $appConfig);
+        $reportbookService = new ReportbookService($reportRepository, $commentService, $appConfig, $notificationService);
+
+        $this->applicationService = new ApplicationService($reportbookService, $this->service, $this->profileService);
 
         $eventTypes = [
             'usernameEdited',
@@ -371,7 +387,7 @@ class UserController extends Controller
     {
         if ($this->isAdmin()) {
             $user = $this->service->findUserbyEmail($this->formData('email'));
-            $this->service->deleteUser($user);
+            $this->applicationService->deleteUser($user);
             $this->redirect('/user/userlist');
         } else {
             $this->redirect('/user');

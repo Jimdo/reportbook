@@ -86,38 +86,4 @@ class User
     {
         return $this->user->isHashedPassword();
     }
-
-    public function enableHashedPassword()
-    {
-        $this->isHashedPassword = true;
-    }
-
-    /**
-     * @param string $userId
-     * @param string $newPassword
-     * @return string
-     */
-    public function editUsername(string $userId, string $newPassword): string
-    {
-        return $this->user->editUsername($userId, $newPassword);
-    }
-
-    /**
-     * @param string $userId
-     * @param string $newEmail
-     * @return string
-     */
-    public function editEmail(string $userId, string $newEmail): string
-    {
-        return $this->user->editEmail($userId, $newEmail);
-    }
-
-    /**
-     * @param string $password
-     * @return bool
-     */
-    public function verify(string $password): bool
-    {
-        return $this->user->verify($password);
-    }
 }

@@ -458,7 +458,7 @@ class UserController extends Controller
         $this->addRequestValidation('dateOfBirth', 'date');
 
         if ($this->isRequestValid()) {
-            $this->appService->profileService->editDateOfBirth($this->formData('userId'), $this->formData('dateOfBirth'));
+            $this->appService->editDateOfBirth($this->formData('userId'), $this->formData('dateOfBirth'));
             if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
                 $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);
             } else {

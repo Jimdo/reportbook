@@ -150,6 +150,17 @@ class ApplicationService
         return $this->reportbookService->findReportsByString($text, $userId, $role);
     }
 
+    /**
+     * @param string $reportId
+     * @param string $traineeId
+     * @return \Jimdo\Reports\Views\Report
+     * @throws ReportFileRepositoryException
+     */
+    public function findReportsById(string $reportId, string $traineeId, bool $isAdmin = false)
+    {
+        return $this->reportbookService->findById($reportId, $traineeId, $isAdmin);
+    }
+
     /*
      * @param $user
      */

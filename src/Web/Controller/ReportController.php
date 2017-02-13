@@ -438,7 +438,7 @@ class ReportController extends Controller
         }
 
         $reportId = $this->formData('reportId');
-        $report = $this->service->findById($reportId, $this->sessionData('userId'), $this->isAdmin());
+        $report = $this->appService->findReportsById($reportId, $this->sessionData('userId'), $this->isAdmin());
 
         $isSchool = '';
         $isCompany = '';
@@ -471,7 +471,7 @@ class ReportController extends Controller
         $commentsView->userId = $this->sessionData('userId');
         $commentsView->reportId = $reportId;
         $commentsView->traineeId = $this->sessionData('userId');
-        $commentsView->report = $this->service->findById($reportId, $this->sessionData('userId'));
+        $commentsView->report = $this->appService->findReportsById($reportId, $this->sessionData('userId'));
         $commentsView->userService = $this->userService;
         $commentsView->viewHelper = $this->viewHelper;
         $commentsView->showCreateCommentButton = ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED');
@@ -559,8 +559,8 @@ class ReportController extends Controller
 
     public function deleteReportAction()
     {
-        if ($this->isTrainee() && $this->service
-            ->findById($this->formData('reportId'), $this->sessionData('userId'))
+        if ($this->isTrainee() && $this->appService
+            ->findReportsById($this->formData('reportId'), $this->sessionData('userId'))
             ->status() !== Report::STATUS_DISAPPROVED ||
             $this->isAdmin()
         ) {
@@ -595,7 +595,7 @@ class ReportController extends Controller
             $traineeId = $this->queryParams('traineeId');
         }
 
-        $report = $this->service->findById($reportId, $traineeId);
+        $report = $this->appService->findReportsById($reportId, $traineeId);
 
         $isSchool = '';
         $isCompany = '';

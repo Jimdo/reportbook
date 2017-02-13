@@ -374,6 +374,23 @@ class ApplicationService
         return $this->userService->findUserByUsername($username);
     }
 
+    /**
+     * @param string $status
+     * @return User
+     */
+    public function findUserByEmail(string $email)
+    {
+        return $this->userService->findUserByEmail($email);
+    }
+
+    /**
+     * @return array
+     */
+    public function findAllTrainees(): array
+    {
+        return $this->userService->findAllTrainees();
+    }
+
     /*
      * @param $user
      */

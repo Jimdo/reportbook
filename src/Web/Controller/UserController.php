@@ -201,7 +201,7 @@ class UserController extends Controller
         }
 
         if ($this->appService->authUser($identifier, $password)) {
-            $user = $this->appService->userService->findUserByEmail($identifier);
+            $user = $this->appService->findUserByEmail($identifier);
 
             if ($user === null) {
                 $user = $this->appService->findUserByUsername($identifier);
@@ -350,7 +350,7 @@ class UserController extends Controller
     public function deleteAction()
     {
         if ($this->isAdmin()) {
-            $user = $this->appService->userService->findUserbyEmail($this->formData('email'));
+            $user = $this->appService->findUserbyEmail($this->formData('email'));
             $this->appService->deleteUser($user);
             $this->redirect('/user/userlist');
         } else {

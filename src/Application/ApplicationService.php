@@ -472,6 +472,15 @@ class ApplicationService
         $this->profileService->deleteProfile($deleteProfile);
     }
 
+    /**
+     * @param string $userId
+     * @param string $forename
+     */
+    public function editForename(string $userId, string $forename)
+    {
+        $this->profileService->editForename($userId, $forename);
+    }
+
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
     {
         $uri = sprintf('mongodb://%s:%s@%s:%d/%s'

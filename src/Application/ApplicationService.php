@@ -399,6 +399,14 @@ class ApplicationService
         $this->userService->approveRole($email);
     }
 
+    /**
+     * @param string $email
+     */
+    public function disapproveUser(string $email)
+    {
+        $this->userService->disapproveRole($email);
+    }
+
     /*
      * @param $user
      */

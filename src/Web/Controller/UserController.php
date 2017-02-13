@@ -364,7 +364,7 @@ class UserController extends Controller
             if ($this->formData('action') === 'approve') {
                 $this->appService->approveUser($this->formData('email'));
             } elseif ($this->formData('action') === 'disapprove') {
-                $this->appService->userService->disapproveRole($this->formData('email'));
+                $this->appService->disapproveUser($this->formData('email'));
             }
             $this->redirect("/user/userlist");
         } else {

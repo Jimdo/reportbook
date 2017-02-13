@@ -167,10 +167,10 @@ class ReportController extends Controller
             $reportView->commentService = $this->service;
 
             $reports = array_merge(
-                $this->service->findByStatus(Report::STATUS_APPROVAL_REQUESTED),
-                $this->service->findByStatus(Report::STATUS_APPROVED),
-                $this->service->findByStatus(Report::STATUS_DISAPPROVED),
-                $this->service->findByStatus(Report::STATUS_REVISED)
+                $this->appService->findReportsByStatus(Report::STATUS_APPROVAL_REQUESTED),
+                $this->appService->findReportsByStatus(Report::STATUS_APPROVED),
+                $this->appService->findReportsByStatus(Report::STATUS_DISAPPROVED),
+                $this->appService->findReportsByStatus(Report::STATUS_REVISED)
             );
             switch ($this->queryParams('sort')) {
                 case 'name':

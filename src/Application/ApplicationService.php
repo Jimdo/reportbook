@@ -131,6 +131,16 @@ class ApplicationService
         $this->reportbookService->disapproveReport($reportId);
     }
 
+    /**
+     * @param string $status
+     * @return array
+     * @throws ReportFileRepositoryException
+     */
+    public function findReportsByStatus(string $status): array
+    {
+        return $this->reportbookService->findByStatus($status);
+    }
+
     /*
      * @param $user
      */

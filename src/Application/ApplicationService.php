@@ -320,6 +320,15 @@ class ApplicationService
         $this->userService->editUsername($userId, $username);
     }
 
+    /**
+     * @param string $userId
+     * @param string $email
+     */
+    public function editEmail(string $userId, string $email)
+    {
+        $this->userService->editEmail($userId, $email);
+    }
+
     /*
      * @param $user
      */

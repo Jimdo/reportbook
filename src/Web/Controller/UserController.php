@@ -578,7 +578,7 @@ class UserController extends Controller
         $exceptions = [];
 
         try {
-            $this->appService->userService->editEmail($this->formData('userId'), $this->formData('email'));
+            $this->appService->editEmail($this->formData('userId'), $this->formData('email'));
         } catch (ProfileException $e) {
             $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
         }

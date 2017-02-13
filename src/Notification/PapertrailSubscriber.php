@@ -132,7 +132,7 @@ class PapertrailSubscriber implements Subscriber
     {
         $program = $this->appConfig->papertrailSystem;
         $sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
-        foreach(explode("\n", $message) as $line) {
+        foreach (explode("\n", $message) as $line) {
             $syslog_message = "<22>" . date('M d H:i:s ') . $program . ' ' . 'web' . ': ' . $line;
             socket_sendto($sock, $syslog_message, strlen($syslog_message), 0, $this->appConfig->papertrailHost, $this->appConfig->papertrailPort);
         }

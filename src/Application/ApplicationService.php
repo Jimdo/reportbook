@@ -70,12 +70,13 @@ class ApplicationService
 
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
     {
-        $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
-            , $appConfig->mongoUsername
-            , $appConfig->mongoPassword
-            , $appConfig->mongoHost
-            , $appConfig->mongoPort
-            , $appConfig->mongoDatabase
+        $uri = sprintf(
+            'mongodb://%s:%s@%s:%d/%s',
+            $appConfig->mongoUsername,
+            $appConfig->mongoPassword,
+            $appConfig->mongoHost,
+            $appConfig->mongoPort,
+            $appConfig->mongoDatabase
         );
 
         $client = new \MongoDB\Client($uri);

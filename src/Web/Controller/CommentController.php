@@ -34,12 +34,13 @@ class CommentController extends Controller
     ) {
         parent::__construct($request, $requestValidator, $appConfig, $response);
 
-        $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
-            , $this->appConfig->mongoUsername
-            , $this->appConfig->mongoPassword
-            , $this->appConfig->mongoHost
-            , $this->appConfig->mongoPort
-            , $this->appConfig->mongoDatabase
+        $uri = sprintf(
+            'mongodb://%s:%s@%s:%d/%s',
+            $this->appConfig->mongoUsername,
+            $this->appConfig->mongoPassword,
+            $this->appConfig->mongoHost,
+            $this->appConfig->mongoPort,
+            $this->appConfig->mongoDatabase
         );
 
         $client = new \MongoDB\Client($uri);

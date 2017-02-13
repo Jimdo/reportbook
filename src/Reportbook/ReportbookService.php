@@ -403,7 +403,7 @@ class ReportbookService
                 case $status[5]:
                     $sortedReports[$status[5]][] = $report;
                     break;
-                }
+            }
         }
 
         $returnReports = [];
@@ -474,7 +474,8 @@ class ReportbookService
     /**
      * @param array $array
      */
-    private function sortCommentsByDate(array &$array) {
+    private function sortCommentsByDate(array &$array)
+    {
         $direction = SORT_ASC;
 
         $reference_array = [];
@@ -487,7 +488,7 @@ class ReportbookService
 
         $array = $comments;
 
-        foreach($array as $key => $row) {
+        foreach ($array as $key => $row) {
             $reference_array[$key] = $row['date'];
         }
 

@@ -13,5 +13,4 @@ interface Event
      * @return array
      */
     public function payload(): array;
-
 }

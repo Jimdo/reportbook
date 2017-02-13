@@ -8,7 +8,7 @@ abstract class PasswordConstraintsFactory
      * @param string $password
      * @return bool
      */
-    public abstract function check(string $password): bool;
+    abstract public function check(string $password): bool;
 
     /**
      * @return array

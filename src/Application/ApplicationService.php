@@ -508,6 +508,15 @@ class ApplicationService
         $this->profileService->editSchool($userId, $school);
     }
 
+    /**
+     * @param string $userId
+     * @param string $company
+     */
+    public function editCompany(string $userId, string $company)
+    {
+        $this->profileService->editCompany($userId, $company);
+    }
+
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
     {
         $uri = sprintf('mongodb://%s:%s@%s:%d/%s'

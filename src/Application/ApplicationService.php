@@ -103,6 +103,16 @@ class ApplicationService
     {
         $this->reportbookService->deleteReport($reportId);
     }
+
+    /**
+     * @param string $reportId
+     * @throws ReportFileRepositoryException
+     */
+    public function requestApproval(string $reportId)
+    {
+        $this->reportbookService->requestApproval($reportId);
+    }
+
     /*
      * @param $user
      */

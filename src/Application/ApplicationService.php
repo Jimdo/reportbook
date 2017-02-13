@@ -195,6 +195,15 @@ class ApplicationService
     }
 
     /**
+     * @param string $reportId
+     * @return array
+     */
+    public function findCommentsByReportId(string $reportId): array
+    {
+        return $this->reportbookService->findCommentsByReportId($reportId);
+    }
+
+    /**
      * @param string $key
      * @param array $array
      */

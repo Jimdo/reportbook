@@ -82,7 +82,7 @@ class CommentController extends Controller
             $content
         );
 
-        $comments = $this->service->findCommentsByReportId($reportId);
+        $comments = $this->appService->findCommentsByReportId($reportId);
 
         $queryParams = [
             'reportId' => $reportId,

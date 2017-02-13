@@ -311,6 +311,15 @@ class ApplicationService
         $this->userService->editPassword($userId, $oldPassword, $newPassword);
     }
 
+    /**
+     * @param string $userId
+     * @param string $username
+     */
+    public function editUsername(string $userId, string $username)
+    {
+        $this->userService->editUsername($userId, $username);
+    }
+
     /*
      * @param $user
      */

@@ -518,7 +518,7 @@ class UserController extends Controller
         $_SESSION['username'] = $this->formData('username');
 
         try {
-            $this->appService->userService->editUsername($this->formData('userId'), $this->formData('username'));
+            $this->appService->editUsername($this->formData('userId'), $this->formData('username'));
         } catch (ProfileException $e) {
             $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
         }

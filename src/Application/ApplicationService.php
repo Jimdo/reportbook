@@ -2,22 +2,31 @@
 
 namespace Jimdo\Reports\Application;
 
-use Jimdo\Reports\Views\User;
-
+use Jimdo\Reports\Reportbook\CommentMongoRepository;
+use Jimdo\Reports\Reportbook\CommentService;
 use Jimdo\Reports\Reportbook\ReportbookService;
+use Jimdo\Reports\Reportbook\ReportMongoRepository;
+
+use Jimdo\Reports\User\UserMongoRepository;
 use Jimdo\Reports\User\UserService;
+
+use Jimdo\Reports\Profile\ProfileMongoRepository;
 use Jimdo\Reports\Profile\ProfileService;
+
+use Jimdo\Reports\Web\ApplicationConfig;
+use Jimdo\Reports\Serializer;
+use Jimdo\Reports\Notification\NotificationService;
 
 class ApplicationService
 {
     /** @var ReportbookService */
-    private $reportbookService;
+    public $reportbookService;
 
     /** @var UserService */
-    private $userService;
+    public $userService;
 
     /** @var ProfileService */
-    private $profileService;
+    public $profileService;
 
     /**
      * @param ReportbookService $reportbookService
@@ -57,5 +66,32 @@ class ApplicationService
 
         $user = $this->userService->findUserById($userId);
         $this->userService->deleteUser($user);
+    }
+
+    public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
+    {
+        $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
+            , $appConfig->mongoUsername
+            , $appConfig->mongoPassword
+            , $appConfig->mongoHost
+            , $appConfig->mongoPort
+            , $appConfig->mongoDatabase
+        );
+
+        $client = new \MongoDB\Client($uri);
+        $serializer = new Serializer();
+
+        $userRepository = new UserMongoRepository($client, $serializer, $appConfig);
+        $userService = new UserService($userRepository, $appConfig, $notificationService);
+
+        $profileRepository = new ProfileMongoRepository($client, $serializer, $appConfig);
+        $profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig, $notificationService);
+
+        $reportRepository = new ReportMongoRepository($client, $serializer, $appConfig);
+        $commentRepository = new CommentMongoRepository($client, $serializer, $appConfig);
+        $commentService = new CommentService($commentRepository, $serializer, $appConfig);
+        $reportbookService = new ReportbookService($reportRepository, $commentService, $appConfig, $notificationService);
+
+        return new self($reportbookService, $userService, $profileService);
     }
 }

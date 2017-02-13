@@ -187,7 +187,7 @@ class UserController extends Controller
 
         $loginWithAdminDefaultPassword = false;
         if ($identifier === self::ADMIN_DEFAULT_USER && $password === self::ADMIN_DEFAULT_PASSWORD) {
-            if (!$this->appService->userService->exists($identifier)) {
+            if (!$this->appService->exists($identifier)) {
                 if (!$this->appService->checkForAdmin()) {
                     $adminUser = $this->appService->registerAdmin(
                         self::ADMIN_DEFAULT_USER,
@@ -264,11 +264,11 @@ class UserController extends Controller
         if ($username === self::ADMIN_DEFAULT_USER) {
             $exceptions[] = $this->getErrorMessageForErrorCode(UserService::ERR_USERNAME_ADMIN);
         }
-        if ($this->appService->userService->exists($username)) {
+        if ($this->appService->exists($username)) {
             $exceptions[] = $this->getErrorMessageForErrorCode(UserService::ERR_USERNAME_EXISTS);
         }
 
-        if ($this->appService->userService->exists($email)) {
+        if ($this->appService->exists($email)) {
             $exceptions[] = $this->getErrorMessageForErrorCode(UserService::ERR_EMAIL_EXISTS);
         }
 

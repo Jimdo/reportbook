@@ -407,6 +407,15 @@ class ApplicationService
         $this->userService->disapproveRole($email);
     }
 
+    /**
+     * @param string $identifier
+     * @return bool
+     */
+    public function exists(string $identifier): bool
+    {
+        return $this->userService->exists($identifier);
+    }
+
     /*
      * @param $user
      */

@@ -174,6 +174,17 @@ class ApplicationService
         return $this->reportbookService->createComment($reportId, $userId, $date, $content);
     }
 
+
+    /**
+     * @param string $id
+     * @throws ReportbookServiceException
+     * @return Comment
+     */
+    public function editComment(string $id, string $newContent, string $userId): Comment
+    {
+        return $this->reportbookService->editComment($id, $newContent, $userId);
+    }
+
     /**
      * @param string $key
      * @param array $array

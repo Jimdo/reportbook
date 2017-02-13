@@ -104,7 +104,7 @@ class CommentController extends Controller
         $noPermissions = false;
 
         try {
-            $this->service->editComment($commentId, $newContent, $userId);
+            $this->appService->editComment($commentId, $newContent, $userId);
         } catch (\Jimdo\Reports\Reportbook\ReportbookServiceException $e) {
             $errorMessages = $this->getErrorMessageForErrorCode($e->getCode());
         }

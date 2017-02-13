@@ -509,7 +509,7 @@ class ReportController extends Controller
         $this->addRequestValidation('category', 'string');
 
         if ($this->isRequestValid()) {
-            $this->service->editReport(
+            $this->appService->editReport(
                 $this->formData('reportId'),
                 $this->formData('content'),
                 $this->formData('calendarWeek'),

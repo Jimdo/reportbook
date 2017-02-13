@@ -62,6 +62,20 @@ class ApplicationService
         return $this->reportbookService->createReport($traineeId, $content, $calendarWeek, $calendarYear, $category);
     }
 
+    /**
+     * @param string $reportId
+     * @param string $content
+     * @param string $date
+     * @param string $calendarWeek
+     * @param string $calendarYear
+     * @param string $category
+     * @throws ReportFileRepositoryException
+     */
+    public function editReport(string $reportId, string $content, string $calendarWeek, string $calendarYear, string $category)
+    {
+        $this->reportbookService->editReport($reportId, $content, $calendarWeek, $calendarYear, $category);
+    }
+
     /*
      * @param $user
      */

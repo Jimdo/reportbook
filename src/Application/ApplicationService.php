@@ -286,6 +286,21 @@ class ApplicationService
         return $this->userService->registerTrainer($username, $email, $password);
     }
 
+    /**
+     * @param string $username
+     * @param string $email
+     * @param string $password
+     * @throws UserRepositoryException
+     * @return ReadOnlyUser
+     */
+    public function registerAdmin(
+        string $username,
+        string $email,
+        string $password
+    ) {
+        return $this->userService->registerAdmin($username, $email, $password);
+    }
+
     /*
      * @param $user
      */

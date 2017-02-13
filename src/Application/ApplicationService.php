@@ -339,6 +339,14 @@ class ApplicationService
         return $this->userService->authUser($identifier, $password);
     }
 
+    /**
+     * @return bool
+     */
+    public function checkForAdmin(): bool
+    {
+        return $this->userService->checkForAdmin();
+    }
+
     /*
      * @param $user
      */

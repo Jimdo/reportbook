@@ -188,7 +188,7 @@ class UserController extends Controller
         $loginWithAdminDefaultPassword = false;
         if ($identifier === self::ADMIN_DEFAULT_USER && $password === self::ADMIN_DEFAULT_PASSWORD) {
             if (!$this->appService->userService->exists($identifier)) {
-                if (!$this->appService->userService->checkForAdmin()) {
+                if (!$this->appService->checkForAdmin()) {
                     $adminUser = $this->appService->registerAdmin(
                         self::ADMIN_DEFAULT_USER,
                         'admin',

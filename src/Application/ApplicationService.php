@@ -499,6 +499,15 @@ class ApplicationService
         $this->profileService->editDateOfBirth($userId, $dateOfBirth);
     }
 
+    /**
+     * @param string $userId
+     * @param string $school
+     */
+    public function editSchool(string $userId, string $school)
+    {
+        $this->profileService->editSchool($userId, $school);
+    }
+
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
     {
         $uri = sprintf('mongodb://%s:%s@%s:%d/%s'

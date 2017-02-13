@@ -444,6 +444,17 @@ class ApplicationService
         $this->userService->deleteUser($user);
     }
 
+    /**
+     * @param string $userId
+     * @param string $forename
+     * @param string $surname
+     * @return Profile
+     */
+    public function createProfile(string $userId, string $forename, string $surname)
+    {
+        return $this->profileService->createProfile($userId, $forename, $surname);
+    }
+
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
     {
         $uri = sprintf('mongodb://%s:%s@%s:%d/%s'

@@ -194,7 +194,7 @@ class UserController extends Controller
                         'admin',
                         self::ADMIN_DEFAULT_PASSWORD
                     );
-                    $this->appService->profileService->createProfile($adminUser->id(), 'admin', 'admin');
+                    $this->appService->createProfile($adminUser->id(), 'admin', 'admin');
                 }
             }
             $loginWithAdminDefaultPassword = true;
@@ -216,7 +216,7 @@ class UserController extends Controller
                 $profile = $this->appService->profileService->findProfileByUserId($user->id());
 
                 if ($profile === null) {
-                    $this->appService->profileService->createProfile($user->id(), ' ', ' ');
+                    $this->appService->createProfile($user->id(), ' ', ' ');
                 }
 
                 if ($loginWithAdminDefaultPassword) {
@@ -280,14 +280,14 @@ class UserController extends Controller
             if ($role === 'TRAINER') {
                 try {
                     $user = $this->appService->registerTrainer($username, $email, $password);
-                    $this->appService->profileService->createProfile($user->id(), $forename, $surname);
+                    $this->appService->createProfile($user->id(), $forename, $surname);
                 } catch (PasswordException $e) {
                     $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
                 }
             } elseif ($role === 'TRAINEE') {
                 try {
                     $user = $this->appService->registerTrainee($username, $email, $password);
-                    $this->appService->profileService->createProfile($user->id(), $forename, $surname);
+                    $this->appService->createProfile($user->id(), $forename, $surname);
                 } catch (PasswordException $e) {
                     $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
                 }

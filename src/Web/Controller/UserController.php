@@ -204,7 +204,7 @@ class UserController extends Controller
             $user = $this->appService->userService->findUserByEmail($identifier);
 
             if ($user === null) {
-                $user = $this->appService->userService->findUserByUsername($identifier);
+                $user = $this->appService->findUserByUsername($identifier);
             }
 
             if ($user->roleStatus() === Role::STATUS_APPROVED) {

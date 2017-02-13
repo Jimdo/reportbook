@@ -822,7 +822,7 @@ class UserController extends Controller
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
         $this->response->addBody($headerView->render());
-        $this->response->addBody($infobarVew->render());
+        $this->response->addBody($infobarView->render());
         $this->response->addBody($changePasswordView->render());
         $this->response->addBody($footerView->render());
     }
@@ -834,7 +834,7 @@ class UserController extends Controller
         if ($this->isTrainer() || $this->isTrainee() || $this->isAdmin()) {
             if ($this->formData('newPassword') === $this->formData('passwordConfirmation')) {
                 try {
-                    $this->appService->userService->editPassword(
+                    $this->appService->editPassword(
                         $this->formData('userId'),
                         $this->formData('currentPassword'),
                         $this->formData('newPassword')

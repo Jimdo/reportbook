@@ -301,6 +301,16 @@ class ApplicationService
         return $this->userService->registerAdmin($username, $email, $password);
     }
 
+    /**
+     * @param string $userId
+     * @param string $oldPassword
+     * @param string $newPassword
+     */
+    public function editPassword(string $userId, string $oldPassword, string $newPassword)
+    {
+        $this->userService->editPassword($userId, $oldPassword, $newPassword);
+    }
+
     /*
      * @param $user
      */

@@ -564,7 +564,7 @@ class ReportController extends Controller
             ->status() !== Report::STATUS_DISAPPROVED ||
             $this->isAdmin()
         ) {
-                $this->service->deleteReport($this->formData('reportId'));
+                $this->appService->deleteReport($this->formData('reportId'));
                 $this->redirect("/report/list");
         } else {
             $this->redirect("/user");

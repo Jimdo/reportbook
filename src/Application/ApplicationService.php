@@ -95,6 +95,14 @@ class ApplicationService
         return $this->reportbookService->findByTraineeId($traineeId);
     }
 
+    /**
+     * @param string $reportId
+     * @throws ReportFileRepositoryException
+     */
+    public function deleteReport(string $reportId)
+    {
+        $this->reportbookService->deleteReport($reportId);
+    }
     /*
      * @param $user
      */

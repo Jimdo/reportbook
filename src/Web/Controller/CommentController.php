@@ -75,7 +75,7 @@ class CommentController extends Controller
         $traineeId = $this->formData('traineeId');
         $userId = $this->sessionData('userId');
 
-        $this->service->createComment(
+        $this->appService->createComment(
             $reportId,
             $userId,
             $date,

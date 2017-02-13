@@ -4,10 +4,11 @@ namespace Jimdo\Reports\Application;
 
 use Jimdo\Reports\Reportbook\CommentMongoRepository;
 use Jimdo\Reports\Reportbook\CommentService;
+use Jimdo\Reports\Reportbook\Comment;
 use Jimdo\Reports\Reportbook\ReportbookService;
 use Jimdo\Reports\Reportbook\ReportMongoRepository;
-use Jimdo\Reports\Reportbook\Report as Report;
-use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
+use Jimdo\Reports\Reportbook\Report;
+use Jimdo\Reports\Reportbook\TraineeId;
 
 use Jimdo\Reports\User\UserMongoRepository;
 use Jimdo\Reports\User\UserService;
@@ -159,6 +160,18 @@ class ApplicationService
     public function findReportsById(string $reportId, string $traineeId, bool $isAdmin = false)
     {
         return $this->reportbookService->findById($reportId, $traineeId, $isAdmin);
+    }
+
+    /**
+     * @param string $reportId
+     * @param string $userId
+     * @param string $date
+     * @param string $content
+     * @return Comment
+     */
+    public function createComment(string $reportId, string $userId, string $date, string $content): Comment
+    {
+        return $this->reportbookService->createComment($reportId, $userId, $date, $content);
     }
 
     /**

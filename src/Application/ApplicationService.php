@@ -329,6 +329,16 @@ class ApplicationService
         $this->userService->editEmail($userId, $email);
     }
 
+    /**
+     * @param string $email
+     * @param string $password
+     * @return bool
+     */
+    public function authUser(string $identifier, string $password): bool
+    {
+        return $this->userService->authUser($identifier, $password);
+    }
+
     /*
      * @param $user
      */

@@ -200,7 +200,7 @@ class UserController extends Controller
             $loginWithAdminDefaultPassword = true;
         }
 
-        if ($this->appService->userService->authUser($identifier, $password)) {
+        if ($this->appService->authUser($identifier, $password)) {
             $user = $this->appService->userService->findUserByEmail($identifier);
 
             if ($user === null) {

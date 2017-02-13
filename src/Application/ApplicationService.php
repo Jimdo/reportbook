@@ -179,6 +179,14 @@ class ApplicationService
         $this->reportbookService->sortReportsByStatus($status, $reports);
     }
 
+    /**
+     * @param array $reportArray
+     */
+    public function sortReportsByAmountOfComments(array &$reportArray)
+    {
+        $this->reportbookService->sortReportsByAmountOfComments($reportArray);
+    }
+
     /*
      * @param $user
      */

@@ -93,7 +93,7 @@ class CommentController extends Controller
 
     public function editCommentAction()
     {
-        $comment = $this->service->findCommentById($this->formData('commentId'));
+        $comment = $this->appService->findCommentByCommentId($this->formData('commentId'));
 
         $commentId = $comment->id();
         $newContent = $this->formData('newComment');

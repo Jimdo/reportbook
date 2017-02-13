@@ -204,6 +204,15 @@ class ApplicationService
     }
 
     /**
+     * @param string $commentId
+     * @return Comment
+     */
+    public function findCommentByCommentId(string $commentId): Comment
+    {
+        return $this->reportbookService->findCommentById($commentId);
+    }
+
+    /**
      * @param string $key
      * @param array $array
      */

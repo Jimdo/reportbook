@@ -76,6 +76,15 @@ class ApplicationService
         $this->reportbookService->editReport($reportId, $content, $calendarWeek, $calendarYear, $category);
     }
 
+    /**
+     * @return \Jimdo\Reports\Views\Report[]
+     * @throws ReportFileRepositoryException
+     */
+    public function findAllReports(): array
+    {
+        return $this->reportbookService->findAll();
+    }
+
     /*
      * @param $user
      */

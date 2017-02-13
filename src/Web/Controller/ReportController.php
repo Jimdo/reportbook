@@ -210,7 +210,7 @@ class ReportController extends Controller
             $reportView->viewHelper = $this->viewHelper;
             $reportView->commentService = $this->service;
 
-            $reports = $this->service->findAll();
+            $reports = $this->appService->findAllReports();
 
             switch ($this->queryParams('sort')) {
                 case 'name':

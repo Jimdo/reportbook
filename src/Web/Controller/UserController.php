@@ -147,7 +147,7 @@ class UserController extends Controller
         $profileView->trainingYear = $profile->trainingYear();
         $profileView->startOfTraining = $profile->startOfTraining();
         $profileView->userId = $profile->userId();
-        $user = $this->appService->userService->findUserById($this->formData('userId'));
+        $user = $this->appService->findUserById($this->formData('userId'));
         $profileView->username = $user->username();
         $profileView->email = $user->email();
 
@@ -392,11 +392,11 @@ class UserController extends Controller
         if ($this->isAdmin() && $this->queryParams('userId') !== null) {
             $profile = $this->appService->profileService->findProfileByUserId($this->queryParams('userId'));
             $profileView->profile = $profile;
-            $user = $this->appService->userService->findUserById($this->queryParams('userId'));
+            $user = $this->appService->findUserById($this->queryParams('userId'));
         } else {
             $profile = $this->appService->profileService->findProfileByUserId($this->sessionData('userId'));
             $profileView->profile = $profile;
-            $user = $this->appService->userService->findUserById($this->sessionData('userId'));
+            $user = $this->appService->findUserById($this->sessionData('userId'));
         }
 
         $profileView->forename = $profile->forename();
@@ -495,7 +495,7 @@ class UserController extends Controller
         $profileView->trainingYear = $profile->trainingYear();
         $profileView->startOfTraining = $profile->startOfTraining();
         $profileView->userId = $profile->userId();
-        $user = $this->appService->userService->findUserById($this->formData('userId'));
+        $user = $this->appService->findUserById($this->formData('userId'));
         $profileView->username = $user->username();
         $profileView->email = $user->email();
 
@@ -514,7 +514,7 @@ class UserController extends Controller
             $this->redirect("/user");
         }
 
-        $user = $this->appService->userService->findUserById($this->sessionData('userId'));
+        $user = $this->appService->findUserById($this->sessionData('userId'));
         $_SESSION['username'] = $this->formData('username');
 
         try {
@@ -550,7 +550,7 @@ class UserController extends Controller
             $profileView->trainingYear = $profile->trainingYear();
             $profileView->startOfTraining = $profile->startOfTraining();
             $profileView->userId = $profile->userId();
-            $user = $this->appService->userService->findUserById($this->formData('userId'));
+            $user = $this->appService->findUserById($this->formData('userId'));
             $profileView->username = $user->username();
             $profileView->email = $user->email();
 
@@ -610,7 +610,7 @@ class UserController extends Controller
             $profileView->trainingYear = $profile->trainingYear();
             $profileView->startOfTraining = $profile->startOfTraining();
             $profileView->userId = $profile->userId();
-            $user = $this->appService->userService->findUserById($this->formData('userId'));
+            $user = $this->appService->findUserById($this->formData('userId'));
             $profileView->username = $user->username();
             $profileView->email = $user->email();
 
@@ -730,7 +730,7 @@ class UserController extends Controller
         $profileView->trainingYear = $profile->trainingYear();
         $profileView->startOfTraining = $profile->startOfTraining();
         $profileView->userId = $profile->userId();
-        $user = $this->appService->userService->findUserById($this->formData('userId'));
+        $user = $this->appService->findUserById($this->formData('userId'));
         $profileView->username = $user->username();
         $profileView->email = $user->email();
 
@@ -787,7 +787,7 @@ class UserController extends Controller
         $profileView->trainingYear = $profile->trainingYear();
         $profileView->startOfTraining = $profile->startOfTraining();
         $profileView->userId = $profile->userId();
-        $user = $this->appService->userService->findUserById($this->formData('userId'));
+        $user = $this->appService->findUserById($this->formData('userId'));
         $profileView->username = $user->username();
         $profileView->email = $user->email();
 
@@ -900,7 +900,7 @@ class UserController extends Controller
         $viewProfileView->trainingYear = $profile->trainingYear();
         $viewProfileView->startOfTraining = $profile->startOfTraining();
         $viewProfileView->userId = $profile->userId();
-        $user = $this->appService->userService->findUserById($this->queryParams('userId'));
+        $user = $this->appService->findUserById($this->queryParams('userId'));
         $viewProfileView->username = $user->username();
         $viewProfileView->email = $user->email();
         $viewProfileView->isTrainee = ($user->roleName() === 'TRAINEE');

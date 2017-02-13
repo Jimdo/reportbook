@@ -356,6 +356,15 @@ class ApplicationService
         return $this->userService->findUsersByStatus($status);
     }
 
+    /**
+     * @param string $id
+     * @return User
+     */
+    public function findUserById(string $id)
+    {
+        return $this->userService->findUserById($id);
+    }
+
     /*
      * @param $user
      */

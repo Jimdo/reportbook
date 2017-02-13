@@ -186,6 +186,15 @@ class ApplicationService
     }
 
     /**
+     * @param string $commentId
+     * @throws ReportbookServiceException
+     */
+    public function deleteComment(string $commentId, string $userId)
+    {
+        $this->reportbookService->deleteComment($commentId, $userId);
+    }
+
+    /**
      * @param string $key
      * @param array $array
      */

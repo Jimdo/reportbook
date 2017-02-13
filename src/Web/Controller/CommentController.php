@@ -130,7 +130,7 @@ class CommentController extends Controller
         $userId = $this->formData('userId');
 
         try {
-            $this->service->deleteComment($commentId, $userId);
+            $this->appService->deleteComment($commentId, $userId);
         } catch (\Jimdo\Reports\Reportbook\ReportbookServiceException $e) {
             $errorMessages = $this->getErrorMessageForErrorCode($e->getCode());
         }

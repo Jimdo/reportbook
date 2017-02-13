@@ -4,10 +4,11 @@ namespace Jimdo\Reports\Application;
 
 use Jimdo\Reports\Reportbook\CommentMongoRepository;
 use Jimdo\Reports\Reportbook\CommentService;
+use Jimdo\Reports\Reportbook\Comment;
 use Jimdo\Reports\Reportbook\ReportbookService;
 use Jimdo\Reports\Reportbook\ReportMongoRepository;
-use Jimdo\Reports\Reportbook\Report as Report;
-use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
+use Jimdo\Reports\Reportbook\Report;
+use Jimdo\Reports\Reportbook\TraineeId;
 
 use Jimdo\Reports\User\UserMongoRepository;
 use Jimdo\Reports\User\UserService;
@@ -156,9 +157,68 @@ class ApplicationService
      * @return \Jimdo\Reports\Views\Report
      * @throws ReportFileRepositoryException
      */
-    public function findReportsById(string $reportId, string $traineeId, bool $isAdmin = false)
+    public function findReportById(string $reportId, string $traineeId, bool $isAdmin = false)
     {
         return $this->reportbookService->findById($reportId, $traineeId, $isAdmin);
+    }
+
+    /**
+     * @param string $reportId
+     * @param string $userId
+     * @param string $date
+     * @param string $content
+     * @return Comment
+     */
+    public function createComment(string $reportId, string $userId, string $date, string $content): Comment
+    {
+        return $this->reportbookService->createComment($reportId, $userId, $date, $content);
+    }
+
+
+    /**
+     * @param string $id
+     * @throws ReportbookServiceException
+     * @return Comment
+     */
+    public function editComment(string $id, string $newContent, string $userId): Comment
+    {
+        return $this->reportbookService->editComment($id, $newContent, $userId);
+    }
+
+    /**
+     * @param string $commentId
+     * @throws ReportbookServiceException
+     */
+    public function deleteComment(string $commentId, string $userId)
+    {
+        $this->reportbookService->deleteComment($commentId, $userId);
+    }
+
+    /**
+     * @param string $reportId
+     * @return array
+     */
+    public function findCommentsByReportId(string $reportId): array
+    {
+        return $this->reportbookService->findCommentsByReportId($reportId);
+    }
+
+    /**
+     * @param string $commentId
+     * @return Comment
+     */
+    public function findCommentByCommentId(string $commentId): Comment
+    {
+        return $this->reportbookService->findCommentById($commentId);
+    }
+
+    /**
+     * @param string $userId
+     * @return array
+     */
+    public function findCommentsByUserId(string $userId): array
+    {
+        return $this->reportbookService->findCommentsByUserId($userId);
     }
 
     /**

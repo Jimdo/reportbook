@@ -362,7 +362,7 @@ class UserController extends Controller
     {
         if ($this->isTrainer() || $this->isAdmin()) {
             if ($this->formData('action') === 'approve') {
-                $this->appService->userService->approveRole($this->formData('email'));
+                $this->appService->approveUser($this->formData('email'));
             } elseif ($this->formData('action') === 'disapprove') {
                 $this->appService->userService->disapproveRole($this->formData('email'));
             }

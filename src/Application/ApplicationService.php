@@ -391,6 +391,14 @@ class ApplicationService
         return $this->userService->findAllTrainees();
     }
 
+    /**
+     * @param string $email
+     */
+    public function approveUser(string $email)
+    {
+        $this->userService->approveRole($email);
+    }
+
     /*
      * @param $user
      */

@@ -29,9 +29,6 @@ use Jimdo\Reports\Application\ApplicationService;
 
 class ReportController extends Controller
 {
-    /** @var ReportbookService */
-    private $service;
-
     /** @var UserService */
     private $userService;
 
@@ -71,8 +68,6 @@ class ReportController extends Controller
         $notificationService = new NotificationService();
 
         $reportRepository = new ReportMongoRepository($client, new Serializer(), $appConfig);
-        $commentRepository = new CommentMongoRepository($client, new Serializer(), $appConfig);
-        $this->service = new ReportbookService($reportRepository, new CommentService($commentRepository), $appConfig, $notificationService);
 
         $this->appService = ApplicationService::create($appConfig, $notificationService);
 

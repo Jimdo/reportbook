@@ -673,7 +673,7 @@ class ReportController extends Controller
         if (!$this->isTrainer() && !$this->isAdmin()) {
             $this->redirect("/user");
         } else {
-            $this->service->approveReport($this->formData('reportId'));
+            $this->appService->approveReport($this->formData('reportId'));
             $this->redirect("/report/list");
         }
     }

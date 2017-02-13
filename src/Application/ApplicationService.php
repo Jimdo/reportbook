@@ -113,6 +113,15 @@ class ApplicationService
         $this->reportbookService->requestApproval($reportId);
     }
 
+    /**
+     * @param string $reportId
+     * @throws ReportFileRepositoryException
+     */
+    public function approveReport(string $reportId)
+    {
+        $this->reportbookService->approveReport($reportId);
+    }
+
     /*
      * @param $user
      */

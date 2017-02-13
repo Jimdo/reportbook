@@ -6,6 +6,8 @@ use Jimdo\Reports\Reportbook\CommentMongoRepository;
 use Jimdo\Reports\Reportbook\CommentService;
 use Jimdo\Reports\Reportbook\ReportbookService;
 use Jimdo\Reports\Reportbook\ReportMongoRepository;
+use Jimdo\Reports\Reportbook\Report as Report;
+use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
 
 use Jimdo\Reports\User\UserMongoRepository;
 use Jimdo\Reports\User\UserService;
@@ -38,6 +40,160 @@ class ApplicationService
         $this->reportbookService = $reportbookService;
         $this->userService = $userService;
         $this->profileService = $profileService;
+    }
+
+    /**
+     * @param TraineeId $traineeId
+     * @param string $content
+     * @param string $date
+     * @param string $calendarWeek
+     * @param string $calendarYear
+     * @param string $category
+     * @return \Jimdo\Reports\Views\Report
+     * @throws ReportFileRepositoryException
+     */
+    public function createReport(
+        TraineeId $traineeId,
+        string $content,
+        string $calendarWeek,
+        string $calendarYear,
+        string $category
+    ): \Jimdo\Reports\Views\Report {
+        return $this->reportbookService->createReport($traineeId, $content, $calendarWeek, $calendarYear, $category);
+    }
+
+    /**
+     * @param string $reportId
+     * @param string $content
+     * @param string $date
+     * @param string $calendarWeek
+     * @param string $calendarYear
+     * @param string $category
+     * @throws ReportFileRepositoryException
+     */
+    public function editReport(string $reportId, string $content, string $calendarWeek, string $calendarYear, string $category)
+    {
+        $this->reportbookService->editReport($reportId, $content, $calendarWeek, $calendarYear, $category);
+    }
+
+    /**
+     * @return \Jimdo\Reports\Views\Report[]
+     * @throws ReportFileRepositoryException
+     */
+    public function findAllReports(): array
+    {
+        return $this->reportbookService->findAll();
+    }
+
+    /**
+     * @param string $traineeId
+     * @return \Jimdo\Reports\Views\Report[]
+     * @throws ReportFileRepositoryException
+     */
+    public function findReportsByTraineeId(string $traineeId): array
+    {
+        return $this->reportbookService->findByTraineeId($traineeId);
+    }
+
+    /**
+     * @param string $reportId
+     * @throws ReportFileRepositoryException
+     */
+    public function deleteReport(string $reportId)
+    {
+        $this->reportbookService->deleteReport($reportId);
+    }
+
+    /**
+     * @param string $reportId
+     * @throws ReportFileRepositoryException
+     */
+    public function requestApproval(string $reportId)
+    {
+        $this->reportbookService->requestApproval($reportId);
+    }
+
+    /**
+     * @param string $reportId
+     * @throws ReportFileRepositoryException
+     */
+    public function approveReport(string $reportId)
+    {
+        $this->reportbookService->approveReport($reportId);
+    }
+
+    /**
+     * @param string $reportId
+     * @throws ReportFileRepositoryException
+     */
+    public function disapproveReport(string $reportId)
+    {
+        $this->reportbookService->disapproveReport($reportId);
+    }
+
+    /**
+     * @param string $status
+     * @return array
+     * @throws ReportFileRepositoryException
+     */
+    public function findReportsByStatus(string $status): array
+    {
+        return $this->reportbookService->findByStatus($status);
+    }
+
+    /**
+     * @param string $text
+     * @return array
+     */
+    public function findReportsByString(string $text, string $userId, string $role): array
+    {
+        return $this->reportbookService->findReportsByString($text, $userId, $role);
+    }
+
+    /**
+     * @param string $reportId
+     * @param string $traineeId
+     * @return \Jimdo\Reports\Views\Report
+     * @throws ReportFileRepositoryException
+     */
+    public function findReportsById(string $reportId, string $traineeId, bool $isAdmin = false)
+    {
+        return $this->reportbookService->findById($reportId, $traineeId, $isAdmin);
+    }
+
+    /**
+     * @param string $key
+     * @param array $array
+     */
+    public function sortArrayDescending(string $key, array &$array)
+    {
+        $this->reportbookService->sortArrayDescending($key, $array);
+    }
+
+    /**
+     * @param array $status
+     * @param array $array
+     */
+    public function sortReportsByStatus(array $status, array &$reports)
+    {
+        $this->reportbookService->sortReportsByStatus($status, $reports);
+    }
+
+    /**
+     * @param array $reportArray
+     */
+    public function sortReportsByAmountOfComments(array &$reportArray)
+    {
+        $this->reportbookService->sortReportsByAmountOfComments($reportArray);
+    }
+
+    /**
+     * @param array $reports
+     * @return array
+     */
+    public function sortReportsByCalendarWeekAndYear(array $reports): array
+    {
+        return $this->reportbookService->sortReportsByCalendarWeekAndYear($reports);
     }
 
     /*

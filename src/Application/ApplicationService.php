@@ -157,7 +157,7 @@ class ApplicationService
      * @return \Jimdo\Reports\Views\Report
      * @throws ReportFileRepositoryException
      */
-    public function findReportsById(string $reportId, string $traineeId, bool $isAdmin = false)
+    public function findReportById(string $reportId, string $traineeId, bool $isAdmin = false)
     {
         return $this->reportbookService->findById($reportId, $traineeId, $isAdmin);
     }
@@ -210,6 +210,15 @@ class ApplicationService
     public function findCommentByCommentId(string $commentId): Comment
     {
         return $this->reportbookService->findCommentById($commentId);
+    }
+
+    /**
+     * @param string $userId
+     * @return array
+     */
+    public function findCommentsByUserId(string $userId): array
+    {
+        return $this->reportbookService->findCommentsByUserId($userId);
     }
 
     /**

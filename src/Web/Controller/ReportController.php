@@ -438,7 +438,7 @@ class ReportController extends Controller
         }
 
         $reportId = $this->formData('reportId');
-        $report = $this->appService->findReportsById($reportId, $this->sessionData('userId'), $this->isAdmin());
+        $report = $this->appService->findReportById($reportId, $this->sessionData('userId'), $this->isAdmin());
 
         $isSchool = '';
         $isCompany = '';
@@ -466,12 +466,12 @@ class ReportController extends Controller
         $reportView->isCompany = $isCompany;
 
         $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
-        $commentsView->commentService = $this->service;
-        $commentsView->comments = $this->service->findCommentsByReportId($reportId);
+        $commentsView->commentService = $this->appService;
+        $commentsView->comments = $this->appService->findCommentsByReportId($reportId);
         $commentsView->userId = $this->sessionData('userId');
         $commentsView->reportId = $reportId;
         $commentsView->traineeId = $this->sessionData('userId');
-        $commentsView->report = $this->appService->findReportsById($reportId, $this->sessionData('userId'));
+        $commentsView->report = $this->appService->findReportById($reportId, $this->sessionData('userId'));
         $commentsView->userService = $this->userService;
         $commentsView->viewHelper = $this->viewHelper;
         $commentsView->showCreateCommentButton = ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED');
@@ -560,7 +560,7 @@ class ReportController extends Controller
     public function deleteReportAction()
     {
         if ($this->isTrainee() && $this->appService
-            ->findReportsById($this->formData('reportId'), $this->sessionData('userId'))
+            ->findReportById($this->formData('reportId'), $this->sessionData('userId'))
             ->status() !== Report::STATUS_DISAPPROVED ||
             $this->isAdmin()
         ) {
@@ -595,7 +595,7 @@ class ReportController extends Controller
             $traineeId = $this->queryParams('traineeId');
         }
 
-        $report = $this->appService->findReportsById($reportId, $traineeId);
+        $report = $this->appService->findReportById($reportId, $traineeId);
 
         $isSchool = '';
         $isCompany = '';
@@ -648,12 +648,12 @@ class ReportController extends Controller
         }
 
         $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
-        $commentsView->commentService = $this->service;
+        $commentsView->commentService = $this->appService;
         $commentsView->comments = $this->service->findCommentsByReportId($reportId);
         $commentsView->userId = $this->sessionData('userId');
         $commentsView->reportId = $reportId;
         $commentsView->traineeId = $traineeId;
-        $commentsView->report = $this->service->findById($reportId, $traineeId);
+        $commentsView->report = $this->appService->findReportById($reportId, $traineeId);
         $commentsView->userService = $this->userService;
         $commentsView->showCreateCommentButton = ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED');
         $commentsView->viewHelper = $this->viewHelper;

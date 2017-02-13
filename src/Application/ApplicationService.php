@@ -347,6 +347,15 @@ class ApplicationService
         return $this->userService->checkForAdmin();
     }
 
+    /**
+     * @param string $status
+     * @return array
+     */
+    public function findUsersByStatus(string $status): array
+    {
+        return $this->userService->findUsersByStatus($status);
+    }
+
     /*
      * @param $user
      */

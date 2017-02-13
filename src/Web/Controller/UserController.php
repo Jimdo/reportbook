@@ -332,10 +332,10 @@ class UserController extends Controller
             $footerView->backButton = true;
 
             $userView = $this->view('src/Web/Controller/Views/UserlistView.php');
-            $userView->users = $this->appService->userService->findUsersByStatus(Role::STATUS_NOT_APPROVED);
+            $userView->users = $this->appService->findUsersByStatus(Role::STATUS_NOT_APPROVED);
             $userView->viewHelper = $this->viewHelper;
             $userView->profileService = $this->appService->profileService;
-            $userView->approvedUsers = $this->appService->userService->findUsersByStatus(Role::STATUS_APPROVED);
+            $userView->approvedUsers = $this->appService->findUsersByStatus(Role::STATUS_APPROVED);
             $userView->isAdmin = $this->isAdmin();
 
             $this->response->addBody($headerView->render());

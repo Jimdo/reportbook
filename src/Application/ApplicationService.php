@@ -6,6 +6,8 @@ use Jimdo\Reports\Reportbook\CommentMongoRepository;
 use Jimdo\Reports\Reportbook\CommentService;
 use Jimdo\Reports\Reportbook\ReportbookService;
 use Jimdo\Reports\Reportbook\ReportMongoRepository;
+use Jimdo\Reports\Reportbook\Report as Report;
+use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
 
 use Jimdo\Reports\User\UserMongoRepository;
 use Jimdo\Reports\User\UserService;
@@ -38,6 +40,26 @@ class ApplicationService
         $this->reportbookService = $reportbookService;
         $this->userService = $userService;
         $this->profileService = $profileService;
+    }
+
+    /**
+     * @param TraineeId $traineeId
+     * @param string $content
+     * @param string $date
+     * @param string $calendarWeek
+     * @param string $calendarYear
+     * @param string $category
+     * @return \Jimdo\Reports\Views\Report
+     * @throws ReportFileRepositoryException
+     */
+    public function createReport(
+        TraineeId $traineeId,
+        string $content,
+        string $calendarWeek,
+        string $calendarYear,
+        string $category
+    ): \Jimdo\Reports\Views\Report {
+        return $this->reportbookService->createReport($traineeId, $content, $calendarWeek, $calendarYear, $category);
     }
 
     /*

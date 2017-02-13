@@ -25,6 +25,8 @@ use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
 use Jimdo\Reports\Notification\MailgunSubscriber;
 
+use Jimdo\Reports\Application\ApplicationService;
+
 class ReportController extends Controller
 {
     /** @var ReportbookService */
@@ -38,6 +40,9 @@ class ReportController extends Controller
 
     /** @var ViewHelper */
     private $viewHelper;
+
+    /** @var ApplicationService */
+    private $appService;
 
     /**
      * @param Request $request
@@ -68,6 +73,8 @@ class ReportController extends Controller
         $reportRepository = new ReportMongoRepository($client, new Serializer(), $appConfig);
         $commentRepository = new CommentMongoRepository($client, new Serializer(), $appConfig);
         $this->service = new ReportbookService($reportRepository, new CommentService($commentRepository), $appConfig, $notificationService);
+
+        $this->appService = ApplicationService::create($appConfig, $notificationService);
 
         $eventTypes = [
             'approvalRequested',
@@ -381,7 +388,7 @@ class ReportController extends Controller
         $this->addRequestValidation('category', 'string');
 
         if ($this->isRequestValid()) {
-            $this->service->createReport(
+            $this->appService->createReport(
                 new TraineeId($this->sessionData('userId')),
                 $this->formData('content'),
                 $this->formData('calendarWeek'),

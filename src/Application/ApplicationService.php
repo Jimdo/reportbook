@@ -141,6 +141,15 @@ class ApplicationService
         return $this->reportbookService->findByStatus($status);
     }
 
+    /**
+     * @param string $text
+     * @return array
+     */
+    public function findReportsByString(string $text, string $userId, string $role): array
+    {
+        return $this->reportbookService->findReportsByString($text, $userId, $role);
+    }
+
     /*
      * @param $user
      */

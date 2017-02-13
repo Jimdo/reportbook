@@ -256,6 +256,21 @@ class ApplicationService
         return $this->reportbookService->sortReportsByCalendarWeekAndYear($reports);
     }
 
+    /**
+     * @param string $username
+     * @param string $email
+     * @param string $password
+     * @throws UserRepositoryException
+     * @return ReadOnlyUser
+     */
+    public function registerTrainee(
+        string $username,
+        string $email,
+        string $password
+    ) {
+        return $this->userService->registerTrainee($username, $email, $password);
+    }
+
     /*
      * @param $user
      */

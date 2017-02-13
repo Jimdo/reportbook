@@ -286,7 +286,7 @@ class UserController extends Controller
                 }
             } elseif ($role === 'TRAINEE') {
                 try {
-                    $user = $this->appService->userService->registerTrainee($username, $email, $password);
+                    $user = $this->appService->registerTrainee($username, $email, $password);
                     $this->appService->profileService->createProfile($user->id(), $forename, $surname);
                 } catch (PasswordException $e) {
                     $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());

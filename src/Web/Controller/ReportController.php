@@ -128,7 +128,7 @@ class ReportController extends Controller
             $reportView = $this->view('src/Web/Controller/Views/TraineeView.php');
             $reportView->viewHelper = $this->viewHelper;
             $reportView->commentService = $this->service;
-            $reports = $this->service->findByTraineeId($this->sessionData('userId'));
+            $reports = $this->appService->findReportsByTraineeId($this->sessionData('userId'));
 
             switch ($this->queryParams('sort')) {
                 case 'name':
@@ -753,7 +753,7 @@ class ReportController extends Controller
      */
     private function createCalendarArray(string $traineeId, string $year): array
     {
-        $reports = $this->service->findByTraineeId($traineeId);
+        $reports = $this->appService->findReportsByTraineeId($traineeId);
 
         for ($i=1; $i < 53; $i++) {
             $arr[$i] = '';

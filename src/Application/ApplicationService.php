@@ -85,6 +85,16 @@ class ApplicationService
         return $this->reportbookService->findAll();
     }
 
+    /**
+     * @param string $traineeId
+     * @return \Jimdo\Reports\Views\Report[]
+     * @throws ReportFileRepositoryException
+     */
+    public function findReportsByTraineeId(string $traineeId): array
+    {
+        return $this->reportbookService->findByTraineeId($traineeId);
+    }
+
     /*
      * @param $user
      */

@@ -278,7 +278,7 @@ class ReportController extends Controller
             $calendarView->year = $year;
 
             if ($this->isAdmin() || $this->isTrainer()) {
-                $users = $this->userService->findAllTrainees();
+                $users = $this->appService->findAllTrainees();
 
                 foreach ($users as $user) {
                     $profile = $this->profileService->findProfileByUserId($user->id());

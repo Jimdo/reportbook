@@ -256,6 +256,166 @@ class ApplicationService
         return $this->reportbookService->sortReportsByCalendarWeekAndYear($reports);
     }
 
+    /**
+     * @param string $username
+     * @param string $email
+     * @param string $password
+     * @throws UserRepositoryException
+     * @return ReadOnlyUser
+     */
+    public function registerTrainee(
+        string $username,
+        string $email,
+        string $password
+    ) {
+        return $this->userService->registerTrainee($username, $email, $password);
+    }
+
+    /**
+     * @param string $username
+     * @param string $email
+     * @param string $password
+     * @throws UserRepositoryException
+     * @return ReadOnlyUser
+     */
+    public function registerTrainer(
+        string $username,
+        string $email,
+        string $password
+    ) {
+        return $this->userService->registerTrainer($username, $email, $password);
+    }
+
+    /**
+     * @param string $username
+     * @param string $email
+     * @param string $password
+     * @throws UserRepositoryException
+     * @return ReadOnlyUser
+     */
+    public function registerAdmin(
+        string $username,
+        string $email,
+        string $password
+    ) {
+        return $this->userService->registerAdmin($username, $email, $password);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $oldPassword
+     * @param string $newPassword
+     */
+    public function editPassword(string $userId, string $oldPassword, string $newPassword)
+    {
+        $this->userService->editPassword($userId, $oldPassword, $newPassword);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $username
+     */
+    public function editUsername(string $userId, string $username)
+    {
+        $this->userService->editUsername($userId, $username);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $email
+     */
+    public function editEmail(string $userId, string $email)
+    {
+        $this->userService->editEmail($userId, $email);
+    }
+
+    /**
+     * @param string $email
+     * @param string $password
+     * @return bool
+     */
+    public function authUser(string $identifier, string $password): bool
+    {
+        return $this->userService->authUser($identifier, $password);
+    }
+
+    /**
+     * @return bool
+     */
+    public function checkForAdmin(): bool
+    {
+        return $this->userService->checkForAdmin();
+    }
+
+    /**
+     * @param string $status
+     * @return array
+     */
+    public function findUsersByStatus(string $status): array
+    {
+        return $this->userService->findUsersByStatus($status);
+    }
+
+    /**
+     * @param string $id
+     * @return User
+     */
+    public function findUserById(string $id)
+    {
+        return $this->userService->findUserById($id);
+    }
+
+    /**
+     * @param string $username
+     * @return User
+     */
+    public function findUserByUsername(string $username)
+    {
+        return $this->userService->findUserByUsername($username);
+    }
+
+    /**
+     * @param string $status
+     * @return User
+     */
+    public function findUserByEmail(string $email)
+    {
+        return $this->userService->findUserByEmail($email);
+    }
+
+    /**
+     * @return array
+     */
+    public function findAllTrainees(): array
+    {
+        return $this->userService->findAllTrainees();
+    }
+
+    /**
+     * @param string $email
+     */
+    public function approveUser(string $email)
+    {
+        $this->userService->approveRole($email);
+    }
+
+    /**
+     * @param string $email
+     */
+    public function disapproveUser(string $email)
+    {
+        $this->userService->disapproveRole($email);
+    }
+
+    /**
+     * @param string $identifier
+     * @return bool
+     */
+    public function exists(string $identifier): bool
+    {
+        return $this->userService->exists($identifier);
+    }
+
     /*
      * @param $user
      */

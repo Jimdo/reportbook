@@ -187,6 +187,15 @@ class ApplicationService
         $this->reportbookService->sortReportsByAmountOfComments($reportArray);
     }
 
+    /**
+     * @param array $reports
+     * @return array
+     */
+    public function sortReportsByCalendarWeekAndYear(array $reports): array
+    {
+        return $this->reportbookService->sortReportsByCalendarWeekAndYear($reports);
+    }
+
     /*
      * @param $user
      */

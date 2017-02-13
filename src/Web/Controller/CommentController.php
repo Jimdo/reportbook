@@ -15,10 +15,15 @@ use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
 use Jimdo\Reports\Notification\MailgunSubscriber;
 
+use Jimdo\Reports\Application\ApplicationService;
+
 class CommentController extends Controller
 {
     /** @var ReportbookService */
     private $service;
+
+    /** @var ApplicationService */
+    private $appService;
 
     /**
      * @param Request $request
@@ -55,6 +60,8 @@ class CommentController extends Controller
         $reportRepository = new ReportMongoRepository($client, new Serializer(), $appConfig);
         $commentRepository = new CommentMongoRepository($client, new Serializer(), $appConfig);
         $this->service = new ReportbookService($reportRepository, new CommentService($commentRepository), $appConfig, $notificationService);
+
+        $this->appService = ApplicationService::create($appConfig, $notificationService);
 
         $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
         $notificationService->register(new MailgunSubscriber(['commentCreated'], $appConfig));

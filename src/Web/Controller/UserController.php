@@ -135,7 +135,7 @@ class UserController extends Controller
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
         $profileView->isTrainee = $this->isTrainee();
-        $profile = $this->appService->profileService->findProfileByUserId($this->formData('userId'));
+        $profile = $this->appService->findProfileByUserId($this->formData('userId'));
         $profileView->errorMessages = $exceptions;
         $profileView->forename = $profile->forename();
         $profileView->surname = $profile->surname();
@@ -213,7 +213,7 @@ class UserController extends Controller
                 $_SESSION['userId'] = $user->id();
                 $_SESSION['username'] = $user->username();
 
-                $profile = $this->appService->profileService->findProfileByUserId($user->id());
+                $profile = $this->appService->findProfileByUserId($user->id());
 
                 if ($profile === null) {
                     $this->appService->createProfile($user->id(), ' ', ' ');
@@ -390,11 +390,11 @@ class UserController extends Controller
         $profileView->isAdmin = $this->isAdmin();
 
         if ($this->isAdmin() && $this->queryParams('userId') !== null) {
-            $profile = $this->appService->profileService->findProfileByUserId($this->queryParams('userId'));
+            $profile = $this->appService->findProfileByUserId($this->queryParams('userId'));
             $profileView->profile = $profile;
             $user = $this->appService->findUserById($this->queryParams('userId'));
         } else {
-            $profile = $this->appService->profileService->findProfileByUserId($this->sessionData('userId'));
+            $profile = $this->appService->findProfileByUserId($this->sessionData('userId'));
             $profileView->profile = $profile;
             $user = $this->appService->findUserById($this->sessionData('userId'));
         }
@@ -466,7 +466,7 @@ class UserController extends Controller
             }
         }
 
-        $profile = $this->appService->profileService->findProfileByUserId($this->formData('userId'));
+        $profile = $this->appService->findProfileByUserId($this->formData('userId'));
 
         $errorMessages[] = $this->getErrorMessageForErrorCode($this->requestValidator->errorCodes()['dateOfBirth']);
 
@@ -535,7 +535,7 @@ class UserController extends Controller
             $infobarView->adminRole = $this->isAdmin();
             $infobarView->hideInfos = true;
 
-            $profile = $this->appService->profileService->findProfileByUserId($this->formData('userId'));
+            $profile = $this->appService->findProfileByUserId($this->formData('userId'));
             $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
             $profileView->isTrainee = $this->isTrainee();
             $profileView->isAdmin = $this->isAdmin();
@@ -595,7 +595,7 @@ class UserController extends Controller
             $infobarView->adminRole = $this->isAdmin();
             $infobarView->hideInfos = true;
 
-            $profile = $this->appService->profileService->findProfileByUserId($this->formData('userId'));
+            $profile = $this->appService->findProfileByUserId($this->formData('userId'));
             $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
             $profileView->isTrainee = $this->isTrainee();
             $profileView->isAdmin = $this->isAdmin();
@@ -702,7 +702,7 @@ class UserController extends Controller
             }
         }
 
-        $profile = $this->appService->profileService->findProfileByUserId($this->formData('userId'));
+        $profile = $this->appService->findProfileByUserId($this->formData('userId'));
         $errorMessages[] = $this->getErrorMessageForErrorCode($this->requestValidator->errorCodes()['startOfTraining']);
 
         $headerView = $this->view('src/Web/Controller/Views/Header.php');
@@ -758,7 +758,7 @@ class UserController extends Controller
             }
         }
 
-        $profile = $this->appService->profileService->findProfileByUserId($this->formData('userId'));
+        $profile = $this->appService->findProfileByUserId($this->formData('userId'));
         $errorCodes = $this->requestValidator->errorCodes();
         $errorMessages[] = $this->getErrorMessageForErrorCode($errorCodes['trainingYear']);
 
@@ -889,7 +889,7 @@ class UserController extends Controller
         $infobarView->hideInfos = true;
 
         $viewProfileView = $this->view('src/Web/Controller/Views/UserProfileView.php');
-        $profile = $this->appService->profileService->findProfileByUserId($this->queryParams('userId'));
+        $profile = $this->appService->findProfileByUserId($this->queryParams('userId'));
         $viewProfileView->forename = $profile->forename();
         $viewProfileView->surname = $profile->surname();
         $viewProfileView->dateOfBirth = $profile->dateOfBirth();

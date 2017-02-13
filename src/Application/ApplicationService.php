@@ -455,6 +455,15 @@ class ApplicationService
         return $this->profileService->createProfile($userId, $forename, $surname);
     }
 
+    /**
+     * @param string $userId
+     * @return Profile
+     */
+    public function findProfileByUserId(string $userId)
+    {
+        return $this->profileService->findProfileByUserId($userId);
+    }
+
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
     {
         $uri = sprintf('mongodb://%s:%s@%s:%d/%s'

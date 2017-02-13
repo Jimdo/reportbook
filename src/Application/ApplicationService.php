@@ -161,6 +161,15 @@ class ApplicationService
         return $this->reportbookService->findById($reportId, $traineeId, $isAdmin);
     }
 
+    /**
+     * @param string $key
+     * @param array $array
+     */
+    public function sortArrayDescending(string $key, array &$array)
+    {
+        $this->reportbookService->sortArrayDescending($key, $array);
+    }
+
     /*
      * @param $user
      */

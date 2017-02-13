@@ -170,6 +170,15 @@ class ApplicationService
         $this->reportbookService->sortArrayDescending($key, $array);
     }
 
+    /**
+     * @param array $status
+     * @param array $array
+     */
+    public function sortReportsByStatus(array $status, array &$reports)
+    {
+        $this->reportbookService->sortReportsByStatus($status, $reports);
+    }
+
     /*
      * @param $user
      */

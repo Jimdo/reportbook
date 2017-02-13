@@ -144,7 +144,7 @@ class ReportController extends Controller
                     $this->appService->sortArrayDescending('category', $reports);
                     break;
                 case 'status':
-                    $this->service->sortReportsByStatus([
+                    $this->appService->sortReportsByStatus([
                             Report::STATUS_DISAPPROVED,
                             Report::STATUS_REVISED,
                             Report::STATUS_NEW,
@@ -186,7 +186,7 @@ class ReportController extends Controller
                     $this->appService->sortArrayDescending('category', $reports);
                     break;
                 case 'status':
-                    $this->service->sortReportsByStatus([
+                    $this->appService->sortReportsByStatus([
                             Report::STATUS_APPROVAL_REQUESTED,
                             Report::STATUS_REVISED,
                             Report::STATUS_DISAPPROVED,
@@ -226,7 +226,7 @@ class ReportController extends Controller
                     $this->appService->sortArrayDescending('category', $reports);
                     break;
                 case 'status':
-                    $this->service->sortReportsByStatus([
+                    $this->appService->sortReportsByStatus([
                             Report::STATUS_APPROVAL_REQUESTED,
                             Report::STATUS_REVISED,
                             Report::STATUS_DISAPPROVED,

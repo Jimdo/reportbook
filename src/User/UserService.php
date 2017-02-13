@@ -388,11 +388,6 @@ class UserService
         return $returnUsers;
     }
 
-    public function saveImage(string $path)
-    {
-        $this->userRepository->saveImage($path);
-    }
-
     /**
      * @param string $email
      */

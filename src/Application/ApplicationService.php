@@ -526,6 +526,15 @@ class ApplicationService
         $this->profileService->editJobTitle($userId, $jobTitle);
     }
 
+    /**
+     * @param string $userId
+     * @param string $trainingYear
+     */
+    public function editTrainingYear(string $userId, string $trainingYear)
+    {
+        $this->profileService->editTrainingYear($userId, $trainingYear);
+    }
+
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
     {
         $uri = sprintf('mongodb://%s:%s@%s:%d/%s'

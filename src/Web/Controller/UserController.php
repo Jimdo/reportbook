@@ -750,7 +750,7 @@ class UserController extends Controller
         $this->addRequestValidation('trainingYear', 'integer');
 
         if ($this->isRequestValid()) {
-            $this->appService->profileService->editTrainingYear($this->formData('userId'), $this->formData('trainingYear'));
+            $this->appService->editTrainingYear($this->formData('userId'), $this->formData('trainingYear'));
             if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
                 $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);
             } else {

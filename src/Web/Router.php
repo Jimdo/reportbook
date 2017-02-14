@@ -157,6 +157,9 @@ class Router
 
         $applicationConfig = new ApplicationConfig(realpath(__DIR__ . '/../../config.yml'));
 
+        $loader = new \Twig_Loader_Filesystem($applicationConfig->templatePath);
+        $twig = new \Twig_Environment($loader);
+
         if ($this->defaultRequestObject === null) {
             if (session_status() === PHP_SESSION_ACTIVE) {
                 $requestObject = new Request($_GET, $_POST, $_SESSION);
@@ -171,7 +174,8 @@ class Router
             $requestObject,
             $this->requestValidatorObject,
             $applicationConfig,
-            $this->responseObject
+            $this->responseObject,
+            $twig
         );
     }
 

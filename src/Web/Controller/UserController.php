@@ -2,14 +2,14 @@
 
 namespace Jimdo\Reports\Web\Controller;
 
-use Jimdo\Reports\Web\View as View;
-use Jimdo\Reports\Web\ViewHelper as ViewHelper;
-use Jimdo\Reports\Web\Validator\Validator as Validator;
+use Jimdo\Reports\Web\View;
+use Jimdo\Reports\Web\ViewHelper;
+use Jimdo\Reports\Web\Validator\Validator;
 
-use Jimdo\Reports\User\User as User;
-use Jimdo\Reports\User\Role as Role;
-use Jimdo\Reports\User\PasswordException as PasswordException;
-use Jimdo\Reports\User\ProfileException as ProfileException;
+use Jimdo\Reports\User\User;
+use Jimdo\Reports\User\Role;
+use Jimdo\Reports\User\PasswordException;
+use Jimdo\Reports\User\ProfileException;
 
 use Jimdo\Reports\User\PasswordConstraints\PasswordLength;
 use Jimdo\Reports\User\PasswordConstraints\PasswordUpperCase;
@@ -17,10 +17,10 @@ use Jimdo\Reports\User\PasswordConstraints\PasswordLowerCase;
 use Jimdo\Reports\User\PasswordConstraints\PasswordNumbers;
 use Jimdo\Reports\User\PasswordConstraints\PasswordBlackList;
 
-use Jimdo\Reports\Web\Request as Request;
-use Jimdo\Reports\Web\Response as Response;
-use Jimdo\Reports\Web\RequestValidator as RequestValidator;
-use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
+use Jimdo\Reports\Web\Request;
+use Jimdo\Reports\Web\Response;
+use Jimdo\Reports\Web\RequestValidator;
+use Jimdo\Reports\Web\ApplicationConfig;
 
 use Jimdo\Reports\Application\ApplicationService;
 
@@ -113,7 +113,7 @@ class UserController extends Controller
         if ($uploadOk) {
             $image = file_get_contents($_FILES["fileToUpload"]["tmp_name"]);
             $base64 = base64_encode($image);
-            $this->appService->profileService->editImage($this->formData('userId'), $base64, $ext);
+            $this->appService->editImage($this->formData('userId'), $base64, $ext);
 
             if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
                 $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);
@@ -135,7 +135,7 @@ class UserController extends Controller
 
         $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
         $profileView->isTrainee = $this->isTrainee();
-        $profile = $this->appService->profileService->findProfileByUserId($this->formData('userId'));
+        $profile = $this->appService->findProfileByUserId($this->formData('userId'));
         $profileView->errorMessages = $exceptions;
         $profileView->forename = $profile->forename();
         $profileView->surname = $profile->surname();
@@ -194,7 +194,7 @@ class UserController extends Controller
                         'admin',
                         self::ADMIN_DEFAULT_PASSWORD
                     );
-                    $this->appService->profileService->createProfile($adminUser->id(), 'admin', 'admin');
+                    $this->appService->createProfile($adminUser->id(), 'admin', 'admin');
                 }
             }
             $loginWithAdminDefaultPassword = true;
@@ -213,10 +213,10 @@ class UserController extends Controller
                 $_SESSION['userId'] = $user->id();
                 $_SESSION['username'] = $user->username();
 
-                $profile = $this->appService->profileService->findProfileByUserId($user->id());
+                $profile = $this->appService->findProfileByUserId($user->id());
 
                 if ($profile === null) {
-                    $this->appService->profileService->createProfile($user->id(), ' ', ' ');
+                    $this->appService->createProfile($user->id(), ' ', ' ');
                 }
 
                 if ($loginWithAdminDefaultPassword) {
@@ -280,14 +280,14 @@ class UserController extends Controller
             if ($role === 'TRAINER') {
                 try {
                     $user = $this->appService->registerTrainer($username, $email, $password);
-                    $this->appService->profileService->createProfile($user->id(), $forename, $surname);
+                    $this->appService->createProfile($user->id(), $forename, $surname);
                 } catch (PasswordException $e) {
                     $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
                 }
             } elseif ($role === 'TRAINEE') {
                 try {
                     $user = $this->appService->registerTrainee($username, $email, $password);
-                    $this->appService->profileService->createProfile($user->id(), $forename, $surname);
+                    $this->appService->createProfile($user->id(), $forename, $surname);
                 } catch (PasswordException $e) {
                     $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
                 }
@@ -390,11 +390,11 @@ class UserController extends Controller
         $profileView->isAdmin = $this->isAdmin();
 
         if ($this->isAdmin() && $this->queryParams('userId') !== null) {
-            $profile = $this->appService->profileService->findProfileByUserId($this->queryParams('userId'));
+            $profile = $this->appService->findProfileByUserId($this->queryParams('userId'));
             $profileView->profile = $profile;
             $user = $this->appService->findUserById($this->queryParams('userId'));
         } else {
-            $profile = $this->appService->profileService->findProfileByUserId($this->sessionData('userId'));
+            $profile = $this->appService->findProfileByUserId($this->sessionData('userId'));
             $profileView->profile = $profile;
             $user = $this->appService->findUserById($this->sessionData('userId'));
         }
@@ -426,7 +426,7 @@ class UserController extends Controller
         if (!$this->isTrainer() && !$this->isTrainee() && !$this->isAdmin()) {
             $this->redirect("/user");
         }
-        $this->appService->profileService->editForename($this->formData('userId'), $this->formData('forename'));
+        $this->appService->editForename($this->formData('userId'), $this->formData('forename'));
 
         if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
             $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);
@@ -440,7 +440,7 @@ class UserController extends Controller
         if (!$this->isTrainer() && !$this->isTrainee() && !$this->isAdmin()) {
             $this->redirect("/user");
         }
-        $this->appService->profileService->editSurname($this->formData('userId'), $this->formData('surname'));
+        $this->appService->editSurname($this->formData('userId'), $this->formData('surname'));
 
         if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
             $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);
@@ -458,7 +458,7 @@ class UserController extends Controller
         $this->addRequestValidation('dateOfBirth', 'date');
 
         if ($this->isRequestValid()) {
-            $this->appService->profileService->editDateOfBirth($this->formData('userId'), $this->formData('dateOfBirth'));
+            $this->appService->editDateOfBirth($this->formData('userId'), $this->formData('dateOfBirth'));
             if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
                 $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);
             } else {
@@ -466,7 +466,7 @@ class UserController extends Controller
             }
         }
 
-        $profile = $this->appService->profileService->findProfileByUserId($this->formData('userId'));
+        $profile = $this->appService->findProfileByUserId($this->formData('userId'));
 
         $errorMessages[] = $this->getErrorMessageForErrorCode($this->requestValidator->errorCodes()['dateOfBirth']);
 
@@ -535,7 +535,7 @@ class UserController extends Controller
             $infobarView->adminRole = $this->isAdmin();
             $infobarView->hideInfos = true;
 
-            $profile = $this->appService->profileService->findProfileByUserId($this->formData('userId'));
+            $profile = $this->appService->findProfileByUserId($this->formData('userId'));
             $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
             $profileView->isTrainee = $this->isTrainee();
             $profileView->isAdmin = $this->isAdmin();
@@ -595,7 +595,7 @@ class UserController extends Controller
             $infobarView->adminRole = $this->isAdmin();
             $infobarView->hideInfos = true;
 
-            $profile = $this->appService->profileService->findProfileByUserId($this->formData('userId'));
+            $profile = $this->appService->findProfileByUserId($this->formData('userId'));
             $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
             $profileView->isTrainee = $this->isTrainee();
             $profileView->isAdmin = $this->isAdmin();
@@ -634,7 +634,7 @@ class UserController extends Controller
         if (!$this->isTrainer() && !$this->isTrainee() && !$this->isAdmin()) {
             $this->redirect("/user");
         }
-        $this->appService->profileService->editCompany($this->formData('userId'), $this->formData('company'));
+        $this->appService->editCompany($this->formData('userId'), $this->formData('company'));
 
         if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
             $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);
@@ -648,7 +648,7 @@ class UserController extends Controller
         if (!$this->isTrainer() && !$this->isTrainee() && !$this->isAdmin()) {
             $this->redirect("/user");
         }
-        $this->appService->profileService->editJobTitle($this->formData('userId'), $this->formData('jobTitle'));
+        $this->appService->editJobTitle($this->formData('userId'), $this->formData('jobTitle'));
 
         if ($this->formData('userId') !== null) {
             $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);
@@ -662,7 +662,7 @@ class UserController extends Controller
         if (!$this->isTrainer() && !$this->isTrainee() && !$this->isAdmin()) {
             $this->redirect("/user");
         }
-        $this->appService->profileService->editSchool($this->formData('userId'), $this->formData('school'));
+        $this->appService->editSchool($this->formData('userId'), $this->formData('school'));
 
         if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
             $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);
@@ -676,7 +676,7 @@ class UserController extends Controller
         if (!$this->isTrainer() && !$this->isTrainee() && !$this->isAdmin()) {
             $this->redirect("/user");
         }
-        $this->appService->profileService->editGrade($this->formData('userId'), $this->formData('grade'));
+        $this->appService->editGrade($this->formData('userId'), $this->formData('grade'));
 
         if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
             $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);
@@ -694,7 +694,7 @@ class UserController extends Controller
         $this->addRequestValidation('startOfTraining', 'date');
 
         if ($this->isRequestValid()) {
-            $this->appService->profileService->editStartOfTraining($this->formData('userId'), $this->formData('startOfTraining'));
+            $this->appService->editStartOfTraining($this->formData('userId'), $this->formData('startOfTraining'));
             if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
                 $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);
             } else {
@@ -702,7 +702,7 @@ class UserController extends Controller
             }
         }
 
-        $profile = $this->appService->profileService->findProfileByUserId($this->formData('userId'));
+        $profile = $this->appService->findProfileByUserId($this->formData('userId'));
         $errorMessages[] = $this->getErrorMessageForErrorCode($this->requestValidator->errorCodes()['startOfTraining']);
 
         $headerView = $this->view('src/Web/Controller/Views/Header.php');
@@ -750,7 +750,7 @@ class UserController extends Controller
         $this->addRequestValidation('trainingYear', 'integer');
 
         if ($this->isRequestValid()) {
-            $this->appService->profileService->editTrainingYear($this->formData('userId'), $this->formData('trainingYear'));
+            $this->appService->editTrainingYear($this->formData('userId'), $this->formData('trainingYear'));
             if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
                 $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);
             } else {
@@ -758,7 +758,7 @@ class UserController extends Controller
             }
         }
 
-        $profile = $this->appService->profileService->findProfileByUserId($this->formData('userId'));
+        $profile = $this->appService->findProfileByUserId($this->formData('userId'));
         $errorCodes = $this->requestValidator->errorCodes();
         $errorMessages[] = $this->getErrorMessageForErrorCode($errorCodes['trainingYear']);
 
@@ -889,7 +889,7 @@ class UserController extends Controller
         $infobarView->hideInfos = true;
 
         $viewProfileView = $this->view('src/Web/Controller/Views/UserProfileView.php');
-        $profile = $this->appService->profileService->findProfileByUserId($this->queryParams('userId'));
+        $profile = $this->appService->findProfileByUserId($this->queryParams('userId'));
         $viewProfileView->forename = $profile->forename();
         $viewProfileView->surname = $profile->surname();
         $viewProfileView->dateOfBirth = $profile->dateOfBirth();

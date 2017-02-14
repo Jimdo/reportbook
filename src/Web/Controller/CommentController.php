@@ -2,15 +2,13 @@
 
 namespace Jimdo\Reports\Web\Controller;
 
-use Jimdo\Reports\Reportbook\CommentService as CommentService;
-use Jimdo\Reports\Reportbook\ReportbookService as ReportbookService;
-use Jimdo\Reports\Reportbook\CommentMongoRepository as CommentMongoRepository;
-use Jimdo\Reports\Reportbook\ReportMongoRepository as ReportMongoRepository;
-use Jimdo\Reports\Web\Request as Request;
-use Jimdo\Reports\Web\Response as Response;
-use Jimdo\Reports\Web\RequestValidator as RequestValidator;
-use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-use Jimdo\Reports\Serializer as Serializer;
+use Jimdo\Reports\Web\Request;
+use Jimdo\Reports\Web\Response;
+use Jimdo\Reports\Web\RequestValidator;
+use Jimdo\Reports\Web\ApplicationConfig;
+
+use Jimdo\Reports\Serializer;
+
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
 use Jimdo\Reports\Notification\MailgunSubscriber;
@@ -19,9 +17,6 @@ use Jimdo\Reports\Application\ApplicationService;
 
 class CommentController extends Controller
 {
-    /** @var ReportbookService */
-    private $service;
-
     /** @var ApplicationService */
     private $appService;
 
@@ -39,16 +34,6 @@ class CommentController extends Controller
     ) {
         parent::__construct($request, $requestValidator, $appConfig, $response);
 
-        $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
-            , $this->appConfig->mongoUsername
-            , $this->appConfig->mongoPassword
-            , $this->appConfig->mongoHost
-            , $this->appConfig->mongoPort
-            , $this->appConfig->mongoDatabase
-        );
-
-        $client = new \MongoDB\Client($uri);
-
         $eventTypes = [
             'commentCreated',
             'commentDeleted',
@@ -56,11 +41,6 @@ class CommentController extends Controller
         ];
 
         $notificationService = new NotificationService();
-
-        $reportRepository = new ReportMongoRepository($client, new Serializer(), $appConfig);
-        $commentRepository = new CommentMongoRepository($client, new Serializer(), $appConfig);
-        $this->service = new ReportbookService($reportRepository, new CommentService($commentRepository), $appConfig, $notificationService);
-
         $this->appService = ApplicationService::create($appConfig, $notificationService);
 
         $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));

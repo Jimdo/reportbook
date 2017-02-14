@@ -444,6 +444,124 @@ class ApplicationService
         $this->userService->deleteUser($user);
     }
 
+    /**
+     * @param string $userId
+     * @param string $forename
+     * @param string $surname
+     * @return Profile
+     */
+    public function createProfile(string $userId, string $forename, string $surname)
+    {
+        return $this->profileService->createProfile($userId, $forename, $surname);
+    }
+
+    /**
+     * @param string $userId
+     * @return Profile
+     */
+    public function findProfileByUserId(string $userId)
+    {
+        return $this->profileService->findProfileByUserId($userId);
+    }
+
+    /**
+     * @param Profile $deleteProfile
+     */
+    public function deleteProfile(Profile $deleteProfile)
+    {
+        $this->profileService->deleteProfile($deleteProfile);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $forename
+     */
+    public function editForename(string $userId, string $forename)
+    {
+        $this->profileService->editForename($userId, $forename);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $surname
+     */
+    public function editSurname(string $userId, string $surname)
+    {
+        $this->profileService->editSurname($userId, $surname);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $dateOfBirth
+     */
+    public function editDateOfBirth(string $userId, string $dateOfBirth)
+    {
+        $this->profileService->editDateOfBirth($userId, $dateOfBirth);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $school
+     */
+    public function editSchool(string $userId, string $school)
+    {
+        $this->profileService->editSchool($userId, $school);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $company
+     */
+    public function editCompany(string $userId, string $company)
+    {
+        $this->profileService->editCompany($userId, $company);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $jobTitle
+     */
+    public function editJobTitle(string $userId, string $jobTitle)
+    {
+        $this->profileService->editJobTitle($userId, $jobTitle);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $trainingYear
+     */
+    public function editTrainingYear(string $userId, string $trainingYear)
+    {
+        $this->profileService->editTrainingYear($userId, $trainingYear);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $startOfTraining
+     */
+    public function editStartOfTraining(string $userId, string $startOfTraining)
+    {
+        $this->profileService->editStartOfTraining($userId, $startOfTraining);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $grade
+     */
+    public function editGrade(string $userId, string $grade)
+    {
+        $this->profileService->editGrade($userId, $grade);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $image
+     */
+    public function editImage(string $userId, string $image, string $type)
+    {
+         $this->profileService->editImage($userId, $image, $type);
+    }
+
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
     {
         $uri = sprintf('mongodb://%s:%s@%s:%d/%s'

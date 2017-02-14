@@ -553,6 +553,15 @@ class ApplicationService
         $this->profileService->editGrade($userId, $grade);
     }
 
+    /**
+     * @param string $userId
+     * @param string $image
+     */
+    public function editImage(string $userId, string $image, string $type)
+    {
+         $this->profileService->editImage($userId, $image, $type);
+    }
+
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
     {
         $uri = sprintf('mongodb://%s:%s@%s:%d/%s'

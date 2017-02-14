@@ -113,7 +113,7 @@ class UserController extends Controller
         if ($uploadOk) {
             $image = file_get_contents($_FILES["fileToUpload"]["tmp_name"]);
             $base64 = base64_encode($image);
-            $this->appService->profileService->editImage($this->formData('userId'), $base64, $ext);
+            $this->appService->editImage($this->formData('userId'), $base64, $ext);
 
             if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
                 $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);

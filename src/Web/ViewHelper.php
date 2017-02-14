@@ -41,22 +41,18 @@ class ViewHelper
         </tr>";
         echo "\n\t<tr>";
 
-        for($i = 1; $i <= $offset; $i++)
-        {
+        for ($i = 1; $i <= $offset; $i++) {
             if ($offset === 1 && $month === 1) {
                 echo "<td style=\"font-weight: bold;\" class=\"text-center\">1</td>";
             } else {
                 echo "<td></td>";
             }
-
         }
 
-        for($day = 1; $day <= $daysInMonth; $day++) {
-
+        for ($day = 1; $day <= $daysInMonth; $day++) {
             $currentWeek = intVal(date("W", strtotime("$year-$month-$day")));
 
-            if( ($day + $offset - 1) % 7 == 0 && $day != 1) {
-
+            if (($day + $offset - 1) % 7 == 0 && $day != 1) {
                 $reportStatus = $cwInfo[$currentWeek]['status'];
                 $reportTraineeId = $cwInfo[$currentWeek]['traineeId'];
                 $reportReportId = $cwInfo[$currentWeek]['reportId'];
@@ -84,12 +80,9 @@ class ViewHelper
                 echo "<td></td>";
             }
 
-            if ($this->checkIfDayIsInCalendarWeek(
-                $day, $currentWeek, $month, $year) &&
-                array_key_exists($currentWeek, $cwInfo) &&
-                $cwInfo[$currentWeek]['status'] !== ''
-            ) {
-
+            if ($this->checkIfDayIsInCalendarWeek($day, $currentWeek, $month, $year) &&
+                                                  array_key_exists($currentWeek, $cwInfo) &&
+                                                  $cwInfo[$currentWeek]['status'] !== '') {
                 switch ($cwInfo[$currentWeek]['status']) {
                     case Report::STATUS_APPROVAL_REQUESTED:
                         $color = 'yellow';
@@ -98,10 +91,10 @@ class ViewHelper
                         $color = '#01DF01';
                         break;
                     case Report::STATUS_DISAPPROVED:
-                    $color = 'red';
+                        $color = 'red';
                         break;
                     default:
-                    $color = '';
+                        $color = '';
                 }
                 echo "<td bgcolor=\"$color\" class=\"text-center\">" . $day .  "</td>";
             } else {
@@ -109,7 +102,7 @@ class ViewHelper
             }
         }
 
-        while( ($day + $offset) <= $rows * 7) {
+        while (($day + $offset) <= $rows * 7) {
             echo "<td></td>";
             $day++;
         }
@@ -143,7 +136,7 @@ class ViewHelper
                 return 'Freigeschaltet';
             case Role::STATUS_DISAPPROVED:
                 return 'Abgelehnt';
-            case Comment::STATUS_EDITED;
+            case Comment::STATUS_EDITED:
                 return 'Bearbeitet';
         }
     }
@@ -166,9 +159,9 @@ class ViewHelper
     }
 
     /**
-    * @param string $category
-    * @return string
-    */
+     * @param string $category
+     * @return string
+     */
     public function getTranslationForCategory(string $category): string
     {
         switch ($category) {
@@ -184,8 +177,8 @@ class ViewHelper
      * @param int $year
      * @return array
      */
-     public function getStartAndEndDate(int $week, int $year): array
-     {
+    public function getStartAndEndDate(int $week, int $year): array
+    {
         $date = new \DateTime();
 
         $date->setISODate($year, $week);
@@ -209,7 +202,7 @@ class ViewHelper
             $endMonth,
             $endDay
         ];
-     }
+    }
 
     /**
      * @param int $day
@@ -227,13 +220,12 @@ class ViewHelper
         $day = intVal($day);
 
         if ("$year-$month" == $startYearMonth) {
-
             if ($day >= $startDay && $day < ($startDay + 7)) {
                     return true;
             }
         }
 
-        if ("$year-$month"  == $endYearMonth && $day <= $endDay){
+        if ("$year-$month"  == $endYearMonth && $day <= $endDay) {
             return true;
         }
         return false;

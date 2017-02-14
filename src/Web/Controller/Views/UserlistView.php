@@ -10,7 +10,7 @@
             <th>Status</th>
             <th>Aktionen</th>
         </tr>
-        <?php foreach ($this->users as $user):
+        <?php foreach ($this->users as $user) :
             $profile = $this->profileService->findProfileByUserId($user->id());
             $userEmail = $user->email(); ?>
             <tr>
@@ -33,7 +33,7 @@
 
 </br>
 
-<?php if ($this->isAdmin): ?>
+<?php if ($this->isAdmin) : ?>
     <label> Registrierte Benutzer </label>
 
     <div style="border:1px solid #BDBDBD; border-radius: 5px;">
@@ -45,10 +45,10 @@
                 <th>Rolle</th>
                 <th>Aktionen</th>
             </tr>
-            <?php foreach ($this->approvedUsers as $user):
+            <?php foreach ($this->approvedUsers as $user) :
                 $profile = $this->profileService->findProfileByUserId($user->id());
                 $userEmail = $user->email();
-                if ($user->username() !== 'admin'): ?>
+                if ($user->username() !== 'admin') : ?>
                 <tr>
                     <td><a href="/user/viewProfile?userId=<?php echo $user->id(); ?>"><?php echo $profile->forename(); ?> <?php echo $profile->surname(); ?></td>
                     <td><?php echo $user->username(); ?></td>
@@ -61,8 +61,8 @@
                         </form>
                     </td>
                 </tr>
-            <?php endif;
-                endforeach; ?>
+                <?php endif;
+            endforeach; ?>
         </table>
     </div>
 <?php endif; ?>

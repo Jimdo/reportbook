@@ -8,10 +8,10 @@
     </div>
 
     <div class="row">
-        <?php if (is_array($this->errorMessages)):
-        foreach ($this->errorMessages as $error): ?>
+        <?php if (is_array($this->errorMessages)) :
+            foreach ($this->errorMessages as $error) : ?>
                 <div class="alert alert-danger col-md-10 col-md-offset-2" role="alert"><strong><?php echo $error; ?></strong></div>
-        <?php endforeach;
+            <?php endforeach;
         endif; ?>
     </div>
 
@@ -56,8 +56,8 @@
     </div>
 
     <div class="col-md-2 col-md-offset-10">
-    <?php if ($this->isTrainee || $this->isAdmin): ?>
-        <?php if ($this->createButton): ?>
+    <?php if ($this->isTrainee || $this->isAdmin) : ?>
+        <?php if ($this->createButton) : ?>
             <input type="hidden" id="reportId" name="reportId" value="<?php echo $this->reportId; ?>" />
             <button style="width: 175px;" type="submit" class="btn btn-primary col-md-1"><?php echo $this->buttonName; ?></button>
             </br></br></br>
@@ -68,7 +68,7 @@
   </fieldset>
 </form>
 
-<?php if ($this->statusButtons): ?>
+<?php if ($this->statusButtons) : ?>
 
     <form action="/report/approveReport" method="POST">
         <div class="col-md-2 col-md-offset-8">

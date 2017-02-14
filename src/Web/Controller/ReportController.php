@@ -180,7 +180,8 @@ class ReportController extends Controller
                     $this->service->sortArrayDescending('category', $reports);
                     break;
                 case 'status':
-                    $this->service->sortReportsByStatus([
+                    $this->service->sortReportsByStatus(
+                        [
                             Report::STATUS_APPROVAL_REQUESTED,
                             Report::STATUS_REVISED,
                             Report::STATUS_DISAPPROVED,
@@ -197,7 +198,7 @@ class ReportController extends Controller
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->trainerRole = $this->isTrainer();
-        } elseif ($this->isAdmin()){
+        } elseif ($this->isAdmin()) {
             $reportView = $this->view('src/Web/Controller/Views/AdminView.php');
             $reportView->userService = $this->userService;
             $reportView->profileService = $this->profileService;
@@ -220,7 +221,8 @@ class ReportController extends Controller
                     $this->service->sortArrayDescending('category', $reports);
                     break;
                 case 'status':
-                    $this->service->sortReportsByStatus([
+                    $this->service->sortReportsByStatus(
+                        [
                             Report::STATUS_APPROVAL_REQUESTED,
                             Report::STATUS_REVISED,
                             Report::STATUS_DISAPPROVED,
@@ -286,7 +288,6 @@ class ReportController extends Controller
                 $calendarView->users = $traineeInfo;
                 $calendarView->currentUserId = $this->queryParams('userId');
                 $calendarView->cwInfo = $this->createCalendarArray($this->queryParams('userId'), $year);
-
             } elseif ($this->isTrainee()) {
                 $user = $this->queryParams('userId');
                 $calendarView->currentUserId = $user;
@@ -763,7 +764,6 @@ class ReportController extends Controller
                     'reportId' => $report->id()
                 ];
             }
-
         }
         return $arr;
     }

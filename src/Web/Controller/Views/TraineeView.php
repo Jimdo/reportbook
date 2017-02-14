@@ -3,7 +3,7 @@
 <div class="row">
     <ul class="nav nav-tabs">
         <li role="presentation" class="active"><a href="/report/list">Listenansicht</a></li>
-        <?php if ($this->reports !== []): ?>
+        <?php if ($this->reports !== []) : ?>
             <li role="presentation"><a href="/report/calendar?userId=<?php echo $this->reports[0]->traineeId(); ?>">Kalenderansicht</a></li>
         <?php endif; ?>
     </ul>
@@ -29,7 +29,7 @@
             <th class="text-center">Kommentare <a href="/report/list?sort=comment" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
             <th class="text-center">Aktionen</th>
         </tr>
-        <?php foreach ($this->reports as $report):
+        <?php foreach ($this->reports as $report) :
              $reportId = $report->id();
              $traineeId = $report->traineeId();?>
             <tr>
@@ -43,7 +43,7 @@
                         <form action="/report/editReport" method="POST">
                             <?php
                             if ($report->status() !== Report::STATUS_APPROVED
-                            && $report->status() !== Report::STATUS_APPROVAL_REQUESTED):
+                            && $report->status() !== Report::STATUS_APPROVAL_REQUESTED) :
                             ?>
                                 <div class="col-md-1">
 
@@ -52,14 +52,14 @@
                                     <button type="submit" class="btn-link glyphicon glyphicon-pencil"></button>
 
                                 </div>
-                        <?php endif; ?>
+                            <?php endif; ?>
                         </form>
 
                         <form action="/report/requestApproval" method="POST">
                             <?php
                             if ($report->status() !== Report::STATUS_DISAPPROVED
                             && $report->status() !== Report::STATUS_APPROVED
-                            && $report->status() !== Report::STATUS_APPROVAL_REQUESTED):
+                            && $report->status() !== Report::STATUS_APPROVAL_REQUESTED) :
                             ?>
                                 <div class="col-md-1">
 
@@ -70,7 +70,7 @@
                         </form>
 
                         <form action="/report/deleteReport" method="POST">
-                            <?php if ($report->status() !== Report::STATUS_REVISED): ?>
+                            <?php if ($report->status() !== Report::STATUS_REVISED) : ?>
                                 <div class="col-md-1">
 
                                     <input type="hidden" id="reportId" name="reportId" value="<?php echo $reportId; ?>"/>
@@ -85,7 +85,7 @@
                         <form action="/report/viewReport" method="POST">
                             <?php
                             if ($report->status() === Report::STATUS_APPROVED
-                                || $report->status() === Report::STATUS_APPROVAL_REQUESTED):
+                                || $report->status() === Report::STATUS_APPROVAL_REQUESTED) :
                             ?>
                                 <div class="col-md-1">
 
@@ -94,7 +94,7 @@
                                     <button type="submit" class="btn-link glyphicon glyphicon-eye-open"></button>
 
                                 </div>
-                        <?php endif; ?>
+                            <?php endif; ?>
                         </form>
                     </td>
             </tr>
@@ -103,7 +103,7 @@
 </div>
 
 <div>
-    <?php if ($this->reports === []): ?>
+    <?php if ($this->reports === []) : ?>
         <label>Keine Berichte gefunden</label>
     <?php endif; ?>
 </div></br>

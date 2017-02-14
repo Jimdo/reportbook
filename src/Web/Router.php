@@ -203,13 +203,13 @@ class Router
     protected function startSession()
     {
         if (getenv('APPLICATION_ENV') === 'dev' || getenv('APPLICATION_ENV') === 'production') {
-
-            $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
-                , $this->applicationConfig->mongoUsername
-                , $this->applicationConfig->mongoPassword
-                , $this->applicationConfig->mongoHost
-                , $this->applicationConfig->mongoPort
-                , $this->applicationConfig->mongoDatabase
+            $uri = sprintf(
+                'mongodb://%s:%s@%s:%d/%s',
+                $this->applicationConfig->mongoUsername,
+                $this->applicationConfig->mongoPassword,
+                $this->applicationConfig->mongoHost,
+                $this->applicationConfig->mongoPort,
+                $this->applicationConfig->mongoDatabase
             );
 
             $client = new \MongoDB\Client($uri);

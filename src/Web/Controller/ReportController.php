@@ -2,39 +2,28 @@
 
 namespace Jimdo\Reports\Web\Controller;
 
-use Jimdo\Reports\Web\View as View;
-use Jimdo\Reports\Web\ViewHelper as ViewHelper;
-use Jimdo\Reports\Reportbook\Report as Report;
-use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
-use Jimdo\Reports\Reportbook\CommentMongoRepository as CommentMongoRepository;
-use Jimdo\Reports\Reportbook\CommentService as CommentService;
-use Jimdo\Reports\Reportbook\ReportMongoRepository as ReportMongoRepository;
-use Jimdo\Reports\Reportbook\ReportbookService as ReportbookService;
-use Jimdo\Reports\Reportbook\Category as Category;
-use Jimdo\Reports\Profile\ProfileService as ProfileService;
-use Jimdo\Reports\Profile\ProfileMongoRepository as ProfileMongoRepository;
-use Jimdo\Reports\User\UserMongoRepository as UserMongoRepository;
-use Jimdo\Reports\User\UserService as UserService;
-use Jimdo\Reports\Web\RequestValidator as RequestValidator;
-use Jimdo\Reports\Web\Response as Response;
-use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-use Jimdo\Reports\Serializer as Serializer;
-use Jimdo\Reports\Web\Request as Request;
-use Jimdo\Reports\Web\Validator\Validator as Validator;
+use Jimdo\Reports\Reportbook\Category;
+use Jimdo\Reports\Reportbook\Report;
+use Jimdo\Reports\Reportbook\TraineeId;
+
+use Jimdo\Reports\Web\View;
+use Jimdo\Reports\Web\ViewHelper;
+use Jimdo\Reports\Web\RequestValidator;
+use Jimdo\Reports\Web\Response;
+use Jimdo\Reports\Web\ApplicationConfig;
+use Jimdo\Reports\Web\Request;
+use Jimdo\Reports\Web\Validator\Validator;
+
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
 use Jimdo\Reports\Notification\MailgunSubscriber;
 
 use Jimdo\Reports\Application\ApplicationService;
 
+use Jimdo\Reports\Serializer;
+
 class ReportController extends Controller
 {
-    /** @var UserService */
-    private $userService;
-
-    /** @var ProfileService */
-    private $profileService;
-
     /** @var ViewHelper */
     private $viewHelper;
 
@@ -55,20 +44,9 @@ class ReportController extends Controller
     ) {
         parent::__construct($request, $requestValidator, $appConfig, $response);
 
-        $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
-            , $this->appConfig->mongoUsername
-            , $this->appConfig->mongoPassword
-            , $this->appConfig->mongoHost
-            , $this->appConfig->mongoPort
-            , $this->appConfig->mongoDatabase
-        );
-
-        $client = new \MongoDB\Client($uri);
-
         $notificationService = new NotificationService();
 
-        $reportRepository = new ReportMongoRepository($client, new Serializer(), $appConfig);
-
+        $this->viewHelper = new ViewHelper();
         $this->appService = ApplicationService::create($appConfig, $notificationService);
 
         $eventTypes = [
@@ -80,7 +58,7 @@ class ReportController extends Controller
             'reportDisapproved'
         ];
 
-        $emailEventTypes =[
+        $emailEventTypes = [
             'reportCreated',
             'approvalRequested',
             'reportApproved',
@@ -89,13 +67,6 @@ class ReportController extends Controller
 
         $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
         $notificationService->register(new MailgunSubscriber($emailEventTypes, $appConfig));
-
-        $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
-        $this->userService = new UserService($userRepository, $appConfig, $notificationService);
-        $this->viewHelper = new ViewHelper();
-
-        $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);
-        $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig, $notificationService);
     }
 
     public function indexAction()
@@ -155,8 +126,8 @@ class ReportController extends Controller
 
         } elseif ($this->isTrainer()) {
             $reportView = $this->view('src/Web/Controller/Views/TrainerView.php');
-            $reportView->userService = $this->userService;
-            $reportView->profileService = $this->profileService;
+            $reportView->userService = $this->appService;
+            $reportView->profileService = $this->appService;
             $reportView->viewHelper = $this->viewHelper;
 
             $reportView->commentService = $this->appService;
@@ -200,8 +171,8 @@ class ReportController extends Controller
             $infobarView->trainerRole = $this->isTrainer();
         } elseif ($this->isAdmin()){
             $reportView = $this->view('src/Web/Controller/Views/AdminView.php');
-            $reportView->userService = $this->userService;
-            $reportView->profileService = $this->profileService;
+            $reportView->userService = $this->appService;
+            $reportView->profileService = $this->appService;
             $reportView->viewHelper = $this->viewHelper;
             $reportView->commentService = $this->appService;
 
@@ -281,7 +252,7 @@ class ReportController extends Controller
                 $users = $this->appService->findAllTrainees();
 
                 foreach ($users as $user) {
-                    $profile = $this->profileService->findProfileByUserId($user->id());
+                    $profile = $this->appService->findProfileByUserId($user->id());
                     $traineeInfo[] = ['name' => $profile->forename() . ' ' .  $profile->surname(), 'id' => $user->id()];
                 }
                 $calendarView->users = $traineeInfo;
@@ -467,7 +438,7 @@ class ReportController extends Controller
         $commentsView->reportId = $reportId;
         $commentsView->traineeId = $this->sessionData('userId');
         $commentsView->report = $this->appService->findReportById($reportId, $this->sessionData('userId'));
-        $commentsView->userService = $this->userService;
+        $commentsView->userService = $this->appService;
         $commentsView->viewHelper = $this->viewHelper;
         $commentsView->showCreateCommentButton = ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED');
 
@@ -638,7 +609,7 @@ class ReportController extends Controller
         );
 
         if (!$this->isTrainee()) {
-            $user = $this->profileService->findProfileByUserId($traineeId);
+            $user = $this->appService->findProfileByUserId($traineeId);
             $reportView->traineeName = 'von ' . $user->forename() . ' ' . $user->surname();
         }
 
@@ -649,7 +620,7 @@ class ReportController extends Controller
         $commentsView->reportId = $reportId;
         $commentsView->traineeId = $traineeId;
         $commentsView->report = $this->appService->findReportById($reportId, $traineeId);
-        $commentsView->userService = $this->userService;
+        $commentsView->userService = $this->appService;
         $commentsView->showCreateCommentButton = ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED');
         $commentsView->viewHelper = $this->viewHelper;
 
@@ -707,15 +678,15 @@ class ReportController extends Controller
             $reportView->commentService = $this->appService;
         } elseif ($this->isTrainer()) {
             $reportView = $this->view('src/Web/Controller/Views/TrainerView.php');
-            $reportView->userService = $this->userService;
-            $reportView->profileService = $this->profileService;
+            $reportView->userService = $this->appService;
+            $reportView->profileService = $this->appService;
             $reportView->viewHelper = $this->viewHelper;
             $reportView->reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
             $reportView->commentService = $this->appService;
         } elseif ($this->isAdmin()) {
             $reportView = $this->view('src/Web/Controller/Views/AdminView.php');
-            $reportView->userService = $this->userService;
-            $reportView->profileService = $this->profileService;
+            $reportView->userService = $this->appService;
+            $reportView->profileService = $this->appService;
             $reportView->viewHelper = $this->viewHelper;
             $reportView->reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
             $reportView->commentService = $this->appService;

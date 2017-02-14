@@ -137,9 +137,9 @@ class ReportMongoRepository implements ReportRepository
         $reports = [];
 
         if (is_numeric($text)) {
-             foreach ($this->reports->find(['calendarWeek' => $text]) as $report) {
-                 $reports [] = $this->serializer->unserializeReport($report->getArrayCopy());
-             }
+            foreach ($this->reports->find(['calendarWeek' => $text]) as $report) {
+                $reports [] = $this->serializer->unserializeReport($report->getArrayCopy());
+            }
         } else {
             foreach ($this->reports->find(array('content' => new \MongoDB\BSON\Regex($text, 'i'))) as $report) {
                 $reports [] = $this->serializer->unserializeReport($report->getArrayCopy());
@@ -203,28 +203,27 @@ class ReportMongoRepository implements ReportRepository
         $sortedReports = [];
 
         foreach ($aReports as $report) {
+            if (!in_array($report->calendarYear(), $years)) {
+                $years[] = $report->calendarYear();
+            }
 
-          if (!in_array($report->calendarYear(), $years)) {
-              $years[] = $report->calendarYear();
-          }
-
-          foreach ($years as $year) {
-              if ($report->calendarYear() === $year) {
-                  $yearsWithReports[$year][] = $report;
-              }
-          }
+            foreach ($years as $year) {
+                if ($report->calendarYear() === $year) {
+                    $yearsWithReports[$year][] = $report;
+                }
+            }
         }
 
         foreach ($yearsWithReports as $year => $reports) {
-          $this->sortReportsByCalendarWeek($reports);
-          $sortedReports[$year] = $reports;
+            $this->sortReportsByCalendarWeek($reports);
+            $sortedReports[$year] = $reports;
         }
 
         krsort($sortedReports);
 
         $returnArr = [];
         foreach ($sortedReports as $sortedReport) {
-          $returnArr = array_merge($returnArr, $sortedReport);
+            $returnArr = array_merge($returnArr, $sortedReport);
         }
 
         return $returnArr;

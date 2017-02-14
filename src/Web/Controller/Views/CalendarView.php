@@ -6,7 +6,7 @@
 
 </br>
 
-<?php if ($this->trainerRole || $this->adminRole): ?>
+<?php if ($this->trainerRole || $this->adminRole) : ?>
     <div class"col-sm-10" style="float:right;">
         <div class="dropdown">
           <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -22,9 +22,9 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-             <?php foreach ($this->users as $user): ?>
-                 <li><a href="/report/calendar?userId=<?php echo $user['id']; ?>"><?php echo $user['name']; ?></a></li>
-             <?php endforeach; ?>
+                <?php foreach ($this->users as $user) : ?>
+                   <li><a href="/report/calendar?userId=<?php echo $user['id']; ?>"><?php echo $user['name']; ?></a></li>
+                <?php endforeach; ?>
           </ul>
         </div>
     </div>
@@ -44,7 +44,7 @@
 
 </br>
 
-    <?php for ($i=1; $i < 13; $i++): ?>
+    <?php for ($i=1; $i < 13; $i++) : ?>
         <div class="col-md-3" style="padding: 5px;">
             <div style="border: 1px solid #BDBDBD; border-radius: 5px; padding-left: 5px; padding-right: 5px;  height: 280px;">
                 <p class="text-center" style="padding-top: 10px;"><b><?php echo $this->months[$i - 1]; ?></b></p>

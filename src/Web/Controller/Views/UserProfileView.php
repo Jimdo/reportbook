@@ -80,7 +80,7 @@
     </div>
 </div>
 
-<?php if ($this->isTrainee): ?>
+<?php if ($this->isTrainee) : ?>
     <div class="col-sm-offset-2 col-sm-5">
         <div class="col-sm-offset-1 col-sm-10">
             <h4>Schulische Daten</h4><br>

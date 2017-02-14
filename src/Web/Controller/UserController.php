@@ -101,7 +101,7 @@ class UserController extends Controller
         $filename = $_FILES['fileToUpload']['name'];
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-        if(!in_array($ext,$allowed) ) {
+        if (!in_array($ext,$allowed)) {
             $exceptions[] = "Folgende File-Typen sind erlaubt: JPG, JPEG, PNG.";
             $uploadOk = false;
         }
@@ -149,6 +149,7 @@ class UserController extends Controller
         $profileView->startOfTraining = $profile->startOfTraining();
         $profileView->userId = $profile->userId();
         $user = $this->appService->findUserById($this->formData('userId'));
+
         $profileView->username = $user->username();
         $profileView->email = $user->email();
 
@@ -200,7 +201,6 @@ class UserController extends Controller
             }
             $loginWithAdminDefaultPassword = true;
         }
-
         if ($this->appService->authUser($identifier, $password)) {
             $user = $this->appService->findUserByEmail($identifier);
 
@@ -213,7 +213,7 @@ class UserController extends Controller
                 $_SESSION['authorized'] = true;
                 $_SESSION['userId'] = $user->id();
                 $_SESSION['username'] = $user->username();
-
+              
                 $profile = $this->appService->findProfileByUserId($user->id());
 
                 if ($profile === null) {
@@ -265,6 +265,7 @@ class UserController extends Controller
         if ($username === self::ADMIN_DEFAULT_USER) {
             $exceptions[] = $this->getErrorMessageForErrorCode(UserService::ERR_USERNAME_ADMIN);
         }
+
         if ($this->appService->exists($username)) {
             $exceptions[] = $this->getErrorMessageForErrorCode(UserService::ERR_USERNAME_EXISTS);
         }
@@ -308,7 +309,6 @@ class UserController extends Controller
             $this->response->addBody($headerView->render());
             $this->response->addBody($registerView->render());
             $this->response->addBody($footerView->render());
-
         } else {
             header("Location: /user");
         }
@@ -702,7 +702,6 @@ class UserController extends Controller
                 $this->redirect('/user/profile');
             }
         }
-
         $profile = $this->appService->findProfileByUserId($this->formData('userId'));
         $errorMessages[] = $this->getErrorMessageForErrorCode($this->requestValidator->errorCodes()['startOfTraining']);
 
@@ -823,7 +822,7 @@ class UserController extends Controller
         $footerView = $this->view('src/Web/Controller/Views/Footer.php');
 
         $this->response->addBody($headerView->render());
-        $this->response->addBody($infobarView->render());
+        $this->response->addBody($infobarVew->render());
         $this->response->addBody($changePasswordView->render());
         $this->response->addBody($footerView->render());
     }

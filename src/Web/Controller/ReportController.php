@@ -110,7 +110,8 @@ class ReportController extends Controller
                     $this->appService->sortArrayDescending('category', $reports);
                     break;
                 case 'status':
-                    $this->appService->sortReportsByStatus([
+                    $this->appService->sortReportsByStatus(
+                       [
                             Report::STATUS_DISAPPROVED,
                             Report::STATUS_REVISED,
                             Report::STATUS_NEW,
@@ -123,7 +124,6 @@ class ReportController extends Controller
                     break;
             }
             $reportView->reports = $reports;
-
         } elseif ($this->isTrainer()) {
             $reportView = $this->view('src/Web/Controller/Views/TrainerView.php');
             $reportView->userService = $this->appService;
@@ -152,7 +152,8 @@ class ReportController extends Controller
                     $this->appService->sortArrayDescending('category', $reports);
                     break;
                 case 'status':
-                    $this->appService->sortReportsByStatus([
+                    $this->appService->sortReportsByStatus(
+                        [
                             Report::STATUS_APPROVAL_REQUESTED,
                             Report::STATUS_REVISED,
                             Report::STATUS_DISAPPROVED,
@@ -169,7 +170,7 @@ class ReportController extends Controller
             $infobarView->username = $this->sessionData('username');
             $infobarView->role = $this->sessionData('role');
             $infobarView->trainerRole = $this->isTrainer();
-        } elseif ($this->isAdmin()){
+        } elseif ($this->isAdmin()) {
             $reportView = $this->view('src/Web/Controller/Views/AdminView.php');
             $reportView->userService = $this->appService;
             $reportView->profileService = $this->appService;
@@ -192,7 +193,8 @@ class ReportController extends Controller
                     $this->appService->sortArrayDescending('category', $reports);
                     break;
                 case 'status':
-                    $this->appService->sortReportsByStatus([
+                    $this->appService->sortReportsByStatus(
+                        [
                             Report::STATUS_APPROVAL_REQUESTED,
                             Report::STATUS_REVISED,
                             Report::STATUS_DISAPPROVED,
@@ -258,7 +260,6 @@ class ReportController extends Controller
                 $calendarView->users = $traineeInfo;
                 $calendarView->currentUserId = $this->queryParams('userId');
                 $calendarView->cwInfo = $this->createCalendarArray($this->queryParams('userId'), $year);
-
             } elseif ($this->isTrainee()) {
                 $user = $this->queryParams('userId');
                 $calendarView->currentUserId = $user;
@@ -735,7 +736,6 @@ class ReportController extends Controller
                     'reportId' => $report->id()
                 ];
             }
-
         }
         return $arr;
     }

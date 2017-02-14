@@ -26,7 +26,7 @@
             <th class="text-center">Kommentare <a href="/report/list?sort=comment" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
             <th class="text-center">Aktionen</th>
         </tr>
-        <?php foreach ($this->reports as $report):
+        <?php foreach ($this->reports as $report) :
                   $reportId = $report->id();
                   $traineeId = $report->traineeId();
                   $profile = $this->profileService->findProfileByUserId($traineeId);
@@ -54,7 +54,7 @@
 </div>
 
 <div>
-    <?php if ($this->reports === []): ?>
+    <?php if ($this->reports === []) : ?>
         <label>Keine Berichte gefunden</label>
     <?php endif; ?>
 </div></br>

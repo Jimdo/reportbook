@@ -1,10 +1,10 @@
 <div class="col-sm-offset-3 col-sm-6">
 
     <div class="row">
-        <?php if (is_array($this->errorMessages)):
-        foreach ($this->errorMessages as $error): ?>
+        <?php if (is_array($this->errorMessages)) :
+            foreach ($this->errorMessages as $error) : ?>
                 <div class="alert alert-danger col-sm-12" role="alert"><strong><?php echo $error; ?></strong></div>
-        <?php endforeach;
+            <?php endforeach;
         endif; ?>
     </div>
 

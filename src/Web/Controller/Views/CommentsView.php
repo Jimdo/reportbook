@@ -1,7 +1,7 @@
 <div class="form-horizontal">
 
-<?php foreach ($this->comments as $comment):
-$editActive = false;?>
+<?php foreach ($this->comments as $comment) :
+    $editActive = false; ?>
 
     <div class="row">
         <div class="col-sm-offset-2 col-sm-1">
@@ -15,7 +15,7 @@ $editActive = false;?>
                     <strong><?php echo $this->userService->findUserById($comment->userId())->username(); ?></strong>
                     <span class="text-muted"><?php echo $comment->date(); ?></span>
 
-                    <?php if ($comment->userId() === $this->userId):?>
+                    <?php if ($comment->userId() === $this->userId) : ?>
 
                         <div style="float:right">
                             <form action="/comment/deleteComment" method="POST">
@@ -36,7 +36,7 @@ $editActive = false;?>
                     <?php endif; ?>
 
                     <div style="float:right">
-                        <?php if ($comment->status() === 'EDITED'): ?>
+                        <?php if ($comment->status() === 'EDITED') : ?>
                             <span class="text-muted" style="margin-right:0.5em;"><?php echo $this->viewHelper->getTranslationForStatus($comment->status()); ?></span>
                         <?php endif; ?>
                     </div>
@@ -75,7 +75,7 @@ $editActive = false;?>
 
     <div class="col-sm-offset-10 col-sm-2">
 
-        <?php if ($this->showCreateCommentButton): ?>
+        <?php if ($this->showCreateCommentButton) : ?>
             <p class="form-control-static">
                 <button style="width: 175px; padding-right: 10px;" class="btn btn-md btn-default" data-toggle="collapse" data-target="#createComment">Kommentar verfassen</button>
             </p>

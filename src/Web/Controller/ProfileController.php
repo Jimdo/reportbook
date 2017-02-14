@@ -49,5 +49,4 @@ class ProfileController extends Controller
 
         echo $data;
     }
-
 }

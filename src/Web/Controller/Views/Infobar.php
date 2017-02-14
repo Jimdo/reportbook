@@ -12,7 +12,7 @@
           <a class="navbar-brand" href="#"><strong>Berichtsheft</strong></a>
           <ul class="nav navbar-nav">
             <li><a href="/report/list">Übersicht</a></li>
-            <?php if ($this->trainerRole || $this->adminRole): ?>
+            <?php if ($this->trainerRole || $this->adminRole) : ?>
                 <li><a href="/user/userlist">Benutzer</a></li>
             <?php endif; ?>
           </ul>
@@ -29,7 +29,7 @@
 
 </div>
 
-<?php if ($this->hideInfos === false): ?>
+<?php if ($this->hideInfos === false) : ?>
     <div class="row">
       <div class="col-sm-offset-0 col-sm-3">
          <label>Benutzer: <?php echo $this->username; ?> | <?php echo $this->viewHelper->getTranslationForRole($this->role); ?></label></br>

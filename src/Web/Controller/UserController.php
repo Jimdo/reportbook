@@ -10,6 +10,7 @@ use Jimdo\Reports\User\User;
 use Jimdo\Reports\User\Role;
 use Jimdo\Reports\User\PasswordException;
 use Jimdo\Reports\User\ProfileException;
+use Jimdo\Reports\User\UserService;
 
 use Jimdo\Reports\User\PasswordConstraints\PasswordLength;
 use Jimdo\Reports\User\PasswordConstraints\PasswordUpperCase;

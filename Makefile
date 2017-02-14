@@ -21,9 +21,6 @@ bootstrap: ## Install composer
 lint: ## Lint all the code
 	./scripts/phpcs --standard=PSR2 --encoding=utf-8 -p src
 
-doc: ## Generate documentation
-	./scripts/phpdoc
-
 server: ## Start up local development web server
 	./scripts/run-server.sh
 

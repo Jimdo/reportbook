@@ -676,7 +676,7 @@ class UserController extends Controller
         if (!$this->isTrainer() && !$this->isTrainee() && !$this->isAdmin()) {
             $this->redirect("/user");
         }
-        $this->appService->profileService->editGrade($this->formData('userId'), $this->formData('grade'));
+        $this->appService->editGrade($this->formData('userId'), $this->formData('grade'));
 
         if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
             $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);

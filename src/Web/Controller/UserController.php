@@ -2,14 +2,14 @@
 
 namespace Jimdo\Reports\Web\Controller;
 
-use Jimdo\Reports\Web\View as View;
-use Jimdo\Reports\Web\ViewHelper as ViewHelper;
-use Jimdo\Reports\Web\Validator\Validator as Validator;
+use Jimdo\Reports\Web\View;
+use Jimdo\Reports\Web\ViewHelper;
+use Jimdo\Reports\Web\Validator\Validator;
 
-use Jimdo\Reports\User\User as User;
-use Jimdo\Reports\User\Role as Role;
-use Jimdo\Reports\User\PasswordException as PasswordException;
-use Jimdo\Reports\User\ProfileException as ProfileException;
+use Jimdo\Reports\User\User;
+use Jimdo\Reports\User\Role;
+use Jimdo\Reports\User\PasswordException;
+use Jimdo\Reports\User\ProfileException;
 
 use Jimdo\Reports\User\PasswordConstraints\PasswordLength;
 use Jimdo\Reports\User\PasswordConstraints\PasswordUpperCase;
@@ -17,10 +17,10 @@ use Jimdo\Reports\User\PasswordConstraints\PasswordLowerCase;
 use Jimdo\Reports\User\PasswordConstraints\PasswordNumbers;
 use Jimdo\Reports\User\PasswordConstraints\PasswordBlackList;
 
-use Jimdo\Reports\Web\Request as Request;
-use Jimdo\Reports\Web\Response as Response;
-use Jimdo\Reports\Web\RequestValidator as RequestValidator;
-use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
+use Jimdo\Reports\Web\Request;
+use Jimdo\Reports\Web\Response;
+use Jimdo\Reports\Web\RequestValidator;
+use Jimdo\Reports\Web\ApplicationConfig;
 
 use Jimdo\Reports\Application\ApplicationService;
 

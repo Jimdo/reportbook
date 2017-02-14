@@ -2,42 +2,33 @@
 
 namespace Jimdo\Reports\Web\Controller;
 
-use Jimdo\Reports\Web\View as View;
-use Jimdo\Reports\Web\ViewHelper as ViewHelper;
-use Jimdo\Reports\Reportbook\Report as Report;
-use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
-use Jimdo\Reports\Reportbook\CommentMongoRepository as CommentMongoRepository;
-use Jimdo\Reports\Reportbook\CommentService as CommentService;
-use Jimdo\Reports\Reportbook\ReportMongoRepository as ReportMongoRepository;
-use Jimdo\Reports\Reportbook\ReportbookService as ReportbookService;
-use Jimdo\Reports\Reportbook\Category as Category;
-use Jimdo\Reports\Profile\ProfileService as ProfileService;
-use Jimdo\Reports\Profile\ProfileMongoRepository as ProfileMongoRepository;
-use Jimdo\Reports\User\UserMongoRepository as UserMongoRepository;
-use Jimdo\Reports\User\UserService as UserService;
-use Jimdo\Reports\Web\RequestValidator as RequestValidator;
-use Jimdo\Reports\Web\Response as Response;
-use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-use Jimdo\Reports\Serializer as Serializer;
-use Jimdo\Reports\Web\Request as Request;
-use Jimdo\Reports\Web\Validator\Validator as Validator;
+use Jimdo\Reports\Reportbook\Category;
+use Jimdo\Reports\Reportbook\Report;
+use Jimdo\Reports\Reportbook\TraineeId;
+
+use Jimdo\Reports\Web\View;
+use Jimdo\Reports\Web\ViewHelper;
+use Jimdo\Reports\Web\RequestValidator;
+use Jimdo\Reports\Web\Response;
+use Jimdo\Reports\Web\ApplicationConfig;
+use Jimdo\Reports\Web\Request;
+use Jimdo\Reports\Web\Validator\Validator;
+
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
 use Jimdo\Reports\Notification\MailgunSubscriber;
 
+use Jimdo\Reports\Application\ApplicationService;
+
+use Jimdo\Reports\Serializer;
+
 class ReportController extends Controller
 {
-    /** @var ReportbookService */
-    private $service;
-
-    /** @var UserService */
-    private $userService;
-
-    /** @var ProfileService */
-    private $profileService;
-
     /** @var ViewHelper */
     private $viewHelper;
+
+    /** @var ApplicationService */
+    private $appService;
 
     /**
      * @param Request $request
@@ -53,22 +44,10 @@ class ReportController extends Controller
     ) {
         parent::__construct($request, $requestValidator, $appConfig, $response);
 
-        $uri = sprintf(
-            'mongodb://%s:%s@%s:%d/%s',
-            $this->appConfig->mongoUsername,
-            $this->appConfig->mongoPassword,
-            $this->appConfig->mongoHost,
-            $this->appConfig->mongoPort,
-            $this->appConfig->mongoDatabase
-        );
-
-        $client = new \MongoDB\Client($uri);
-
         $notificationService = new NotificationService();
 
-        $reportRepository = new ReportMongoRepository($client, new Serializer(), $appConfig);
-        $commentRepository = new CommentMongoRepository($client, new Serializer(), $appConfig);
-        $this->service = new ReportbookService($reportRepository, new CommentService($commentRepository), $appConfig, $notificationService);
+        $this->viewHelper = new ViewHelper();
+        $this->appService = ApplicationService::create($appConfig, $notificationService);
 
         $eventTypes = [
             'approvalRequested',
@@ -79,7 +58,7 @@ class ReportController extends Controller
             'reportDisapproved'
         ];
 
-        $emailEventTypes =[
+        $emailEventTypes = [
             'reportCreated',
             'approvalRequested',
             'reportApproved',
@@ -88,13 +67,6 @@ class ReportController extends Controller
 
         $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
         $notificationService->register(new MailgunSubscriber($emailEventTypes, $appConfig));
-
-        $userRepository = new UserMongoRepository($client, new Serializer(), $appConfig);
-        $this->userService = new UserService($userRepository, $appConfig, $notificationService);
-        $this->viewHelper = new ViewHelper();
-
-        $profileRepository = new ProfileMongoRepository($client, new Serializer(), $appConfig);
-        $this->profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig, $notificationService);
     }
 
     public function indexAction()
@@ -121,25 +93,25 @@ class ReportController extends Controller
         if ($this->isTrainee()) {
             $reportView = $this->view('src/Web/Controller/Views/TraineeView.php');
             $reportView->viewHelper = $this->viewHelper;
-            $reportView->commentService = $this->service;
-            $reports = $this->service->findByTraineeId($this->sessionData('userId'));
+            $reportView->commentService = $this->appService;
+            $reports = $this->appService->findReportsByTraineeId($this->sessionData('userId'));
 
             switch ($this->queryParams('sort')) {
                 case 'name':
-                    $this->service->sortArrayDescending('traineeId', $reports);
+                    $this->appService->sortArrayDescending('traineeId', $reports);
                     break;
                 case 'calendarWeek':
-                    $reports = $this->service->sortReportsByCalendarWeekAndYear($reports);
+                    $reports = $this->appService->sortReportsByCalendarWeekAndYear($reports);
                     break;
                 case 'comment':
-                    $this->service->sortReportsByAmountOfComments($reports);
+                    $this->appService->sortReportsByAmountOfComments($reports);
                     break;
                 case 'category':
-                    $this->service->sortArrayDescending('category', $reports);
+                    $this->appService->sortArrayDescending('category', $reports);
                     break;
                 case 'status':
-                    $this->service->sortReportsByStatus(
-                        [
+                    $this->appService->sortReportsByStatus(
+                       [
                             Report::STATUS_DISAPPROVED,
                             Report::STATUS_REVISED,
                             Report::STATUS_NEW,
@@ -154,33 +126,33 @@ class ReportController extends Controller
             $reportView->reports = $reports;
         } elseif ($this->isTrainer()) {
             $reportView = $this->view('src/Web/Controller/Views/TrainerView.php');
-            $reportView->userService = $this->userService;
-            $reportView->profileService = $this->profileService;
+            $reportView->userService = $this->appService;
+            $reportView->profileService = $this->appService;
             $reportView->viewHelper = $this->viewHelper;
 
-            $reportView->commentService = $this->service;
+            $reportView->commentService = $this->appService;
 
             $reports = array_merge(
-                $this->service->findByStatus(Report::STATUS_APPROVAL_REQUESTED),
-                $this->service->findByStatus(Report::STATUS_APPROVED),
-                $this->service->findByStatus(Report::STATUS_DISAPPROVED),
-                $this->service->findByStatus(Report::STATUS_REVISED)
+                $this->appService->findReportsByStatus(Report::STATUS_APPROVAL_REQUESTED),
+                $this->appService->findReportsByStatus(Report::STATUS_APPROVED),
+                $this->appService->findReportsByStatus(Report::STATUS_DISAPPROVED),
+                $this->appService->findReportsByStatus(Report::STATUS_REVISED)
             );
             switch ($this->queryParams('sort')) {
                 case 'name':
-                    $this->service->sortArrayDescending('traineeId', $reports);
+                    $this->appService->sortArrayDescending('traineeId', $reports);
                     break;
                 case 'calendarWeek':
-                    $reports = $this->service->sortReportsByCalendarWeekAndYear($reports);
+                    $reports = $this->appService->sortReportsByCalendarWeekAndYear($reports);
                     break;
                 case 'comment':
-                    $this->service->sortReportsByAmountOfComments($reports);
+                    $this->appService->sortReportsByAmountOfComments($reports);
                     break;
                 case 'category':
-                    $this->service->sortArrayDescending('category', $reports);
+                    $this->appService->sortArrayDescending('category', $reports);
                     break;
                 case 'status':
-                    $this->service->sortReportsByStatus(
+                    $this->appService->sortReportsByStatus(
                         [
                             Report::STATUS_APPROVAL_REQUESTED,
                             Report::STATUS_REVISED,
@@ -200,28 +172,28 @@ class ReportController extends Controller
             $infobarView->trainerRole = $this->isTrainer();
         } elseif ($this->isAdmin()) {
             $reportView = $this->view('src/Web/Controller/Views/AdminView.php');
-            $reportView->userService = $this->userService;
-            $reportView->profileService = $this->profileService;
+            $reportView->userService = $this->appService;
+            $reportView->profileService = $this->appService;
             $reportView->viewHelper = $this->viewHelper;
-            $reportView->commentService = $this->service;
+            $reportView->commentService = $this->appService;
 
-            $reports = $this->service->findAll();
+            $reports = $this->appService->findAllReports();
 
             switch ($this->queryParams('sort')) {
                 case 'name':
-                    $this->service->sortArrayDescending('traineeId', $reports);
+                    $this->appService->sortArrayDescending('traineeId', $reports);
                     break;
                 case 'calendarWeek':
-                    $reports = $this->service->sortReportsByCalendarWeekAndYear($reports);
+                    $reports = $this->appService->sortReportsByCalendarWeekAndYear($reports);
                     break;
                 case 'comment':
-                    $this->service->sortReportsByAmountOfComments($reports);
+                    $this->appService->sortReportsByAmountOfComments($reports);
                     break;
                 case 'category':
-                    $this->service->sortArrayDescending('category', $reports);
+                    $this->appService->sortArrayDescending('category', $reports);
                     break;
                 case 'status':
-                    $this->service->sortReportsByStatus(
+                    $this->appService->sortReportsByStatus(
                         [
                             Report::STATUS_APPROVAL_REQUESTED,
                             Report::STATUS_REVISED,
@@ -279,10 +251,10 @@ class ReportController extends Controller
             $calendarView->year = $year;
 
             if ($this->isAdmin() || $this->isTrainer()) {
-                $users = $this->userService->findAllTrainees();
+                $users = $this->appService->findAllTrainees();
 
                 foreach ($users as $user) {
-                    $profile = $this->profileService->findProfileByUserId($user->id());
+                    $profile = $this->appService->findProfileByUserId($user->id());
                     $traineeInfo[] = ['name' => $profile->forename() . ' ' .  $profile->surname(), 'id' => $user->id()];
                 }
                 $calendarView->users = $traineeInfo;
@@ -383,7 +355,7 @@ class ReportController extends Controller
         $this->addRequestValidation('category', 'string');
 
         if ($this->isRequestValid()) {
-            $this->service->createReport(
+            $this->appService->createReport(
                 new TraineeId($this->sessionData('userId')),
                 $this->formData('content'),
                 $this->formData('calendarWeek'),
@@ -433,7 +405,7 @@ class ReportController extends Controller
         }
 
         $reportId = $this->formData('reportId');
-        $report = $this->service->findById($reportId, $this->sessionData('userId'), $this->isAdmin());
+        $report = $this->appService->findReportById($reportId, $this->sessionData('userId'), $this->isAdmin());
 
         $isSchool = '';
         $isCompany = '';
@@ -461,13 +433,13 @@ class ReportController extends Controller
         $reportView->isCompany = $isCompany;
 
         $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
-        $commentsView->commentService = $this->service;
-        $commentsView->comments = $this->service->findCommentsByReportId($reportId);
+        $commentsView->commentService = $this->appService;
+        $commentsView->comments = $this->appService->findCommentsByReportId($reportId);
         $commentsView->userId = $this->sessionData('userId');
         $commentsView->reportId = $reportId;
         $commentsView->traineeId = $this->sessionData('userId');
-        $commentsView->report = $this->service->findById($reportId, $this->sessionData('userId'));
-        $commentsView->userService = $this->userService;
+        $commentsView->report = $this->appService->findReportById($reportId, $this->sessionData('userId'));
+        $commentsView->userService = $this->appService;
         $commentsView->viewHelper = $this->viewHelper;
         $commentsView->showCreateCommentButton = ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED');
 
@@ -504,7 +476,7 @@ class ReportController extends Controller
         $this->addRequestValidation('category', 'string');
 
         if ($this->isRequestValid()) {
-            $this->service->editReport(
+            $this->appService->editReport(
                 $this->formData('reportId'),
                 $this->formData('content'),
                 $this->formData('calendarWeek'),
@@ -554,12 +526,12 @@ class ReportController extends Controller
 
     public function deleteReportAction()
     {
-        if ($this->isTrainee() && $this->service
-            ->findById($this->formData('reportId'), $this->sessionData('userId'))
+        if ($this->isTrainee() && $this->appService
+            ->findReportById($this->formData('reportId'), $this->sessionData('userId'))
             ->status() !== Report::STATUS_DISAPPROVED ||
             $this->isAdmin()
         ) {
-                $this->service->deleteReport($this->formData('reportId'));
+                $this->appService->deleteReport($this->formData('reportId'));
                 $this->redirect("/report/list");
         } else {
             $this->redirect("/user");
@@ -571,7 +543,7 @@ class ReportController extends Controller
         if (!$this->isTrainee() && !$this->isAdmin()) {
             $this->redirect("/user");
         } else {
-            $this->service->requestApproval($this->formData('reportId'));
+            $this->appService->requestApproval($this->formData('reportId'));
             $this->redirect("/report/list");
         }
     }
@@ -590,7 +562,7 @@ class ReportController extends Controller
             $traineeId = $this->queryParams('traineeId');
         }
 
-        $report = $this->service->findById($reportId, $traineeId);
+        $report = $this->appService->findReportById($reportId, $traineeId);
 
         $isSchool = '';
         $isCompany = '';
@@ -638,18 +610,18 @@ class ReportController extends Controller
         );
 
         if (!$this->isTrainee()) {
-            $user = $this->profileService->findProfileByUserId($traineeId);
+            $user = $this->appService->findProfileByUserId($traineeId);
             $reportView->traineeName = 'von ' . $user->forename() . ' ' . $user->surname();
         }
 
         $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
-        $commentsView->commentService = $this->service;
-        $commentsView->comments = $this->service->findCommentsByReportId($reportId);
+        $commentsView->commentService = $this->appService;
+        $commentsView->comments = $this->appService->findCommentsByReportId($reportId);
         $commentsView->userId = $this->sessionData('userId');
         $commentsView->reportId = $reportId;
         $commentsView->traineeId = $traineeId;
-        $commentsView->report = $this->service->findById($reportId, $traineeId);
-        $commentsView->userService = $this->userService;
+        $commentsView->report = $this->appService->findReportById($reportId, $traineeId);
+        $commentsView->userService = $this->appService;
         $commentsView->showCreateCommentButton = ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED');
         $commentsView->viewHelper = $this->viewHelper;
 
@@ -668,7 +640,7 @@ class ReportController extends Controller
         if (!$this->isTrainer() && !$this->isAdmin()) {
             $this->redirect("/user");
         } else {
-            $this->service->approveReport($this->formData('reportId'));
+            $this->appService->approveReport($this->formData('reportId'));
             $this->redirect("/report/list");
         }
     }
@@ -678,7 +650,7 @@ class ReportController extends Controller
         if (!$this->isTrainer() && !$this->isAdmin()) {
             $this->redirect("/user");
         } else {
-            $this->service->disapproveReport($this->formData('reportId'));
+            $this->appService->disapproveReport($this->formData('reportId'));
             $this->redirect("/report/list");
         }
     }
@@ -702,23 +674,23 @@ class ReportController extends Controller
 
         if ($this->isTrainee()) {
             $reportView = $this->view('src/Web/Controller/Views/TraineeView.php');
-            $reportView->reports = $this->service->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
+            $reportView->reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
             $reportView->viewHelper = $this->viewHelper;
-            $reportView->commentService = $this->service;
+            $reportView->commentService = $this->appService;
         } elseif ($this->isTrainer()) {
             $reportView = $this->view('src/Web/Controller/Views/TrainerView.php');
-            $reportView->userService = $this->userService;
-            $reportView->profileService = $this->profileService;
+            $reportView->userService = $this->appService;
+            $reportView->profileService = $this->appService;
             $reportView->viewHelper = $this->viewHelper;
-            $reportView->reports = $this->service->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
-            $reportView->commentService = $this->service;
+            $reportView->reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
+            $reportView->commentService = $this->appService;
         } elseif ($this->isAdmin()) {
             $reportView = $this->view('src/Web/Controller/Views/AdminView.php');
-            $reportView->userService = $this->userService;
-            $reportView->profileService = $this->profileService;
+            $reportView->userService = $this->appService;
+            $reportView->profileService = $this->appService;
             $reportView->viewHelper = $this->viewHelper;
-            $reportView->reports = $this->service->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
-            $reportView->commentService = $this->service;
+            $reportView->reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
+            $reportView->commentService = $this->appService;
         } else {
             $this->redirect("/user");
         }
@@ -748,7 +720,7 @@ class ReportController extends Controller
      */
     private function createCalendarArray(string $traineeId, string $year): array
     {
-        $reports = $this->service->findByTraineeId($traineeId);
+        $reports = $this->appService->findReportsByTraineeId($traineeId);
 
         for ($i=1; $i < 53; $i++) {
             $arr[$i] = '';

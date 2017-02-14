@@ -535,6 +535,15 @@ class ApplicationService
         $this->profileService->editTrainingYear($userId, $trainingYear);
     }
 
+    /**
+     * @param string $userId
+     * @param string $startOfTraining
+     */
+    public function editStartOfTraining(string $userId, string $startOfTraining)
+    {
+        $this->profileService->editStartOfTraining($userId, $startOfTraining);
+    }
+
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
     {
         $uri = sprintf('mongodb://%s:%s@%s:%d/%s'

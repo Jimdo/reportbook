@@ -157,7 +157,13 @@ class Router
 
         $applicationConfig = new ApplicationConfig(realpath(__DIR__ . '/../../config.yml'));
 
-        $loader = new \Twig_Loader_Filesystem($applicationConfig->templatePath);
+        $templatePath = $this->applicationConfig->templatePath;
+
+        if (getenv('APPLICATION_ENV') === 'test') {
+            $templatePath = __DIR__ . $this->applicationConfig->templatePath;
+        }
+
+        $loader = new \Twig_Loader_Filesystem($templatePath);
         $twig = new \Twig_Environment($loader);
 
         if ($this->defaultRequestObject === null) {

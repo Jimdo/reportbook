@@ -18,7 +18,7 @@
   mongo_port: 27017
   default_profile: app/default_profile.jpg
   log_path: tests/Notification/log.txt
-  template_path: /var/www/src/Web/Controller/Views
+  template_path: /Controller/Views
   cache_path: /var/www/src/Web/Cache
 'dev':
   mongo_username: reportbook-dev

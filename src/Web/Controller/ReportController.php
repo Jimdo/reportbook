@@ -30,6 +30,9 @@ class ReportController extends Controller
     /** @var ApplicationService */
     private $appService;
 
+    /** @var Twig_Environment */
+    private $twig;
+
     /**
      * @param Request $request
      * @param RequestValidator $requestValidator
@@ -50,6 +53,8 @@ class ReportController extends Controller
 
         $this->viewHelper = new ViewHelper();
         $this->appService = ApplicationService::create($appConfig, $notificationService);
+
+        $this->twig = $twig;
 
         $eventTypes = [
             'approvalRequested',

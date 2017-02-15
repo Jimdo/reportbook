@@ -302,9 +302,7 @@ class UserController extends Controller
                 'hideInfos' => false,
                 'users' => $this->appService->findUsersByStatus(Role::STATUS_NOT_APPROVED),
                 'profileService' => $this->appService->profileService,
-                'approvedUsers' => $this->appService->findUsersByStatus(Role::STATUS_APPROVED),
-                'date' => date('d.m.Y'),
-                'calendarWeek' => date('W')
+                'approvedUsers' => $this->appService->findUsersByStatus(Role::STATUS_APPROVED)
             ];
 
             echo $this->twig->render('Userlist.html', $variables);
@@ -673,9 +671,7 @@ class UserController extends Controller
             'isAdmin' => $this->isAdmin(),
             'hideInfos' => false,
             'isTrainee' => $this->isTrainee(),
-            'userId' => $this->sessionData('userId'),
-            'date' => date('d.m.Y'),
-            'calendarWeek' => date('W')
+            'userId' => $this->sessionData('userId')
         ];
 
         echo $this->twig->render('ChangePassword.html', $variables);
@@ -715,8 +711,6 @@ class UserController extends Controller
                 'hideInfos' => false,
                 'isTrainee' => $this->isTrainee(),
                 'userId' => $this->sessionData('userId'),
-                'date' => date('d.m.Y'),
-                'calendarWeek' => date('W'),
                 'errorMessages' => $exceptions
             ];
 

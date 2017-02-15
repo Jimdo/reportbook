@@ -202,8 +202,6 @@ class ReportController extends Controller
             'infoHeadline' => ' | Übersicht',
             'hideInfos' => false,
             'appService' => $this->appService,
-            'date' => date('d.m.Y'),
-            'calendarWeek' => date('W'),
             'reports' => $reports
         ];
 

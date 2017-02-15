@@ -33,7 +33,7 @@
     <div class="row">
       <div class="col-sm-offset-0 col-sm-3">
          <label>Benutzer: {{ username }} | {{ viewHelper.getTranslationForRole(role) }}</label></br>
-         <label>Datum: {{ date }} | {{ calendarWeek }}</label>
+         <label>Datum: {{ "now"|date("d.m.Y") }} | {{ "now"|date("W") }}</label>
       </div>
     </div>
 {% endif %}

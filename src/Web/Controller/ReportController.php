@@ -83,24 +83,7 @@ class ReportController extends Controller
 
     public function listAction()
     {
-        $headerView = $this->view('src/Web/Controller/Views/Header.php');
-        $headerView->tabTitle = 'Berichtsheft';
-
-        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
-        $infobarView->viewHelper = $this->viewHelper;
-        $infobarView->username = $this->sessionData('username');
-        $infobarView->role = $this->sessionData('role');
-        $infobarView->trainerRole = $this->isTrainer();
-        $infobarView->infoHeadline = ' | Übersicht';
-        $infobarView->hideInfos = false;
-
-        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-        $footerView->backButton = false;
-
         if ($this->isTrainee()) {
-            $reportView = $this->view('src/Web/Controller/Views/TraineeView.php');
-            $reportView->viewHelper = $this->viewHelper;
-            $reportView->commentService = $this->appService;
             $reports = $this->appService->findReportsByTraineeId($this->sessionData('userId'));
 
             switch ($this->queryParams('sort')) {
@@ -130,15 +113,10 @@ class ReportController extends Controller
                     );
                     break;
             }
-            $reportView->reports = $reports;
+
+            $template = $this->twig->load('Trainee.html');
+
         } elseif ($this->isTrainer()) {
-            $reportView = $this->view('src/Web/Controller/Views/TrainerView.php');
-            $reportView->userService = $this->appService;
-            $reportView->profileService = $this->appService;
-            $reportView->viewHelper = $this->viewHelper;
-
-            $reportView->commentService = $this->appService;
-
             $reports = array_merge(
                 $this->appService->findReportsByStatus(Report::STATUS_APPROVAL_REQUESTED),
                 $this->appService->findReportsByStatus(Report::STATUS_APPROVED),
@@ -172,17 +150,10 @@ class ReportController extends Controller
                     );
                     break;
             }
-            $reportView->reports = $reports;
 
-            $infobarView->username = $this->sessionData('username');
-            $infobarView->role = $this->sessionData('role');
-            $infobarView->trainerRole = $this->isTrainer();
+            $template = $this->twig->load('Trainer.html');
+
         } elseif ($this->isAdmin()) {
-            $reportView = $this->view('src/Web/Controller/Views/AdminView.php');
-            $reportView->userService = $this->appService;
-            $reportView->profileService = $this->appService;
-            $reportView->viewHelper = $this->viewHelper;
-            $reportView->commentService = $this->appService;
 
             $reports = $this->appService->findAllReports();
 
@@ -213,19 +184,30 @@ class ReportController extends Controller
                     );
                     break;
             }
-            $reportView->reports = $reports;
 
-            $infobarView->username = $this->sessionData('username');
-            $infobarView->role = $this->sessionData('role');
-            $infobarView->adminRole = $this->isAdmin();
+            $template = $this->twig->load('Admin.html');
+
         } else {
             $this->redirect("/user");
         }
 
-        $this->response->addBody($headerView->render());
-        $this->response->addBody($infobarView->render());
-        $this->response->addBody($reportView->render());
-        $this->response->addBody($footerView->render());
+        $variables = [
+            'tabTitle' => 'Berichtsheft',
+            'backButton' => false,
+            'viewHelper' => $this->viewHelper,
+            'username' => $this->sessionData('username'),
+            'role' => $this->sessionData('role'),
+            'isTrainer' => $this->isTrainer(),
+            'isAdmin' => $this->isAdmin(),
+            'infoHeadline' => ' | Übersicht',
+            'hideInfos' => false,
+            'appService' => $this->appService,
+            'date' => date('d.m.Y'),
+            'calendarWeek' => date('W'),
+            'reports' => $reports
+        ];
+
+        echo $template->render($variables);
     }
 
     public function calendarAction()

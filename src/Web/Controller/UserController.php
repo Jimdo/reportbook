@@ -238,17 +238,13 @@ class UserController extends Controller
 
     public function registerAction()
     {
-        $headerView = $this->view('src/Web/Controller/Views/Header.php');
-        $headerView->tabTitle = 'Berichtsheft';
+        $variables = [
+            'tabTitle' => 'Berichtsheft',
+            'backButton' => 'false',
+            'role' => $this->queryParams('role')
+        ];
 
-        $registerView = $this->view('src/Web/Controller/Views/RegisterView.php');
-        $registerView->role = $this->queryParams('role');
-
-        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-
-        $this->response->addBody($headerView->render());
-        $this->response->addBody($registerView->render());
-        $this->response->addBody($footerView->render());
+        echo $this->twig->render('Registration.html', $variables);
     }
 
     public function createUserAction()
@@ -298,18 +294,14 @@ class UserController extends Controller
         }
 
         if ($exceptions !== []) {
-            $headerView = $this->view('src/Web/Controller/Views/Header.php');
-            $headerView->tabTitle = 'Berichtsheft';
+            $variables = [
+                'tabTitle' => 'Berichtsheft',
+                'backButton' => 'false',
+                'role' => $role,
+                'errorMessages' => $exceptions
+            ];
 
-            $registerView = $this->view('src/Web/Controller/Views/RegisterView.php');
-            $registerView->role = $role;
-            $registerView->errorMessages = $exceptions;
-
-            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-
-            $this->response->addBody($headerView->render());
-            $this->response->addBody($registerView->render());
-            $this->response->addBody($footerView->render());
+            echo $this->twig->render('Registration.html', $variables);
         } else {
             header("Location: /user");
         }

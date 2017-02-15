@@ -735,41 +735,25 @@ class UserController extends Controller
 
     public function viewProfileAction()
     {
-        $headerView = $this->view('src/Web/Controller/Views/Header.php');
-        $headerView->tabTitle = 'Berichtsheft';
-
-        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
-        $infobarView->viewHelper = $this->viewHelper;
-        $infobarView->username = $this->sessionData('username');
-        $infobarView->role = $this->sessionData('role');
-        $infobarView->trainerRole = $this->isTrainer();
-        $infobarView->adminRole = $this->isAdmin();
-        $infobarView->hideInfos = true;
-
-        $viewProfileView = $this->view('src/Web/Controller/Views/UserProfileView.php');
         $profile = $this->appService->findProfileByUserId($this->queryParams('userId'));
-        $viewProfileView->forename = $profile->forename();
-        $viewProfileView->surname = $profile->surname();
-        $viewProfileView->dateOfBirth = $profile->dateOfBirth();
-        $viewProfileView->company = $profile->company();
-        $viewProfileView->jobTitle = $profile->jobTitle();
-        $viewProfileView->school = $profile->school();
-        $viewProfileView->grade = $profile->grade();
-        $viewProfileView->trainingYear = $profile->trainingYear();
-        $viewProfileView->startOfTraining = $profile->startOfTraining();
-        $viewProfileView->userId = $profile->userId();
         $user = $this->appService->findUserById($this->queryParams('userId'));
-        $viewProfileView->username = $user->username();
-        $viewProfileView->email = $user->email();
-        $viewProfileView->isTrainee = ($user->roleName() === 'TRAINEE');
 
-        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-        $footerView->backButton = true;
+        $variables = [
+            'tabTitle' => 'Berichtsheft',
+            'backButton' => 'true',
+            'viewHelper' => $this->viewHelper,
+            'username' => $this->sessionData('username'),
+            'role' => $this->sessionData('role'),
+            'isTrainer' => $this->isTrainer(),
+            'isAdmin' => $this->isAdmin(),
+            'hideInfos' => true,
+            'isTrainee' => ($user->roleName() === Role::TRAINEE),
+            'profile' => $profile,
+            'user' => $user,
+            'errorMessages' => $errorMessages
+        ];
 
-        $this->response->addBody($headerView->render());
-        $this->response->addBody($infobarView->render());
-        $this->response->addBody($viewProfileView->render());
-        $this->response->addBody($footerView->render());
+        echo $this->twig->render('UserProfile.html', $variables);
     }
 
     public function logoutAction()

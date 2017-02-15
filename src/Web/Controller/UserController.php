@@ -516,42 +516,25 @@ class UserController extends Controller
         }
 
         if ($exceptions !== []) {
-            $headerView = $this->view('src/Web/Controller/Views/Header.php');
-            $headerView->tabTitle = 'Berichtsheft';
-
-            $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
-            $infobarView->viewHelper = $this->viewHelper;
-            $infobarView->username = $this->sessionData('username');
-            $infobarView->role = $this->sessionData('role');
-            $infobarView->trainerRole = $this->isTrainer();
-            $infobarView->adminRole = $this->isAdmin();
-            $infobarView->hideInfos = true;
-
             $profile = $this->appService->findProfileByUserId($this->formData('userId'));
-            $profileView = $this->view('src/Web/Controller/Views/ProfileView.php');
-            $profileView->isTrainee = $this->isTrainee();
-            $profileView->isAdmin = $this->isAdmin();
-            $profileView->errorMessages = $exceptions;
-            $profileView->forename = $profile->forename();
-            $profileView->surname = $profile->surname();
-            $profileView->dateOfBirth = $profile->dateOfBirth();
-            $profileView->company = $profile->company();
-            $profileView->jobTitle = $profile->jobTitle();
-            $profileView->school = $profile->school();
-            $profileView->grade = $profile->grade();
-            $profileView->trainingYear = $profile->trainingYear();
-            $profileView->startOfTraining = $profile->startOfTraining();
-            $profileView->userId = $profile->userId();
             $user = $this->appService->findUserById($this->formData('userId'));
-            $profileView->username = $user->username();
-            $profileView->email = $user->email();
 
-            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
+            $variables = [
+                'tabTitle' => 'Berichtsheft',
+                'backButton' => 'true',
+                'viewHelper' => $this->viewHelper,
+                'username' => $this->sessionData('username'),
+                'role' => $this->sessionData('role'),
+                'isTrainer' => $this->isTrainer(),
+                'isAdmin' => $this->isAdmin(),
+                'hideInfos' => true,
+                'isTrainee' => $this->isTrainee(),
+                'profile' => $profile,
+                'user' => $user,
+                'errorMessages' => $exceptions
+            ];
 
-            $this->response->addBody($headerView->render());
-            $this->response->addBody($infobarView->render());
-            $this->response->addBody($profileView->render());
-            $this->response->addBody($footerView->render());
+            echo $this->twig->render('Profile.html', $variables);
         } else {
             if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
                 $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);

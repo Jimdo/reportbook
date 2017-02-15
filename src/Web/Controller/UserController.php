@@ -41,19 +41,24 @@ class UserController extends Controller
     /** @var ApplicationService */
     private $appService;
 
+    /** @var Twig_Environment */
+    private $twig;
+
     /**
      * @param Request $request
      * @param RequestValidator $requestValidator
      * @param ApplicationConfig $appConfig
      * @param Response $response
+     * @param Twig_Environment $twig
      */
     public function __construct(
         Request $request,
         RequestValidator $requestValidator,
         ApplicationConfig $appConfig,
-        Response $response
+        Response $response,
+        \Twig_Environment $twig
     ) {
-        parent::__construct($request, $requestValidator, $appConfig, $response);
+        parent::__construct($request, $requestValidator, $appConfig, $response, $twig);
 
         $this->viewHelper = new ViewHelper();
         $notificationService = new NotificationService();
@@ -86,6 +91,7 @@ class UserController extends Controller
             'roleDisapproved',
             'passwordEdited'
         ];
+        $this->twig = $twig;
 
         $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
         $notificationService->register(new MailgunSubscriber($emailEventTypes, $appConfig));
@@ -164,17 +170,12 @@ class UserController extends Controller
 
     public function indexAction()
     {
-        $headerView = $this->view('src/Web/Controller/Views/Header.php');
-        $headerView->tabTitle = 'Berichtsheft';
+        $variables = [
+            'tabTitle' => 'Berichtsheft',
+            'backButton' => 'false'
+        ];
 
-        $loginView = $this->view('src/Web/Controller/Views/LoginView.php');
-        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-
-        $footerView->backButton = false;
-
-        $this->response->addBody($headerView->render());
-        $this->response->addBody($loginView->render());
-        $this->response->addBody($footerView->render());
+        echo $this->twig->render('Login.html', $variables);
     }
 
     public function loginAction()
@@ -213,7 +214,7 @@ class UserController extends Controller
                 $_SESSION['authorized'] = true;
                 $_SESSION['userId'] = $user->id();
                 $_SESSION['username'] = $user->username();
-              
+
                 $profile = $this->appService->findProfileByUserId($user->id());
 
                 if ($profile === null) {

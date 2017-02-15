@@ -11,14 +11,19 @@ class StatusController extends Controller
 {
     /**
      * @param Request $request
+     * @param RequestValidator $requestValidator
+     * @param ApplicationConfig $appConfig
+     * @param Response $response
+     * @param Twig_Environment $twig
      */
     public function __construct(
         Request $request,
         RequestValidator $requestValidator,
         ApplicationConfig $appConfig,
-        Response $response
+        Response $response,
+        \Twig_Environment $twig
     ) {
-        parent::__construct($request, $requestValidator, $appConfig, $response);
+        parent::__construct($request, $requestValidator, $appConfig, $response, $twig);
         self::excludeFromSession('health');
     }
 

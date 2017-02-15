@@ -39,6 +39,7 @@
         "mailgun/mailgun-php": "^2.1",
         "php-http/message": "^1.4",
         "php-http/guzzle6-adapter": "^1.1",
-        "josegonzalez/dotenv": "^2.0"
+        "josegonzalez/dotenv": "^2.0",
+        "twig/twig": "~2.0"
     }
 }

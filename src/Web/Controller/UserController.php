@@ -133,7 +133,7 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => 'true',
+            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -152,7 +152,7 @@ class UserController extends Controller
     {
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => 'false'
+            'backButton' => false
         ];
 
         echo $this->twig->render('Login.html', $variables);
@@ -220,7 +220,7 @@ class UserController extends Controller
     {
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => 'false',
+            'backButton' => false,
             'role' => $this->queryParams('role')
         ];
 
@@ -276,7 +276,7 @@ class UserController extends Controller
         if ($exceptions !== []) {
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => 'false',
+                'backButton' => false,
                 'role' => $role,
                 'errorMessages' => $exceptions
             ];
@@ -292,7 +292,7 @@ class UserController extends Controller
         if ($this->isTrainer() || $this->isAdmin()) {
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => 'true',
+                'backButton' => true,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'role' => $this->sessionData('role'),
@@ -352,7 +352,7 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => 'true',
+            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -419,7 +419,7 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => 'true',
+            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -458,7 +458,7 @@ class UserController extends Controller
 
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => 'true',
+                'backButton' => true,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'role' => $this->sessionData('role'),
@@ -501,7 +501,7 @@ class UserController extends Controller
 
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => 'true',
+                'backButton' => true,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'role' => $this->sessionData('role'),
@@ -603,7 +603,7 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => 'true',
+            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -641,7 +641,7 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => 'true',
+            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -663,26 +663,22 @@ class UserController extends Controller
             $this->redirect("/user");
         }
 
-        $headerView = $this->view('src/Web/Controller/Views/Header.php');
-        $headerView->tabTitle = 'Berichtsheft';
+        $variables = [
+            'tabTitle' => 'Berichtsheft',
+            'backButton' => false,
+            'viewHelper' => $this->viewHelper,
+            'username' => $this->sessionData('username'),
+            'role' => $this->sessionData('role'),
+            'isTrainer' => $this->isTrainer(),
+            'isAdmin' => $this->isAdmin(),
+            'hideInfos' => false,
+            'isTrainee' => $this->isTrainee(),
+            'userId' => $this->sessionData('userId'),
+            'date' => date('d.m.Y'),
+            'calendarWeek' => date('W')
+        ];
 
-        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
-        $infobarView->viewHelper = $this->viewHelper;
-        $infobarView->username = $this->sessionData('username');
-        $infobarView->role = $this->sessionData('role');
-        $infobarView->trainerRole = $this->isTrainer();
-        $infobarView->adminRole = $this->isAdmin();
-        $infobarView->hideInfos = true;
-
-        $changePasswordView = $this->view('src/Web/Controller/Views/ChangePasswordView.php');
-        $changePasswordView->userId = $this->formData('userId');
-
-        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-
-        $this->response->addBody($headerView->render());
-        $this->response->addBody($infobarVew->render());
-        $this->response->addBody($changePasswordView->render());
-        $this->response->addBody($footerView->render());
+        echo $this->twig->render('ChangePassword.html', $variables);
     }
 
     public function editPasswordAction()
@@ -708,26 +704,23 @@ class UserController extends Controller
         }
 
         if ($exceptions !== []) {
-            $headerView = $this->view('src/Web/Controller/Views/Header.php');
-            $headerView->tabTitle = 'Berichtsheft';
+            $variables = [
+                'tabTitle' => 'Berichtsheft',
+                'backButton' => false,
+                'viewHelper' => $this->viewHelper,
+                'username' => $this->sessionData('username'),
+                'role' => $this->sessionData('role'),
+                'isTrainer' => $this->isTrainer(),
+                'isAdmin' => $this->isAdmin(),
+                'hideInfos' => false,
+                'isTrainee' => $this->isTrainee(),
+                'userId' => $this->sessionData('userId'),
+                'date' => date('d.m.Y'),
+                'calendarWeek' => date('W'),
+                'errorMessages' => $exceptions
+            ];
 
-            $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
-            $infobarView->username = $this->sessionData('username');
-            $infobarView->role = $this->sessionData('role');
-            $infobarView->trainerRole = $this->isTrainer();
-            $infobarView->adminRole = $this->isAdmin();
-            $infobarView->hideInfos = true;
-
-            $changePasswordView = $this->view('src/Web/Controller/Views/ChangePasswordView.php');
-            $changePasswordView->userId = $this->formData('userId');
-            $changePasswordView->errorMessages = $exceptions;
-
-            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-
-            $this->response->addBody($headerView->render());
-            $this->response->addBody($infobarView->render());
-            $this->response->addBody($changePasswordView->render());
-            $this->response->addBody($footerView->render());
+            echo $this->twig->render('ChangePassword.html', $variables);
         } else {
             $this->redirect("/report/list");
         }
@@ -740,7 +733,7 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => 'true',
+            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),

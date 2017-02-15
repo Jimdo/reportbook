@@ -310,32 +310,24 @@ class UserController extends Controller
     public function userlistAction()
     {
         if ($this->isTrainer() || $this->isAdmin()) {
-            $headerView = $this->view('src/Web/Controller/Views/Header.php');
-            $headerView->tabTitle = 'Berichtsheft';
+            $variables = [
+                'tabTitle' => 'Berichtsheft',
+                'backButton' => 'true',
+                'viewHelper' => $this->viewHelper,
+                'username' => $this->sessionData('username'),
+                'role' => $this->sessionData('role'),
+                'isTrainer' => $this->isTrainer(),
+                'isAdmin' => $this->isAdmin(),
+                'infoHeadline' => ' | Benutzeranfragen',
+                'hideInfos' => false,
+                'users' => $this->appService->findUsersByStatus(Role::STATUS_NOT_APPROVED),
+                'profileService' => $this->appService->profileService,
+                'approvedUsers' => $this->appService->findUsersByStatus(Role::STATUS_APPROVED),
+                'date' => date('d.m.Y'),
+                'calendarWeek' => date('W')
+            ];
 
-            $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
-            $infobarView->viewHelper = $this->viewHelper;
-            $infobarView->username = $this->sessionData('username');
-            $infobarView->role = $this->sessionData('role');
-            $infobarView->trainerRole = $this->isTrainer();
-            $infobarView->adminRole = $this->isAdmin();
-            $infobarView->infoHeadline = ' | Benutzeranfragen';
-            $infobarView->hideInfos = false;
-
-            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-            $footerView->backButton = true;
-
-            $userView = $this->view('src/Web/Controller/Views/UserlistView.php');
-            $userView->users = $this->appService->findUsersByStatus(Role::STATUS_NOT_APPROVED);
-            $userView->viewHelper = $this->viewHelper;
-            $userView->profileService = $this->appService->profileService;
-            $userView->approvedUsers = $this->appService->findUsersByStatus(Role::STATUS_APPROVED);
-            $userView->isAdmin = $this->isAdmin();
-
-            $this->response->addBody($headerView->render());
-            $this->response->addBody($infobarView->render());
-            $this->response->addBody($userView->render());
-            $this->response->addBody($footerView->render());
+            echo $this->twig->render('Userlist.html', $variables);
         } else {
             $this->redirect("/user");
         }

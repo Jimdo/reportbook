@@ -133,7 +133,7 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => 'true',
+            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -152,7 +152,7 @@ class UserController extends Controller
     {
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => 'false'
+            'backButton' => false
         ];
 
         echo $this->twig->render('Login.html', $variables);
@@ -220,7 +220,7 @@ class UserController extends Controller
     {
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => 'false',
+            'backButton' => false,
             'role' => $this->queryParams('role')
         ];
 
@@ -276,7 +276,7 @@ class UserController extends Controller
         if ($exceptions !== []) {
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => 'false',
+                'backButton' => false,
                 'role' => $role,
                 'errorMessages' => $exceptions
             ];
@@ -292,7 +292,7 @@ class UserController extends Controller
         if ($this->isTrainer() || $this->isAdmin()) {
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => 'true',
+                'backButton' => true,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'role' => $this->sessionData('role'),
@@ -352,7 +352,7 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => 'true',
+            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -419,7 +419,7 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => 'true',
+            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -458,7 +458,7 @@ class UserController extends Controller
 
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => 'true',
+                'backButton' => true,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'role' => $this->sessionData('role'),
@@ -501,7 +501,7 @@ class UserController extends Controller
 
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => 'true',
+                'backButton' => true,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'role' => $this->sessionData('role'),
@@ -603,7 +603,7 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => 'true',
+            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -641,7 +641,7 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => 'true',
+            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -740,7 +740,7 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => 'true',
+            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),

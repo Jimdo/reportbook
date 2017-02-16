@@ -144,3 +144,9 @@ update       Update composer packages
   - Implement Calendar Overview for Reports
   - Implement Calendar Year to Report
   - Implement sortable Report Overview
+
+### v0.6.1
+  - Implement ApplicationService
+
+### v0.6.2
+  - Implement Twig

@@ -11,6 +11,7 @@ endpoint:
   domain: reportbook.jimdo-platform.net
   port: 80
   component: reportbook
+  ssl-domain: berichtsheft.io
   load-balancer:
     healthcheck:
       path: /status/health

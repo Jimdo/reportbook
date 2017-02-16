@@ -9,11 +9,9 @@
     </div>
 
     <div class="row">
-      {% if errorMessages != [] %}
         {% for error in errorMessages %}
                 <div class="alert alert-danger col-md-10 col-md-offset-2" role="alert"><strong>{{ error }}</strong></div>
         {% endfor %}
-      {% endif %}
     </div>
 
     <div class="row">

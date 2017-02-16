@@ -430,42 +430,54 @@ class ReportController extends Controller
             );
             $this->redirect("/report/list");
         } else {
-            $reportView = $this->view('src/Web/Controller/Views/Report.php');
+
+            $isSchool = '';
+            $isCompany = '';
+
+            $report = $this->appService->findReportById($this->formData('reportId'), $this->sessionData('userId'), $this->isAdmin());
+
+            if ($report->category() === Category::SCHOOL) {
+                $isSchool = 'checked';
+            } elseif ($report->category() === Category::COMPANY) {
+                $isCompany = 'checked';
+            }
 
             foreach ($this->requestValidator->errorCodes() as $errorCode) {
-                $errorMessage[] = $this->getErrorMessageForErrorCode($errorCode);
+                $errorMessages[] = $this->getErrorMessageForErrorCode($errorCode);
             }
-            $reportView->errorMessages = $errorMessage;
-            $reportView->action = '/report/edit';
-            $reportView->legend = 'Bericht bearbeiten';
-            $reportView->calendarWeek = $this->formData('calendarWeek');
-            $reportView->calendarYear = $this->formData('calendarYear');
-            $reportView->content = $this->formData('content');
-            $reportView->buttonName = 'Speichern';
-            $reportView->reportId = $this->formData('reportId');
-            $reportView->backButton = true;
-            $reportView->isTrainee = $this->isTrainee();
-            $reportView->createButton = true;
-            $reportView->statusButtons = false;
 
-            $headerView = $this->view('src/Web/Controller/Views/Header.php');
-            $headerView->tabTitle = 'Berichtsheft';
+            $variables = [
+                'tabTitle' => 'Berichtsheft',
+                'backButton' => true,
+                'viewHelper' => $this->viewHelper,
+                'username' => $this->sessionData('username'),
+                'role' => $this->sessionData('role'),
+                'isTrainer' => $this->isTrainer(),
+                'isAdmin' => $this->isAdmin(),
+                'infoHeadline' => ' | Übersicht',
+                'hideInfos' => false,
+                'action' => '/report/edit',
+                'legend' => 'Bericht bearbeiten',
+                'calendarWeek' => $this->formData('calendarWeek'),
+                'calendarYear' => $this->formData('calendarYear'),
+                'content' => $this->formData('content'),
+                'buttonName' => 'Speichern',
+                'reportId' => $this->formData('reportId'),
+                'isTrainee' => $this->isTrainee(),
+                'createButton' => true,
+                'statusButtons' => false,
+                'isCompany' => $isCompany,
+                'isSchool' => $isSchool,
+                'appService' => $this->appService,
+                'comments' => $this->appService->findCommentsByReportId($this->formData('reportId')),
+                'userId' => $this->sessionData('userId'),
+                'traineeId' => $this->sessionData('userId'),
+                'report' => $this->appService->findReportById($this->formData('reportId'), $this->sessionData('userId')),
+                'showCreateCommentButton' => ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED'),
+                'errorMessages' => $errorMessages
+            ];
 
-            $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
-            $infobarView->viewHelper = $this->viewHelper;
-            $infobarView->username = $this->sessionData('username');
-            $infobarView->role = $this->sessionData('role');
-            $infobarView->trainerRole = $this->isTrainer();
-            $infobarView->adminRole = $this->isAdmin();
-            $infobarView->hideInfos = false;
-
-            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-            $footerView->backButton = true;
-
-            $this->response->addBody($headerView->render());
-            $this->response->addBody($infobarView->render());
-            $this->response->addBody($reportView->render());
-            $this->response->addBody($footerView->render());
+            echo $this->twig->render('Report.html', $variables);
         }
     }
 

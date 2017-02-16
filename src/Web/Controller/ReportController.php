@@ -601,47 +601,39 @@ class ReportController extends Controller
 
     public function searchAction()
     {
-        $headerView = $this->view('src/Web/Controller/Views/Header.php');
-        $headerView->tabTitle = 'Berichtsheft';
-
-        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
-        $infobarView->viewHelper = $this->viewHelper;
-        $infobarView->username = $this->sessionData('username');
-        $infobarView->role = $this->sessionData('role');
-        $infobarView->trainerRole = $this->isTrainer();
-        $infobarView->adminRole = $this->isAdmin();
-        $infobarView->infoHeadline = ' | Übersicht';
-        $infobarView->hideInfos = false;
-
-        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-        $footerView->backButton = true;
-
         if ($this->isTrainee()) {
-            $reportView = $this->view('src/Web/Controller/Views/TraineeView.php');
-            $reportView->reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
-            $reportView->viewHelper = $this->viewHelper;
-            $reportView->commentService = $this->appService;
+
+            $reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
+            $template = $this->twig->load('Trainee.html');
+
         } elseif ($this->isTrainer()) {
-            $reportView = $this->view('src/Web/Controller/Views/TrainerView.php');
-            $reportView->userService = $this->appService;
-            $reportView->profileService = $this->appService;
-            $reportView->viewHelper = $this->viewHelper;
-            $reportView->reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
-            $reportView->commentService = $this->appService;
+
+            $reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
+            $template = $this->twig->load('Trainer.html');
+
         } elseif ($this->isAdmin()) {
-            $reportView = $this->view('src/Web/Controller/Views/AdminView.php');
-            $reportView->userService = $this->appService;
-            $reportView->profileService = $this->appService;
-            $reportView->viewHelper = $this->viewHelper;
-            $reportView->reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
-            $reportView->commentService = $this->appService;
+
+            $reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
+            $template = $this->twig->load('Admin.html');
+
         } else {
             $this->redirect("/user");
         }
-        $this->response->addBody($headerView->render());
-        $this->response->addBody($infobarView->render());
-        $this->response->addBody($reportView->render());
-        $this->response->addBody($footerView->render());
+        $variables = [
+            'tabTitle' => 'Berichtsheft',
+            'backButton' => true,
+            'viewHelper' => $this->viewHelper,
+            'username' => $this->sessionData('username'),
+            'role' => $this->sessionData('role'),
+            'isTrainer' => $this->isTrainer(),
+            'isAdmin' => $this->isAdmin(),
+            'infoHeadline' => ' | Übersicht',
+            'hideInfos' => false,
+            'appService' => $this->appService,
+            'reports' => $reports
+        ];
+
+        echo $template->render($variables);
     }
 
     /**

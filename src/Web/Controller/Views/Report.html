@@ -50,9 +50,19 @@
     <div class="row">
         <label class="col-md-2 control-label" for="calendarWeek">Bericht: </label>
         <div class="col-md-10 col-md-offset-0">
-            <textarea style="resize: none" {{ readonly }} id="content" name="content" class="form-control" rows="15">{{ content }}</textarea></br>
+            <textarea style="resize: none; height: 300px; overflow:scroll;"{{ readonly }} id="content" name="content" class="form-control editable medium-editor-textarea">{{ content }}</textarea></br>
         </div>
+        <script>
+        var editor = new MediumEditor('.editable', {
+          placeholder: {
+            /* This example includes the default options for placeholder,
+            if nothing is passed this is what it used */
+            text: '',
+            hideOnClick: true
+          }});
+          </script>
     </div>
+
 
     <div class="col-md-2 col-md-offset-10">
       {% if isTrainee %}

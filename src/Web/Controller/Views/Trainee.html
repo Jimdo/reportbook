@@ -34,7 +34,7 @@
         {% set reportId = report.id() %}
         {% set traineeId = report.traineeId() %}
             <tr>
-                <td class="text-center">{{ report.content()|slice(0, 20) }}</td>
+                <td class="text-center">{{ report.content()|slice(0, 20)|striptags }}</td>
                 <td class="text-center">{{ viewHelper.getTranslationForCategory(report.category()) }}</td>
                 <td class="text-center">{{ report.date() }}</td>
                 <td class="text-center">{{ report.calendarWeek() }}</td>

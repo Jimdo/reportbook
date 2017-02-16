@@ -530,66 +530,53 @@ class ReportController extends Controller
             $isCompany = 'checked';
         }
 
-        $headerView = $this->view('src/Web/Controller/Views/Header.php');
-        $headerView->tabTitle = 'Berichtsheft';
-
-        $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
-        $infobarView->viewHelper = $this->viewHelper;
-        $infobarView->username = $this->sessionData('username');
-        $infobarView->role = $this->sessionData('role');
-        $infobarView->trainerRole = $this->isTrainer();
-        $infobarView->adminRole = $this->isAdmin();
-        $infobarView->hideInfos = false;
-
-        $reportView = $this->view('src/Web/Controller/Views/Report.php');
-        $reportView->title = 'Bericht';
-        $reportView->legend = 'Vorschau';
-        $reportView->calendarWeek = $report->calendarWeek();
-        $reportView->calendarYear = $report->calendarYear();
-        $reportView->content = $report->content();
-        $reportView->buttonName = 'Speichern';
-        $reportView->backButton = true;
-        $reportView->readonly = 'readonly';
-        $reportView->radioReadonly = 'disabled';
-        $reportView->trainerRole = $this->isTrainer();
-        $reportView->creatButton = false;
-        $reportView->reportId = $reportId;
-        $reportView->isTrainee = $this->isTrainee();
-        $reportView->isSchool = $isSchool;
-        $reportView->isCompany = $isCompany;
-        $reportView->statusButtons = (
-            $this->isTrainer()
-            && $report->status() !== Report::STATUS_DISAPPROVED
-            && $report->status() !== Report::STATUS_APPROVED
-            && $report->status() !== Report::STATUS_REVISED
-            || $this->isAdmin()
-            && $report->status() === Report::STATUS_APPROVAL_REQUESTED
-        );
-
         if (!$this->isTrainee()) {
             $user = $this->appService->findProfileByUserId($traineeId);
-            $reportView->traineeName = 'von ' . $user->forename() . ' ' . $user->surname();
+            $traineeName = 'von ' . $user->forename() . ' ' . $user->surname();
         }
 
-        $commentsView = $this->view('src/Web/Controller/Views/CommentsView.php');
-        $commentsView->commentService = $this->appService;
-        $commentsView->comments = $this->appService->findCommentsByReportId($reportId);
-        $commentsView->userId = $this->sessionData('userId');
-        $commentsView->reportId = $reportId;
-        $commentsView->traineeId = $traineeId;
-        $commentsView->report = $this->appService->findReportById($reportId, $traineeId);
-        $commentsView->userService = $this->appService;
-        $commentsView->showCreateCommentButton = ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED');
-        $commentsView->viewHelper = $this->viewHelper;
+        $variables = [
+            'tabTitle' => 'Berichtsheft',
+            'backButton' => true,
+            'viewHelper' => $this->viewHelper,
+            'username' => $this->sessionData('username'),
+            'role' => $this->sessionData('role'),
+            'isTrainer' => $this->isTrainer(),
+            'isAdmin' => $this->isAdmin(),
+            'infoHeadline' => ' | Übersicht',
+            'hideInfos' => false,
+            'action' => '/report/edit',
+            'legend' => 'Vorschau',
+            'traineeName' => $traineeName,
+            'calendarWeek' => $report->calendarWeek(),
+            'calendarYear' => $report->calendarYear(),
+            'content' => $report->content(),
+            'buttonName' => 'Speichern',
+            'reportId' => $reportId,
+            'isTrainee' => $this->isTrainee(),
+            'createButton' => false,
+            'isCompany' => $isCompany,
+            'isSchool' => $isSchool,
+            'appService' => $this->appService,
+            'comments' => $this->appService->findCommentsByReportId($reportId),
+            'userId' => $this->sessionData('userId'),
+            'traineeId' => $traineeId,
+            'report' => $report,
+            'showCreateCommentButton' => ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED'),
+            'errorMessages' => $errorMessages,
+            'readonly' => 'readonly',
+            'radioReadonly' => 'disabled',
+            'statusButtons' => (
+                $this->isTrainer()
+                && $report->status() !== Report::STATUS_DISAPPROVED
+                && $report->status() !== Report::STATUS_APPROVED
+                && $report->status() !== Report::STATUS_REVISED
+                || $this->isAdmin()
+                && $report->status() === Report::STATUS_APPROVAL_REQUESTED
+            )
+        ];
 
-        $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-        $footerView->backButton = true;
-
-        $this->response->addBody($headerView->render());
-        $this->response->addBody($infobarView->render());
-        $this->response->addBody($reportView->render());
-        $this->response->addBody($commentsView->render());
-        $this->response->addBody($footerView->render());
+        echo $this->twig->render('Report.html', $variables);
     }
 
     public function approveReportAction()

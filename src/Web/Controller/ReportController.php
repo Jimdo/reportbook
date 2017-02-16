@@ -277,40 +277,30 @@ class ReportController extends Controller
         if (!$this->isTrainee()) {
             $this->redirect("/user");
         }
-            $traineeId = $this->sessionData('userId');
+        $variables = [
+            'tabTitle' => 'Berichtsheft',
+            'backButton' => true,
+            'viewHelper' => $this->viewHelper,
+            'username' => $this->sessionData('username'),
+            'role' => $this->sessionData('role'),
+            'isTrainer' => $this->isTrainer(),
+            'isAdmin' => $this->isAdmin(),
+            'infoHeadline' => ' | Übersicht',
+            'hideInfos' => false,
+            'action' => '/report/create',
+            'legend' => 'Neuen Bericht erstellen',
+            'calendarWeek' => date("W"),
+            'calendarYear' => date("Y"),
+            'content' => '',
+            'buttonName' => 'Bericht erstellen',
+            'reportId' => null,
+            'isTrainee' => $this->isTrainee(),
+            'createButton' => true,
+            'statusButtons' => false,
+            'isCompany' => 'checked'
+        ];
 
-            $reportView = $this->view('src/Web/Controller/Views/Report.php');
-            $reportView->action = '/report/create';
-            $reportView->legend = 'Neuen Bericht erstellen';
-            $reportView->calendarWeek = date('W');
-            $reportView->calendarYear = date('Y');
-            $reportView->content = '';
-            $reportView->buttonName = 'Bericht erstellen';
-            $reportView->reportId = null;
-            $reportView->backButton = true;
-            $reportView->isTrainee = $this->isTrainee();
-            $reportView->createButton = true;
-            $reportView->statusButtons = false;
-            $reportView->isCompany = 'checked';
-
-            $headerView = $this->view('src/Web/Controller/Views/Header.php');
-            $headerView->tabTitle = 'Berichtsheft';
-
-            $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
-            $infobarView->viewHelper = $this->viewHelper;
-            $infobarView->username = $this->sessionData('username');
-            $infobarView->role = $this->sessionData('role');
-            $infobarView->trainerRole = $this->isTrainer();
-            $infobarView->adminRole = $this->isAdmin();
-            $infobarView->hideInfos = false;
-
-            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-            $footerView->backButton = true;
-
-            $this->response->addBody($headerView->render());
-            $this->response->addBody($infobarView->render());
-            $this->response->addBody($reportView->render());
-            $this->response->addBody($footerView->render());
+        echo $this->twig->render('Report.html', $variables);
     }
 
     public function createAction()
@@ -334,37 +324,35 @@ class ReportController extends Controller
             );
             $this->redirect("/report/list");
         } else {
-            $reportView = $this->view('src/Web/Controller/Views/Report.php');
-            $reportView->errorMessages = $this->requestValidator->errorMessages();
-            $reportView->action = '/report/create';
-            $reportView->legend = 'Neuen Bericht erstellen';
-            $reportView->calendarWeek = $this->formData('calendarWeek');
-            $reportView->calendarYear = $this->formData('calendarYear');
-            $reportView->content = $this->formData('content');
-            $reportView->buttonName = 'Bericht erstellen';
-            $reportView->backButton = true;
-            $reportView->isTrainee = $this->isTrainee();
-            $reportView->createButton = true;
-            $reportView->statusButtons = false;
 
-            $headerView = $this->view('src/Web/Controller/Views/Header.php');
-            $headerView->tabTitle = 'Berichtsheft';
+            foreach ($this->requestValidator->errorCodes() as $errorCode) {
+                $errorMessages[] = $this->getErrorMessageForErrorCode($errorCode);
+            }
+            $variables = [
+                'tabTitle' => 'Berichtsheft',
+                'backButton' => true,
+                'viewHelper' => $this->viewHelper,
+                'username' => $this->sessionData('username'),
+                'role' => $this->sessionData('role'),
+                'isTrainer' => $this->isTrainer(),
+                'isAdmin' => $this->isAdmin(),
+                'infoHeadline' => ' | Übersicht',
+                'hideInfos' => false,
+                'action' => '/report/create',
+                'legend' => 'Neuen Bericht erstellen',
+                'calendarWeek' => $this->formData('calendarWeek'),
+                'calendarYear' => $this->formData('calendarYear'),
+                'content' => $this->formData('content'),
+                'buttonName' => 'Bericht erstellen',
+                'reportId' => null,
+                'isTrainee' => $this->isTrainee(),
+                'createButton' => true,
+                'statusButtons' => false,
+                'isCompany' => 'checked',
+                'errorMessages' => $errorMessages
+            ];
 
-            $infobarView = $this->view('src/Web/Controller/Views/Infobar.php');
-            $infobarView->viewHelper = $this->viewHelper;
-            $infobarView->username = $this->sessionData('username');
-            $infobarView->role = $this->sessionData('role');
-            $infobarView->trainerRole = $this->isTrainer();
-            $infobarView->adminRole = $this->isAdmin();
-            $infobarView->hideInfos = false;
-
-            $footerView = $this->view('src/Web/Controller/Views/Footer.php');
-            $footerView->backButton = true;
-
-            $this->response->addBody($headerView->render());
-            $this->response->addBody($infobarView->render());
-            $this->response->addBody($reportView->render());
-            $this->response->addBody($footerView->render());
+            echo $this->twig->render('Report.html', $variables);
         }
     }
 
@@ -680,7 +668,7 @@ class ReportController extends Controller
                 return 'Der eingegebene Wert ist kein Datum!' . "\n";
 
             case Validator::ERR_VALIDATOR_INT:
-                return 'Der eingegebene Wert ist keine Kalenderwoche!' . "\n";
+                return 'Der eingegebene Wert ist keine Zahl!' . "\n";
         }
     }
 

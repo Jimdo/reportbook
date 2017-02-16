@@ -297,7 +297,8 @@ class ReportController extends Controller
             'isTrainee' => $this->isTrainee(),
             'createButton' => true,
             'statusButtons' => false,
-            'isCompany' => 'checked'
+            'isCompany' => 'checked',
+            'showCreateCommentButton' => false
         ];
 
         echo $this->twig->render('Report.html', $variables);
@@ -349,7 +350,8 @@ class ReportController extends Controller
                 'createButton' => true,
                 'statusButtons' => false,
                 'isCompany' => 'checked',
-                'errorMessages' => $errorMessages
+                'errorMessages' => $errorMessages,
+                'showCreateCommentButton' => false
             ];
 
             echo $this->twig->render('Report.html', $variables);

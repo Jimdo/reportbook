@@ -150,3 +150,6 @@ update       Update composer packages
 
 ### v0.6.2
   - Implement Twig
+
+### v0.6.3
+  - Implement Medium-Editor to Report and Comment

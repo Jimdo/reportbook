@@ -53,15 +53,17 @@
             <textarea style="resize: none; height: 300px; overflow:scroll;"{{ readonly }} id="content" name="content" class="form-control editable medium-editor-textarea">{{ content }}</textarea></br>
         </div>
 
-        {% if readonly != 'readonly' %}
         <script>
         var editor = new MediumEditor('.editable', {
           placeholder: {
             text: '',
             hideOnClick: true
-          }});
+          },
+          {% if readonly == 'readonly' %}
+          toolbar: false
+          {% endif %}
+        });
           </script>
-        {% endif %}
     </div>
 
 

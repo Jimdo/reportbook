@@ -92,13 +92,61 @@
                   <div class="col-sm-offset-2 col-sm-10">
                     <textarea  style="resize:none; height: 80px; overflow:scroll;" type="textarea" name="content" class="form-control editable medium-editor-textarea" id="createComment" rows="5" placeholder="Dein Kommentar"></textarea></br>
                   </div>
-                    <script>
-                      var editor = new MediumEditor('.editable', {
-                        placeholder: {
-                          text: 'Dein Kommentar',
-                          hideOnClick: true
-                        }});
-                    </script>
+                  <script>
+                    var editor = new MediumEditor('.editable', {
+                      placeholder: {
+                        text: '',
+                        hideOnClick: true
+                      },
+                      toolbar: {
+                                buttons: [{
+                                        name: 'bold',
+                                        contentDefault: 'B'
+                                    },
+                                    {
+                                        name: 'italic',
+                                        contentDefault: '<i>I</i>'
+                                    },
+                                    {
+                                        name: 'underline',
+                                        contentDefault: '<u>U</u>'
+                                    },
+                                    {
+                                        name: 'anchor',
+                                        contentDefault: '#'
+                                    },
+                                    {
+                                        name: 'h1',
+                                        contentDefault: 'H1'
+                                    },
+                                    {
+                                        name: 'h2',
+                                        contentDefault: 'H2'
+                                    },
+                                    {
+                                        name: 'h3',
+                                        contentDefault: 'H3'
+                                    },
+                                    {
+                                        name: 'h4',
+                                        contentDefault: 'H4'
+                                    },
+                                    {
+                                        name: 'quote',
+                                        contentDefault: '"|"'
+                                    },
+                                    {
+                                        name: 'orderedlist',
+                                        contentDefault: '1.2.3.'
+                                    },
+                                    {
+                                        name: 'unorderedlist',
+                                        contentDefault: '•'
+                                    },
+                                ]
+                            }
+                    });
+                  </script>
                     <div class="col-sm-offset-10 col-sm-2">
                         <input type="hidden" id="reportId" name="reportId" value="{{ reportId }}" />
                         <input type="hidden" id="traineeId" name="traineeId" value="{{ traineeId }}" />

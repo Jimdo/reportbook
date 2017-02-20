@@ -11,13 +11,6 @@ $uri = $_SERVER['REQUEST_URI'];
 $stderr = fopen('php://stderr', 'w');
 $stdout = fopen('php://stdout', 'w');
 
-// JS passthrough hack!
-if (strpos($uri, '/js/') !== false) {
-        header("Content-type: application/javascript");
-        echo file_get_contents(__DIR__ . $uri);
-        exit;
-}
-
 try {
     $router->dispatch($uri);
     info("Dispatched '$uri'");

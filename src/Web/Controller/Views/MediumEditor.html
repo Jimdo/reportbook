@@ -1,0 +1,59 @@
+<script>
+  var editor = new MediumEditor('.editable', {
+    placeholder: {
+      text: '',
+      hideOnClick: true
+    },
+    {% if readonly == 'readonly' %}
+    toolbar: false,
+    {% else %}
+    toolbar: {
+              buttons: [{
+                      name: 'bold',
+                      contentDefault: 'B'
+                  },
+                  {
+                      name: 'italic',
+                      contentDefault: '<i>I</i>'
+                  },
+                  {
+                      name: 'underline',
+                      contentDefault: '<u>U</u>'
+                  },
+                  {
+                      name: 'anchor',
+                      contentDefault: '#'
+                  },
+                  {
+                      name: 'h1',
+                      contentDefault: 'H1'
+                  },
+                  {
+                      name: 'h2',
+                      contentDefault: 'H2'
+                  },
+                  {
+                      name: 'h3',
+                      contentDefault: 'H3'
+                  },
+                  {
+                      name: 'h4',
+                      contentDefault: 'H4'
+                  },
+                  {
+                      name: 'quote',
+                      contentDefault: '"|"'
+                  },
+                  {
+                      name: 'orderedlist',
+                      contentDefault: '1.2.3.'
+                  },
+                  {
+                      name: 'unorderedlist',
+                      contentDefault: '•'
+                  },
+              ]
+          }
+  {% endif%}
+  });
+</script>

@@ -80,29 +80,4 @@
   </fieldset>
 </form>
 
-{% if statusButtons %}
-
-    <form action="/report/approveReport" method="POST">
-        <div class="col-md-2 col-md-offset-8">
-
-        <input type="hidden" name="reportId" value="{{ reportId }}">
-        <button style="width: 175px;" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Genehmigen</button>
-
-        </div>
-    </form>
-
-    <form action="/report/disapproveReport" method="POST">
-        <div class="col-md-1">
-
-        <input type="hidden" name="reportId" value="{{ reportId }}">
-        <button style="width: 175px;" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Ablehnen</button>
-
-        </div>
-    </form>
-
-    </br></br></br>
-
-{% endif %}
-
-{% include 'Comments.html' %}
 {% include 'Footer.html' %}

@@ -1,0 +1,97 @@
+{% include 'Header.html' %}
+{% include 'Infobar.html' %}
+
+<form action="{{ action }}" method="POST">
+  <fieldset>
+
+    <div class="row">
+        <legend>{{ legend }} {{ traineeName }} </legend>
+    </div>
+
+  </br>
+
+  <div class="row">
+      {% for error in errorMessages %}
+              <div class="alert alert-danger col-md-10 col-md-offset-2" role="alert"><strong>{{ error }}</strong></div>
+      {% endfor %}
+  </div>
+
+    <div class="row">
+        <label class="col-md-2 control-label" for="calendarWeek">Kalenderwoche: </label>
+        <div class="col-md-1 col-md-offset-0">
+          <div type="text" id="calendarWeek" name="calendarWeek">{{calendarWeek}}</div></br></br>
+        </div>
+    </div>
+
+    <div class="row">
+        <label class="col-md-2 control-label" for="calendarWeek">Kalenderjahr: </label>
+        <div class="col-md-1 col-md-offset-0">
+            <div type="text" id="calendarYear" name="calendarYear">{{calendarYear}}</div></br></br>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <label class="col-md-2 control-label" for="date">Kategorie: </label>
+        <div class="col-md-2 col-md-offset-0">
+
+            <label class="radio-inline">
+                <input {{ radioReadonly }} {{ isCompany }} type="radio" name="category" value="{{ constant('\\Jimdo\\Reports\\Reportbook\\Category::COMPANY') }}">Betrieb
+            </label>
+            <label class="radio-inline">
+                <input {{ radioReadonly }} {{ isSchool }} type="radio" name="category" value="{{ constant('\\Jimdo\\Reports\\Reportbook\\Category::SCHOOL') }}">Schule
+            </label>
+
+        </div>
+    </div>
+
+    </br>
+    </br>
+
+    <div class="row">
+        <label class="col-md-2 control-label" for="calendarWeek">Bericht: </label>
+        <div class="col-md-10 col-md-offset-0">
+          <div id="content" name="content">{{ content|raw }}</div></br>
+        </div>
+    </div>
+
+
+    <div class="col-md-2 col-md-offset-10">
+      {% if isTrainee %}
+        {% if createButton %}
+          <input type="hidden" id="reportId" name="reportId" value="{{ reportId }}" />
+          <button style="width: 175px;" type="submit" class="btn btn-primary col-md-1">{{ buttonName}}</button>
+          </br></br></br>
+        {% endif %}
+      {% endif %}
+    </div>
+
+  </fieldset>
+</form>
+
+{% if statusButtons %}
+
+    <form action="/report/approveReport" method="POST">
+        <div class="col-md-2 col-md-offset-8">
+
+        <input type="hidden" name="reportId" value="{{ reportId }}">
+        <button style="width: 175px;" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Genehmigen</button>
+
+        </div>
+    </form>
+
+    <form action="/report/disapproveReport" method="POST">
+        <div class="col-md-1">
+
+        <input type="hidden" name="reportId" value="{{ reportId }}">
+        <button style="width: 175px;" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Ablehnen</button>
+
+        </div>
+    </form>
+
+    </br></br></br>
+
+{% endif %}
+
+{% include 'Comments.html' %}
+{% include 'Footer.html' %}

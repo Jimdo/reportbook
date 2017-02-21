@@ -576,7 +576,7 @@ class ReportController extends Controller
             )
         ];
 
-        echo $this->twig->render('Report.html', $variables);
+        echo $this->twig->render('ReadonlyReport.html', $variables);
     }
 
     public function approveReportAction()

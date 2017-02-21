@@ -50,7 +50,7 @@
     <div class="row">
         <label class="col-md-2 control-label" for="calendarWeek">Bericht: </label>
         <div class="col-md-10 col-md-offset-0">
-            <textarea style="resize: none; height: 300px; overflow:scroll;"{{ readonly }} id="content" name="content" class="form-control editable">{{ content }}</textarea></br>
+            <textarea style="resize: none; height: 300px; overflow:scroll;"{{ readonly }} id="content" name="content" class="form-control editable">{{ content|raw }}</textarea></br>
         </div>
     </div>
 

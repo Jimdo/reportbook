@@ -52,20 +52,7 @@
         <div class="col-md-10 col-md-offset-0">
             <textarea style="resize: none; height: 300px; overflow:scroll;"{{ readonly }} id="content" name="content" class="form-control editable medium-editor-textarea">{{ content }}</textarea></br>
         </div>
-
-        <script>
-        var editor = new MediumEditor('.editable', {
-          placeholder: {
-            text: '',
-            hideOnClick: true
-          },
-          {% if readonly == 'readonly' %}
-          toolbar: false
-          {% endif %}
-        });
-          </script>
     </div>
-
 
     <div class="col-md-2 col-md-offset-10">
       {% if isTrainee %}

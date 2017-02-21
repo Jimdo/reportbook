@@ -92,21 +92,15 @@
                   <div class="col-sm-offset-2 col-sm-10">
                     <textarea  style="resize:none; height: 80px; overflow:scroll;" type="textarea" name="content" class="form-control editable medium-editor-textarea" id="createComment" rows="5" placeholder="Dein Kommentar"></textarea></br>
                   </div>
-                    <script>
-                      var editor = new MediumEditor('.editable', {
-                        placeholder: {
-                          text: 'Dein Kommentar',
-                          hideOnClick: true
-                        }});
-                    </script>
-                    <div class="col-sm-offset-10 col-sm-2">
-                        <input type="hidden" id="reportId" name="reportId" value="{{ reportId }}" />
-                        <input type="hidden" id="traineeId" name="traineeId" value="{{ traineeId }}" />
-                        <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
-                    </div>
+                  <div class="col-sm-offset-10 col-sm-2">
+                      <input type="hidden" id="reportId" name="reportId" value="{{ reportId }}" />
+                      <input type="hidden" id="traineeId" name="traineeId" value="{{ traineeId }}" />
+                      <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+                  </div>
                 </div>
             </form>
         </div>
     </div>
 
 </div>
+{% include 'MediumEditor.html' %}

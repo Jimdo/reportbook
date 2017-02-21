@@ -564,7 +564,6 @@ class ReportController extends Controller
             'report' => $report,
             'showCreateCommentButton' => ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED'),
             'errorMessages' => $errorMessages,
-            'readonly' => 'readonly',
             'radioReadonly' => 'disabled',
             'statusButtons' => (
                 $this->isTrainer()

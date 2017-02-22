@@ -535,6 +535,11 @@ class ReportController extends Controller
             $traineeName = 'von ' . $user->forename() . ' ' . $user->surname();
         }
 
+        $reportContent = $report->content();
+        if (strstr($report->content(), "\n") !== false) {
+            $reportContent = str_replace("\n", "</br" , $report->content());
+        }
+
         $variables = [
             'tabTitle' => 'Berichtsheft',
             'backButton' => true,
@@ -550,7 +555,7 @@ class ReportController extends Controller
             'traineeName' => $traineeName,
             'calendarWeek' => $report->calendarWeek(),
             'calendarYear' => $report->calendarYear(),
-            'content' => $report->content(),
+            'content' => $reportContent,
             'buttonName' => 'Speichern',
             'reportId' => $reportId,
             'isTrainee' => $this->isTrainee(),

@@ -191,4 +191,25 @@ class ReportTest extends TestCase
 
         $this->assertEquals($newCategory, $report->category());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldOptionalReplaceNewLinesWithBreaksInReportContent()
+    {
+        $content = <<<CONTENT
+some content
+with new lines
+some other content
+in new lines.
+CONTENT;
+
+        $report = new Report(new TraineeId(), $content, '10.10.10', '34', '2016', uniqid(), Category::SCHOOL);
+
+        $replaceNewlines = true;
+        $expectedFormattedContent = $report->content($replaceNewlines);
+
+        $correctFormattedContent = 'some content</br>with new lines</br>some other content</br>in new lines.';
+        $this->assertEquals($correctFormattedContent, $expectedFormattedContent);
+    }
 }

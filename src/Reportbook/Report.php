@@ -84,9 +84,7 @@ class Report
     public function content(bool $replaceNewlines = false): string
     {
         if ($replaceNewlines) {
-            if (strstr($this->content, "\n") !== false) {
-                return str_replace("\n", "</br>" , $this->content);
-            }
+            return nl2br($this->content);
         } else {
             return $this->content;
         }

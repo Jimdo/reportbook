@@ -78,11 +78,18 @@ class Report
     }
 
     /**
+     * @param bool $replaceNewlines
      * @return string
      */
-    public function content(): string
+    public function content(bool $replaceNewlines = false): string
     {
-        return $this->content;
+        if ($replaceNewlines) {
+            if (strstr($this->content, "\n") !== false) {
+                return str_replace("\n", "</br>" , $this->content);
+            }
+        } else {
+            return $this->content;
+        }
     }
 
     /**

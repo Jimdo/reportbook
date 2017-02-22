@@ -550,7 +550,7 @@ class ReportController extends Controller
             'traineeName' => $traineeName,
             'calendarWeek' => $report->calendarWeek(),
             'calendarYear' => $report->calendarYear(),
-            'content' => $report->content(),
+            'content' => $report->content($replaceNewlines = true),
             'buttonName' => 'Speichern',
             'reportId' => $reportId,
             'isTrainee' => $this->isTrainee(),

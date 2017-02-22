@@ -197,19 +197,14 @@ class ReportTest extends TestCase
      */
     public function itShouldOptionalReplaceNewLinesWithBreaksInReportContent()
     {
-        $content = <<<CONTENT
-some content
-with new lines
-some other content
-in new lines.
-CONTENT;
+        $content = "Woche 07\r\n- Montag krank\r\n- Restlicher";
 
         $report = new Report(new TraineeId(), $content, '10.10.10', '34', '2016', uniqid(), Category::SCHOOL);
 
         $replaceNewlines = true;
-        $expectedFormattedContent = $report->content($replaceNewlines);
+        $formattedContent = $report->content($replaceNewlines);
+        $expectedCorrectlyFormattedContent = "Woche 07<br />\r\n- Montag krank<br />\r\n- Restlicher";
 
-        $correctFormattedContent = 'some content</br>with new lines</br>some other content</br>in new lines.';
-        $this->assertEquals($correctFormattedContent, $expectedFormattedContent);
+        $this->assertEquals($expectedCorrectlyFormattedContent, $formattedContent);
     }
 }

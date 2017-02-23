@@ -390,7 +390,7 @@ class ReportController extends Controller
             'legend' => 'Bericht bearbeiten',
             'calendarWeek' => $report->calendarWeek(),
             'calendarYear' => $report->calendarYear(),
-            'content' => $report->content(),
+            'content' => $report->content($replaceNewlines = true),
             'buttonName' => 'Speichern',
             'reportId' => $reportId,
             'isTrainee' => $this->isTrainee(),
@@ -525,15 +525,13 @@ class ReportController extends Controller
         $isCompany = '';
 
         if ($report->category() === Category::SCHOOL) {
-            $isSchool = 'checked';
+            $category = 'Schule';
         } elseif ($report->category() === Category::COMPANY) {
-            $isCompany = 'checked';
+            $category = 'Betrieb';
         }
 
-        if (!$this->isTrainee()) {
-            $user = $this->appService->findProfileByUserId($traineeId);
-            $traineeName = 'von ' . $user->forename() . ' ' . $user->surname();
-        }
+        $user = $this->appService->findProfileByUserId($traineeId);
+        $traineeName = $user->forename() . ' ' . $user->surname();
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
@@ -555,8 +553,7 @@ class ReportController extends Controller
             'reportId' => $reportId,
             'isTrainee' => $this->isTrainee(),
             'createButton' => false,
-            'isCompany' => $isCompany,
-            'isSchool' => $isSchool,
+            'category' => $category,
             'appService' => $this->appService,
             'comments' => $this->appService->findCommentsByReportId($reportId),
             'userId' => $this->sessionData('userId'),

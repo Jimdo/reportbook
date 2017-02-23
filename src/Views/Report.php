@@ -24,11 +24,12 @@ class Report
     }
 
     /**
+     * @param bool $replaceNewlines
      * @return string
      */
-    public function content(): string
+    public function content(bool $replaceNewlines = false): string
     {
-        return $this->report->content();
+        return $this->report->content($replaceNewlines);
     }
 
     /**

@@ -4,12 +4,12 @@
 {% set user = appService.findUserById(comment.userId()) %}
 
     <div class="row">
-        <div class="col-sm-offset-2 col-sm-1">
+        <div class="col-sm-offset-0 col-sm-1">
             <div class="thumbnail">
                 <img class="img-responsive user-photo" src="/profile/image?id={{ comment.userId() }}">
             </div>
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-11">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <strong>{{ user.username() }}</strong>
@@ -43,7 +43,7 @@
 
                 </div>
 
-                <div class="panel-body" id="wrap" style="padding-bottom: 0px;">
+                <div class="panel-body" id="wrap">
 
                   <div class="edit{{ comment.id() }} collapse in">
                     {{ comment.content()|raw }}

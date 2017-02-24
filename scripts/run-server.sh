@@ -20,5 +20,5 @@ docker run -it --rm \
     -e MAILGUN_DOMAIN=$MAILGUN_DOMAIN \
     -e MAILGUN_KEY=$MAILGUN_KEY \
     -v $(PWD)/:/var/www/ \
-    --add-host="docker_host:$(ifconfig $DEBUG_IF | awk '$1 == "inet" {print $2}')" \
-    jimdo/reportbook
+    --add-host="docker_host:$(docker-machine inspect jimdo --format '{{ .Driver.HostOnlyCIDR}}' | awk -F/ '{print $1}')" \
+    jimdo/reportbook:debug

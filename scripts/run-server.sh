@@ -7,12 +7,6 @@ then
     source .env
 fi
 
-if [ -z ${DEBUG_IF+x} ]; then
-    echo "In order to use debugging capabilities you"
-    echo "must set DEBUG_IF to a valid network interface!"
-    exit
-fi
-
 docker run -it --rm \
     -p 80:80 \
     -e APPLICATION_ENV='dev' \

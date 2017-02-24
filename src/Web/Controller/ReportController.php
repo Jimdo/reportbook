@@ -203,7 +203,8 @@ class ReportController extends Controller
             'infoHeadline' => ' | Übersicht',
             'hideInfos' => false,
             'appService' => $this->appService,
-            'reports' => $reports
+            'reports' => $reports,
+            'listViewActive' => true
         ];
 
         echo $template->render($variables);
@@ -241,6 +242,7 @@ class ReportController extends Controller
                 'year' => $year,
                 'users' => $traineeInfo,
                 'currentUserId' => $this->queryParams('userId'),
+                'calendarViewActive' => true,
                 'cwInfo' => $this->createCalendarArray($this->queryParams('userId'), $year)
             ];
 

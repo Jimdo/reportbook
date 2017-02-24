@@ -1,7 +1,6 @@
 <div class="col-sm-3" style="padding: 0px;">
   <div class="sidebar-nav">
     <div class="navbar navbar-default" role="navigation" style="border-radius: 0px; border-top: none; box-shadow: none;">
-      <div class="navbar-collapse collapse sidebar-navbar-collapse">
         <ul class="nav navbar-nav" style="height: 1500px;">
           <li style="margin:15px;">
             <form action="/report/search" method="POST">
@@ -11,15 +10,14 @@
                 </div>
             </form>
           </li>
-          <li class="nav-li" style="border-top: 1px solid #E7E7E7;"><a style="color: #337ab7;" href="/report/list"><span class="glyphicon glyphicon-list"></span> Listenansicht</a></li>
-          <li class="nav-li"><a style="color: #337ab7;" href="/report/calendar?userId={{ reports[0].traineeId() }}"><span class="glyphicon glyphicon-calendar"></span> Kalenderansicht</a></li>
-          <li class="nav-li"><a style="color: #337ab7;" href="/user/profile"><span class="glyphicon glyphicon-user"></span> Dein Profil</a></li>
+          <li class="nav-li {% if listViewActive %} active {% endif %}" style="border-top: 1px solid #E7E7E7;"><a style="color: #337ab7;" href="/report/list"><span class="glyphicon glyphicon-list"></span> Listenansicht</a></li>
+          <li class="nav-li {% if calendarViewActive %} active {% endif %}"><a style="color: #337ab7;" href="/report/calendar?userId={{ reports[0].traineeId() }}"><span class="glyphicon glyphicon-calendar"></span> Kalenderansicht</a></li>
+          <li class="nav-li {% if profileViewActive %} active {% endif %}"><a style="color: #337ab7;" href="/user/profile"><span class="glyphicon glyphicon-user"></span> Dein Profil</a></li>
           {% if isTrainer or isAdmin %}
-          <li class="nav-li"><a style="color: #337ab7;" href="/user/userlist"><span class="glyphicon glyphicon-king"></span> Benutzerübersicht</a></li>
+          <li class="nav-li {% if userlistViewActive %} active {% endif %}"><a style="color: #337ab7;" href="/user/userlist"><span class="glyphicon glyphicon-king"></span> Benutzerübersicht</a></li>
           {% endif %}
-          <li class="nav-li"><a style="color: #337ab7;" href="/user/changePassword"><input type="hidden" id="userId" name="userId" value="{{ userId }}" /><span class="glyphicon glyphicon-wrench"></span> Passwort ändern</a></li>
+          <li class="nav-li {% if changePasswordViewActive %} active {% endif %}"><a style="color: #337ab7;" href="/user/changePassword"><input type="hidden" id="userId" name="userId" value="{{ userId }}" /><span class="glyphicon glyphicon-wrench"></span> Passwort ändern</a></li>
         </ul>
-      </div><!--/.nav-collapse -->
     </div>
   </div>
 </div>

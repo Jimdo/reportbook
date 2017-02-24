@@ -16,6 +16,11 @@ RUN docker-php-ext-install zip sockets
 RUN pecl install mongodb \
     && docker-php-ext-enable mongodb
 
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
+COPY xdebug.ini /usr/local/etc/php/conf.d
+
 WORKDIR /var/www
 
 RUN rmdir html

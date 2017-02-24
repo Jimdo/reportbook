@@ -1,7 +1,9 @@
 {% include 'Header.html' %}
-{% include 'Infobar.html' %}
+{% include 'InfobarView.html' %}
+{% include 'NavbarView.html' %}
 
-
+<h2>{{ heading }}</h2>
+<legend></legend>
 
 <form action="{{ action }}" method="POST">
   <fieldset>
@@ -14,7 +16,7 @@
 
     <div class="row">
         <label class="col-md-2 control-label" for="calendarWeek">Kalenderwoche: </label>
-        <div class="col-md-1 col-md-offset-0">
+        <div class="col-md-2">
             <input class="form-control" type="text" placeholder="Kalenderwoche"
             {{ readonly }} id="calendarWeek" name="calendarWeek" value="{{ calendarWeek }}"></br>
         </div>
@@ -22,7 +24,7 @@
 
     <div class="row">
         <label class="col-md-2 control-label" for="calendarWeek">Kalenderjahr: </label>
-        <div class="col-md-1 col-md-offset-0">
+        <div class="col-md-2">
             <input class="form-control" type="text"
             {{ readonly }} id="calendarYear" name="calendarYear" value="{{ calendarYear }}"></br>
         </div>
@@ -31,7 +33,7 @@
     <div class="row">
 
         <label class="col-md-2 control-label" for="date">Kategorie: </label>
-        <div class="col-md-2 col-md-offset-0">
+        <div class="col-md-3">
 
             <label class="radio-inline">
                 <input {{ radioReadonly }} {{ isCompany }} type="radio" name="category" value="{{ constant('\\Jimdo\\Reports\\Reportbook\\Category::COMPANY') }}">Betrieb
@@ -47,7 +49,7 @@
 
     <div class="row">
         <label class="col-md-2 control-label" for="calendarWeek">Bericht: </label>
-        <div class="col-md-10 col-md-offset-0">
+        <div class="col-md-10">
             <textarea style="resize: none; height: 300px; overflow:scroll;"{{ readonly }} id="content" name="content" class="form-control editable">{{ content|raw }}</textarea></br>
         </div>
     </div>
@@ -56,7 +58,7 @@
       {% if isTrainee %}
         {% if createButton %}
           <input type="hidden" id="reportId" name="reportId" value="{{ reportId }}" />
-          <button style="width: 175px;" type="submit" class="btn btn-primary col-md-1">{{ buttonName}}</button>
+          <button type="submit" class="btn btn-primary">{{ buttonName}}</button>
           </br></br></br>
         {% endif %}
       {% endif %}
@@ -64,6 +66,8 @@
 
   </fieldset>
 </form>
+
+</div> <!-- Close tag for content -->
 
 {% include 'MediumEditor.html' %}
 {% include 'Footer.html' %}

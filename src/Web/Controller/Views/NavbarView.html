@@ -10,6 +10,9 @@
                 </div>
             </form>
           </li>
+          {% if not isTrainer and not isAdmin %}
+          <li class="nav-li {% if createReportViewActive %} active {% endif %}"><a style="color: #337ab7;" href="/report/createReport"><span class="glyphicon glyphicon-edit"></span> Neuen Bericht erstellen</a></li>
+          {% endif %}
           <li class="nav-li {% if listViewActive %} active {% endif %}" style="border-top: 1px solid #E7E7E7;"><a style="color: #337ab7;" href="/report/list"><span class="glyphicon glyphicon-list"></span> Listenansicht</a></li>
           <li class="nav-li {% if calendarViewActive %} active {% endif %}"><a style="color: #337ab7;" href="/report/calendar?userId={{ reports[0].traineeId() }}"><span class="glyphicon glyphicon-calendar"></span> Kalenderansicht</a></li>
           <li class="nav-li {% if profileViewActive %} active {% endif %}"><a style="color: #337ab7;" href="/user/profile"><span class="glyphicon glyphicon-user"></span> Dein Profil</a></li>

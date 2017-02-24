@@ -283,16 +283,17 @@ class ReportController extends Controller
         }
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
+            'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'userId' => $this->sessionData('userId'),
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),
             'infoHeadline' => ' | Übersicht',
             'hideInfos' => false,
             'action' => '/report/create',
-            'legend' => 'Neuen Bericht erstellen',
+            'heading' => 'Neuen Bericht erstellen',
             'calendarWeek' => date("W"),
             'calendarYear' => date("Y"),
             'content' => '',
@@ -302,10 +303,11 @@ class ReportController extends Controller
             'createButton' => true,
             'statusButtons' => false,
             'isCompany' => 'checked',
-            'showCreateCommentButton' => false
+            'showCreateCommentButton' => false,
+            'createReportViewActive' => true
         ];
 
-        echo $this->twig->render('Report.html', $variables);
+        echo $this->twig->render('ReportView.html', $variables);
     }
 
     public function createAction()

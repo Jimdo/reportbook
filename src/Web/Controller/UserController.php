@@ -667,6 +667,7 @@ class UserController extends Controller
             'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'userId' => $this->sessionData('userId'),
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),
@@ -675,7 +676,7 @@ class UserController extends Controller
             'userId' => $this->sessionData('userId')
         ];
 
-        echo $this->twig->render('ChangePassword.html', $variables);
+        echo $this->twig->render('ChangePasswordView.html', $variables);
     }
 
     public function editPasswordAction()

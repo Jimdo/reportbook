@@ -292,9 +292,10 @@ class UserController extends Controller
         if ($this->isTrainer() || $this->isAdmin()) {
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => true,
+                'backButton' => false,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
+                'userId' => $this->sessionData('userId'),
                 'role' => $this->sessionData('role'),
                 'isTrainer' => $this->isTrainer(),
                 'isAdmin' => $this->isAdmin(),
@@ -305,7 +306,7 @@ class UserController extends Controller
                 'approvedUsers' => $this->appService->findUsersByStatus(Role::STATUS_APPROVED)
             ];
 
-            echo $this->twig->render('Userlist.html', $variables);
+            echo $this->twig->render('UserlistView.html', $variables);
         } else {
             $this->redirect("/user");
         }

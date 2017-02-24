@@ -604,33 +604,35 @@ class ReportController extends Controller
         if ($this->isTrainee()) {
 
             $reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
-            $template = $this->twig->load('Trainee.html');
+            $template = $this->twig->load('TraineeView.html');
 
         } elseif ($this->isTrainer()) {
 
             $reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
-            $template = $this->twig->load('Trainer.html');
+            $template = $this->twig->load('TrainerView.html');
 
         } elseif ($this->isAdmin()) {
 
             $reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
-            $template = $this->twig->load('Admin.html');
+            $template = $this->twig->load('AdminView.html');
 
         } else {
             $this->redirect("/user");
         }
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
+            'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'userId' => $this->sessionData('userId'),
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),
             'infoHeadline' => ' | Übersicht',
             'hideInfos' => false,
             'appService' => $this->appService,
-            'reports' => $reports
+            'reports' => $reports,
+            'listViewActive' => true
         ];
 
         echo $template->render($variables);

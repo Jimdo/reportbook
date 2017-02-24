@@ -541,7 +541,7 @@ class ReportController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
+            'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -578,7 +578,7 @@ class ReportController extends Controller
             )
         ];
 
-        echo $this->twig->render('ReadonlyReport.html', $variables);
+        echo $this->twig->render('ReadonlyReportView.html', $variables);
     }
 
     public function approveReportAction()

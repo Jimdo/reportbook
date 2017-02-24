@@ -1,0 +1,54 @@
+{% include 'Header.html' %}
+{% include 'InfobarView.html' %}
+{% include 'NavbarView.html' %}
+
+<div class="row">
+    {% for error in errorMessages %}
+            <div class="alert alert-danger col-md-10 col-md-offset-2" role="alert"><strong>{{ error }}</strong></div>
+    {% endfor %}
+</div>
+
+<div style="margin-top: 20px;">
+  <h2 style="display:inline;"> Bericht von {{ traineeName }} <small> KW {{ calendarWeek }} | {{ calendarYear }}</small></h2>
+  <h3 style="display:inline; float: right; margin-top: 8px;"><span class="label label-primary">{{ category }}</span></h3>
+</div>
+
+<legend></legend>
+
+<div style="padding: 10px; border-bottom: 1px solid #BDBDBD; ">
+    {{ content|raw }}
+</div>
+
+  <br />
+  <br />
+
+{% if statusButtons %}
+
+    <form action="/report/approveReport" method="POST">
+        <div class="col-md-2 col-md-offset-8">
+
+        <input type="hidden" name="reportId" value="{{ reportId }}">
+        <button style="width: 125px;" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Genehmigen</button>
+
+        </div>
+    </form>
+
+    <form action="/report/disapproveReport" method="POST">
+        <div class="col-md-1">
+
+        <input type="hidden" name="reportId" value="{{ reportId }}">
+        <button style="width: 125px;" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Ablehnen</button>
+
+        </div>
+    </form>
+
+    <br /><br />
+{% endif %}
+
+{% include 'CommentsView.html' %}
+
+<a href="/report/list">zurück zur Listenansicht</a>
+
+</div> <!-- Close tag for content -->
+
+{% include 'Footer.html' %}

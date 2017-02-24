@@ -54,18 +54,19 @@
         </div>
     </div>
 
-    <div class="col-md-2 col-md-offset-10">
-      {% if isTrainee %}
-        {% if createButton %}
-          <input type="hidden" id="reportId" name="reportId" value="{{ reportId }}" />
-          <button type="submit" class="btn btn-primary">{{ buttonName}}</button>
-          </br></br></br>
-        {% endif %}
-      {% endif %}
+    <div style="float: right;">
+      <input type="hidden" id="reportId" name="reportId" value="{{ reportId }}" />
+      <button type="submit" style="width: 160px;" class="btn btn-primary">{{ buttonName }}</button>
     </div>
 
   </fieldset>
 </form>
+
+{% if comments is not null %}
+
+{% include 'CommentsView.html' %}
+
+{% endif %}
 
 </div> <!-- Close tag for content -->
 

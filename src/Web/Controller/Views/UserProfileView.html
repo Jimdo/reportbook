@@ -1,0 +1,129 @@
+{% include 'Header.html' %}
+{% include 'InfobarView.html' %}
+{% include 'NavbarView.html' %}
+
+<h2>Profil von {{ profile.forename() }} {{ profile.surname() }}</h2>
+<legend></legend>
+
+<div style="display: inline;">
+  <div style="float: right; width: 259;">
+      <img src= "/profile/image?id={{ user.id() }}" alt="Profilbild" style="width:212px; height:212px; border:1px solid gray;">
+  </div>
+
+  <div style="float:left; width: 400px; border: 1px solid #E7E7E7; background-color: #f9f9f9"> <!-- Info div -->
+    <div class="col-md-8">
+        <div class="col-md-10">
+            <h4>Persönliche Daten</h4><br />
+        </div>
+
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                <label class="col-md-6 control-label">Vorname</label>
+                <div class="col-md-6">
+                    <p class="form-control-static">{{ profile.forename() }}</p>
+                 </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-6 control-label">Nachname</label>
+                <div class="col-md-6">
+                    <p class="form-control-static">{{ profile.surname() }}</p>
+                 </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-6 control-label">Geburtsdatum</label>
+                <div class="col-md-6">
+                    <p class="form-control-static">{{ profile.dateOfBirth() }}</p>
+                 </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-6 control-label">Benutzername</label>
+                <div class="col-md-6">
+                    <p class="form-control-static">{{ user.username() }}</p>
+                 </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-6 control-label">E-Mail</label>
+                <div class="col-md-6">
+                    <p class="form-control-static">{{ user.email() }}</p>
+                 </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="col-md-10">
+            <h4>Betriebliche Daten</h4><br />
+        </div>
+
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                <label class="col-md-6 control-label">Firma</label>
+                <div class="col-md-6">
+                    <p class="form-control-static">{{ profile.company() }}</p>
+                 </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-6 control-label">Berufsbezeichung</label>
+                <div class="col-md-6">
+                    <p class="form-control-static">{{ profile.jobTitle() }}</p>
+                 </div>
+            </div>
+
+        </div>
+    </div>
+
+    {% if isTrainee or isAdmin %}
+
+        <div class="col-md-8">
+            <div class="col-md-10">
+                <h4>Schulische Daten</h4><br />
+            </div>
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="col-md-6 control-label">Schule</label>
+                    <div class="col-md-6">
+                        <p class="form-control-static">{{ profile.school() }}</p>
+                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-6 control-label">Klasse</label>
+                    <div class="col-md-6">
+                        <p class="form-control-static">{{ profile.grade() }}</p>
+                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-6 control-label">Ausbildungsbeginn</label>
+                    <div class="col-md-6">
+                        <p class="form-control-static">{{ profile.startOfTraining() }}</p>
+                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-6 control-label">Ausbildungsjahr</label>
+                    <div class="col-md-6">
+                        <p class="form-control-static">{{ profile.trainingYear() }}</p>
+                     </div>
+                </div>
+
+            </div>
+        </div>
+
+    {% endif %}
+
+  </div> <!-- Close tag for info -->
+</div>
+
+</div> <!-- Close tag for content -->
+
+{% include 'Footer.html' %}

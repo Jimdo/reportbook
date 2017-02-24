@@ -728,9 +728,10 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
+            'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'userId' => $this->sessionData('userId'),
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),
@@ -741,7 +742,7 @@ class UserController extends Controller
             'errorMessages' => $errorMessages
         ];
 
-        echo $this->twig->render('UserProfile.html', $variables);
+        echo $this->twig->render('UserProfileView.html', $variables);
     }
 
     public function logoutAction()

@@ -4,10 +4,10 @@
       <p class="navbar-text"><strong style="font-size:1.2em;">berichtsheft.io</strong></p>
     </div>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span style="color: #337ab7;">KW 8</span></a></li>
-      <li><a href="#"><span style="color: #337ab7;">Max Mustermann</span></a></li>
-      <li><a href="#"><span style="color: #337ab7;" class="glyphicon glyphicon-glyphicon glyphicon-picture"></span></a></li>
-      <li><a href="#"><span style="color: #337ab7;" class="glyphicon glyphicon-off"></span></a></li>
+      <li><a href="#"><span style="color: #337ab7;">KW {{ "now"|date("W") }}</span></a></li>
+      <li><a href="#"><span style="color: #337ab7;">{{ username }}</span></a></li>
+      <li><a href="#"><img style="height:25px; width: 25px;"class="img-responsive user-photo" src="/profile/image?id={{ userId }}"></a></li>
+      <li><a href="/user/login"><span style="color: #337ab7;" class="glyphicon glyphicon-off"></span></a></li>
     </ul>
   </div>
 </nav>

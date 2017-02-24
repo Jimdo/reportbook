@@ -231,6 +231,7 @@ class ReportController extends Controller
                 'backButton' => false,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
+                'userId' => $this->sessionData('userId'),
                 'role' => $this->sessionData('role'),
                 'isTrainer' => $this->isTrainer(),
                 'isAdmin' => $this->isAdmin(),
@@ -243,7 +244,7 @@ class ReportController extends Controller
                 'cwInfo' => $this->createCalendarArray($this->queryParams('userId'), $year)
             ];
 
-            echo $this->twig->render('Calendar.html', $variables);
+            echo $this->twig->render('CalendarView.html', $variables);
         }
     }
 

@@ -17,3 +17,4 @@ wl
 .DS_Store
 .env
 /benchmarks/FixtureReports/
+.vscode

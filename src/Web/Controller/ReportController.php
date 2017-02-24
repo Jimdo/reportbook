@@ -384,7 +384,7 @@ class ReportController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
+            'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -393,7 +393,7 @@ class ReportController extends Controller
             'infoHeadline' => ' | Übersicht',
             'hideInfos' => false,
             'action' => '/report/edit',
-            'legend' => 'Bericht bearbeiten',
+            'heading' => 'Bericht bearbeiten',
             'calendarWeek' => $report->calendarWeek(),
             'calendarYear' => $report->calendarYear(),
             'content' => $report->content($replaceNewlines = true),
@@ -412,7 +412,7 @@ class ReportController extends Controller
             'showCreateCommentButton' => ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED')
         ];
 
-        echo $this->twig->render('Report.html', $variables);
+        echo $this->twig->render('ReportView.html', $variables);
     }
 
     public function editAction()

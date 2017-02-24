@@ -114,7 +114,7 @@ class ReportController extends Controller
                     break;
             }
 
-            $template = $this->twig->load('Trainee.html');
+            $template = $this->twig->load('TraineeView.html');
 
         } elseif ($this->isTrainer()) {
             $reports = array_merge(
@@ -151,7 +151,7 @@ class ReportController extends Controller
                     break;
             }
 
-            $template = $this->twig->load('Trainer.html');
+            $template = $this->twig->load('TrainerView.html');
 
         } elseif ($this->isAdmin()) {
 
@@ -185,7 +185,7 @@ class ReportController extends Controller
                     break;
             }
 
-            $template = $this->twig->load('Admin.html');
+            $template = $this->twig->load('AdminView.html');
 
         } else {
             $this->redirect("/user");
@@ -196,6 +196,7 @@ class ReportController extends Controller
             'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'userId' => $this->sessionData('userId'),
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),

@@ -156,7 +156,7 @@ class UserController extends Controller
             'boxShadow' => true
         ];
 
-        echo $this->twig->render('Login.html', $variables);
+        echo $this->twig->render('LoginView.html', $variables);
     }
 
     public function loginAction()
@@ -226,7 +226,7 @@ class UserController extends Controller
             'boxShadow' => true
         ];
 
-        echo $this->twig->render('Registration.html', $variables);
+        echo $this->twig->render('RegistrationView.html', $variables);
     }
 
     public function createUserAction()
@@ -284,7 +284,7 @@ class UserController extends Controller
                 'boxShadow' => true
             ];
 
-            echo $this->twig->render('Registration.html', $variables);
+            echo $this->twig->render('RegistrationView.html', $variables);
         } else {
             header("Location: /user");
         }

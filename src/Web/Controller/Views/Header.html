@@ -22,6 +22,11 @@
 <link rel="stylesheet" type="text/css" href="/assets/css/template.css">
 
 </head>
-<body>
 
-<div class="container">
+{% if whiteBackground %}
+  <body>
+  <div class="container">
+{% else %}
+  <body style="background-color: #E5E5E5">
+  <div style="border-right: 1px solid #E7E7E7; box-shadow: 0px 4px 5px 2px rgba(217,217,217,0.5); padding: 0px; background-color: white;" class="container">
+{% endif %}

@@ -152,7 +152,8 @@ class UserController extends Controller
     {
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => false
+            'backButton' => false,
+            'whiteBackground' => true
         ];
 
         echo $this->twig->render('Login.html', $variables);
@@ -221,7 +222,8 @@ class UserController extends Controller
         $variables = [
             'tabTitle' => 'Berichtsheft',
             'backButton' => false,
-            'role' => $this->queryParams('role')
+            'role' => $this->queryParams('role'),
+            'whiteBackground' => true
         ];
 
         echo $this->twig->render('Registration.html', $variables);
@@ -278,7 +280,8 @@ class UserController extends Controller
                 'tabTitle' => 'Berichtsheft',
                 'backButton' => false,
                 'role' => $role,
-                'errorMessages' => $exceptions
+                'errorMessages' => $exceptions,
+                'whiteBackground' => true
             ];
 
             echo $this->twig->render('Registration.html', $variables);

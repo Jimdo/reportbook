@@ -457,7 +457,7 @@ class ReportController extends Controller
                 'infoHeadline' => ' | Übersicht',
                 'hideInfos' => false,
                 'action' => '/report/edit',
-                'legend' => 'Bericht bearbeiten',
+                'heading' => 'Bericht bearbeiten',
                 'calendarWeek' => $this->formData('calendarWeek'),
                 'calendarYear' => $this->formData('calendarYear'),
                 'content' => $this->formData('content'),
@@ -477,7 +477,7 @@ class ReportController extends Controller
                 'errorMessages' => $errorMessages
             ];
 
-            echo $this->twig->render('Report.html', $variables);
+            echo $this->twig->render('ReportView.html', $variables);
         }
     }
 

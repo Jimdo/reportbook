@@ -2,17 +2,15 @@
 {% include 'InfobarView.html' %}
 {% include 'NavbarView.html' %}
 
-<h2>{{ heading }}</h2>
-<legend></legend>
+  <h2>{{ heading }}</h2>
+  <legend></legend>
 
-<form action="{{ action }}" method="POST">
-  <fieldset>
+  {% for error in errorMessages %}
+    <div class="alert alert-danger" role="alert"><strong>{{ error }}</strong></div>
+  {% endfor %}
 
-    <div class="row">
-        {% for error in errorMessages %}
-                <div class="alert alert-danger col-md-10 col-md-offset-2" role="alert"><strong>{{ error }}</strong></div>
-        {% endfor %}
-    </div>
+  <form action="{{ action }}" method="POST">
+    <fieldset>
 
     <div class="row">
         <label class="col-md-2 control-label" for="calendarWeek">Kalenderwoche: </label>

@@ -5,13 +5,10 @@
 <h2>Dein Profil</h2>
 <legend></legend>
 
-<div class="row">
-  {% if errorMessages is not empty %}
-    {% for error in errorMessages %}
-      <div class="alert alert-danger col-md-12" role="alert"><strong>{{ error }}</strong></div>
-    {% endfor %}
-  {% endif %}
-</div>
+{% for error in errorMessages %}
+  <div class="alert alert-danger col-md-12" role="alert"><strong>{{ error }}</strong></div>
+{% endfor %}
+
 <div style="display: inline;">
 <div style="float: right; width: 259;">
     <img src= "/profile/image?id={{ user.id() }}" alt="Profilbild" style="width:212px; height:212px; border:1px solid gray;">

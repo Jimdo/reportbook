@@ -193,7 +193,6 @@ class ReportController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'userId' => $this->sessionData('userId'),
@@ -229,7 +228,6 @@ class ReportController extends Controller
 
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => false,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'userId' => $this->sessionData('userId'),
@@ -283,7 +281,6 @@ class ReportController extends Controller
         }
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'userId' => $this->sessionData('userId'),
@@ -337,7 +334,6 @@ class ReportController extends Controller
             }
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => true,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'role' => $this->sessionData('role'),
@@ -384,7 +380,6 @@ class ReportController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -454,7 +449,6 @@ class ReportController extends Controller
 
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => true,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'role' => $this->sessionData('role'),
@@ -541,7 +535,6 @@ class ReportController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -623,7 +616,6 @@ class ReportController extends Controller
         }
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'userId' => $this->sessionData('userId'),

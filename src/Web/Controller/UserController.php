@@ -133,7 +133,6 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -424,7 +423,6 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -463,7 +461,6 @@ class UserController extends Controller
 
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => true,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'role' => $this->sessionData('role'),
@@ -506,7 +503,6 @@ class UserController extends Controller
 
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => true,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'role' => $this->sessionData('role'),
@@ -608,7 +604,6 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -646,7 +641,6 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),

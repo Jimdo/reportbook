@@ -1,0 +1,74 @@
+{% include 'HeaderView.html' %}
+{% include 'InfobarView.html' %}
+{% include 'NavbarView.html' %}
+
+  <h2>Benutzerübersicht</h2>
+  <legend></legend>
+
+  <h3> Benutzeranfragen </h3>
+    <table class="table-reportbook table table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Benutzername</th>
+            <th>E-Mail</th>
+            <th>Rolle</th>
+            <th>Status</th>
+            <th>Aktionen</th>
+        </tr>
+          {% for user in users %}
+            {% set profile = profileService.findProfileByUserId(user.id()) %}
+            {% set userEmail = user.email() %}
+              <tr>
+                  <td><a href="/user/viewProfile?userId={{ user.id() }}">{{ profile.forename() }} {{ profile.surname() }}</td>
+                  <td>{{ user.username() }}</td>
+                  <td>{{ userEmail }}</td>
+                  <td>{{ viewHelper.getTranslationForRole(user.roleName()) }}</td>
+                  <td>{{ viewHelper.getTranslationForStatus(user.roleStatus()) }}</td>
+                  <td>
+                      <form action="/user/changeStatus" method="POST">
+                        <input type="hidden" id="email" name="email" value="{{ userEmail }}"/>
+                        <button type="submit" id="approve" name="action" class="btn-link glyphicon glyphicon-ok" value="approve"></button>
+                        <button type="submit" id="disapprove" name="action" class="btn-link glyphicon glyphicon-remove" value="disapprove"></button>
+                      </form>
+                  </td>
+              </tr>
+          {% endfor %}
+    </table>
+
+  {% if isAdmin %}
+
+  <legend></legend>
+
+  <h3> Registrierte Benutzer </h3>
+      <table class="table table-hover table-reportbook">
+          <tr>
+              <th>Name</th>
+              <th>Benutzername</th>
+              <th>E-Mail</th>
+              <th>Rolle</th>
+              <th>Aktionen</th>
+          </tr>
+            {% for user in approvedUsers %}
+              {% set profile = profileService.findProfileByUserId(user.id()) %}
+              {% set userEmail = user.email() %}
+
+              {% if user.username() != 'admin' %}
+                <tr>
+                    <td><a href="/user/viewProfile?userId={{ user.id() }}">{{ profile.forename() }} {{ profile.surname() }}</td>
+                    <td>{{ user.username() }}</td>
+                    <td>{{ userEmail }}</td>
+                    <td>{{ viewHelper.getTranslationForRole(user.roleName()) }}</td>
+                    <td>
+                        <form action="/user/delete" method="POST">
+                          <input type="hidden" id="email" name="email" value="{{ userEmail }}"/>
+                          <button type="submit" id="deleteUser" name="action" class="btn-link glyphicon glyphicon-trash" onclick="return confirm('Soll der Benutzer wirklich gelöscht werden?')" value="deleteUser"></button>
+                        </form>
+                    </td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+      </table>
+  {% endif %}
+</div> <!-- Close tag for content -->
+
+{% include 'FooterView.html' %}

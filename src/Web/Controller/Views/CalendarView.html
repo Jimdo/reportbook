@@ -1,0 +1,59 @@
+{% include 'HeaderView.html' %}
+{% include 'InfobarView.html' %}
+{% include 'NavbarView.html' %}
+
+
+<h2>Kalenderansicht der Berichte</h2>
+<legend></legend>
+  {% if isTrainer or isAdmin %}
+      <div class"col-sm-10">
+          <div class="dropdown float-right">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+              {% for user in users %}
+                {% if user['id'] == currentUserId %}
+                  {{ user['name'] }}
+                {% endif %}
+              {% endfor %}
+
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                {% for user in users %}
+                  <li><a href="/report/calendar?userId={{ user['id'] }}">{{ user['name'] }}</a></li>
+                {% endfor %}
+            </ul>
+          </div>
+      </div>
+  {% endif %}
+
+  <div class="col-sm-offset-5 yearLabel">
+    <ul class="nav nav-pills">
+      <li><a href="/report/yearBefore?userId={{ currentUserId }}&year={{ year }}" class="glyphicon glyphicon-chevron-left" aria-hidden="true"></a></li>
+      <li><button class="btn-md"><font size="4">{{ year }}</font></button></li>
+      <li><a href="/report/yearLater?userId={{ currentUserId }}&year={{ year }}" class="glyphicon glyphicon-chevron-right" aria-hidden="true"></a></li>
+    </ul>
+  </div>
+
+  </br>
+
+  {% for i in 0..11 %}
+    <div class="col-md-4 calendar-outer">
+      <div class="calendar-inner">
+        <p class="text-center"><b>{{ months[i] }}</b></p>
+        {{ viewHelper.showMonth(i + 1, year, cwInfo) }}
+      </div>
+    </div>
+  {% endfor %}
+
+  <p class="calendar-legend">
+    <span class="calendar-status-open">&#9634;</span> Offen &nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="calendar-status-approval-requested">&#9608;</span> Eingereicht &nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="calendar-status-approved">&#9608;</span> Genehmigt &nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="calendar-status-disapproved">&#9608;</span> Abgelehnt
+  </p>
+
+
+</div> <!-- Close tag for content -->
+
+{% include 'FooterView.html' %}

@@ -1,15 +1,15 @@
 <div class="form-horizontal">
 {% for comment in comments %}
-{% set editActive = false %}
-{% set user = appService.findUserById(comment.userId()) %}
+  {% set editActive = false %}
+  {% set user = appService.findUserById(comment.userId()) %}
 
-    <div class="row">
-        <div class="col-sm-offset-0 col-sm-1">
-            <div class="thumbnail">
+    <div class="row comment-box">
+        <div class="col-md-2">
+            <div class="thumbnail comment-picture">
                 <img class="img-responsive user-photo" src="/profile/image?id={{ comment.userId() }}">
             </div>
         </div>
-        <div class="col-sm-11">
+        <div class="col-md-10 comment-content">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <strong>{{ user.username() }}</strong>
@@ -17,7 +17,7 @@
 
                     {% if comment.userId() == userId %}
 
-                        <div style="float:right">
+                        <div class="float-right">
                             <form action="/comment/deleteComment" method="POST">
 
                                 <input type="hidden" id="reportId" name="reportId" value="{{ reportId }}"/>
@@ -29,15 +29,15 @@
                             </form>
                         </div>
 
-                        <div style="float:right">
+                        <div class="float-right">
                             <a data-parent="#wrap" data-toggle="collapse" data-target=".edit{{ comment.id() }}" class="glyphicon glyphicon-pencil"></a>
                         </div>
 
                     {% endif %}
 
-                    <div style="float:right">
+                    <div class="float-right">
                       {% if comment.status() == constant('\\Jimdo\\Reports\\Reportbook\\Comment::STATUS_EDITED') %}
-                        <span class="text-muted" style="margin-right:0.5em;">{{ viewHelper.getTranslationForStatus(comment.status()) }}</span>
+                        <span class="text-muted">{{ viewHelper.getTranslationForStatus(comment.status()) }}&nbsp;</span>
                       {% endif %}
                     </div>
 
@@ -57,7 +57,7 @@
                                     <input type="hidden" name="userId" value="{{ userId }}">
                                     <input type="hidden" name="commentId" value="{{ comment.id() }}">
                                     <input type="hidden" id="traineeId" name="traineeId" value="{{ traineeId }}">
-                                    <textarea style="resize: none; height: 100px; overflow:scroll; border: none; box-shadow: none; padding: 0px;" name="newComment" class="form-control editable">{{ comment.content() }}</textarea>
+                                    <textarea name="newComment" class="form-control editable comment-edit">{{ comment.content() }}</textarea>
                             </div>
 
                     </div>
@@ -68,35 +68,32 @@
 
     <div class="edit{{ comment.id() }} collapse form-group">
       <div  class="col-sm-offset-10 col-sm-2 ">
-        <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
+        <button class="btn btn-md btn-default btn-block button-large float-right" type="submit">Speichern</button>
       </div>
     </div>
   </form>
 
 {% endfor %}
 
-    <div class="col-sm-offset-10 col-sm-2">
+    {% if showCreateCommentButton %}
+        <p class="form-control-static">
+            <button class="btn btn-default btn-block button-large float-right" data-toggle="collapse" data-target="#createComment">Kommentar verfassen</button>
+        </p>
+    {% endif %}
 
-        {% if showCreateCommentButton %}
-            <p class="form-control-static">
-                <button style="width: 175px; padding-right: 10px;" class="btn btn-md btn-default btn-block" data-toggle="collapse" data-target="#createComment">Kommentar verfassen</button>
-            </p>
-        {% endif %}
+    <br />
 
-    </div>
     <div class="form-group">
         <div class="collapse" id="createComment">
             <form action="/comment/createComment" method="POST" class="form-horizontal">
                 <div class="card card-block">
 
                   <div class="col-sm-offset-2 col-sm-10">
-                    <textarea  style="resize:none; height: 80px; overflow:scroll;" type="textarea" name="content" class="form-control editable medium-editor-textarea" id="createComment" rows="5" placeholder="Dein Kommentar"></textarea></br>
-                  </div>
-                  <div class="col-sm-offset-10 col-sm-2">
+                    <textarea type="textarea" name="content" class="form-control editable medium-editor-textarea comment-create" id="createComment" rows="5" placeholder="Dein Kommentar"></textarea></br>
                       <input type="hidden" id="reportId" name="reportId" value="{{ reportId }}" />
                       <input type="hidden" id="traineeId" name="traineeId" value="{{ traineeId }}" />
-                      <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
-                  </div>
+                      <button class="btn btn-md btn-default btn-block button-large float-right" type="submit">Speichern</button>
+                </div>
                 </div>
             </form>
         </div>

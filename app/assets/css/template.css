@@ -1,0 +1,234 @@
+@media (min-width: 768px) {
+  /* font color */
+  .font-blue {
+    color: #337ab7;
+  }
+
+  .container h2 {
+    margin-top: 6px;
+  }
+
+  /* make sidebar nav vertical */
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .nav-li {
+    border-bottom: 1px solid #E7E7E7;
+    display: block;
+  }
+
+  /* table */
+  .table-reportbook {
+    border: 1px solid #E7E7E7;
+  }
+  .table-reportbook th a {
+    color: gray;
+  }
+
+  /* calendar */
+  .yearLabel li a {
+    color: gray;
+  }
+  .yearLabel li button {
+    border: none;
+    background: transparent;
+    padding-top: 5px;
+  }
+  .calendar-outer {
+    padding: 5px;
+  }
+  .calendar-inner {
+    border: 1px solid #E7E7E7;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 10px;
+    height: 266px;
+  }
+  .calendar-legend {
+    float:right;
+    display: inline;
+    padding-top: 5px;
+  }
+  .calendar-status-open {
+    color: #E6E6E6;
+  }
+  .calendar-status-approval-requested {
+    color: yellow;
+  }
+  .calendar-status-approved {
+    color: #01DF01;
+  }
+  .calendar-status-disapproved {
+    color: red;
+  }
+
+  /* comments */
+  .comment-box {
+    display: inline;
+  }
+  .comment-picture {
+    width: 100px;
+    height: 100px;
+    margin: 0px;
+    float: right;
+  }
+  .comment-picture img {
+    width: 80px;
+    height: 80px;
+  }
+  .comment-content {
+    padding: 0px;
+  }
+  .comment-edit {
+    resize: none;
+    height: 100px;
+    overflow: scroll;
+    border: none;
+    box-shadow: none;
+    padding: 0px;
+  }
+  .comment-create {
+    resize: none;
+    height: 80px;
+    overflow: scroll;
+  }
+  .panel-default {
+
+    margin-bottom: 0px;
+  }
+
+  /* container */
+  .container-box {
+    border-right: 1px solid #E7E7E7;
+    box-shadow: 0px 4px 5px 2px rgba(217,217,217,0.5);
+    padding: 0px;
+    background-color: white;
+  }
+
+  /* infobar */
+  .logout-button {
+    font-size: 1.2em;
+    padding-top: 4px;
+  }
+  .navbar-text {
+    font-size: 1.2em;
+  }
+  .navbar-infobar {
+    margin-bottom: 0px;
+    border-radius: 0px;
+    box-shadow: none;
+  }
+  .navbar-right img {
+    height: 25px;
+    width: 25px;
+    border: 2px solid #E3E3E3;
+  }
+
+  /* navbar */
+  .navbar-format {
+    padding: 0px;
+  }
+  .sidebar-nav .navbar.navbar-default {
+    border-radius: 0px;
+    border-top: none;
+    box-shadow: none;
+    margin-bottom: 0px;
+    border-bottom: none;
+  }
+  .sidebar-nav .navbar.navbar-default .nav.navbar-nav {
+    height: 1500px;
+  }
+  .nav-search {
+    padding:15px;
+    border-bottom: 1px solid #E7E7E7;
+  }
+  .navbar.navbar-default .nav.navbar-nav .link-color {
+    color: #337ab7;
+  }
+  .page-content {
+    padding-right: 15px;
+    padding-top: 15px;
+  }
+
+  /* profile */
+  .profile-picture {
+    float: right;
+    width: 230px;
+  }
+  .profile-picture img {
+    border: 1px solid #E7E7E7;
+    width:212px;
+    height:212px;
+  }
+  .profile-picture .file-upload {
+    display: none;
+  }
+  .profile-picture form {
+    padding-top: 5px;
+  }
+  .profile-content {
+    float:left;
+    width: 400px;
+    border: 1px solid #E7E7E7;
+    background-color: #f9f9f9;
+  }
+
+  /* view report */
+  .view-report-heading {
+    margin-top: 5px;
+  }
+  .view-report-heading h2 {
+    display: inline;
+  }
+  .view-report-heading h3 {
+    display: inline;
+    float: right;
+    margin-top: 8px;
+  }
+  .view-report-content {
+    padding: 10px;
+    border-bottom: 1px solid #E7E7E7;
+  }
+
+  /* report */
+  .report-content {
+    resize: none;
+    height: 300px;
+    overflow:scroll;
+  }
+
+  /* footer */
+  .footer {
+    border: 1px solid #E7E7E7;
+    background-color: #f9f9f9;
+  }
+  .footer p {
+    color: gray;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  /* other styles */
+  .button-large {
+    width: 160px;
+  }
+  .button-medium {
+    width: 125px;
+  }
+  .float-right {
+    float: right;
+  }
+}

@@ -1,0 +1,27 @@
+<div class="col-sm-3 navbar-format">
+  <div class="sidebar-nav">
+    <div class="navbar navbar-default" role="navigation">
+        <ul class="nav navbar-nav">
+          <li class="nav-search">
+            <form action="/report/search" method="POST">
+                <div class="input-group">
+                    <input type="text" name="text" class="form-control" placeholder="Berichte durchsuchen">
+                    <span type="submit" class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                </div>
+            </form>
+          </li>
+          {% if not isTrainer and not isAdmin %}
+            <li class="nav-li {% if createReportViewActive %} active {% endif %}"><a class="link-color" href="/report/createReport"><span class="glyphicon glyphicon-edit"></span> Neuen Bericht erstellen</a></li>
+          {% endif %}
+          <li class="nav-li {% if listViewActive %} active {% endif %}"><a class="link-color" href="/report/list"><span class="glyphicon glyphicon-list"></span> Listenansicht</a></li>
+          <li class="nav-li {% if calendarViewActive %} active {% endif %}"><a class="link-color" href="/report/calendar?userId={{ reports[0].traineeId() }}"><span class="glyphicon glyphicon-calendar"></span> Kalenderansicht</a></li>
+          <li class="nav-li {% if profileViewActive %} active {% endif %}"><a class="link-color" href="/user/profile"><span class="glyphicon glyphicon-user"></span> Dein Profil</a></li>
+          {% if isTrainer or isAdmin %}
+            <li class="nav-li {% if userlistViewActive %} active {% endif %}"><a class="link-color" href="/user/userlist"><span class="glyphicon glyphicon-king"></span> Benutzerübersicht</a></li>
+          {% endif %}
+          <li class="nav-li {% if changePasswordViewActive %} active {% endif %}"><a class="link-color" href="/user/changePassword"><input type="hidden" id="userId" name="userId" value="{{ userId }}" /><span class="glyphicon glyphicon-wrench"></span> Passwort ändern</a></li>
+        </ul>
+    </div>
+  </div>
+</div>
+<div class="col-sm-9 page-content"> <!-- Open tag for content-->

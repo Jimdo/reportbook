@@ -19,7 +19,14 @@
 <!-- Optional theme -->
 <link rel="stylesheet" type="text/css" href="/assets/css/themes/beagle.min.css">
 
-</head>
-<body>
+<link rel="stylesheet" type="text/css" href="/assets/css/template.css">
 
-<div class="container">
+</head>
+
+<body style="background-color: white">
+
+{% if boxShadow %}
+  <div class="container">
+{% else %}
+  <div class="container container-box">
+{% endif %}

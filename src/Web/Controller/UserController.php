@@ -133,9 +133,9 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'userId' => $this->sessionData('userId'),
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),
@@ -145,17 +145,18 @@ class UserController extends Controller
             'user' => $user
         ];
 
-        echo $this->twig->render('Profile.html', $variables);
+        echo $this->twig->render('ProfileView.html', $variables);
     }
 
     public function indexAction()
     {
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => false
+            'backButton' => false,
+            'boxShadow' => true
         ];
 
-        echo $this->twig->render('Login.html', $variables);
+        echo $this->twig->render('LoginView.html', $variables);
     }
 
     public function loginAction()
@@ -221,10 +222,11 @@ class UserController extends Controller
         $variables = [
             'tabTitle' => 'Berichtsheft',
             'backButton' => false,
-            'role' => $this->queryParams('role')
+            'role' => $this->queryParams('role'),
+            'boxShadow' => true
         ];
 
-        echo $this->twig->render('Registration.html', $variables);
+        echo $this->twig->render('RegistrationView.html', $variables);
     }
 
     public function createUserAction()
@@ -278,10 +280,11 @@ class UserController extends Controller
                 'tabTitle' => 'Berichtsheft',
                 'backButton' => false,
                 'role' => $role,
-                'errorMessages' => $exceptions
+                'errorMessages' => $exceptions,
+                'boxShadow' => true
             ];
 
-            echo $this->twig->render('Registration.html', $variables);
+            echo $this->twig->render('RegistrationView.html', $variables);
         } else {
             header("Location: /user");
         }
@@ -292,9 +295,10 @@ class UserController extends Controller
         if ($this->isTrainer() || $this->isAdmin()) {
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => true,
+                'backButton' => false,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
+                'userId' => $this->sessionData('userId'),
                 'role' => $this->sessionData('role'),
                 'isTrainer' => $this->isTrainer(),
                 'isAdmin' => $this->isAdmin(),
@@ -302,10 +306,11 @@ class UserController extends Controller
                 'hideInfos' => false,
                 'users' => $this->appService->findUsersByStatus(Role::STATUS_NOT_APPROVED),
                 'profileService' => $this->appService->profileService,
-                'approvedUsers' => $this->appService->findUsersByStatus(Role::STATUS_APPROVED)
+                'approvedUsers' => $this->appService->findUsersByStatus(Role::STATUS_APPROVED),
+                'userlistViewActive' => true
             ];
 
-            echo $this->twig->render('Userlist.html', $variables);
+            echo $this->twig->render('UserlistView.html', $variables);
         } else {
             $this->redirect("/user");
         }
@@ -350,19 +355,21 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
+            'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'userId' => $this->sessionData('userId'),
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),
             'hideInfos' => true,
             'isTrainee' => $this->isTrainee(),
             'profile' => $profile,
-            'user' => $user
+            'user' => $user,
+            'profileViewActive' => true
         ];
 
-        echo $this->twig->render('Profile.html', $variables);
+        echo $this->twig->render('ProfileView.html', $variables);
     }
 
     public function changeForenameAction()
@@ -417,9 +424,9 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'userId' => $this->sessionData('userId'),
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),
@@ -430,7 +437,7 @@ class UserController extends Controller
             'errorMessages' => $errorMessages
         ];
 
-        echo $this->twig->render('Profile.html', $variables);
+        echo $this->twig->render('ProfileView.html', $variables);
     }
 
     public function changeUsernameAction()
@@ -456,10 +463,10 @@ class UserController extends Controller
 
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => true,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'role' => $this->sessionData('role'),
+                'userId' => $this->sessionData('userId'),
                 'isTrainer' => $this->isTrainer(),
                 'isAdmin' => $this->isAdmin(),
                 'hideInfos' => true,
@@ -469,7 +476,7 @@ class UserController extends Controller
                 'errorMessages' => $exceptions
             ];
 
-            echo $this->twig->render('Profile.html', $variables);
+            echo $this->twig->render('ProfileView.html', $variables);
         } else {
             if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
                 $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);
@@ -499,10 +506,10 @@ class UserController extends Controller
 
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => true,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'role' => $this->sessionData('role'),
+                'userId' => $this->sessionData('userId'),
                 'isTrainer' => $this->isTrainer(),
                 'isAdmin' => $this->isAdmin(),
                 'hideInfos' => true,
@@ -512,7 +519,7 @@ class UserController extends Controller
                 'errorMessages' => $exceptions
             ];
 
-            echo $this->twig->render('Profile.html', $variables);
+            echo $this->twig->render('ProfileView.html', $variables);
         } else {
             if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
                 $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);
@@ -601,10 +608,10 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
+            'userId' => $this->sessionData('userId'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),
             'hideInfos' => true,
@@ -614,7 +621,7 @@ class UserController extends Controller
             'errorMessages' => $errorMessages
         ];
 
-        echo $this->twig->render('Profile.html', $variables);
+        echo $this->twig->render('ProfileView.html', $variables);
     }
 
     public function changeTrainingYearAction()
@@ -639,10 +646,10 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
+            'userId' => $this->sessionData('userId'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),
             'hideInfos' => true,
@@ -652,7 +659,7 @@ class UserController extends Controller
             'errorMessages' => $errorMessages
         ];
 
-        echo $this->twig->render('Profile.html', $variables);
+        echo $this->twig->render('ProfileView.html', $variables);
     }
 
     public function changePasswordAction()
@@ -666,15 +673,17 @@ class UserController extends Controller
             'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'userId' => $this->sessionData('userId'),
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),
             'hideInfos' => false,
             'isTrainee' => $this->isTrainee(),
-            'userId' => $this->sessionData('userId')
+            'userId' => $this->sessionData('userId'),
+            'changePasswordViewActive' => true
         ];
 
-        echo $this->twig->render('ChangePassword.html', $variables);
+        echo $this->twig->render('ChangePasswordView.html', $variables);
     }
 
     public function editPasswordAction()
@@ -714,7 +723,7 @@ class UserController extends Controller
                 'errorMessages' => $exceptions
             ];
 
-            echo $this->twig->render('ChangePassword.html', $variables);
+            echo $this->twig->render('ChangePasswordView.html', $variables);
         } else {
             $this->redirect("/report/list");
         }
@@ -727,9 +736,10 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
+            'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'userId' => $this->sessionData('userId'),
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),
@@ -740,7 +750,7 @@ class UserController extends Controller
             'errorMessages' => $errorMessages
         ];
 
-        echo $this->twig->render('UserProfile.html', $variables);
+        echo $this->twig->render('UserProfileView.html', $variables);
     }
 
     public function logoutAction()

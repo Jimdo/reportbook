@@ -114,7 +114,7 @@ class ReportController extends Controller
                     break;
             }
 
-            $template = $this->twig->load('Trainee.html');
+            $template = $this->twig->load('TraineeView.html');
 
         } elseif ($this->isTrainer()) {
             $reports = array_merge(
@@ -151,7 +151,7 @@ class ReportController extends Controller
                     break;
             }
 
-            $template = $this->twig->load('Trainer.html');
+            $template = $this->twig->load('TrainerView.html');
 
         } elseif ($this->isAdmin()) {
 
@@ -185,7 +185,7 @@ class ReportController extends Controller
                     break;
             }
 
-            $template = $this->twig->load('Admin.html');
+            $template = $this->twig->load('AdminView.html');
 
         } else {
             $this->redirect("/user");
@@ -193,16 +193,17 @@ class ReportController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'userId' => $this->sessionData('userId'),
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),
             'infoHeadline' => ' | Übersicht',
             'hideInfos' => false,
             'appService' => $this->appService,
-            'reports' => $reports
+            'reports' => $reports,
+            'listViewActive' => true
         ];
 
         echo $template->render($variables);
@@ -227,9 +228,9 @@ class ReportController extends Controller
 
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => false,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
+                'userId' => $this->sessionData('userId'),
                 'role' => $this->sessionData('role'),
                 'isTrainer' => $this->isTrainer(),
                 'isAdmin' => $this->isAdmin(),
@@ -239,10 +240,11 @@ class ReportController extends Controller
                 'year' => $year,
                 'users' => $traineeInfo,
                 'currentUserId' => $this->queryParams('userId'),
+                'calendarViewActive' => true,
                 'cwInfo' => $this->createCalendarArray($this->queryParams('userId'), $year)
             ];
 
-            echo $this->twig->render('Calendar.html', $variables);
+            echo $this->twig->render('CalendarView.html', $variables);
         }
     }
 
@@ -279,16 +281,16 @@ class ReportController extends Controller
         }
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'userId' => $this->sessionData('userId'),
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),
             'infoHeadline' => ' | Übersicht',
             'hideInfos' => false,
             'action' => '/report/create',
-            'legend' => 'Neuen Bericht erstellen',
+            'heading' => 'Neuen Bericht erstellen',
             'calendarWeek' => date("W"),
             'calendarYear' => date("Y"),
             'content' => '',
@@ -298,10 +300,11 @@ class ReportController extends Controller
             'createButton' => true,
             'statusButtons' => false,
             'isCompany' => 'checked',
-            'showCreateCommentButton' => false
+            'showCreateCommentButton' => false,
+            'createReportViewActive' => true
         ];
 
-        echo $this->twig->render('Report.html', $variables);
+        echo $this->twig->render('ReportView.html', $variables);
     }
 
     public function createAction()
@@ -331,7 +334,6 @@ class ReportController extends Controller
             }
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => true,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'role' => $this->sessionData('role'),
@@ -378,7 +380,6 @@ class ReportController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -387,7 +388,7 @@ class ReportController extends Controller
             'infoHeadline' => ' | Übersicht',
             'hideInfos' => false,
             'action' => '/report/edit',
-            'legend' => 'Bericht bearbeiten',
+            'heading' => 'Bericht bearbeiten',
             'calendarWeek' => $report->calendarWeek(),
             'calendarYear' => $report->calendarYear(),
             'content' => $report->content($replaceNewlines = true),
@@ -406,7 +407,7 @@ class ReportController extends Controller
             'showCreateCommentButton' => ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED')
         ];
 
-        echo $this->twig->render('Report.html', $variables);
+        echo $this->twig->render('ReportView.html', $variables);
     }
 
     public function editAction()
@@ -448,7 +449,6 @@ class ReportController extends Controller
 
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => true,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'role' => $this->sessionData('role'),
@@ -457,7 +457,7 @@ class ReportController extends Controller
                 'infoHeadline' => ' | Übersicht',
                 'hideInfos' => false,
                 'action' => '/report/edit',
-                'legend' => 'Bericht bearbeiten',
+                'heading' => 'Bericht bearbeiten',
                 'calendarWeek' => $this->formData('calendarWeek'),
                 'calendarYear' => $this->formData('calendarYear'),
                 'content' => $this->formData('content'),
@@ -477,7 +477,7 @@ class ReportController extends Controller
                 'errorMessages' => $errorMessages
             ];
 
-            echo $this->twig->render('Report.html', $variables);
+            echo $this->twig->render('ReportView.html', $variables);
         }
     }
 
@@ -535,7 +535,6 @@ class ReportController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'role' => $this->sessionData('role'),
@@ -572,7 +571,7 @@ class ReportController extends Controller
             )
         ];
 
-        echo $this->twig->render('ReadonlyReport.html', $variables);
+        echo $this->twig->render('ReadonlyReportView.html', $variables);
     }
 
     public function approveReportAction()
@@ -600,33 +599,34 @@ class ReportController extends Controller
         if ($this->isTrainee()) {
 
             $reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
-            $template = $this->twig->load('Trainee.html');
+            $template = $this->twig->load('TraineeView.html');
 
         } elseif ($this->isTrainer()) {
 
             $reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
-            $template = $this->twig->load('Trainer.html');
+            $template = $this->twig->load('TrainerView.html');
 
         } elseif ($this->isAdmin()) {
 
             $reports = $this->appService->findReportsByString($this->formData('text'), $this->sessionData('userId'), $this->sessionData('role'));
-            $template = $this->twig->load('Admin.html');
+            $template = $this->twig->load('AdminView.html');
 
         } else {
             $this->redirect("/user");
         }
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => true,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'userId' => $this->sessionData('userId'),
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),
             'infoHeadline' => ' | Übersicht',
             'hideInfos' => false,
             'appService' => $this->appService,
-            'reports' => $reports
+            'reports' => $reports,
+            'listViewActive' => true
         ];
 
         echo $template->render($variables);

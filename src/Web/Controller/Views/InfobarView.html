@@ -1,0 +1,13 @@
+<nav class="navbar navbar-default navbar-infobar">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <p class="navbar-text"><strong>berichtsheft.io</strong></p>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a><span>KW: {{ "now"|date("W") }}</span></a></li>
+      <li><a><span>Benutzer: {{ username }}</span></a></li>
+      <li><a><img class="img-circle" src="/profile/image?id={{ userId }}"></a></li>
+      <li><a href="/user/login"><span class="glyphicon glyphicon-off font-blue logout-button"></span></a></li>
+    </ul>
+  </div>
+</nav>

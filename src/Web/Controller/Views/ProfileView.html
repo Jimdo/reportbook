@@ -1,20 +1,16 @@
-{% include 'Header.html' %}
-{% include 'Infobar.html' %}
+{% include 'HeaderView.html' %}
+{% include 'InfobarView.html' %}
+{% include 'NavbarView.html' %}
 
-<div class="row">
-    <legend>Dein Profil</legend>
-</div>
+<h2>Dein Profil</h2>
+<legend></legend>
 
-<div class="row">
-  {% if errorMessages is not empty %}
-    {% for error in errorMessages %}
-      <div class="alert alert-danger col-sm-12" role="alert"><strong>{{ error }}</strong></div>
-    {% endfor %}
-  {% endif %}
-</div>
+{% for error in errorMessages %}
+  <div class="alert alert-danger col-md-12" role="alert"><strong>{{ error }}</strong></div>
+{% endfor %}
 
-<div class="col-sm-12" >
-    <img src= "/profile/image?id={{ user.id() }}" alt="Profilbild" style="width:212px; height:212px; border:1px solid gray;">
+<div class="profile-picture">
+    <img src= "/profile/image?id={{ user.id() }}" alt="Profilbild">
     <a href="#changeImage" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
 
     <br>
@@ -22,26 +18,17 @@
     <div class="collapse" id="changeImage">
         <form action="/user/upload" method="post" enctype="multipart/form-data">
             <label class="btn btn-default btn-file">
-            Bild öffnen <input type="file" name="fileToUpload" id="fileToUpload" style="display: none;">
+            Bild öffnen <input class="file-upload" type="file" name="fileToUpload" id="fileToUpload">
             </label>
             <input type="hidden" id="userId" name="userId" value="{{ user.id() }}" />
             <input type="submit" value="Upload Image" name="submit" class="btn btn-primary">
         </form>
     </div>
-
-    <br>
-
-    <form action="/user/changePassword" method="post">
-      <input type="hidden" id="userId" name="userId" value="{{ user.id() }}" />
-      <button type="submit" name="changePassword" value="changePassword" class="btn-link">Passwort ändern</button>
-    </form>
-
 </div>
 
-<div class="row"></div>
-
-<div class="col-sm-offset-2 col-sm-5">
-    <div class="col-sm-offset-1 col-sm-10">
+<div class="profile-content"> <!-- Info div -->
+<div class="col-md-8">
+    <div class="col-md-10">
         <h4>Persönliche Daten</h4><br>
     </div>
 
@@ -49,8 +36,8 @@
 
         <div class="form-group">
 
-            <label class="col-sm-6 control-label">Vorname</label>
-            <div class="col-sm-6">
+            <label class="col-md-6 control-label">Vorname</label>
+            <div class="col-md-6">
 
                 <p class="form-control-static">{{ profile.forename() }}
                     <a href="#changeForename" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
@@ -60,7 +47,7 @@
              <div class="collapse" id="changeForename">
                  <form action="/user/changeForename" method="POST" class="form-horizontal">
                      <div class="card card-block">
-                         <div class="col-sm-offset-6 col-sm-6">
+                         <div class="col-md-offset-6 col-md-10">
                               <input type="text" name="forename" class="form-control" id="forename" placeholder="Neuer Vorname"></br>
                               <input type="hidden" id="userId" name="userId" value="{{ user.id() }}" />
                               <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -72,8 +59,8 @@
 
         <div class="form-group">
 
-            <label class="col-sm-6 control-label">Nachname</label>
-            <div class="col-sm-6">
+            <label class="col-md-6 control-label">Nachname</label>
+            <div class="col-md-6">
 
                 <p class="form-control-static">{{ profile.surname() }}
                     <a href="#changeSurname" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
@@ -83,7 +70,7 @@
              <div class="collapse" id="changeSurname">
                  <form action="/user/changeSurname" method="POST" class="form-horizontal">
                      <div class="card card-block">
-                         <div class="col-sm-offset-6 col-sm-6">
+                         <div class="col-md-offset-6 col-md-10">
                              <input type="text" name="surname" class="form-control" id="surname" placeholder="Neuer Nachname"></br>
                              <input type="hidden" id="userId" name="userId" value="{{ user.id() }}" />
                              <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -96,8 +83,8 @@
 
         <div class="form-group">
 
-            <label class="col-sm-6 control-label">Geburtsdatum</label>
-            <div class="col-sm-6">
+            <label class="col-md-6 control-label">Geburtsdatum</label>
+            <div class="col-md-6">
 
                 <p class="form-control-static">{{ profile.dateOfBirth() }}
                     <a href="#changeDateOfBirth" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
@@ -107,7 +94,7 @@
              <div class="collapse" id="changeDateOfBirth">
                  <form action="/user/changeDateOfBirth" method="POST" class="form-horizontal">
                      <div class="card card-block">
-                         <div class="col-sm-offset-6 col-sm-6">
+                         <div class="col-md-offset-6 col-md-10">
                              <input type="text" name="dateOfBirth" class="form-control" id="dateOfBirth" placeholder="Neues Geburtsdatum"></br>
                              <input type="hidden" id="userId" name="userId" value="{{ user.id() }}" />
                              <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -120,8 +107,8 @@
 
         <div class="form-group">
 
-            <label class="col-sm-6 control-label">Benutzername</label>
-            <div class="col-sm-6">
+            <label class="col-md-6 control-label">Benutzername</label>
+            <div class="col-md-6">
 
                 <p class="form-control-static">{{ user.username() }}
                     <a href="#changeUsername" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
@@ -131,7 +118,7 @@
              <div class="collapse" id="changeUsername">
                  <form action="/user/changeUsername" method="POST" class="form-horizontal">
                      <div class="card card-block">
-                         <div class="col-sm-offset-6 col-sm-6">
+                         <div class="col-md-offset-6 col-md-10">
                              <input type="text" name="username" class="form-control" id="username" placeholder="Neuer Benutzername"></br>
                              <input type="hidden" id="userId" name="userId" value="{{ user.id() }}" />
                              <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -144,8 +131,8 @@
 
         <div class="form-group">
 
-            <label class="col-sm-6 control-label">E-Mail</label>
-            <div class="col-sm-6">
+            <label class="col-md-6 control-label">E-Mail</label>
+            <div class="col-md-6">
 
                 <p class="form-control-static">{{ user.email() }}
                     <a href="#changeEmail" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
@@ -155,7 +142,7 @@
              <div class="collapse" id="changeEmail">
                  <form action="/user/changeEmail" method="POST" class="form-horizontal">
                      <div class="card card-block">
-                         <div class="col-sm-offset-6 col-sm-6">
+                         <div class="col-md-offset-6 col-md-10">
                              <input type="text" name="email" class="form-control" id="email" placeholder="Neue E-Mail"></br>
                              <input type="hidden" id="userId" name="userId" value="{{ user.id() }}" />
                              <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -167,9 +154,8 @@
     </div>
 </div>
 
-<div class="col-sm-offset-2 col-sm-5">
-
-    <div class="col-sm-offset-1 col-sm-10">
+<div class="col-md-8">
+    <div class="col-md-10">
         <h4>Betriebliche Daten</h4><br>
     </div>
 
@@ -177,8 +163,8 @@
 
         <div class="form-group">
 
-            <label class="col-sm-6 control-label">Firma</label>
-            <div class="col-sm-6">
+            <label class="col-md-6 control-label">Firma</label>
+            <div class="col-md-6">
 
                 <p class="form-control-static">{{ profile.company() }}
                     <a href="#changeCompany" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
@@ -188,7 +174,7 @@
              <div class="collapse" id="changeCompany">
                  <form action="/user/changeCompany" method="POST" class="form-horizontal">
                      <div class="card card-block">
-                         <div class="col-sm-offset-6 col-sm-6">
+                         <div class="col-md-offset-6 col-md-10">
                              <input type="text" name="company" class="form-control" id="company" placeholder="Neue Firma"></br>
                              <input type="hidden" id="userId" name="userId" value="{{ user.id() }}" />
                              <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -201,8 +187,8 @@
 
         <div class="form-group">
 
-            <label class="col-sm-6 control-label">Berufsbezeichung</label>
-            <div class="col-sm-6">
+            <label class="col-md-6 control-label">Berufsbezeichung</label>
+            <div class="col-md-6">
 
                 <p class="form-control-static">{{ profile.jobTitle() }}
                     <a href="#changeJobTitle" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
@@ -212,7 +198,7 @@
              <div class="collapse" id="changeJobTitle">
                  <form action="/user/changeJobTitle" method="POST" class="form-horizontal">
                      <div class="card card-block">
-                         <div class="col-sm-offset-6 col-sm-6">
+                         <div class="col-md-offset-6 col-md-10">
                              <input type="text" name="jobTitle" class="form-control" id="jobTitle" placeholder="Neue Berufsbezeichung"></br>
                              <input type="hidden" id="userId" name="userId" value="{{ user.id() }}" />
                              <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -227,16 +213,16 @@
 
 {% if isTrainee or isAdmin %}
 
-    <div class="col-sm-offset-2 col-sm-5">
-        <div class="col-sm-offset-1 col-sm-10">
+    <div class="col-md-8">
+        <div class="col-md-10">
             <h4>Schulische Daten</h4><br>
         </div>
         <div class="form-horizontal">
 
             <div class="form-group">
 
-                <label class="col-sm-6 control-label">Schule</label>
-                <div class="col-sm-6">
+                <label class="col-md-6 control-label">Schule</label>
+                <div class="col-md-6">
 
                     <p class="form-control-static">{{ profile.school() }}
                         <a href="#changeSchool" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
@@ -246,7 +232,7 @@
                  <div class="collapse" id="changeSchool">
                      <form action="/user/changeSchool" method="POST" class="form-horizontal">
                          <div class="card card-block">
-                             <div class="col-sm-offset-6 col-sm-6">
+                             <div class="col-md-offset-6 col-md-10">
                                  <input type="text" name="school" class="form-control" id="school" placeholder="Neue Schule"></br>
                                  <input type="hidden" id="userId" name="userId" value="{{ user.id() }}" />
                                  <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -259,8 +245,8 @@
 
             <div class="form-group">
 
-                <label class="col-sm-6 control-label">Klasse</label>
-                <div class="col-sm-6">
+                <label class="col-md-6 control-label">Klasse</label>
+                <div class="col-md-6">
 
                     <p class="form-control-static">{{ profile.grade() }}
                         <a href="#changeGrade" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
@@ -270,7 +256,7 @@
                  <div class="collapse" id="changeGrade">
                      <form action="/user/changeGrade" method="POST" class="form-horizontal">
                          <div class="card card-block">
-                             <div class="col-sm-offset-6 col-sm-6">
+                             <div class="col-md-offset-6 col-md-10">
                                  <input type="text" name="grade" class="form-control" id="grade" placeholder="Neue Klasse"></br>
                                  <input type="hidden" id="userId" name="userId" value="{{ user.id() }}" />
                                  <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -283,8 +269,8 @@
 
             <div class="form-group">
 
-                <label class="col-sm-6 control-label">Ausbildungsbeginn</label>
-                <div class="col-sm-6">
+                <label class="col-md-6 control-label">Ausbildungsbeginn</label>
+                <div class="col-md-6">
 
                     <p class="form-control-static">{{ profile.startOfTraining() }}
                         <a href="#changeStartOfTraining" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
@@ -294,7 +280,7 @@
                  <div class="collapse" id="changeStartOfTraining">
                      <form action="/user/changeStartOfTraining" method="POST" class="form-horizontal">
                          <div class="card card-block">
-                             <div class="col-sm-offset-6 col-sm-6">
+                             <div class="col-md-offset-6 col-md-10">
                                  <input type="text" name="startOfTraining" class="form-control" id="startOfTraining" placeholder="Neuer Ausbildungsbeginn"></br>
                                  <input type="hidden" id="userId" name="userId" value="{{ user.id() }}" />
                                  <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -307,8 +293,8 @@
 
             <div class="form-group">
 
-                <label class="col-sm-6 control-label">Ausbildungsjahr</label>
-                <div class="col-sm-6">
+                <label class="col-md-6 control-label">Ausbildungsjahr</label>
+                <div class="col-md-6">
 
                     <p class="form-control-static">{{ profile.trainingYear() }}
                         <a href="#changeTrainingYear" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
@@ -318,7 +304,7 @@
                  <div class="collapse" id="changeTrainingYear">
                      <form action="/user/changeTrainingYear" method="POST" class="form-horizontal">
                          <div class="card card-block">
-                             <div class="col-sm-offset-6 col-sm-6">
+                             <div class="col-md-offset-6 col-md-10">
                                  <input type="text" name="trainingYear" class="form-control" id="trainingYear" placeholder="Neues Ausbildungsjahr"></br>
                                  <input type="hidden" id="userId" name="userId" value="{{ user.id() }}" />
                                  <button class="btn btn-md btn-default btn-block" type="submit">Speichern</button>
@@ -333,6 +319,8 @@
 
 {% endif %}
 
-<div class="row"></div>
+</div> <!-- Close tag for info -->
 
-{% include 'Footer.html' %}
+</div> <!-- Close tag for content -->
+
+{% include 'FooterView.html' %}

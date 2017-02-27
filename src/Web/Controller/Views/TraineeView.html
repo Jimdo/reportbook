@@ -1,16 +1,16 @@
-{% include 'Header.html' %}
+{% include 'HeaderView.html' %}
 {% include 'InfobarView.html' %}
 {% include 'NavbarView.html' %}
 
   <h2>Listenansicht der Berichte</h2>
   <legend></legend>
-  <table class="table table-hover"  style="border: 1px solid #E7E7E7;">
+  <table class="table-reportbook table table-hover">
       <tr>
           <th class="text-center">Vorschau</th>
-          <th class="text-center">Kategorie <a href="/report/list?sort=category" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
-          <th class="text-center">KW <a href="/report/list?sort=calendarWeek" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
-          <th class="text-center">Status <a href="/report/list?sort=status" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
-          <th class="text-center">Kommentare <a href="/report/list?sort=comment" style="color: gray;" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
+          <th class="text-center">Kategorie <a href="/report/list?sort=category" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
+          <th class="text-center">KW <a href="/report/list?sort=calendarWeek" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
+          <th class="text-center">Status <a href="/report/list?sort=status" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
+          <th class="text-center">Kommentare <a href="/report/list?sort=comment" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
           <th class="text-center">Aktionen</th>
       </tr>
       {% for report in reports %}
@@ -79,4 +79,4 @@
 
 </div> <!-- Close tag for content -->
 
-{% include 'Footer.html' %}
+{% include 'FooterView.html' %}

@@ -1,13 +1,13 @@
-<nav class="navbar navbar-default" style="margin-bottom: 0px; border-radius: 0px; box-shadow: none;">
+<nav class="navbar navbar-default navbar-infobar">
   <div class="container-fluid">
     <div class="navbar-header">
-      <p class="navbar-text"><strong style="font-size:1.2em;">berichtsheft.io</strong></p>
+      <p class="navbar-text"><strong>berichtsheft.io</strong></p>
     </div>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span style="color: #337ab7;">KW {{ "now"|date("W") }}</span></a></li>
-      <li><a href="#"><span style="color: #337ab7;">{{ username }}</span></a></li>
-      <li><a href="#"><img style="height:25px; width: 25px;"class="img-responsive user-photo" src="/profile/image?id={{ userId }}"></a></li>
-      <li><a href="/user/login"><span style="color: #337ab7;" class="glyphicon glyphicon-off"></span></a></li>
+      <li><a><span>KW: {{ "now"|date("W") }}</span></a></li>
+      <li><a><span>Benutzer: {{ username }}</span></a></li>
+      <li><a><img class="img-circle" src="/profile/image?id={{ userId }}"></a></li>
+      <li><a href="/user/login"><span class="glyphicon glyphicon-off font-blue logout-button"></span></a></li>
     </ul>
   </div>
 </nav>

@@ -1,4 +1,4 @@
-{% include 'Header.html' %}
+{% include 'HeaderView.html' %}
 {% include 'InfobarView.html' %}
 {% include 'NavbarView.html' %}
 
@@ -6,8 +6,8 @@
 <h2>Kalenderansicht der Berichte</h2>
 <legend></legend>
   {% if isTrainer or isAdmin %}
-      <div class"col-sm-10" style="float:right;">
-          <div class="dropdown">
+      <div class"col-sm-10">
+          <div class="dropdown float-right">
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 
               {% for user in users %}
@@ -27,35 +27,33 @@
       </div>
   {% endif %}
 
-  <div style="width:800px; margin:0 auto;">
-      <div class="col-sm-offset-5">
-        <ul class="nav nav-pills">
-          <li><a href="/report/yearBefore?userId={{ currentUserId }}&year={{ year }}" class="glyphicon glyphicon-chevron-left" style="color:black;" aria-hidden="true"></a></li>
-          <li><button class="btn-md" style="border: none; background: transparent; padding-top: 5px;"><font size="4">{{ year }}</font></button></li>
-          <li><a href="/report/yearLater?userId={{ currentUserId }}&year={{ year }}" class="glyphicon glyphicon-chevron-right" style="color:black;" aria-hidden="true"></a></li>
-        </ul>
-      </div>
+  <div class="col-sm-offset-5 yearLabel">
+    <ul class="nav nav-pills">
+      <li><a href="/report/yearBefore?userId={{ currentUserId }}&year={{ year }}" class="glyphicon glyphicon-chevron-left" aria-hidden="true"></a></li>
+      <li><button class="btn-md"><font size="4">{{ year }}</font></button></li>
+      <li><a href="/report/yearLater?userId={{ currentUserId }}&year={{ year }}" class="glyphicon glyphicon-chevron-right" aria-hidden="true"></a></li>
+    </ul>
   </div>
 
   </br>
 
   {% for i in 0..11 %}
-    <div class="col-md-4" style="padding: 5px;">
-      <div style="border: 1px solid #BDBDBD; border-radius: 5px; padding-left: 5px; padding-right: 5px;  height: 266px;">
-        <p class="text-center" style="padding-top: 10px;"><b>{{ months[i] }}</b></p>
+    <div class="col-md-4 calendar-outer">
+      <div class="calendar-inner">
+        <p class="text-center"><b>{{ months[i] }}</b></p>
         {{ viewHelper.showMonth(i + 1, year, cwInfo) }}
       </div>
     </div>
   {% endfor %}
 
-  <p style="float:right; display: inline; padding-top: 5px;">
-    <span style="color: #E6E6E6">&#9634;</span> Offen &nbsp;&nbsp;&nbsp;&nbsp;
-    <span style="color: yellow">&#9608;</span> Eingereicht &nbsp;&nbsp;&nbsp;&nbsp;
-    <span style="color: #01DF01">&#9608;</span> Genehmigt &nbsp;&nbsp;&nbsp;&nbsp;
-    <span style="color: red">&#9608;</span> Abgelehnt
+  <p class="calendar-legend">
+    <span class="calendar-status-open">&#9634;</span> Offen &nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="calendar-status-approval-requested">&#9608;</span> Eingereicht &nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="calendar-status-approved">&#9608;</span> Genehmigt &nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="calendar-status-disapproved">&#9608;</span> Abgelehnt
   </p>
 
 
 </div> <!-- Close tag for content -->
 
-{% include 'Footer.html' %}
+{% include 'FooterView.html' %}

@@ -1,4 +1,4 @@
-{% include 'Header.html' %}
+{% include 'HeaderView.html' %}
 {% include 'InfobarView.html' %}
 {% include 'NavbarView.html' %}
 
@@ -8,14 +8,14 @@
     {% endfor %}
 </div>
 
-<div style="margin-top: 20px;">
-  <h2 style="display:inline;"> Bericht von {{ traineeName }} <small> KW {{ calendarWeek }} | {{ calendarYear }}</small></h2>
-  <h3 style="display:inline; float: right; margin-top: 8px;"><span class="label label-primary">{{ category }}</span></h3>
+<div class="view-report-heading">
+  <h2> Bericht von {{ traineeName }} <small> KW {{ calendarWeek }} | {{ calendarYear }}</small></h2>
+  <h3><span class="label label-primary">{{ category }}</span></h3>
 </div>
 
 <legend></legend>
 
-<div style="padding: 10px; border-bottom: 1px solid #BDBDBD; ">
+<div class="view-report-content">
     {{ content|raw }}
 </div>
 
@@ -28,7 +28,7 @@
         <div class="col-md-2 col-md-offset-8">
 
         <input type="hidden" name="reportId" value="{{ reportId }}">
-        <button style="width: 125px;" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Genehmigen</button>
+        <button type="submit" class="btn btn-primary button-medium"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Genehmigen</button>
 
         </div>
     </form>
@@ -37,7 +37,7 @@
         <div class="col-md-1">
 
         <input type="hidden" name="reportId" value="{{ reportId }}">
-        <button style="width: 125px;" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Ablehnen</button>
+        <button type="submit" class="btn btn-default button-medium"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Ablehnen</button>
 
         </div>
     </form>
@@ -51,4 +51,4 @@
 
 </div> <!-- Close tag for content -->
 
-{% include 'Footer.html' %}
+{% include 'FooterView.html' %}

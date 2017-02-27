@@ -1,4 +1,4 @@
-{% include 'Header.html' %}
+{% include 'HeaderView.html' %}
 {% include 'InfobarView.html' %}
 {% include 'NavbarView.html' %}
 
@@ -48,13 +48,13 @@
     <div class="row">
         <label class="col-md-2 control-label" for="calendarWeek">Bericht: </label>
         <div class="col-md-10">
-            <textarea style="resize: none; height: 300px; overflow:scroll;"{{ readonly }} id="content" name="content" class="form-control editable">{{ content|raw }}</textarea></br>
+            <textarea id="content" name="content" class="form-control editable report-content">{{ content|raw }}</textarea></br>
         </div>
     </div>
 
-    <div style="float: right;">
+    <div class="float-right">
       <input type="hidden" id="reportId" name="reportId" value="{{ reportId }}" />
-      <button type="submit" style="width: 160px;" class="btn btn-primary">{{ buttonName }}</button>
+      <button type="submit" class="btn btn-primary button-large">{{ buttonName }}</button>
     </div>
 
   </fieldset>
@@ -69,4 +69,4 @@
 </div> <!-- Close tag for content -->
 
 {% include 'MediumEditor.html' %}
-{% include 'Footer.html' %}
+{% include 'FooterView.html' %}

@@ -1,4 +1,4 @@
-{% include 'Header.html' %}
+{% include 'HeaderView.html' %}
 {% include 'InfobarView.html' %}
 {% include 'NavbarView.html' %}
 
@@ -9,9 +9,8 @@
   <div class="alert alert-danger col-md-12" role="alert"><strong>{{ error }}</strong></div>
 {% endfor %}
 
-<div style="display: inline;">
-<div style="float: right; width: 259;">
-    <img src= "/profile/image?id={{ user.id() }}" alt="Profilbild" style="width:212px; height:212px; border:1px solid gray;">
+<div class="profile-picture">
+    <img src= "/profile/image?id={{ user.id() }}" alt="Profilbild">
     <a href="#changeImage" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
 
     <br>
@@ -19,7 +18,7 @@
     <div class="collapse" id="changeImage">
         <form action="/user/upload" method="post" enctype="multipart/form-data">
             <label class="btn btn-default btn-file">
-            Bild öffnen <input type="file" name="fileToUpload" id="fileToUpload" style="display: none;">
+            Bild öffnen <input class="file-upload" type="file" name="fileToUpload" id="fileToUpload">
             </label>
             <input type="hidden" id="userId" name="userId" value="{{ user.id() }}" />
             <input type="submit" value="Upload Image" name="submit" class="btn btn-primary">
@@ -27,7 +26,7 @@
     </div>
 </div>
 
-<div style="float:left; width: 400px; border: 1px solid #E7E7E7; background-color: #f9f9f9"> <!-- Info div -->
+<div class="profile-content"> <!-- Info div -->
 <div class="col-md-8">
     <div class="col-md-10">
         <h4>Persönliche Daten</h4><br>
@@ -321,8 +320,7 @@
 {% endif %}
 
 </div> <!-- Close tag for info -->
-</div>
 
 </div> <!-- Close tag for content -->
 
-{% include 'Footer.html' %}
+{% include 'FooterView.html' %}

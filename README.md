@@ -153,3 +153,6 @@ update       Update composer packages
 
 ### v0.6.3
   - Implement Medium-Editor to Report and Comment
+
+### v0.6.4
+  - Implement new design with sidebar to reportbook 

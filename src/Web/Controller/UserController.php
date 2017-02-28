@@ -152,7 +152,6 @@ class UserController extends Controller
     {
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => false,
             'boxShadow' => true
         ];
 
@@ -221,7 +220,6 @@ class UserController extends Controller
     {
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => false,
             'role' => $this->queryParams('role'),
             'boxShadow' => true
         ];
@@ -278,7 +276,6 @@ class UserController extends Controller
         if ($exceptions !== []) {
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => false,
                 'role' => $role,
                 'errorMessages' => $exceptions,
                 'boxShadow' => true
@@ -295,7 +292,6 @@ class UserController extends Controller
         if ($this->isTrainer() || $this->isAdmin()) {
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => false,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'userId' => $this->sessionData('userId'),
@@ -355,7 +351,6 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'userId' => $this->sessionData('userId'),
@@ -670,7 +665,6 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'userId' => $this->sessionData('userId'),
@@ -711,7 +705,6 @@ class UserController extends Controller
         if ($exceptions !== []) {
             $variables = [
                 'tabTitle' => 'Berichtsheft',
-                'backButton' => false,
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
                 'role' => $this->sessionData('role'),
@@ -736,7 +729,6 @@ class UserController extends Controller
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'backButton' => false,
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
             'userId' => $this->sessionData('userId'),

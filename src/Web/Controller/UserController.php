@@ -152,7 +152,8 @@ class UserController extends Controller
     {
         $variables = [
             'tabTitle' => 'Berichtsheft',
-            'boxShadow' => true
+            'boxShadow' => true,
+            'hideFooter' => true
         ];
 
         echo $this->twig->render('LoginView.html', $variables);
@@ -220,6 +221,7 @@ class UserController extends Controller
     {
         $variables = [
             'tabTitle' => 'Berichtsheft',
+            'hideFooter' => true,
             'role' => $this->queryParams('role'),
             'boxShadow' => true
         ];
@@ -277,6 +279,7 @@ class UserController extends Controller
             $variables = [
                 'tabTitle' => 'Berichtsheft',
                 'role' => $role,
+                'hideFooter' => true,
                 'errorMessages' => $exceptions,
                 'boxShadow' => true
             ];

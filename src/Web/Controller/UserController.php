@@ -225,6 +225,7 @@ class UserController extends Controller
             'tabTitle' => 'Berichtsheft',
             'hideFooter' => true,
             'role' => $this->queryParams('role'),
+            'layout' => $_COOKIE['LAYOUT'],
             'boxShadow' => true
         ];
 

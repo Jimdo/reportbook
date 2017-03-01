@@ -14,7 +14,7 @@
             <li class="nav-li {% if createReportViewActive %} active {% endif %}"><a class="link-color" href="/report/createReport"><span class="glyphicon glyphicon-edit"></span> Neuen Bericht erstellen</a></li>
           {% endif %}
           <li class="nav-li {% if listViewActive %} active {% endif %}"><a class="link-color" href="/report/list"><span class="glyphicon glyphicon-list"></span> Listenansicht</a></li>
-          <li class="nav-li {% if calendarViewActive %} active {% endif %}"><a class="link-color" href="/report/calendar?userId={{ reports[0].traineeId() }}"><span class="glyphicon glyphicon-calendar"></span> Kalenderansicht</a></li>
+          <li class="nav-li {% if calendarViewActive %} active {% endif %}"><a class="link-color" href="/report/calendar"><span class="glyphicon glyphicon-calendar"></span> Kalenderansicht</a></li>
           <li class="nav-li {% if profileViewActive %} active {% endif %}"><a class="link-color" href="/user/profile"><span class="glyphicon glyphicon-user"></span> Dein Profil</a></li>
           {% if isTrainer or isAdmin %}
             <li class="nav-li {% if userlistViewActive %} active {% endif %}"><a class="link-color" href="/user/userlist"><span class="glyphicon glyphicon-king"></span> Benutzerübersicht</a></li>

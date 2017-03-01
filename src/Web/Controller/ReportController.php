@@ -632,6 +632,21 @@ class ReportController extends Controller
         echo $template->render($variables);
     }
 
+    public function changeLayoutAction()
+    {
+        if (!$this->isTrainee() && !$this->isTrainer() && !$this->isAdmin()) {
+            $this->redirect('/user');
+        }
+
+        // 30 days in seconds = 2592000
+        if ($_COOKIE['LAYOUT'] === ViewHelper::BRIGHT_LAYOUT || $_COOKIE['LAYOUT'] === null) {
+            setcookie("LAYOUT", ViewHelper::DARK_LAYOUT, time()+2592000, '/');
+        } elseif ($_COOKIE['LAYOUT'] === ViewHelper::DARK_LAYOUT) {
+            setcookie("LAYOUT", ViewHelper::BRIGHT_LAYOUT, time()+2592000, '/');
+        }
+        $this->redirect('/report/list');
+    }
+
     /**
      * @param int $errorCode
      */

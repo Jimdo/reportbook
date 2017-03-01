@@ -19,11 +19,15 @@
 <!-- Optional theme -->
 <link rel="stylesheet" type="text/css" href="/assets/css/themes/beagle.min.css">
 
-<link rel="stylesheet" type="text/css" href="/assets/css/template.css">
+{% if layout == constant('\\Jimdo\\Reports\\Web\\ViewHelper::DARK_LAYOUT') %}
+  <link rel="stylesheet" type="text/css" href="/assets/css/dark.css">
+{% else %}
+  <link rel="stylesheet" type="text/css" href="/assets/css/bright.css">
+{% endif %}
 
 </head>
 
-<body style="background-color: white">
+<body>
 
 {% if boxShadow %}
   <div class="container">

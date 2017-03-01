@@ -9,6 +9,9 @@ use Jimdo\Reports\Reportbook\Category;
 
 class ViewHelper
 {
+    const BRIGHT_LAYOUT = 'BRIGHT';
+    const DARK_LAYOUT = 'DARK';
+
     /**
      * @param int $month
      * @param int $year

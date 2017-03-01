@@ -225,6 +225,13 @@ class ReportController extends Controller
                     $profile = $this->appService->findProfileByUserId($user->id());
                     $traineeInfo[] = ['name' => $profile->forename() . ' ' .  $profile->surname(), 'id' => $user->id()];
                 }
+                if ($this->queryParams('userId') !== null) {
+                    $currentUserId = $this->queryParams('userId');
+                } else {
+                    $currentUserId = $traineeInfo[0]['id'];
+                }
+            } else {
+                $currentUserId = $this->sessionData('userId');
             }
 
             $variables = [
@@ -241,9 +248,9 @@ class ReportController extends Controller
                 'months' => ['Januar', 'Febuar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
                 'year' => $year,
                 'users' => $traineeInfo,
-                'currentUserId' => $this->queryParams('userId'),
+                'currentUserId' => $currentUserId,
                 'calendarViewActive' => true,
-                'cwInfo' => $this->createCalendarArray($this->queryParams('userId'), $year)
+                'cwInfo' => $this->createCalendarArray($currentUserId, $year)
             ];
 
             echo $this->twig->render('CalendarView.html', $variables);

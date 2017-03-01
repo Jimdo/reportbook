@@ -9,6 +9,9 @@ use Jimdo\Reports\Reportbook\Category;
 
 class ViewHelper
 {
+    const BRIGHT_LAYOUT = 'BRIGHT';
+    const DARK_LAYOUT = 'DARK';
+
     /**
      * @param int $month
      * @param int $year
@@ -85,18 +88,18 @@ class ViewHelper
                                                   $cwInfo[$currentWeek]['status'] !== '') {
                 switch ($cwInfo[$currentWeek]['status']) {
                     case Report::STATUS_APPROVAL_REQUESTED:
-                        $color = 'yellow';
+                        $color = 'background-color: yellow !important; color: black;';
                         break;
                     case Report::STATUS_APPROVED:
-                        $color = '#01DF01';
+                        $color = 'background-color: #01DF01 !important; color: black;';
                         break;
                     case Report::STATUS_DISAPPROVED:
-                        $color = 'red';
+                        $color = 'background-color: red !important; color: black;';
                         break;
                     default:
                         $color = '';
                 }
-                echo "<td bgcolor=\"$color\" class=\"text-center\">" . $day .  "</td>";
+                echo "<td style=\"$color\" class=\"text-center\">" . $day .  "</td>";
             } else {
                 echo "<td class=\"text-center\">" . $day .  "</td>";
             }

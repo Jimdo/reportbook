@@ -195,6 +195,7 @@ class ReportController extends Controller
             'tabTitle' => 'Berichtsheft',
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'layout' => $_COOKIE['LAYOUT'],
             'userId' => $this->sessionData('userId'),
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
@@ -230,6 +231,7 @@ class ReportController extends Controller
                 'tabTitle' => 'Berichtsheft',
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
+                'layout' => $_COOKIE['LAYOUT'],
                 'userId' => $this->sessionData('userId'),
                 'role' => $this->sessionData('role'),
                 'isTrainer' => $this->isTrainer(),
@@ -283,6 +285,7 @@ class ReportController extends Controller
             'tabTitle' => 'Berichtsheft',
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'layout' => $_COOKIE['LAYOUT'],
             'userId' => $this->sessionData('userId'),
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
@@ -336,13 +339,14 @@ class ReportController extends Controller
                 'tabTitle' => 'Berichtsheft',
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
+                'layout' => $_COOKIE['LAYOUT'],
                 'role' => $this->sessionData('role'),
                 'isTrainer' => $this->isTrainer(),
                 'isAdmin' => $this->isAdmin(),
                 'infoHeadline' => ' | Übersicht',
                 'hideInfos' => false,
                 'action' => '/report/create',
-                'legend' => 'Neuen Bericht erstellen',
+                'heading' => 'Neuen Bericht erstellen',
                 'calendarWeek' => $this->formData('calendarWeek'),
                 'calendarYear' => $this->formData('calendarYear'),
                 'content' => $this->formData('content'),
@@ -356,7 +360,7 @@ class ReportController extends Controller
                 'showCreateCommentButton' => false
             ];
 
-            echo $this->twig->render('Report.html', $variables);
+            echo $this->twig->render('ReportView.html', $variables);
         }
     }
 
@@ -382,6 +386,7 @@ class ReportController extends Controller
             'tabTitle' => 'Berichtsheft',
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'layout' => $_COOKIE['LAYOUT'],
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),
@@ -451,6 +456,7 @@ class ReportController extends Controller
                 'tabTitle' => 'Berichtsheft',
                 'viewHelper' => $this->viewHelper,
                 'username' => $this->sessionData('username'),
+                'layout' => $_COOKIE['LAYOUT'],
                 'role' => $this->sessionData('role'),
                 'isTrainer' => $this->isTrainer(),
                 'isAdmin' => $this->isAdmin(),
@@ -537,6 +543,7 @@ class ReportController extends Controller
             'tabTitle' => 'Berichtsheft',
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'layout' => $_COOKIE['LAYOUT'],
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
             'isAdmin' => $this->isAdmin(),
@@ -618,6 +625,7 @@ class ReportController extends Controller
             'tabTitle' => 'Berichtsheft',
             'viewHelper' => $this->viewHelper,
             'username' => $this->sessionData('username'),
+            'layout' => $_COOKIE['LAYOUT'],
             'userId' => $this->sessionData('userId'),
             'role' => $this->sessionData('role'),
             'isTrainer' => $this->isTrainer(),
@@ -630,6 +638,21 @@ class ReportController extends Controller
         ];
 
         echo $template->render($variables);
+    }
+
+    public function changeLayoutAction()
+    {
+        if (!$this->isTrainee() && !$this->isTrainer() && !$this->isAdmin()) {
+            $this->redirect('/user');
+        }
+
+        // 30 days in seconds = 2592000
+        if ($_COOKIE['LAYOUT'] === ViewHelper::BRIGHT_LAYOUT || $_COOKIE['LAYOUT'] === null) {
+            setcookie("LAYOUT", ViewHelper::DARK_LAYOUT, time()+2592000, '/');
+        } elseif ($_COOKIE['LAYOUT'] === ViewHelper::DARK_LAYOUT) {
+            setcookie("LAYOUT", ViewHelper::BRIGHT_LAYOUT, time()+2592000, '/');
+        }
+        $this->redirect('/report/list');
     }
 
     /**

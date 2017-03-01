@@ -118,6 +118,20 @@
   }
 
   /* infobar */
+  .layout-box {
+    background-image: url("/assets/ico/moon.ico") !important;
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    width: 25px;
+    height: 25px;
+    border-radius: 2px;
+    margin-top: 17px;
+    padding: 0px !important;
+  }
+  .layout-box:hover {
+    background-size: 21px 21px;
+    cursor: pointer;
+  }
   .logout-button {
     font-size: 1.2em;
     padding-top: 4px;

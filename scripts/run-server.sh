@@ -14,5 +14,5 @@ docker run -it --rm \
     -e MAILGUN_DOMAIN=$MAILGUN_DOMAIN \
     -e MAILGUN_KEY=$MAILGUN_KEY \
     -v $(PWD)/:/var/www/ \
-    --add-host="docker_host:$(docker-machine inspect jimdo --format '{{ .Driver.HostOnlyCIDR}}' | awk -F/ '{print $1}')" \
+    --add-host="docker_host:$(docker-machine inspect --format '{{ .Driver.HostOnlyCIDR}}' | awk -F/ '{print $1}')" \
     jimdo/reportbook:debug

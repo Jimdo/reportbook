@@ -30,6 +30,9 @@ bench: ## Starts the benchmarks
 build: ## Generate docker container image
 	docker build -t $(IMAGE) .
 
+build-debug: build ## Generate docker container image
+	docker build -t $(IMAGE):debug -f Dockerfile.debug .
+
 build-cron: ## Generate docker container for mongoDB backup job
 	docker build -t registry.jimdo-platform.net/$(NAME)-mongo-backup cron
 

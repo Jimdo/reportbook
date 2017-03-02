@@ -54,29 +54,32 @@ class ViewHelper
 
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $currentWeek = intVal(date("W", strtotime("$year-$month-$day")));
-
+            $linkForWeek = false;
+            $link = $currentWeek;
             if (($day + $offset - 1) % 7 == 0 && $day != 1) {
-                $reportStatus = $cwInfo[$currentWeek]['status'];
-                $reportTraineeId = $cwInfo[$currentWeek]['traineeId'];
-                $reportReportId = $cwInfo[$currentWeek]['reportId'];
+                if (array_key_exists($currentWeek, $cwInfo)) {
+                    $reportStatus = $cwInfo[$currentWeek]['status'];
+                    $reportTraineeId = $cwInfo[$currentWeek]['traineeId'];
+                    $reportReportId = $cwInfo[$currentWeek]['reportId'];
 
-                $linkForWeek = ($reportStatus === Report::STATUS_APPROVAL_REQUESTED ||
-                    $reportStatus === Report::STATUS_APPROVED ||
-                    $reportStatus === Report::STATUS_DISAPPROVED);
-
-                $link = '';
-                if ($linkForWeek === true) {
-                    $link = "<form action=\"/report/viewReport\" method=\"post\">
-                                <a style=\"color:black; font-weight: bold;\"href=\"javascript:;\" onclick=\"parentNode.submit();\">$currentWeek</a>
-                                <input type=\"hidden\" name=\"traineeId\" value=\"$reportTraineeId\"/>
-                                <input type=\"hidden\" name=\"reportId\" value=\"$reportReportId\"/>
-                            </form>";
-                } else {
-                    $link = $currentWeek;
+                    $linkForWeek = ($reportStatus === Report::STATUS_APPROVAL_REQUESTED ||
+                        $reportStatus === Report::STATUS_APPROVED ||
+                        $reportStatus === Report::STATUS_DISAPPROVED);
                 }
-                echo "</tr>\n\t<tr><td style=\"font-weight: bold;\" class=\"text-center\">$link</td>";
 
-                $rows++;
+                    $link = '';
+                    if ($linkForWeek === true) {
+                        $link = "<form action=\"/report/viewReport\" method=\"post\">
+                                    <a style=\"color:black; font-weight: bold;\"href=\"javascript:;\" onclick=\"parentNode.submit();\">$currentWeek</a>
+                                    <input type=\"hidden\" name=\"traineeId\" value=\"$reportTraineeId\"/>
+                                    <input type=\"hidden\" name=\"reportId\" value=\"$reportReportId\"/>
+                                </form>";
+                    } else {
+                        $link = $currentWeek;
+                    }
+                    echo "</tr>\n\t<tr><td style=\"font-weight: bold;\" class=\"text-center\">$link</td>";
+
+                    $rows++;
             } elseif ($day === 1 && $offset == 0) {
                 echo "<td style=\"font-weight: bold;\" class=\"text-center\">$link</td>";
             } elseif ($day === 1) {

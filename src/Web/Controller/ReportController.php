@@ -212,6 +212,7 @@ class ReportController extends Controller
 
     public function calendarAction()
     {
+        $traineeInfo;
         if (!$this->isTrainee() && !$this->isAdmin() && !$this->isTrainer()) {
             $this->redirect('/user');
         } else {

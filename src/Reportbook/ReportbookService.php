@@ -14,7 +14,7 @@ class ReportbookService
     const ERR_DELETE_COMMENT_DENIED = 12;
 
     /** @var ReportRepository */
-    private $reportRepository;
+    public $reportRepository;
 
     /** @var CommentService */
     private $commentService;

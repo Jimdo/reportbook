@@ -86,22 +86,17 @@ class Router
             }
 
             if (count($uriParts) >= 2) {
+                $controllerObject = $this->createController($controller);
                 if ($uriParts[1] !== '') {
                     $givenAction = $uriParts[1] . 'Action';
-                    $getMethods = get_class_methods($this->createController($controller));
+                    $getMethods = get_class_methods($controllerObject);
 
-                    if ($getMethods !== null) {
-                        $actionFound = false;
-                        foreach ($getMethods as $method) {
-                            if ($method === $givenAction) {
-                                $actionFound = true;
-                                $action = $uriParts[1];
-                            }
-                        }
-                        if ($actionFound === false) {
-                            throw new ActionNotFoundException("Could not find $givenAction!");
-                        }
+                    if (in_array($givenAction ,$getMethods)) {
+                        $action = $uriParts[1];
+                    } else {
+                        throw new ActionNotFoundException("Could not find $givenAction!");
                     }
+
                 }
             }
         }
@@ -116,10 +111,10 @@ class Router
             $this->startSession();
         }
 
-        $controller = $this->createController($controller);
+        $controllerObject = $this->createController($controller);
 
         $action = $action . 'Action';
-        $actionString = $controller->$action();
+        $actionString = $controllerObject->$action();
 
         echo $this->responseObject->render();
 

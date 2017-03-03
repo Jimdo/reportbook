@@ -5,8 +5,6 @@ namespace Jimdo\Reports\User;
 use Jimdo\Reports\Views\User as ReadOnlyUser;
 use Jimdo\Reports\User\Role as Role;
 use Jimdo\Reports\Web\ApplicationConfig;
-use Jimdo\Reports\Notification\NotificationService;
-use Jimdo\Reports\Notification\Events as Events;
 
 class UserService
 {
@@ -21,18 +19,13 @@ class UserService
     /** @var UserRepository */
     private $userRepository;
 
-    /** @var NotificaionService */
-    private $notificationService;
-
     /**
      * @param UserRepository $userRepository
      * @param ApplicationConfig $appConfig
-     * @param NotificationService $notificationService
      */
-    public function __construct(UserRepository $userRepository, ApplicationConfig $appConfig, NotificationService $notificationService)
+    public function __construct(UserRepository $userRepository, ApplicationConfig $appConfig)
     {
         $this->userRepository = $userRepository;
-        $this->notificationService = $notificationService;
     }
 
     /**

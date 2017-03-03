@@ -49,67 +49,58 @@ class MailgunSubscriber implements Subscriber
     {
         switch ($event->type()) {
             case 'reportCreated':
-                $user = $this->userService->findUserById($event->payload()['userId']);
-                $message =  "Hallo {$user->username()}, \n\n" .
+                $message =  "Hallo {$event->payload()['username']}, \n\n" .
                             "Dein Bericht wurde erstellt. \n\n" .
                             "Kalenderwoche: {$event->payload()['calendarWeek']} \n" .
                             "Bericht: \n\n" .
                             "{$event->payload()['content']} \n\n" .
                             "Online Berichtsheft";
-                $this->sendMail("{$user->username()} <{$user->email()}>", $event->payload()['emailSubject'], $message);
+                $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 break;
             case 'approvalRequested':
-                $user = $this->userService->findUserById($event->payload()['userId']);
-                $message =  "Hallo {$user->username()}, \n\n" .
+                $message =  "Hallo {$event->payload()['username']}, \n\n" .
                             "Dein Bericht wurde erfolgreich eingereicht. \n\n" .
                             "Online Berichtsheft";
-                $this->sendMail("{$user->username()} <{$user->email()}>", $event->payload()['emailSubject'], $message);
+                $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 break;
             case 'reportApproved':
-                $user = $this->userService->findUserById($event->payload()['userId']);
-                $message =  "Hallo {$user->username()}, \n\n" .
+                $message =  "Hallo {$event->payload()['username']}, \n\n" .
                             "Dein Bericht wurde erfolgreich von einem Ausbilder genehmigt. \n\n" .
                             "Online Berichtsheft";
-                $this->sendMail("{$user->username()} <{$user->email()}>", $event->payload()['emailSubject'], $message);
+                $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 break;
             case 'reportDisapproved':
-                $user = $this->userService->findUserById($event->payload()['userId']);
-                $message =  "Hallo {$user->username()}, \n\n" .
+                $message =  "Hallo {$event->payload()['username']}, \n\n" .
                             "Dein Bericht wurde leider von einem Ausbilder abgelehnt. \n" .
                             "Überprüfe bitte nochmal Dein Bericht von der Kalenderwoche: {$event->payload()['calendarWeek']}.\n\n" .
                             "Online Berichtsheft";
-                $this->sendMail("{$user->username()} <{$user->email()}>", $event->payload()['emailSubject'], $message);
+                $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 break;
             case 'commentCreated':
-                $report = $this->reportRepository->findById($event->payload()['reportId']);
-                $user = $this->userService->findUserById($report->traineeId());
-                if ($user->id() !== $event->payload()['commentUserId']) {
-                    $message =  "Hallo {$user->username()}, \n\n" .
+                if ($event->payload()['traineeId'] !== $event->payload()['userId']) {
+                    $message =  "Hallo {$event->payload()['username']}, \n\n" .
                                 "Dein Bericht von der Kalenderwoche {$report->calendarWeek()} wurde kommentiert. \n\n" .
                                 "Online Berichtsheft";
-                    $this->sendMail("{$user->username()} <{$user->email()}>", $event->payload()['emailSubject'], $message);
+                    $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 }
                 break;
             case 'roleApproved':
-                $user = $this->userService->findUserById($event->payload()['userId']);
-                    $message =  "Hallo {$user->username()}, \n\n" .
+                    $message =  "Hallo {$event->payload()['username']}, \n\n" .
                                 "Dein Zugang zum Online Berichtsheft wurde freigeschaltet. \n\n" .
                                 "Online Berichtsheft";
-                    $this->sendMail("{$user->username()} <{$user->email()}>", $event->payload()['emailSubject'], $message);
+                    $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 break;
             case 'roleDisapproved':
-                $user = $this->userService->findUserById($event->payload()['userId']);
-                    $message =  "Hallo {$user->username()}, \n\n" .
+                    $message =  "Hallo {$event->payload()['username']}, \n\n" .
                                 "Dein Zugang zum Online Berichtsheft wurde abgelehnt. \n\n" .
                                 "Online Berichtsheft";
-                    $this->sendMail("{$user->username()} <{$user->email()}>", $event->payload()['emailSubject'], $message);
+                    $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 break;
             case 'passwordEdited':
-                $user = $this->userService->findUserById($event->payload()['userId']);
-                    $message =  "Hallo {$user->username()}, \n\n" .
+                    $message =  "Hallo {$event->payload()['username']}, \n\n" .
                                 "Dein Passwort wurde erfolgreich geändert. \n\n" .
                                 "Online Berichtsheft";
-                    $this->sendMail("{$user->username()} <{$user->email()}>", $event->payload()['emailSubject'], $message);
+                    $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 break;
         }
     }

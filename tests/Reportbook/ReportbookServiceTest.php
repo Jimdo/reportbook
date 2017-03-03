@@ -4,12 +4,9 @@ namespace Jimdo\Reports\Reportbook;
 
 use PHPUnit\Framework\TestCase;
 
-use Jimdo\Reports\Views\Report as ReadOnlyReport;
-use Jimdo\Reports\Reportbook\CommentFakeRepository as CommentFakeRepository;
-use Jimdo\Reports\Reportbook\CommentService as CommentService;
+use Jimdo\Reports\Reportbook\CommentFakeRepository;
+use Jimdo\Reports\Reportbook\CommentService;
 use Jimdo\Reports\Web\ApplicationConfig;
-use Jimdo\Reports\Notification\DummySubscriber;
-use Jimdo\Reports\Notification\NotificationService;
 
 class ReportbookServiceTest extends TestCase
 {
@@ -32,11 +29,7 @@ class ReportbookServiceTest extends TestCase
         $this->commentRepository = new CommentFakeRepository();
         $this->commentService = new CommentService($this->commentRepository);
 
-        $dummySubscriber = new DummySubscriber(['dummyEvent']);
-        $notificationService = new NotificationService();
-        $notificationService->register($dummySubscriber);
-
-        $this->reportbookService = new ReportbookService($this->reportRepository, $this->commentService, new ApplicationConfig(__DIR__ . '/../../config.yml'), $notificationService);
+        $this->reportbookService = new ReportbookService($this->reportRepository, $this->commentService, new ApplicationConfig(__DIR__ . '/../../config.yml'));
     }
 
     /**

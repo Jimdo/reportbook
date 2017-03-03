@@ -5,8 +5,6 @@ namespace Jimdo\Reports\User;
 use Jimdo\Reports\Views\User as ReadOnlyUser;
 use Jimdo\Reports\User\Role as Role;
 use Jimdo\Reports\Web\ApplicationConfig;
-use Jimdo\Reports\Notification\NotificationService;
-use Jimdo\Reports\Notification\Events as Events;
 
 class UserService
 {
@@ -21,18 +19,13 @@ class UserService
     /** @var UserRepository */
     private $userRepository;
 
-    /** @var NotificaionService */
-    private $notificationService;
-
     /**
      * @param UserRepository $userRepository
      * @param ApplicationConfig $appConfig
-     * @param NotificationService $notificationService
      */
-    public function __construct(UserRepository $userRepository, ApplicationConfig $appConfig, NotificationService $notificationService)
+    public function __construct(UserRepository $userRepository, ApplicationConfig $appConfig)
     {
         $this->userRepository = $userRepository;
-        $this->notificationService = $notificationService;
     }
 
     /**
@@ -48,12 +41,6 @@ class UserService
         string $password
     ) {
         $user = $this->registerUser($username, $email, new Role(Role::TRAINEE), $password);
-
-        $event = new Events\TraineeRegistered([
-            'userId' => $user->id()
-        ]);
-        $this->notificationService->notify($event);
-
         return $user;
     }
 
@@ -70,12 +57,6 @@ class UserService
         string $password
     ) {
         $user = $this->registerUser($username, $email, new Role(Role::TRAINER), $password);
-
-        $event = new Events\TrainerRegistered([
-            'userId' => $user->id()
-        ]);
-        $this->notificationService->notify($event);
-
         return $user;
     }
 
@@ -113,12 +94,6 @@ class UserService
         $user->editPassword($oldPassword, $newPassword);
 
         $this->userRepository->save($user);
-
-        $event = new Events\PasswordEdited([
-            'userId' => $user->id(),
-            'emailSubject' => 'Passwortänderung'
-        ]);
-        $this->notificationService->notify($event);
     }
 
     /**
@@ -144,11 +119,6 @@ class UserService
         $user = $this->userRepository->findUserById($userId);
         $user->editUsername($username);
         $this->userRepository->save($user, $user->email());
-
-        $event = new Events\UsernameEdited([
-            'userId' => $user->id()
-        ]);
-        $this->notificationService->notify($event);
     }
 
     /**
@@ -174,11 +144,6 @@ class UserService
         $user = $this->userRepository->findUserById($userId);
         $user->editEmail($email);
         $this->userRepository->save($user, $user->username());
-
-        $event = new Events\EmailEdited([
-            'userId' => $user->id()
-        ]);
-        $this->notificationService->notify($event);
     }
 
     /**
@@ -314,11 +279,6 @@ class UserService
         }
 
         if ($user->verify($password)) {
-            $event = new Events\UserAuthorized([
-                'userId' => $user->id()
-            ]);
-            $this->notificationService->notify($event);
-
             return true;
         }
         return false;
@@ -396,12 +356,6 @@ class UserService
         $user = $this->userRepository->findUserbyEmail($email);
         $user->approve();
         $this->userRepository->save($user);
-
-        $event = new Events\RoleApproved([
-            'userId' => $user->id(),
-            'emailSubject' => 'Zugang freigeschaltet'
-        ]);
-        $this->notificationService->notify($event);
     }
 
     /**
@@ -411,13 +365,6 @@ class UserService
     {
         $user = $this->userRepository->findUserbyEmail($email);
         $user->disapprove();
-
-        $event = new Events\RoleDisapproved([
-            'userId' => $user->id(),
-            'emailSubject' => 'Zugang abgelehnt'
-        ]);
-        $this->notificationService->notify($event);
-
         $this->userRepository->save($user);
     }
 

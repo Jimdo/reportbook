@@ -66,13 +66,27 @@ class ApplicationService
         string $calendarYear,
         string $category
     ): \Jimdo\Reports\Views\Report {
-        return $this->reportbookService->createReport($traineeId, $content, $calendarWeek, $calendarYear, $category);
+
+        $report = $this->reportbookService->createReport($traineeId, $content, $calendarWeek, $calendarYear, $category);
+
+        $user = $this->findUserById($traineeId);
+        $event = new Events\ReportCreated([
+            'userId' => $traineeId->id(),
+            'reportId' => $report->id(),
+            'emailSubject' => 'Bericht erstellt',
+            'calendarWeek' => $calendarWeek,
+            'content' => $content,
+            'username' => $user->username(),
+            'email' => $user->email()
+        ]);
+        $this->notificationService->notify($event);
+
+        return $report;
     }
 
     /**
      * @param string $reportId
      * @param string $content
-     * @param string $date
      * @param string $calendarWeek
      * @param string $calendarYear
      * @param string $category
@@ -80,7 +94,15 @@ class ApplicationService
      */
     public function editReport(string $reportId, string $content, string $calendarWeek, string $calendarYear, string $category)
     {
+        $report = $this->reportbookService->reportRepository->findById($reportId);
         $this->reportbookService->editReport($reportId, $content, $calendarWeek, $calendarYear, $category);
+
+        $event = new Events\ReportEdited([
+            'userId' => $report->traineeId(),
+            'reportId' => $reportId
+        ]);
+        $this->notificationService->notify($event);
+
     }
 
     /**
@@ -108,7 +130,14 @@ class ApplicationService
      */
     public function deleteReport(string $reportId)
     {
+        $report = $this->reportbookService->reportRepository->findById($reportId);
         $this->reportbookService->deleteReport($reportId);
+
+        $event = new Events\ReportDeleted([
+            'userId' => $report->traineeId(),
+            'reportId' => $reportId
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -118,6 +147,17 @@ class ApplicationService
     public function requestApproval(string $reportId)
     {
         $this->reportbookService->requestApproval($reportId);
+        $report = $this->reportbookService->reportRepository->findById($reportId);
+
+        $user = $this->findUserById($report->taineeId());
+        $event = new Events\ApprovalRequested([
+            'userId' => $report->traineeId(),
+            'reportId' => $reportId,
+            'emailSubject' => 'Bericht eingereicht',
+            'username' => $user->username(),
+            'email' => $user->email()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -127,6 +167,17 @@ class ApplicationService
     public function approveReport(string $reportId)
     {
         $this->reportbookService->approveReport($reportId);
+        $report = $this->reportbookService->reportRepository->findById($reportId);
+
+        $user = $this->findUserById($report->traineeId());
+        $event = new Events\ReportApproved([
+            'userId' => $report->traineeId(),
+            'reportId' => $reportId,
+            'emailSubject' => 'Bericht genehmigt',
+            'username' => $user->username(),
+            'email' => $user->email()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -136,6 +187,18 @@ class ApplicationService
     public function disapproveReport(string $reportId)
     {
         $this->reportbookService->disapproveReport($reportId);
+        $report = $this->reportbookService->reportRepository->findById($reportId);
+
+        $user = $this->findUserById($report->traineeId());
+        $event = new Events\ReportDisapproved([
+            'userId' => $report->traineeId(),
+            'reportId' => $reportId,
+            'emailSubject' => 'Bericht abgelehnt',
+            'calendarWeek' => $report->calendarWeek(),
+            'username' => $user->username(),
+            'email' => $user->email()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -177,6 +240,18 @@ class ApplicationService
      */
     public function createComment(string $reportId, string $userId, string $date, string $content): Comment
     {
+        $report = $this->reportbookService->reportRepository->findById($reportId);
+        $user = $this->findUserById($report->traineeId());
+        $event = new Events\CommentCreated([
+            'userId' => $userId,
+            'reportId' => $reportId,
+            'emailSubject' => 'Kommentar erstellt',
+            'traineeId' => $report->traineeId(),
+            'username' => $user->username(),
+            'email' => $user->email()
+        ]);
+        $this->notificationService->notify($event);
+
         return $this->reportbookService->createComment($reportId, $userId, $date, $content);
     }
 
@@ -188,6 +263,14 @@ class ApplicationService
      */
     public function editComment(string $id, string $newContent, string $userId): Comment
     {
+        $comment = $this->findCommentByCommentId($id);
+
+        $event = new Events\CommentEdited([
+            'userId' => $userId,
+            'reportId' => $comment->reportId()
+        ]);
+        $this->notificationService->notify($event);
+
         return $this->reportbookService->editComment($id, $newContent, $userId);
     }
 
@@ -197,7 +280,14 @@ class ApplicationService
      */
     public function deleteComment(string $commentId, string $userId)
     {
+        $comment = $this->findCommentByCommentId($commentId);
         $this->reportbookService->deleteComment($commentId, $userId);
+
+        $event = new Events\CommentDeleted([
+            'userId' => $userId,
+            'reportId' => $comment->reportId()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -274,7 +364,13 @@ class ApplicationService
         string $email,
         string $password
     ) {
-        return $this->userService->registerTrainee($username, $email, $password);
+        $user = $this->userService->registerTrainee($username, $email, $password);
+        $event = new Events\TraineeRegistered([
+            'userId' => $user->id()
+        ]);
+        $this->notificationService->notify($event);
+
+        return $user;
     }
 
     /**
@@ -289,7 +385,13 @@ class ApplicationService
         string $email,
         string $password
     ) {
-        return $this->userService->registerTrainer($username, $email, $password);
+        $user = $this->userService->registerTrainer($username, $email, $password);
+        $event = new Events\TrainerRegistered([
+            'userId' => $user->id()
+        ]);
+        $this->notificationService->notify($event);
+
+        return $user;
     }
 
     /**
@@ -315,6 +417,14 @@ class ApplicationService
     public function editPassword(string $userId, string $oldPassword, string $newPassword)
     {
         $this->userService->editPassword($userId, $oldPassword, $newPassword);
+        $user = $this->findUserById($userId);
+        $event = new Events\PasswordEdited([
+            'userId' => $userId,
+            'emailSubject' => 'Passwortänderung',
+            'username' => $user->username(),
+            'email' => $user->email()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -324,6 +434,11 @@ class ApplicationService
     public function editUsername(string $userId, string $username)
     {
         $this->userService->editUsername($userId, $username);
+
+        $event = new Events\UsernameEdited([
+            'userId' => $userId
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -333,6 +448,11 @@ class ApplicationService
     public function editEmail(string $userId, string $email)
     {
         $this->userService->editEmail($userId, $email);
+
+        $event = new Events\EmailEdited([
+            'userId' => $userId
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -342,7 +462,20 @@ class ApplicationService
      */
     public function authUser(string $identifier, string $password): bool
     {
-        return $this->userService->authUser($identifier, $password);
+        $user = $this->findUserbyEmail($identifier);
+
+        if ($user === null) {
+            $user = $this->findUserbyUsername($identifier);
+        }
+
+        $res = $this->userService->authUser($identifier, $password);
+        if ($res) {
+            $event = new Events\UserAuthorized([
+                'userId' => $user->id()
+            ]);
+            $this->notificationService->notify($event);
+        }
+        return $res;
     }
 
     /**
@@ -402,7 +535,16 @@ class ApplicationService
      */
     public function approveUser(string $email)
     {
+        $user = $this->findUserByEmail($email);
         $this->userService->approveRole($email);
+
+        $event = new Events\RoleApproved([
+            'userId' => $user->id(),
+            'emailSubject' => 'Zugang freigeschaltet',
+            'username' => $user->username(),
+            'email' => $user->email()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -410,7 +552,16 @@ class ApplicationService
      */
     public function disapproveUser(string $email)
     {
+        $user = $this->findUserByEmail($email);
         $this->userService->disapproveRole($email);
+
+        $event = new Events\RoleDisapproved([
+            'userId' => $user->id(),
+            'emailSubject' => 'Zugang abgelehnt',
+            'username' => $user->username(),
+            'email' => $user->email()
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -485,6 +636,11 @@ class ApplicationService
     public function editForename(string $userId, string $forename)
     {
         $this->profileService->editForename($userId, $forename);
+
+        $event = new Events\ForenameEdited([
+            'userId' => $userId
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -494,6 +650,11 @@ class ApplicationService
     public function editSurname(string $userId, string $surname)
     {
         $this->profileService->editSurname($userId, $surname);
+
+        $event = new Events\SurnameEdited([
+            'userId' => $userId
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -503,6 +664,11 @@ class ApplicationService
     public function editDateOfBirth(string $userId, string $dateOfBirth)
     {
         $this->profileService->editDateOfBirth($userId, $dateOfBirth);
+
+        $event = new Events\DateOfBirthEdited([
+            'userId' => $userId
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -512,6 +678,11 @@ class ApplicationService
     public function editSchool(string $userId, string $school)
     {
         $this->profileService->editSchool($userId, $school);
+
+        $event = new Events\SchoolEdited([
+            'userId' => $userId
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -521,6 +692,11 @@ class ApplicationService
     public function editCompany(string $userId, string $company)
     {
         $this->profileService->editCompany($userId, $company);
+
+        $event = new Events\CompanyEdited([
+            'userId' => $userId
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -530,6 +706,11 @@ class ApplicationService
     public function editJobTitle(string $userId, string $jobTitle)
     {
         $this->profileService->editJobTitle($userId, $jobTitle);
+
+        $event = new Events\JobTitleEdited([
+            'userId' => $userId
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -539,6 +720,11 @@ class ApplicationService
     public function editTrainingYear(string $userId, string $trainingYear)
     {
         $this->profileService->editTrainingYear($userId, $trainingYear);
+
+        $event = new Events\TrainingYearEdited([
+            'userId' => $userId
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -548,6 +734,11 @@ class ApplicationService
     public function editStartOfTraining(string $userId, string $startOfTraining)
     {
         $this->profileService->editStartOfTraining($userId, $startOfTraining);
+
+        $event = new Events\StartOfTrainingEdited([
+            'userId' => $userId
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -557,6 +748,11 @@ class ApplicationService
     public function editGrade(string $userId, string $grade)
     {
         $this->profileService->editGrade($userId, $grade);
+
+        $event = new Events\GradeEdited([
+            'userId' => $userId
+        ]);
+        $this->notificationService->notify($event);
     }
 
     /**
@@ -566,6 +762,11 @@ class ApplicationService
     public function editImage(string $userId, string $image, string $type)
     {
          $this->profileService->editImage($userId, $image, $type);
+
+         $event = new Events\ImageEdited([
+             'userId' => $userId
+         ]);
+         $this->notificationService->notify($event);
     }
 
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)

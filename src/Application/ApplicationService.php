@@ -19,6 +19,7 @@ use Jimdo\Reports\Profile\ProfileService;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Serializer;
 use Jimdo\Reports\Notification\NotificationService;
+use Jimdo\Reports\Notification\Events;
 
 class ApplicationService
 {
@@ -31,16 +32,21 @@ class ApplicationService
     /** @var ProfileService */
     public $profileService;
 
+    /** @var NotificationService */
+    public $notificationService;
+
     /**
      * @param ReportbookService $reportbookService
      * @param UserService $userService
      * @param ProfileService $profileService
+     * @param NotificationService $notificationService
      */
-    public function __construct(ReportbookService $reportbookService, UserService $userService, ProfileService $profileService)
+    public function __construct(ReportbookService $reportbookService, UserService $userService, ProfileService $profileService, NotificationService $notificationService)
     {
         $this->reportbookService = $reportbookService;
         $this->userService = $userService;
         $this->profileService = $profileService;
+        $this->notificationService = $notificationService;
     }
 
     /**
@@ -576,16 +582,16 @@ class ApplicationService
         $serializer = new Serializer();
 
         $userRepository = new UserMongoRepository($client, $serializer, $appConfig);
-        $userService = new UserService($userRepository, $appConfig, $notificationService);
+        $userService = new UserService($userRepository, $appConfig);
 
         $profileRepository = new ProfileMongoRepository($client, $serializer, $appConfig);
-        $profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig, $notificationService);
+        $profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig);
 
         $reportRepository = new ReportMongoRepository($client, $serializer, $appConfig);
         $commentRepository = new CommentMongoRepository($client, $serializer, $appConfig);
         $commentService = new CommentService($commentRepository, $serializer, $appConfig);
-        $reportbookService = new ReportbookService($reportRepository, $commentService, $appConfig, $notificationService);
+        $reportbookService = new ReportbookService($reportRepository, $commentService, $appConfig);
 
-        return new self($reportbookService, $userService, $profileService);
+        return new self($reportbookService, $userService, $profileService, $notificationService);
     }
 }

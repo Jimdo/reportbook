@@ -3,9 +3,6 @@
 namespace Jimdo\Reports\Profile;
 
 use Jimdo\Reports\Web\ApplicationConfig;
-use Jimdo\Reports\Notification\NotificationService;
-use Jimdo\Reports\Notification\LoggingSubscriber;
-use Jimdo\Reports\Notification\Events as Events;
 
 class ProfileService
 {
@@ -15,20 +12,15 @@ class ProfileService
     /** @var string */
     private $imagePath;
 
-    /** @var NotificaionService */
-    private $notificationService;
-
     /**
      * @param ProfileMongoRepository $repository
      * @param string $imagePath
      * @param ApplicationConfig $appConfig
-     * @param NotificaionService $notificationService
      */
-    public function __construct(ProfileMongoRepository $repository, string $imagePath, ApplicationConfig $appConfig, NotificationService $notificationService)
+    public function __construct(ProfileMongoRepository $repository, string $imagePath, ApplicationConfig $appConfig)
     {
         $this->repository = $repository;
         $this->imagePath = $imagePath;
-        $this->notificationService = $notificationService;
     }
 
     /**

@@ -4,10 +4,6 @@ namespace Jimdo\Reports\Notification;
 
 use Jimdo\Reports\Notification\Events\Event;
 use Jimdo\Reports\Web\ApplicationConfig;
-use Jimdo\Reports\User\UserService;
-use Jimdo\Reports\User\UserMongoRepository;
-use Jimdo\Reports\Reportbook\ReportMongoRepository;
-use Jimdo\Reports\Serializer;
 use Mailgun\Mailgun;
 
 class MailgunSubscriber implements Subscriber
@@ -17,12 +13,6 @@ class MailgunSubscriber implements Subscriber
 
     /** @var Mailgun */
     private $mailgunClient;
-
-    /** @var UserService */
-    private $userService;
-
-    /** @var ReportMongoRepository */
-    private $reportRepository;
 
     /** @var string */
     private $domain;
@@ -41,24 +31,6 @@ class MailgunSubscriber implements Subscriber
 
         $this->mailgunClient = new Mailgun($this->appConfig->mailgunKey);
         $this->domain = $this->appConfig->mailgunDomain;
-
-        $uri = sprintf(
-            'mongodb://%s:%s@%s:%d/%s',
-            $appConfig->mongoUsername,
-            $appConfig->mongoPassword,
-            $appConfig->mongoHost,
-            $appConfig->mongoPort,
-            $appConfig->mongoDatabase
-        );
-
-        $client = new \MongoDB\Client($uri);
-        $serializer = new Serializer();
-        $notificationService = new NotificationService();
-
-        $userRepository = new UserMongoRepository($client, $serializer, $appConfig);
-        $this->userService = new UserService($userRepository, $appConfig, $notificationService);
-
-        $this->reportRepository = new ReportMongoRepository($client, $serializer, $appConfig);
     }
 
     /**

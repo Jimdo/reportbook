@@ -3,7 +3,6 @@
 namespace Jimdo\Reports\Reportbook;
 
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-use Jimdo\Reports\Serializer as Serializer;
 
 class CommentService
 {

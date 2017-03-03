@@ -53,15 +53,6 @@ class ReportbookService
     ): \Jimdo\Reports\Views\Report {
         $report = $this->reportRepository->create($traineeId, $content, date('d.m.Y'), $calendarWeek, $calendarYear, $category);
 
-        $event = new Events\ReportCreated([
-            'userId' => $traineeId->id(),
-            'reportId' => $report->id(),
-            'emailSubject' => 'Bericht erstellt',
-            'calendarWeek' => $calendarWeek,
-            'content' => $content
-        ]);
-        $this->notificationService->notify($event);
-
         return new ReadOnlyReport($report);
     }
 
@@ -79,12 +70,6 @@ class ReportbookService
         $report = $this->reportRepository->findById($reportId);
         $report->edit($content, $report->date(), $calendarWeek, $calendarYear, $category);
         $this->reportRepository->save($report);
-
-        $event = new Events\ReportEdited([
-            'userId' => $report->traineeId(),
-            'reportId' => $report->id()
-        ]);
-        $this->notificationService->notify($event);
     }
 
     /**
@@ -118,12 +103,6 @@ class ReportbookService
     {
         $report = $this->reportRepository->findById($reportId);
         $this->reportRepository->delete($report);
-
-        $event = new Events\ReportDeleted([
-            'userId' => $report->traineeId(),
-            'reportId' => $report->id()
-        ]);
-        $this->notificationService->notify($event);
     }
 
     /**
@@ -135,13 +114,6 @@ class ReportbookService
         $report = $this->reportRepository->findById($reportId);
         $report->requestApproval();
         $this->reportRepository->save($report);
-
-        $event = new Events\ApprovalRequested([
-            'userId' => $report->traineeId(),
-            'reportId' => $report->id(),
-            'emailSubject' => 'Bericht eingereicht'
-        ]);
-        $this->notificationService->notify($event);
     }
 
     /**
@@ -153,13 +125,6 @@ class ReportbookService
         $report = $this->reportRepository->findById($reportId);
         $report->approve();
         $this->reportRepository->save($report);
-
-        $event = new Events\ReportApproved([
-            'userId' => $report->traineeId(),
-            'reportId' => $report->id(),
-            'emailSubject' => 'Bericht genehmigt'
-        ]);
-        $this->notificationService->notify($event);
     }
 
     /**
@@ -171,14 +136,6 @@ class ReportbookService
         $report = $this->reportRepository->findById($reportId);
         $report->disapprove();
         $this->reportRepository->save($report);
-
-        $event = new Events\ReportDisapproved([
-            'userId' => $report->traineeId(),
-            'reportId' => $report->id(),
-            'emailSubject' => 'Bericht abgelehnt',
-            'calendarWeek' => $report->calendarWeek()
-        ]);
-        $this->notificationService->notify($event);
     }
 
     /**
@@ -249,14 +206,6 @@ class ReportbookService
      */
     public function createComment(string $reportId, string $userId, string $date, string $content): Comment
     {
-        $event = new Events\CommentCreated([
-            'userId' => $userId,
-            'reportId' => $reportId,
-            'emailSubject' => 'Kommentar erstellt',
-            'commentUserId' => $userId
-        ]);
-        $this->notificationService->notify($event);
-
         return $this->commentService->createComment($reportId, $userId, $date, $content);
     }
 
@@ -269,12 +218,6 @@ class ReportbookService
     {
         $comment = $this->findCommentById($id);
         if ($userId === $comment->userId()) {
-            $event = new Events\CommentEdited([
-                'userId' => $comment->userId(),
-                'reportId' => $comment->reportId()
-            ]);
-            $this->notificationService->notify($event);
-
             return $this->commentService->editComment($id, $newContent);
         } else {
             throw new ReportbookServiceException(
@@ -292,12 +235,6 @@ class ReportbookService
     {
         $comment = $this->findCommentById($commentId);
         if ($userId === $comment->userId()) {
-            $event = new Events\CommentDeleted([
-                'userId' => $comment->userId(),
-                'reportId' => $comment->reportId()
-            ]);
-            $this->notificationService->notify($event);
-
             $this->commentService->deleteComment($commentId);
         } else {
             throw new ReportbookServiceException(

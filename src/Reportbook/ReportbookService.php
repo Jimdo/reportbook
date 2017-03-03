@@ -6,8 +6,6 @@ use Jimdo\Reports\Views\Report as ReadOnlyReport;
 use Jimdo\Reports\Reportbook\CommentService as CommentService;
 use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\Web\ApplicationConfig;
-use Jimdo\Reports\Notification\NotificationService;
-use Jimdo\Reports\Notification\Events as Events;
 use Jimdo\Reports\User\Role;
 
 class ReportbookService
@@ -24,22 +22,16 @@ class ReportbookService
     /** @var Serializer */
     private $serializer;
 
-    /** @var NotificaionService */
-    private $notificationService;
-
     /**
      * @param ReportRepository $reportRepository
      * @param CommentService $commentService
      * @param ApplicationConfig $appConfig
-     * @param NotificaionService $notificationService
      */
-    public function __construct(ReportRepository $reportRepository, CommentService $commentService, ApplicationConfig $appConfig, NotificationService $notificationService)
+    public function __construct(ReportRepository $reportRepository, CommentService $commentService, ApplicationConfig $appConfig)
     {
         $this->reportRepository = $reportRepository;
         $this->commentService = $commentService;
         $this->serializer = new Serializer();
-
-        $this->notificationService = $notificationService;
     }
 
     /**

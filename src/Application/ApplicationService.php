@@ -69,7 +69,7 @@ class ApplicationService
 
         $report = $this->reportbookService->createReport($traineeId, $content, $calendarWeek, $calendarYear, $category);
 
-        $user = $this->findUserById($traineeId);
+        $user = $this->findUserById($traineeId->id());
         $event = new Events\ReportCreated([
             'userId' => $traineeId->id(),
             'reportId' => $report->id(),
@@ -149,7 +149,7 @@ class ApplicationService
         $this->reportbookService->requestApproval($reportId);
         $report = $this->reportbookService->reportRepository->findById($reportId);
 
-        $user = $this->findUserById($report->taineeId());
+        $user = $this->findUserById($report->traineeId());
         $event = new Events\ApprovalRequested([
             'userId' => $report->traineeId(),
             'reportId' => $reportId,

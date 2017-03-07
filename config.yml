@@ -20,6 +20,9 @@
   log_path: tests/Notification/log.txt
   template_path: /Controller/Views
   cache_path: /var/www/src/Web/Cache
+  mysql_database: reportbook_test
+  mysql_user: reportbook-test
+  mysql_password: geheim
 'dev':
   mongo_username: reportbook-dev
   mongo_password: geheim
@@ -33,3 +36,6 @@
   papertrail_system: reportbook_dev
   template_path: /var/www/src/Web/Controller/Views
   cache_path: /var/www/src/Web/Cache
+  mysql_database: reportbook_dev
+  mysql_user: reportbook-dev
+  mysql_password: geheim

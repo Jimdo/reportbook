@@ -1,6 +1,9 @@
 #!/bin/sh
 
-source .env
+if [ -e .env ]
+then
+    source .env
+fi
 
 docker run -it --rm \
     -p 3306:3306 \

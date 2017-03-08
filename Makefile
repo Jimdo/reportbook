@@ -61,7 +61,10 @@ docker-setup:
 	-docker-machine start
 	./scripts/pull-image.sh mongo
 
-mysql-server:
+mysql-client: ## Connects to mysql
+	./scripts/mysql-client.sh
+
+mysql-server: ## Starts mqsql container
 	./scripts/mysql-server.sh
 
 mongo-server: docker-setup ## Starts up mongoDB

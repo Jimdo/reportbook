@@ -32,4 +32,37 @@ class ReportMySQLRepository
         $this->dbHandler = $dbHandler;
         $this->table = 'report';
     }
+
+    /**
+     * @param TraineeId $traineeId
+     * @param string $content
+     * @param string $date
+     * @param string $calendarWeek
+     * @param string $calendarYear
+     * @param string $category
+     * @return Report
+     */
+    public function create(
+        TraineeId $traineeId,
+        string $content,
+        string $date,
+        string $calendarWeek,
+        string $calendarYear,
+        string $category
+    ) {
+        $report = new Report($traineeId, $content, $date, $calendarWeek, $calendarYear, uniqid(), $category);
+
+        $this->save($report);
+
+        return $report;
+    }
+
+    public function save(Report $report)
+    {
+        $this->dbHandler->exec("INSERT INTO {$this->table} (
+            id, content, date, calendarWeek, calendarYear, status, category, userId
+        ) VALUES (
+            '{$report->id()}', '{$report->content()}', '{$report->date()}', '{$report->calendarWeek()}', '{$report->calendarYear()}', '{$report->status()}', '{$report->category()}', '{$report->traineeId()}'
+        )");
+    }
 }

@@ -47,4 +47,24 @@ class ReportMySQLRepositoryTest extends TestCase
             '{$this->userId}', 'testuser', 'testemail', 'geheim', 'TRAINEE', 'APPROVED'
         )");
     }
+
+    /**
+     * @test
+     */
+    public function itShouldCreateReport()
+    {
+        $traineeId = new TraineeId($this->userId);
+        $content = 'some content';
+        $date = '10.10.10';
+        $calendarWeek = '34';
+        $calendarYear = '2017';
+        $category = Category::SCHOOL;
+
+        $report = $this->repository->create($traineeId, $content, $date, $calendarWeek , $calendarYear, $category);
+
+        $query = $this->dbHandler->query("SELECT * FROM {$this->table} WHERE id = '{$report->id()}'");
+        $foundReport = $this->serializer->unserializeReport($query->fetchAll()[0]);
+
+        $this->assertEquals($report->id(), $foundReport->id());
+    }
 }

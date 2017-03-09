@@ -10,11 +10,6 @@ fi
 
 export APPLICATION_ENV=test
 
-docker run -it --rm \
-    -e APPLICATION_ENV=$APPLICATION_ENV \
-    -e MONGO_HOST=$MONGO_HOST \
-    -e MYSQL_HOST=$MYSQL_HOST \
-    -v $(PWD)/:/var/www/ \
-    --add-host="docker_host:$(docker-machine inspect --format '{{ .Driver.HostOnlyCIDR}}' | awk -F/ '{print $1}')" \
-    jimdo/reportbook:debug \
-    scripts/phpunit
+export DOCKER_HOST_IP=$(docker-machine inspect --format '{{ .Driver.HostOnlyCIDR}}' | awk -F/ '{print $1}')
+
+docker-compose run reportbook scripts/phpunit

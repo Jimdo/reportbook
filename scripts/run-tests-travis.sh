@@ -10,9 +10,4 @@ fi
 
 export APPLICATION_ENV=test
 
-docker run -it --rm \
-    -e APPLICATION_ENV=$APPLICATION_ENV \
-    -e MONGO_HOST=$MONGO_HOST \
-    -e MYSQL_HOST=$MYSQL_HOST \
-    jimdo/reportbook \
-    scripts/phpunit
+./scripts/phpunit

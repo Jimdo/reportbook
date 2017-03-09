@@ -5,12 +5,9 @@ language: php
 php:
   - '7.0'
 before_install:
-  # do we still need this?
-  # - pecl install mongodb
+  - pecl install mongodb
 install:
-  # this is obsolete for docker only
-  # - make bootstrap
-  - make build
+  - make bootstrap
 before_script:
   - ./scripts/travis-setup.sh
 script:

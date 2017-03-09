@@ -7,7 +7,7 @@ services:
     ports:
       - "80:80"
     environment:
-      - APPLICATION_ENV=dev
+      - APPLICATION_ENV
       - MONGO_HOST=mongo
       - MAILGUN_DOMAIN
       - MAILGUN_KEY
@@ -15,6 +15,8 @@ services:
       - "docker_host:${DOCKER_HOST_IP}"
     volumes:
       - .:/var/www
+    links:
+      - mongo
   mongo:
     image: "mongo"
     ports:

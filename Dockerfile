@@ -14,7 +14,8 @@ RUN apt-get update && apt-get install -y \
 RUN docker-php-ext-install zip sockets
 
 RUN pecl install mongodb \
-    && docker-php-ext-enable mongodb
+    && docker-php-ext-enable mongodb \
+    && docker-php-ext-install pdo pdo_mysql
 
 WORKDIR /var/www
 

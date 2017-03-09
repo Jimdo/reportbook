@@ -12,5 +12,5 @@ docker run -it --rm \
     -e MYSQL_DATABASE=$MYSQL_DATABASE \
     -e MYSQL_USER=$MYSQL_USER \
     -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
-    -v reportbook-data-mysql:/data/db \
+    -v reportbook-data-mysql:/var/lib/mysql \
     mysql:latest

@@ -17,7 +17,7 @@ docker exec reportbook-mongodb /scripts/setup-mongo-server.sh
 docker ps
 
 docker run --name mysql \
-    -p 3306:3306 \
+    -p 3307:3306 \
     -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
     -e MYSQL_DATABASE=$MYSQL_DATABASE \
     -e MYSQL_USER=$MYSQL_USER \

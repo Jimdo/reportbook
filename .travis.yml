@@ -5,6 +5,7 @@ language: php
 php:
   - '7.0'
 before_install:
+  # do we still need this?
   - pecl install mongodb
 install:
   - make bootstrap

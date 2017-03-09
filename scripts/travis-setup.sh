@@ -14,6 +14,8 @@ sleep 2
 
 docker exec reportbook-mongodb /scripts/setup-mongo-server.sh
 
+docker ps
+
 docker run --name mysql \
     -p 3306:3306 \
     -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \

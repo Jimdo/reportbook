@@ -14,6 +14,5 @@ docker run -it --rm \
     -e APPLICATION_ENV=$APPLICATION_ENV \
     -e MONGO_HOST=$MONGO_HOST \
     -e MYSQL_HOST=$MYSQL_HOST \
-    -v $TRAVIS_BUILD_DIR:/var/www/ \
     jimdo/reportbook \
     scripts/phpunit

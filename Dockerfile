@@ -29,7 +29,8 @@ COPY composer.json /var/www
 
 COPY config.yml /var/www
 
-RUN scripts/install-composer.sh && scripts/composer install --no-dev
+# RUN scripts/install-composer.sh && scripts/composer install --no-dev
+RUN scripts/install-composer.sh && scripts/composer install
 
 COPY app/ /var/www/app
 

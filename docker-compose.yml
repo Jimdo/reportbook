@@ -1,0 +1,27 @@
+version: '3'
+services:
+  reportbook:
+    build:
+      context: .
+      dockerfile: Dockerfile.debug
+    ports:
+      - "80:80"
+    environment:
+      - APPLICATION_ENV=dev
+      - MONGO_HOST=mongo
+      - MAILGUN_DOMAIN
+      - MAILGUN_KEY
+    extra_hosts:
+      - "docker_host:${DOCKER_HOST_IP}"
+    volumes:
+      - .:/var/www
+  mongo:
+    image: "mongo"
+    ports:
+      - "27017:27017"
+    volumes:
+      - reportbook-data:/data/db
+      - ./scripts:/scripts
+    command: --auth
+volumes:
+  reportbook-data:

@@ -1,18 +1,11 @@
 #!/bin/sh
 
-APPLICATION_ENV=dev
+export APPLICATION_ENV=dev
+export DOCKER_HOST_IP=$(docker-machine inspect --format '{{ .Driver.HostOnlyCIDR}}' | awk -F/ '{print $1}')
 
 if [ -e .env ]
 then
     source .env
 fi
 
-docker run -it --rm \
-    -p 80:80 \
-    -e APPLICATION_ENV='dev' \
-    -e MONGO_HOST=$(docker-machine ip) \
-    -e MAILGUN_DOMAIN=$MAILGUN_DOMAIN \
-    -e MAILGUN_KEY=$MAILGUN_KEY \
-    -v $(PWD)/:/var/www/ \
-    --add-host="docker_host:$(docker-machine inspect --format '{{ .Driver.HostOnlyCIDR}}' | awk -F/ '{print $1}')" \
-    jimdo/reportbook:debug
+docker-compose up

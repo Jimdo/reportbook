@@ -18,6 +18,8 @@ fi
 
 eval $(docker-machine env)
 
-docker stop reportbook-mongodb
+docker stop reportbook_mongo_1
 
-docker volume rm reportbook-data
+docker rm reportbook_mongo_1
+
+docker volume rm reportbook_reportbook-data

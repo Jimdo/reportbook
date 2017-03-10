@@ -40,6 +40,9 @@ class ReportMySQLRepositoryTest extends TestCase
         $this->serializer = new Serializer();
         $this->repository = new ReportMySQLRepository($this->dbHandler, $this->serializer, $appConfig);
 
+        $this->dbHandler->exec("DELETE FROM report");
+        $this->dbHandler->exec("DELETE FROM user");
+
         $this->userId = uniqId();
         $this->dbHandler->exec("INSERT INTO user (
             id, username, email, password, role, roleStatus

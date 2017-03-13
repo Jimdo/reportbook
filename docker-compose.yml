@@ -8,15 +8,17 @@ services:
       - "80:80"
     environment:
       - APPLICATION_ENV
-      - MONGO_HOST=mongo
       - MAILGUN_DOMAIN
       - MAILGUN_KEY
+      - MONGO_HOST=mongo
+      - MYSQL_HOST=mysql
     extra_hosts:
       - "docker_host:${DOCKER_HOST_IP}"
     volumes:
       - .:/var/www
     links:
       - mongo
+      - mysql
   mongo:
     image: "mongo"
     ports:
@@ -25,5 +27,18 @@ services:
       - reportbook-data:/data/db
       - ./scripts:/scripts
     command: --auth
+  mysql:
+    image: "mysql"
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_DATABASE
+    volumes:
+      - reportbook-data-mysql:/var/lib/mysql
+      - ./scripts:/scripts
 volumes:
   reportbook-data:
+  reportbook-data-mysql:

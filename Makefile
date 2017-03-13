@@ -67,6 +67,12 @@ mysql-client: ## Connects to mysql
 mysql-server: ## Starts mqsql container
 	./scripts/mysql-server.sh
 
+mysql-setup: ## Creates Database and User in mqsql container
+	./scripts/mysql-setup.sh
+
+mysql-reset: ## Removes mysql volume
+	./scripts/mysql-reset.sh
+
 mongo-server: docker-setup ## Starts up mongoDB
 	./scripts/mongo-server.sh
 

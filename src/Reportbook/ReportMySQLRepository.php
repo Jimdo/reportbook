@@ -57,6 +57,22 @@ class ReportMySQLRepository
         return $report;
     }
 
+    /**
+     * @param string $id
+     * @return Report
+     */
+    public function findById(string $id)
+    {
+        return $this->serializer->unserializeReport(
+            $this->dbHandler->query(
+                "SELECT * FROM {$this->table} WHERE id = '{$id}'"
+            )->fetchAll()[0]
+        );
+    }
+
+    /**
+     * @param Report $report
+     */
     public function save(Report $report)
     {
         $this->dbHandler->exec("INSERT INTO {$this->table} (

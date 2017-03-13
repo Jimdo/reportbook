@@ -70,4 +70,23 @@ class ReportMySQLRepositoryTest extends TestCase
 
         $this->assertEquals($report->id(), $foundReport->id());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldFindOneReportById()
+    {
+        $traineeId = new TraineeId($this->userId);
+        $content = 'some content';
+        $date = '10.10.10';
+        $calendarWeek = '34';
+        $calendarYear = '2017';
+        $category = Category::SCHOOL;
+
+        $report = $this->repository->create($traineeId, $content, $date, $calendarWeek , $calendarYear, $category);
+
+        $foundReport = $this->repository->findById($report->id());
+
+        $this->assertEquals($report->id(), $foundReport->id());
+    }
 }

@@ -25,3 +25,5 @@ docker run --name mysql \
     -e MYSQL_USER=$MYSQL_USER \
     -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
     -d mysql
+
+docker exec mysql /scripts/setup-mysql-server.sh

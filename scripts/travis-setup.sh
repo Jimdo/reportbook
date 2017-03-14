@@ -14,6 +14,8 @@ sleep 2
 
 docker exec reportbook-mongodb /scripts/setup-mongo-server.sh
 
+docker ps
+
 # Set port to 3307 due to:
 # "docker: Error response from daemon: driver failed programming external
 # connectivity on endpoint mysql: Error starting userland proxy:
@@ -30,5 +32,7 @@ docker run --name mysql \
 # let the MySQL server start up...
 echo "Waiting 2 seconds for the MySQL server..."
 sleep 2
+
+docker ps
 
 docker exec mysql /scripts/setup-mysql-server.sh

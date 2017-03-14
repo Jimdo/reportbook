@@ -27,4 +27,8 @@ docker run --name mysql \
     -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
     -d mysql
 
+# let the MySQL server start up...
+echo "Waiting 2 seconds for the MySQL server..."
+sleep 2
+
 docker exec mysql /scripts/setup-mysql-server.sh

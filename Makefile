@@ -70,9 +70,6 @@ mysql-server: ## Starts mqsql container
 mysql-setup: ## Creates Database and User in mqsql container
 	./scripts/mysql-setup.sh
 
-mysql-reset: ## Removes mysql volume
-	./scripts/mysql-reset.sh
-
 mongo-server: docker-setup ## Starts up mongoDB
 	./scripts/mongo-server.sh
 
@@ -82,5 +79,5 @@ mongo-client: ## Connects to mongoDB
 mongo-setup: ## Initial user setup
 	./scripts/mongo-setup.sh
 
-mongo-reset: ## Remove reportbook-data
-	./scripts/mongo-volume-reset.sh
+storage-reset: ## Reset all volumes and services from docker-compose
+	./scripts/storage-reset.sh

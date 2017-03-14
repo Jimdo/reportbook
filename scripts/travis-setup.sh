@@ -14,17 +14,7 @@ sleep 2
 
 docker exec reportbook-mongodb /scripts/setup-mongo-server.sh
 
-# Set port to 3307 due to:
-# "docker: Error response from daemon: driver failed programming external
-# connectivity on endpoint mysql: Error starting userland proxy:
-# listen tcp 0.0.0.0:3306: bind: address already in use.
-docker run --name mysql \
-    -p 3307:3306 \
-    -v $TRAVIS_BUILD_DIR/scripts:/scripts \
-    -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
-    -e MYSQL_DATABASE=$MYSQL_DATABASE \
-    -e MYSQL_USER=$MYSQL_USER \
-    -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
-    -d mysql
 
-docker exec mysql /scripts/setup-mysql-server.sh
+
+
+/scripts/setup-mysql-server.sh

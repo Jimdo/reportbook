@@ -25,7 +25,7 @@ sed "s/MYSQL_DATABASE/${MYSQL_DATABASE}dev/g" scripts/mysql/create-database.sql 
 sed "s/MYSQL_USER/${MYSQL_USER}dev/g" scripts/mysql/create-user.sql \
     | sed "s/MYSQL_PASSWORD/$MYSQL_PASSWORD/g" \
     | sed "s/MYSQL_DATABASE/${MYSQL_DATABASE}dev/g" \
-    | mysql -u root -p$MYSQL_ROOT_PASSWORD
+    | $MYSQL_CMD
 # Create tables from database dump
 $MYSQL_CMD ${MYSQL_DATABASE}dev < scripts/mysql/mysql-dump.sql
 

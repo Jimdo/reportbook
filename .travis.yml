@@ -23,8 +23,8 @@ env:
   global:
   - MONGO_HOST=127.0.0.1
   - MYSQL_ROOT_PASSWORD=travis
-  - MYSQL_DATABASE=reportbook_test
-  - MYSQL_USER=reportbook-test
+  - MYSQL_DATABASE=reportbook_
+  - MYSQL_USER=reportbook-
   - MYSQL_PASSWORD=geheim
 
   # DOCKER_LOGIN

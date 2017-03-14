@@ -1,6 +1,7 @@
 #!/bin/sh
 
 set -e
+set -x
 
 if [ -e .env ]
 then
@@ -14,11 +15,9 @@ eval MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
 
 MYSQL_CMD="mysql -u root"
 
-if [ -n $MYSQL_ROOT_PASSWORD ]; then
+if [ $MYSQL_ROOT_PASSWORD != travis ]; then
   MYSQL_CMD="mysql -u root -p${MYSQL_ROOT_PASSWORD}"
 fi
-
-echo $MYSQL_CMD
 
 # Create database
 sed "s/MYSQL_DATABASE/${MYSQL_DATABASE}dev/g" scripts/mysql/create-database.sql | $MYSQL_CMD

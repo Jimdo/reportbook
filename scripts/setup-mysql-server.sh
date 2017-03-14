@@ -8,14 +8,16 @@ then
     source .env
 fi
 
+if [ -z $MYSQL_PORT ]; then
+  export MYSQL_PORT=3306
+fi
+
 eval MYSQL_DATABASE=$MYSQL_DATABASE
 eval MYSQL_USER=$MYSQL_USER
 eval MYSQL_PASSWORD=$MYSQL_PASSWORD
 eval MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+eval MYSQL_PORT=$MYSQL_PORT
 
-if [ -z ${MYSQL_PORT+x} ]; then
-  MYSQL_PORT=3306
-fi
 
 # Create database
 sed "s/MYSQL_DATABASE/${MYSQL_DATABASE}dev/g" scripts/mysql/create-database.sql | mysql -p$MYSQL_ROOT_PASSWORD -h 127.0.0.1 -P$MYSQL_PORT

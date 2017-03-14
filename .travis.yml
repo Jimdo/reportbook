@@ -11,7 +11,11 @@ install:
   - make bootstrap
 before_script:
   - ./scripts/travis-setup.sh
-  - ./scripts/setup-mysql-server.sh
+  - mysql -u root -e 'CREATE DATABASE reportbook_test;'
+  - mysql -u root -e "CREATE USER 'reportbook-test'@'localhost' IDENTIFIED BY 'geheim';"
+  - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'reportbook-test'@'localhost';"
+  - mysql -u root -e "REVOKE CREATE USER, SUPER ON *.* FROM 'MYSQL_USER'@'localhost';"
+  - mysql -u root < ./scripts/mysql/mysql-dump.sql
 script:
   - ./scripts/run-tests-travis.sh
 deploy:

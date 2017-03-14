@@ -85,6 +85,12 @@ class ReportMySQLRepositoryTest extends TestCase
 
         $report = $this->repository->create($traineeId, $content, $date, $calendarWeek , $calendarYear, $category);
 
+        echo 'Find Report via MYSQL' . PHP_EOL;
+        var_dump($this->dbHandler->query("SELECT * FROM report WHERE id = '{$report->id()}'"));
+
+        echo 'Find Report via findById' . PHP_EOL;
+        var_dump($this->repository->findById($report->id()));
+
         $foundReport = $this->repository->findById($report->id());
 
         $this->assertEquals($report->id(), $foundReport->id());

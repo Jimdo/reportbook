@@ -11,6 +11,7 @@ install:
   - make bootstrap
 before_script:
   - ./scripts/travis-setup.sh
+  - ./scripts/setup-mysql-server.sh
 script:
   - ./scripts/run-tests-travis.sh
 deploy:

@@ -71,6 +71,18 @@ class ReportMySQLRepository
     }
 
     /**
+     * @return array
+     */
+    public function findAll(): array
+    {
+        $reports = [];
+        foreach ($this->dbHandler->query("SELECT * FROM {$this->table}")->fetchAll() as $pdoObject) {
+            $reports[] = $this->serializer->unserializeReport($pdoObject);
+        }
+        return $reports;
+    }
+
+    /**
      * @param Report $report
      */
     public function save(Report $report)

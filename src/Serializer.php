@@ -27,8 +27,7 @@ class Serializer
                 'roleName' => $user->roleName(),
                 'roleStatus' => $user->roleStatus()
             ],
-            'password' => $user->password(),
-            'isHashedPassword' => $user->isHashedPassword()
+            'password' => $user->password()
         ];
     }
 
@@ -54,19 +53,12 @@ class Serializer
             $role->approve();
         }
 
-        $isHashedPassword = false;
-
-        if (isset($serializedUser['isHashedPassword'])) {
-            $isHashedPassword = $serializedUser['isHashedPassword'];
-        }
-
         return new User(
             $serializedUser['username'],
             $serializedUser['email'],
             $role,
             $serializedUser['password'],
-            new UserId($serializedUser['id']),
-            $isHashedPassword
+            new UserId($serializedUser['id'])
         );
     }
 

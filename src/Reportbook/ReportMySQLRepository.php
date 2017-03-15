@@ -109,6 +109,30 @@ class ReportMySQLRepository
     }
 
     /**
+     * @param string $text
+     * @return array
+     */
+    public function findReportsByString(string $text): array
+    {
+        if ($text === '') {
+            return $this->findAll();
+        }
+
+        $reports = [];
+
+        if (is_numeric($text)) {
+            foreach ($this->dbHandler->query("SELECT * FROM {$this->table} WHERE calendarWeek = '{$text}'")->fetchAll() as $pdoObject) {
+                $reports[] = $this->serializer->unserializeReport($pdoObject);
+            }
+        } else {
+            foreach ($this->dbHandler->query("SELECT * FROM {$this->table} WHERE content LIKE '%{$text}%'")->fetchAll() as $pdoObject) {
+                $reports[] = $this->serializer->unserializeReport($pdoObject);
+            }
+        }
+        return $reports;
+    }
+
+    /**
      * @param Report $report
      */
     public function save(Report $report)

@@ -63,11 +63,11 @@ class ReportMySQLRepository implements ReportRepository
      */
     public function findById(string $id)
     {
-        return $this->serializer->unserializeReport(
-            $this->dbHandler->query(
-                "SELECT * FROM {$this->table} WHERE id = '{$id}'"
-            )->fetchAll()[0]
-        );
+        $sql = "SELECT * FROM $this->table WHERE id = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$id]);
+
+        return $this->serializer->unserializeReport($sth->fetchAll()[0]);
     }
 
     /**

@@ -13,21 +13,9 @@ class PasswordStrategyTest extends TestCase
     /**
      * @test
      */
-    public function itShouldReturnClearTextStrategy()
-    {
-        $strategy = PasswordStrategy::for($this->user(false));
-        $this->assertInstanceOf(
-            'Jimdo\Reports\User\PasswordStrategy\ClearText',
-            $strategy
-        );
-    }
-
-    /**
-     * @test
-     */
     public function itShouldReturnHashedStrategy()
     {
-        $strategy = PasswordStrategy::for($this->user(true));
+        $strategy = PasswordStrategy::for($this->user());
         $this->assertInstanceOf(
             'Jimdo\Reports\User\PasswordStrategy\Hashed',
             $strategy
@@ -35,14 +23,13 @@ class PasswordStrategyTest extends TestCase
     }
 
     /**
-     * @param bool $isHashedPassword
      * @return User
      */
-    private function User(bool $isHashedPassword)
+    private function User()
     {
         $email = 'max.mustermann@hotmail.de';
         $role = new Role('trainee');
         $password = 'SecurePassword123';
-        return new User('Hase', $email, $role, $password, new UserId(), $isHashedPassword);
+        return new User('Hase', $email, $role, $password, new UserId());
     }
 }

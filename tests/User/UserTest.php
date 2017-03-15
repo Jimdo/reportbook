@@ -20,7 +20,6 @@ class UserTest extends TestCase
         $this->assertEquals($optionsUsed['password'], $user->password());
         $this->assertInternalType('string', $user->id());
         $this->assertEquals($optionsUsed['role']->name(), $user->roleName());
-        $this->assertEquals($optionsUsed['isHashedPassword'], $user->isHashedPassword());
         $this->assertEquals($optionsUsed['username'], $user->username());
     }
 
@@ -31,9 +30,9 @@ class UserTest extends TestCase
     {
         $user = $this->user();
 
-        $newPassword = 'newPassword123';
+        $newPassword = 'newPAssword123';
 
-        $user->editPassword($user->password(), $newPassword);
+        $user->editPassword('SecurePassword123', $newPassword);
 
         $strategy = new PasswordStrategy\Hashed();
 
@@ -125,38 +124,15 @@ class UserTest extends TestCase
      */
     public function itShouldVerifyPasswordWithCorrectStrategy()
     {
-        $clearTextPassword = 'SomeClearTextPassword123';
-        $user = $this->user([
-            'password' => $clearTextPassword,
-            'isHashedPassword' => false
-        ]);
-
-        $this->assertTrue($user->verify($clearTextPassword));
-
         $hashed = new PasswordStrategy\Hashed();
 
         $password = 'some encrypted Password123';
         $encryptedPassword = $hashed->encrypt($password);
         $user = $this->user([
-            'password' => $encryptedPassword,
-            'isHashedPassword' => true
+            'password' => $encryptedPassword
         ]);
 
         $this->assertTrue($user->verify($password));
-    }
-
-    /**
-     * @test
-     */
-    public function itShouldEnableHashedPassword()
-    {
-        $user = $this->user();
-
-        $this->assertFalse($user->isHashedPassword());
-
-        $user->enableHashedPassword();
-
-        $this->assertTrue($user->isHashedPassword());
     }
 
     /**
@@ -188,13 +164,13 @@ class UserTest extends TestCase
      */
     private function user(array $options = [], array &$optionsUsed = []): User
     {
+        $strategy = new PasswordStrategy\Hashed();
         $defaults = [
             'username' => 'max_mustermann',
             'email' => 'max.mustermann@hotmail.de',
             'role' => new Role('trainee'),
-            'password' => 'SecurePassword123',
-            'userId' => new UserId(),
-            'isHashedPassword' => false
+            'password' => $strategy->encrypt('SecurePassword123'),
+            'userId' => new UserId()
         ];
 
         $optionsUsed = array_merge($defaults, $options);
@@ -204,8 +180,7 @@ class UserTest extends TestCase
             $optionsUsed['email'],
             $optionsUsed['role'],
             $optionsUsed['password'],
-            $optionsUsed['userId'],
-            $optionsUsed['isHashedPassword']
+            $optionsUsed['userId']
         );
     }
 }

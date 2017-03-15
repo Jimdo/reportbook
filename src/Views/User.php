@@ -78,12 +78,4 @@ class User
     {
         return $this->user->id();
     }
-
-    /**
-     * @return bool
-     */
-    public function isHashedPassword(): bool
-    {
-        return $this->user->isHashedPassword();
-    }
 }

@@ -1,6 +1,7 @@
 sudo: required
 services:
   - docker
+  - mysql
 language: php
 php:
   - '7.0'
@@ -10,6 +11,12 @@ install:
   - make bootstrap
 before_script:
   - ./scripts/travis-setup.sh
+  - mysql -u root -e 'CREATE DATABASE reportbook_test;'
+  - mysql -u root -e "CREATE USER 'reportbook-test'@'localhost' IDENTIFIED BY 'geheim';"
+  - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'reportbook-test'@'localhost';"
+  - mysql -u root -e "REVOKE CREATE USER, SUPER ON *.* FROM 'reportbook-test'@'localhost';"
+
+  - mysql -u root reportbook_test < ./scripts/mysql/mysql-dump.sql
 script:
   - ./scripts/run-tests-travis.sh
 deploy:
@@ -20,14 +27,10 @@ deploy:
 env:
   global:
   - MONGO_HOST=127.0.0.1
-  - MYSQL_HOST=127.0.0.1
-  - MYSQL_ROOT_PASSWORD=geheim
+  - MYSQL_ROOT_PASSWORD=travis
   - MYSQL_DATABASE=reportbook_test
   - MYSQL_USER=reportbook-test
   - MYSQL_PASSWORD=geheim
-
-  # See port "hack" in travis-setup.sh
-  - MYSQL_PORT=3307
 
   # DOCKER_LOGIN
   - secure: QK1b8/xezk/+Ewhghk0iZJ/a04OlCIQufinG5r8vfbvz13GNoIhCnjTpGZ+ycqgA5oXUPUrMKI4SjdW7hvQq1fRBjbEgqj2/doCJouiHug4h06ldbwZ9v73rMhBjbi/V2cbXn4PFVTSKBiuog0LUsgbHMjPAObR9BBJUUsiCBXIr0O3HhLKwF1hNj+5np8JnRMtUD5fBaUTFAlXOv2gWA5ChiXDA6J5QMD56elfk1G8XaBGSncyzbTHkzHMXxoJkvSOlj2mNlVWcC7pJnK9TeIUzaqXk34mCavmxLNwuUMzhPddDcTNyuIqWNFoxjPUTK9O+5x72HBNKB3WmRAOD+n/zIpoxcYOBRtaL/UblVQF1tmuJ21xQaB+1jVbKJB9QlYYmpmnJkX5GVplNYXrNethJLgVIs/2tJLZtpr49m64LGxRr9Cb7sHQyzLliYXxOGZH/w/yZdYAWzzFS0EM8qMzziBHshhYLiuJSezFtU7R9ETtZKISW0JDF+9jH3wo+jZpE/ewZGn4mFFNl8x7hn/25LXTWE2+ePhMMrAc2f8VC/8HKXBHCrAw3DKtopfIFDQl/V/VYFw9oAuDy1n2j4jr24/3mQXrQ5bWky4hVy8lsB3Uq3MpwNs2plFUafe6Ec0azzeUn21Bv4Rxyy2vUgOY2oHLxJrGTyoXJa8xqBJc=

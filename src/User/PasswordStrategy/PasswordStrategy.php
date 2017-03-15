@@ -25,10 +25,6 @@ abstract class PasswordStrategy
     */
     public static function for(User $user): PasswordStrategy
     {
-        if ($user->isHashedPassword()) {
-            return new Hashed();
-        } else {
-            return new ClearText();
-        }
+        return new Hashed();
     }
 }

@@ -83,6 +83,19 @@ class ReportMySQLRepository
     }
 
     /**
+     * @param string $traineeId
+     * @return array
+     */
+    public function findByTraineeId(string $traineeId): array
+    {
+        $reports = [];
+        foreach ($this->dbHandler->query("SELECT * FROM {$this->table} WHERE traineeId = '{$traineeId}'")->fetchAll() as $pdoObject) {
+            $reports[] = $this->serializer->unserializeReport($pdoObject);
+        }
+        return $reports;
+    }
+
+    /**
      * @param Report $report
      */
     public function save(Report $report)

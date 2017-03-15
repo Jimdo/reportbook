@@ -6,7 +6,7 @@ use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Serializer as Serializer;
 use Jimdo\Reports\Reportbook\Report;
 
-class ReportMySQLRepository
+class ReportMySQLRepository implements ReportRepository
 {
     /** @var PDO */
     private $dbHandler;
@@ -49,7 +49,7 @@ class ReportMySQLRepository
         string $calendarWeek,
         string $calendarYear,
         string $category
-    ) {
+    ): Report {
         $report = new Report($traineeId, $content, $date, $calendarWeek, $calendarYear, uniqid(), $category);
 
         $this->save($report);

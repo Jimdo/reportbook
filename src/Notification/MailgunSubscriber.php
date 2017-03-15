@@ -79,7 +79,7 @@ class MailgunSubscriber implements Subscriber
             case 'commentCreated':
                 if ($event->payload()['traineeId'] !== $event->payload()['userId']) {
                     $message =  "Hallo {$event->payload()['username']}, \n\n" .
-                                "Dein Bericht von der Kalenderwoche {$report->calendarWeek()} wurde kommentiert. \n\n" .
+                                "Dein Bericht von der Kalenderwoche {$event->payload()['calendarWeek']} wurde kommentiert. \n\n" .
                                 "Online Berichtsheft";
                     $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 }

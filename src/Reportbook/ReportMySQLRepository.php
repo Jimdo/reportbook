@@ -63,11 +63,11 @@ class ReportMySQLRepository implements ReportRepository
      */
     public function findById(string $id)
     {
-        return $this->serializer->unserializeReport(
-            $this->dbHandler->query(
-                "SELECT * FROM {$this->table} WHERE id = '{$id}'"
-            )->fetchAll()[0]
-        );
+        $sql = "SELECT * FROM $this->table WHERE id = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$id]);
+
+        return $this->serializer->unserializeReport($sth->fetchAll()[0]);
     }
 
     /**
@@ -88,8 +88,12 @@ class ReportMySQLRepository implements ReportRepository
      */
     public function findByTraineeId(string $traineeId): array
     {
+        $sql = "SELECT * FROM $this->table WHERE traineeId = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$traineeId]);
+
         $reports = [];
-        foreach ($this->dbHandler->query("SELECT * FROM {$this->table} WHERE traineeId = '{$traineeId}'")->fetchAll() as $pdoObject) {
+        foreach ($sth->fetchAll() as $pdoObject) {
             $reports[] = $this->serializer->unserializeReport($pdoObject);
         }
         return $reports;
@@ -101,8 +105,12 @@ class ReportMySQLRepository implements ReportRepository
      */
     public function findByStatus(string $status): array
     {
+        $sql = "SELECT * FROM $this->table WHERE status = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$status]);
+
         $reports = [];
-        foreach ($this->dbHandler->query("SELECT * FROM {$this->table} WHERE status = '{$status}'")->fetchAll() as $pdoObject) {
+        foreach ($sth->fetchAll() as $pdoObject) {
             $reports[] = $this->serializer->unserializeReport($pdoObject);
         }
         return $reports;
@@ -119,13 +127,21 @@ class ReportMySQLRepository implements ReportRepository
         }
 
         $reports = [];
-
         if (is_numeric($text)) {
-            foreach ($this->dbHandler->query("SELECT * FROM {$this->table} WHERE calendarWeek = '{$text}'")->fetchAll() as $pdoObject) {
+            $sql = "SELECT * FROM $this->table WHERE calendarWeek = ?";
+            $sth = $this->dbHandler->prepare($sql);
+            $sth->execute([$text]);
+
+            foreach ($sth->fetchAll() as $pdoObject) {
                 $reports[] = $this->serializer->unserializeReport($pdoObject);
             }
+
         } else {
-            foreach ($this->dbHandler->query("SELECT * FROM {$this->table} WHERE content LIKE '%{$text}%'")->fetchAll() as $pdoObject) {
+            $sql = "SELECT * FROM $this->table WHERE content LIKE ?";
+            $sth = $this->dbHandler->prepare($sql);
+            $sth->execute(["%{$text}%"]);
+
+            foreach ($sth->fetchAll() as $pdoObject) {
                 $reports[] = $this->serializer->unserializeReport($pdoObject);
             }
         }
@@ -137,7 +153,9 @@ class ReportMySQLRepository implements ReportRepository
      */
     public function delete(Report $report)
     {
-        $this->dbHandler->exec("DELETE FROM report WHERE id = '{$report->id()}'");
+        $sql = "DELETE FROM $this->table WHERE id = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$report->id()]);
     }
 
     /**
@@ -145,11 +163,22 @@ class ReportMySQLRepository implements ReportRepository
      */
     public function save(Report $report)
     {
-        $this->dbHandler->exec("INSERT INTO {$this->table} (
+        $sql = "INSERT INTO $this->table (
             id, content, date, calendarWeek, calendarYear, status, category, traineeId
         ) VALUES (
-            '{$report->id()}', '{$report->content()}', '{$report->date()}', '{$report->calendarWeek()}', '{$report->calendarYear()}', '{$report->status()}', '{$report->category()}', '{$report->traineeId()}'
-        )");
+            ?, ?, ?, ?, ?, ?, ?, ?
+        )";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([
+            $report->id(),
+            $report->content(),
+            $report->date(),
+            $report->calendarWeek(),
+            $report->calendarYear(),
+            $report->status(),
+            $report->category(),
+            $report->traineeId()
+        ]);
     }
 
     /**

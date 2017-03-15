@@ -22,31 +22,25 @@ class User
     /** @var UserId */
     private $userId;
 
-    /** @var bool */
-    private $isHashedPassword;
-
     /**
      * @param string $username
      * @param string $email
      * @param Role $role
      * @param string $password
      * @param UserId $userId
-     * @param bool $isHashedPassword
      */
     public function __construct(
         string $username,
         string $email,
         Role $role,
         string $password,
-        UserId $userId,
-        bool $isHashedPassword
+        UserId $userId
     ) {
         $this->username = $username;
         $this->email = $email;
         $this->role = $role;
         $this->password = $password;
         $this->userId = $userId;
-        $this->isHashedPassword = $isHashedPassword;
     }
 
     /**
@@ -63,19 +57,6 @@ class User
     public function email(): string
     {
         return $this->email;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isHashedPassword(): bool
-    {
-        return $this->isHashedPassword;
-    }
-
-    public function enableHashedPassword()
-    {
-        $this->isHashedPassword = true;
     }
 
     /**

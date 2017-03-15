@@ -47,8 +47,8 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = 'SecurePassword123';
         $username = 'jenny';
-        $isHashedPassword = false;
-        $user = new User($username, $email, $role, $password, new UserId(), $isHashedPassword);
+
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -70,8 +70,8 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = 'SecurePassword123';
         $username = 'jenny';
-        $isHashedPassword = false;
-        $user = new User($username, $email, $role, $password, new UserId(), $isHashedPassword);
+
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -93,8 +93,8 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = 'SecurePassword123';
         $username = 'jenny';
-        $isHashedPassword = false;
-        $user = new User($username, $email, $role, $password, new UserId(), $isHashedPassword);
+
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -116,8 +116,8 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = 'SecurePassword123';
         $username = 'jenny';
-        $isHashedPassword = false;
-        $user = new User($username, $email, $role, $password, new UserId(), $isHashedPassword);
+
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -139,8 +139,8 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = 'SecurePassword123';
         $username = 'jenny';
-        $isHashedPassword = false;
-        $user = new User($username, $email, $role, $password, new UserId(), $isHashedPassword);
+
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -162,8 +162,8 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = 'SecurePassword123';
         $username = 'jenny';
-        $isHashedPassword = false;
-        $user = new User($username, $email, $role, $password, new UserId(), $isHashedPassword);
+
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -185,8 +185,8 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = 'SecurePassword123';
         $username = 'jenny';
-        $isHashedPassword = false;
-        $user = new User($username, $email, $role, $password, new UserId(), $isHashedPassword);
+
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -208,8 +208,8 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = 'SecurePassword123';
         $username = 'jenny';
-        $isHashedPassword = false;
-        $user = new User($username, $email, $role, $password, new UserId(), $isHashedPassword);
+
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 
@@ -231,8 +231,8 @@ class ProfileTest extends TestCase
         $role = new Role('trainee');
         $password = 'SecurePassword123';
         $username = 'jenny';
-        $isHashedPassword = false;
-        $user = new User($username, $email, $role, $password, new UserId(), $isHashedPassword);
+
+        $user = new User($username, $email, $role, $password, new UserId());
 
         $profile = new Profile($user->id(), $forename, $surname);
 

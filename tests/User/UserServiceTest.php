@@ -33,7 +33,7 @@ class UserServiceTest extends TestCase
         $user = $this->userService->registerTrainee($username, $email, $password);
 
         $this->assertEquals($email, $user->email());
-        $this->assertTrue($user->isHashedPassword());
+
     }
 
     /**
@@ -48,7 +48,7 @@ class UserServiceTest extends TestCase
         $user = $this->userService->registerTrainee($username, $email, $password);
 
         $this->assertEquals($email, $user->email());
-        $this->assertTrue($user->isHashedPassword());
+
     }
 
     /**
@@ -63,7 +63,7 @@ class UserServiceTest extends TestCase
         $user = $this->userService->registerAdmin($username, $email, $password);
 
         $this->assertEquals($email, $user->email());
-        $this->assertTrue($user->isHashedPassword());
+
         $this->assertEquals(Role::ADMIN, $user->roleName());
     }
 
@@ -270,30 +270,6 @@ class UserServiceTest extends TestCase
 
         $this->assertTrue($this->userService->exists($username));
         $this->assertTrue($this->userService->exists($mail));
-    }
-
-    /**
-     * @test
-     */
-    public function itShouldSoftMigrateUserFromClearTextPasswordToHashedOne()
-    {
-        $username = 'max_mustermann';
-        $email = "max_mustermann@example.com";
-        $role = new Role('trainee');
-        $password = 'SecurePassword123';
-        $isHashedPassword = false;
-        $userId = new UserId();
-
-        $user = new User($username, $email, $role, $password, $userId, $isHashedPassword);
-        $this->userRepository->users[] = $user;
-
-        $this->assertEquals($password, $user->password());
-        $this->assertFalse($user->isHashedPassword());
-
-        $this->userService->authUser($user->username(), $password);
-
-        $this->assertNotEquals($password, $user->password());
-        $this->assertTrue($user->isHashedPassword());
     }
 
     /**

@@ -177,4 +177,25 @@ class ReportMySQLRepositoryTest extends TestCase
         $this->assertCount(2, $foundReports);
         $this->assertCount(3, $foundAllReports);
     }
+
+    /**
+     * @test
+     */
+    public function itShouldDeleteReport()
+    {
+        $traineeId = new TraineeId($this->userId);
+        $content = 'some content';
+        $date = '10.10.10';
+        $calendarWeek = '34';
+        $calendarYear = '2017';
+        $category = Category::SCHOOL;
+
+        $report = $this->repository->create($traineeId, $content, $date, $calendarWeek , $calendarYear, $category);
+
+        $this->assertCount(1, $this->repository->findAll());
+
+        $this->repository->delete($report);
+
+        $this->assertCount(0, $this->repository->findAll());
+    }
 }

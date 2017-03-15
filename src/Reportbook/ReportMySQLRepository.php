@@ -135,6 +135,14 @@ class ReportMySQLRepository
     /**
      * @param Report $report
      */
+    public function delete(Report $report)
+    {
+        $this->dbHandler->exec("DELETE FROM report WHERE id = '{$report->id()}'");
+    }
+
+    /**
+     * @param Report $report
+     */
     public function save(Report $report)
     {
         $this->dbHandler->exec("INSERT INTO {$this->table} (

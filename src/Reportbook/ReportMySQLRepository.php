@@ -153,7 +153,9 @@ class ReportMySQLRepository implements ReportRepository
      */
     public function delete(Report $report)
     {
-        $this->dbHandler->exec("DELETE FROM report WHERE id = '{$report->id()}'");
+        $sql = "DELETE FROM $this->table WHERE id = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$report->id()]);
     }
 
     /**

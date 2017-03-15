@@ -105,8 +105,12 @@ class ReportMySQLRepository implements ReportRepository
      */
     public function findByStatus(string $status): array
     {
+        $sql = "SELECT * FROM $this->table WHERE status = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$status]);
+
         $reports = [];
-        foreach ($this->dbHandler->query("SELECT * FROM {$this->table} WHERE status = '{$status}'")->fetchAll() as $pdoObject) {
+        foreach ($sth->fetchAll() as $pdoObject) {
             $reports[] = $this->serializer->unserializeReport($pdoObject);
         }
         return $reports;

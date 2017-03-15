@@ -248,7 +248,8 @@ class ApplicationService
             'emailSubject' => 'Kommentar erstellt',
             'traineeId' => $report->traineeId(),
             'username' => $user->username(),
-            'email' => $user->email()
+            'email' => $user->email(),
+            'calendarWeek' => $report->calendarWeek()
         ]);
         $this->notificationService->notify($event);
 

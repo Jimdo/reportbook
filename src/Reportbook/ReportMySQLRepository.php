@@ -96,6 +96,19 @@ class ReportMySQLRepository
     }
 
     /**
+     * @param string $status
+     * @return array
+     */
+    public function findByStatus(string $status): array
+    {
+        $reports = [];
+        foreach ($this->dbHandler->query("SELECT * FROM {$this->table} WHERE status = '{$status}'")->fetchAll() as $pdoObject) {
+            $reports[] = $this->serializer->unserializeReport($pdoObject);
+        }
+        return $reports;
+    }
+
+    /**
      * @param Report $report
      */
     public function save(Report $report)

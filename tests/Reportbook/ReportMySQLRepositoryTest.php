@@ -3,8 +3,8 @@
 namespace Jimdo\Reports\Reportbook;
 
 use PHPUnit\Framework\TestCase;
-use Jimdo\Reports\Serializer as Serializer;
-use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
+use Jimdo\Reports\Serializer;
+use Jimdo\Reports\Web\ApplicationConfig;
 
 class ReportMySQLRepositoryTest extends TestCase
 {
@@ -129,6 +129,27 @@ class ReportMySQLRepositoryTest extends TestCase
         $this->repository->create(new TraineeId(), $content, $date, $calendarWeek , $calendarYear, $category);
 
         $foundReports = $this->repository->findByTraineeId($traineeId->id());
+
+        $this->assertCount(3, $foundReports);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldFindReportsByStatus()
+    {
+        $traineeId = new TraineeId($this->userId);
+        $content = 'some content';
+        $date = '10.10.10';
+        $calendarWeek = '34';
+        $calendarYear = '2017';
+        $category = Category::SCHOOL;
+
+        $this->repository->create($traineeId, $content, $date, $calendarWeek , $calendarYear, $category);
+        $this->repository->create($traineeId, $content, $date, $calendarWeek , $calendarYear, $category);
+        $this->repository->create($traineeId, $content, $date, $calendarWeek , $calendarYear, $category);
+
+        $foundReports = $this->repository->findByStatus(Report::STATUS_NEW);
 
         $this->assertCount(3, $foundReports);
     }

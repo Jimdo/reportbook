@@ -78,10 +78,10 @@ CREATE TABLE `report` (
   `calendarYear` year(4) NOT NULL,
   `status` varchar(255) NOT NULL DEFAULT '',
   `category` varchar(255) NOT NULL DEFAULT '',
-  `userId` varchar(255) NOT NULL DEFAULT '',
+  `traineeId` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  KEY `userId` (`userId`),
-  CONSTRAINT `report_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  KEY `traineeId` (`traineeId`),
+  CONSTRAINT `report_ibfk_1` FOREIGN KEY (`traineeId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

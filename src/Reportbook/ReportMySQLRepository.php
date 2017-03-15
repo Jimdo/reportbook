@@ -76,7 +76,7 @@ class ReportMySQLRepository
     public function save(Report $report)
     {
         $this->dbHandler->exec("INSERT INTO {$this->table} (
-            id, content, date, calendarWeek, calendarYear, status, category, userId
+            id, content, date, calendarWeek, calendarYear, status, category, traineeId
         ) VALUES (
             '{$report->id()}', '{$report->content()}', '{$report->date()}', '{$report->calendarWeek()}', '{$report->calendarYear()}', '{$report->status()}', '{$report->category()}', '{$report->traineeId()}'
         )");

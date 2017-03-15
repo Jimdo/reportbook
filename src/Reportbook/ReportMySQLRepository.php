@@ -88,8 +88,12 @@ class ReportMySQLRepository implements ReportRepository
      */
     public function findByTraineeId(string $traineeId): array
     {
+        $sql = "SELECT * FROM $this->table WHERE traineeId = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$traineeId]);
+
         $reports = [];
-        foreach ($this->dbHandler->query("SELECT * FROM {$this->table} WHERE traineeId = '{$traineeId}'")->fetchAll() as $pdoObject) {
+        foreach ($sth->fetchAll() as $pdoObject) {
             $reports[] = $this->serializer->unserializeReport($pdoObject);
         }
         return $reports;

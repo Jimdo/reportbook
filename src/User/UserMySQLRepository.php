@@ -167,11 +167,18 @@ class UserMySQLRepository implements UserRepository
     /**
      * @param string $status
      * @return array
-     * @throws UserFileRepositoryException
      */
     public function findUsersByStatus(string $status): array
     {
+        $sql = "SELECT * FROM $this->table WHERE roleStatus = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$status]);
 
+        $users = [];
+        foreach ($sth->fetchAll() as $userArr) {
+                $users[] = $this->serializer->unserializeUser($userArr);
+        }
+        return $users;
     }
 
     /**

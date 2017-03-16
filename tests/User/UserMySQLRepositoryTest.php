@@ -147,4 +147,19 @@ class UserMySQLRepositoryTest extends TestCase
         $this->assertNotEquals($foundUser->username(), $wrongUser->username());
         $this->assertEquals($foundUser->username(), $correctUser->username());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldFindUsersByStatus()
+    {
+        $role = new Role(Role::TRAINER);
+        $password = 'SecurePassword123';
+
+        $user = $this->repository->createUser('karl', 'karl@me.com', $role, $password);
+
+        $foundUser = $this->repository->findUsersByStatus(Role::STATUS_NOT_APPROVED);
+
+        $this->assertEquals(Role::STATUS_NOT_APPROVED, $foundUser[0]->roleStatus());
+    }
 }

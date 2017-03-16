@@ -109,4 +109,25 @@ class UserMySQLRepositoryTest extends TestCase
         $this->assertNotEquals($foundUser->email(), $wrongUser->email());
         $this->assertEquals($foundUser->email(), $correctUser->email());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldDeleteUser()
+    {
+        $username = 'hase';
+        $email = 'hase@hotmail.de';
+        $role = new Role(Role::TRAINEE);
+        $password = 'SecurePassword123';
+
+        $user = $this->repository->createUser($username, $email, $role, $password);
+
+        $foundUser = $this->repository->findUserById($user->id());
+        $this->assertEquals($user->id(), $foundUser->id());
+
+        $this->repository->deleteUser($user);
+
+        $foundUser = $this->repository->findUserById($user->id());
+        $this->assertEquals(null, $foundUser);
+    }
 }

@@ -81,7 +81,9 @@ class UserMySQLRepository implements UserRepository
      */
     public function deleteUser(User $deleteUser)
     {
-
+        $sql = "DELETE FROM $this->table WHERE id = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$deleteUser->id()]);
     }
 
     /**

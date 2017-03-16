@@ -3,7 +3,7 @@
 namespace Jimdo\Reports\Reportbook;
 
 use Jimdo\Reports\Web\ApplicationConfig;
-use Jimdo\Reports\Serializer as Serializer;
+use Jimdo\Reports\MySQLSerializer;
 use Jimdo\Reports\Reportbook\Report;
 
 class ReportMySQLRepository implements ReportRepository
@@ -25,7 +25,7 @@ class ReportMySQLRepository implements ReportRepository
      * @param Serializer $serializer
      * @param ApplicationConfig $applicationConfig
      */
-    public function __construct(\PDO $dbHandler, Serializer $serializer, ApplicationConfig $applicationConfig)
+    public function __construct(\PDO $dbHandler, MySQLSerializer $serializer, ApplicationConfig $applicationConfig)
     {
         $this->applicationConfig = $applicationConfig;
         $this->serializer = $serializer;

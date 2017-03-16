@@ -69,4 +69,50 @@ class CommentMySQLRepository implements CommentRepository
             $comment->reportId()
         ]);
     }
+
+    /**
+     * @param string $id
+     * @throws CommentRepositoryException
+     */
+    public function deleteComment(string $id)
+    {
+
+    }
+
+    /**
+     * @param string $reportId
+     * @return array
+     */
+    public function findCommentsByReportId(string $reportId): array
+    {
+
+    }
+
+    /**
+     * @param string $id
+     * @return Comment|null
+     */
+    public function findCommentById(string $id): Comment
+    {
+        $sql = "SELECT * FROM $this->table WHERE id = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$id]);
+
+        $comment = $sth->fetchAll();
+        if ($this->checkIfCommentFound($comment)) {
+            return $this->serializer->unserializeComment($comment[0]);
+        }
+    }
+
+    /**
+     * @param array $userArr
+     * @return bool
+     */
+    private function checkIfCommentFound(array $commentArr): bool
+    {
+        if (array_key_exists('0', $commentArr)) {
+            return true;
+        }
+        return false;
+    }
 }

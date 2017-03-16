@@ -98,7 +98,11 @@ class UserMySQLRepository implements UserRepository
      */
     public function findAllUsers(): array
     {
-
+        $users = [];
+        foreach ($this->dbHandler->query("SELECT * FROM $this->table")->fetchAll() as $pdoObject) {
+                $users[] = $this->serializer->unserializeUser($pdoObject);
+        }
+        return $users;
     }
 
     /**

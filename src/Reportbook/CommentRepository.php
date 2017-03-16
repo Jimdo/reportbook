@@ -35,5 +35,5 @@ interface CommentRepository
      * @param string $id
      * @return Comment|null
      */
-    public function findCommentById(string $id): Comment;
+    public function findCommentById(string $id);
 }

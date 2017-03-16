@@ -76,10 +76,12 @@ class ReportMySQLRepository implements ReportRepository
     public function findAll(): array
     {
         $reports = [];
-        foreach ($this->dbHandler->query("SELECT * FROM {$this->table}")->fetchAll() as $pdoObject) {
+        foreach ($this->dbHandler->query(
+                    "SELECT * FROM {$this->table} ORDER BY calendarYear DESC, calendarWeek DESC"
+                )->fetchAll() as $pdoObject) {
             $reports[] = $this->serializer->unserializeReport($pdoObject);
         }
-        return $this->sortReportsByCalendarWeekAndYear($reports);
+        return $reports;
     }
 
     /**
@@ -88,7 +90,7 @@ class ReportMySQLRepository implements ReportRepository
      */
     public function findByTraineeId(string $traineeId): array
     {
-        $sql = "SELECT * FROM $this->table WHERE traineeId = ?";
+        $sql = "SELECT * FROM $this->table WHERE traineeId = ? ORDER BY calendarYear DESC, calendarWeek DESC";
         $sth = $this->dbHandler->prepare($sql);
         $sth->execute([$traineeId]);
 
@@ -105,7 +107,7 @@ class ReportMySQLRepository implements ReportRepository
      */
     public function findByStatus(string $status): array
     {
-        $sql = "SELECT * FROM $this->table WHERE status = ?";
+        $sql = "SELECT * FROM $this->table WHERE status = ? ORDER BY calendarYear DESC, calendarWeek DESC";
         $sth = $this->dbHandler->prepare($sql);
         $sth->execute([$status]);
 
@@ -127,24 +129,18 @@ class ReportMySQLRepository implements ReportRepository
         }
 
         $reports = [];
-        if (is_numeric($text)) {
-            $sql = "SELECT * FROM $this->table WHERE calendarWeek = ?";
-            $sth = $this->dbHandler->prepare($sql);
-            $sth->execute([$text]);
 
-            foreach ($sth->fetchAll() as $pdoObject) {
-                $reports[] = $this->serializer->unserializeReport($pdoObject);
-            }
+        $sql = "SELECT * FROM $this->table WHERE calendarWeek = ? OR content LIKE ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([
+            $text,
+            "%{$text}%"
+        ]);
 
-        } else {
-            $sql = "SELECT * FROM $this->table WHERE content LIKE ?";
-            $sth = $this->dbHandler->prepare($sql);
-            $sth->execute(["%{$text}%"]);
-
-            foreach ($sth->fetchAll() as $pdoObject) {
-                $reports[] = $this->serializer->unserializeReport($pdoObject);
-            }
+        foreach ($sth->fetchAll() as $pdoObject) {
+            $reports[] = $this->serializer->unserializeReport($pdoObject);
         }
+
         return $reports;
     }
 
@@ -179,73 +175,5 @@ class ReportMySQLRepository implements ReportRepository
             $report->category(),
             $report->traineeId()
         ]);
-    }
-
-    /**
-     * @param array $array
-     */
-    public function sortReportsByCalendarWeek(&$array)
-    {
-        $direction = SORT_DESC;
-
-        $reference_array = [];
-        $reports = [];
-
-        foreach ($array as $report) {
-            $report = $this->serializer->serializeReport($report);
-            $reports[] = $report;
-        }
-
-        $array = $reports;
-
-        foreach ($array as $key => $row) {
-            $reference_array[$key] = $row['calendarWeek'];
-        }
-
-        array_multisort($reference_array, $direction, $array);
-
-        $newReports = [];
-        foreach ($array as $report) {
-            $newReports[] = $this->serializer->unserializeReport($report);
-        }
-
-        $array = $newReports;
-    }
-
-    /**
-     * @param array $array
-     * @return array
-     */
-    public function sortReportsByCalendarWeekAndYear(array $aReports): array
-    {
-        $years = [];
-        $yearsWithReports = [];
-        $sortedReports = [];
-
-        foreach ($aReports as $report) {
-            if (!in_array($report->calendarYear(), $years)) {
-                $years[] = $report->calendarYear();
-            }
-
-            foreach ($years as $year) {
-                if ($report->calendarYear() === $year) {
-                    $yearsWithReports[$year][] = $report;
-                }
-            }
-        }
-
-        foreach ($yearsWithReports as $year => $reports) {
-            $this->sortReportsByCalendarWeek($reports);
-            $sortedReports[$year] = $reports;
-        }
-
-        krsort($sortedReports);
-
-        $returnArr = [];
-        foreach ($sortedReports as $sortedReport) {
-            $returnArr = array_merge($returnArr, $sortedReport);
-        }
-
-        return $returnArr;
     }
 }

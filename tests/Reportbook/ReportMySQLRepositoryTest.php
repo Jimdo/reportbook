@@ -97,16 +97,17 @@ class ReportMySQLRepositoryTest extends TestCase
         $traineeId = new TraineeId($this->userId);
         $content = 'some content';
         $date = '10.10.10';
-        $calendarWeek = '34';
-        $calendarYear = '2017';
         $category = Category::SCHOOL;
 
-        $this->repository->create($traineeId, $content, $date, $calendarWeek , $calendarYear, $category);
-        $this->repository->create($traineeId, $content, $date, $calendarWeek , $calendarYear, $category);
-        $this->repository->create($traineeId, $content, $date, $calendarWeek , $calendarYear, $category);
+        $report1 = $this->repository->create($traineeId, $content, $date, '30' , '2016', $category);
+        $report2 = $this->repository->create($traineeId, $content, $date, '10' , '2018', $category);
+        $report3 = $this->repository->create($traineeId, $content, $date, '20' , '2017', $category);
 
         $foundReports = $this->repository->findAll();
 
+        $this->assertEquals($report2->calendarWeek(), $foundReports[0]->calendarWeek());
+        $this->assertEquals($report3->calendarWeek(), $foundReports[1]->calendarWeek());
+        $this->assertEquals($report1->calendarWeek(), $foundReports[2]->calendarWeek());
         $this->assertCount(3, $foundReports);
     }
 

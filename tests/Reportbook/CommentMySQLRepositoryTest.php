@@ -79,4 +79,19 @@ class CommentMySQLRepositoryTest extends TestCase
 
         $this->assertEquals($comment->id(), $foundComment->id());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldDeleteComment()
+    {
+        $date = '10.10.10';
+        $content = 'some content';
+
+        $comment = $this->repository->createComment($this->reportId, $this->userId, $date, $content);
+
+        $this->repository->deleteComment($comment->id());
+
+        $this->assertNull($this->repository->findCommentById($comment->id()));
+    }
 }

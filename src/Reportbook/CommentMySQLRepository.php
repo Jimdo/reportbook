@@ -76,7 +76,9 @@ class CommentMySQLRepository implements CommentRepository
      */
     public function deleteComment(string $id)
     {
-
+        $sql = "DELETE FROM $this->table WHERE id = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$id]);
     }
 
     /**
@@ -92,7 +94,7 @@ class CommentMySQLRepository implements CommentRepository
      * @param string $id
      * @return Comment|null
      */
-    public function findCommentById(string $id): Comment
+    public function findCommentById(string $id)
     {
         $sql = "SELECT * FROM $this->table WHERE id = ?";
         $sth = $this->dbHandler->prepare($sql);

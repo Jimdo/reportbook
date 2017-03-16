@@ -98,7 +98,8 @@ CREATE TABLE `user` (
   `password` varchar(255) NOT NULL DEFAULT '',
   `roleName` varchar(255) NOT NULL DEFAULT '',
   `roleStatus` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`,`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

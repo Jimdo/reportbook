@@ -90,7 +90,11 @@ class UserMySQLRepository implements UserRepository
      */
     public function findUserByEmail(string $email)
     {
+        $sql = "SELECT * FROM $this->table WHERE email = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$email]);
 
+        return $this->serializer->unserializeUser($sth->fetchAll()[0]);
     }
 
     /**

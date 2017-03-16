@@ -92,4 +92,21 @@ class UserMySQLRepositoryTest extends TestCase
 
         $this->assertCount(3, $foundUsers);
     }
+
+    /**
+     * @test
+     */
+    public function itShouldFindUserByEmail()
+    {
+        $role = new Role(Role::TRAINER);
+        $password = 'SecurePassword123';
+
+        $correctUser = $this->repository->createUser('karl', 'karl@me.com', $role, $password);
+        $wrongUser = $this->repository->createUser('otto', 'otto@me.com', $role, $password);
+
+        $foundUser = $this->repository->findUserByEmail($correctUser->email());
+
+        $this->assertNotEquals($foundUser->email(), $wrongUser->email());
+        $this->assertEquals($foundUser->email(), $correctUser->email());
+    }
 }

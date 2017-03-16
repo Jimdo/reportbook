@@ -76,10 +76,12 @@ class ReportMySQLRepository implements ReportRepository
     public function findAll(): array
     {
         $reports = [];
-        foreach ($this->dbHandler->query("SELECT * FROM {$this->table}")->fetchAll() as $pdoObject) {
+        foreach ($this->dbHandler->query(
+                    "SELECT * FROM {$this->table} ORDER BY calendarYear DESC, calendarWeek DESC"
+                )->fetchAll() as $pdoObject) {
             $reports[] = $this->serializer->unserializeReport($pdoObject);
         }
-        return $this->sortReportsByCalendarWeekAndYear($reports);
+        return $reports;
     }
 
     /**
@@ -179,73 +181,5 @@ class ReportMySQLRepository implements ReportRepository
             $report->category(),
             $report->traineeId()
         ]);
-    }
-
-    /**
-     * @param array $array
-     */
-    public function sortReportsByCalendarWeek(&$array)
-    {
-        $direction = SORT_DESC;
-
-        $reference_array = [];
-        $reports = [];
-
-        foreach ($array as $report) {
-            $report = $this->serializer->serializeReport($report);
-            $reports[] = $report;
-        }
-
-        $array = $reports;
-
-        foreach ($array as $key => $row) {
-            $reference_array[$key] = $row['calendarWeek'];
-        }
-
-        array_multisort($reference_array, $direction, $array);
-
-        $newReports = [];
-        foreach ($array as $report) {
-            $newReports[] = $this->serializer->unserializeReport($report);
-        }
-
-        $array = $newReports;
-    }
-
-    /**
-     * @param array $array
-     * @return array
-     */
-    public function sortReportsByCalendarWeekAndYear(array $aReports): array
-    {
-        $years = [];
-        $yearsWithReports = [];
-        $sortedReports = [];
-
-        foreach ($aReports as $report) {
-            if (!in_array($report->calendarYear(), $years)) {
-                $years[] = $report->calendarYear();
-            }
-
-            foreach ($years as $year) {
-                if ($report->calendarYear() === $year) {
-                    $yearsWithReports[$year][] = $report;
-                }
-            }
-        }
-
-        foreach ($yearsWithReports as $year => $reports) {
-            $this->sortReportsByCalendarWeek($reports);
-            $sortedReports[$year] = $reports;
-        }
-
-        krsort($sortedReports);
-
-        $returnArr = [];
-        foreach ($sortedReports as $sortedReport) {
-            $returnArr = array_merge($returnArr, $sortedReport);
-        }
-
-        return $returnArr;
     }
 }

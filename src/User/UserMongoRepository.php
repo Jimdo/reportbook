@@ -3,7 +3,7 @@
 namespace Jimdo\Reports\User;
 
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-use Jimdo\Reports\Serializer as Serializer;
+use Jimdo\Reports\MongoSerializer;
 
 class UserMongoRepository implements UserRepository
 {
@@ -27,7 +27,7 @@ class UserMongoRepository implements UserRepository
      * @param ApplicationConfig $applicationConfig
      * @param Client $client
      */
-    public function __construct(\MongoDB\Client $client, Serializer $serializer, ApplicationConfig $applicationConfig)
+    public function __construct(\MongoDB\Client $client, MongoSerializer $serializer, ApplicationConfig $applicationConfig)
     {
         $this->applicationConfig = $applicationConfig;
         $this->serializer = $serializer;

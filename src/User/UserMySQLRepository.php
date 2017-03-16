@@ -112,7 +112,7 @@ class UserMySQLRepository implements UserRepository
 
         $user = $sth->fetchAll();
 
-        if (array_key_exists('0', $user)) {
+        if ($this->checkIfUserFound($user)) {
             return $this->serializer->unserializeUser($user[0]);
         }
     }
@@ -141,7 +141,7 @@ class UserMySQLRepository implements UserRepository
 
         $user = $sth->fetchAll();
 
-        if (array_key_exists('0', $user)) {
+        if ($this->checkIfUserFound($user)) {
             return $this->serializer->unserializeUser($user[0]);
         }
     }
@@ -158,10 +158,9 @@ class UserMySQLRepository implements UserRepository
 
         $user = $sth->fetchAll();
 
-        if (array_key_exists('0', $user)) {
+        if ($this->checkIfUserFound($user)) {
             return $this->serializer->unserializeUser($user[0]);
         }
-
     }
 
     /**
@@ -182,11 +181,14 @@ class UserMySQLRepository implements UserRepository
     }
 
     /**
-     * @param string $identifier
+     * @param array $userArr
      * @return bool
      */
-    public function exists(string $identifier): bool
+    private function checkIfUserFound(array $userArr): bool
     {
-
+        if (array_key_exists('0', $userArr)) {
+            return true;
+        }
+        return false;
     }
 }

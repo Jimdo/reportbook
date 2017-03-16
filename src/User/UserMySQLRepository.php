@@ -46,6 +46,20 @@ class UserMySQLRepository implements UserRepository
         Role $role,
         string $password
     ): User {
+        if ($this->findUserByUsername($username) !== null) {
+            throw new UserRepositoryException(
+                "Username already exists!\n",
+                UserService::ERR_USERNAME_EXISTS
+            );
+        }
+
+        if ($this->findUserByEmail($email) !== null) {
+            throw new UserRepositoryException(
+                "Email already exists!\n",
+                UserService::ERR_EMAIL_EXISTS
+            );
+        }
+
         $user = new User($username, $email, $role, $password, new UserId());
 
         $this->save($user);

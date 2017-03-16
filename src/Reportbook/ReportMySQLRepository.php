@@ -129,24 +129,18 @@ class ReportMySQLRepository implements ReportRepository
         }
 
         $reports = [];
-        if (is_numeric($text)) {
-            $sql = "SELECT * FROM $this->table WHERE calendarWeek = ?";
-            $sth = $this->dbHandler->prepare($sql);
-            $sth->execute([$text]);
 
-            foreach ($sth->fetchAll() as $pdoObject) {
-                $reports[] = $this->serializer->unserializeReport($pdoObject);
-            }
+        $sql = "SELECT * FROM $this->table WHERE calendarWeek = ? OR content LIKE ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([
+            $text,
+            "%{$text}%"
+        ]);
 
-        } else {
-            $sql = "SELECT * FROM $this->table WHERE content LIKE ?";
-            $sth = $this->dbHandler->prepare($sql);
-            $sth->execute(["%{$text}%"]);
-
-            foreach ($sth->fetchAll() as $pdoObject) {
-                $reports[] = $this->serializer->unserializeReport($pdoObject);
-            }
+        foreach ($sth->fetchAll() as $pdoObject) {
+            $reports[] = $this->serializer->unserializeReport($pdoObject);
         }
+
         return $reports;
     }
 

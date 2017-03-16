@@ -36,7 +36,10 @@ class UserMySQLRepositoryTest extends TestCase
 
         $this->serializer = new Serializer();
         $this->repository = new UserMySQLRepository($this->dbHandler, $this->serializer, $appConfig);
+    }
 
+    protected function tearDown()
+    {
         $this->dbHandler->exec("DELETE FROM user");
     }
 

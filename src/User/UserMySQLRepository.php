@@ -3,7 +3,7 @@
 namespace Jimdo\Reports\User;
 
 use Jimdo\Reports\Web\ApplicationConfig;
-use Jimdo\Reports\Serializer;
+use Jimdo\Reports\MySQLSerializer;
 
 class UserMySQLRepository implements UserRepository
 {
@@ -24,7 +24,7 @@ class UserMySQLRepository implements UserRepository
      * @param Serializer $serializer
      * @param ApplicationConfig $applicationConfig
      */
-    public function __construct(\PDO $dbHandler, Serializer $serializer, ApplicationConfig $applicationConfig)
+    public function __construct(\PDO $dbHandler, MySQLSerializer $serializer, ApplicationConfig $applicationConfig)
     {
         $this->applicationConfig = $applicationConfig;
         $this->serializer = $serializer;

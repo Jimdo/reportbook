@@ -64,4 +64,19 @@ class CommentMySQLRepositoryTest extends TestCase
         $this->dbHandler->exec("DELETE FROM report");
         $this->dbHandler->exec("DELETE FROM user");
     }
+
+    /**
+     * @test
+     */
+    public function itShouldCreateComment()
+    {
+        $date = '10.10.10';
+        $content = 'some content';
+
+        $comment = $this->repository->createComment($this->reportId, $this->userId, $date, $content);
+
+        $foundComment = $this->repository->findCommentById($comment->id());
+
+        $this->assertEquals($comment->id(), $foundComment->id());
+    }
 }

@@ -45,7 +45,7 @@ class ReportMySQLRepositoryTest extends TestCase
 
         $this->userId = uniqId();
         $this->dbHandler->exec("INSERT INTO user (
-            id, username, email, password, role, roleStatus
+            id, username, email, password, roleName, roleStatus
         ) VALUES (
             '{$this->userId}', 'testuser', 'testemail', 'geheim', 'TRAINEE', 'APPROVED'
         )");

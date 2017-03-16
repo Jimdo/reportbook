@@ -90,7 +90,7 @@ class ReportMySQLRepository implements ReportRepository
      */
     public function findByTraineeId(string $traineeId): array
     {
-        $sql = "SELECT * FROM $this->table WHERE traineeId = ?";
+        $sql = "SELECT * FROM $this->table WHERE traineeId = ? ORDER BY calendarYear DESC, calendarWeek DESC";
         $sth = $this->dbHandler->prepare($sql);
         $sth->execute([$traineeId]);
 
@@ -107,7 +107,7 @@ class ReportMySQLRepository implements ReportRepository
      */
     public function findByStatus(string $status): array
     {
-        $sql = "SELECT * FROM $this->table WHERE status = ?";
+        $sql = "SELECT * FROM $this->table WHERE status = ? ORDER BY calendarYear DESC, calendarWeek DESC";
         $sth = $this->dbHandler->prepare($sql);
         $sth->execute([$status]);
 

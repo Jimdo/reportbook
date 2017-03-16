@@ -5,7 +5,7 @@ namespace Jimdo\Reports\Reportbook;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\MySQLSerializer;
 
-class CommentMySQLRepository implements ReportRepository
+class CommentMySQLRepository implements CommentRepository
 {
     /** @var PDO */
     private $dbHandler;

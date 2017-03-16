@@ -96,7 +96,11 @@ class UserMySQLRepository implements UserRepository
         $sth = $this->dbHandler->prepare($sql);
         $sth->execute([$email]);
 
-        return $this->serializer->unserializeUser($sth->fetchAll()[0]);
+        $user = $sth->fetchAll()[0];
+
+        if ($user !== null) {
+            return $this->serializer->unserializeUser($user);
+        }
     }
 
     /**
@@ -121,7 +125,11 @@ class UserMySQLRepository implements UserRepository
         $sth = $this->dbHandler->prepare($sql);
         $sth->execute([$id]);
 
-        return $this->serializer->unserializeUser($sth->fetchAll()[0]);
+        $user = $sth->fetchAll()[0];
+
+        if ($user !== null) {
+            return $this->serializer->unserializeUser($user);
+        }
     }
 
     /**

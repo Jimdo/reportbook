@@ -138,6 +138,15 @@ class UserMySQLRepository implements UserRepository
      */
     public function findUserByUsername(string $username)
     {
+        $sql = "SELECT * FROM $this->table WHERE username = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$username]);
+
+        $user = $sth->fetchAll();
+
+        if (array_key_exists('0', $user)) {
+            return $this->serializer->unserializeUser($user[0]);
+        }
 
     }
 

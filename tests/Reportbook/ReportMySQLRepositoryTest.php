@@ -65,8 +65,7 @@ class ReportMySQLRepositoryTest extends TestCase
 
         $report = $this->repository->create($traineeId, $content, $date, $calendarWeek , $calendarYear, $category);
 
-        $query = $this->dbHandler->query("SELECT * FROM {$this->table} WHERE id = '{$report->id()}'");
-        $foundReport = $this->serializer->unserializeReport($query->fetchAll()[0]);
+        $foundReport = $this->repository->findById($report->id());
 
         $this->assertEquals($report->id(), $foundReport->id());
     }

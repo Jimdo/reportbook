@@ -20,9 +20,6 @@ class UserMySQLRepositoryTest extends TestCase
     /** @var MySQL Table */
     private $table;
 
-    /** @var userId */
-    private $userId;
-
     /** @var Serializer */
     private $serializer;
 
@@ -41,12 +38,24 @@ class UserMySQLRepositoryTest extends TestCase
         $this->repository = new UserMySQLRepository($this->dbHandler, $this->serializer, $appConfig);
 
         $this->dbHandler->exec("DELETE FROM user");
+    }
 
-        $this->userId = uniqId();
-        $this->dbHandler->exec("INSERT INTO user (
-            id, username, email, password, role, roleStatus
-        ) VALUES (
-            '{$this->userId}', 'testuser', 'testemail', 'geheim', 'TRAINEE', 'APPROVED'
-        )");
+    /**
+     * @test
+     */
+    public function itShouldCreateUser()
+    {
+        $username = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role(Role::TRAINER);
+        $password = 'SecurePassword123';
+
+        $user = $this->repository->createUser($username, $email, $role, $password);
+
+        $query = $this->dbHandler->query("SELECT * FROM {$this->table} WHERE id = '{$user->id()}'");
+
+        $foundUser = $this->serializer->unserializeUser($query->fetchAll()[0]);
+
+        $this->assertEquals($user->id(), $foundUser->id());
     }
 }

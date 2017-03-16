@@ -181,6 +181,26 @@ class UserMySQLRepository implements UserRepository
     }
 
     /**
+     * @param string $identifier
+     * @return bool
+     */
+    public function exists(string $identifier): bool
+    {
+        $sql = "SELECT * FROM $this->table WHERE username = ? OR email = ?";
+        $sth = $this->dbHandler->prepare($sql);
+
+        $sth->execute([
+            $identifier,
+            $identifier
+        ]);
+
+        if ($this->checkIfUserFound($sth->fetchAll())) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * @param array $userArr
      * @return bool
      */

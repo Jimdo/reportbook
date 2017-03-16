@@ -162,4 +162,23 @@ class UserMySQLRepositoryTest extends TestCase
 
         $this->assertEquals(Role::STATUS_NOT_APPROVED, $foundUser[0]->roleStatus());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldCheckIfUserExists()
+    {
+        $username = 'hase';
+        $email = 'igel@hase.com';
+        $role = new Role(Role::TRAINER);
+        $password = 'SecurePassword123';
+
+        $this->assertFalse($this->repository->exists($username));
+        $this->assertFalse($this->repository->exists($email));
+
+        $user = $this->repository->createUser($username, $email, $role, $password);
+
+        $this->assertTrue($this->repository->exists($username));
+        $this->assertTrue($this->repository->exists($email));
+    }
 }

@@ -64,7 +64,7 @@ class UserMySQLRepository implements UserRepository
         ) VALUES (
             ?, ?, ?, ?, ?, ?
         )";
-        $sth =  $this->dbHandler->prepare($sql);
+        $sth = $this->dbHandler->prepare($sql);
         $sth->execute([
             $user->id(),
             $user->username(),
@@ -107,7 +107,11 @@ class UserMySQLRepository implements UserRepository
      */
     public function findUserById(string $id)
     {
+        $sql = "SELECT * FROM $this->table WHERE id = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$id]);
 
+        return $this->serializer->unserializeUser($sth->fetchAll()[0]);
     }
 
     /**

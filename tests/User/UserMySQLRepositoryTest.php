@@ -58,4 +58,21 @@ class UserMySQLRepositoryTest extends TestCase
 
         $this->assertEquals($user->id(), $foundUser->id());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldFindUserById()
+    {
+        $username = 'Mustermann';
+        $email = 'max.mustermann@hotmail.de';
+        $role = new Role(Role::TRAINER);
+        $password = 'SecurePassword123';
+
+        $user = $this->repository->createUser($username, $email, $role, $password);
+
+        $foundUser = $this->repository->findUserById($user->id());
+
+        $this->assertEquals($user->id(), $foundUser->id());
+    }
 }

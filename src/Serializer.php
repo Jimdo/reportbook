@@ -11,7 +11,7 @@ use Jimdo\Reports\Reportbook\Report as Report;
 use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
 use Jimdo\Reports\Reportbook\Category as Category;
 
-class Serializer
+class Serializer implements MySQLSerializer, MongoSerializer
 {
     /**
      * @param User $user
@@ -37,7 +37,20 @@ class Serializer
      */
     public function unserializeUser(array $serializedUser): User
     {
-        switch (strtoupper($serializedUser['role']['roleName'])) {
+        $roleName;
+        $roleStatus;
+
+        if ($this->isMongoUserArtifact($serializedUser)) {
+            $roleName = strtoupper($serializedUser['role']['roleName']);
+            $roleStatus = $serializedUser['role']['roleStatus'];
+        }
+
+        if ($this->isMySQLUserArtifact($serializedUser)) {
+            $roleName = strtoupper($serializedUser['roleName']);
+            $roleStatus = $serializedUser['roleStatus'];
+        }
+
+        switch ($roleName) {
             case Role::TRAINEE:
                 $role = new Role(Role::TRAINEE);
                 break;
@@ -49,7 +62,7 @@ class Serializer
                 break;
         }
 
-        if ($serializedUser['role']['roleStatus'] === Role::STATUS_APPROVED) {
+        if ($roleStatus === Role::STATUS_APPROVED) {
             $role->approve();
         }
 
@@ -187,5 +200,23 @@ class Serializer
             $serializedComment['content'],
             $serializedComment['status']
         );
+    }
+
+    /**
+    * @param array $serializedUser
+    * @return bool
+    */
+    private function isMongoUserArtifact(array $serializedUser): bool
+    {
+        return array_key_exists('role', $serializedUser);
+    }
+
+    /**
+     * @param array $serializedUser
+     * @return bool
+     */
+    private function isMySQLUserArtifact(array $serializedUser): bool
+    {
+        return array_key_exists('roleName', $serializedUser);
     }
 }

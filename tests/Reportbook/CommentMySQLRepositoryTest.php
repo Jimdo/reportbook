@@ -94,4 +94,21 @@ class CommentMySQLRepositoryTest extends TestCase
 
         $this->assertNull($this->repository->findCommentById($comment->id()));
     }
+
+    /**
+    * @test
+    */
+    public function itShouldFindCommentsByReportId()
+    {
+        $date = '10.10.10';
+        $content = 'some content';
+
+        $this->repository->createComment($this->reportId, $this->userId, $date, $content);
+        $this->repository->createComment(uniqid(), $this->userId, $date, $content);
+        $this->repository->createComment($this->reportId, $this->userId, $date, $content);
+
+        $comments = $this->repository->findCommentsByReportId($this->reportId);
+
+        $this->assertCount(2, $comments);
+    }
 }

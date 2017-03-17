@@ -116,7 +116,7 @@ class MailgunSubscriber implements Subscriber
      */
     protected function sendMail(string $emailTo, string $emailSubject, string $emailText)
     {
-        if (getenv('APPLICATION_ENV') === 'prod') {
+        if (getenv('APPLICATION_ENV') === 'production') {
             $this->mailgunClient->sendMessage("$this->domain", [
                 'from'    => 'Online Berichtsheft <postmaster@berichtsheft.io>',
                 'to'      => $emailTo,

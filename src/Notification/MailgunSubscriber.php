@@ -50,56 +50,60 @@ class MailgunSubscriber implements Subscriber
         switch ($event->type()) {
             case 'reportCreated':
                 $message =  "Hallo {$event->payload()['username']}, \n\n" .
-                            "Dein Bericht wurde erstellt. \n\n" .
-                            "Kalenderwoche: {$event->payload()['calendarWeek']} \n" .
-                            "Bericht: \n\n" .
-                            "{$event->payload()['content']} \n\n" .
-                            "Online Berichtsheft";
+                            "Dein Bericht für die Kalenderwoche {$event->payload()['calendarWeek']}/{$event->payload()['calendarYear']} wurde erstellt. \n\n" .
+                            "https://berichtsheft.io/";
                 $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 break;
             case 'approvalRequested':
                 $message =  "Hallo {$event->payload()['username']}, \n\n" .
                             "Dein Bericht wurde erfolgreich eingereicht. \n\n" .
-                            "Online Berichtsheft";
+                            "https://berichtsheft.io/";
                 $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
+
+                foreach ($event->payload()['trainers'] as $trainer) {
+                    $message =  "Hallo {$trainer->username()}, \n\n" .
+                    "Dein Azubi {$event->payload()['username']} hat einen neuen Bericht eingereicht. \n\n" .
+                    "https://berichtsheft.io/";
+                    $this->sendMail("{$trainer->username()} <{$trainer->email()}>", $event->payload()['emailSubject'], $message);
+                }
                 break;
             case 'reportApproved':
                 $message =  "Hallo {$event->payload()['username']}, \n\n" .
                             "Dein Bericht wurde erfolgreich von einem Ausbilder genehmigt. \n\n" .
-                            "Online Berichtsheft";
+                            "https://berichtsheft.io/";
                 $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 break;
             case 'reportDisapproved':
                 $message =  "Hallo {$event->payload()['username']}, \n\n" .
                             "Dein Bericht wurde leider von einem Ausbilder abgelehnt. \n" .
-                            "Überprüfe bitte nochmal Dein Bericht von der Kalenderwoche: {$event->payload()['calendarWeek']}.\n\n" .
-                            "Online Berichtsheft";
+                            "Überprüfe bitte nochmal Dein Bericht von der Kalenderwoche: {$event->payload()['calendarWeek']}/{$event->payload()['calendarYear']}.\n\n" .
+                            "https://berichtsheft.io/";
                 $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 break;
             case 'commentCreated':
                 if ($event->payload()['traineeId'] !== $event->payload()['userId']) {
                     $message =  "Hallo {$event->payload()['username']}, \n\n" .
-                                "Dein Bericht von der Kalenderwoche {$event->payload()['calendarWeek']} wurde kommentiert. \n\n" .
-                                "Online Berichtsheft";
+                                "Dein Bericht von der Kalenderwoche {$event->payload()['calendarWeek']}/{$event->payload()['calendarYear']} wurde kommentiert. \n\n" .
+                                "https://berichtsheft.io/";
                     $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 }
                 break;
             case 'roleApproved':
                     $message =  "Hallo {$event->payload()['username']}, \n\n" .
                                 "Dein Zugang zum Online Berichtsheft wurde freigeschaltet. \n\n" .
-                                "Online Berichtsheft";
+                                "https://berichtsheft.io/";
                     $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 break;
             case 'roleDisapproved':
                     $message =  "Hallo {$event->payload()['username']}, \n\n" .
                                 "Dein Zugang zum Online Berichtsheft wurde abgelehnt. \n\n" .
-                                "Online Berichtsheft";
+                                "https://berichtsheft.io/";
                     $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 break;
             case 'passwordEdited':
                     $message =  "Hallo {$event->payload()['username']}, \n\n" .
                                 "Dein Passwort wurde erfolgreich geändert. \n\n" .
-                                "Online Berichtsheft";
+                                "https://berichtsheft.io/";
                     $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 break;
         }

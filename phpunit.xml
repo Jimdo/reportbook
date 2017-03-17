@@ -12,6 +12,11 @@
       </exclude>
     </whitelist>
   </filter>
+  <groups>
+    <exclude>
+      <group>ignore</group>
+    </exclude>
+  </groups>
   <logging>
     <log type="coverage-html" target="docs/coverage" lowUpperBound="35" highLowerBound="70"/>
   </logging>

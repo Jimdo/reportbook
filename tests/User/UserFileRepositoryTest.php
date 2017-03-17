@@ -22,6 +22,7 @@ class UserFileRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldCreateUser()
     {
@@ -43,6 +44,7 @@ class UserFileRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldDeleteUser()
     {
@@ -66,6 +68,7 @@ class UserFileRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldFindUserByEmail()
     {
@@ -85,6 +88,7 @@ class UserFileRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldFindAllUsers()
     {
@@ -109,6 +113,7 @@ class UserFileRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldFindUserById()
     {
@@ -128,6 +133,7 @@ class UserFileRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldFindUserByStatus()
     {
@@ -152,6 +158,7 @@ class UserFileRepositoryTest extends TestCase
     /**
      * @test
      * @expectedException Jimdo\Reports\User\UserRepositoryException
+     * @group ignore
      */
     public function itShouldThrowUserRepositoryExceptionOnDuplicateEmail()
     {
@@ -169,6 +176,7 @@ class UserFileRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldCheckIfUserExistsByEmailOrUsername()
     {
@@ -190,6 +198,7 @@ class UserFileRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
      public function itShouldHaveUniqId()
      {

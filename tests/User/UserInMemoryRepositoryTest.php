@@ -9,6 +9,7 @@ class UserRepositoryTest extends TestCase
 {
     /**
      * @test
+     * @group ignore
      */
     public function itShouldCreateUser()
     {
@@ -25,6 +26,7 @@ class UserRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldDeleteUser()
     {
@@ -44,6 +46,7 @@ class UserRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldFindUserByEmail()
     {
@@ -62,6 +65,7 @@ class UserRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldFindUserById()
     {
@@ -80,6 +84,7 @@ class UserRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldFindUserBySurname()
     {
@@ -98,6 +103,7 @@ class UserRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldFindAllUsers()
     {
@@ -122,6 +128,7 @@ class UserRepositoryTest extends TestCase
    /**
     * @test
     * @expectedException Jimdo\Reports\User\UserRepositoryException
+    * @group ignore
     */
    public function itShouldThrowUserRepositoryExceptionOnDuplicateEmail()
     {
@@ -138,6 +145,7 @@ class UserRepositoryTest extends TestCase
    /**
     * @test
     * @expectedException Jimdo\Reports\User\UserRepositoryException
+    * @group ignore
     */
    public function itShouldThrowUserRepositoryExceptionOnDuplicateUsername()
     {
@@ -154,6 +162,7 @@ class UserRepositoryTest extends TestCase
     /**
      * @test
      * @expectedException Jimdo\Reports\User\UserRepositoryException
+     * @group ignore
      */
     public function itShouldThrowExceptionWhenPasswordIsShorterThatSevenChars()
     {

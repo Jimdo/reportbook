@@ -20,6 +20,7 @@ class ReportFileRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldHaveRepositoryRoot()
     {
@@ -30,6 +31,7 @@ class ReportFileRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldCreateReport()
     {
@@ -54,6 +56,7 @@ class ReportFileRepositoryTest extends TestCase
 
     /**
     * @test
+    * @group ignore
     */
     public function itShouldDeleteReport()
     {
@@ -79,6 +82,7 @@ class ReportFileRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldFindAllReports()
     {
@@ -100,6 +104,7 @@ class ReportFileRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldFindByTraineeId()
     {
@@ -125,6 +130,7 @@ class ReportFileRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldFindByStatus()
     {
@@ -144,6 +150,7 @@ class ReportFileRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldFindById()
     {
@@ -163,6 +170,7 @@ class ReportFileRepositoryTest extends TestCase
 
     /**
      * @test
+     * @group ignore
      */
     public function itShouldReturnAnEmptyListIfUserNotExists()
     {

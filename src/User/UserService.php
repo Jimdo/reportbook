@@ -344,6 +344,21 @@ class UserService
     }
 
     /**
+     * @return array
+     */
+    public function findAllTrainers(): array
+    {
+        $users = $this->findUsersByStatus(Role::STATUS_APPROVED);
+
+        foreach ($users as $user) {
+            if ($user->roleName() === Role::TRAINER) {
+                $returnUsers[] = $user;
+            }
+        }
+        return $returnUsers;
+    }
+
+    /**
      * @param string $email
      */
     public function approveRole(string $email)

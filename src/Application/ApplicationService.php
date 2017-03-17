@@ -75,7 +75,7 @@ class ApplicationService
             'reportId' => $report->id(),
             'emailSubject' => 'Bericht erstellt',
             'calendarWeek' => $calendarWeek,
-            'content' => $content,
+            'calendarYear' => $calendarYear,
             'username' => $user->username(),
             'email' => $user->email()
         ]);
@@ -155,7 +155,8 @@ class ApplicationService
             'reportId' => $reportId,
             'emailSubject' => 'Bericht eingereicht',
             'username' => $user->username(),
-            'email' => $user->email()
+            'email' => $user->email(),
+            'trainers' => $this->findAllTrainers()
         ]);
         $this->notificationService->notify($event);
     }
@@ -195,6 +196,7 @@ class ApplicationService
             'reportId' => $reportId,
             'emailSubject' => 'Bericht abgelehnt',
             'calendarWeek' => $report->calendarWeek(),
+            'calendarYear' => $report->calendarYear(),
             'username' => $user->username(),
             'email' => $user->email()
         ]);
@@ -249,7 +251,8 @@ class ApplicationService
             'traineeId' => $report->traineeId(),
             'username' => $user->username(),
             'email' => $user->email(),
-            'calendarWeek' => $report->calendarWeek()
+            'calendarWeek' => $report->calendarWeek(),
+            'calendarYear' => $report->calendarYear()
         ]);
         $this->notificationService->notify($event);
 
@@ -529,6 +532,14 @@ class ApplicationService
     public function findAllTrainees(): array
     {
         return $this->userService->findAllTrainees();
+    }
+
+    /**
+     * @return array
+     */
+    public function findAllTrainers(): array
+    {
+        return $this->userService->findAllTrainers();
     }
 
     /**

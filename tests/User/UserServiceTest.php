@@ -371,4 +371,22 @@ class UserServiceTest extends TestCase
         $this->assertCount(2, $foundUsers);
         $this->assertEquals($user2->username(), $foundUsers[0]->username());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldFindAllTrainer()
+    {
+        $user1 = $this->userService->registerTrainee('max_mustermann', 'max.mustermann@hotmail.de', 'SecurePassword123');
+        $user2 = $this->userService->registerTrainer('max_mustermann1', 'max1.mustermann@hotmail.de', 'SecurePassword123');
+        $user3 = $this->userService->registerTrainer('max_mustermann2', 'max2.mustermann@hotmail.de', 'SecurePassword123');
+
+        $this->userService->approveRole($user1->email());
+        $this->userService->approveRole($user2->email());
+        $this->userService->approveRole($user3->email());
+        $foundUsers = $this->userService->findAllTrainers();
+
+        $this->assertCount(2, $foundUsers);
+        $this->assertEquals($user2->username(), $foundUsers[0]->username());
+    }
 }

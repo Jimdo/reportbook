@@ -532,6 +532,14 @@ class ApplicationService
     }
 
     /**
+     * @return array
+     */
+    public function findAllTrainers(): array
+    {
+        return $this->userService->findAllTrainers();
+    }
+
+    /**
      * @param string $email
      */
     public function approveUser(string $email)

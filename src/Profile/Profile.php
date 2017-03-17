@@ -27,8 +27,8 @@ class Profile
     /** @var string */
     private $jobTitle = '';
 
-    /** @var string */
-    private $trainingYear = '';
+    /** @var int */
+    private $trainingYear;
 
     /** @var string */
     private $company = '';
@@ -52,6 +52,9 @@ class Profile
         $this->userId = $userId;
         $this->forename = $forename;
         $this->surname = $surname;
+        $this->trainingYear = 1;
+        $this->dateOfBirth = date('Y-m-d');
+        $this->startOfTraining = date('Y-m-d');
     }
 
     /**
@@ -119,9 +122,9 @@ class Profile
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function trainingYear():string
+    public function trainingYear():int
     {
         return $this->trainingYear;
     }

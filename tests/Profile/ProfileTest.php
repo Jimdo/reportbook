@@ -27,12 +27,12 @@ class ProfileTest extends TestCase
         $this->assertEquals($forename, $profile->forename());
         $this->assertEquals($surname, $profile->surname());
         $this->assertEquals('', $profile->school());
-        $this->assertInternalType(string, $profile->dateOfBirth());
+        $this->assertInternalType('string', $profile->dateOfBirth());
         $this->assertEquals('', $profile->grade());
         $this->assertEquals('', $profile->jobTitle());
-        $this->assertInternalType(int, $profile->trainingYear());
+        $this->assertInternalType('int', $profile->trainingYear());
         $this->assertEquals('', $profile->company());
-        $this->assertInternalType(string, $profile->startOfTraining());
+        $this->assertInternalType('string', $profile->startOfTraining());
         $this->assertEquals('', $profile->image());
     }
 

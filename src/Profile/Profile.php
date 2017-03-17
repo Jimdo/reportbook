@@ -27,8 +27,8 @@ class Profile
     /** @var string */
     private $jobTitle = '';
 
-    /** @var string */
-    private $trainingYear = '';
+    /** @var int */
+    private $trainingYear;
 
     /** @var string */
     private $company = '';
@@ -119,9 +119,9 @@ class Profile
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function trainingYear():string
+    public function trainingYear():int
     {
         return $this->trainingYear;
     }

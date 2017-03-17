@@ -114,7 +114,7 @@ class MailgunSubscriber implements Subscriber
     {
         if (getenv('APPLICATION_ENV') === 'prod') {
             $this->mailgunClient->sendMessage("$this->domain", [
-                'from'    => 'Online Berichtsheft <postmaster@sandboxd9e5c670536f4828a8ded4df88519471.mailgun.org>',
+                'from'    => 'Online Berichtsheft <postmaster@berichtsheft.io>',
                 'to'      => $emailTo,
                 'subject' => $emailSubject,
                 'text'    => $emailText

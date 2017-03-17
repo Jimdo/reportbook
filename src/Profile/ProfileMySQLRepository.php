@@ -79,7 +79,9 @@ class ProfileMySQLRepository implements ProfileRepository
      */
     public function deleteProfile(Profile $deleteProfile)
     {
-
+        $sql = "DELETE FROM $this->table WHERE userId = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$deleteProfile->userId()]);
     }
     /**
      * @param string $userId

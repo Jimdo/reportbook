@@ -104,6 +104,15 @@ class ProfileMySQLRepository implements ProfileRepository
      */
     public function exists(string $identifier): bool
     {
+        $sql = "SELECT * FROM $this->table WHERE userId = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$identifier]);
 
+        $profile = $sth->fetchAll();
+
+        if (array_key_exists('0', $profile)) {
+            return true;
+        }
+        return false;
     }
 }

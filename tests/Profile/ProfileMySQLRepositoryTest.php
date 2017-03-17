@@ -68,4 +68,18 @@ class ProfileMySQLRepositoryTest extends TestCase
 
         $this->assertEquals($foundProfile->userId(), $profile->userId());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldCheckIfProfileExists()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+
+        $this->assertFalse($this->repository->exists($this->userId));
+        $profile = $this->repository->createProfile($this->userId, $forename, $surname);
+
+        $this->assertTrue($this->repository->exists($this->userId));
+    }
 }

@@ -111,14 +111,24 @@ class Serializer implements MySQLSerializer, MongoSerializer
             $serializedProfile['surname']
         );
 
-        $profile->editDateOfBirth($serializedProfile['dateOfBirth']);
+        if ($this->isMongoProfileArtifact($serializedProfile)) {
+            $image = $serializedProfile['image']['base64'];
+            $imageType = $serializedProfile['image']['type'];
+        }
+
+        if ($this->isMySQLProfileArtifact($serializedProfile)) {
+            $image = $serializedProfile['image'];
+            $imageType = $serializedProfile['imageType'];
+        }
+
         $profile->editCompany($serializedProfile['company']);
-        $profile->editJobTitle($serializedProfile['jobTitle']);
         $profile->editSchool($serializedProfile['school']);
         $profile->editGrade($serializedProfile['grade']);
+        $profile->editJobTitle($serializedProfile['jobTitle']);
         $profile->editTrainingYear($serializedProfile['trainingYear']);
         $profile->editStartOfTraining($serializedProfile['startOfTraining']);
-        $profile->editImage($serializedProfile['image']['base64'], $serializedProfile['image']['type']);
+        $profile->editDateOfBirth($serializedProfile['dateOfBirth']);
+        $profile->editImage($image, $imageType);
 
         return $profile;
     }
@@ -218,5 +228,23 @@ class Serializer implements MySQLSerializer, MongoSerializer
     private function isMySQLUserArtifact(array $serializedUser): bool
     {
         return array_key_exists('roleName', $serializedUser);
+    }
+
+    /**
+     * @param array $serializedProfile
+     * @return bool
+     */
+    private function isMongoProfileArtifact(array $serializedProfile): bool
+    {
+        return !array_key_exists('imageType', $serializedProfile);
+    }
+
+    /**
+     * @param array $serializedProfile
+     * @return bool
+     */
+    private function isMySQLProfileArtifact(array $serializedProfile): bool
+    {
+        return array_key_exists('imageType', $serializedProfile);
     }
 }

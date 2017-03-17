@@ -53,4 +53,19 @@ class ProfileMySQLRepositoryTest extends TestCase
         $this->dbHandler->exec("DELETE FROM profile");
         $this->dbHandler->exec("DELETE FROM user");
     }
+
+    /**
+     * @test
+     */
+    public function itShouldCreateProfile()
+    {
+        $forename = 'Max';
+        $surname = 'Mustermann';
+
+        $profile = $this->repository->createProfile($this->userId, $forename, $surname);
+
+        $foundProfile = $this->repository->findProfileByUserId($profile->userId());
+
+        $this->assertEquals($foundProfile->userId(), $profile->userId());
+    }
 }

@@ -86,7 +86,7 @@
             <label class="col-md-6 control-label">Geburtsdatum</label>
             <div class="col-md-6">
 
-                <p class="form-control-static">{{ profile.dateOfBirth() }}
+                <p class="form-control-static">{{ profile.dateOfBirth()|date("d.m.Y") }}
                     <a href="#changeDateOfBirth" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                 </p>
              </div>
@@ -272,7 +272,7 @@
                 <label class="col-md-6 control-label">Ausbildungsbeginn</label>
                 <div class="col-md-6">
 
-                    <p class="form-control-static">{{ profile.startOfTraining() }}
+                    <p class="form-control-static">{{ profile.startOfTraining()|date("d.m.Y") }}
                         <a href="#changeStartOfTraining" data-toggle="collapse" class="glyphicon glyphicon-pencil"></a>
                     </p>
                  </div>

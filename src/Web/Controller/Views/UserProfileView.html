@@ -34,7 +34,7 @@
           <div class="form-group">
               <label class="col-md-6 control-label">Geburtsdatum</label>
               <div class="col-md-6">
-                  <p class="form-control-static">{{ profile.dateOfBirth() }}</p>
+                  <p class="form-control-static">{{ profile.dateOfBirth()|date("d.m.Y") }}</p>
                </div>
           </div>
 
@@ -104,7 +104,7 @@
               <div class="form-group">
                   <label class="col-md-6 control-label">Ausbildungsbeginn</label>
                   <div class="col-md-6">
-                      <p class="form-control-static">{{ profile.startOfTraining() }}</p>
+                      <p class="form-control-static">{{ profile.startOfTraining()|date("d.m.Y") }}</p>
                    </div>
               </div>
 

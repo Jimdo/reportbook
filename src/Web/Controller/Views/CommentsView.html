@@ -13,7 +13,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <strong>{{ user.username() }}</strong>
-                    <span class="text-muted">{{ comment.date() }}</span>
+                    <span class="text-muted">{{ comment.date()|date("d.m.Y H:m") }}</span>
 
                     {% if comment.userId() == userId %}
 

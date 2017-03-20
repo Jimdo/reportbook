@@ -67,7 +67,10 @@ class ReportMySQLRepository implements ReportRepository
         $sth = $this->dbHandler->prepare($sql);
         $sth->execute([$id]);
 
-        return $this->serializer->unserializeReport($sth->fetchAll()[0]);
+        $report = $sth->fetchAll();
+        if (array_key_exists('0', $report)) {
+            return $this->serializer->unserializeReport($report[0]);
+        }
     }
 
     /**

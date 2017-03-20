@@ -111,6 +111,24 @@ class CommentMySQLRepository implements CommentRepository
     }
 
     /**
+     * @param string $userId
+     * @return array
+     */
+    public function findCommentsByUserId(string $userId): array
+    {
+        $sql = "SELECT * FROM $this->table WHERE userId = ?";
+        $sth = $this->dbHandler->prepare($sql);
+
+        $sth->execute([$userId]);
+
+        $comments = [];
+        foreach ($sth->fetchAll() as $commentArr) {
+            $comments[] = $this->serializer->unserializeComment($commentArr);
+        }
+        return $comments;
+    }
+
+    /**
      * @param string $id
      * @return Comment|null
      */

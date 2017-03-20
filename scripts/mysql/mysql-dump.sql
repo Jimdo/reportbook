@@ -28,7 +28,7 @@ DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment` (
   `id` varchar(255) NOT NULL DEFAULT '',
   `content` text,
-  `date` date NOT NULL,
+  `date` datetime NOT NULL,
   `status` varchar(255) NOT NULL DEFAULT '',
   `userId` varchar(255) NOT NULL DEFAULT '',
   `reportId` varchar(255) NOT NULL DEFAULT '',

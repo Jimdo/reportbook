@@ -54,19 +54,30 @@ class CommentMySQLRepository implements CommentRepository
      */
     public function save(Comment $comment)
     {
-        $sql = "INSERT INTO $this->table (
-            id, content, date, status, userId, reportId
-        ) VALUES (
-            ?, ?, ?, ?, ?, ?
-        )";
+        $sql = "SELECT * FROM $this->table WHERE id = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$comment->id()]);
+        $foundComment = $sth->fetchAll();
+
+        if ($this->checkIfCommentFound($foundComment)) {
+            $sql = "UPDATE $this->table SET id=:id, content=:content, date=:date, status=:status, userId=:userId, reportId=:reportId
+                    WHERE id = :id";
+        } else {
+            $sql = "INSERT INTO $this->table (
+                id, content, date, status, userId, reportId
+            ) VALUES (
+                :id, :content, :date, :status, :userId, :reportId
+            )";
+        }
+
         $sth = $this->dbHandler->prepare($sql);
         $sth->execute([
-            $comment->id(),
-            $comment->content(),
-            $comment->date(),
-            $comment->status(),
-            $comment->userId(),
-            $comment->reportId()
+            ':id' => $comment->id(),
+            ':content' => $comment->content(),
+            ':date' => $comment->date(),
+            ':status' => $comment->status(),
+            ':userId' => $comment->userId(),
+            ':reportId' => $comment->reportId()
         ]);
     }
 

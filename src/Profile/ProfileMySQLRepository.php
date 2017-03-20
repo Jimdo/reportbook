@@ -91,6 +91,7 @@ class ProfileMySQLRepository implements ProfileRepository
         $sth = $this->dbHandler->prepare($sql);
         $sth->execute([$deleteProfile->userId()]);
     }
+
     /**
      * @param string $userId
      * @return Profile|null

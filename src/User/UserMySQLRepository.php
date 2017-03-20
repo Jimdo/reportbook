@@ -73,19 +73,29 @@ class UserMySQLRepository implements UserRepository
      */
     public function save(User $user)
     {
-        $sql = "INSERT INTO $this->table (
-            id, username, email, password, roleName, roleStatus
-        ) VALUES (
-            ?, ?, ?, ?, ?, ?
-        )";
+        $sql = "SELECT * FROM $this->table WHERE id = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$user->id()]);
+        $foundUser = $sth->fetchAll();
+
+        if (array_key_exists('0', $foundUser)) {
+            $sql = "UPDATE $this->table SET id=:userId, username=:username, email=:email, password=:password, roleName=:roleName, roleStatus=:roleStatus
+                    WHERE id = :userId";
+        } else {
+            $sql = "INSERT INTO $this->table (
+                id, username, email, password, roleName, roleStatus
+            ) VALUES (
+                :userId, :username, :email, :password, :roleName, :roleStatus
+            )";
+        }
         $sth = $this->dbHandler->prepare($sql);
         $sth->execute([
-            $user->id(),
-            $user->username(),
-            $user->email(),
-            $user->password(),
-            $user->roleName(),
-            $user->roleStatus()
+            ':userId' => $user->id(),
+            ':username' => $user->username(),
+            ':email' => $user->email(),
+            ':password' => $user->password(),
+            ':roleName' => $user->roleName(),
+            ':roleStatus' => $user->roleStatus()
         ]);
     }
 

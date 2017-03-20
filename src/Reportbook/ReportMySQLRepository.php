@@ -67,7 +67,10 @@ class ReportMySQLRepository implements ReportRepository
         $sth = $this->dbHandler->prepare($sql);
         $sth->execute([$id]);
 
-        return $this->serializer->unserializeReport($sth->fetchAll()[0]);
+        $report = $sth->fetchAll();
+        if (array_key_exists('0', $report)) {
+            return $this->serializer->unserializeReport($report[0]);
+        }
     }
 
     /**
@@ -159,21 +162,32 @@ class ReportMySQLRepository implements ReportRepository
      */
     public function save(Report $report)
     {
-        $sql = "INSERT INTO $this->table (
-            id, content, date, calendarWeek, calendarYear, status, category, traineeId
-        ) VALUES (
-            ?, ?, ?, ?, ?, ?, ?, ?
-        )";
+        $sql = "SELECT * FROM $this->table WHERE id = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$report->id()]);
+        $foundReport = $sth->fetchAll();
+
+        if (array_key_exists('0', $foundReport)) {
+            $sql = "UPDATE $this->table SET id=:id, content=:content, date=:date, calendarWeek=:calendarWeek,
+                    calendarYear=:calendarYear, status=:status, category=:category, traineeId=:traineeId WHERE id = :id";
+        } else {
+            $sql = "INSERT INTO $this->table (
+                id, content, date, calendarWeek, calendarYear, status, category, traineeId
+            ) VALUES (
+                :id, :content, :date, :calendarWeek, :calendarYear, :status, :category, :traineeId
+            )";
+        }
+
         $sth = $this->dbHandler->prepare($sql);
         $sth->execute([
-            $report->id(),
-            $report->content(),
-            $report->date(),
-            $report->calendarWeek(),
-            $report->calendarYear(),
-            $report->status(),
-            $report->category(),
-            $report->traineeId()
+            ':id' => $report->id(),
+            ':content' => $report->content(),
+            ':date' => $report->date(),
+            ':calendarWeek' => $report->calendarWeek(),
+            ':calendarYear' => $report->calendarYear(),
+            ':status' => $report->status(),
+            ':category' => $report->category(),
+            ':traineeId' => $report->traineeId()
         ]);
     }
 }

@@ -51,25 +51,33 @@ class ProfileMySQLRepository implements ProfileRepository
      */
     public function save(Profile $profile)
     {
-        $sql = "INSERT INTO $this->table (
-            userId, forename, surname, dateOfBirth, school, grade, jobTitle, trainingYear, company, startOfTraining, image, imageType
-        ) VALUES (
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-        )";
+        if ($this->exists($profile->userId())) {
+            $sql = "UPDATE $this->table SET userId=:userId, forename=:forename, surname=:surname,
+                dateOfBirth=:dateOfBirth, school=:school, grade=:grade, jobTitle=:jobTitle, trainingYear=:trainingYear,
+                company=:company, startOfTraining=:startOfTraining, image=:image, imageType=:imageType
+                WHERE userId = :userId";
+        } else {
+            $sql = "INSERT INTO $this->table (
+                userId, forename, surname, dateOfBirth, school, grade, jobTitle, trainingYear, company, startOfTraining, image, imageType
+            ) VALUES (
+                :userId, :forename, :surname, :dateOfBirth, :school, :grade, :jobTitle, :trainingYear, :company, :startOfTraining, :image, :imageType
+            )";
+        }
+
         $sth = $this->dbHandler->prepare($sql);
         $sth->execute([
-            $profile->userId(),
-            $profile->forename(),
-            $profile->surname(),
-            $profile->dateOfBirth(),
-            $profile->school(),
-            $profile->grade(),
-            $profile->jobTitle(),
-            $profile->trainingYear(),
-            $profile->company(),
-            $profile->startOfTraining(),
-            $profile->image(),
-            $profile->imageType()
+            ':userId' => $profile->userId(),
+            ':forename' => $profile->forename(),
+            ':surname' => $profile->surname(),
+            ':dateOfBirth' => $profile->dateOfBirth(),
+            ':school' => $profile->school(),
+            ':grade' => $profile->grade(),
+            ':jobTitle' => $profile->jobTitle(),
+            ':trainingYear' => $profile->trainingYear(),
+            ':company' => $profile->company(),
+            ':startOfTraining' => $profile->startOfTraining(),
+            ':image' => $profile->image(),
+            ':imageType' => $profile->imageType()
         ]);
     }
 
@@ -83,6 +91,7 @@ class ProfileMySQLRepository implements ProfileRepository
         $sth = $this->dbHandler->prepare($sql);
         $sth->execute([$deleteProfile->userId()]);
     }
+
     /**
      * @param string $userId
      * @return Profile|null

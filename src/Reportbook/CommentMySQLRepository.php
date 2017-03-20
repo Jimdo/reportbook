@@ -54,19 +54,30 @@ class CommentMySQLRepository implements CommentRepository
      */
     public function save(Comment $comment)
     {
-        $sql = "INSERT INTO $this->table (
-            id, content, date, status, userId, reportId
-        ) VALUES (
-            ?, ?, ?, ?, ?, ?
-        )";
+        $sql = "SELECT * FROM $this->table WHERE id = ?";
+        $sth = $this->dbHandler->prepare($sql);
+        $sth->execute([$comment->id()]);
+        $foundComment = $sth->fetchAll();
+
+        if ($this->checkIfCommentFound($foundComment)) {
+            $sql = "UPDATE $this->table SET id=:id, content=:content, date=:date, status=:status, userId=:userId, reportId=:reportId
+                    WHERE id = :id";
+        } else {
+            $sql = "INSERT INTO $this->table (
+                id, content, date, status, userId, reportId
+            ) VALUES (
+                :id, :content, :date, :status, :userId, :reportId
+            )";
+        }
+
         $sth = $this->dbHandler->prepare($sql);
         $sth->execute([
-            $comment->id(),
-            $comment->content(),
-            $comment->date(),
-            $comment->status(),
-            $comment->userId(),
-            $comment->reportId()
+            ':id' => $comment->id(),
+            ':content' => $comment->content(),
+            ':date' => $comment->date(),
+            ':status' => $comment->status(),
+            ':userId' => $comment->userId(),
+            ':reportId' => $comment->reportId()
         ]);
     }
 
@@ -91,6 +102,24 @@ class CommentMySQLRepository implements CommentRepository
         $sth = $this->dbHandler->prepare($sql);
 
         $sth->execute([$reportId]);
+
+        $comments = [];
+        foreach ($sth->fetchAll() as $commentArr) {
+            $comments[] = $this->serializer->unserializeComment($commentArr);
+        }
+        return $comments;
+    }
+
+    /**
+     * @param string $userId
+     * @return array
+     */
+    public function findCommentsByUserId(string $userId): array
+    {
+        $sql = "SELECT * FROM $this->table WHERE userId = ?";
+        $sth = $this->dbHandler->prepare($sql);
+
+        $sth->execute([$userId]);
 
         $comments = [];
         foreach ($sth->fetchAll() as $commentArr) {

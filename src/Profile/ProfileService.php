@@ -17,7 +17,7 @@ class ProfileService
      * @param string $imagePath
      * @param ApplicationConfig $appConfig
      */
-    public function __construct(ProfileMongoRepository $repository, string $imagePath, ApplicationConfig $appConfig)
+    public function __construct(ProfileRepository $repository, string $imagePath, ApplicationConfig $appConfig)
     {
         $this->repository = $repository;
         $this->imagePath = $imagePath;

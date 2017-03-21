@@ -318,6 +318,8 @@
     border: 1px solid #434857;
     background-color: #252830;
     border-radius: 5px;
+    overflow: auto;
+    max-height: calc(100vh - 188px);
   }
 
   /* view report */

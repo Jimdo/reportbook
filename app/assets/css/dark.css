@@ -69,6 +69,10 @@
   }
 
   /* table */
+  .scrollable {
+    overflow: auto;
+    height: calc(100vh - 190px);
+  }
   .table-reportbook-border {
     border: 1px solid #434857 !important;
     border-radius: 5px;
@@ -96,6 +100,10 @@
   }
 
   /* calendar */
+  .calendar {
+    overflow: auto;
+    height: calc(100vh - 260px);
+  }
   .yearLabel li a {
     color: gray;
   }
@@ -257,7 +265,7 @@
     border-bottom: none;
   }
   .sidebar-nav .navbar.navbar-default .nav.navbar-nav {
-    min-height: 1300px;
+    height: calc(100vh - 89px);
   }
   .nav-search {
     padding: 10px;
@@ -284,6 +292,7 @@
   .page-content {
     padding-right: 15px;
     padding-top: 15px;
+    max-height: calc(100vh - 89px);
   }
 
   /* profile */

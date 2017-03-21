@@ -38,6 +38,10 @@
   }
 
   /* table */
+  .scrollable {
+    overflow: auto;
+    height: calc(100vh - 190px);
+  }
   .table-reportbook {
     border: 1px solid #E7E7E7;
   }
@@ -162,7 +166,7 @@
     border-bottom: none;
   }
   .sidebar-nav .navbar.navbar-default .nav.navbar-nav {
-    height: 1500px;
+    height: calc(100vh - 89px);
   }
   .nav-search {
     padding:15px;
@@ -171,9 +175,14 @@
   .navbar.navbar-default .nav.navbar-nav .link-color {
     color: #337ab7;
   }
+  .calendar {
+    overflow: auto;
+    height: calc(100vh - 260px);
+  }
   .page-content {
     padding-right: 15px;
     padding-top: 15px;
+    max-height: calc(100vh - 89px);
   }
 
   /* profile */

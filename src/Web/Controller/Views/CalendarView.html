@@ -36,15 +36,16 @@
   </div>
 
   </br>
-
-  {% for i in 0..11 %}
-    <div class="col-md-4 calendar-outer">
-      <div class="calendar-inner">
-        <p class="text-center"><b>{{ months[i] }}</b></p>
-        {{ viewHelper.showMonth(i + 1, year, cwInfo) }}
+  <div class="calendar">
+    {% for i in 0..11 %}
+      <div class="col-md-4 calendar-outer">
+        <div class="calendar-inner">
+          <p class="text-center"><b>{{ months[i] }}</b></p>
+          {{ viewHelper.showMonth(i + 1, year, cwInfo) }}
+        </div>
       </div>
-    </div>
-  {% endfor %}
+    {% endfor %}
+  </div>
 
   <p class="calendar-legend">
     <span class="calendar-status-open">&#9634;</span> Offen &nbsp;&nbsp;&nbsp;&nbsp;

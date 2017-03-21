@@ -206,6 +206,8 @@
     width: 400px;
     border: 1px solid #E7E7E7;
     background-color: #f9f9f9;
+    overflow: auto;
+    height: calc(100vh - 188px);
   }
 
   /* view report */

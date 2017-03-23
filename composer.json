@@ -6,7 +6,8 @@
         "phpunit/phpunit": "^5.4",
         "squizlabs/php_codesniffer": "^2.6",
         "phpbench/phpbench": "@dev",
-        "mockery/mockery": "^0.9.9"
+        "mockery/mockery": "^0.9.9",
+        "smalot/pdfparser": "^0.10.0"
     },
     "autoload": {
         "psr-4": {

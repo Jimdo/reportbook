@@ -77,7 +77,13 @@ class PrintServiceTest extends TestCase
 
         $this->printService->printCover($this->userId, 'Herr', 'Hauke', 'Stange', 'Stresemannstraße 375', '22761 Hamburg');
 
-        $this->assertTrue(file_exists('app/pdf/Deckblatt.pdf'));
+        $pdf = $this->pdfParser->parseFile($this->appConfig->printerOutput . '/Deckblatt.pdf');
+
+        $pages  = $pdf->getPages();
+
+        $this->assertEquals(0, strpos($pages[0]->getText(), 'Berichtsheft'));
+        $this->assertTrue(file_exists($this->appConfig->printerOutput . '/Deckblatt.pdf'));
+        $this->assertCount(1, $pages);
     }
 
     /**

@@ -30,7 +30,6 @@ class PrintService
      */
     public function __construct(ProfileService $profileService, ReportbookService $reportService, ApplicationConfig $appConfig)
     {
-        $this->twig = $twig;
         $this->appConfig = $appConfig;
         $this->reportService = $reportService;
         $this->profileService = $profileService;

@@ -96,7 +96,13 @@ class PrintServiceTest extends TestCase
 
         $this->printService->printReports($this->userId, '2', '2017', '3', '2017');
 
-        $this->assertTrue(file_exists('app/pdf/Berichte.pdf'));
+        $pdf = $this->pdfParser->parseFile($this->appConfig->printerOutput . '/Berichte.pdf');
+
+        $pages  = $pdf->getPages();
+
+        $this->assertEquals(229, strpos($pages[0]->getText(), 'Woche'));
+        $this->assertCount(8, $pages);
+        $this->assertTrue(file_exists($this->appConfig->printerOutput . '/Berichte.pdf'));
     }
 
     /**

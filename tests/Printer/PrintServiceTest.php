@@ -49,4 +49,47 @@ class PrintServiceTest extends TestCase
 
         $this->printService = new PrintService($this->profileService, $this->reportService, $appConfig);
     }
+
+    /**
+     * @test
+     */
+    public function itShouldPrintCover()
+    {
+        $profile = $this->profileService->createProfile($this->userId, 'Max', 'Mustermann');
+
+        $this->printService->printCover($this->userId, 'Herr', 'Hauke', 'Stange', 'Stresemannstraße 375', '22761 Hamburg');
+
+        $this->assertTrue(file_exists('app/pdf/Deckblatt.pdf'));
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldPrintReports()
+    {
+        $profile = $this->profileService->createProfile($this->userId, 'Max', 'Mustermann');
+        $profile->editJobTitle('Fachinformatiker Anwendungsentwicklung');
+
+        $this->printService->printReports($this->userId, '2', '2017', '3', '2017');
+
+        $this->assertTrue(file_exists('app/pdf/Berichte.pdf'));
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldCountLines()
+    {
+        $text = "<ul><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li></ul>";
+        $countedLines = $this->printService->countLines($text);
+        $this->assertEquals(7, $countedLines);
+
+        $text = "<p>1</p><p>2</p><p>3</p><p>4</p><p>5</p><p>6</p><p>7<br>8</p>";
+        $countedLines = $this->printService->countLines($text);
+        $this->assertEquals(8, $countedLines);
+
+        $text = "<ol><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li></ol>";
+        $countedLines = $this->printService->countLines($text);
+        $this->assertEquals(8, $countedLines);
+    }
 }

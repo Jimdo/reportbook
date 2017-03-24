@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "85be568cf6ff4d90f1879cbe8483a5a2",
-    "content-hash": "d594a85bd5a7a08716461ae506cdd94d",
+    "content-hash": "a5dea663a880bac162f6f6c03eb3aab1",
     "packages": [
         {
             "name": "altmetric/mongo-session-handler",
@@ -606,7 +605,7 @@
                 "php",
                 "utf-8"
             ],
-            "time": "2016-12-12 10:42:18"
+            "time": "2016-12-12T10:42:18+00:00"
         },
         {
             "name": "php-http/discovery",
@@ -1156,7 +1155,7 @@
                 "fpdi",
                 "pdf"
             ],
-            "time": "2015-11-30 10:53:14"
+            "time": "2015-11-30T10:53:14+00:00"
         },
         {
             "name": "stephanecoinon/papertrail",

@@ -22,12 +22,18 @@ class PrintServiceTest extends TestCase
     /** @var PrintService */
     private $printService;
 
+    /** @var pdfParser */
+    private $pdfParser;
+
+    /** @var ApplicationConfig */
+    private $appConfig;
+
     /** @var userId */
     private $userId;
 
     protected function setUp()
     {
-        $appConfig = new ApplicationConfig(__DIR__ . '/../../config.yml');
+        $this->appConfig = new ApplicationConfig(__DIR__ . '/../../config.yml');
         $this->userId = uniqid();
 
         $profile = new Profile($this->userId, 'Max', 'Mustermann');
@@ -47,7 +53,19 @@ class PrintServiceTest extends TestCase
         $this->profileService = $profileService;
         $this->reportService = $reportService;
 
-        $this->printService = new PrintService($this->profileService, $this->reportService, $appConfig);
+        $this->pdfParser = new \Smalot\PdfParser\Parser();
+
+        $this->printService = new PrintService($this->profileService, $this->reportService, $this->appConfig);
+
+        if (!file_exists($this->appConfig->printerOutput)) {
+            mkdir($this->appConfig->printerOutput);
+        }
+    }
+
+    protected function tearDown()
+    {
+        $this->deleteRecursive($this->appConfig->printerOutput);
+        rmdir($this->appConfig->printerOutput);
     }
 
     /**
@@ -91,5 +109,29 @@ class PrintServiceTest extends TestCase
         $text = "<ol><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li></ol>";
         $countedLines = $this->printService->countLines($text);
         $this->assertEquals(8, $countedLines);
+    }
+
+    private function deleteRecursive($input)
+    {
+        if (is_file($input)) {
+            unlink($input);
+            return;
+        }
+
+        if (is_dir($input)) {
+            foreach (scandir($input) as $file) {
+                if ($file === '.' || $file === '..') {
+                    continue;
+                }
+
+                $file = join('/', [$input, $file]);
+                if (is_file($file)) {
+                    unlink($file);
+                    continue;
+                }
+
+                $this->deleteRecursive($file);
+            }
+        }
     }
 }

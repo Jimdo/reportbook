@@ -82,7 +82,7 @@ class PrintService
         $reports = $this->getReportsForPeriod($reports, $startMonth, $startYear, $endMonth, $endYear);
         $weekInfo = $this->createArrayForStartAndEndOfWeek($reports);
 
-        $maxLinesPerSite = 25;
+        $maxLinesPerSite = 18;
         $reportsPerSite = [];
         $reportsPerSite[] = [];
         $site = 0;

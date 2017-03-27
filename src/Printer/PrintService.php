@@ -120,8 +120,6 @@ class PrintService
                 'traineeForename' => $profile->forename(),
                 'traineeSurname' => $profile->surname(),
                 'jobTitle' => $profile->jobTitle(),
-                'month' => 'Januar',
-                'year' => '2017',
                 'site' => $site
             ];
 

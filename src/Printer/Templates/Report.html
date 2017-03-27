@@ -8,15 +8,22 @@
       <br />
       Ausbildungsberuf: {{ jobTitle }}
       <br />
-      Ausbildungsmonat: {{ month }} {{ year }}
-      <br />
     </p>
   </div>
   <br />
   {% for oneReport in site %}
     <div style="padding: 10px; padding-top: none; padding-bottom: none; border: 1px solid black; background-color: #F0F0F0;">
         <p>
-          Kategorie: {{ oneReport.report.category() }}
+          {% if oneReport.report.category() == "SCHOOL" %}
+
+            Kategorie: Schule
+
+          {% elseif oneReport.report.category() == "COMPANY" %}
+
+            Kategorie: Betrieb
+
+          {% endif %}
+
           <br />
           Kalenderwoche: {{ oneReport.report.calendarWeek() }}
           <br />

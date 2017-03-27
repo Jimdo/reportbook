@@ -100,8 +100,8 @@ class PrintServiceTest extends TestCase
 
         $pages  = $pdf->getPages();
 
-        $this->assertEquals(207, strpos($pages[0]->getText(), 'Woche'));
-        $this->assertCount(8, $pages);
+        $this->assertEquals(212, strpos($pages[0]->getText(), '9'));
+        $this->assertCount(4, $pages);
         $this->assertTrue(file_exists($this->appConfig->printerOutput . '/Berichte.pdf'));
     }
 

@@ -37,6 +37,9 @@ class PrintService
 
         $loader = new \Twig_Loader_Filesystem($this->appConfig->printerTemplates);
         $this->twig = new \Twig_Environment($loader);
+
+        echo 'Folder found: ' . file_exists($this->appConfig->printerTemplates) . PHP_EOL;
+        echo 'Current directory: ' . __DIR__ . PHP_EOL;
     }
 
     /**

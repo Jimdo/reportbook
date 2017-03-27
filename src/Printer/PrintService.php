@@ -173,7 +173,11 @@ class PrintService
         return $li + $br + $nl + $p;
     }
 
-    public function createArrayForStartAndEndOfWeek($reports)
+    /**
+     * @param array $reports
+     * @return array
+     */
+    private function createArrayForStartAndEndOfWeek(array $reports): array
     {
         $weekInfoArr = [];
         foreach ($reports as $key => $report) {

@@ -47,7 +47,7 @@ class PrintService
      * @param string $companyStreet
      * @param string $companyCity
      */
-    public function printCover(string $userId, string $trainerTitle, string $trainerForename, string $trainerSurname, string $companyStreet, string $companyCity)
+    public function printCover(string $userId, string $trainerTitle, string $trainerForename, string $trainerSurname, string $companyStreet, string $companyCity, bool $printWholeReportbook = false)
     {
       $profile = $this->profileService->findProfileByUserId($userId);
 
@@ -65,7 +65,12 @@ class PrintService
       ];
 
       $this->mpdf->WriteHTML($template->render($variables));
-      $this->mpdf->Output($this->appConfig->printerOutput . '/Deckblatt.pdf','F');
+
+      if ($printWholeReportbook) {
+          $this->mpdf->AddPage();
+      } else {
+          $this->mpdf->Output($this->appConfig->printerOutput . '/Deckblatt.pdf','F');
+      }
     }
 
     /**
@@ -75,12 +80,16 @@ class PrintService
     * @param string $endMonth
     * @param string $endYear
     */
-    public function printReports(string $userId, string $startMonth, string $startYear, string $endMonth, string $endYear)
+    public function printReports(string $userId, string $startMonth, string $startYear, string $endMonth, string $endYear, bool $printWholeReportbook = false)
     {
         $profile = $this->profileService->findProfileByUserId($userId);
         $reports = $this->reportService->findByTraineeId($userId);
-        $reports = $this->getReportsForPeriod($reports, $startMonth, $startYear, $endMonth, $endYear);
+
+        if (!$printWholeReportbook) {
+            $reports = $this->getReportsForPeriod($reports, $startMonth, $startYear, $endMonth, $endYear);
+        }
         $weekInfo = $this->createArrayForStartAndEndOfWeek($reports);
+
 
         $maxLinesPerSite = 18;
         $reportsPerSite = [];
@@ -122,12 +131,18 @@ class PrintService
                 'site' => $site
             ];
 
-            $this->mpdf->WriteHTML($template->render($variables));
 
             if (count($reportsPerSite) - 1 !== $run) {
+                $this->mpdf->WriteHTML($template->render($variables));
                 $this->mpdf->AddPage();
+            } else {
+                $this->mpdf->WriteHTML($template->render($variables));
             }
         }
+        if (!$printWholeReportbook) {
+            $this->mpdf->Output($this->appConfig->printerOutput . "/Berichte.pdf",'F');
+        }
+    }
 
         $this->mpdf->Output($this->appConfig->printerOutput . "/Berichte.pdf",'F');
     }

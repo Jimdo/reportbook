@@ -108,6 +108,24 @@ class PrintServiceTest extends TestCase
     /**
      * @test
      */
+    public function itShouldPrintReportbook()
+    {
+        $profile = $this->profileService->createProfile($this->userId, 'Hase', 'Igel');
+        $profile->editJobTitle('Fachinformatiker Anwendungsentwicklung');
+
+        $this->printService->printReportbook($this->userId, 'Herr', 'Hase', 'Igel', 'Stresemannstraße 375', '22761 Hamburg');
+
+        $pdf = $this->pdfParser->parseFile($this->appConfig->printerOutput . '/Berichtsheft.pdf');
+
+        $pages  = $pdf->getPages();
+
+        $this->assertTrue(file_exists($this->appConfig->printerOutput . '/Berichtsheft.pdf'));
+        $this->assertCount(11, $pages);
+    }
+
+    /**
+     * @test
+     */
     public function itShouldCountLines()
     {
         $text = "<ul><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li></ul>";

@@ -144,7 +144,19 @@ class PrintService
         }
     }
 
-        $this->mpdf->Output($this->appConfig->printerOutput . "/Berichte.pdf",'F');
+    /**
+     * @param string $userId
+     * @param string $trainerTitle
+     * @param string $trainerForename
+     * @param string $trainerSurname
+     * @param string $companyStreet
+     * @param string $companyCity
+     */
+    public function printReportbook(string $userId, string $trainerTitle, string $trainerForename, string $trainerSurname, string $companyStreet, string $companyCity)
+    {
+        $this->printCover($userId, $trainerTitle, $trainerForename, $trainerSurname, $companyStreet, $companyCity, true);
+        $this->printReports($userId, '', '', '', '', true);
+        $this->mpdf->Output($this->appConfig->printerOutput . "/Berichtsheft.pdf",'F');
     }
 
     /**

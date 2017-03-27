@@ -110,7 +110,6 @@ class PrintService
                 'weekInfo' => ['start' => $weekInfo[$run][0], 'end' => $weekInfo[$run][1]]
             ];
         }
-        var_dump($reportsPerSite);
 
         $template = $this->twig->load('Report.html');
 

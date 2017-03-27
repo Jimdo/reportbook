@@ -23,6 +23,9 @@ class PrintService
     /** @var Twig_Environment */
     private $twig;
 
+    /** @var string */
+    private $outputDir;
+
     /**
      * @param ProfileService
      * @param ReportbookService
@@ -41,6 +44,12 @@ class PrintService
         $loader = new \Twig_Loader_Filesystem(__DIR__ . $this->appConfig->printerTemplates);
         $this->twig = new \Twig_Environment($loader);
 
+        $this->outputDir = $this->appConfig->printerOutput;
+
+        if (getenv('APPLICATION_ENV') === 'test') {
+            $this->outputDir = realpath(__DIR__ . '/../../' . $this->appConfig->printerOutput);
+            echo $this->outputDir . PHP_EOL;
+        }
     }
 
     /**
@@ -73,7 +82,7 @@ class PrintService
       if ($printWholeReportbook) {
           $this->mpdf->AddPage();
       } else {
-          $this->mpdf->Output($this->appConfig->printerOutput . '/Deckblatt.pdf','F');
+          $this->mpdf->Output($this->outputDir . '/Deckblatt.pdf','F');
       }
     }
 
@@ -144,7 +153,7 @@ class PrintService
             }
         }
         if (!$printWholeReportbook) {
-            $this->mpdf->Output($this->appConfig->printerOutput . "/Berichte.pdf",'F');
+            $this->mpdf->Output($this->outputDir . "/Berichte.pdf",'F');
         }
     }
 
@@ -160,7 +169,7 @@ class PrintService
     {
         $this->printCover($userId, $trainerTitle, $trainerForename, $trainerSurname, $companyStreet, $companyCity, true);
         $this->printReports($userId, '', '', '', '', true);
-        $this->mpdf->Output($this->appConfig->printerOutput . "/Berichtsheft.pdf",'F');
+        $this->mpdf->Output($this->outputDir . "/Berichtsheft.pdf",'F');
     }
 
     /**

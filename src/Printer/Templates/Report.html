@@ -9,25 +9,25 @@
       Ausbildungsberuf: {{ jobTitle }}
       <br />
       Ausbildungsmonat: {{ month }} {{ year }}
+      <br />
     </p>
   </div>
   <br />
+  {% for oneReport in site %}
+    <div style="padding: 10px; padding-top: none; padding-bottom: none; border: 1px solid black; background-color: #F0F0F0;">
+        <p>
+          Kategorie: {{ oneReport.report.category() }}
+          <br />
+          Kalenderwoche: {{ oneReport.report.calendarWeek() }}
+          <br />
+          Ausbildungswoche vom {{ oneReport.weekInfo.start }} bis {{ oneReport.weekInfo.end }}
+        </p>
+    </div>
+    <div style="padding: 10px; border: 1px solid black; border-top: none;">
+      {{ oneReport.report.content()|raw|nl2br }}
+    </div>
 
-  {% for report in reports %}
-  <div style="padding: 10px; padding-top: none; padding-bottom: none; border: 1px solid black; background-color: #F0F0F0;">
-      <p>
-        Kategorie: {{ report.category() }}
-        <br />
-        Kalenderwoche: {{ report.calendarWeek() }}
-        <br />
-        Ausbildungswoche vom 01.01.2017 bis 07.01.2017
-      </p>
-  </div>
-  <div style="padding: 10px; border: 1px solid black; border-top: none;">
-    {{ report.content()|raw|nl2br }}
-  </div>
-
-  <br />
+    <br />
   {% endfor %}
 
   <p style="padding: 10px; position: absolute; bottom: 120px;">

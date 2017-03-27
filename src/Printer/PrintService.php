@@ -80,27 +80,37 @@ class PrintService
         $profile = $this->profileService->findProfileByUserId($userId);
         $reports = $this->reportService->findByTraineeId($userId);
         $reports = $this->getReportsForPeriod($reports, $startMonth, $startYear, $endMonth, $endYear);
+        $weekInfo = $this->createArrayForStartAndEndOfWeek($reports);
 
         $maxLinesPerSite = 25;
         $reportsPerSite = [];
+        $reportsPerSite[] = [];
         $site = 0;
+        $reportNumber = 0;
         $lines = 0;
 
-        foreach ($reports as $report) {
+        foreach ($reports as $run => $report) {
             $currentLines = $this->countLines($report->content());
 
             if ($lines + $currentLines <= $maxLinesPerSite) {
                 $lines += $currentLines;
+                $reportNumber++;
             } else {
                 $lines = $currentLines;
                 $site++;
+                $reportNumber = 0;
             }
 
-            if (!isset($reportsPerSite[$site])) {
-                $reportsPerSite[$site] = [];
+            if (!isset($reportsPerSite[$site][$reportNumber])) {
+                $reportsPerSite[$site][$reportNumber] = [];
             }
-                $reportsPerSite[$site][] = $report;
+
+            $reportsPerSite[$site][$reportNumber] = [
+                'report' => $report,
+                'weekInfo' => ['start' => $weekInfo[$run][0], 'end' => $weekInfo[$run][1]]
+            ];
         }
+        var_dump($reportsPerSite);
 
         $template = $this->twig->load('Report.html');
 
@@ -112,7 +122,7 @@ class PrintService
                 'jobTitle' => $profile->jobTitle(),
                 'month' => 'Januar',
                 'year' => '2017',
-                'reports' => $site
+                'site' => $site
             ];
 
             $this->mpdf->WriteHTML($template->render($variables));
@@ -137,6 +147,22 @@ class PrintService
         $p = substr_count($text, "</p>");
 
         return $li + $br + $nl + $p;
+    }
+
+    public function createArrayForStartAndEndOfWeek($reports)
+    {
+        $weekInfoArr = [];
+        foreach ($reports as $key => $report) {
+            $weekInfo = $this->getStartAndEndDate($report->calendarWeek(), $report->calendarYear());
+            $start = date("{$weekInfo[2]}.{$weekInfo[1]}.{$weekInfo[0]}");
+            $end = date("{$weekInfo[5]}.{$weekInfo[4]}.{$weekInfo[3]}");
+            $weekInfoArr[$key] = [
+                $start,
+                $end
+            ];
+        }
+
+        return $weekInfoArr;
     }
 
     /**

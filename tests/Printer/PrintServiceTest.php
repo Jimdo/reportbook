@@ -42,7 +42,7 @@ class PrintServiceTest extends TestCase
         $profileService->shouldReceive('findProfileByUserId')->andReturn($profile);
 
         $reports = [];
-        $content = "<p>Woche 11</p><ul><li>Fertigsetzung des Docker Umbaus zu Docker Compose</li><ul><li>Fehler bei Travis behoben in dem wir das mitgelieferte MySQL Setup von Travis für die Tests benutzen anstelle Bau eines MySQL Containers</li><li>für Docker Compose noch ein storage-reset im Makefile eingebaut, der die gesamten Service inklusive Volumes resettet</li><li>Den MySQL Dump für die Datenbank überarbeitet, da bei der Tabelle Report der Attribut UserId falsch war und nun TraineeId lautet, sowie die role eigentlich roleStatus heißt</li></ul><li>Tests für ReportMySQLRepository, CommentMySQLRepository, ProfileMySQLRepository und UserMySQLRepository gebaut - dabei die Syntax von PDO sowie MySQL kennengelernt</li><ul><li>Bei PDO die Methoden prepare und execute für das Verhalten der Repositories verwendet, damit eine Injection von außen vermieden werden kann</li><li>Den Serializer für die Benutzung von verschiedenen Datenbanken angepasst und private Methoden hinzugefügt, die z.B. für das unserializen eines Users richtig die Rolle zuordnet</li><ul><li>MongoSerializer und MySQLSerializer Interfaces erstellt und bei den Repositories anstelle des Objektes Serializer in den construct gepackt, damit nur die Methoden verwendet werden, die für das Repository gelten</li></ul></ul><li>Von Hauke eine kurze Erklärung über Joins bekommen und anhand vom Projekt direkt ein Beispiel in der Dev-Ebene durchgeführt</li><li>Die SoftMigration von gehashten Passwörtern weggenommen, da die Migration bereits durchlaufen ist und der Code überflüssig ist</li><li>Bei phpunit ein tag groups hinterlegt bei denem alle tests die <b>@group 'name' </b>haben bei dem Testdurchlauf ignoriert werden</li><li>Bei Mailgun nun berichtsheft.io als Domain hinterlegt und bei AWS die TXT und MX Records eingetragen - In der .env Datei dann noch die Domain richtig hinterlegt</li><ul><li>MailgunSubscriber Payload und Message überarbeitet und die Production Ebene als Fix freigeschaltet</li></ul></ul>";
+        $content = "<p>Woche 11</p><ul><li>Fertigsetzung des Docker Umbaus zu Docker Compose</li><ul><li>Fehler bei Travis behoben in dem wir das mitgelieferte MySQL Setup von Travis für die Tests benutzen anstelle Bau eines MySQL Containers</li><li>für Docker Compose noch ein storage-reset im Makefile eingebaut, der die gesamten Service inklusive Volumes resettet</li><li>Den MySQL Dump für die Datenbank überarbeitet, da bei der Tabelle Report der Attribut UserId falsch war und nun TraineeId lautet, sowie die role eigentlich roleStatus heißt</li></ul><li>Tests für ReportMySQLRepository, CommentMySQLRepository, ProfileMySQLRepository und UserMySQLRepository gebaut - dabei die Syntax von PDO sowie MySQL kennengelernt</li><ul><li>Bei PDO die Methoden prepare und execute für das Verhalten der Repositories verwendet, damit eine Injection von außen vermieden werden kann</li><li>Den Serializer für die Benutzung von verschiedenen Datenbanken angepasst und private Methoden hinzugefügt</li></ul></ul>";
         for ($i=1; $i < 20; $i++) {
             $reports[] = new Report(new TraineeId($this->userId), $content, date('d-m-Y'), $i, '2017', uniqid(), 'SCHOOL');
         }
@@ -64,8 +64,8 @@ class PrintServiceTest extends TestCase
 
     protected function tearDown()
     {
-        $this->deleteRecursive($this->appConfig->printerOutput);
-        rmdir($this->appConfig->printerOutput);
+        // $this->deleteRecursive($this->appConfig->printerOutput);
+        // rmdir($this->appConfig->printerOutput);
     }
 
     /**
@@ -100,7 +100,7 @@ class PrintServiceTest extends TestCase
 
         $pages  = $pdf->getPages();
 
-        $this->assertEquals(229, strpos($pages[0]->getText(), 'Woche'));
+        $this->assertEquals(207, strpos($pages[0]->getText(), 'Woche'));
         $this->assertCount(8, $pages);
         $this->assertTrue(file_exists($this->appConfig->printerOutput . '/Berichte.pdf'));
     }

@@ -42,7 +42,7 @@ class PrintServiceTest extends TestCase
         $profileService->shouldReceive('findProfileByUserId')->andReturn($profile);
 
         $reports = [];
-        $content = "<p>Woche 11</p><ul><li>Fertigsetzung des Docker Umbaus zu Docker Compose</li><ul><li>Fehler bei Travis behoben in dem wir das mitgelieferte MySQL Setup von Travis für die Tests benutzen anstelle Bau eines MySQL Containers</li><li>für Docker Compose noch ein storage-reset im Makefile eingebaut, der die gesamten Service inklusive Volumes resettet</li><li>Den MySQL Dump für die Datenbank überarbeitet, da bei der Tabelle Report der Attribut UserId falsch war und nun TraineeId lautet, sowie die role eigentlich roleStatus heißt</li></ul><li>Tests für ReportMySQLRepository, CommentMySQLRepository, ProfileMySQLRepository und UserMySQLRepository gebaut - dabei die Syntax von PDO sowie MySQL kennengelernt</li><ul><li>Bei PDO die Methoden prepare und execute für das Verhalten der Repositories verwendet, damit eine Injection von außen vermieden werden kann</li><li>Den Serializer für die Benutzung von verschiedenen Datenbanken angepasst und private Methoden hinzugefügt</li></ul></ul>";
+        $content = "<ul><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li></ul>";
         for ($i=1; $i < 20; $i++) {
             $reports[] = new Report(new TraineeId($this->userId), $content, date('d-m-Y'), $i, '2017', uniqid(), 'SCHOOL');
         }

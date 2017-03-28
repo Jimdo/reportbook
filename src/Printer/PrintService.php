@@ -45,6 +45,10 @@ class PrintService
 
         if (getenv('APPLICATION_ENV') === 'test') {
             $this->outputDir = __DIR__ . '/../..' . $this->appConfig->printerOutput;
+
+            if (!file_exists($this->outputDir)) {
+                mkdir($this->outputDir);
+            }
         }
     }
 

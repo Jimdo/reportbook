@@ -44,7 +44,7 @@ class PrintService
         $this->outputDir = $this->appConfig->printerOutput;
 
         if (getenv('APPLICATION_ENV') === 'test') {
-            $this->outputDir = __DIR__ . '/../../' . $this->appConfig->printerOutput;
+            $this->outputDir = __DIR__ . '/../..' . $this->appConfig->printerOutput;
         }
     }
 

@@ -38,9 +38,6 @@ class PrintService
         $this->profileService = $profileService;
         $this->mpdf = new \mPDF();
 
-        echo 'Folder found: ' . file_exists(__DIR__ . $this->appConfig->printerTemplates) . PHP_EOL;
-        echo 'Current directory: ' . __DIR__ . PHP_EOL;
-
         $loader = new \Twig_Loader_Filesystem(__DIR__ . $this->appConfig->printerTemplates);
         $this->twig = new \Twig_Environment($loader);
 
@@ -48,7 +45,6 @@ class PrintService
 
         if (getenv('APPLICATION_ENV') === 'test') {
             $this->outputDir = realpath(__DIR__ . '/../../' . $this->appConfig->printerOutput);
-            echo $this->outputDir . PHP_EOL;
         }
     }
 

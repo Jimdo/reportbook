@@ -59,18 +59,12 @@ class PrintServiceTest extends TestCase
         $this->pdfParser = new \Smalot\PdfParser\Parser();
 
         $this->printService = new PrintService($this->profileService, $this->reportService, $this->appConfig);
-
-        $this->outputDir = realpath(__DIR__ . '/../../' . $this->appConfig->printerOutput);
-
-        if (!file_exists($this->outputDir)) {
-            mkdir($this->outputDir);
-        }
+        $this->outputDir = __DIR__ . '/../..' . $this->appConfig->printerOutput;
     }
 
     protected function tearDown()
     {
-        // $this->deleteRecursive($this->appConfig->printerOutput);
-        // rmdir($this->appConfig->printerOutput);
+        $this->deleteRecursive($this->outputDir);
     }
 
     /**
@@ -82,12 +76,12 @@ class PrintServiceTest extends TestCase
 
         $this->printService->printCover($this->userId, 'Herr', 'Hauke', 'Stange', 'Stresemannstraße 375', '22761 Hamburg');
 
-        $pdf = $this->pdfParser->parseFile($this->outputDir. '/Deckblatt.pdf');
+        $pdf = $this->pdfParser->parseFile($this->outputDir . '/Deckblatt.pdf');
 
         $pages  = $pdf->getPages();
 
         $this->assertEquals(0, strpos($pages[0]->getText(), 'Berichtsheft'));
-        $this->assertTrue(file_exists($this->outputDir. '/Deckblatt.pdf'));
+        $this->assertTrue(file_exists($this->outputDir . '/Deckblatt.pdf'));
         $this->assertCount(1, $pages);
     }
 
@@ -101,13 +95,13 @@ class PrintServiceTest extends TestCase
 
         $this->printService->printReports($this->userId, '2', '2017', '3', '2017');
 
-        $pdf = $this->pdfParser->parseFile($this->outputDir. '/Berichte.pdf');
+        $pdf = $this->pdfParser->parseFile($this->outputDir . '/Berichte.pdf');
 
         $pages  = $pdf->getPages();
 
         $this->assertEquals(212, strpos($pages[0]->getText(), '9'));
         $this->assertCount(4, $pages);
-        $this->assertTrue(file_exists($this->outputDir. '/Berichte.pdf'));
+        $this->assertTrue(file_exists($this->outputDir . '/Berichte.pdf'));
     }
 
     /**
@@ -120,11 +114,11 @@ class PrintServiceTest extends TestCase
 
         $this->printService->printReportbook($this->userId, 'Herr', 'Hase', 'Igel', 'Stresemannstraße 375', '22761 Hamburg');
 
-        $pdf = $this->pdfParser->parseFile($this->outputDir. '/Berichtsheft.pdf');
+        $pdf = $this->pdfParser->parseFile($this->outputDir . '/Berichtsheft.pdf');
 
         $pages  = $pdf->getPages();
 
-        $this->assertTrue(file_exists($this->outputDir. '/Berichtsheft.pdf'));
+        $this->assertTrue(file_exists($this->outputDir . '/Berichtsheft.pdf'));
         $this->assertCount(11, $pages);
     }
 

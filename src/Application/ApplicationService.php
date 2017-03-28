@@ -20,6 +20,7 @@ use Jimdo\Reports\Profile\ProfileMongoRepository;
 use Jimdo\Reports\Profile\ProfileMySQLRepository;
 use Jimdo\Reports\Profile\ProfileService;
 
+use Jimdo\Reports\Printer\PrintService;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Serializer;
 use Jimdo\Reports\Notification\NotificationService;
@@ -44,13 +45,15 @@ class ApplicationService
      * @param UserService $userService
      * @param ProfileService $profileService
      * @param NotificationService $notificationService
+     * @param PrintService $printService
      */
-    public function __construct(ReportbookService $reportbookService, UserService $userService, ProfileService $profileService, NotificationService $notificationService)
+    public function __construct(ReportbookService $reportbookService, UserService $userService, ProfileService $profileService, NotificationService $notificationService, PrintService $printService)
     {
         $this->reportbookService = $reportbookService;
         $this->userService = $userService;
         $this->profileService = $profileService;
         $this->notificationService = $notificationService;
+        $this->printService = $printService;
     }
 
     /**
@@ -820,6 +823,8 @@ class ApplicationService
         $commentService = new CommentService($commentRepository, $serializer, $appConfig);
         $reportbookService = new ReportbookService($reportRepository, $commentService, $appConfig);
 
-        return new self($reportbookService, $userService, $profileService, $notificationService);
+        $printService = new PrintService($profileService, $reportbookService, $appConfig);
+
+        return new self($reportbookService, $userService, $profileService, $notificationService, $printService);
     }
 }

@@ -20,6 +20,7 @@ use Jimdo\Reports\Profile\ProfileMongoRepository;
 use Jimdo\Reports\Profile\ProfileMySQLRepository;
 use Jimdo\Reports\Profile\ProfileService;
 
+use Jimdo\Reports\Printer\PrintService;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Serializer;
 use Jimdo\Reports\Notification\NotificationService;
@@ -44,13 +45,15 @@ class ApplicationService
      * @param UserService $userService
      * @param ProfileService $profileService
      * @param NotificationService $notificationService
+     * @param PrintService $printService
      */
-    public function __construct(ReportbookService $reportbookService, UserService $userService, ProfileService $profileService, NotificationService $notificationService)
+    public function __construct(ReportbookService $reportbookService, UserService $userService, ProfileService $profileService, NotificationService $notificationService, PrintService $printService)
     {
         $this->reportbookService = $reportbookService;
         $this->userService = $userService;
         $this->profileService = $profileService;
         $this->notificationService = $notificationService;
+        $this->printService = $printService;
     }
 
     /**
@@ -785,6 +788,46 @@ class ApplicationService
          $this->notificationService->notify($event);
     }
 
+    /**
+     * @param string $userId
+     * @param string $trainerTitle
+     * @param string $trainerForename
+     * @param string $trainerSurname
+     * @param string $companyStreet
+     * @param string $companyCity
+     * @param bool $printWholeReportbook
+     */
+    public function printCover(string $userId, string $trainerTitle, string $trainerForename, string $trainerSurname, string $companyStreet, string $companyCity, bool $printWholeReportbook = false)
+    {
+        $this->printService->printCover($userId, $trainerTitle, $trainerForename, $trainerSurname, $companyStreet, $companyCity);
+    }
+
+    /**
+    * @param string $userId
+    * @param string $startMonth
+    * @param string $startYear
+    * @param string $endMonth
+    * @param string $endYear
+    * @param bool $printWholeReportbook
+    */
+    public function printReports(string $userId, string $startMonth, string $startYear, string $endMonth, string $endYear, bool $printWholeReportbook = false)
+    {
+        $this->printService->printReports($userId, $startMonth, $startYear, $endMonth, $endYear);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $trainerTitle
+     * @param string $trainerForename
+     * @param string $trainerSurname
+     * @param string $companyStreet
+     * @param string $companyCity
+     */
+    public function printReportbook(string $userId, string $trainerTitle, string $trainerForename, string $trainerSurname, string $companyStreet, string $companyCity)
+    {
+        $this->printService->printReportbook($userId, $trainerTitle, $trainerForename, $trainerTitle, $companyStreet, $companyCity);
+    }
+
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
     {
         $serializer = new Serializer();
@@ -820,6 +863,8 @@ class ApplicationService
         $commentService = new CommentService($commentRepository, $serializer, $appConfig);
         $reportbookService = new ReportbookService($reportRepository, $commentService, $appConfig);
 
-        return new self($reportbookService, $userService, $profileService, $notificationService);
+        $printService = new PrintService($profileService, $reportbookService, $appConfig);
+
+        return new self($reportbookService, $userService, $profileService, $notificationService, $printService);
     }
 }

@@ -788,6 +788,46 @@ class ApplicationService
          $this->notificationService->notify($event);
     }
 
+    /**
+     * @param string $userId
+     * @param string $trainerTitle
+     * @param string $trainerForename
+     * @param string $trainerSurname
+     * @param string $companyStreet
+     * @param string $companyCity
+     * @param bool $printWholeReportbook
+     */
+    public function printCover(string $userId, string $trainerTitle, string $trainerForename, string $trainerSurname, string $companyStreet, string $companyCity, bool $printWholeReportbook = false)
+    {
+        $this->printService->printCover($userId, $trainerTitle, $trainerForename, $trainerSurname, $companyStreet, $companyCity);
+    }
+
+    /**
+    * @param string $userId
+    * @param string $startMonth
+    * @param string $startYear
+    * @param string $endMonth
+    * @param string $endYear
+    * @param bool $printWholeReportbook
+    */
+    public function printReports(string $userId, string $startMonth, string $startYear, string $endMonth, string $endYear, bool $printWholeReportbook = false)
+    {
+        $this->printService->printReports($userId, $startMonth, $startYear, $endMonth, $endYear);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $trainerTitle
+     * @param string $trainerForename
+     * @param string $trainerSurname
+     * @param string $companyStreet
+     * @param string $companyCity
+     */
+    public function printReportbook(string $userId, string $trainerTitle, string $trainerForename, string $trainerSurname, string $companyStreet, string $companyCity)
+    {
+        $this->printService->printReportbook($userId, $trainerTitle, $trainerForename, $trainerTitle, $companyStreet, $companyCity);
+    }
+
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
     {
         $serializer = new Serializer();

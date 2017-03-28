@@ -42,6 +42,7 @@
         "php-http/message": "^1.4",
         "php-http/guzzle6-adapter": "^1.1",
         "josegonzalez/dotenv": "^2.0",
-        "twig/twig": "~2.0"
+        "twig/twig": "~2.0",
+        "mpdf/mpdf": "^6.1"
     }
 }

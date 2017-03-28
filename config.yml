@@ -11,6 +11,8 @@
   papertrail_system: reportbook
   template_path: /var/www/src/Web/Controller/Views
   cache_path: /var/www/src/Web/Cache
+  printer_templates: /Templates
+  printer_output: /var/www/app/pdf
 'test':
   mongo_username: reportbook-test
   mongo_password: geheim
@@ -23,6 +25,8 @@
   mysql_database: reportbook_test
   mysql_user: reportbook-test
   mysql_password: geheim
+  printer_templates: /Templates
+  printer_output: /tests/Printer/Pdf
 'dev':
   mongo_username: reportbook-dev
   mongo_password: geheim
@@ -39,3 +43,5 @@
   mysql_database: reportbook_dev
   mysql_user: reportbook-dev
   mysql_password: geheim
+  printer_templates: /Templates
+  printer_output: /var/www/app/pdf

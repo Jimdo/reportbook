@@ -18,3 +18,6 @@ wl
 .env
 /benchmarks/FixtureReports/
 .vscode
+/app/pdf/Deckblatt.pdf
+/app/pdf/Berichte.pdf
+/app/pdf/Berichtsheft.pdf

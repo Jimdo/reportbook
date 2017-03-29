@@ -65,10 +65,10 @@ class PrinterController extends Controller
             $time = strtotime($profile->startOfTraining());
             $startYear = date("Y", $time);
             $years = [
+                $startYear,
                 $startYear + 1,
                 $startYear + 2,
-                $startYear + 3,
-                $startYear + 4
+                $startYear + 3
             ];
         }
 

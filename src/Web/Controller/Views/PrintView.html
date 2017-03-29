@@ -64,9 +64,9 @@
           </div>
           <div class="col-md-2">
             <select class="form-control" name="startYear">
-              <option value="2016">2016</option>
-              <option value="2017">2017</option>
-              <option value="2018">2018</option>
+              {% for year in years %}
+              <option value="{{ year }}">{{ year }}</option>
+              {% endfor %}
             </select>
           </div>
       </div>
@@ -98,9 +98,9 @@
           </div>
           <div class="col-md-2">
             <select class="form-control" name="endYear">
-              <option value="2016">2016</option>
-              <option value="2017">2017</option>
-              <option value="2018">2018</option>
+              {% for year in years %}
+              <option value="{{ year }}">{{ year }}</option>
+              {% endfor %}
             </select>
           </div>
       </div>

@@ -98,7 +98,7 @@ class PrintServiceTest extends TestCase
 
         $pages  = $pdf->getPages();
 
-        $this->assertEquals(212, strpos($pages[0]->getText(), '9'));
+        $this->assertEquals(213, strpos($pages[0]->getText(), '9'));
         $this->assertCount(4, $pages);
     }
 

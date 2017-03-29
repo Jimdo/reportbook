@@ -106,6 +106,8 @@ class PrintService
         if (!$printWholeReportbook) {
             $reports = $this->getReportsForPeriod($reports, $startMonth, $startYear, $endMonth, $endYear);
         }
+
+        $reports = $this->sortReportsAscending($reports);
         $weekInfo = $this->createArrayForStartAndEndOfWeek($reports);
 
 
@@ -265,5 +267,19 @@ class PrintService
             $endMonth,
             $endDay
         ];
+    }
+
+    /**
+     * @param array $descReports
+     * @return array
+     */
+    private function sortReportsAscending(array $descReports): array
+    {
+        $ascReports = [];
+        $numberOfReports = count($descReports);
+        for ($i=$numberOfReports; $i > 0; $i=($i - 1)) {
+            $ascReports[] = $descReports[$i - 1];
+        }
+        return $ascReports;
     }
 }

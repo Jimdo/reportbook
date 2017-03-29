@@ -81,7 +81,6 @@ class PrintServiceTest extends TestCase
         $pages  = $pdf->getPages();
 
         $this->assertEquals(0, strpos($pages[0]->getText(), 'Berichtsheft'));
-        $this->assertTrue(file_exists($this->outputDir . '/Deckblatt.pdf'));
         $this->assertCount(1, $pages);
     }
 
@@ -101,7 +100,6 @@ class PrintServiceTest extends TestCase
 
         $this->assertEquals(212, strpos($pages[0]->getText(), '9'));
         $this->assertCount(4, $pages);
-        $this->assertTrue(file_exists($this->outputDir . '/Berichte.pdf'));
     }
 
     /**
@@ -118,7 +116,6 @@ class PrintServiceTest extends TestCase
 
         $pages  = $pdf->getPages();
 
-        $this->assertTrue(file_exists($this->outputDir . '/Berichtsheft.pdf'));
         $this->assertCount(11, $pages);
     }
 

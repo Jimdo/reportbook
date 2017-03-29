@@ -5,132 +5,144 @@
 <h2>{{ heading }}</h2>
 <legend></legend>
 
+<div class="row">
+    {% for error in errorMessages %}
+    <div class="col-md-12">
+      <div class="alert alert-danger" role="alert"><strong>{{ error }}</strong></div>
+    </div>
+    {% endfor %}
+</div>
+
 <form action="/printer/createPdf" method="POST">
 
-  <h3>Was möchtest Du herunterladen?</h3>
+  <fieldset {{ formDisabled }}>
 
-    <div class="row">
-      <div class="col-md-12">
-        <label class="radio-inline">
-          <input checked type="radio" name="download" value="reportbook">Berichtsheft
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="download" value="cover">Deckblatt
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="download" value="reports">Berichte
-        </label>
+    <h3>Was möchtest Du herunterladen?</h3>
+
+      <div class="row">
+        <div class="col-md-12">
+          <label class="radio-inline">
+            <input checked type="radio" name="download" value="reportbook">Berichtsheft
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="download" value="cover">Deckblatt
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="download" value="reports">Berichte
+          </label>
+        </div>
+        <div class="info-font col-md-12" style="font-size: 0.9em;">
+          <br />
+          Wenn Du Dein Berichtsheft oder nur Dein Deckblatt herunterladen möchtest, musst Du keinen Zeitraum angeben.
+        </div>
       </div>
-      <div class="info-font col-md-12" style="font-size: 0.9em;">
-        <br />
-        Wenn Du Dein Berichtsheft oder nur Dein Deckblatt herunterladen möchtest, musst Du keinen Zeitraum angeben.
-      </div>
-    </div>
 
-    <h3>Zeitraum</h3>
+      <h3>Zeitraum</h3>
 
-    <div class="row">
-      <div class="col-md-2">
-        <label class="control-label">Von</label>
-      </div>
-    </div>
-
-    <div class="row">
+      <div class="row">
         <div class="col-md-2">
-          <select class="form-control" name="size">
-            <option value="1">Januar</option>
-            <option value="2">Februar</option>
-            <option value="3">März</option>
-            <option value="4">April</option>
-            <option value="5">Mai</option>
-            <option value="6">Juni</option>
-            <option value="7">Juli</option>
-            <option value="8">August</option>
-            <option value="9">September</option>
-            <option value="10">Oktober</option>
-            <option value="11">November</option>
-            <option value="12">Dezember</option>
+          <label class="control-label">Von</label>
+        </div>
+      </div>
+
+      <div class="row">
+          <div class="col-md-2">
+            <select class="form-control" name="startMonth">
+              <option value="1">Januar</option>
+              <option value="2">Februar</option>
+              <option value="3">März</option>
+              <option value="4">April</option>
+              <option value="5">Mai</option>
+              <option value="6">Juni</option>
+              <option value="7">Juli</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">Oktober</option>
+              <option value="11">November</option>
+              <option value="12">Dezember</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select class="form-control" name="startYear">
+              <option value="2016">2016</option>
+              <option value="2017">2017</option>
+              <option value="2018">2018</option>
+            </select>
+          </div>
+      </div>
+
+      <br />
+
+      <div class="row">
+        <div class="col-md-2">
+          <label class="control-label">Bis</label>
+        </div>
+      </div>
+
+      <div class="row">
+          <div class="col-md-2">
+            <select class="form-control" name="endMonth">
+              <option value="1">Januar</option>
+              <option value="2">Februar</option>
+              <option value="3">März</option>
+              <option value="4">April</option>
+              <option value="5">Mai</option>
+              <option value="6">Juni</option>
+              <option value="7">Juli</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">Oktober</option>
+              <option value="11">November</option>
+              <option value="12">Dezember</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select class="form-control" name="endYear">
+              <option value="2016">2016</option>
+              <option value="2017">2017</option>
+              <option value="2018">2018</option>
+            </select>
+          </div>
+      </div>
+
+      <h3>Informationen zum Ausbilder</h3>
+
+      <div class="row">
+        <div class="col-md-2">
+          <label class="control-label">Anrede</label>
+          <select class="form-control" name="title">
+            <option value="0">Herr</option>
+            <option value="1">Frau</option>
           </select>
         </div>
-        <div class="col-md-2">
-          <select class="form-control" name="size">
-            <option value="2016">2016</option>
-            <option value="2017">2017</option>
-            <option value="2018">2018</option>
-          </select>
+        <div class="col-md-3">
+          <label class="control-label">Vorname</label>
+          <input class="form-control" type="text" id="forename" name="forename"></br>
         </div>
-    </div>
+        <div class="col-md-3">
+          <label class="control-label">Nachname</label>
+          <input class="form-control" type="text" id="surname" name="surname"></br>
+        </div>
+      </div>
+
+      <h3>Informationen zum Betrieb</h3>
+
+      <div class="row">
+        <div class="col-md-4">
+          <label class="control-label">Straße und Hausnummer</label>
+          <input class="form-control" type="text" id="companyStreet" name="companyStreet"></br>
+        </div>
+        <div class="col-md-4">
+          <label class="control-label">Postleitzahl und Ort</label>
+          <input class="form-control" type="text" id="companyCity" name="companyCity"></br>
+        </div>
+      </div>
 
     <br />
 
-    <div class="row">
-      <div class="col-md-2">
-        <label class="control-label">Bis</label>
-      </div>
-    </div>
+    <button type="submit" class="btn btn-primary float-right"><span class="glyphicon glyphicon-download" aria-hidden="true"></span> Herunterladen</button>
 
-    <div class="row">
-        <div class="col-md-2">
-          <select class="form-control" name="size">
-            <option value="1">Januar</option>
-            <option value="2">Februar</option>
-            <option value="3">März</option>
-            <option value="4">April</option>
-            <option value="5">Mai</option>
-            <option value="6">Juni</option>
-            <option value="7">Juli</option>
-            <option value="8">August</option>
-            <option value="9">September</option>
-            <option value="10">Oktober</option>
-            <option value="11">November</option>
-            <option value="12">Dezember</option>
-          </select>
-        </div>
-        <div class="col-md-2">
-          <select class="form-control" name="size">
-            <option value="2016">2016</option>
-            <option value="2017">2017</option>
-            <option value="2018">2018</option>
-          </select>
-        </div>
-    </div>
-
-    <h3>Informationen zum Ausbilder</h3>
-
-    <div class="row">
-      <div class="col-md-2">
-        <label class="control-label">Anrede</label>
-        <select class="form-control" name="size">
-          <option value="0">Herr</option>
-          <option value="1">Frau</option>
-        </select>
-      </div>
-      <div class="col-md-3">
-        <label class="control-label">Vorname</label>
-        <input class="form-control" type="text" id="forename" name="forename"></br>
-      </div>
-      <div class="col-md-3">
-        <label class="control-label">Nachname</label>
-        <input class="form-control" type="text" id="surname" name="surname"></br>
-      </div>
-    </div>
-
-    <h3>Informationen zum Betrieb</h3>
-
-    <div class="row">
-      <div class="col-md-4">
-        <label class="control-label">Straße und Hausnummer</label>
-        <input class="form-control" type="text" id="companyStreet" name="companyStreet"></br>
-      </div>
-      <div class="col-md-4">
-        <label class="control-label">Postleitzahl und Ort</label>
-        <input class="form-control" type="text" id="companyCity" name="companyCity"></br>
-      </div>
-    </div>
-
-  <br />
-
-  <button type="button" class="btn btn-primary float-right"><span class="glyphicon glyphicon-download" aria-hidden="true"></span> Herunterladen</button>
+  </fieldset>
 
 </form>
 

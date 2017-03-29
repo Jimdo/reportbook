@@ -11,31 +11,29 @@
     </p>
   </div>
   <br />
-  {% for oneReport in site %}
     <div style="padding: 10px; padding-top: none; padding-bottom: none; border: 1px solid black; background-color: #F0F0F0;">
         <p>
-          {% if oneReport.report.category() == "SCHOOL" %}
+          {% if report.category() == "SCHOOL" %}
 
             Kategorie: Schule
 
-          {% elseif oneReport.report.category() == "COMPANY" %}
+          {% elseif report.category() == "COMPANY" %}
 
             Kategorie: Betrieb
 
           {% endif %}
 
           <br />
-          Kalenderwoche: {{ oneReport.report.calendarWeek() }}
+          Kalenderwoche: {{ report.calendarWeek() }}
           <br />
-          Ausbildungswoche vom {{ oneReport.weekInfo.start }} bis {{ oneReport.weekInfo.end }}
+          Ausbildungswoche vom {{ weekInfo.start }} bis {{ weekInfo.end }}
         </p>
     </div>
     <div style="padding: 10px; border: 1px solid black; border-top: none;">
-      {{ oneReport.report.content()|raw|nl2br }}
+      {{ report.content()|raw|nl2br }}
     </div>
 
     <br />
-  {% endfor %}
 
   <p style="padding: 10px; position: absolute; bottom: 120px;">
     Durch die nachfolgenden Unterschriften wird die Richtigkeit und Vollständigkeit der obigen Angaben bestätigt.

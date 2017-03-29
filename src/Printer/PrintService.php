@@ -110,31 +110,9 @@ class PrintService
         $reports = $this->sortReportsAscending($reports);
         $weekInfo = $this->createArrayForStartAndEndOfWeek($reports);
 
-
-        $maxLinesPerSite = 18;
-        $reportsPerSite = [];
-        $reportsPerSite[] = [];
-        $site = 0;
-        $reportNumber = 0;
-        $lines = 0;
-
+        $reportInfoArr = [];
         foreach ($reports as $run => $report) {
-            $currentLines = $this->countLines($report->content());
-
-            if ($lines + $currentLines <= $maxLinesPerSite) {
-                $lines += $currentLines;
-                $reportNumber++;
-            } else {
-                $lines = $currentLines;
-                $site++;
-                $reportNumber = 0;
-            }
-
-            if (!isset($reportsPerSite[$site][$reportNumber])) {
-                $reportsPerSite[$site][$reportNumber] = [];
-            }
-
-            $reportsPerSite[$site][$reportNumber] = [
+            $reportInfoArr[] = [
                 'report' => $report,
                 'weekInfo' => ['start' => $weekInfo[$run][0], 'end' => $weekInfo[$run][1]]
             ];
@@ -142,17 +120,18 @@ class PrintService
 
         $template = $this->twig->load('Report.html');
 
-        foreach ($reportsPerSite as $run => $site) {
+        foreach ($reportInfoArr as $run => $site) {
 
             $variables = [
                 'traineeForename' => $profile->forename(),
                 'traineeSurname' => $profile->surname(),
                 'jobTitle' => $profile->jobTitle(),
-                'site' => $site
+                'report' => $site['report'],
+                'weekInfo' => $site['weekInfo']
             ];
 
 
-            if (count($reportsPerSite) - 1 !== $run) {
+            if (count($reportInfoArr) - 1 !== $run) {
                 $this->mpdf->WriteHTML($template->render($variables));
                 $this->mpdf->AddPage();
             } else {

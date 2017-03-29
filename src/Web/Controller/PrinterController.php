@@ -53,6 +53,25 @@ class PrinterController extends Controller
             $this->redirect('/user');
         }
 
+        $profile = $this->appService->findProfileByUserId($this->sessionData('userId'));
+
+        $errorMessages = [];
+        $years = [];
+        $formDisabled = '';
+        if ($profile->jobTitle() === '' || $profile->company() === '' || $profile->startOfTraining() === '') {
+            $errorMessages[] = "Bitte fülle Dein Profil zuerst vollständig aus";
+            $formDisabled = 'disabled';
+        } else {
+            $time = strtotime($profile->startOfTraining());
+            $startYear = date("Y", $time);
+            $years = [
+                $startYear + 1,
+                $startYear + 2,
+                $startYear + 3,
+                $startYear + 4
+            ];
+        }
+
         $variables = [
             'tabTitle' => 'Berichtsheft',
             'viewHelper' => $this->viewHelper,
@@ -65,9 +84,59 @@ class PrinterController extends Controller
             'isAdmin' => $this->isAdmin(),
             'infoHeadline' => ' | Übersicht',
             'hideInfos' => false,
-            'heading' => 'Berichte herunterladen'
+            'heading' => 'Berichte herunterladen',
+            'errorMessages' => $errorMessages,
+            'formDisabled' => $formDisabled,
+            'years' => $years
         ];
 
         echo $this->twig->render('PrintView.html', $variables);
+    }
+
+    public function createPdfAction()
+    {
+        if (!$this->isTrainee()) {
+            $this->redirect('/user');
+        }
+
+        $userId = $this->sessionData('userId');
+
+        if ($this->formData('title') === '0') {
+            $trainerTitle = 'Herr';
+        } elseif ($this->formData('title') === '1') {
+            $trainerTitle = 'Frau';
+        }
+
+        switch ($this->formData('download')) {
+            case 'reportbook':
+                $this->appService->printReportbook(
+                        $userId,
+                        $trainerTitle,
+                        $this->formData('forename'),
+                        $this->formData('surname'),
+                        $this->formData('companyStreet'),
+                        $this->formData('companyCity')
+                );
+                break;
+            case 'cover':
+                $this->appService->printCover(
+                        $userId,
+                        $trainerTitle,
+                        $this->formData('forename'),
+                        $this->formData('surname'),
+                        $this->formData('companyStreet'),
+                        $this->formData('companyCity')
+                );
+                break;
+            case 'reports':
+                $this->appService->printReports(
+                        $userId,
+                        $this->formData('startMonth'),
+                        $this->formData('startYear'),
+                        $this->formData('endMonth'),
+                        $this->formData('endYear')
+                );
+                break;
+        }
     }
 }

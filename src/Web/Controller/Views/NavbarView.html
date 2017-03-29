@@ -19,6 +19,9 @@
           {% if isTrainer or isAdmin %}
             <li class="nav-li {% if userlistViewActive %} active {% endif %}"><a class="link-color" href="/user/userlist"><span class="glyphicon glyphicon-king"></span> Benutzerübersicht</a></li>
           {% endif %}
+          {% if not isTrainer and not isAdmin %}
+          <li class="nav-li {% if printViewActive %} active {% endif %}"><a class="link-color" href="/printer/print"><span class="glyphicon glyphicon-download"></span> Berichte herunterladen</a></li>
+          {% endif %}
           <li class="nav-li {% if changePasswordViewActive %} active {% endif %}"><a class="link-color" href="/user/changePassword"><input type="hidden" id="userId" name="userId" value="{{ userId }}" /><span class="glyphicon glyphicon-wrench"></span> Passwort ändern</a></li>
         </ul>
     </div>

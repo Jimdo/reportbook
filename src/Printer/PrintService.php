@@ -24,7 +24,10 @@ class PrintService
     private $twig;
 
     /** @var string */
-    private $outputDir;
+    private $outputDir = '';
+
+    /** @var string */
+    private $outputType;
 
     /**
      * @param ProfileService
@@ -41,14 +44,16 @@ class PrintService
         $loader = new \Twig_Loader_Filesystem(__DIR__ . $this->appConfig->printerTemplates);
         $this->twig = new \Twig_Environment($loader);
 
-        $this->outputDir = $this->appConfig->printerOutput;
+        if ($this->appConfig->printerOutputType === 'download') {
+            $this->outputType = 'D';
 
-        if (getenv('APPLICATION_ENV') === 'test') {
-            $this->outputDir = __DIR__ . '/../..' . $this->appConfig->printerOutput;
+        } elseif ($this->appConfig->printerOutputType === 'file') {
+            $this->outputDir = __DIR__ . '/../..' . $this->appConfig->printerOutput . '/';
 
             if (!file_exists($this->outputDir)) {
                 mkdir($this->outputDir);
             }
+            $this->outputType = 'F';
         }
     }
 
@@ -82,7 +87,7 @@ class PrintService
       if ($printWholeReportbook) {
           $this->mpdf->AddPage();
       } else {
-          $this->mpdf->Output($this->outputDir . '/Deckblatt.pdf','F');
+          $this->mpdf->Output($this->outputDir . 'Deckblatt.pdf', $this->outputType);
       }
     }
 
@@ -153,7 +158,7 @@ class PrintService
             }
         }
         if (!$printWholeReportbook) {
-            $this->mpdf->Output($this->outputDir . "/Berichte.pdf",'F');
+            $this->mpdf->Output($this->outputDir . 'Berichte.pdf', $this->outputType);
         }
     }
 
@@ -169,7 +174,7 @@ class PrintService
     {
         $this->printCover($userId, $trainerTitle, $trainerForename, $trainerSurname, $companyStreet, $companyCity, true);
         $this->printReports($userId, '', '', '', '', true);
-        $this->mpdf->Output($this->outputDir . "/Berichtsheft.pdf",'F');
+        $this->mpdf->Output($this->outputDir . 'Berichtsheft.pdf', $this->outputType);
     }
 
     /**

@@ -13,6 +13,7 @@
   cache_path: /var/www/src/Web/Cache
   printer_templates: /Templates
   printer_output: /var/www/app/pdf
+  printer_output_type: download
 'test':
   mongo_username: reportbook-test
   mongo_password: geheim
@@ -27,6 +28,7 @@
   mysql_password: geheim
   printer_templates: /Templates
   printer_output: /tests/Printer/Pdf
+  printer_output_type: file
 'dev':
   mongo_username: reportbook-dev
   mongo_password: geheim
@@ -45,3 +47,4 @@
   mysql_password: geheim
   printer_templates: /Templates
   printer_output: /var/www/app/pdf
+  printer_output_type: download

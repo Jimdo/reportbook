@@ -825,7 +825,7 @@ class ApplicationService
      */
     public function printReportbook(string $userId, string $trainerTitle, string $trainerForename, string $trainerSurname, string $companyStreet, string $companyCity)
     {
-        $this->printService->printReportbook($userId, $trainerTitle, $trainerForename, $trainerTitle, $companyStreet, $companyCity);
+        $this->printService->printReportbook($userId, $trainerTitle, $trainerForename, $trainerSurname, $companyStreet, $companyCity);
     }
 
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)

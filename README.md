@@ -45,17 +45,20 @@ The repo contains a `Makefile` to help you speeding up your development process.
 
 ```
 $ make help
-bootstrap    Install composer
-build        Generate docker container image
-deploy       Deploy the app to the wonderland
-doc          Generate documentation
-lint         Lint all the code
-mongo-client Connects to mongoDB
-mongo-server Starts up mongoDB
-push         Push container image to hub.docker.com
-server       Start up local development web server
-tests        Execute test suite and create code coverage report
-update       Update composer packages
+bootstrap       Install composer
+build           Generate docker container image
+build-debug     Generate docker container image with xdebug
+deploy          Deploy the app to the wonderland
+doc             Generate documentation
+lint            Lint all the code
+mongo-client    Connects to mongoDB
+mysql-client    Connects to MySQL
+push            Push container image to hub.docker.com
+server          Start up local development web server
+setup           Setup server
+storage-reset   Reset local server files
+tests           Execute test suite and create code coverage report
+update          Update composer packages
 ```
 
 ## Changelog

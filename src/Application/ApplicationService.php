@@ -823,7 +823,9 @@ class ApplicationService
 
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
     {
-        $repositoryFactory = new RepositoryFactory($appConfig);
+        $serializer = new Serializer();
+
+        $repositoryFactory = new RepositoryFactory($appConfig, $serializer);
 
         $userRepository = $repositoryFactory->createUserRepository();
         $profileRepository = $repositoryFactory->createProfileRepository();

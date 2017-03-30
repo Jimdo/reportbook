@@ -36,11 +36,11 @@ class RepositoryFactory
     /**
      * @param ApplicationConfig $appConfig
      */
-    public function __construct(ApplicationConfig $appConfig)
+    public function __construct(ApplicationConfig $appConfig, Serializer $serializer)
     {
         $this->appConfig = $appConfig;
         $this->storage = $this->appConfig->storage;
-        $this->serializer = new Serializer();
+        $this->serializer = $serializer;
 
         $mongoUri = sprintf('mongodb://%s:%s@%s:%d/%s'
         , $this->appConfig->mongoUsername

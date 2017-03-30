@@ -2,27 +2,20 @@
 
 namespace Jimdo\Reports\Application;
 
-use Jimdo\Reports\Reportbook\CommentMongoRepository;
-use Jimdo\Reports\Reportbook\CommentMySQLRepository;
 use Jimdo\Reports\Reportbook\CommentService;
 use Jimdo\Reports\Reportbook\Comment;
 use Jimdo\Reports\Reportbook\ReportbookService;
-use Jimdo\Reports\Reportbook\ReportMongoRepository;
-use Jimdo\Reports\Reportbook\ReportMySQLRepository;
 use Jimdo\Reports\Reportbook\Report;
 use Jimdo\Reports\Reportbook\TraineeId;
 
-use Jimdo\Reports\User\UserMongoRepository;
-use Jimdo\Reports\User\UserMySQLRepository;
 use Jimdo\Reports\User\UserService;
 
-use Jimdo\Reports\Profile\ProfileMongoRepository;
-use Jimdo\Reports\Profile\ProfileMySQLRepository;
 use Jimdo\Reports\Profile\ProfileService;
 
 use Jimdo\Reports\Printer\PrintService;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Serializer;
+use Jimdo\Reports\RepositoryFactory;
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\Events;
 
@@ -830,33 +823,12 @@ class ApplicationService
 
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
     {
-        $serializer = new Serializer();
+        $repositoryFactory = new RepositoryFactory($appConfig);
 
-        if (getEnv('APPLICATION_ENV') === 'production') {
-            $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
-            , $appConfig->mongoUsername
-            , $appConfig->mongoPassword
-            , $appConfig->mongoHost
-            , $appConfig->mongoPort
-            , $appConfig->mongoDatabase
-            );
-
-            $client = new \MongoDB\Client($uri);
-            $userRepository = new UserMongoRepository($client, $serializer, $appConfig);
-            $profileRepository = new ProfileMongoRepository($client, $serializer, $appConfig);
-            $reportRepository = new ReportMongoRepository($client, $serializer, $appConfig);
-            $commentRepository = new CommentMongoRepository($client, $serializer, $appConfig);
-
-        } elseif (getEnv('APPLICATION_ENV') === 'dev' || getEnv('APPLICATION_ENV') === 'test') {
-            $uri = "mysql:host={$appConfig->mysqlHost};dbname={$appConfig->mysqlDatabase}";
-
-            $dbHandler = new \PDO($uri, $appConfig->mysqlUser, $appConfig->mysqlPassword);
-
-            $userRepository = new UserMySQLRepository($dbHandler, $serializer, $appConfig);
-            $profileRepository = new ProfileMySQLRepository($dbHandler, $serializer, $appConfig);
-            $reportRepository = new ReportMySQLRepository($dbHandler, $serializer, $appConfig);
-            $commentRepository = new CommentMySQLRepository($dbHandler, $serializer, $appConfig);
-        }
+        $userRepository = $repositoryFactory->createUserRepository();
+        $profileRepository = $repositoryFactory->createProfileRepository();
+        $commentRepository = $repositoryFactory->createCommentRepository();
+        $reportRepository = $repositoryFactory->createReportRepository();
 
         $userService = new UserService($userRepository, $appConfig);
         $profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig);

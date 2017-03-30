@@ -335,6 +335,7 @@ class UserService
     {
         $users = $this->findUsersByStatus(Role::STATUS_APPROVED);
 
+        $returnUsers = [];
         foreach ($users as $user) {
             if ($user->roleName() === Role::TRAINEE) {
                 $returnUsers[] = $user;

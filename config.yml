@@ -14,6 +14,7 @@
   printer_templates: /Templates
   printer_output: /var/www/app/pdf
   printer_output_type: download
+  storage: mongo
 'test':
   mongo_username: reportbook-test
   mongo_password: geheim
@@ -29,6 +30,7 @@
   printer_templates: /Templates
   printer_output: /tests/Printer/Pdf
   printer_output_type: file
+  storage: mysql
 'dev':
   mongo_username: reportbook-dev
   mongo_password: geheim
@@ -48,3 +50,4 @@
   printer_templates: /Templates
   printer_output: /var/www/app/pdf
   printer_output_type: download
+  storage: mysql

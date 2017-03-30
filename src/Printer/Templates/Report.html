@@ -11,42 +11,49 @@
     </p>
   </div>
   <br />
-    <div style="padding: 10px; padding-top: none; padding-bottom: none; border: 1px solid black; background-color: #F0F0F0;">
-        <p>
-          {% if report.category() == "SCHOOL" %}
 
-            Kategorie: Schule
+  <div style="padding: 10px; padding-top: none; padding-bottom: none; border: 1px solid black; background-color: #F0F0F0;">
+      <p>
+        {% if report.category() == "SCHOOL" %}
 
-          {% elseif report.category() == "COMPANY" %}
+          Kategorie: Schule
 
-            Kategorie: Betrieb
+        {% elseif report.category() == "COMPANY" %}
 
-          {% endif %}
+          Kategorie: Betrieb
 
-          <br />
-          Kalenderwoche: {{ report.calendarWeek() }}
-          <br />
-          Ausbildungswoche vom {{ weekInfo.start }} bis {{ weekInfo.end }}
-        </p>
-    </div>
-    <div style="padding: 10px; border: 1px solid black; border-top: none;">
-      {{ report.content()|raw|nl2br }}
-    </div>
+        {% endif %}
 
-    <br />
+        <br />
+        Kalenderwoche: {{ report.calendarWeek() }}
+        <br />
+        Ausbildungswoche vom {{ weekInfo.start }} bis {{ weekInfo.end }}
+      </p>
+  </div>
+  <div style="padding: 10px; border: 1px solid black; border-top: none;">
+    {{ report.content()|raw|nl2br }}
+  </div>
 
-  <p style="padding: 10px; position: absolute; bottom: 120px;">
+  <br />
+
+  <p style="padding: 10px; height: 30px">
     Durch die nachfolgenden Unterschriften wird die Richtigkeit und Vollständigkeit der obigen Angaben bestätigt.
   </p>
 
   <br />
 
-  <p style="width: 337px; border-top: 1px solid black; position: absolute; left: 50px; bottom: 50px;">
-    Datum, Unterschrift Auszubildende/r
-  </p>
+  <div class="row">
+    <div style="float: left; width: 330px;">
+      <p style="border-top: 1px solid black;">
+        Datum, Unterschrift Auszubildende/r
+      </p>
+    </div>
 
-  <p style="width: 337px; border-top: 1px solid black; position: absolute; right: 50px; bottom: 50px;">
-    Datum, Unterschrift des Ausbilders/der Ausbilderin
-  </p>
+    <div style="float: right; width: 330px;">
+      <p style="border-top: 1px solid black;">
+        Datum, Unterschrift des Ausbilders/der Ausbilderin
+      </p>
+    </div>
+  </div>
 
 </body>

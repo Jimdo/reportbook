@@ -138,8 +138,7 @@ class PrintService
                 'weekInfo' => $site['weekInfo']
             ];
 
-
-            if (count($reportInfoArr) - 1 !== $run) {
+            if (count($reports) - 1 !== $run) {
                 $this->mpdf->WriteHTML($template->render($variables));
                 $this->mpdf->AddPage();
             } else {

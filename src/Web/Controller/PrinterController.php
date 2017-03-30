@@ -15,6 +15,7 @@ use Jimdo\Reports\Application\ApplicationService;
 class PrinterController extends Controller
 {
     const ERROR_EMPTY_FIELD_INFO = '0';
+    const ERROR_WRONG_PERIOD = '1';
 
     /** @var ViewHelper */
     private $viewHelper;
@@ -66,6 +67,8 @@ class PrinterController extends Controller
             $formDisabled = 'disabled';
         } elseif ($errorCode === PrinterController::ERROR_EMPTY_FIELD_INFO) {
             $errorMessages[] = 'Bitte fülle die Informationen vollständig aus';
+        } elseif ($errorCode === PrinterController::ERROR_WRONG_PERIOD) {
+            $errorMessages[] = 'Bitte gib einen gültigen Zeitraum an';
         }
 
         $time = strtotime($profile->startOfTraining());
@@ -104,11 +107,15 @@ class PrinterController extends Controller
             $this->redirect('/user');
         }
 
-        if ($this->formData('download') !== 'reports') {
+        if ($this->formData('download') === 'reports') {
+            if ($this->formData('endYear') < $this->formData('startYear')) {
+                $this->redirect('/printer/print', ['error' => PrinterController::ERROR_WRONG_PERIOD]);
+            }
+        } else {
             if ($this->formData('forename') === '' ||
-                $this->formData('surname') === '' ||
-                $this->formData('companyStreet') === '' ||
-                $this->formData('companyCity') === '' ) {
+            $this->formData('surname') === '' ||
+            $this->formData('companyStreet') === '' ||
+            $this->formData('companyCity') === '' ) {
                 $this->redirect('/printer/print', ['error' => PrinterController::ERROR_EMPTY_FIELD_INFO]);
             }
         }

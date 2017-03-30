@@ -4,6 +4,7 @@ namespace Jimdo\Reports\Printer;
 
 use Jimdo\Reports\Profile\ProfileService;
 use Jimdo\Reports\Reportbook\ReportbookService;
+use Jimdo\Reports\Reportbook\Report;
 use Jimdo\Reports\Web\ApplicationConfig;
 
 class PrintService
@@ -107,7 +108,14 @@ class PrintService
             $reports = $this->getReportsForPeriod($reports, $startMonth, $startYear, $endMonth, $endYear);
         }
 
-        $reports = $this->sortReportsAscending($reports);
+        $approvedReports = [];
+        foreach ($reports as $report) {
+            if ($report->status() === Report::STATUS_APPROVED) {
+                $approvedReports[] = $report;
+            }
+        }
+
+        $reports = $this->sortReportsAscending($approvedReports);
         $weekInfo = $this->createArrayForStartAndEndOfWeek($reports);
 
         $reportInfoArr = [];

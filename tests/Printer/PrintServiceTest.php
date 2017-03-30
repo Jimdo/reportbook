@@ -47,7 +47,9 @@ class PrintServiceTest extends TestCase
         $reports = [];
         $content = "<ul><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li></ul>";
         for ($i=1; $i < 20; $i++) {
-            $reports[] = new Report(new TraineeId($this->userId), $content, date('d-m-Y'), $i, '2017', uniqid(), 'SCHOOL');
+            $report = new Report(new TraineeId($this->userId), $content, date('d-m-Y'), $i, '2017', uniqid(), 'SCHOOL');
+            $report->approve();
+            $reports[] = $report;
         }
 
         $reportService =  \Mockery::mock('Jimdo\Reports\Reportbook\ReportbookService');

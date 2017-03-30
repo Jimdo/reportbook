@@ -412,7 +412,10 @@ class UserController extends Controller
         $this->addRequestValidation('dateOfBirth', 'date');
 
         if ($this->isRequestValid()) {
-            $this->appService->editDateOfBirth($this->formData('userId'), $this->formData('dateOfBirth'));
+            $date = $this->formData('dateOfBirth');
+            $formattedDate = date("Y-m-d", strtotime($date));
+
+            $this->appService->editDateOfBirth($this->formData('userId'), $formattedDate);
             if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
                 $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);
             } else {
@@ -600,7 +603,10 @@ class UserController extends Controller
         $this->addRequestValidation('startOfTraining', 'date');
 
         if ($this->isRequestValid()) {
-            $this->appService->editStartOfTraining($this->formData('userId'), $this->formData('startOfTraining'));
+            $date = $this->formData('startOfTraining');
+            $formattedDate = date("Y-m-d", strtotime($date));
+
+            $this->appService->editStartOfTraining($this->formData('userId'), $formattedDate);
             if ($this->isAdmin() && $this->sessionData('userId') !== $this->formData('userId')) {
                 $this->redirect('/user/profile', ['userId' => $this->formData('userId')]);
             } else {

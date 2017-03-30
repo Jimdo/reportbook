@@ -179,4 +179,10 @@ update          Update composer packages
   - Implement Medium-Editor to Report and Comment
 
 ### v0.6.4
-  - Implement new design with sidebar to reportbook 
+  - Implement new design with sidebar to reportbook
+
+### v0.7
+  - Implement MySQL
+
+### v0.7.1
+  - Implement PrintService to create PDF files

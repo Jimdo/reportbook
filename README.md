@@ -16,6 +16,27 @@ $ git clone git@github.com:Jimdo/reportbook.git
 
 # Install composer and project dependencies
 $ make bootstrap
+
+# Set the following variables in your .env file
+MYSQL_ROOT_PASSWORD
+MYSQL_DATABASE
+MYSQL_USER
+MYSQL_PASSWORD
+
+# Build docker image
+$ make build
+
+# Build docker image with xdebug
+$ make build-debug
+
+# Start server
+$ make server
+
+# Make server setup
+$ make setup
+
+# Run unit tests
+$ make tests
 ```
 
 ## General Information
@@ -24,17 +45,20 @@ The repo contains a `Makefile` to help you speeding up your development process.
 
 ```
 $ make help
-bootstrap    Install composer
-build        Generate docker container image
-deploy       Deploy the app to the wonderland
-doc          Generate documentation
-lint         Lint all the code
-mongo-client Connects to mongoDB
-mongo-server Starts up mongoDB
-push         Push container image to hub.docker.com
-server       Start up local development web server
-tests        Execute test suite and create code coverage report
-update       Update composer packages
+bootstrap       Install composer
+build           Generate docker container image
+build-debug     Generate docker container image with xdebug
+deploy          Deploy the app to the wonderland
+doc             Generate documentation
+lint            Lint all the code
+mongo-client    Connects to mongoDB
+mysql-client    Connects to MySQL
+push            Push container image to hub.docker.com
+server          Start up local development web server
+setup           Setup server
+storage-reset   Reset local server files
+tests           Execute test suite and create code coverage report
+update          Update composer packages
 ```
 
 ## Changelog
@@ -155,4 +179,10 @@ update       Update composer packages
   - Implement Medium-Editor to Report and Comment
 
 ### v0.6.4
-  - Implement new design with sidebar to reportbook 
+  - Implement new design with sidebar to reportbook
+
+### v0.7
+  - Implement MySQL
+
+### v0.7.1
+  - Implement PrintService to create PDF files

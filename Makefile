@@ -24,6 +24,13 @@ lint: ## Lint all the code
 server: ## Start up local development web server
 	./scripts/run-server.sh
 
+setup: ## Setup server
+	./scripts/mysql-setup.sh
+	./scripts/mongo-setup.sh
+
+storage-reset: ## Reset all volumes and services from docker-compose
+	./scripts/storage-reset.sh
+
 bench: ## Starts the benchmarks
 	./scripts/run-bench.sh
 
@@ -64,20 +71,5 @@ docker-setup:
 mysql-client: ## Connects to mysql
 	./scripts/mysql-client.sh
 
-mysql-server: ## Starts mqsql container
-	./scripts/mysql-server.sh
-
-mysql-setup: ## Creates Database and User in mqsql container
-	./scripts/mysql-setup.sh
-
-mongo-server: docker-setup ## Starts up mongoDB
-	./scripts/mongo-server.sh
-
 mongo-client: ## Connects to mongoDB
 	./scripts/mongo-client.sh
-
-mongo-setup: ## Initial user setup
-	./scripts/mongo-setup.sh
-
-storage-reset: ## Reset all volumes and services from docker-compose
-	./scripts/storage-reset.sh

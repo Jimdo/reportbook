@@ -51,33 +51,38 @@ class MailgunSubscriber implements Subscriber
             case 'reportCreated':
                 $message =  "Hallo {$event->payload()['username']}, \n\n" .
                             "Dein Bericht für die Kalenderwoche {$event->payload()['calendarWeek']}/{$event->payload()['calendarYear']} wurde erstellt. \n\n" .
-                            "https://berichtsheft.io/";
+                            "Hier kommst Du direkt zu dem Bericht: \n" .
+                            "https://berichtsheft.io/report/viewReport?traineeId={$event->payload()['userId']}&reportId={$event->payload()['reportId']}";
                 $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 break;
             case 'approvalRequested':
                 $message =  "Hallo {$event->payload()['username']}, \n\n" .
                             "Dein Bericht wurde erfolgreich eingereicht. \n\n" .
-                            "https://berichtsheft.io/";
+                            "Hier kommst Du direkt zu dem Bericht: \n" .
+                            "https://berichtsheft.io/report/viewReport?traineeId={$event->payload()['userId']}&reportId={$event->payload()['reportId']}";
                 $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
 
                 foreach ($event->payload()['trainers'] as $trainer) {
                     $message =  "Hallo {$trainer->username()}, \n\n" .
                     "Dein Azubi {$event->payload()['username']} hat einen neuen Bericht eingereicht. \n\n" .
-                    "https://berichtsheft.io/";
+                    "Hier kommst Du direkt zu dem Bericht: \n" .
+                    "https://berichtsheft.io/report/viewReport?traineeId={$event->payload()['userId']}&reportId={$event->payload()['reportId']}";
                     $this->sendMail("{$trainer->username()} <{$trainer->email()}>", $event->payload()['emailSubject'], $message);
                 }
                 break;
             case 'reportApproved':
                 $message =  "Hallo {$event->payload()['username']}, \n\n" .
                             "Dein Bericht wurde erfolgreich von einem Ausbilder genehmigt. \n\n" .
-                            "https://berichtsheft.io/";
+                            "Hier kommst Du direkt zu dem Bericht: \n" .
+                            "https://berichtsheft.io/report/viewReport?traineeId={$event->payload()['userId']}&reportId={$event->payload()['reportId']}";
                 $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 break;
             case 'reportDisapproved':
                 $message =  "Hallo {$event->payload()['username']}, \n\n" .
                             "Dein Bericht wurde leider von einem Ausbilder abgelehnt. \n" .
                             "Überprüfe bitte nochmal Dein Bericht von der Kalenderwoche: {$event->payload()['calendarWeek']}/{$event->payload()['calendarYear']}.\n\n" .
-                            "https://berichtsheft.io/";
+                            "Hier kommst Du direkt zu dem Bericht: \n" .
+                            "https://berichtsheft.io/report/viewReport?traineeId={$event->payload()['userId']}&reportId={$event->payload()['reportId']}";
                 $this->sendMail("{$event->payload()['username']} <{$event->payload()['email']}>", $event->payload()['emailSubject'], $message);
                 break;
             case 'commentCreated':

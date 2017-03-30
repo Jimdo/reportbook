@@ -16,6 +16,27 @@ $ git clone git@github.com:Jimdo/reportbook.git
 
 # Install composer and project dependencies
 $ make bootstrap
+
+# Set the following variables in your .env file
+MYSQL_ROOT_PASSWORD
+MYSQL_DATABASE
+MYSQL_USER
+MYSQL_PASSWORD
+
+# Build docker image
+$ make build
+
+# Build docker image with xdebug
+$ make build-debug
+
+# Start server
+$ make server
+
+# Make server setup
+$ make setup
+
+# Run unit tests
+$ make tests
 ```
 
 ## General Information

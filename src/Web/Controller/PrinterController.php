@@ -14,6 +14,9 @@ use Jimdo\Reports\Application\ApplicationService;
 
 class PrinterController extends Controller
 {
+    const ERROR_EMPTY_FIELD_INFO = '0';
+    const ERROR_WRONG_PERIOD = '1';
+
     /** @var ViewHelper */
     private $viewHelper;
 
@@ -55,22 +58,27 @@ class PrinterController extends Controller
 
         $profile = $this->appService->findProfileByUserId($this->sessionData('userId'));
 
+        $errorCode = $this->queryParams('error');
         $errorMessages = [];
         $years = [];
         $formDisabled = '';
         if ($profile->jobTitle() === '' || $profile->company() === '' || $profile->startOfTraining() === '') {
             $errorMessages[] = "Bitte fülle Dein Profil zuerst vollständig aus";
             $formDisabled = 'disabled';
-        } else {
-            $time = strtotime($profile->startOfTraining());
-            $startYear = date("Y", $time);
-            $years = [
-                $startYear,
-                $startYear + 1,
-                $startYear + 2,
-                $startYear + 3
-            ];
+        } elseif ($errorCode === PrinterController::ERROR_EMPTY_FIELD_INFO) {
+            $errorMessages[] = 'Bitte fülle die Informationen vollständig aus';
+        } elseif ($errorCode === PrinterController::ERROR_WRONG_PERIOD) {
+            $errorMessages[] = 'Bitte gib einen gültigen Zeitraum an';
         }
+
+        $time = strtotime($profile->startOfTraining());
+        $startYear = date("Y", $time);
+        $years = [
+            $startYear,
+            $startYear + 1,
+            $startYear + 2,
+            $startYear + 3
+        ];
 
         $variables = [
             'tabTitle' => 'Berichtsheft',
@@ -97,6 +105,19 @@ class PrinterController extends Controller
     {
         if (!$this->isTrainee()) {
             $this->redirect('/user');
+        }
+
+        if ($this->formData('download') === 'reports') {
+            if ($this->formData('endYear') < $this->formData('startYear')) {
+                $this->redirect('/printer/print', ['error' => PrinterController::ERROR_WRONG_PERIOD]);
+            }
+        } else {
+            if ($this->formData('forename') === '' ||
+            $this->formData('surname') === '' ||
+            $this->formData('companyStreet') === '' ||
+            $this->formData('companyCity') === '' ) {
+                $this->redirect('/printer/print', ['error' => PrinterController::ERROR_EMPTY_FIELD_INFO]);
+            }
         }
 
         $userId = $this->sessionData('userId');

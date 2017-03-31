@@ -14,4 +14,6 @@ docker run --name reportbook-mongodb \
 echo "Waiting 2 seconds for the MongoDB server..."
 sleep 2
 
-docker run reportbook-mongodb /scripts/setup-mongo-server.sh
+sudo lxc-attach -n "$(docker inspect --format "{{.Id}}" $MY_CONTAINER_NAME)" -- bash -c $MY_COMMAND
+
+docker exec reportbook-mongodb /scripts/setup-mongo-server.sh

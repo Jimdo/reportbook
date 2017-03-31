@@ -9,56 +9,55 @@
     <div class="alert alert-danger" role="alert"><strong>{{ error }}</strong></div>
   {% endfor %}
 
+<div class="scrollable">
   <form action="{{ action }}" method="POST">
     <fieldset>
 
-    <div class="row">
+      <div class="row">
         <label class="col-md-2 control-label" for="calendarWeek">Kalenderwoche: </label>
         <div class="col-md-2">
-            <input class="form-control" type="text" placeholder="Kalenderwoche"
-            {{ readonly }} id="calendarWeek" name="calendarWeek" value="{{ calendarWeek }}"></br>
+          <input class="form-control" type="text" placeholder="Kalenderwoche"
+          {{ readonly }} id="calendarWeek" name="calendarWeek" value="{{ calendarWeek }}"></br>
         </div>
-    </div>
+      </div>
 
-    <div class="row">
+      <div class="row">
         <label class="col-md-2 control-label" for="calendarWeek">Kalenderjahr: </label>
         <div class="col-md-2">
-            <input class="form-control" type="text"
-            {{ readonly }} id="calendarYear" name="calendarYear" value="{{ calendarYear }}"></br>
+          <input class="form-control" type="text"
+          {{ readonly }} id="calendarYear" name="calendarYear" value="{{ calendarYear }}"></br>
         </div>
-    </div>
+      </div>
 
-    <div class="row">
-
+      <div class="row">
         <label class="col-md-2 control-label" for="date">Kategorie: </label>
         <div class="col-md-3">
-
-            <label class="radio-inline">
-                <input {{ radioReadonly }} {{ isCompany }} type="radio" name="category" value="{{ constant('\\Jimdo\\Reports\\Reportbook\\Category::COMPANY') }}">Betrieb
-            </label>
-            <label class="radio-inline">
-                <input {{ radioReadonly }} {{ isSchool }} type="radio" name="category" value="{{ constant('\\Jimdo\\Reports\\Reportbook\\Category::SCHOOL') }}">Schule
-            </label>
-
+          <label class="radio-inline">
+            <input {{ radioReadonly }} {{ isCompany }} type="radio" name="category" value="{{ constant('\\Jimdo\\Reports\\Reportbook\\Category::COMPANY') }}">Betrieb
+          </label>
+          <label class="radio-inline">
+            <input {{ radioReadonly }} {{ isSchool }} type="radio" name="category" value="{{ constant('\\Jimdo\\Reports\\Reportbook\\Category::SCHOOL') }}">Schule
+          </label>
         </div>
-    </div>
+      </div>
 
-    </br>
+      </br>
 
-    <div class="row">
+      <div class="row">
         <label class="col-md-2 control-label" for="calendarWeek">Bericht: </label>
         <div class="col-md-10">
-            <textarea id="content" name="content" class="form-control editable report-content">{{ content|raw }}</textarea></br>
+          <textarea id="content" name="content" class="form-control editable report-content">{{ content|raw }}</textarea></br>
         </div>
-    </div>
+      </div>
 
-    <div class="float-right">
-      <input type="hidden" id="reportId" name="reportId" value="{{ reportId }}" />
-      <button type="submit" class="btn btn-primary button-large">{{ buttonName }}</button>
-    </div>
+      <div class="float-right">
+        <input type="hidden" id="reportId" name="reportId" value="{{ reportId }}" />
+        <button type="submit" class="btn btn-primary button-large">{{ buttonName }}</button>
+      </div>
 
-  </fieldset>
-</form>
+    </fieldset>
+  </form>
+</div>
 
 {% if comments is not null %}
 

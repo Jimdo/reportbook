@@ -13,7 +13,7 @@ machine:
     MYSQL_PASSWORD: 'geheim'
 dependencies:
   override:
-    - pecl install mongodb
+    - pecl install mongo
     - ./scripts/circleci-setup.sh
     - mysql -u root -e 'CREATE DATABASE reportbook_test;'
     - mysql -u root -e "CREATE USER 'reportbook-test'@'localhost' IDENTIFIED BY 'geheim';"

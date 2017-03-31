@@ -2,6 +2,7 @@ machine:
   services:
     - docker
     - mysql
+    - mongod
   php:
     version: '7.0.4'
   environment: 

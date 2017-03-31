@@ -1,7 +1,6 @@
 machine:
   services:
     - docker
-    - mongod
     - mysql
   php:
     version: '7.0.4'

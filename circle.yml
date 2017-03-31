@@ -6,6 +6,7 @@ machine:
     version: '7.0.4'
   environment: 
     MONGO_HOST: '127.0.0.1'
+    MONGO_PORT: '27018'
     MYSQL_DATABASE: 'reportbook_test'
     MYSQL_USER: 'reportbook-test'
     MYSQL_PASSWORD: 'geheim'

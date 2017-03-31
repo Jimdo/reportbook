@@ -7,7 +7,7 @@ pwd
 docker run --name reportbook-mongodb \
     -v reportbook-data:/data/db \
     -v /home/ubuntu/reportbook/scripts:/scripts \
-    -p 27017:27017 \
+    -p $MONGO_PORT:27017 \
     -d mongo --auth
 
 # let the MongoDB server start up...

@@ -42,19 +42,19 @@ class RepositoryFactory
         $this->storage = $this->appConfig->storage;
         $this->serializer = $serializer;
 
-        $mongoUri = sprintf('mongodb://%s:%s@%s:%d/%s'
-        , $this->appConfig->mongoUsername
-        , $this->appConfig->mongoPassword
-        , $this->appConfig->mongoHost
-        , $this->appConfig->mongoPort
-        , $this->appConfig->mongoDatabase
+        if ($this->storage === 'mongo') {
+            $mongoUri = sprintf('mongodb://%s:%s@%s:%d/%s'
+            , $this->appConfig->mongoUsername
+            , $this->appConfig->mongoPassword
+            , $this->appConfig->mongoHost
+            , $this->appConfig->mongoPort
+            , $this->appConfig->mongoDatabase
         );
-
-        $this->mongoClient = new \MongoDB\Client($mongoUri);
-
-        $mysqlUri = "mysql:host={$this->appConfig->mysqlHost};dbname={$this->appConfig->mysqlDatabase}";
-
-        $this->mysqlClient = new \PDO($mysqlUri, $this->appConfig->mysqlUser, $this->appConfig->mysqlPassword);
+            $this->mongoClient = new \MongoDB\Client($mongoUri);
+        } elseif ($this->storage === 'mysql') {
+            $mysqlUri = "mysql:host={$this->appConfig->mysqlHost};dbname={$this->appConfig->mysqlDatabase}";
+            $this->mysqlClient = new \PDO($mysqlUri, $this->appConfig->mysqlUser, $this->appConfig->mysqlPassword);
+        }
     }
 
     /**

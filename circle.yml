@@ -13,13 +13,14 @@ machine:
     MYSQL_PASSWORD: 'geheim'
 dependencies:
   override:
-    - pecl install mongo
+    - pecl install mongodb
     - ./scripts/circleci-setup.sh
     - mysql -u root -e 'CREATE DATABASE reportbook_test;'
     - mysql -u root -e "CREATE USER 'reportbook-test'@'localhost' IDENTIFIED BY 'geheim';"
     - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'reportbook-test'@'localhost';"
     - mysql -u root -e "REVOKE CREATE USER, SUPER ON *.* FROM 'reportbook-test'@'localhost';"
     - mysql -u root reportbook_test < ./scripts/mysql/mysql-dump.sql
+    - echo "extension=mongodb.so" >> /opt/circleci/php/7.0.4/etc/php.ini
     - make bootstrap
 test:
   override:

@@ -21,22 +21,22 @@ if [ -z ${MONGO_DATABASE+x} ]; then
 fi
 
 # Create admin user
-sed "s/PASSWORD/$MONGO_ADMIN_PASSWORD/g" /home/ubuntu/reportbook/scripts/mongo/create-admin-user.js | mongo admin
+sed "s/PASSWORD/$MONGO_ADMIN_PASSWORD/g" ./scripts/mongo/create-admin-user.js | mongo admin
 
 # Create dev user
-sed "s/USERNAME/$MONGO_USERNAME-dev/g" /home/ubuntu/reportbook/scripts/mongo/create-user.js \
+sed "s/USERNAME/$MONGO_USERNAME-dev/g" ./scripts/mongo/create-user.js \
     | sed "s/PASSWORD/$MONGO_PASSWORD/g" \
     | sed "s/DATABASE/${MONGO_DATABASE}_dev/g" \
     | mongo admin -u admin -p $MONGO_ADMIN_PASSWORD
 
 # Create test user
-sed "s/USERNAME/$MONGO_USERNAME-test/g" /home/ubuntu/reportbook/scripts/mongo/create-user.js \
+sed "s/USERNAME/$MONGO_USERNAME-test/g" ./scripts/mongo/create-user.js \
     | sed "s/PASSWORD/$MONGO_PASSWORD/g" \
     | sed "s/DATABASE/${MONGO_DATABASE}_test/g" \
     | mongo admin -u admin -p $MONGO_ADMIN_PASSWORD
 
 # Create collections
-/home/ubuntu/reportbook/scripts/mongo-collections.sh
+./scripts/mongo-collections.sh
 
 # Create unique indices
-/home/ubuntu/reportbook/scripts/mongo-indices.sh
+./scripts/mongo-indices.sh

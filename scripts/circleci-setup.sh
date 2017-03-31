@@ -14,4 +14,4 @@ docker run --name reportbook-mongodb \
 echo "Waiting 2 seconds for the MongoDB server..."
 sleep 2
 
-docker exec reportbook-mongodb /scripts/setup-mongo-server.sh
+docker run reportbook-mongodb /scripts/setup-mongo-server.sh

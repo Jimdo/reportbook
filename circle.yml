@@ -18,3 +18,8 @@ dependencies:
 test:
   override:
     - ./scripts/run-tests-circleci.sh
+deployment:
+  wonderland:
+    branch: master
+    commands:
+      - make deploy

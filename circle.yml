@@ -1,0 +1,25 @@
+machine:
+  services:
+    - docker
+    - mysql
+    - mongod
+  php:
+    version: '7.0.4'
+  environment: 
+    MONGO_HOST: '127.0.0.1'
+    MYSQL_DATABASE: 'reportbook_test'
+    MYSQL_USER: 'reportbook-test'
+    MYSQL_PASSWORD: 'geheim'
+dependencies:
+  override:
+    - pecl install mongodb
+    - ./scripts/circleci-setup.sh
+    - make bootstrap
+test:
+  override:
+    - ./scripts/run-tests-circleci.sh
+deployment:
+  wonderland:
+    branch: master
+    commands:
+      - make deploy

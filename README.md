@@ -1,6 +1,6 @@
 # Reportbook
 
-[![Build Status](https://travis-ci.org/Jimdo/reportbook.svg?branch=master)](https://travis-ci.org/Jimdo/reportbook)
+[![CircleCI](https://circleci.com/gh/Jimdo/reportbook/tree/master.svg?style=svg)](https://circleci.com/gh/Jimdo/reportbook/tree/master)
 
 A report book as a service.
 
@@ -186,3 +186,4 @@ update          Update composer packages
 
 ### v0.7.1
   - Implement PrintService to create PDF files
+  - Implement RepositoryFactory

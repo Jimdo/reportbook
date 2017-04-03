@@ -186,3 +186,4 @@ update          Update composer packages
 
 ### v0.7.1
   - Implement PrintService to create PDF files
+  - Implement RepositoryFactory

@@ -21,7 +21,5 @@ test:
 deployment:
   wonderland:
     branch: master
-    environment:
-      Hase: 'Ja ich bin ein Key und auch vorhanden'
     commands:
       - make deploy

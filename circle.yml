@@ -18,6 +18,10 @@ dependencies:
 test:
   override:
     - ./scripts/run-tests-circleci.sh
+    - export WONDERLAND_PASS=$(WONDERLAND_PASS)
+    - export WONDERLAND_USER=$(WONDERLAND_USER)
+    - export DOCKER_LOGIN=$(DOCKER_LOGIN)
+    - export DOCKER_PASSWORD=$(DOCKER_PASSWORD)
 deployment:
   wonderland:
     branch: master

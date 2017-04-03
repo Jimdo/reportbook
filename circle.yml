@@ -15,12 +15,13 @@ dependencies:
     - pecl install mongodb
     - ./scripts/circleci-setup.sh
     - make bootstrap
-    - ./scripts/circle-variables.sh
 test:
   override:
     - ./scripts/run-tests-circleci.sh
 deployment:
   wonderland:
     branch: master
+    environment:
+      Hase: 'Ja ich bin ein Key und auch vorhanden'
     commands:
       - make deploy

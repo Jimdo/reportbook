@@ -1,0 +1,11 @@
+#!/bin/sh
+
+export WONDERLAND_PASS=$WONDERLAND_PASS
+
+export WONDERLAND_USER=$WONDERLAND_USER
+
+export DOCKER_LOGIN=$DOCKER_LOGIN
+
+export DOCKER_PASSWORD=$DOCKER_PASSWORD
+
+echo "Exporting Variables for CircleCi"

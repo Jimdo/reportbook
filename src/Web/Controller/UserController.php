@@ -107,13 +107,13 @@ class UserController extends Controller
         $filename = $_FILES['fileToUpload']['name'];
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-        if (!in_array($ext,$allowed)) {
+        if (!in_array($ext,$allowed) || $_FILES["fileToUpload"]['type'] === '') {
             $exceptions[] = "Folgende File-Typen sind erlaubt: JPG, JPEG, PNG.";
             $uploadOk = false;
         }
 
-        if ($_FILES["fileToUpload"]["size"] > 1000000) {
-            $exceptions[] = "Das Bild darf maximal 1MB groß sein!";
+        if ($_FILES["fileToUpload"]["size"] > 2000000) {
+            $exceptions[] = "Das Bild darf maximal 2MB groß sein!";
             $uploadOk = false;
         }
 
@@ -143,6 +143,7 @@ class UserController extends Controller
             'hideInfos' => true,
             'isTrainee' => $this->isTrainee(),
             'profile' => $profile,
+            'errorMessages' => $exceptions,
             'user' => $user
         ];
 

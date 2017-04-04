@@ -31,6 +31,7 @@
   printer_output: /tests/Printer/Pdf
   printer_output_type: file
   storage: mysql
+  selenium_ip: '192.168.99.100'
 'dev':
   mongo_username: reportbook-dev
   mongo_password: geheim

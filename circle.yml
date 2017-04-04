@@ -12,8 +12,6 @@ machine:
     MYSQL_PASSWORD: 'geheim'
     SELENIUM_IP: '127.0.0.1'
 dependencies:
-  pre:
-    - ./scripts/circleci-selenium-setup.sh
   override:
     - pecl install mongodb
     - ./scripts/circleci-setup.sh

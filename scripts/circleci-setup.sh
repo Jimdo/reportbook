@@ -9,8 +9,6 @@ curl http://chromedriver.storage.googleapis.com/2.23/chromedriver_linux64.zip | 
 
 chmod +x chromedriver
 
-javaw -jar selenium-server-standalone.jar -trustAllSSLCertificates -Dwebdriver.chrome.driver=chromedriver
-
 # Update Google Chrome.
 wget -q -O https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
 

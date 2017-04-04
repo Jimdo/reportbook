@@ -16,7 +16,7 @@ dependencies:
     - pecl install mongodb
     - ./scripts/circleci-setup.sh
     - 'java -jar selenium-server-standalone.jar -trustAllSSLCertificates -Dwebdriver.chrome.driver=chromedriver':
-      background: true
+          background: true
     - make bootstrap
 test:
   override:

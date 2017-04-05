@@ -28,7 +28,7 @@ class UserControllerTest extends TestCase
         $capabilities = array(\WebDriverCapabilityType::BROWSER_NAME => 'firefox');
         $this->webDriver = \RemoteWebDriver::create('http://' . $this->appConfig->seleniumIp . ':4444/wd/hub', $capabilities);
         
-        $this->url = 'http://' . $this->appConfig->seleniumIp . '/';
+        $this->url = 'http://' . '192.168.99.100' . '/';
 
         // We have to look in the dev database because the server is running in dev environment
         $this->appEnvBackup = getenv('APPLICATION_ENV');

@@ -47,6 +47,7 @@ class UserControllerTest extends TestCase
     public function itShouldTestPageTitle()
     {
         $this->webDriver->get("{$this->url}/user");
+        sleep(5);
         $this->assertContains('Berichtsheft', $this->webDriver->getTitle());
     }
     
@@ -55,6 +56,7 @@ class UserControllerTest extends TestCase
      */
     public function itShouldUploadImage()
     {
+        echo $this->url;
         $serializer = new Serializer();
 
         $repositoryFactory = new RepositoryFactory($this->appConfig, $serializer);

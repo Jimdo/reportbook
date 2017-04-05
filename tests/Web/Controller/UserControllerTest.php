@@ -9,6 +9,9 @@ use Jimdo\Reports\RepositoryFactory;
 
 class UserControllerTest extends TestCase
 {
+    /** @var string */
+    private $appEnvBackup;
+
     /** @var ApplicationConfig */
     private $appConfig;
 
@@ -26,10 +29,15 @@ class UserControllerTest extends TestCase
         $this->webDriver = \RemoteWebDriver::create('http://' . $this->appConfig->seleniumIp . ':4444/wd/hub', $capabilities);
         
         $this->url = 'http://' . $this->appConfig->seleniumIp . '/';
+
+        // We have to look in the dev database because the server is running in dev environment
+        $this->appEnvBackup = getenv('APPLICATION_ENV');
+        putenv('APPLICATION_ENV=dev');
     }
 
     protected function tearDown()
     {
+        putenv($this->appEnvBackup);
         $this->webDriver->quit();
     }
 
@@ -47,9 +55,6 @@ class UserControllerTest extends TestCase
      */
     public function itShouldUploadImage()
     {
-        // We have to look in the dev database because the server is running in dev environment
-        putenv('APPLICATION_ENV=dev');
-
         $serializer = new Serializer();
 
         $repositoryFactory = new RepositoryFactory($this->appConfig, $serializer);

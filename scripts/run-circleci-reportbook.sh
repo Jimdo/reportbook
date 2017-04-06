@@ -17,6 +17,6 @@ docker run -d \
     -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
     -e MAILGUN_DOMAIN=$MAILGUN_DOMAIN \
     -e MAILGUN_KEY=$MAILGUN_KEY \
-    -e REPORTBOOK_IP=$REPORTBOOK_IP \
+    -e REPORTBOOK_IP=$(docker-machine ip) \
     -v $(pwd)/:/var/www/ \
     jimdo/reportbook

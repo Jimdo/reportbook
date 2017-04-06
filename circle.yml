@@ -18,7 +18,7 @@ dependencies:
     - 'java -jar selenium-server-standalone.jar -trustAllSSLCertificates -Dwebdriver.chrome.driver=chromedriver':
           background: true
     - make bootstrap
-    - ./scripts/circleci-apache-server.sh
+    - ./scripts/run-circleci-reportbook.sh
 test:
   override:
     - ./scripts/run-tests-circleci.sh

@@ -75,11 +75,6 @@ class UserControllerTest extends TestCase
 
         $this->webDriver->getKeyboard()->pressKey(\WebDriverKeys::ENTER);
 
-        $this->assertEquals(
-        	"{$this->url}user/changePassword", 
-        	$this->webDriver->getCurrentURL()
-        );
-
         // Upload Picture process
         $linkToProfile = $this->webDriver->findElement(\WebDriverBy::partialLinkText("Profil"));
         $linkToProfile->click();
@@ -89,8 +84,14 @@ class UserControllerTest extends TestCase
         );    
         $editPicture->click();
 
-        $user = $userRepository->findUserByUsername('admin');
+        $fileInput = $this->webDriver->findElement(\WebDriverBy::id('fileToUpload'));
+
+        $fileInput->setFileDetector(new \LocalFileDetector());
+
+        $fileInput->sendKeys('/var/www/tests/Web/Controller/test-picture.png')->submit();
         
+        $user = $userRepository->findUserByUsername('admin');
+        $profile = $profileRepository->findProfileByUserId($user->id());
         $baseOfProfilePicture = $profileRepository->findProfileByUserId($user->id())->image();
         $baseOfFile = base64_encode(file_get_contents('/var/www/tests/Web/Controller/test-picture.png'));
         

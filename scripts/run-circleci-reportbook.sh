@@ -7,9 +7,7 @@ then
     source .env
 fi
 
-export REPORTBOOK_IP=$(docker-machine ip)
-
-docker run -d --rm \
+docker run -d \
     -p 90:80 \
     -e APPLICATION_ENV=$APPLICATION_ENV \
     -e MONGO_HOST=$MONGO_HOST \

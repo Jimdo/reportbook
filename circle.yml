@@ -11,7 +11,7 @@ machine:
     MYSQL_USER: 'reportbook-test'
     MYSQL_PASSWORD: 'geheim'
     SELENIUM_IP: '127.0.0.1'
-    REPORTBOOK_IP: $(docker machine ip)
+    REPORTBOOK_IP: $(docker-machine ip)
 dependencies:
   override:
     - pecl install mongodb

@@ -55,7 +55,6 @@ class UserControllerTest extends TestCase
      */
     public function itShouldUploadImage()
     {
-        echo $this->url;
         $serializer = new Serializer();
 
         $repositoryFactory = new RepositoryFactory($this->appConfig, $serializer);

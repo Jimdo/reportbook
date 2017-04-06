@@ -19,7 +19,6 @@ dependencies:
           background: true
     - make bootstrap
     - ./scripts/circle-apache-server.sh
-          background: true
 test:
   override:
     - ./scripts/run-tests-circleci.sh

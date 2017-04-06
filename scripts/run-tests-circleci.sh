@@ -5,7 +5,7 @@ if [ -z ${MONGO_HOST+x} ]; then
 fi
 
 if [ -z ${MYSQL_HOST+x} ]; then
-  export MYSQL_HOST=127.0.0.1
+  export MYSQL_HOST=$(docker-machine ip)
 fi
 
 if [ -z ${REPORTBOOK_IP+x} ]; then

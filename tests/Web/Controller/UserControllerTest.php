@@ -25,7 +25,7 @@ class UserControllerTest extends TestCase
     {
         $this->appConfig = new ApplicationConfig(__DIR__ . '/../../../config.yml');
 
-        echo 'xxx' . $this->appConfig->reportbookIp . 'xxx';
+        echo $this->appConfig->reportbookIp;
         $capabilities = array(\WebDriverCapabilityType::BROWSER_NAME => 'chrome');
         $this->webDriver = \RemoteWebDriver::create('http://' . $this->appConfig->seleniumIp . ':4444/wd/hub', $capabilities);
         

@@ -11,8 +11,8 @@ machine:
     MYSQL_HOST: '127.0.0.1'
     MYSQL_USER: 'reportbook-test'
     MYSQL_PASSWORD: 'geheim'
-    # SELENIUM_IP: '192.168.99.100'
-    # REPORTBOOK_IP: '127.0.0.1'
+    SELENIUM_IP: '127.0.0.1'
+    REPORTBOOK_IP: '192.168.99.100'
 dependencies:
   override:
     - pecl install mongodb

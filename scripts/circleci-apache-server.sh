@@ -17,5 +17,5 @@ docker run -it --rm \
     -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
     -e MAILGUN_DOMAIN=$MAILGUN_DOMAIN \
     -e MAILGUN_KEY=$MAILGUN_KEY \
-    -v $(PWD)/:/var/www/ \
+    -v $(pwd)/:/var/www/ \
     jimdo/reportbook

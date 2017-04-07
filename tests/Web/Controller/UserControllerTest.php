@@ -28,7 +28,7 @@ class UserControllerTest extends TestCase
         echo $this->appConfig->reportbookIp;
         $capabilities = array(\WebDriverCapabilityType::BROWSER_NAME => 'chrome');
         $this->webDriver = \RemoteWebDriver::create('http://' . $this->appConfig->seleniumIp . ':4444/wd/hub', $capabilities);
-        
+
         $this->url = 'http://' . $this->appConfig->reportbookIp . '/';
 
         // We have to look in the dev database because the server is running in dev environment
@@ -59,7 +59,7 @@ class UserControllerTest extends TestCase
         $serializer = new Serializer();
 
         $repositoryFactory = new RepositoryFactory($this->appConfig, $serializer);
-        
+
         $profileRepository = $repositoryFactory->createProfileRepository();
         $userRepository = $repositoryFactory->createUserRepository();
 
@@ -89,12 +89,12 @@ class UserControllerTest extends TestCase
 
         $fileInput->setFileDetector(new \LocalFileDetector());
 
-        $fileInput->sendKeys('/var/www/tests/Web/Controller/test-picture.png')->submit();
+        $fileInput->sendKeys('./tests/Web/Controller/test-picture.png')->submit();
 
         $user = $userRepository->findUserByUsername('admin');
         $profile = $profileRepository->findProfileByUserId($user->id());
         $baseOfProfilePicture = $profileRepository->findProfileByUserId($user->id())->image();
-        $baseOfFile = base64_encode(file_get_contents('/var/www/tests/Web/Controller/test-picture.png'));
+        $baseOfFile = base64_encode(file_get_contents('./tests/Web/Controller/test-picture.png'));
 
         $this->assertEquals($baseOfFile, $baseOfProfilePicture);
     }

@@ -9,6 +9,7 @@ fi
 
 docker run -d \
     -p 80:80 \
+    -h 127.0.0.1 \
     -e APPLICATION_ENV=$APPLICATION_ENV \
     -e MONGO_HOST=$MONGO_HOST \
     -e MYSQL_HOST=$MYSQL_HOST \

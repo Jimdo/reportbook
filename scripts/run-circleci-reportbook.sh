@@ -7,6 +7,16 @@ then
     source .env
 fi
 
+echo $(pwd)
+
+ls -l
+
+cd tests/Web/Controller
+
+ls -l
+
+cd --
+
 docker run -d --net=host \
     -p 27017:27017 \
     -e APPLICATION_ENV=$APPLICATION_ENV \

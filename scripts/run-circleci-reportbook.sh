@@ -7,7 +7,7 @@ then
     source .env
 fi
 
-pwd
+echo $(pwd)
 
 docker run -d --net=host \
     -p 80:80 \

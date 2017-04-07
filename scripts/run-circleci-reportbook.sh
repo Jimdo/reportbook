@@ -9,6 +9,7 @@ fi
 
 docker run -d \
     -p 80:80 \
+    -p 27017:27017 \
     -h 127.0.0.1 \
     -e APPLICATION_ENV=$APPLICATION_ENV \
     -e MONGO_HOST=$MONGO_HOST \

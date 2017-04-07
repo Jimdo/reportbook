@@ -19,5 +19,4 @@ docker run -d --net=host \
     -e MAILGUN_DOMAIN=$MAILGUN_DOMAIN \
     -e MAILGUN_KEY=$MAILGUN_KEY \
     -v $(pwd)/:/var/www/ \
-    -v ./tests/:/var/www/tests \
     jimdo/reportbook

@@ -5,7 +5,7 @@ machine:
     - mongod
   php:
     version: '7.0.4'
-  environment: 
+  environment:
     MONGO_HOST: '127.0.0.1'
     MYSQL_DATABASE: 'reportbook_test'
     MYSQL_HOST: '127.0.0.1'
@@ -15,12 +15,11 @@ machine:
     REPORTBOOK_IP: '127.0.0.1'
 dependencies:
   override:
-    - pecl install mongodb
+    - make bootstrap
     - ./scripts/circleci-setup.sh
     - wget https://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
     - java -jar selenium-server-standalone-2.44.0.jar:
           background: true
-    - make bootstrap
     - ./scripts/run-circleci-reportbook.sh
 test:
   override:

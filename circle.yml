@@ -1,27 +1,21 @@
 machine:
   services:
     - docker
-    - mysql
-    - mongod
   php:
     version: '7.0.4'
   environment: 
-    MONGO_HOST: '127.0.0.1'
-    MYSQL_DATABASE: 'reportbook_test'
-    MYSQL_HOST: '127.0.0.1'
-    MYSQL_USER: 'reportbook-test'
-    MYSQL_PASSWORD: 'geheim'
+    MONGO_HOST: mongo
+    MYSQL_HOST: mysql
     SELENIUM_IP: '127.0.0.1'
     REPORTBOOK_IP: '127.0.0.1'
 dependencies:
   override:
-    - pecl install mongodb
-    - ./scripts/circleci-setup.sh
+    - make server
+    - make setup
     - wget https://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
     - java -jar selenium-server-standalone-2.44.0.jar:
           background: true
     - make bootstrap
-    - ./scripts/run-circleci-reportbook.sh
 test:
   override:
     - ./scripts/run-tests-circleci.sh

@@ -7,16 +7,6 @@ then
     source .env
 fi
 
-echo $(pwd)
-
-ls -l
-
-cd tests/Web/Controller
-
-ls -l
-
-cd --
-
 docker run -d --net=host \
     -p 27017:27017 \
     -e APPLICATION_ENV=$APPLICATION_ENV \
@@ -27,5 +17,4 @@ docker run -d --net=host \
     -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
     -e MAILGUN_DOMAIN=$MAILGUN_DOMAIN \
     -e MAILGUN_KEY=$MAILGUN_KEY \
-    -v /$(pwd)/tests/:/var/www/tests \
     jimdo/reportbook

@@ -35,4 +35,6 @@ COPY app/ /var/www/app
 
 COPY src/ /var/www/src
 
+COPY tests/ /var/www/tests
+
 RUN chown -R www-data:www-data *

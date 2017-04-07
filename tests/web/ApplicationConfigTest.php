@@ -7,10 +7,20 @@ use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 
 class ApplicationConfigTest extends TestCase
 {
+    private $applicationEnvBackup;
+
+    private $mongoUriBackup;
+
+    public function setUp()
+    {
+        $this->applicationEnvBackup = getenv('APPLICATION_ENV');
+        $this->mongoUriBackup = getenv('MONGO_URI');
+    }
+
     public function tearDown()
     {
-        putenv("APPLICATION_ENV");
-        putenv("MONGO_URI");
+        putenv("APPLICATION_ENV=$this->applicationEnvBackup");
+        putenv("MONGO_URI=$this->mongoUriBackup");
     }
 
     /**
@@ -69,10 +79,11 @@ class ApplicationConfigTest extends TestCase
      */
     public function itShouldThrowExceptionIfVariableNotFound()
     {
+        putenv('APPLICATION_ENV');
         $path = realpath(__DIR__ . '/../fixtures/config.yml');
 
         $appConfig = new ApplicationConfig($path);
 
-        $appConfig->thowException;
+        $appConfig->throwException;
     }
 }

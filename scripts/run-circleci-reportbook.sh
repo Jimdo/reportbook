@@ -18,4 +18,7 @@ docker run -d \
     -e MAILGUN_DOMAIN=$MAILGUN_DOMAIN \
     -e MAILGUN_KEY=$MAILGUN_KEY \
     -v $(pwd)/:/var/www/ \
+    -v ./scripts:/var/www/scripts/
     jimdo/reportbook
+
+docker run jimdo/reportbook ./scripts/circleci-setup.sh

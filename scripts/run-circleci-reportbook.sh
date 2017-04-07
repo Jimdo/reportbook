@@ -17,5 +17,5 @@ docker run -d --net=host \
     -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
     -e MAILGUN_DOMAIN=$MAILGUN_DOMAIN \
     -e MAILGUN_KEY=$MAILGUN_KEY \
-    -v $(pwd)/tests/Web/Controller/test-picture.png:/var/www/tests/Web/Controller/test-picture.png \
+    -v /$(pwd)/tests/:/var/www/tests \
     jimdo/reportbook

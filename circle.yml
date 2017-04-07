@@ -15,11 +15,11 @@ machine:
     REPORTBOOK_IP: '127.0.0.1'
 dependencies:
   override:
-    - make bootstrap
     - ./scripts/circleci-setup.sh
     - wget https://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
     - java -jar selenium-server-standalone-2.44.0.jar:
           background: true
+    - make bootstrap
     - ./scripts/run-circleci-reportbook.sh
 test:
   override:

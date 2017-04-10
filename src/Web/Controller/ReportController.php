@@ -228,6 +228,8 @@ class ReportController extends Controller
                 }
                 if ($this->queryParams('userId') !== null) {
                     $currentUserId = $this->queryParams('userId');
+                } elseif ($users === []) {
+                    $currentUserId = '';
                 } else {
                     $currentUserId = $traineeInfo[0]['id'];
                 }

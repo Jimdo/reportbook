@@ -1,13 +1,13 @@
 <?php
 
-namespace Jimdo\Web\Controller;
+namespace Jimdo\Reports\stories;
 
 use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Serializer;
 use Jimdo\Reports\RepositoryFactory;
 
-class UserControllerTest extends TestCase
+class ProfileFrontendTest extends TestCase
 {
     /** @var string */
     private $appEnvBackup;
@@ -23,7 +23,7 @@ class UserControllerTest extends TestCase
 
 	protected function setUp()
     {
-        $this->appConfig = new ApplicationConfig(__DIR__ . '/../../../config.yml');
+        $this->appConfig = new ApplicationConfig(__DIR__ . '/../../config.yml');
 
         $capabilities = array(\WebDriverCapabilityType::BROWSER_NAME => 'chrome');
         $this->webDriver = \RemoteWebDriver::create('http://' . $this->appConfig->seleniumIp . ':4444/wd/hub', $capabilities);
@@ -37,7 +37,7 @@ class UserControllerTest extends TestCase
 
     protected function tearDown()
     {
-        putenv($this->appEnvBackup);
+        putenv("APPLICATION_ENV={$this->appEnvBackup}");
         $this->webDriver->quit();
     }
 
@@ -56,23 +56,20 @@ class UserControllerTest extends TestCase
     public function itShouldUploadImage()
     {
         $serializer = new Serializer();
-
         $repositoryFactory = new RepositoryFactory($this->appConfig, $serializer);
-
         $profileRepository = $repositoryFactory->createProfileRepository();
         $userRepository = $repositoryFactory->createUserRepository();
 
         // Login process
         $this->webDriver->get("{$this->url}/user");
-
         $username = $this->webDriver->findElement(\WebDriverBy::id('identifier'));
         $username->click();
-        $this->webDriver->getKeyboard()->sendKeys('admin');
 
+        $this->webDriver->getKeyboard()->sendKeys('admin');
         $password = $this->webDriver->findElement(\WebDriverBy::id('password'));
         $password->click();
-        $this->webDriver->getKeyboard()->sendKeys('Adminadmin123');
 
+        $this->webDriver->getKeyboard()->sendKeys('Adminadmin123');
         $this->webDriver->getKeyboard()->pressKey(\WebDriverKeys::ENTER);
 
         // Upload Picture process
@@ -85,15 +82,13 @@ class UserControllerTest extends TestCase
         $editPicture->click();
 
         $fileInput = $this->webDriver->findElement(\WebDriverBy::id('fileToUpload'));
-
         $fileInput->setFileDetector(new \LocalFileDetector());
-
-        $fileInput->sendKeys('./tests/Web/Controller/test-picture.png')->submit();
+        $fileInput->sendKeys('./tests/stories/test-picture.png')->submit();
 
         $user = $userRepository->findUserByUsername('admin');
         $profile = $profileRepository->findProfileByUserId($user->id());
         $baseOfProfilePicture = $profileRepository->findProfileByUserId($user->id())->image();
-        $baseOfFile = base64_encode(file_get_contents('./tests/Web/Controller/test-picture.png'));
+        $baseOfFile = base64_encode(file_get_contents('./tests/stories/test-picture.png'));
 
         $this->assertEquals($baseOfFile, $baseOfProfilePicture);
     }

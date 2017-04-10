@@ -25,7 +25,7 @@ class UserControllerTest extends TestCase
     {
         $this->appConfig = new ApplicationConfig(__DIR__ . '/../../../config.yml');
 
-        $capabilities = array(\WebDriverCapabilityType::BROWSER_NAME => 'firefox');
+        $capabilities = array(\WebDriverCapabilityType::BROWSER_NAME => 'chrome');
         $this->webDriver = \RemoteWebDriver::create('http://' . $this->appConfig->seleniumIp . ':4444/wd/hub', $capabilities);
 
         $this->url = 'http://' . $this->appConfig->reportbookIp . '/';
@@ -84,15 +84,9 @@ class UserControllerTest extends TestCase
         );
         $editPicture->click();
 
-        sleep(10);
-
         $fileInput = $this->webDriver->findElement(\WebDriverBy::id('fileToUpload'));
-
         $fileInput->setFileDetector(new \LocalFileDetector());
-
         $fileInput->sendKeys('./tests/Web/Controller/test-picture.png')->submit();
-
-        sleep(10);
 
         $user = $userRepository->findUserByUsername('admin');
         $profile = $profileRepository->findProfileByUserId($user->id());

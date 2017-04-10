@@ -37,7 +37,7 @@ class ProfileFrontendTest extends TestCase
 
     protected function tearDown()
     {
-        putenv("APPLICATION_ENV=$this->appEnvBackup");
+        putenv("APPLICATION_ENV=test");
         $this->webDriver->quit();
     }
 

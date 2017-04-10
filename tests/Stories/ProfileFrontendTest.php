@@ -1,6 +1,6 @@
 <?php
 
-namespace Jimdo\Stories;
+namespace Jimdo\Reports\Stories;
 
 use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\Web\ApplicationConfig;

@@ -83,12 +83,12 @@ class ProfileFrontendTest extends TestCase
 
         $fileInput = $this->webDriver->findElement(\WebDriverBy::id('fileToUpload'));
         $fileInput->setFileDetector(new \LocalFileDetector());
-        $fileInput->sendKeys('./tests/Stories/test-picture.png')->submit();
+        $fileInput->sendKeys('./tests/stories/test-picture.png')->submit();
 
         $user = $userRepository->findUserByUsername('admin');
         $profile = $profileRepository->findProfileByUserId($user->id());
         $baseOfProfilePicture = $profileRepository->findProfileByUserId($user->id())->image();
-        $baseOfFile = base64_encode(file_get_contents('./tests/Stories/test-picture.png'));
+        $baseOfFile = base64_encode(file_get_contents('./tests/stories/test-picture.png'));
 
         $this->assertEquals($baseOfFile, $baseOfProfilePicture);
     }

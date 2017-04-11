@@ -3,6 +3,34 @@
     <testsuite name="everything">
       <directory>tests</directory>
     </testsuite>
+    <testsuite name="unit">
+      <file>tests/Notification/DummySubscriberTest.php</file>
+      <file>tests/Notification/LoggingSubscriberTest.php</file>
+      <file>tests/Profile/ProfileTest.php</file>
+      <file>tests/Reportbook/ReportTest.php</file>
+      <file>tests/Reportbook/CommentTest.php</file>
+      <file>tests/User/UserTest.php</file>
+      <file>tests/web/ViewHelperTest.php</file>
+      <file>tests/web/RequestTest.php</file>
+      <file>tests/web/RequestValidatorTest.php</file>
+      <file>tests/web/RouterTest.php</file>
+      <file>tests/web/ViewTest.php</file>
+      <file>tests/SerializerTest.php</file>
+      <directory suffix=".php">tests/User/PasswordConstraints</directory>
+      <directory suffix=".php">tests/User/PasswordStrategy</directory>
+      <directory suffix=".php">tests/web/Validator</directory>
+      <directory suffix=".php">tests/Notification/Events</directory>
+    </testsuite>
+    <testsuite name="integration">
+      <file>tests/Notification/PapertrailSubscriberTest.php</file>
+      <file>tests/web/ControllerTest.php</file>
+      <directory suffix="MongoRepositoryTest.php">tests</directory>
+      <directory suffix="MySQLRepositoryTest.php">tests</directory>
+      <directory suffix="ServiceTest.php">tests</directory>
+    </testsuite>
+    <testsuite name="end2end">
+      <directory suffix=".php">tests/stories</directory>
+    </testsuite>
   </testsuites>
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">

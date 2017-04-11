@@ -7,7 +7,7 @@ then
     source .env
 fi
 
-docker run -d \
+docker run -d --net=host \
     -p 27017:27017 \
     -e APPLICATION_ENV=$APPLICATION_ENV \
     -e MONGO_HOST=$MONGO_HOST \

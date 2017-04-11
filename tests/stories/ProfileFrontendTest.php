@@ -24,10 +24,6 @@ class ProfileFrontendTest extends TestCase
 	protected function setUp()
     {
         $this->appConfig = new ApplicationConfig(__DIR__ . '/../../config.yml');
-
-        $capabilities = array(\WebDriverCapabilityType::BROWSER_NAME => 'chrome');
-        $this->webDriver = \RemoteWebDriver::create('http://' . $this->appConfig->seleniumIp . ':4444/wd/hub', $capabilities);
-
         $this->url = 'http://' . $this->appConfig->reportbookIp . '/';
 
         // We have to look in the dev database because the server is running in dev environment
@@ -44,16 +40,33 @@ class ProfileFrontendTest extends TestCase
     /**
      * @test
      */
-    public function itShouldTestPageTitle()
+    public function itShouldTestWithFirefox()
     {
-        $this->webDriver->get("{$this->url}/user");
-        $this->assertContains('Berichtsheft', $this->webDriver->getTitle());
+        $capabilities = array(\WebDriverCapabilityType::BROWSER_NAME => 'firefox');
+        $this->webDriver = \RemoteWebDriver::create('http://' . $this->appConfig->seleniumIp . ':4444/wd/hub', $capabilities);
+
+        $this->pageTitle();
     }
 
     /**
      * @test
      */
-    public function itShouldUploadImage()
+    public function itShouldTestWithChrome()
+    {
+        $capabilities = array(\WebDriverCapabilityType::BROWSER_NAME => 'chrome');
+        $this->webDriver = \RemoteWebDriver::create('http://' . $this->appConfig->seleniumIp . ':4444/wd/hub', $capabilities);
+
+        $this->pageTitle();
+        $this->uploadImage();
+    }
+
+    private function pageTitle()
+    {
+        $this->webDriver->get("{$this->url}/user");
+        $this->assertContains('Berichtsheft', $this->webDriver->getTitle());
+    }
+
+    private function uploadImage()
     {
         $serializer = new Serializer();
         $repositoryFactory = new RepositoryFactory($this->appConfig, $serializer);

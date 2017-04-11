@@ -12,15 +12,12 @@ machine:
     MYSQL_USER: 'reportbook-test'
     MYSQL_PASSWORD: 'geheim'
     SELENIUM_IP: '127.0.0.1'
-    REPORTBOOK_IP: '127.0.0.1'
 dependencies:
   override:
     - pecl install mongodb
     - ./scripts/circleci-setup.sh
     - make bootstrap
-    - wget https://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
-    - java -jar selenium-server-standalone-2.44.0.jar:
-          background: true
+    - ./scripts/selenium-setup-circleci.sh
     - ./scripts/run-circleci-reportbook.sh
 test:
   override:

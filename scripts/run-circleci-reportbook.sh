@@ -7,9 +7,8 @@ then
     source .env
 fi
 
-docker run -d --net=host \
+docker run -d --link selenium-hub:hub --net=host \
     -p 27017:27017 \
-    -p 80:80 \
     -e APPLICATION_ENV=$APPLICATION_ENV \
     -e MONGO_HOST=$MONGO_HOST \
     -e MYSQL_HOST=$MYSQL_HOST \

@@ -7,7 +7,7 @@ then
     source .env
 fi
 
-docker run -d --link selenium-hub:hub \
+docker run -d \
     -p 27017:27017 \
     -e APPLICATION_ENV=$APPLICATION_ENV \
     -e MONGO_HOST=$MONGO_HOST \

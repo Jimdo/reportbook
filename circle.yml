@@ -18,9 +18,13 @@ dependencies:
     - pecl install mongodb
     - ./scripts/circleci-setup.sh
     - make bootstrap
-    - wget https://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
-    - java -jar selenium-server-standalone-2.44.0.jar:
-          background: true
+    - curl http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.1.jar > selenium-server-standalone.jar
+    - curl http://chromedriver.storage.googleapis.com/2.23/chromedriver_linux64.zip | gzip -dc > chromedriver
+    - chmod +x chromedriver
+    - curl https://github.com/mozilla/geckodriver/releases/download/v0.15.0/geckodriver-v0.15.0-linux64.tar.gz | gzip -dc > firefoxdriver
+    - chmod +x firefoxdriver
+    - 'java -jar selenium-server-standalone.jar -trustAllSSLCertificates':
+            background: true
     - ./scripts/run-circleci-reportbook.sh
 test:
   override:

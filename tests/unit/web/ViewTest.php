@@ -12,7 +12,7 @@ class ViewTest extends TestCase
      */
     public function itShouldRenderGivenTemplates()
     {
-        $view = new View('tests/Web/ViewFixture.php');
+        $view = new View('tests/web/ViewFixture.php');
         $view->name = $expectedName = 'Horst';
         $view->content = $expectedContent = 'ABC';
 

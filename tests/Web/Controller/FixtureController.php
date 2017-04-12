@@ -1,7 +1,9 @@
 <?php
 
 namespace Jimdo\Reports\Web\Controller;
-use Jimdo\Reports\Web\Request as Request;
+
+use Jimdo\Reports\Web\Request;
+
 class FixtureController extends Controller
 {
     public function testAction()

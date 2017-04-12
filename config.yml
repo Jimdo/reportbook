@@ -21,14 +21,14 @@
   mongo_database: reportbook_test
   mongo_port: 27017
   default_profile: app/default_profile.jpg
-  log_path: tests/Notification/log.txt
+  log_path: tests/unit/Notification/log.txt
   template_path: /Controller/Views
   cache_path: /var/www/src/Web/Cache
   mysql_database: reportbook_test
   mysql_user: reportbook-test
   mysql_password: geheim
   printer_templates: /Templates
-  printer_output: /tests/Printer/Pdf
+  printer_output: /tests/functional/Printer/Pdf
   printer_output_type: file
   storage: mysql
 'dev':

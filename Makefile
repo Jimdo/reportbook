@@ -15,11 +15,11 @@ tests: ## Execute test suite and create code coverage report
 unit-tests: ## Execute test suite and create code coverage report
 	./scripts/run-testsuite.sh unit
 
-integration-tests: ## Execute test suite and create code coverage report
-	./scripts/run-testsuite.sh integration
+functional-tests: ## Execute test suite and create code coverage report
+	./scripts/run-testsuite.sh functional
 
-end2end-tests: ## Execute test suite and create code coverage report
-	./scripts/run-testsuite.sh end2end
+story-tests: ## Execute test suite and create code coverage report
+	./scripts/run-testsuite.sh stories
 
 update: ## Update composer packages
 	./scripts/composer update

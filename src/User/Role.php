@@ -4,7 +4,7 @@ namespace Jimdo\Reports\User;
 
 class Role
 {
-    /** @var */
+    /** @var string */
     private $name;
 
     /** @var string */

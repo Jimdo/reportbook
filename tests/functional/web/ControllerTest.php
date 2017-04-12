@@ -186,7 +186,7 @@ class ControllerTest extends TestCase
 
         $controller = new FixtureController($request, $requestValidator, $applicationConfig, new Response(), $twig);
 
-        $myView = $controller->testView('tests/Web/ViewFixture.php');
+        $myView = $controller->testView('tests/web/ViewFixture.php');
         $myView->name = $expectedName = 'Horst';
         $myView->content = $expectedContent = 'ABC';
 

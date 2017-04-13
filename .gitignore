@@ -5,7 +5,7 @@ wl
 /users/
 /vendor/
 /build/
-/docs/
+/phpdocs/
 /scripts/composer
 /scripts/jsonlint
 /scripts/phpcbf

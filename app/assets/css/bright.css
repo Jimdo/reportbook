@@ -245,7 +245,7 @@
     margin-bottom: 5px;
   }
   .footer a {
-    color: gray;
+    color: gray !important;
   }
 
   /* other styles */

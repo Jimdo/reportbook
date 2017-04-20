@@ -369,6 +369,9 @@
     margin-top: 5px;
     margin-bottom: 5px;
   }
+  .footer a {
+    color:  #cfd2da;
+  }
 
   /* other styles */
   .button-large {

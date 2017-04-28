@@ -42,9 +42,11 @@ class ViewHelperTest extends TestCase
         $queryParams = [ 'baz' => 'bam', 'foo' => 'bar' ];
 
         $html = $viewHelper->goto($controller, $action, $linkText, $queryParams);
-
         $assertion = '<a href="/controllername/actionname?baz=bam&foo=bar">linkText</a>';
+        $this->assertEquals($assertion, $html);
 
+        $html = $viewHelper->goto($controller, $action, $linkText);
+        $assertion = '<a href="/controllername/actionname">linkText</a>';
         $this->assertEquals($assertion, $html);
     }
 }

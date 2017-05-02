@@ -117,15 +117,6 @@ class ViewHelper
         echo "</table>\n";
     }
 
-    public function goto(string $controller, string $action, string $linkText, array $queryParams = []): string
-    {
-        $queryString = '';
-        if ($queryParams !== []) {
-            $queryString = '?' . http_build_query($queryParams);
-        }
-        return "<a href=\"/{$controller}/{$action}{$queryString}\">$linkText</a>";
-    }
-
     /**
     * @param string $status
     * @return string

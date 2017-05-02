@@ -228,6 +228,9 @@
     background-size: 24px 24px;
     cursor: pointer;
   }
+  .docs-link {
+    font-size: 1.6em;
+  }
   .logout-button {
     font-size: 1.2em;
     padding-top: 4px;

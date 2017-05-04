@@ -214,7 +214,7 @@ class Serializer implements MySQLSerializer, MongoSerializer
 
     public function serializeWebUser(User $user): array
     {
-        [
+        return [
             'role' => $user->roleName(),
             'id' => $user->id(),
             'username' => $user->username(),

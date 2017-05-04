@@ -212,6 +212,16 @@ class Serializer implements MySQLSerializer, MongoSerializer
         );
     }
 
+    public function serializeWebUser(User $user): array
+    {
+        [
+            'role' => $user->roleName(),
+            'id' => $user->id(),
+            'username' => $user->username(),
+            'email' => $user->email()
+        ];
+    }
+
     /**
     * @param array $serializedUser
     * @return bool

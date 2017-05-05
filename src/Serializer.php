@@ -211,7 +211,11 @@ class Serializer implements MySQLSerializer, MongoSerializer
             $serializedComment['status']
         );
     }
-
+    
+    /**
+     * @param User $user
+     * @return string
+     */
     public function serializeWebUser(User $user): string
     {
         return json_encode([

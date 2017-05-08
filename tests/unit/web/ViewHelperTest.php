@@ -28,4 +28,24 @@ class ViewHelperTest extends TestCase
 
         $this->assertEquals($returnArray[2], $startDay);
     }
+
+   /**
+    * @test
+    */
+    public function itShouldGenerateUrl()
+    {
+        $viewHelper = new ViewHelper();
+        $controller = 'controllername';
+        $action = 'actionname';
+        $linkText = 'linkText';
+        $queryParams = [ 'baz' => 'bam', 'foo' => 'bar' ];
+
+        $html = $viewHelper->goto($controller, $action, $linkText, $queryParams);
+        $assertion = '<a href="/controllername/actionname?baz=bam&foo=bar">linkText</a>';
+        $this->assertEquals($assertion, $html);
+
+        $html = $viewHelper->goto($controller, $action, $linkText);
+        $assertion = '<a href="/controllername/actionname">linkText</a>';
+        $this->assertEquals($assertion, $html);
+    }
 }

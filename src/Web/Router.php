@@ -222,6 +222,8 @@ class Router
 
             $handler = new MongoSessionHandler($db->sessions, new Logger('session'));
 
+            ini_set('session.cookie_domain', $this->applicationConfig->cookieDomain);
+
             session_set_save_handler($handler);
 
             session_start();

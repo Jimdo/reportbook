@@ -7,6 +7,9 @@ class Response
     /** @var string */
     private $body;
 
+    /** @var array */
+    private $headers = [];
+
     /**
      * @param string $body
      */
@@ -16,12 +19,22 @@ class Response
     }
 
     /**
+     * @param string $body
+     */
+    public function addHeader(string $header)
+    {
+        $this->headers[] = $header;
+    }
+
+    /**
      * @return string
      */
     public function render()
     {
-        ob_start();
-        echo $this->body;
-        return ob_get_clean();
+        foreach ($this->headers as $header) {
+            header($header);
+        }
+
+        return $this->body;
     }
 }

@@ -53,7 +53,9 @@ class ApiController extends Controller
 
         $serializedUser = $this->serializer->serializeWebUser($user);
 
-        echo $serializedUser;
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->addBody($serializedUser);
+        $this->response->render();
     }
 
     public function userByEmailAction()
@@ -62,7 +64,9 @@ class ApiController extends Controller
 
         $serializedUser = $this->serializer->serializeWebUser($user);
 
-        echo $serializedUser;
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->addBody($serializedUser);
+        $this->response->render();
     }
 
     public function userByIdAction()
@@ -71,7 +75,9 @@ class ApiController extends Controller
 
         $serializedUser = $this->serializer->serializeWebUser($user);
 
-        echo $serializedUser;
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->addBody($serializedUser);
+        $this->response->render();
     }
 
     public function usersAction()
@@ -83,6 +89,8 @@ class ApiController extends Controller
             $userOutput[] = json_decode($this->serializer->serializeWebUser($user), true);
         }
 
-        echo json_encode($userOutput);
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->addBody(json_encode($userOutput));
+        $this->response->render();
     }
 }

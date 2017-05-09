@@ -49,40 +49,57 @@ class ApiController extends Controller
 
     public function userByUsernameAction()
     {
-        $user = $this->appService->findUserByUsername($this->queryParams('username'));
+        if ($this->isAuthorized()) {
+            $user = $this->appService->findUserByUsername($this->queryParams('username'));
 
-        $serializedUser = $this->serializer->serializeWebUser($user);
+            $serializedUser = $this->serializer->serializeWebUser($user);
 
-        echo $serializedUser;
+            echo $serializedUser;
+        } else {
+            echo "Not authorized!\n";
+        }
     }
 
     public function userByEmailAction()
     {
-        $user = $this->appService->findUserByEmail($this->queryParams('email'));
+        if ($this->isAuthorized()) {
+            $user = $this->appService->findUserByEmail($this->queryParams('email'));
 
-        $serializedUser = $this->serializer->serializeWebUser($user);
+            $serializedUser = $this->serializer->serializeWebUser($user);
 
-        echo $serializedUser;
+            echo $serializedUser;
+        } else {
+            echo "Not authorized!\n";
+        }
+
     }
 
     public function userByIdAction()
     {
-        $user = $this->appService->findUserById($this->queryParams('id'));
+        if ($this->isAuthorized()) {
+            $user = $this->appService->findUserById($this->queryParams('id'));
 
-        $serializedUser = $this->serializer->serializeWebUser($user);
+            $serializedUser = $this->serializer->serializeWebUser($user);
 
-        echo $serializedUser;
+            echo $serializedUser;
+        } else {
+            echo "Not authorized!\n";
+        }
     }
 
     public function usersAction()
     {
-        $users = array_merge($this->appService->findAllTrainees(), $this->appService->findAllTrainers());
+        if ($this->isAuthorized()) {
+            $users = array_merge($this->appService->findAllTrainees(), $this->appService->findAllTrainers());
 
-        $userOutput = [];
-        foreach ($users as $user) {
-            $userOutput[] = json_decode($this->serializer->serializeWebUser($user), true);
+            $userOutput = [];
+            foreach ($users as $user) {
+                $userOutput[] = json_decode($this->serializer->serializeWebUser($user), true);
+            }
+
+            echo json_encode($userOutput);
+        } else {
+            echo "Not authorized!\n";
         }
-
-        echo json_encode($userOutput);
     }
 }

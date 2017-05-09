@@ -9,6 +9,7 @@ class ResponseTest extends TestCase
     /**
      * @test
      * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function itShouldTestHeader()
     {

@@ -66,7 +66,7 @@ deploy-cron: $(WL) ## Deploy the mongoDB backup cron job to the wonderland
 	wl cron status reportbook-mongo-backup
 
 login:
-	@docker login -e="$(DOCKER_EMAIL)" -u="$(DOCKER_USERNAME)" -p="$(DOCKER_PASSWORD)" $(REGISTRY)
+	@docker login -e $(DOCKER_EMAIL) -u="$(DOCKER_LOGIN)" -p="$(DOCKER_PASSWORD)" $(REGISTRY)
 
 $(WL):
 	curl -sSLfo $(WL) https://downloads.jimdo-platform.net/wl/latest/wl_latest_$(shell uname -s | tr A-Z a-z)_$(shell uname -m | sed "s/x86_64/amd64/")

@@ -6,7 +6,6 @@ use Jimdo\Reports\Web\ApplicationConfig;
 
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
-use Jimdo\Reports\Notification\MailgunSubscriber;
 use Jimdo\Reports\Serializer;
 use Jimdo\Reports\Web\Request;
 use Jimdo\Reports\Web\RequestValidator;
@@ -68,7 +67,7 @@ class ApiController extends Controller
             $user = $this->appService->findUserByEmail($this->queryParams('email'));
 
             $serializedUser = $this->serializer->serializeWebUser($user);
-          
+
             $this->response->addHeader('Content-Type: application/json');
             $this->response->addBody($serializedUser);
             $this->response->render();

@@ -22,6 +22,9 @@ class ApiController extends Controller
     /** @var WebSerializer */
     private $serializer;
 
+    /** @var ApplicationConfig */
+    private $applicationConfig;
+
     /**
      * @param Request $request
      * @param RequestValidator $requestValidator
@@ -40,10 +43,18 @@ class ApiController extends Controller
 
         $notificationService = new NotificationService();
 
+        $this->applicationConfig = $appConfig;
+
         $this->viewHelper = new ViewHelper();
         $this->appService = ApplicationService::create($appConfig, $notificationService);
 
         $this->serializer = new Serializer();
+
+        $eventTypes = [
+            'userAuthorized'
+        ];
+
+        $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
     }
 
     public function userByUsernameAction()

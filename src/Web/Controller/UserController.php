@@ -174,11 +174,6 @@ class UserController extends Controller
             $this->redirect('/user');
         }
 
-        $redirectUrl = '/report/list';
-        if ($this->queryParams('logbook') == true) {
-            $redirectUrl = "{$this->appConfig->logbookUrl}";
-        }
-
         $identifier = $this->formData('identifier');
         $password = $this->formData('password');
 

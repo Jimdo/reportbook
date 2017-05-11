@@ -119,4 +119,33 @@ class ApiController extends Controller
             echo "Not authorized!\n";
         }
     }
+
+    public function authAction()
+    {
+        $authorized = $this->appService->authUser($this->formData('identifier'), $this->formData('password'));
+
+        $this->response->addHeader('Content-Type: application/json');
+
+        if ($authorized) {
+            $userId = $this->appService->findUserByUsername($this->formData('identifier'))->id();
+
+            $this->response->addBody(json_encode([
+                'authorized' => true,
+                'userId' => $userId,
+                ]
+            ));
+        } else {
+            $this->response->addBody(json_encode(['authorized' => false]));
+        }
+
+        $this->response->render();
+    }
+
+    private function isAuthorized()
+    {
+        if ($_SERVER['HTTP_API_TOKEN'] === $this->applicationConfig->apiToken) {
+            return true;
+        }
+        return false;
+    }
 }

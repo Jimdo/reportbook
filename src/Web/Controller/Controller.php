@@ -75,17 +75,6 @@ abstract class Controller
     }
 
     /**
-     * @return bool
-     */
-    protected function isAuthorized(): bool
-    {
-        if ($this->sessionData('authorized') == '1') {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * @param string $key
      * @param string $default
      * @return mixed

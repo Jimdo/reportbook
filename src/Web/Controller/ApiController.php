@@ -6,7 +6,6 @@ use Jimdo\Reports\Web\ApplicationConfig;
 
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
-use Jimdo\Reports\Notification\MailgunSubscriber;
 use Jimdo\Reports\Serializer;
 use Jimdo\Reports\Web\Request;
 use Jimdo\Reports\Web\RequestValidator;
@@ -22,6 +21,9 @@ class ApiController extends Controller
 
     /** @var WebSerializer */
     private $serializer;
+
+    /** @var ApplicationConfig */
+    private $applicationConfig;
 
     /**
      * @param Request $request
@@ -41,10 +43,18 @@ class ApiController extends Controller
 
         $notificationService = new NotificationService();
 
+        $this->applicationConfig = $appConfig;
+
         $this->viewHelper = new ViewHelper();
         $this->appService = ApplicationService::create($appConfig, $notificationService);
 
         $this->serializer = new Serializer();
+
+        $eventTypes = [
+            'userAuthorized'
+        ];
+
+        $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
     }
 
     public function userByUsernameAction()
@@ -68,7 +78,7 @@ class ApiController extends Controller
             $user = $this->appService->findUserByEmail($this->queryParams('email'));
 
             $serializedUser = $this->serializer->serializeWebUser($user);
-          
+
             $this->response->addHeader('Content-Type: application/json');
             $this->response->addBody($serializedUser);
             $this->response->render();
@@ -108,5 +118,34 @@ class ApiController extends Controller
         } else {
             echo "Not authorized!\n";
         }
+    }
+
+    public function authAction()
+    {
+        $authorized = $this->appService->authUser($this->formData('identifier'), $this->formData('password'));
+
+        $this->response->addHeader('Content-Type: application/json');
+
+        if ($authorized) {
+            $userId = $this->appService->findUserByUsername($this->formData('identifier'))->id();
+
+            $this->response->addBody(json_encode([
+                'authorized' => true,
+                'userId' => $userId,
+                ]
+            ));
+        } else {
+            $this->response->addBody(json_encode(['authorized' => false]));
+        }
+
+        $this->response->render();
+    }
+
+    private function isAuthorized()
+    {
+        if ($_SERVER['HTTP_API_TOKEN'] === $this->applicationConfig->apiToken) {
+            return true;
+        }
+        return false;
     }
 }

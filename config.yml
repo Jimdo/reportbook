@@ -15,7 +15,6 @@
   printer_output: /var/www/app/pdf
   printer_output_type: download
   storage: mongo
-  logbook_url: https://logbook.jimdo-platform.net
   cookie_domain: .jimdo-platform.net
 'test':
   mongo_username: reportbook-test
@@ -53,6 +52,5 @@
   printer_output: /var/www/app/pdf
   printer_output_type: download
   storage: mysql
-  logbook_url: http://192.168.99.100:8000
   cookie_domain: 192.168.99.100
   api_token: geheim

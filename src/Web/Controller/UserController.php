@@ -152,16 +152,11 @@ class UserController extends Controller
 
     public function indexAction()
     {
-        $queryParams = '';
-        if ($this->queryParams('logbook') == 'true') {
-            $queryParams = '?logbook=1';
-        }
         $variables = [
             'tabTitle' => 'Berichtsheft',
             'boxShadow' => true,
             'hideFooter' => true,
-            'layout' => $_COOKIE['LAYOUT'],
-            'queryParams' => $queryParams
+            'layout' => $_COOKIE['LAYOUT']
         ];
 
         echo $this->twig->render('LoginView.html', $variables);
@@ -172,11 +167,6 @@ class UserController extends Controller
         if ($this->formData('identifier') === null) {
             $_SESSION['authorized'] = false;
             $this->redirect('/user');
-        }
-
-        $redirectUrl = '/report/list';
-        if ($this->queryParams('logbook') == true) {
-            $redirectUrl = "{$this->appConfig->logbookUrl}";
         }
 
         $identifier = $this->formData('identifier');
@@ -218,7 +208,7 @@ class UserController extends Controller
                 if ($loginWithAdminDefaultPassword) {
                     $this->redirect('/user/changePassword');
                 } else {
-                    $this->redirect($redirectUrl);
+                    $this->redirect('/report/list');
                 }
             } else {
                 $_SESSION['authorized'] = false;

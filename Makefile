@@ -43,6 +43,9 @@ storage-reset: ## Reset all volumes and services from docker-compose
 bench: ## Starts the benchmarks
 	./scripts/run-bench.sh
 
+documentation: ## Run ReadTheDocs in a container
+	./scripts/run-docs.sh
+
 build: ## Generate docker container image
 	docker build -t $(IMAGE) .
 

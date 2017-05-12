@@ -5,6 +5,7 @@ MAINTAINER hauke.stange@jimdo.com
 RUN a2enmod rewrite
 
 RUN apt-get update && apt-get install -y \
+    libpcre3-dev \
     libssl-dev \
     unzip \
     wget \

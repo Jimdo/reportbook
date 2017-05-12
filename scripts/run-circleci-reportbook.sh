@@ -17,5 +17,4 @@ docker run -d --net=host \
     -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
     -e MAILGUN_DOMAIN=$MAILGUN_DOMAIN \
     -e MAILGUN_KEY=$MAILGUN_KEY \
-    -e COOKIE_DOMAIN=$COOKIE_DOMAIN \
     jimdo/reportbook

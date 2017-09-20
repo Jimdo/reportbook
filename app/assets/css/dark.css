@@ -411,5 +411,40 @@
   .btn-link:hover {
     color: white;
   }
+}
 
+@media screen and (max-width: 600px) {
+  .col-sm-3.navbar-format {
+    padding: 0;
+  }
+
+  .navbar-format .input-group {
+    padding: 10px
+  }
+
+  .navbar.navbar-default.navbar-infobar {
+    display: none;
+  }
+
+  .container.container-box {
+    padding: 0;
+  }
+
+  .navbar-brand {
+    padding: 0;
+  }
+
+  .navbar-toggle.collapsed.infobar {
+    padding: 15px;
+    height: 50px;
+    margin: 0;
+    float: left;
+    border: none;
+
+  }
+  .infobar-mobile > span {
+    float: right;
+    padding-left: 10px;
+    color: #777;
+  }
 }

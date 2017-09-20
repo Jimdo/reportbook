@@ -8,8 +8,8 @@
   <table class="table-reportbook table table-hover">
       <tr>
           <th class="text-center">Name <a href="/report/list?sort=name" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
-          <th class="text-center">Vorschau</th>
-          <th class="text-center">Kategorie <a href="/report/list?sort=category" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
+          <th class="text-center hidden-xs">Vorschau</th>
+          <th class="text-center hidden-xs">Kategorie <a href="/report/list?sort=category" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
           <th class="text-center">KW <a href="/report/list?sort=calendarWeek" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
           <th class="text-center">Status <a href="/report/list?sort=status" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
           <th class="text-center">Kommentare <a href="/report/list?sort=comment" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
@@ -23,8 +23,8 @@
         {% set user = appService.findUserById(traineeId) %}
           <tr>
             <td class="text-center"><a href="/user/viewProfile?userId={{ user.id() }}">{{ profile.forename() }} {{ profile.surname() }}</a></td>
-            <td class="text-center">{{ report.content()|slice(0, 20)|striptags }}</td>
-            <td class="text-center">{{ viewHelper.getTranslationForCategory(report.category()) }}</td>
+            <td class="text-center hidden-xs">{{ report.content()|slice(0, 20)|striptags }}</td>
+            <td class="text-center hidden-xs">{{ viewHelper.getTranslationForCategory(report.category()) }}</td>
             <td class="text-center">{{ report.calendarWeek() }}</td>
             <td class="text-center">{{ viewHelper.getTranslationForStatus(report.status()) }}</td>
             <td class="text-center">{{ appService.findCommentsByReportId(reportId)|length }}</td>

@@ -7,7 +7,7 @@
   <div class="table-reportbook-border scrollable">
   <table class="table-reportbook table table-hover">
       <tr>
-          <th class="text-center">Vorschau</th>
+          <th class="text-center hidden-xs">Vorschau</th>
           <th class="text-center">Kategorie <a href="/report/list?sort=category" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
           <th class="text-center">KW <a href="/report/list?sort=calendarWeek" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
           <th class="text-center">Status <a href="/report/list?sort=status" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
@@ -18,7 +18,7 @@
       {% set reportId = report.id() %}
       {% set traineeId = report.traineeId() %}
           <tr>
-              <td class="text-center">{{ report.content()|slice(0, 20)|striptags }}</td>
+              <td class="text-center hidden-xs">{{ report.content()|slice(0, 20)|striptags }}</td>
               <td class="text-center">{{ viewHelper.getTranslationForCategory(report.category()) }}</td>
               <td class="text-center">{{ report.calendarWeek() }}</td>
               <td class="text-center">{{ viewHelper.getTranslationForStatus(report.status()) }}</td>

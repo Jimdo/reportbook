@@ -1,4 +1,4 @@
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   /* font color */
   .font-blue {
     color: #337ab7;
@@ -260,5 +260,61 @@
   }
   .float-right {
     float: right;
+  }
+  .logout-mobile {
+    display: none !important;
+  }
+}
+@media screen and (max-width: 900px) {
+  .col-sm-3.navbar-format {
+    padding: 0;
+  }
+
+  .navbar-format .input-group {
+    padding: 10px
+  }
+
+  .navbar.navbar-default.navbar-infobar {
+    display: none;
+  }
+
+  .container.container-box {
+    padding: 0;
+  }
+
+  .navbar-brand {
+    padding: 0;
+  }
+
+  .navbar-toggle.collapsed.infobar {
+    padding: 15px;
+    height: 50px;
+    margin: 0;
+    float: left;
+    border: none;
+
+  }
+
+  .infobar-mobile > span {
+    float: right;
+    padding-left: 10px;
+    color: #777;
+  }
+
+  .report-content {
+    height: auto;
+    min-height: 200px;
+  }
+
+  .btn.btn-primary.button-large {
+    width: 100%;
+  }
+
+  .footer {
+    padding-top: 20px;
+  }
+
+  .yearLabel {
+    padding-left: calc(50% - 72px);
   }
 }

@@ -9,7 +9,7 @@
     <table class="table-reportbook table table-hover">
         <tr>
             <th>Name</th>
-            <th>Benutzername</th>
+            <th class="hidden-xs">Benutzername</th>
             <th>E-Mail</th>
             <th>Rolle</th>
             <th>Status</th>
@@ -20,7 +20,7 @@
             {% set userEmail = user.email() %}
               <tr>
                   <td><a href="/user/viewProfile?userId={{ user.id() }}">{{ profile.forename() }} {{ profile.surname() }}</td>
-                  <td>{{ user.username() }}</td>
+                  <td  class="hidden-xs">{{ user.username() }}</td>
                   <td>{{ userEmail }}</td>
                   <td>{{ viewHelper.getTranslationForRole(user.roleName()) }}</td>
                   <td>{{ viewHelper.getTranslationForStatus(user.roleStatus()) }}</td>
@@ -44,7 +44,7 @@
       <table class="table table-hover table-reportbook">
           <tr>
               <th>Name</th>
-              <th>Benutzername</th>
+              <th class="hidden-xs">Benutzername</th>
               <th>E-Mail</th>
               <th>Rolle</th>
               <th>Aktionen</th>
@@ -56,7 +56,7 @@
               {% if user.username() != 'admin' %}
                 <tr>
                     <td><a href="/user/viewProfile?userId={{ user.id() }}">{{ profile.forename() }} {{ profile.surname() }}</td>
-                    <td>{{ user.username() }}</td>
+                    <td class="hidden-xs">{{ user.username() }}</td>
                     <td>{{ userEmail }}</td>
                     <td>{{ viewHelper.getTranslationForRole(user.roleName()) }}</td>
                     <td>

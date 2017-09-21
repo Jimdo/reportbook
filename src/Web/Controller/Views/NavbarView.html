@@ -1,30 +1,48 @@
 <div class="col-sm-3 navbar-format">
   <div class="sidebar-nav">
-    <div class="navbar navbar-default" role="navigation">
-        <ul class="nav navbar-nav">
-          <li class="nav-search">
-            <form action="/report/search" method="POST">
-                <div class="input-group">
-                    <input type="text" name="text" class="form-control" placeholder="Berichte durchsuchen">
-                    <span type="submit" class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-                </div>
-            </form>
-          </li>
-          {% if not isTrainer and not isAdmin %}
-            <li class="nav-li {% if createReportViewActive %} active {% endif %}"><a class="link-color" href="/report/createReport"><span class="glyphicon glyphicon-edit"></span> Neuen Bericht erstellen</a></li>
-          {% endif %}
-          <li class="nav-li {% if listViewActive %} active {% endif %}"><a class="link-color" href="/report/list"><span class="glyphicon glyphicon-list"></span> Listenansicht</a></li>
-          <li class="nav-li {% if calendarViewActive %} active {% endif %}"><a class="link-color" href="/report/calendar"><span class="glyphicon glyphicon-calendar"></span> Kalenderansicht</a></li>
-          <li class="nav-li {% if profileViewActive %} active {% endif %}"><a class="link-color" href="/user/profile"><span class="glyphicon glyphicon-user"></span> Dein Profil</a></li>
-          {% if isTrainer or isAdmin %}
-            <li class="nav-li {% if userlistViewActive %} active {% endif %}"><a class="link-color" href="/user/userlist"><span class="glyphicon glyphicon-king"></span> Benutzerübersicht</a></li>
-          {% endif %}
-          {% if not isTrainer and not isAdmin %}
-          <li class="nav-li {% if printViewActive %} active {% endif %}"><a class="link-color" href="/printer/print"><span class="glyphicon glyphicon-download"></span> Berichte herunterladen</a></li>
-          {% endif %}
-          <li class="nav-li {% if changePasswordViewActive %} active {% endif %}"><a class="link-color" href="/user/changePassword"><input type="hidden" id="userId" name="userId" value="{{ userId }}" /><span class="glyphicon glyphicon-wrench"></span> Passwort ändern</a></li>
-        </ul>
-    </div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid nav-collapse">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <div class="navbar-toggle collapsed infobar" data-toggle="collapse">
+                <a class="navbar-brand" href="#">berichtsheft.io</a>
+                <a class="infobar-mobile"><span>Benutzer: {{ username }}</span></a>
+              </div>
+          </div>
+
+          <div class"navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="nav-search">
+                <form action="/report/search" method="POST">
+                    <div class="input-group">
+                        <input type="text" name="text" class="form-control" placeholder="Berichte durchsuchen">
+                        <span type="submit" class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                    </div>
+                </form>
+              </li>
+              {% if not isTrainer and not isAdmin %}
+                <li class="nav-li {% if createReportViewActive %} active {% endif %}"><a class="link-color" href="/report/createReport"><span class="glyphicon glyphicon-edit"></span> Neuen Bericht erstellen</a></li>
+              {% endif %}
+              <li class="nav-li {% if listViewActive %} active {% endif %}"><a class="link-color" href="/report/list"><span class="glyphicon glyphicon-list"></span> Listenansicht</a></li>
+              <li class="nav-li {% if calendarViewActive %} active {% endif %}"><a class="link-color" href="/report/calendar"><span class="glyphicon glyphicon-calendar"></span> Kalenderansicht</a></li>
+              <li class="nav-li {% if profileViewActive %} active {% endif %}"><a class="link-color" href="/user/profile"><span class="glyphicon glyphicon-user"></span> Dein Profil</a></li>
+              {% if isTrainer or isAdmin %}
+              <li class="nav-li {% if userlistViewActive %} active {% endif %}"><a class="link-color" href="/user/userlist"><span class="glyphicon glyphicon-king"></span> Benutzerübersicht</a></li>
+              {% endif %}
+              {% if not isTrainer and not isAdmin %}
+              <li class="nav-li {% if printViewActive %} active {% endif %}"><a class="link-color" href="/printer/print"><span class="glyphicon glyphicon-download"></span> Berichte herunterladen</a></li>
+              {% endif %}
+              <li class="nav-li {% if changePasswordViewActive %} active {% endif %}"><a class="link-color" href="/user/changePassword"><input type="hidden" id="userId" name="userId" value="{{ userId }}" /><span class="glyphicon glyphicon-wrench"></span> Passwort ändern</a></li>
+              <li class="nav-li logout-mobile"><a class="link-color" href="/user/login"><span class="glyphicon glyphicon-off"></span> Abmelden</a></li>
+            </ul>
+          </div>
+      </nav>
   </div>
 </div>
 <div class="col-sm-9 page-content"> <!-- Open tag for content-->

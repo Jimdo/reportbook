@@ -317,4 +317,9 @@
   .yearLabel {
     padding-left: calc(50% - 72px);
   }
+
+  .profile-picture {
+    max-height: 200px;
+    max-width: 200px;;
+  }
 }

@@ -12,7 +12,7 @@
           <th class="text-center hidden-xs">Kategorie <a href="/report/list?sort=category" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
           <th class="text-center">KW <a href="/report/list?sort=calendarWeek" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
           <th class="text-center">Status <a href="/report/list?sort=status" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
-          <th class="text-center">Kommentare <a href="/report/list?sort=comment" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
+          <th class="text-center hidden-xs">Kommentare <a href="/report/list?sort=comment" type="submit" class="btn-link glyphicon glyphicon-chevron-down" aria-hidden="true"></a></th>
           <th class="text-center">Aktionen</th>
       </tr>
 
@@ -27,7 +27,7 @@
             <td class="text-center hidden-xs">{{ viewHelper.getTranslationForCategory(report.category()) }}</td>
             <td class="text-center">{{ report.calendarWeek() }}</td>
             <td class="text-center">{{ viewHelper.getTranslationForStatus(report.status()) }}</td>
-            <td class="text-center">{{ appService.findCommentsByReportId(reportId)|length }}</td>
+            <td class="text-center hidden-xs">{{ appService.findCommentsByReportId(reportId)|length }}</td>
                   <td>
 
                       <form action="/report/editReport" method="POST">

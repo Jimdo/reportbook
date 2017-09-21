@@ -318,6 +318,14 @@
     padding-left: calc(50% - 72px);
   }
 
+  .yearLabel li a {
+    color: gray;
+  }
+  .yearLabel li button {
+    border: none;
+    background: transparent;
+  }
+
   .profile-picture img {
     max-height: 200px;
     max-width: 200px;

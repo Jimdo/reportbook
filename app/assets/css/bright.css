@@ -318,8 +318,8 @@
     padding-left: calc(50% - 72px);
   }
 
-  .profile-picture {
+  .profile-picture img {
     max-height: 200px;
-    max-width: 200px;;
+    max-width: 200px;
   }
 }

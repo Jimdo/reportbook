@@ -296,4 +296,17 @@
     padding-left: 10px;
     color: #777;
   }
+
+  .report-content {
+    height: auto;
+    min-height: 200px;
+  }
+
+  .btn.btn-primary.button-large {
+    width: 100%;
+  }
+
+  .footer {
+    padding-top: 20px;
+  }
 }

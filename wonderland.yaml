@@ -16,4 +16,4 @@ endpoint:
     healthcheck:
       path: /status/health
 notifications:
-  slack: "#fachinformatiker"
+  slack: "#fachinformatiker-bots"

@@ -411,6 +411,9 @@
   .btn-link:hover {
     color: white;
   }
+  .logout-mobile {
+    display: none !important;
+  }
 }
 
 @media screen and (max-width: 900px) {
@@ -463,5 +466,6 @@
   }
 
   .yearLabel {
-
+    padding-left: calc(50% - 72px);
+  }
 }

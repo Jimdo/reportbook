@@ -261,6 +261,9 @@
   .float-right {
     float: right;
   }
+  .logout-mobile {
+    display: none !important;
+  }
 }
 @media screen and (max-width: 900px) {
   .col-sm-3.navbar-format {

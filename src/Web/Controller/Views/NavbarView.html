@@ -34,12 +34,13 @@
               <li class="nav-li {% if calendarViewActive %} active {% endif %}"><a class="link-color" href="/report/calendar"><span class="glyphicon glyphicon-calendar"></span> Kalenderansicht</a></li>
               <li class="nav-li {% if profileViewActive %} active {% endif %}"><a class="link-color" href="/user/profile"><span class="glyphicon glyphicon-user"></span> Dein Profil</a></li>
               {% if isTrainer or isAdmin %}
-                <li class="nav-li {% if userlistViewActive %} active {% endif %}"><a class="link-color" href="/user/userlist"><span class="glyphicon glyphicon-king"></span> Benutzerübersicht</a></li>
+              <li class="nav-li {% if userlistViewActive %} active {% endif %}"><a class="link-color" href="/user/userlist"><span class="glyphicon glyphicon-king"></span> Benutzerübersicht</a></li>
               {% endif %}
               {% if not isTrainer and not isAdmin %}
               <li class="nav-li {% if printViewActive %} active {% endif %}"><a class="link-color" href="/printer/print"><span class="glyphicon glyphicon-download"></span> Berichte herunterladen</a></li>
               {% endif %}
               <li class="nav-li {% if changePasswordViewActive %} active {% endif %}"><a class="link-color" href="/user/changePassword"><input type="hidden" id="userId" name="userId" value="{{ userId }}" /><span class="glyphicon glyphicon-wrench"></span> Passwort ändern</a></li>
+              <li class="nav-li logout-mobile"><a class="link-color" href="/user/login"><span class="glyphicon glyphicon-off"></span> Abmelden</a></li>
             </ul>
           </div>
       </nav>

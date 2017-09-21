@@ -1,4 +1,4 @@
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   /* font color */
   .font-blue {
     color: #cfd2da;
@@ -413,7 +413,7 @@
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 900px) {
   .col-sm-3.navbar-format {
     padding: 0;
   }
@@ -442,9 +442,26 @@
     border: none;
 
   }
+
   .infobar-mobile > span {
     float: right;
     padding-left: 10px;
     color: #777;
   }
+
+  .report-content {
+    height: auto;
+    min-height: 200px;
+  }
+
+  .btn.btn-primary.button-large {
+    width: 100%;
+  }
+
+  .footer {
+    padding-top: 20px;
+  }
+
+  .yearLabel {
+
 }

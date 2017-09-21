@@ -1,4 +1,4 @@
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   /* font color */
   .font-blue {
     color: #337ab7;
@@ -262,7 +262,7 @@
     float: right;
   }
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 900px) {
   .col-sm-3.navbar-format {
     padding: 0;
   }
@@ -291,6 +291,7 @@
     border: none;
 
   }
+
   .infobar-mobile > span {
     float: right;
     padding-left: 10px;
@@ -308,5 +309,9 @@
 
   .footer {
     padding-top: 20px;
+  }
+
+  .yearLabel {
+    padding-left: calc(50% - 72px);
   }
 }

@@ -105,7 +105,7 @@ update          Update composer packages
 ### v0.3.5
   - Implement TraineeId Object
   - Implement UserId Object
-  - Change Namespaces  
+  - Change Namespaces
 
 ### v0.3.6
   - Create a Profile View
@@ -187,3 +187,10 @@ update          Update composer packages
 ### v0.7.1
   - Implement PrintService to create PDF files
   - Implement RepositoryFactory
+
+### v0.7.2
+  - Implement ApiController
+  - Implement WebSerializer
+
+### v0.7.3
+  - Implement Mobile View

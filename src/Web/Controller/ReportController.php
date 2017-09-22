@@ -578,6 +578,7 @@ class ReportController extends Controller
             'showCreateCommentButton' => ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED'),
             'errorMessages' => $errorMessages,
             'radioReadonly' => 'disabled',
+            'nextReport' => $this->queryParams('nextReport'),
             'statusButtons' => (
                 $this->isTrainer()
                 && $report->status() !== Report::STATUS_DISAPPROVED
@@ -591,23 +592,40 @@ class ReportController extends Controller
         echo $this->twig->render('ReadonlyReportView.html', $variables);
     }
 
-    public function approveReportAction()
+    public function changeStatusAction()
     {
         if (!$this->isTrainer() && !$this->isAdmin()) {
             $this->redirect("/user");
-        } else {
-            $this->appService->approveReport($this->formData('reportId'));
-            $this->redirect("/report/list");
         }
-    }
 
-    public function disapproveReportAction()
-    {
-        if (!$this->isTrainer() && !$this->isAdmin()) {
-            $this->redirect("/user");
-        } else {
-            $this->appService->disapproveReport($this->formData('reportId'));
-            $this->redirect("/report/list");
+        switch ($this->formData('status')) {
+            case 'approve':
+                $this->appService->approveReport($this->formData('reportId'));
+                $nextReport = $this->appService->findReportsByStatus(Report::STATUS_APPROVAL_REQUESTED)[0];
+
+                if ($this->formData('nextReport') === "on" && $nextReport !== null) {
+
+                    if ($nextReport != null) {
+                        $this->redirect("/report/viewReport?traineeId={$nextReport->traineeId()}&reportId={$nextReport->id()}&nextReport=checked");
+                    }
+                } else {
+                    $this->redirect("/report/list");
+                }
+
+                break;
+            case 'disapprove':
+                $this->appService->disapproveReport($this->formData('reportId'));
+                $nextReport = $this->appService->findReportsByStatus(Report::STATUS_APPROVAL_REQUESTED)[0];
+
+                if ($this->formData('nextReport') === "on" && $nextReport !== null) {
+                        $this->redirect("/report/viewReport?traineeId={$nextReport->traineeId()}&reportId={$nextReport->id()}&nextReport=checked");
+                } else {
+                    $this->redirect("/report/list");
+                }
+                break;
+            default:
+                $this->redirect('/user/login');
+                break;
         }
     }
 

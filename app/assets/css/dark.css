@@ -414,6 +414,41 @@
   .logout-mobile {
     display: none !important;
   }
+  .col-md-12.float-right {
+    padding-right: 2px;
+    padding-bottom: 30px;
+  }
+  /* checkbox style*/
+  .trainer-checkbox {
+    padding-right: 0px;
+  }
+  .check-next-report {
+    width: 217px;
+    border: 1px solid black !important;
+    color: white !important;
+  }
+
+  .form-group input[type="checkbox"] {
+      display: none;
+  }
+
+  .form-group input[type="checkbox"] + .btn-group > label span {
+      width: 20px;
+  }
+
+  .form-group input[type="checkbox"] + .btn-group > label span:first-child {
+      display: none;
+  }
+  .form-group input[type="checkbox"] + .btn-group > label span:last-child {
+      display: inline-block;
+  }
+
+  .form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+      display: inline-block;
+  }
+  .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+      display: none;
+  }
 }
 
 @media screen and (max-width: 900px) {

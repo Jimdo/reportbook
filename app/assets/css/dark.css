@@ -67,6 +67,9 @@
     margin: 10px;
     display: block;
   }
+  .container-fluid.nav-collapse {
+    padding: 0;
+  }
 
   /* table */
   .scrollable {

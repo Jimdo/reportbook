@@ -30,7 +30,7 @@ class ViewHelper
 
         $rows = 1;
 
-        echo "<table data-link=\"row\" class=\"table-condensed table-bordered table-striped table table-curved\">\n";
+        echo "<table data-link=\"row\" class=\" table-calendar table-condensed table-bordered table-striped table table-curved\">\n";
         echo
         "\t<tr>
             <th class=\"text-center\">KW</th>
@@ -55,9 +55,10 @@ class ViewHelper
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $currentWeek = intVal(date("W", strtotime("$year-$month-$day")));
             $linkForWeek = false;
-            $link = $currentWeek;
             if (($day + $offset - 1) % 7 == 0 && $day != 1) {
                 if (array_key_exists($currentWeek, $cwInfo)) {
+                    $reportLink = '';
+
                     $reportStatus = $cwInfo[$currentWeek]['status'];
                     $reportTraineeId = $cwInfo[$currentWeek]['traineeId'];
                     $reportReportId = $cwInfo[$currentWeek]['reportId'];
@@ -66,22 +67,14 @@ class ViewHelper
                         $reportStatus === Report::STATUS_APPROVED ||
                         $reportStatus === Report::STATUS_DISAPPROVED);
                 }
-
-                    $link = '';
                     if ($linkForWeek === true) {
-                        $link = "<form action=\"/report/viewReport\" method=\"post\">
-                                    <a style=\"color:black; font-weight: bold;\"href=\"javascript:;\" onclick=\"parentNode.submit();\">$currentWeek</a>
-                                    <input type=\"hidden\" name=\"traineeId\" value=\"$reportTraineeId\"/>
-                                    <input type=\"hidden\" name=\"reportId\" value=\"$reportReportId\"/>
-                                </form>";
-                    } else {
-                        $link = $currentWeek;
+                        $reportLink = "onclick=\"window.location.assign('/report/viewReport?traineeId=$reportTraineeId&reportId=$reportReportId')\";";
                     }
-                    echo "</tr>\n\t<tr><td style=\"font-weight: bold;\" class=\"text-center\">$link</td>";
+                    echo "</tr>\n\t<tr $reportLink><td style=\"font-weight: bold;\" class=\"text-center\">$currentWeek</td>";
 
                     $rows++;
             } elseif ($day === 1 && $offset == 0) {
-                echo "<td style=\"font-weight: bold;\" class=\"text-center\">$link</td>";
+                echo "<td style=\"font-weight: bold;\" class=\"text-center\">$currentWeek</td>";
             } elseif ($day === 1) {
                 echo "<td></td>";
             }

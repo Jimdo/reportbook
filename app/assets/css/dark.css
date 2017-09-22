@@ -101,6 +101,10 @@
   .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
     background-color: #434857;
   }
+  .table-calendar tr:hover {
+    border: 2px solid white;
+    cursor: pointer;
+  }
 
   /* calendar */
   .calendar {

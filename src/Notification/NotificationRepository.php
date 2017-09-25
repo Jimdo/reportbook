@@ -28,7 +28,7 @@ interface NotificationRepository
      * @param string $id
      * @return Notification
      */
-    public function findById(string $id): Notification;
+    public function findById(string $id);
 
     /**
      * @param string $userId

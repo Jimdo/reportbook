@@ -28,16 +28,25 @@ class Notification
         $this->status = self::STATUS_NEW;
     }
 
+    /**
+     * @return string
+     */
     public function title(): String
     {
         return $this->title;
     }
 
+    /**
+     * @return string
+     */
     public function description(): String
     {
         return $this->description;
     }
 
+    /**
+     * @return string
+     */
     public function status(): String
     {
         return $this->status;

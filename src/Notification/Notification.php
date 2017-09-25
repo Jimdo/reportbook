@@ -19,6 +19,9 @@ class Notification
     /** @var string */
     private $status;
 
+    /** @var int */
+    private $time;
+
     /**
      * @param string $title
      * @param string $description
@@ -31,6 +34,7 @@ class Notification
         $this->reportId = $reportId;
 
         $this->status = self::STATUS_NEW;
+        $this->time = time();
     }
 
     /**
@@ -62,7 +66,15 @@ class Notification
      */
     public function status(): String
     {
-         return $this->status;
+        return $this->status;
+    }
+
+    /**
+    * @return int
+    */
+    public function time(): int
+    {
+        return $this->time;
     }
 
     /**

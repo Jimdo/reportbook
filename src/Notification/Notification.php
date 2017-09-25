@@ -14,16 +14,21 @@ class Notification
     private $description;
 
     /** @var string */
+    private $reportId;
+
+    /** @var string */
     private $status;
 
     /**
      * @param string $title
      * @param string $description
+     * @param string $reportId
      */
-    public function __construct(String $title, String $description)
+    public function __construct(String $title, String $description, String $reportId)
     {
         $this->title = $title;
         $this->description = $description;
+        $this->reportId = $reportId;
 
         $this->status = self::STATUS_NEW;
     }
@@ -42,6 +47,14 @@ class Notification
     public function description(): String
     {
         return $this->description;
+    }
+
+    /**
+     * @return string
+     */
+    public function reportId(): String
+    {
+        return $this->reportId;
     }
 
     /**

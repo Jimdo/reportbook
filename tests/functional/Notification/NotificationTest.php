@@ -11,8 +11,8 @@ class NotificationTest extends TestCase
     /**
      * @test
      */
-     public function itShouldHaveVariables()
-     {
+    public function itShouldHaveVariables()
+    {
         $title = 'Title';
         $description =  'A beautiful description';
 
@@ -20,18 +20,33 @@ class NotificationTest extends TestCase
 
         $this->assertEquals($title, $notification->title());
         $this->assertEquals($description, $notification->description());
-     }
+    }
 
     /**
      * @test
      */
-     public function itShouldHaveStatusNewAfterCreation()
-     {
+    public function itShouldHaveStatusNewAfterCreation()
+    {
         $title = 'title';
         $description = 'description';
 
         $notification = new Notification($title, $description);
 
         $this->assertEquals(Notification::STATUS_NEW, $notification->status());
-     }
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldHaveStatusSeen()
+    {
+        $title = 'title';
+        $description = 'description';
+
+        $notification = new Notification($title, $description);
+
+        $notification->seen();
+
+        $this->assertEquals(Notification::STATUS_SEEN, $notification->status());
+    }
 }

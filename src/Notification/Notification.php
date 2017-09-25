@@ -51,4 +51,9 @@ class Notification
     {
         return $this->status;
     }
+
+    public function seen()
+    {
+        $this->status = self::STATUS_SEEN;
+    }
 }

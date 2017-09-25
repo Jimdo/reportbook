@@ -49,9 +49,12 @@ class Notification
      */
     public function status(): String
     {
-        return $this->status;
+         return $this->status;
     }
 
+    /**
+     * @return string
+     */
     public function seen()
     {
         $this->status = self::STATUS_SEEN;

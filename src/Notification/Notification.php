@@ -5,6 +5,7 @@ namespace Jimdo\Reports\Notification;
 class Notification
 {
     const STATUS_NEW = 'NEW';
+    const STATUS_SEEN = 'SEEN';
 
     /** @var string */
     private $title;

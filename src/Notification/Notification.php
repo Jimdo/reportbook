@@ -8,10 +8,16 @@ class Notification
     const STATUS_SEEN = 'SEEN';
 
     /** @var string */
+    private $id;
+
+    /** @var string */
     private $title;
 
     /** @var string */
     private $description;
+
+    /** @var string */
+    private $userId;
 
     /** @var string */
     private $reportId;
@@ -25,16 +31,38 @@ class Notification
     /**
      * @param string $title
      * @param string $description
+     * @param string $userId
      * @param string $reportId
      */
-    public function __construct(String $title, String $description, String $reportId)
+    public function __construct(String $title, String $description, String $userId, String $reportId, string $id = null, int $time = null)
     {
         $this->title = $title;
         $this->description = $description;
+        $this->userId = $userId;
         $this->reportId = $reportId;
 
         $this->status = self::STATUS_NEW;
-        $this->time = time();
+
+        if ($id === null)
+        {
+            $this->id = uniqid();
+        } else {
+            $this->id = $id;
+        }
+
+        if ($time === null) {
+            $this->time = time();
+        } else {
+            $this->time = $time;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function id(): String
+    {
+        return $this->id;
     }
 
     /**
@@ -51,6 +79,14 @@ class Notification
     public function description(): String
     {
         return $this->description;
+    }
+
+    /**
+     * @return string
+     */
+    public function userId(): String
+    {
+        return $this->userId;
     }
 
     /**

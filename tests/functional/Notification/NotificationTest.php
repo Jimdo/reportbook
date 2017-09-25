@@ -15,12 +15,14 @@ class NotificationTest extends TestCase
     {
         $title = 'Title';
         $description =  'A beautiful description';
+        $userId =  uniqid();
         $reportId =  uniqid();
 
-        $notification = new Notification($title, $description, $reportId);
+        $notification = new Notification($title, $description, $userId, $reportId);
 
         $this->assertEquals($title, $notification->title());
         $this->assertEquals($description, $notification->description());
+        $this->assertEquals($userId, $notification->userId());
         $this->assertEquals($reportId, $notification->reportId());
     }
 
@@ -31,9 +33,10 @@ class NotificationTest extends TestCase
     {
         $title = 'title';
         $description = 'description';
+        $userId =  uniqid();
         $reportId =  uniqid();
 
-        $notification = new Notification($title, $description, $reportId);
+        $notification = new Notification($title, $description, $userId, $reportId);
 
         $this->assertEquals(Notification::STATUS_NEW, $notification->status());
     }
@@ -45,9 +48,10 @@ class NotificationTest extends TestCase
     {
         $title = 'title';
         $description = 'description';
+        $userId =  uniqid();
         $reportId =  uniqid();
 
-        $notification = new Notification($title, $description, $reportId);
+        $notification = new Notification($title, $description, $userId, $reportId);
 
         $notification->seen();
 
@@ -55,15 +59,16 @@ class NotificationTest extends TestCase
     }
 
     /**
-     * @test
-     */
+    * @test
+    */
     public function itShouldHaveTimestamp()
     {
         $title = 'title';
+        $userId =  uniqid();
         $description = 'description';
         $reportId =  uniqid();
 
-        $notification = new Notification($title, $description, $reportId);
+        $notification = new Notification($title, $description, $userId, $reportId);
 
         $this->assertInternalType("int", $notification->time());
     }

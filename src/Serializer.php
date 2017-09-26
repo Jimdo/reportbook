@@ -10,7 +10,7 @@ use Jimdo\Reports\Profile\Profile as Profile;
 use Jimdo\Reports\Reportbook\Report as Report;
 use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
 use Jimdo\Reports\Reportbook\Category as Category;
-use Jimdo\Reports\Notification\Notification as Notification;
+use Jimdo\Reports\Notification\BrowserNotification as Notification;
 
 class Serializer implements MySQLSerializer, MongoSerializer
 {

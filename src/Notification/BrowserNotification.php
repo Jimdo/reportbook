@@ -2,7 +2,7 @@
 
 namespace Jimdo\Reports\Notification;
 
-class Notification
+class BrowserNotification
 {
     const STATUS_NEW = 'NEW';
     const STATUS_SEEN = 'SEEN';

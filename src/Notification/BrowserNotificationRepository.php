@@ -2,31 +2,32 @@
 
 namespace Jimdo\Reports\Notification;
 
+use Jimdo\Reports\Notification\BrowserNotification;
 
-interface NotificationRepository
+interface BrowserNotificationRepository
 {
     /**
      * @param string $title
      * @param string $description
      * @param string $userId
      * @param string $reportId
-     * @return Notification
+     * @return BrowserNotification
      */
-    public function create(string $title, string $description, string $userId, string $reportId): Notification;
+    public function create(string $title, string $description, string $userId, string $reportId): BrowserNotification;
 
     /**
-     * @param Notification $notification
+     * @param BrowserNotification $notification
      */
-    public function save(Notification $notification);
+    public function save(BrowserNotification $notification);
 
     /**
-     * @param Notification $notification
+     * @param BrowserNotification $notification
      */
-    public function delete(Notification $notification);
+    public function delete(BrowserNotification $notification);
 
     /**
      * @param string $id
-     * @return Notification
+     * @return BrowserNotification
      */
     public function findById(string $id);
 

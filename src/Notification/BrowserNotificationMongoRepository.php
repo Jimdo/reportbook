@@ -5,7 +5,7 @@ namespace Jimdo\Reports\Notification;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 use Jimdo\Reports\MongoSerializer;
 
-class NotificationMongoRepository implements NotificationRepository
+class BrowserNotificationMongoRepository implements BrowserNotificationRepository
 {
     /** @var Serializer */
     public $serializer;
@@ -41,20 +41,20 @@ class NotificationMongoRepository implements NotificationRepository
      * @param string $description
      * @param string $userId
      * @param string $reportId
-     * @return Notification
+     * @return BrowserNotification
      */
-    public function create(string $title, string $description, string $userId, string $reportId): Notification
+    public function create(string $title, string $description, string $userId, string $reportId): BrowserNotification
     {
-        $notification = new Notification($title, $description, $userId, $reportId);
+        $notification = new BrowserNotification($title, $description, $userId, $reportId);
         $this->save($notification);
 
         return $notification;
     }
 
     /**
-     * @param Notification $notification
+     * @param BrowserNotification $notification
      */
-    public function save(Notification $notification)
+    public function save(BrowserNotification $notification)
     {
         if ($this->findById($notification->id()) === null) {
             $this->notifications->insertOne($this->serializer->serializeNotification($notification));
@@ -66,16 +66,16 @@ class NotificationMongoRepository implements NotificationRepository
     }
 
     /**
-     * @param Notification $notification
+     * @param BrowserNotification $notification
      */
-    public function delete(Notification $notification)
+    public function delete(BrowserNotification $notification)
     {
         $this->notifications->deleteOne(['id' => $notification->id()]);
     }
 
     /**
      * @param string $id
-     * @return Notification | null
+     * @return BrowserNotification | null
      */
     public function findById(string $id)
     {

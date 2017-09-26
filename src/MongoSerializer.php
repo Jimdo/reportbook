@@ -6,6 +6,7 @@ use Jimdo\Reports\User\User;
 use Jimdo\Reports\Reportbook\Comment;
 use Jimdo\Reports\Profile\Profile;
 use Jimdo\Reports\Reportbook\Report;
+use Jimdo\Reports\Notification\Notification;
 
 interface MongoSerializer {
     /**
@@ -55,4 +56,16 @@ interface MongoSerializer {
      * @return Comment
      */
     public function unserializeComment(array $serializedComment): Comment;
+
+    /**
+    * @param Notification $notification
+    * @return array
+     */
+    public function serializeNotification(Notification $notification): array;
+
+    /**
+     * @param array $serializedNotification
+     * @return Notification
+     */
+    public function unserializeNotification(array $serializedNotification): Notification;
 }

@@ -1,19 +1,45 @@
 <?php
 
-namespace Jimdo\Reports\functional\Notification;
+namespace Jimdo\Reports\Notification;
 
 use PHPUnit\Framework\TestCase;
+use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
+use Jimdo\Reports\Serializer as Serializer;
 
-use Jimdo\Reports\Notification\Notification;
-
-class NotificationFakeRepositoryTest extends TestCase
+class BrowserNotificationMongoRepositoryTest extends TestCase
 {
-    private $repository;
+    /** @var Client */
+    private $client;
 
+    /** @var Collection */
+    private $notifications;
+
+    /** @var ApplicationConfig */
+    private $appConfig;
+
+    private $repository;
 
     protected function setUp()
     {
-        $this->repository = new NotificationFakeRepository();
+        $this->appConfig = new ApplicationConfig(__DIR__ . '/../../../config.yml');
+
+        $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
+            , $this->appConfig->mongoUsername
+            , $this->appConfig->mongoPassword
+            , $this->appConfig->mongoHost
+            , $this->appConfig->mongoPort
+            , $this->appConfig->mongoDatabase
+        );
+
+        $this->client = new \MongoDB\Client($uri);
+
+        $reportbook = $this->client->selectDatabase($this->appConfig->mongoDatabase);
+
+        $this->notifications = $reportbook->notifications;
+
+        $this->notifications->deleteMany([]);
+
+        $this->repository = new BrowserNotificationMongoRepository($this->client, new Serializer(), $this->appConfig);
     }
 
     /**
@@ -80,7 +106,7 @@ class NotificationFakeRepositoryTest extends TestCase
         $this->repository->create($title, $description, $userId, $reportId);
         $this->repository->create($title, $description, $userId, $reportId);
 
-        $foundNotifications = $this->repository->findByStatus(Notification::STATUS_NEW);
+        $foundNotifications = $this->repository->findByStatus(BrowserNotification::STATUS_NEW);
 
         $this->assertCount(2, $foundNotifications);
     }

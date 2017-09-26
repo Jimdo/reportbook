@@ -1,45 +1,19 @@
 <?php
 
-namespace Jimdo\Reports\Notification;
+namespace Jimdo\Reports\functional\Notification;
 
 use PHPUnit\Framework\TestCase;
-use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-use Jimdo\Reports\Serializer as Serializer;
 
-class NotificationMongoRepositoryTest extends TestCase
+use Jimdo\Reports\Notification\BrowserNotification as Notification;
+
+class BrowserNotificationFakeRepositoryTest extends TestCase
 {
-    /** @var Client */
-    private $client;
-
-    /** @var Collection */
-    private $notifications;
-
-    /** @var ApplicationConfig */
-    private $appConfig;
-
     private $repository;
+
 
     protected function setUp()
     {
-        $this->appConfig = new ApplicationConfig(__DIR__ . '/../../../config.yml');
-
-        $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
-            , $this->appConfig->mongoUsername
-            , $this->appConfig->mongoPassword
-            , $this->appConfig->mongoHost
-            , $this->appConfig->mongoPort
-            , $this->appConfig->mongoDatabase
-        );
-
-        $this->client = new \MongoDB\Client($uri);
-
-        $reportbook = $this->client->selectDatabase($this->appConfig->mongoDatabase);
-
-        $this->notifications = $reportbook->notifications;
-
-        $this->notifications->deleteMany([]);
-
-        $this->repository = new NotificationMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $this->repository = new BrowserNotificationFakeRepository();
     }
 
     /**

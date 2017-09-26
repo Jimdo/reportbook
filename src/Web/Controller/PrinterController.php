@@ -9,7 +9,7 @@ use Jimdo\Reports\Web\Response;
 use Jimdo\Reports\Web\ViewHelper;
 use Jimdo\Reports\Web\Validator\Validator;
 
-use Jimdo\Reports\Notification\NotificationService;
+use Jimdo\Reports\Notification\BrowserNotificationService;
 use Jimdo\Reports\Application\ApplicationService;
 
 class PrinterController extends Controller

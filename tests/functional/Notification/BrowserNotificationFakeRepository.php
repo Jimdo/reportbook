@@ -2,10 +2,10 @@
 
 namespace Jimdo\Reports\functional\Notification;
 
-use Jimdo\Reports\Notification\NotificationRepository;
-use Jimdo\Reports\Notification\Notification;
+use Jimdo\Reports\Notification\BrowserNotificationRepository;
+use Jimdo\Reports\Notification\BrowserNotification;
 
-class NotificationFakeRepository implements NotificationRepository
+class BrowserNotificationFakeRepository implements BrowserNotificationRepository
 {
     private $notifications = [];
 
@@ -14,11 +14,11 @@ class NotificationFakeRepository implements NotificationRepository
      * @param string $description
      * @param string $userId
      * @param string $reportId
-     * @return Notification
+     * @return BrowserNotification
      */
-    public function create(string $title, string $description, string $userId, string $reportId): Notification
+    public function create(string $title, string $description, string $userId, string $reportId): BrowserNotification
     {
-        $notification = new Notification($title, $description, $userId,  $reportId);
+        $notification = new BrowserNotification($title, $description, $userId,  $reportId);
 
         $this->save($notification);
 
@@ -26,17 +26,17 @@ class NotificationFakeRepository implements NotificationRepository
     }
 
     /**
-     * @param Notification $notification
+     * @param BrowserNotification $notification
      */
-    public function save(Notification $notification)
+    public function save(BrowserNotification $notification)
     {
         $this->notifications[] = $notification;
     }
 
     /**
-     * @param Notification $notification
+     * @param BrowserNotification $notification
      */
-    public function delete(Notification $notification)
+    public function delete(BrowserNotification $notification)
     {
         foreach ($this->notifications as $key => $_notification) {
             if ($_notification->id() === $notification->id()) {
@@ -47,9 +47,9 @@ class NotificationFakeRepository implements NotificationRepository
 
     /**
      * @param string $id
-     * @return Notification
+     * @return BrowserNotification
      */
-    public function findById(string $id): Notification
+    public function findById(string $id): BrowserNotification
     {
         foreach ($this->notifications as $notification) {
             if ($notification->id() === $id) {

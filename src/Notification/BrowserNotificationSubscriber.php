@@ -6,7 +6,7 @@ use Jimdo\Reports\Notification\Events\Event;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Serializer;
 
-class NotificationSubscriber implements Subscriber
+class BrowserNotificationSubscriber implements Subscriber
 {
     /** @var array */
     private $validEventTypes;

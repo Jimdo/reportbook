@@ -25,10 +25,10 @@ use Jimdo\Reports\Web\ApplicationConfig;
 
 use Jimdo\Reports\Application\ApplicationService;
 
-use Jimdo\Reports\Notification\NotificationService;
+use Jimdo\Reports\Notification\BrowserNotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
 use Jimdo\Reports\Notification\MailgunSubscriber;
-use Jimdo\Reports\Notification\NotificationSubscriber;
+use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
 
 class UserController extends Controller
 {

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
 
 
-class NotificationTest extends TestCase
+class BrowserNotificationTest extends TestCase
 {
     /**
      * @test
@@ -18,7 +18,7 @@ class NotificationTest extends TestCase
         $userId =  uniqid();
         $reportId =  uniqid();
 
-        $notification = new Notification($title, $description, $userId, $reportId);
+        $notification = new BrowserNotification($title, $description, $userId, $reportId);
 
         $this->assertEquals($title, $notification->title());
         $this->assertEquals($description, $notification->description());
@@ -36,9 +36,9 @@ class NotificationTest extends TestCase
         $userId =  uniqid();
         $reportId =  uniqid();
 
-        $notification = new Notification($title, $description, $userId, $reportId);
+        $notification = new BrowserNotification($title, $description, $userId, $reportId);
 
-        $this->assertEquals(Notification::STATUS_NEW, $notification->status());
+        $this->assertEquals(BrowserNotification::STATUS_NEW, $notification->status());
     }
 
     /**
@@ -51,11 +51,11 @@ class NotificationTest extends TestCase
         $userId =  uniqid();
         $reportId =  uniqid();
 
-        $notification = new Notification($title, $description, $userId, $reportId);
+        $notification = new BrowserNotification($title, $description, $userId, $reportId);
 
         $notification->seen();
 
-        $this->assertEquals(Notification::STATUS_SEEN, $notification->status());
+        $this->assertEquals(BrowserNotification::STATUS_SEEN, $notification->status());
     }
 
     /**
@@ -68,7 +68,7 @@ class NotificationTest extends TestCase
         $description = 'description';
         $reportId =  uniqid();
 
-        $notification = new Notification($title, $description, $userId, $reportId);
+        $notification = new BrowserNotification($title, $description, $userId, $reportId);
 
         $this->assertInternalType("int", $notification->time());
     }

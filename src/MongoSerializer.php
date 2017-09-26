@@ -6,7 +6,7 @@ use Jimdo\Reports\User\User;
 use Jimdo\Reports\Reportbook\Comment;
 use Jimdo\Reports\Profile\Profile;
 use Jimdo\Reports\Reportbook\Report;
-use Jimdo\Reports\Notification\Notification;
+use Jimdo\Reports\Notification\BrowserNotification as Notification;
 
 interface MongoSerializer {
     /**

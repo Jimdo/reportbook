@@ -11,6 +11,7 @@ use Jimdo\Reports\Profile\Profile as Profile;
 use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
 use Jimdo\Reports\Reportbook\Report as Report;
 use Jimdo\Reports\Reportbook\Category as Category;
+use Jimdo\Reports\Notification\Notification as Notification;
 
 class SerializerTest extends TestCase
 {
@@ -245,5 +246,57 @@ class SerializerTest extends TestCase
         $this->assertEquals($date, $unserializedComment->date());
         $this->assertEquals($content, $unserializedComment->content());
         $this->assertEquals($comment->status(), $unserializedComment->status());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldSerializeNotification()
+    {
+        $serializer = new Serializer();
+
+        $title = 'title';
+        $description = 'description';
+        $userId =  uniqid();
+        $reportId =  uniqid();
+
+        $notification = new Notification($title, $description, $userId, $reportId);
+
+        $serializedNotification = $serializer->serializeNotification($notification);
+
+        $this->assertEquals($title, $serializedNotification['title']);
+        $this->assertEquals($description, $serializedNotification['description']);
+        $this->assertEquals($userId, $serializedNotification['userId']);
+        $this->assertEquals($reportId, $serializedNotification['reportId']);
+        $this->assertEquals($notification->time(), $serializedNotification['time']);
+        $this->assertEquals($notification->id(), $serializedNotification['id']);
+        $this->assertEquals($notification->status(), $serializedNotification['status']);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldUnserializeNotification()
+    {
+        $serializer = new Serializer();
+
+        $title = 'title';
+        $description = 'description';
+        $userId =  uniqid();
+        $reportId =  uniqid();
+
+        $notification = new Notification($title, $description, $userId, $reportId);
+
+        $serializedNotification = $serializer->serializeNotification($notification);
+
+        $unserializedNotification = $serializer->unserializeNotification($serializedNotification);
+
+        $this->assertEquals($title, $unserializedNotification->title());
+        $this->assertEquals($description, $unserializedNotification->description());
+        $this->assertEquals($userId, $unserializedNotification->userId());
+        $this->assertEquals($reportId, $unserializedNotification->reportId());
+        $this->assertEquals($notification->time(), $unserializedNotification->time());
+        $this->assertEquals($notification->id(), $unserializedNotification->id());
+        $this->assertEquals($notification->status(), $unserializedNotification->status());
     }
 }

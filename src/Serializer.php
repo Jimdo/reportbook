@@ -10,6 +10,7 @@ use Jimdo\Reports\Profile\Profile as Profile;
 use Jimdo\Reports\Reportbook\Report as Report;
 use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
 use Jimdo\Reports\Reportbook\Category as Category;
+use Jimdo\Reports\Notification\Notification as Notification;
 
 class Serializer implements MySQLSerializer, MongoSerializer
 {
@@ -211,7 +212,7 @@ class Serializer implements MySQLSerializer, MongoSerializer
             $serializedComment['status']
         );
     }
-    
+
     /**
      * @param User $user
      * @return string
@@ -224,6 +225,45 @@ class Serializer implements MySQLSerializer, MongoSerializer
             'username' => $user->username(),
             'email' => $user->email()
         ]);
+    }
+
+    /**
+     * @param Notification $notification
+     * @return array
+     */
+    public function serializeNotification(Notification $notification): array
+    {
+        return [
+            'id' => $notification->id(),
+            'userId' => $notification->userId(),
+            'reportId' => $notification->reportId(),
+            'title' => $notification->title(),
+            'description' => $notification->description(),
+            'time' => $notification->time(),
+            'status' => $notification->status()
+        ];
+    }
+
+    /**
+     * @param array $serializedNotification
+     * @return Notification
+     */
+    public function unserializeNotification(array $serializedNotification): Notification
+    {
+        $notification = new Notification(
+            $serializedNotification['title'],
+            $serializedNotification['description'],
+            $serializedNotification['userId'],
+            $serializedNotification['reportId'],
+            $serializedNotification['id'],
+            $serializedNotification['time']
+        );
+
+        if ($serializedNotification['status'] === Notification::STATUS_SEEN) {
+            $notification->seen();
+        }
+
+        return $notification;
     }
 
     /**

@@ -48,7 +48,7 @@ class CommentController extends Controller
 
         $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
         $notificationService->register(new MailgunSubscriber(['commentCreated'], $appConfig));
-        $notificationService->register(new NotificationSubscriber(['commentCreated'], $appConfig));
+        $notificationService->register(new BrowserNotificationSubscriber(['commentCreated'], $appConfig));
     }
 
     public function createCommentAction()

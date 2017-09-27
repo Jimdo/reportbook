@@ -899,7 +899,7 @@ class ApplicationService
         $profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig);
         $commentService = new CommentService($commentRepository, $serializer, $appConfig);
         $reportbookService = new ReportbookService($reportRepository, $commentService, $appConfig);
-        $browserNotificationService = new BrowserNotificationService($browserNotificationRepository, $browserNotificationService, $appConfig);
+        $browserNotificationService = new BrowserNotificationService($browserNotificationRepository);
 
         $printService = new PrintService($profileService, $reportbookService, $appConfig);
 

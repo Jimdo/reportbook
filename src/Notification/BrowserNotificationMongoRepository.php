@@ -59,7 +59,7 @@ class BrowserNotificationMongoRepository implements BrowserNotificationRepositor
         if ($this->findById($notification->id()) === null) {
             $this->notifications->insertOne($this->serializer->serializeNotification($notification));
         } else {
-            $this->delete($notification->id());
+            $this->delete($notification);
             $this->notifications->insertOne($this->serializer->serializeNotification($notification));
         }
 

@@ -44,7 +44,7 @@
                 <div class="col-md-9 col-sm-9 col-xs-9 pd-l0">{{ notification.title }}
                   <br />
                   <p><a href="/report/viewReport?traineeId={{ appService.findReportById(notification.reportId, notification.userId, true).traineeId() }}&reportId={{ notification.reportId }}">{{ notification.description }}</a></p>
-                  <p class="float-left">{{ notification.time|date("H:m d.m.Y") }}</p>
+                  <p class="float-left">{{ notification.time|date("H:i d.m.Y", "Europe/Paris") }}</p>
                 </div>
               </li>
             {% endfor %}

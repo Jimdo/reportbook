@@ -58,15 +58,17 @@ class BrowserNotificationSubscriber implements Subscriber
     {
         $userId = $event->payload()['userId'];
         $reportId = $event->payload()['reportId'];
-        $calendarweek = "{$event->payload()['calendarWeek']}/{$event->payload()['calendarYear']}";
 
         switch ($event->type()) {
             case 'approvalRequested':
-                $this->addNotification("Bericht genehmigt", "Dein Bericht für die Kalenderwoche $calendarweek wurde eingereicht.", $userId, $reportId);
+                $this->addNotification("Bericht eingereicht", "Dein Bericht wurde eingereicht.", $userId, $reportId);
+                foreach ($event->payload()['trainers'] as $trainer) {
+                    $this->addNotification("Bericht eingereicht", "Dein Azubi hat einen Bericht eingereicht.", $trainer->id(), $reportId);
+                }
                 break;
             case 'commentCreated':
-                if ($event->payload()['traineeId'] !== $event->payload()['userId']) {
-                    $this->addNotification("Bericht kommentiert", "Dein Bericht für die Kalenderwoche $calendarweek wurde kommentiert.", $userId, $reportId);
+                if ($event->payload()['traineeId'] == $event->payload()['userId']) {
+                    $this->addNotification("Bericht kommentiert", "Dein Bericht wurde kommentiert.", $userId, $reportId);
                 }
                 break;;
             case 'emailEdited':
@@ -76,10 +78,10 @@ class BrowserNotificationSubscriber implements Subscriber
                 $this->addNotification("Passwort geändert", "Deine Passwort wurde erfolgreich geändert.", $userId, $reportId);
                 break;
             case 'reportApproved':
-                $this->addNotification("Bericht genehmigt", "Dein Bericht für die Kalenderwoche $calendarweek wurde genehmight.", $userId, $reportId);
+                $this->addNotification("Bericht genehmigt", "Dein Bericht wurde genehmight.", $userId, $reportId);
                 break;
             case 'reportDisapproved':
-                $this->addNotification("Bericht abgelehnt", "Dein Bericht für die Kalenderwoche $calendarweek wurde abgelehnt.", $userId, $reportId);
+                $this->addNotification("Bericht abgelehnt", "Dein Bericht wurde abgelehnt.", $userId, $reportId);
                 break;
             case 'roleApproved':
                 $this->addNotification("Zugang freigeschaltet", "Herzlich willkommen bei berichtsheft.io", $userId, $reportId);

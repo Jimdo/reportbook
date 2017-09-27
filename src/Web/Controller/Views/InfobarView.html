@@ -9,6 +9,52 @@
       <li><a><img class="img-circle" src="/profile/image?id={{ userId }}"></a></li>
       <li><a href="https://reportbook-docs.jimdo-platform.net/" target="_blank" style="padding-left: 0;"><span class="docs-link glyphicon glyphicon-question-sign"></span></a></li>
       <li><a href="/report/changeLayout" class="layout-box"></a></li>
+      <!-- Start Notification Title -->
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="docs-link glyphicon glyphicon-globe"></span> <b>{{ notifications|length }}</b></a>
+        <ul class="dropdown-menu notify-drop">
+          <div class="notify-drop-title">
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-6">Benachrichtungen (<b>{{ notifications|length }}</b>)</div>
+              <div class="col-md-6 col-sm-6 col-xs-6 text-right"><a href="" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="Als gelesen markieren"><i class="fa fa-dot-circle-o"></i></a></div>
+            </div>
+          </div>
+          <!-- End Notification Title -->
+          <!-- Start Notification Content -->
+          <div class="drop-content">
+            {% for notification in notifications|sort|reverse %}
+              <li>
+                <div class="col-md-3 col-sm-3 col-xs-3">
+                  {% if notification.title == "Bericht genehmigt" %}
+                    <div class="notify-img glyphicon glyphicon-ok"></div>
+                  {% elseif notification.title == "Bericht abgelehnt" %}
+                    <div class="notify-img glyphicon glyphicon-remove"></div>
+                  {% elseif notification.title == "Bericht eingereicht" %}
+                    <div class="notify-img glyphicon glyphicon-send"></div>
+                  {% elseif notification.title == "Bericht kommentiert" %}
+                    <div class="notify-img glyphicon glyphicon-comment"></div>
+                  {% elseif notification.title == "Email geändert" %}
+                    <div class="notify-img glyphicon glyphicon-wrench"></div>
+                  {% elseif notification.title == "Passwort geändert" %}
+                    <div class="notify-img glyphicon glyphicon-wrench"></div>
+                  {% else %}
+                    <div class="notify-img glyphicon glyphicon-info-sign"></div>
+                  {% endif %}
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-9 pd-l0">{{ notification.title }}
+                  <br />
+                  <p><a href="/report/viewReport?traineeId={{ appService.findReportById(notification.reportId, notification.userId, true).traineeId() }}&reportId={{ notification.reportId }}">{{ notification.description }}</a></p>
+                  <p class="float-left">{{ notification.time|date("H:i d.m.Y", "Europe/Paris") }}</p>
+                </div>
+              </li>
+            {% endfor %}
+          </div>
+          <div class="notify-drop-footer text-center">
+            <a href="/report/seen"><i class="fa fa-eye"></i> Als gelesen markieren</a>
+          </div>
+        </ul>
+      </li>
+      <!-- End Notification Content -->
       <li><a href="/user/login"><span class="glyphicon glyphicon-off font-blue logout-button"></span></a></li>
     </ul>
   </div>

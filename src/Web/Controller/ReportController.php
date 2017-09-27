@@ -14,7 +14,7 @@ use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Web\Request;
 use Jimdo\Reports\Web\Validator\Validator;
 
-use Jimdo\Reports\Notification\BrowserNotificationService;
+use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
 use Jimdo\Reports\Notification\MailgunSubscriber;
 use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
@@ -75,7 +75,7 @@ class ReportController extends Controller
 
         $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
         $notificationService->register(new MailgunSubscriber($emailEventTypes, $appConfig));
-        $notificationService->register(new NotificationSubscriber($emailEventTypes, $appConfig));
+        $notificationService->register(new BrowserNotificationSubscriber($emailEventTypes, $appConfig));
     }
 
     public function indexAction()

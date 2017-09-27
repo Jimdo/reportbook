@@ -7,7 +7,7 @@ use Jimdo\Reports\Web\Response;
 use Jimdo\Reports\Web\RequestValidator;
 use Jimdo\Reports\Web\ApplicationConfig;
 
-use Jimdo\Reports\Notification\BrowserNotificationService;
+use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
 
 use Jimdo\Reports\Application\ApplicationService;

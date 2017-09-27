@@ -32,6 +32,14 @@ class BrowserNotificationService
     /**
      * @param BrowserNotification $notification
      */
+    public function save(BrowserNotification $notification)
+    {
+        $this->repository->save($notification);
+    }
+
+    /**
+     * @param BrowserNotification $notification
+     */
     public function delete(BrowserNotification $notification)
     {
         $this->repository->delete($notification);

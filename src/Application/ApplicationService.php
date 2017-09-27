@@ -810,7 +810,7 @@ class ApplicationService
      * @param string $userId
      * @return array
      */
-    public function findNotificationByUserId(string $userId) : array
+    public function findNotificationsByUserId(string $userId) : array
     {
         return $this->browserNotificationService->findByUserId($userId);
     }
@@ -819,7 +819,7 @@ class ApplicationService
      * @param string $status
      * @return array
      */
-    public function findNotificationByStatus(string $status) : array
+    public function findNotificationsByStatus(string $status) : array
     {
         return $this->browserNotificationService->findByStatus($status);
     }

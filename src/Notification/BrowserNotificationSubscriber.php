@@ -39,7 +39,7 @@ class BrowserNotificationSubscriber implements Subscriber
 
         $this->notifications = $reportbook->notifications;
 
-        $this->repository = new NotificationMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $this->repository = new BrowserNotificationMongoRepository($this->client, new Serializer(), $this->appConfig);
     }
 
     /**

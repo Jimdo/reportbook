@@ -17,6 +17,7 @@ use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Serializer;
 use Jimdo\Reports\RepositoryFactory;
 use Jimdo\Reports\Notification\NotificationService;
+use Jimdo\Reports\Notification\BrowserNotificationService;
 use Jimdo\Reports\Notification\Events;
 
 class ApplicationService
@@ -33,6 +34,9 @@ class ApplicationService
     /** @var NotificationService */
     public $notificationService;
 
+    /** @var BrowserNotificationService */
+    public $browserNotificationService;
+
     /**
      * @param ReportbookService $reportbookService
      * @param UserService $userService
@@ -40,13 +44,14 @@ class ApplicationService
      * @param NotificationService $notificationService
      * @param PrintService $printService
      */
-    public function __construct(ReportbookService $reportbookService, UserService $userService, ProfileService $profileService, NotificationService $notificationService, PrintService $printService)
+    public function __construct(ReportbookService $reportbookService, UserService $userService, ProfileService $profileService, NotificationService $notificationService, PrintService $printService, BrowserNotificationService $browserNotificationService)
     {
         $this->reportbookService = $reportbookService;
         $this->userService = $userService;
         $this->profileService = $profileService;
         $this->notificationService = $notificationService;
         $this->printService = $printService;
+        $this->browserNotificationService = $browserNotificationService;
     }
 
     /**
@@ -782,6 +787,63 @@ class ApplicationService
     }
 
     /**
+     * @param string $title
+     * @param string $description
+     * @param string $userId
+     * @param string $reportId
+     * @return BrowserNotification
+     */
+    public function createNotification(string $title, string $description, string $userId, string $reportId) : BrowserNotification
+    {
+        return $this->browserNotificationService->create($title, $description, $userId, $reportId);
+    }
+
+    /**
+     * @param BrowserNotification $notification
+     */
+    public function deleteNotification(BrowserNotification $notification)
+    {
+        $this->browserNotificationService->delete($notification);
+    }
+
+    /**
+     * @param string $userId
+     * @return array
+     */
+    public function findNotificationByUserId(string $userId) : array
+    {
+        return $this->browserNotificationService->findByUserId($userId);
+    }
+
+    /**
+     * @param string $status
+     * @return array
+     */
+    public function findNotificationByStatus(string $status) : array
+    {
+        return $this->browserNotificationService->findByStatus($status);
+    }
+
+    /**
+     * @param string $id
+     * @return BrowserNotification | null
+     */
+    public function findNotificationById(string $id)
+    {
+        return $this->browserNotificationService->findById($id);
+    }
+
+    /**
+     * @param string $id
+     */
+    public function notificationSeen(string $id)
+    {
+        $notification = $this->browserNotificationService->findById($id);
+        $notification->seen();
+        $this->browserNotificationService->save($notification);
+    }
+
+    /**
      * @param string $userId
      * @param string $trainerTitle
      * @param string $trainerForename
@@ -831,14 +893,16 @@ class ApplicationService
         $profileRepository = $repositoryFactory->createProfileRepository();
         $commentRepository = $repositoryFactory->createCommentRepository();
         $reportRepository = $repositoryFactory->createReportRepository();
+        $browserNotificationRepository = $repositoryFactory->createBrowserNotificationRepository();
 
         $userService = new UserService($userRepository, $appConfig);
         $profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig);
         $commentService = new CommentService($commentRepository, $serializer, $appConfig);
         $reportbookService = new ReportbookService($reportRepository, $commentService, $appConfig);
+        $browserNotificationService = new BrowserNotificationService($browserNotificationRepository);
 
         $printService = new PrintService($profileService, $reportbookService, $appConfig);
 
-        return new self($reportbookService, $userService, $profileService, $notificationService, $printService);
+        return new self($reportbookService, $userService, $profileService, $notificationService, $printService, $browserNotificationService);
     }
 }

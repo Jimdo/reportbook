@@ -7,6 +7,8 @@ use Jimdo\Reports\Reportbook\CommentMySQLRepository;
 use Jimdo\Reports\Reportbook\ReportMongoRepository;
 use Jimdo\Reports\Reportbook\ReportMySQLRepository;
 
+use Jimdo\Reports\Notification\BrowserNotificationMongoRepository;
+
 use Jimdo\Reports\User\UserMongoRepository;
 use Jimdo\Reports\User\UserMySQLRepository;
 
@@ -42,16 +44,16 @@ class RepositoryFactory
         $this->storage = $this->appConfig->storage;
         $this->serializer = $serializer;
 
-        if ($this->storage === 'mongo') {
-            $mongoUri = sprintf('mongodb://%s:%s@%s:%d/%s'
+        $mongoUri = sprintf('mongodb://%s:%s@%s:%d/%s'
             , $this->appConfig->mongoUsername
             , $this->appConfig->mongoPassword
             , $this->appConfig->mongoHost
             , $this->appConfig->mongoPort
             , $this->appConfig->mongoDatabase
         );
-            $this->mongoClient = new \MongoDB\Client($mongoUri);
-        } elseif ($this->storage === 'mysql') {
+        $this->mongoClient = new \MongoDB\Client($mongoUri);
+
+        if ($this->storage === 'mysql') {
             $mysqlUri = "mysql:host={$this->appConfig->mysqlHost};dbname={$this->appConfig->mysqlDatabase}";
             $this->mysqlClient = new \PDO($mysqlUri, $this->appConfig->mysqlUser, $this->appConfig->mysqlPassword);
         }
@@ -103,5 +105,13 @@ class RepositoryFactory
         } elseif ($this->storage === 'mysql') {
             return new CommentMySQLRepository($this->mysqlClient, $this->serializer, $this->appConfig);
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function createBrowserNotificationRepository()
+    {
+        return new BrowserNotificationMongoRepository($this->mongoClient, $this->serializer, $this->appConfig);
     }
 }

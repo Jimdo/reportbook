@@ -10,6 +10,7 @@ use Jimdo\Reports\User\Role;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\DummySubscriber;
+use Jimdo\Reports\Notification\BrowserNotificationService;
 
 
 class ApplicationServiceTest extends TestCase

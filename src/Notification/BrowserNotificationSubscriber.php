@@ -67,7 +67,9 @@ class BrowserNotificationSubscriber implements Subscriber
                 }
                 break;
             case 'commentCreated':
-                $this->addNotification("Bericht kommentiert", "Dein Bericht wurde kommentiert.", $userId, $reportId);
+                if ($event->payload()['traineeId'] == $event->payload()['userId']) {
+                    $this->addNotification("Bericht kommentiert", "Dein Bericht wurde kommentiert.", $userId, $reportId);
+                }
                 break;;
             case 'emailEdited':
                 $this->addNotification("Email geändert", "Deine E-Mail wurde erfolgreich zu {$event->payload()['email']} geändert.", $userId, $reportId);

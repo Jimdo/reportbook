@@ -25,6 +25,7 @@ use Jimdo\Reports\Web\ApplicationConfig;
 
 use Jimdo\Reports\Application\ApplicationService;
 
+use Jimdo\Reports\Notification\BrowserNotification;
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
 use Jimdo\Reports\Notification\MailgunSubscriber;
@@ -147,7 +148,8 @@ class UserController extends Controller
             'isTrainee' => $this->isTrainee(),
             'profile' => $profile,
             'errorMessages' => $exceptions,
-            'user' => $user
+            'user' => $user,
+            'notifications' => $this->notifications()
         ];
 
         echo $this->twig->render('ProfileView.html', $variables);
@@ -314,7 +316,8 @@ class UserController extends Controller
                 'users' => $this->appService->findUsersByStatus(Role::STATUS_NOT_APPROVED),
                 'profileService' => $this->appService->profileService,
                 'approvedUsers' => $this->appService->findUsersByStatus(Role::STATUS_APPROVED),
-                'userlistViewActive' => true
+                'userlistViewActive' => true,
+                'notifications' => $this->notifications()
             ];
 
             echo $this->twig->render('UserlistView.html', $variables);
@@ -373,7 +376,8 @@ class UserController extends Controller
             'isTrainee' => $this->isTrainee(),
             'profile' => $profile,
             'user' => $user,
-            'profileViewActive' => true
+            'profileViewActive' => true,
+            'notifications' => $this->notifications()
         ];
 
         echo $this->twig->render('ProfileView.html', $variables);
@@ -445,7 +449,8 @@ class UserController extends Controller
             'isTrainee' => $this->isTrainee(),
             'profile' => $profile,
             'user' => $user,
-            'errorMessages' => $errorMessages
+            'errorMessages' => $errorMessages,
+            'notifications' => $this->notifications()
         ];
 
         echo $this->twig->render('ProfileView.html', $variables);
@@ -485,7 +490,8 @@ class UserController extends Controller
                 'isTrainee' => $this->isTrainee(),
                 'profile' => $profile,
                 'user' => $user,
-                'errorMessages' => $exceptions
+                'errorMessages' => $exceptions,
+                'notifications' => $this->notifications()
             ];
 
             echo $this->twig->render('ProfileView.html', $variables);
@@ -529,7 +535,8 @@ class UserController extends Controller
                 'isTrainee' => $this->isTrainee(),
                 'profile' => $profile,
                 'user' => $user,
-                'errorMessages' => $exceptions
+                'errorMessages' => $exceptions,
+                'notifications' => $this->notifications()
             ];
 
             echo $this->twig->render('ProfileView.html', $variables);
@@ -635,7 +642,8 @@ class UserController extends Controller
             'isTrainee' => $this->isTrainee(),
             'profile' => $profile,
             'user' => $user,
-            'errorMessages' => $errorMessages
+            'errorMessages' => $errorMessages,
+            'notifications' => $this->notifications()
         ];
 
         echo $this->twig->render('ProfileView.html', $variables);
@@ -674,7 +682,8 @@ class UserController extends Controller
             'isTrainee' => $this->isTrainee(),
             'profile' => $profile,
             'user' => $user,
-            'errorMessages' => $errorMessages
+            'errorMessages' => $errorMessages,
+            'notifications' => $this->notifications()
         ];
 
         echo $this->twig->render('ProfileView.html', $variables);
@@ -698,7 +707,8 @@ class UserController extends Controller
             'hideInfos' => false,
             'isTrainee' => $this->isTrainee(),
             'userId' => $this->sessionData('userId'),
-            'changePasswordViewActive' => true
+            'changePasswordViewActive' => true,
+            'notifications' => $this->notifications()
         ];
 
         echo $this->twig->render('ChangePasswordView.html', $variables);
@@ -738,7 +748,8 @@ class UserController extends Controller
                 'hideInfos' => false,
                 'isTrainee' => $this->isTrainee(),
                 'userId' => $this->sessionData('userId'),
-                'errorMessages' => $exceptions
+                'errorMessages' => $exceptions,
+                'notifications' => $this->notifications()
             ];
 
             echo $this->twig->render('ChangePasswordView.html', $variables);
@@ -765,7 +776,8 @@ class UserController extends Controller
             'isTrainee' => ($user->roleName() === Role::TRAINEE),
             'profile' => $profile,
             'user' => $user,
-            'errorMessages' => $errorMessages
+            'errorMessages' => $errorMessages,
+            'notifications' => $this->notifications()
         ];
 
         echo $this->twig->render('UserProfileView.html', $variables);
@@ -831,5 +843,19 @@ class UserController extends Controller
             case PasswordBlackList::ERR_CODE:
                 return 'Dieses Passwort ist nicht erlaubt!';
         }
+    }
+
+    /**
+     * @return array
+     */
+    private function notifications()
+    {
+        $notifications = [];
+        foreach ($this->appService->findNotificationsByUserId($this->sessionData('userId')) as $notification) {
+            if ($notification->status() != BrowserNotification::STATUS_SEEN) {
+                $notifications[] = $notification;
+            }
+        }
+        return $notifications;
     }
 }

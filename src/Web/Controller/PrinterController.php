@@ -9,6 +9,7 @@ use Jimdo\Reports\Web\Response;
 use Jimdo\Reports\Web\ViewHelper;
 use Jimdo\Reports\Web\Validator\Validator;
 
+use Jimdo\Reports\Notification\BrowserNotification;
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Application\ApplicationService;
 
@@ -95,7 +96,8 @@ class PrinterController extends Controller
             'heading' => 'Berichte herunterladen',
             'errorMessages' => $errorMessages,
             'formDisabled' => $formDisabled,
-            'years' => $years
+            'years' => $years,
+            'notifications' => $this->notifications()
         ];
 
         echo $this->twig->render('PrintView.html', $variables);
@@ -159,5 +161,19 @@ class PrinterController extends Controller
                 );
                 break;
         }
+    }
+
+    /**
+     * @return array
+     */
+    private function notifications()
+    {
+        $notifications = [];
+        foreach ($this->appService->findNotificationsByUserId($this->sessionData('userId')) as $notification) {
+            if ($notification->status() != BrowserNotification::STATUS_SEEN) {
+                $notifications[] = $notification;
+            }
+        }
+        return $notifications;
     }
 }

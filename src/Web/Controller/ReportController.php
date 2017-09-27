@@ -18,6 +18,7 @@ use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
 use Jimdo\Reports\Notification\MailgunSubscriber;
 use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
+use Jimdo\Reports\Notification\BrowserNotification;
 
 use Jimdo\Reports\Application\ApplicationService;
 
@@ -206,7 +207,9 @@ class ReportController extends Controller
             'hideInfos' => false,
             'appService' => $this->appService,
             'reports' => $reports,
-            'listViewActive' => true
+            'listViewActive' => true,
+            'notifications' => $this->notifications(),
+            'appService' => $this->appService
         ];
 
         echo $template->render($variables);
@@ -255,7 +258,8 @@ class ReportController extends Controller
                 'users' => $traineeInfo,
                 'currentUserId' => $currentUserId,
                 'calendarViewActive' => true,
-                'cwInfo' => $this->createCalendarArray($currentUserId, $year)
+                'cwInfo' => $this->createCalendarArray($currentUserId, $year),
+                'notifications' => $this->notifications()
             ];
 
             echo $this->twig->render('CalendarView.html', $variables);
@@ -293,6 +297,7 @@ class ReportController extends Controller
         if (!$this->isTrainee()) {
             $this->redirect("/user");
         }
+
         $variables = [
             'tabTitle' => 'Berichtsheft',
             'viewHelper' => $this->viewHelper,
@@ -316,7 +321,8 @@ class ReportController extends Controller
             'statusButtons' => false,
             'isCompany' => 'checked',
             'showCreateCommentButton' => false,
-            'createReportViewActive' => true
+            'createReportViewActive' => true,
+            'notifications' => $this->notifications()
         ];
 
         echo $this->twig->render('ReportView.html', $variables);
@@ -347,6 +353,7 @@ class ReportController extends Controller
             foreach ($this->requestValidator->errorCodes() as $errorCode) {
                 $errorMessages[] = $this->getErrorMessageForErrorCode($errorCode);
             }
+
             $variables = [
                 'tabTitle' => 'Berichtsheft',
                 'viewHelper' => $this->viewHelper,
@@ -369,7 +376,8 @@ class ReportController extends Controller
                 'statusButtons' => false,
                 'isCompany' => 'checked',
                 'errorMessages' => $errorMessages,
-                'showCreateCommentButton' => false
+                'showCreateCommentButton' => false,
+                'notifications' => $this->notifications()
             ];
 
             echo $this->twig->render('ReportView.html', $variables);
@@ -421,7 +429,8 @@ class ReportController extends Controller
             'userId' => $this->sessionData('userId'),
             'traineeId' => $this->sessionData('userId'),
             'report' => $this->appService->findReportById($reportId, $this->sessionData('userId')),
-            'showCreateCommentButton' => ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED')
+            'showCreateCommentButton' => ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED'),
+            'notifications' => $this->notifications()
         ];
 
         echo $this->twig->render('ReportView.html', $variables);
@@ -492,7 +501,8 @@ class ReportController extends Controller
                 'traineeId' => $this->sessionData('userId'),
                 'report' => $this->appService->findReportById($this->formData('reportId'), $this->sessionData('userId')),
                 'showCreateCommentButton' => ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED'),
-                'errorMessages' => $errorMessages
+                'errorMessages' => $errorMessages,
+                'notifications' => $this->notifications()
             ];
 
             echo $this->twig->render('ReportView.html', $variables);
@@ -588,7 +598,8 @@ class ReportController extends Controller
                 && $report->status() !== Report::STATUS_REVISED
                 || $this->isAdmin()
                 && $report->status() === Report::STATUS_APPROVAL_REQUESTED
-            )
+            ),
+            'notifications' => $this->notifications()
         ];
 
         echo $this->twig->render('ReadonlyReportView.html', $variables);
@@ -664,7 +675,8 @@ class ReportController extends Controller
             'hideInfos' => false,
             'appService' => $this->appService,
             'reports' => $reports,
-            'listViewActive' => true
+            'listViewActive' => true,
+            'notifications' => $this->notifications()
         ];
 
         echo $template->render($variables);
@@ -681,6 +693,15 @@ class ReportController extends Controller
             setcookie("LAYOUT", ViewHelper::DARK_LAYOUT, time()+2592000, '/');
         } elseif ($_COOKIE['LAYOUT'] === ViewHelper::DARK_LAYOUT) {
             setcookie("LAYOUT", ViewHelper::BRIGHT_LAYOUT, time()+2592000, '/');
+        }
+        $this->redirect('/report/list');
+    }
+
+    public function seenAction()
+    {
+        $notifications = $this->appService->findNotificationsByUserId($this->sessionData('userId'));
+        foreach ($notifications as $notification) {
+            $this->appService->notificationSeen($notification->id());
         }
         $this->redirect('/report/list');
     }
@@ -703,6 +724,7 @@ class ReportController extends Controller
      * @param string $traineeId
      * @return array
      */
+
     private function createCalendarArray(string $traineeId, string $year): array
     {
         $reports = $this->appService->findReportsByTraineeId($traineeId);
@@ -723,5 +745,19 @@ class ReportController extends Controller
             }
         }
         return $arr;
+    }
+
+    /**
+     * @return array
+     */
+    private function notifications()
+    {
+        $notifications = [];
+        foreach ($this->appService->findNotificationsByUserId($this->sessionData('userId')) as $notification) {
+            if ($notification->status() != BrowserNotification::STATUS_SEEN) {
+                $notifications[] = $notification;
+            }
+        }
+        return $notifications;
     }
 }

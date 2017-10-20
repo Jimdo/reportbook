@@ -97,7 +97,8 @@ class PrinterController extends Controller
             'errorMessages' => $errorMessages,
             'formDisabled' => $formDisabled,
             'years' => $years,
-            'notifications' => $this->notifications()
+            'notifications' => $this->notifications(),
+            'appService' => $this->appService
         ];
 
         echo $this->twig->render('PrintView.html', $variables);

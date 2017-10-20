@@ -259,7 +259,8 @@ class ReportController extends Controller
                 'currentUserId' => $currentUserId,
                 'calendarViewActive' => true,
                 'cwInfo' => $this->createCalendarArray($currentUserId, $year),
-                'notifications' => $this->notifications()
+                'notifications' => $this->notifications(),
+                'appService' => $this->appService
             ];
 
             echo $this->twig->render('CalendarView.html', $variables);
@@ -322,7 +323,8 @@ class ReportController extends Controller
             'isCompany' => 'checked',
             'showCreateCommentButton' => false,
             'createReportViewActive' => true,
-            'notifications' => $this->notifications()
+            'notifications' => $this->notifications(),
+            'appService' => $this->appService
         ];
 
         echo $this->twig->render('ReportView.html', $variables);
@@ -377,7 +379,8 @@ class ReportController extends Controller
                 'isCompany' => 'checked',
                 'errorMessages' => $errorMessages,
                 'showCreateCommentButton' => false,
-                'notifications' => $this->notifications()
+                'notifications' => $this->notifications(),
+                'appService' => $this->appService
             ];
 
             echo $this->twig->render('ReportView.html', $variables);
@@ -430,7 +433,8 @@ class ReportController extends Controller
             'traineeId' => $this->sessionData('userId'),
             'report' => $this->appService->findReportById($reportId, $this->sessionData('userId')),
             'showCreateCommentButton' => ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED'),
-            'notifications' => $this->notifications()
+            'notifications' => $this->notifications(),
+            'appService' => $this->appService
         ];
 
         echo $this->twig->render('ReportView.html', $variables);
@@ -502,7 +506,8 @@ class ReportController extends Controller
                 'report' => $this->appService->findReportById($this->formData('reportId'), $this->sessionData('userId')),
                 'showCreateCommentButton' => ($report->status() !== 'NEW' && $report->status() !== 'EDITED' && $report->status() !== 'APPROVED'),
                 'errorMessages' => $errorMessages,
-                'notifications' => $this->notifications()
+                'notifications' => $this->notifications(),
+                'appService' => $this->appService
             ];
 
             echo $this->twig->render('ReportView.html', $variables);
@@ -599,7 +604,8 @@ class ReportController extends Controller
                 || $this->isAdmin()
                 && $report->status() === Report::STATUS_APPROVAL_REQUESTED
             ),
-            'notifications' => $this->notifications()
+            'notifications' => $this->notifications(),
+            'appService' => $this->appService
         ];
 
         echo $this->twig->render('ReadonlyReportView.html', $variables);
@@ -676,7 +682,8 @@ class ReportController extends Controller
             'appService' => $this->appService,
             'reports' => $reports,
             'listViewActive' => true,
-            'notifications' => $this->notifications()
+            'notifications' => $this->notifications(),
+            'appService' => $this->appService
         ];
 
         echo $template->render($variables);

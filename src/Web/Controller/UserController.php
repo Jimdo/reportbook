@@ -149,7 +149,8 @@ class UserController extends Controller
             'profile' => $profile,
             'errorMessages' => $exceptions,
             'user' => $user,
-            'notifications' => $this->notifications()
+            'notifications' => $this->notifications(),
+            'appService' => $this->appService
         ];
 
         echo $this->twig->render('ProfileView.html', $variables);
@@ -317,7 +318,8 @@ class UserController extends Controller
                 'profileService' => $this->appService->profileService,
                 'approvedUsers' => $this->appService->findUsersByStatus(Role::STATUS_APPROVED),
                 'userlistViewActive' => true,
-                'notifications' => $this->notifications()
+                'notifications' => $this->notifications(),
+                'appService' => $this->appService
             ];
 
             echo $this->twig->render('UserlistView.html', $variables);
@@ -377,7 +379,8 @@ class UserController extends Controller
             'profile' => $profile,
             'user' => $user,
             'profileViewActive' => true,
-            'notifications' => $this->notifications()
+            'notifications' => $this->notifications(),
+            'appService' => $this->appService
         ];
 
         echo $this->twig->render('ProfileView.html', $variables);
@@ -450,7 +453,8 @@ class UserController extends Controller
             'profile' => $profile,
             'user' => $user,
             'errorMessages' => $errorMessages,
-            'notifications' => $this->notifications()
+            'notifications' => $this->notifications(),
+            'appService' => $this->appService
         ];
 
         echo $this->twig->render('ProfileView.html', $variables);
@@ -491,7 +495,8 @@ class UserController extends Controller
                 'profile' => $profile,
                 'user' => $user,
                 'errorMessages' => $exceptions,
-                'notifications' => $this->notifications()
+                'notifications' => $this->notifications(),
+                'appService' => $this->appService
             ];
 
             echo $this->twig->render('ProfileView.html', $variables);
@@ -536,7 +541,8 @@ class UserController extends Controller
                 'profile' => $profile,
                 'user' => $user,
                 'errorMessages' => $exceptions,
-                'notifications' => $this->notifications()
+                'notifications' => $this->notifications(),
+                'appService' => $this->appService
             ];
 
             echo $this->twig->render('ProfileView.html', $variables);
@@ -643,7 +649,8 @@ class UserController extends Controller
             'profile' => $profile,
             'user' => $user,
             'errorMessages' => $errorMessages,
-            'notifications' => $this->notifications()
+            'notifications' => $this->notifications(),
+            'appService' => $this->appService
         ];
 
         echo $this->twig->render('ProfileView.html', $variables);
@@ -683,7 +690,8 @@ class UserController extends Controller
             'profile' => $profile,
             'user' => $user,
             'errorMessages' => $errorMessages,
-            'notifications' => $this->notifications()
+            'notifications' => $this->notifications(),
+            'appService' => $this->appService
         ];
 
         echo $this->twig->render('ProfileView.html', $variables);
@@ -708,7 +716,8 @@ class UserController extends Controller
             'isTrainee' => $this->isTrainee(),
             'userId' => $this->sessionData('userId'),
             'changePasswordViewActive' => true,
-            'notifications' => $this->notifications()
+            'notifications' => $this->notifications(),
+            'appService' => $this->appService
         ];
 
         echo $this->twig->render('ChangePasswordView.html', $variables);
@@ -749,7 +758,8 @@ class UserController extends Controller
                 'isTrainee' => $this->isTrainee(),
                 'userId' => $this->sessionData('userId'),
                 'errorMessages' => $exceptions,
-                'notifications' => $this->notifications()
+                'notifications' => $this->notifications(),
+                'appService' => $this->appService
             ];
 
             echo $this->twig->render('ChangePasswordView.html', $variables);
@@ -777,7 +787,8 @@ class UserController extends Controller
             'profile' => $profile,
             'user' => $user,
             'errorMessages' => $errorMessages,
-            'notifications' => $this->notifications()
+            'notifications' => $this->notifications(),
+            'appService' => $this->appService
         ];
 
         echo $this->twig->render('UserProfileView.html', $variables);

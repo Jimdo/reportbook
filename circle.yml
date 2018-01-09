@@ -4,7 +4,7 @@ machine:
     - mysql
     - mongod
   php:
-    version: '7.0.4'
+    version: '7.0.24'
   environment:
     MONGO_HOST: '127.0.0.1'
     MYSQL_DATABASE: 'reportbook_test'

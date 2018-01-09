@@ -62,7 +62,7 @@ deploy: build push $(WL) ## Deploy the app to the wonderland
 	$(WL) deploy --watch $(NAME)
 
 deploy-cron: $(WL) ## Deploy the mongoDB backup cron job to the wonderland
-	$(WL) cron run -f cron/cron.yaml
+	$(WL) cron create reportbook-mongo-backup -f cron/cron.yaml
 	wl cron status reportbook-mongo-backup
 
 login:

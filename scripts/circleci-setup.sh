@@ -8,4 +8,4 @@ set -e
 ## Setup mysql user and database
 ./scripts/circleci-mysql-setup.sh
 
-echo "extension=mongodb.so" >> /opt/circleci/php/7.0.4/etc/php.ini
+echo "extension=mongodb.so" >> /opt/circleci/php/$(php -r 'echo phpversion();')/etc/php.ini

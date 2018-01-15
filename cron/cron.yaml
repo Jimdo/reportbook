@@ -1,5 +1,4 @@
-name: reportbook-mongo-backup
-schedule: "@hourly"
+schedule: "cron(0 * * * ? *)"
 description:
   image: registry.jimdo-platform.net/reportbook-mongo-backup
   arguments:

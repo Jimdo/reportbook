@@ -61,6 +61,13 @@ services:
       - hub
     environment:
       HUB_PORT_4444_TCP_ADDR: hub
+  api:
+    image: php:7.0-apache
+    container_name: reportbook_api
+    ports:
+      - 800:80
+    build:
+      context: api/
 volumes:
   reportbook-data:
   reportbook-data-mysql:

@@ -114,11 +114,8 @@ class Router
         $controllerObject = $this->createController($controller);
 
         $action = $action . 'Action';
-        $actionString = $controllerObject->$action();
 
-        echo $this->responseObject->render();
-
-        return $actionString;
+        $controllerObject->$action();
     }
 
     /**

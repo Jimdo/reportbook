@@ -194,3 +194,6 @@ update          Update composer packages
 
 ### v0.7.3
   - Implement Mobile View
+
+### v0.7.4
+  - Implement NotificationService

@@ -40,7 +40,8 @@ class PrintService
         $this->appConfig = $appConfig;
         $this->reportService = $reportService;
         $this->profileService = $profileService;
-        $this->mpdf = new \mPDF();
+
+        $this->mpdf = new \Mpdf\Mpdf(['tempDir' => '/tmp']);
 
         $loader = new \Twig_Loader_Filesystem(__DIR__ . $this->appConfig->printerTemplates);
         $this->twig = new \Twig_Environment($loader);

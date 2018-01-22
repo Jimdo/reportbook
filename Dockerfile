@@ -10,9 +10,10 @@ RUN apt-get update && apt-get install -y \
     unzip \
     wget \
     zlib1g \
-    zlib1g-dev
+    zlib1g-dev \
+    libpng-dev
 
-RUN docker-php-ext-install zip sockets
+RUN docker-php-ext-install zip sockets gd
 
 RUN pecl install mongodb \
     && docker-php-ext-enable mongodb \

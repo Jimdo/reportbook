@@ -42,4 +42,16 @@ $app->options("{anything}", function () {
     return new Response(json_encode(null, 204));
 })->assert("anything", ".*");
 
+// findReportByReportId
+$app->get('/reports/{id}', function (Silex\Application $app, $id) use ($appService, $serializer) {
+
+    // replace userId after building authentication
+    $report = $appService->findReportById($id, '5a66ff7c2c68c');
+
+    if ($report !== null) {
+        return new Response($serializer->serializeReport($report), 200);
+    }
+    return new Response(json_encode(['status' => 'unauthorized']), 401);
+});
+
 $app->run();

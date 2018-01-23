@@ -11,6 +11,8 @@ use Jimdo\Reports\Application\ApplicationService;
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Web\ApplicationConfig;
 
+const USER_ID = '5a66ff7c2c68c';
+
 $app = new Silex\Application();
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.logfile' => 'php://stderr'
@@ -46,11 +48,29 @@ $app->options("{anything}", function () {
 $app->get('/reports/{id}', function (Silex\Application $app, $id) use ($appService, $serializer) {
 
     // replace userId after building authentication
-    $report = $appService->findReportById($id, '5a66ff7c2c68c');
+    $report = $appService->findReportById($id, USER_ID);
 
     if ($report !== null) {
         return new Response($serializer->serializeReport($report), 200);
     }
+    return new Response(json_encode(['status' => 'unauthorized']), 401);
+});
+
+$app->post('/reports', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
+    // replace userId after building authentication
+    $traineeId = USER_ID;
+    $content = $request->get('content');
+    $calendarWeek = $request->get('calendarWeek');
+    $calendarYear = $request->get('calendarYear');
+    $category = $request->get('category');
+
+
+    $report = $appService->createReport($traineeId, $content, $calendarWeek, $calendarYear, $category);
+
+    if ($report !== null) {
+        return new Response(json_encode(['status' => 'created']), 201);
+    }
+
     return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 

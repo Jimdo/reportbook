@@ -62,12 +62,21 @@ services:
     environment:
       HUB_PORT_4444_TCP_ADDR: hub
   api:
-    image: php:7.0-apache
-    container_name: reportbook_api
     ports:
-      - 800:80
+      - 2500:80
     build:
-      context: api/
+      context: .
+      dockerfile: Dockerfile.api
+    environment:
+      - APPLICATION_ENV
+      - MAILGUN_DOMAIN
+      - MAILGUN_KEY
+      - MONGO_HOST=mongo
+      - MYSQL_HOST=mysql
+      - SELENIUM_IP
+      - REPORTBOOK_IP
+    volumes:
+      - .:/var/www
 volumes:
   reportbook-data:
   reportbook-data-mysql:

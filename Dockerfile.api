@@ -1,0 +1,6 @@
+FROM jimdo/reportbook
+
+COPY api/ /var/www/api
+
+COPY api/vhost.conf /etc/apache2/sites-enabled/000-default.conf
+

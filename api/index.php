@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Jimdo\Reports\Application\ApplicationService;
 use Jimdo\Reports\Notification\NotificationService;
+use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
 use Jimdo\Reports\Web\ApplicationConfig;
 
 const USER_ID = '5a66ff7c2c68c';
@@ -20,7 +21,15 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
 
 $serializer = new Serializer();
 $appConfig = new ApplicationConfig('../config.yml');
+
 $notificationService = new NotificationService();
+$notificationService->register(new BrowserNotificationSubscriber([
+    'reportCreated',
+    'approvalRequested',
+    'reportApproved',
+    'reportDisapproved'
+], $appConfig));
+
 $appService = ApplicationService::create($appConfig, $notificationService);
 
 $app->before(function (Request $request, Silex\Application $app) {

@@ -37,7 +37,7 @@ $app->before(function (Request $request, Silex\Application $app) {
         return new Response(json_encode(null, 204));
     }
 
-    if (0 === strpos($request->headers->get('content-type'), 'application/json')) {
+    if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
         $data = json_decode($request->getContent(), true);
         $request->request->replace(is_array($data) ? $data : array());
     }
@@ -45,7 +45,7 @@ $app->before(function (Request $request, Silex\Application $app) {
 
 $app->after(function (Request $request, Response $response) {
     $response->headers->set('Access-Control-Allow-Origin', '*');
-    $response->headers->set('Access-Control-Allow-Headers', 'X-AUTH-TOKEN, Content-Type, Origin');
+    $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Origin');
     $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, DELETE, PUT');
 });
 

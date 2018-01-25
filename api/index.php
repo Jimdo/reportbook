@@ -13,11 +13,12 @@ use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Reportbook\TraineeId;
 
-
 $app = new Silex\Application();
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.logfile' => 'php://stderr'
 ));
+
+session_start(['cookie_httponly' => true]);
 
 $serializer = new Serializer();
 $appConfig = new ApplicationConfig('../config.yml');
@@ -44,7 +45,8 @@ $app->before(function (Request $request, Silex\Application $app) {
 });
 
 $app->after(function (Request $request, Response $response) {
-    $response->headers->set('Access-Control-Allow-Origin', '*');
+    $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
+    $response->headers->set('Access-Control-Allow-Credentials', 'true');
     $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Origin');
     $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, DELETE, PUT');
 });

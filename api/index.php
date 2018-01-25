@@ -12,7 +12,6 @@ use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
 use Jimdo\Reports\Web\ApplicationConfig;
 
-const USER_ID = '5a66ff7c2c68c';
 
 $app = new Silex\Application();
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
@@ -53,11 +52,24 @@ $app->options("{anything}", function () {
     return new Response(json_encode(null, 204));
 })->assert("anything", ".*");
 
+$app->post('/login', function (Silex\Application $app, Request $request) use ($appService) {
+    $username = $request->request->get('username');
+    $password = $request->request->get('password');
+
+    if ($appService->authUser($username, $password)) {
+        $user = $appService->findUserByUsername($username);
+        $_SESSION['userId'] = $user->id();
+
+        return new Response(json_encode(['status' => 'ok']), 200);
+    } else {
+        $_SESSION['userId'] = '';
+        return new Response(json_encode(['status' => 'unauthorized']), 401);
+    }
+});
+
 // findReportByReportId
 $app->get('/reports/{id}', function (Silex\Application $app, $id) use ($appService, $serializer) {
-
-    // replace userId after building authentication
-    $report = $appService->findReportById($id, USER_ID);
+    $report = $appService->findReportById($id, $_SESSION['userId']);
 
     if ($report !== null) {
         return new Response($serializer->serializeReport($report), 200);

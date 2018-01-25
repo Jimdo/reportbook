@@ -11,6 +11,7 @@ use Jimdo\Reports\Application\ApplicationService;
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
 use Jimdo\Reports\Web\ApplicationConfig;
+use Jimdo\Reports\Reportbook\TraineeId;
 
 
 $app = new Silex\Application();
@@ -77,16 +78,14 @@ $app->get('/reports/{id}', function (Silex\Application $app, $id) use ($appServi
     return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 
-$app->post('/reports', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
-    // replace userId after building authentication
-    $traineeId = USER_ID;
-    $content = $request->get('content');
-    $calendarWeek = $request->get('calendarWeek');
-    $calendarYear = $request->get('calendarYear');
-    $category = $request->get('category');
-
-
-    $report = $appService->createReport($traineeId, $content, $calendarWeek, $calendarYear, $category);
+$app->post('/reports', function (Silex\Application $app, Request $request) use ($appService) {
+    $report = $appService->createReport(
+        new TraineeId($_SESSION['userId']),
+        $request->request->get('content'),
+        $request->request->get('calendarWeek'),
+        $request->request->get('calendarYear'),
+        $request->request->get('category')
+    );
 
     if ($report !== null) {
         return new Response(json_encode(['status' => 'created']), 201);

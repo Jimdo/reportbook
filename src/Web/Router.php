@@ -221,7 +221,7 @@ class Router
 
             session_set_save_handler($handler);
 
-            session_start();
+            session_start(['cookie_httponly' => true]);
         }
     }
 }

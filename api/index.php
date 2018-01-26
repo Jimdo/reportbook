@@ -9,18 +9,28 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Jimdo\Reports\Application\ApplicationService;
 use Jimdo\Reports\Notification\NotificationService;
+use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
 use Jimdo\Reports\Web\ApplicationConfig;
-
-const USER_ID = '5a66ff7c2c68c';
+use Jimdo\Reports\Reportbook\TraineeId;
 
 $app = new Silex\Application();
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.logfile' => 'php://stderr'
 ));
 
+session_start(['cookie_httponly' => true]);
+
 $serializer = new Serializer();
 $appConfig = new ApplicationConfig('../config.yml');
+
 $notificationService = new NotificationService();
+$notificationService->register(new BrowserNotificationSubscriber([
+    'reportCreated',
+    'approvalRequested',
+    'reportApproved',
+    'reportDisapproved'
+], $appConfig));
+
 $appService = ApplicationService::create($appConfig, $notificationService);
 
 $app->before(function (Request $request, Silex\Application $app) {
@@ -28,15 +38,16 @@ $app->before(function (Request $request, Silex\Application $app) {
         return new Response(json_encode(null, 204));
     }
 
-    if (0 === strpos($request->headers->get('content-type'), 'application/json')) {
+    if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
         $data = json_decode($request->getContent(), true);
         $request->request->replace(is_array($data) ? $data : array());
     }
 });
 
 $app->after(function (Request $request, Response $response) {
-    $response->headers->set('Access-Control-Allow-Origin', '*');
-    $response->headers->set('Access-Control-Allow-Headers', 'X-AUTH-TOKEN, Content-Type, Origin');
+    $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
+    $response->headers->set('Access-Control-Allow-Credentials', 'true');
+    $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Origin');
     $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, DELETE, PUT');
 });
 
@@ -44,11 +55,24 @@ $app->options("{anything}", function () {
     return new Response(json_encode(null, 204));
 })->assert("anything", ".*");
 
+$app->post('/login', function (Silex\Application $app, Request $request) use ($appService) {
+    $username = $request->request->get('username');
+    $password = $request->request->get('password');
+
+    if ($appService->authUser($username, $password)) {
+        $user = $appService->findUserByUsername($username);
+        $_SESSION['userId'] = $user->id();
+
+        return new Response(json_encode(['status' => 'ok']), 200);
+    } else {
+        $_SESSION['userId'] = '';
+        return new Response(json_encode(['status' => 'unauthorized']), 401);
+    }
+});
+
 // findReportByReportId
 $app->get('/reports/{id}', function (Silex\Application $app, $id) use ($appService, $serializer) {
-
-    // replace userId after building authentication
-    $report = $appService->findReportById($id, USER_ID);
+    $report = $appService->findReportById($id, $_SESSION['userId']);
 
     if ($report !== null) {
         return new Response($serializer->serializeReport($report), 200);
@@ -56,16 +80,14 @@ $app->get('/reports/{id}', function (Silex\Application $app, $id) use ($appServi
     return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 
-$app->post('/reports', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
-    // replace userId after building authentication
-    $traineeId = USER_ID;
-    $content = $request->get('content');
-    $calendarWeek = $request->get('calendarWeek');
-    $calendarYear = $request->get('calendarYear');
-    $category = $request->get('category');
-
-
-    $report = $appService->createReport($traineeId, $content, $calendarWeek, $calendarYear, $category);
+$app->post('/reports', function (Silex\Application $app, Request $request) use ($appService) {
+    $report = $appService->createReport(
+        new TraineeId($_SESSION['userId']),
+        $request->request->get('content'),
+        $request->request->get('calendarWeek'),
+        $request->request->get('calendarYear'),
+        $request->request->get('category')
+    );
 
     if ($report !== null) {
         return new Response(json_encode(['status' => 'created']), 201);

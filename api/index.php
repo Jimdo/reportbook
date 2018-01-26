@@ -96,4 +96,11 @@ $app->post('/reports', function (Silex\Application $app, Request $request) use (
     return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 
+// findReportsByUserId & findAllReports
+$app->get('/reports', function (Silex\Application $app) use ($appService, $serializer) {
+    $reports = $appService->findReportsByTraineeId($_SESSION['userId']);
+
+    return new Response($serializer->serializeReports($reports), 200);
+});
+
 $app->run();

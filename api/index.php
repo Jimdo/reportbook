@@ -92,7 +92,6 @@ $app->post('/reports', function (Silex\Application $app, Request $request) use (
     if ($report !== null) {
         return new Response(json_encode(['status' => 'created']), 201);
     }
-
     return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 
@@ -101,6 +100,18 @@ $app->get('/reports', function (Silex\Application $app) use ($appService, $seria
     $reports = $appService->findReportsByTraineeId($_SESSION['userId']);
 
     return new Response($serializer->serializeReports($reports), 200);
+});
+
+$app->delete('/reports/{id}', function (Silex\Application $app, $id) use ($appService, $serializer) {
+    $report = $appService->findReportById($id, $_SESSION['userId']);
+
+    if ($report !== null) {
+        $appService->deleteReport($id);
+        $reports = $appService->findReportsByTraineeId($_SESSION['userId']);
+
+        return new Response($serializer->serializeReports($reports), 200);
+    }
+    return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 
 $app->run();

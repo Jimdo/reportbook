@@ -95,6 +95,7 @@ class ApplicationService
      * @param string $calendarWeek
      * @param string $calendarYear
      * @param string $category
+     * @param string $status
      * @throws ReportFileRepositoryException
      */
     public function editReport(string $reportId, string $content, string $calendarWeek, string $calendarYear, string $category, string $status = null)
@@ -104,13 +105,16 @@ class ApplicationService
         if ($report->status() !== $status && $status !== null) {
             switch ($status) {
                 case Report::STATUS_APPROVAL_REQUESTED:
-                $this->requestApproval($report->id());
+                    $this->requestApproval($report->id());
+                    break;
                 case Report::STATUS_APPROVED:
-                $this->approveReport($report->id());
+                    $this->approveReport($report->id());
+                    break;
                 case Report::STATUS_DISAPPROVED:
-                $this->disapproveReport($report->id());
+                    $this->disapproveReport($report->id());
+                    break;
                 default:
-                break;
+                    break;
             }
         } else {
             $this->reportbookService->editReport($reportId, $content, $calendarWeek, $calendarYear, $category);

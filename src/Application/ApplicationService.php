@@ -97,17 +97,29 @@ class ApplicationService
      * @param string $category
      * @throws ReportFileRepositoryException
      */
-    public function editReport(string $reportId, string $content, string $calendarWeek, string $calendarYear, string $category)
+    public function editReport(string $reportId, string $content, string $calendarWeek, string $calendarYear, string $category, string $status = null)
     {
         $report = $this->reportbookService->reportRepository->findById($reportId);
-        $this->reportbookService->editReport($reportId, $content, $calendarWeek, $calendarYear, $category);
 
-        $event = new Events\ReportEdited([
-            'userId' => $report->traineeId(),
-            'reportId' => $reportId
-        ]);
-        $this->notificationService->notify($event);
-
+        if ($report->status() !== $status && $status !== null) {
+            switch ($status) {
+                case Report::STATUS_APPROVAL_REQUESTED:
+                $this->requestApproval($report->id());
+                case Report::STATUS_APPROVED:
+                $this->approveReport($report->id());
+                case Report::STATUS_DISAPPROVED:
+                $this->disapproveReport($report->id());
+                default:
+                break;
+            }
+        } else {
+            $this->reportbookService->editReport($reportId, $content, $calendarWeek, $calendarYear, $category);
+            $event = new Events\ReportEdited([
+                'userId' => $report->traineeId(),
+                'reportId' => $reportId
+            ]);
+            $this->notificationService->notify($event);
+        }
     }
 
     /**

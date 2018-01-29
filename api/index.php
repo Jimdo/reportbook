@@ -95,6 +95,20 @@ $app->post('/reports', function (Silex\Application $app, Request $request) use (
     return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 
+$app->put('/reports/{id}', function (Silex\Application $app, Request $request, $id) use ($appService, $serializer) {
+    $report = $appService->editReport(
+        $id,
+        $request->request->get('content'),
+        $request->request->get('calendarWeek'),
+        $request->request->get('calendarYear'),
+        $request->request->get('category'),
+        $request->request->get('status')
+    );
+
+    $reports = $appService->findReportsByTraineeId($request->request->get('traineeId'));
+    return new Response($serializer->serializeReports($reports), 200);
+});
+
 // findReportsByUserId & findAllReports
 $app->get('/reports', function (Silex\Application $app) use ($appService, $serializer) {
     $reports = $appService->findReportsByTraineeId($_SESSION['userId']);

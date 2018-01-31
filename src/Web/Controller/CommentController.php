@@ -8,6 +8,7 @@ use Jimdo\Reports\Web\RequestValidator;
 use Jimdo\Reports\Web\ApplicationConfig;
 
 use Jimdo\Reports\Serializer;
+use Jimdo\Reports\ErrorCodeStore;
 
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
@@ -138,10 +139,10 @@ class CommentController extends Controller
     public function getErrorMessageForErrorCode(int $errorCode)
     {
         switch ($errorCode) {
-            case ReportbookService::ERR_EDIT_COMMENT_DENIED:
+            case ErrorCodeStore::ERR_EDIT_COMMENT_DENIED:
                 return 'Du darfst diesen Kommentar nicht bearbeiten!' . "\n";
 
-            case ReportbookService::ERR_DELETE_COMMENT_DENIED:
+            case ErrorCodeStore::ERR_DELETE_COMMENT_DENIED:
                 return 'Du darfst diesen Kommentar nicht löschen!' . "\n";
         }
     }

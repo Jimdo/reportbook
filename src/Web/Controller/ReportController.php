@@ -23,6 +23,7 @@ use Jimdo\Reports\Notification\BrowserNotification;
 use Jimdo\Reports\Application\ApplicationService;
 
 use Jimdo\Reports\Serializer;
+use Jimdo\Reports\ErrorCodeStore;
 
 class ReportController extends Controller
 {
@@ -719,10 +720,10 @@ class ReportController extends Controller
     public function getErrorMessageForErrorCode(int $errorCode)
     {
         switch ($errorCode) {
-            case Validator::ERR_VALIDATOR_DATE:
+            case ErrorCodeStore::ERR_VALIDATOR_DATE:
                 return 'Der eingegebene Wert ist kein Datum!' . "\n";
 
-            case Validator::ERR_VALIDATOR_INT:
+            case ErrorCodeStore::ERR_VALIDATOR_INT:
                 return 'Der eingegebene Wert ist keine Zahl!' . "\n";
         }
     }

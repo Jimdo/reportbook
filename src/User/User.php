@@ -2,11 +2,10 @@
 
 namespace Jimdo\Reports\User;
 
+use Jimdo\Reports\ErrorCodeStore;
+
 class User
 {
-    const ERR_PASSWORD_NOT_NEW = 9;
-    const ERR_PASSWORD_WRONG = 10;
-
     /** @var string */
     private $username;
 
@@ -175,7 +174,7 @@ class User
         if (!$this->verify($oldPassword)) {
             throw new PasswordException(
                 "The current password is wrong!",
-                self::ERR_PASSWORD_WRONG
+                ErrorCodeStore::ERR_PASSWORD_WRONG
             );
         }
 

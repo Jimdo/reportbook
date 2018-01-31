@@ -2,6 +2,8 @@
 
 namespace Jimdo\Reports\Web\Validator;
 
+use Jimdo\Reports\ErrorCodeStore;
+
 class StringValidator extends Validator
 {
     /**
@@ -18,7 +20,7 @@ class StringValidator extends Validator
                 $value = 'Array';
             }
             $this->errorMessage = "'$value' is not a string";
-            $this->errorCode = Validator::ERR_VALIDATOR_STRING;
+            $this->errorCode = ErrorCodeStore::ERR_VALIDATOR_STRING;
             return false;
         }
         return true;

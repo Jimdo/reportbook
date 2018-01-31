@@ -2,10 +2,16 @@
 
 namespace Jimdo\Reports;
 
-use Jimdo\Reports\User\User;
 use Jimdo\Reports\Reportbook\Comment;
-use Jimdo\Reports\Profile\Profile;
+use Jimdo\Reports\Reportbook\TraineeId;
 use Jimdo\Reports\Reportbook\Report;
+
+use Jimdo\Reports\User\User;
+use Jimdo\Reports\User\Role;
+use Jimdo\Reports\User\UserId;
+
+use Jimdo\Reports\Profile\Profile;
+
 use Jimdo\Reports\Notification\BrowserNotification as Notification;
 
 class MySQLSerializer implements Serializer {
@@ -20,10 +26,8 @@ class MySQLSerializer implements Serializer {
             'id' => $user->id(),
             'username' => $user->username(),
             'email' => $user->email(),
-            'role' => [
-                'roleName' => $user->roleName(),
-                'roleStatus' => $user->roleStatus()
-            ],
+            'roleName' => $user->roleName(),
+            'roleStatus' => $user->roleStatus(),
             'password' => $user->password()
         ];
     }
@@ -79,10 +83,8 @@ class MySQLSerializer implements Serializer {
             'grade' => $profile->grade(),
             'trainingYear' => $profile->trainingYear(),
             'startOfTraining' => $profile->startOfTraining(),
-            'image' => [
-                'base64' => $profile->image(),
-                'type' => $profile->imageType()
-            ]
+            'image' => $profile->image(),
+            'imageType' => $profile->imageType()
         ];
     }
 

@@ -3,9 +3,15 @@
 namespace Jimdo\Reports;
 
 use Jimdo\Reports\User\User;
+use Jimdo\Reports\User\Role;
+use Jimdo\Reports\User\UserId;
+
 use Jimdo\Reports\Reportbook\Comment;
-use Jimdo\Reports\Profile\Profile;
+use Jimdo\Reports\Reportbook\TraineeId;
 use Jimdo\Reports\Reportbook\Report;
+
+use Jimdo\Reports\Profile\Profile;
+
 use Jimdo\Reports\Notification\BrowserNotification as Notification;
 
 class MongoSerializer implements Serializer {

@@ -4,7 +4,7 @@ namespace Jimdo\Reports\stories;
 
 use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\Web\ApplicationConfig;
-use Jimdo\Reports\Serializer;
+use Jimdo\Reports\SerializerFactory;
 use Jimdo\Reports\RepositoryFactory;
 
 class ProfileFrontendTest extends TestCase
@@ -68,7 +68,9 @@ class ProfileFrontendTest extends TestCase
 
     private function uploadImage()
     {
-        $serializer = new Serializer();
+        $serializerFactory = new SerializerFactory($this->appConfig);
+        $serializer = $serializerFactory->createSerializer();
+
         $repositoryFactory = new RepositoryFactory($this->appConfig, $serializer);
         $profileRepository = $repositoryFactory->createProfileRepository();
         $userRepository = $repositoryFactory->createUserRepository();

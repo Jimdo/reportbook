@@ -4,7 +4,7 @@ namespace Jimdo\Reports\Notification;
 
 use Jimdo\Reports\Notification\Events\Event;
 use Jimdo\Reports\Web\ApplicationConfig;
-use Jimdo\Reports\Serializer;
+use Jimdo\Reports\MongoSerializer;
 
 class BrowserNotificationSubscriber implements Subscriber
 {
@@ -39,7 +39,7 @@ class BrowserNotificationSubscriber implements Subscriber
 
         $this->notifications = $reportbook->notifications;
 
-        $this->repository = new BrowserNotificationMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $this->repository = new BrowserNotificationMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
     }
 
     /**

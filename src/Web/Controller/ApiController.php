@@ -11,6 +11,7 @@ use Jimdo\Reports\Web\Request;
 use Jimdo\Reports\Web\RequestValidator;
 use Jimdo\Reports\Web\Response;
 use Jimdo\Reports\Web\ViewHelper;
+use Jimdo\Reports\SerializerFactory;
 
 use Jimdo\Reports\Application\ApplicationService;
 
@@ -48,7 +49,9 @@ class ApiController extends Controller
         $this->viewHelper = new ViewHelper();
         $this->appService = ApplicationService::create($appConfig, $notificationService);
 
-        $this->serializer = new Serializer();
+        $serializerFactory = new SerializerFactory($appConfig);
+
+        $this->serializer = $serializerFactory->createSerializer();
 
         $eventTypes = [
             'userAuthorized'

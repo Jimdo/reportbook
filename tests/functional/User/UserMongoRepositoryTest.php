@@ -5,7 +5,7 @@ namespace Jimdo\Reports\User;
 use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\User\Role as Role;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-use Jimdo\Reports\Serializer as Serializer;
+use Jimdo\Reports\MongoSerializer as MongoSerializer;
 
 class UserMongoRepositoryTest extends TestCase
 {
@@ -44,7 +44,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldCreateUser()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new UserMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $username = 'maxipro';
         $email = 'max.mustermann@hotmail.de';
@@ -64,7 +64,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindUserByEmail()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new UserMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $username = 'maxipro';
         $email = 'max.mustermann@hotmail.de';
@@ -83,7 +83,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindUserById()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new UserMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $username = 'maxipro';
         $email = 'max.mustermann@hotmail.de';
@@ -102,7 +102,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindUserByUsername()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new UserMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $username = 'maxipro';
         $email = 'max.mustermann@hotmail.de';
@@ -121,7 +121,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindUserByStatus()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new UserMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $role = new Role('trainee');
         $password = 'SecurePassword123';
@@ -140,7 +140,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldFindAllUsers()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new UserMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $username1 = 'maxipro';
         $email1 = 'max.mustermann@hotmail.de';
@@ -162,7 +162,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldDeleteUser()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new UserMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $username = 'maxipropi';
         $email = 'max.mustermann@hotmail.de';
@@ -185,7 +185,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldCheckIfUserExists()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new UserMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $username = 'maxipropi';
         $email = 'max.mustermann@hotmail.de';
@@ -207,7 +207,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldThrowExceptionIfUsernameOrEmailAlreadyExistsCauseOfUniqueConstraintsInDatabase()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new UserMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $username = 'max_mustermann';
         $email = 'max_mustermann@example.com';
@@ -232,7 +232,7 @@ class UserMongoRepositoryTest extends TestCase
      */
     public function itShouldSerializeAndUnserializeTheAdminUser()
     {
-        $repository = new UserMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new UserMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $username = 'max_mustermann';
         $email = 'max_mustermann@example.com';

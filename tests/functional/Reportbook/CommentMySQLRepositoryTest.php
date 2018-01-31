@@ -3,7 +3,7 @@
 namespace Jimdo\Reports\Reportbook;
 
 use PHPUnit\Framework\TestCase;
-use Jimdo\Reports\Serializer;
+use Jimdo\Reports\MySQLSerializer;
 use Jimdo\Reports\Web\ApplicationConfig;
 
 class CommentMySQLRepositoryTest extends TestCase
@@ -26,7 +26,7 @@ class CommentMySQLRepositoryTest extends TestCase
     /** @var reportId */
     private $reportId;
 
-    /** @var Serializer */
+    /** @var MySQLSerializer */
     private $serializer;
 
     protected function setUp()
@@ -40,7 +40,7 @@ class CommentMySQLRepositoryTest extends TestCase
 
         $this->dbHandler = new \PDO($uri, $appConfig->mysqlUser, $appConfig->mysqlPassword);
 
-        $this->serializer = new Serializer();
+        $this->serializer = new MySQLSerializer();
         $this->repository = new CommentMySQLRepository($this->dbHandler, $this->serializer, $appConfig);
 
         $this->userId = uniqId();

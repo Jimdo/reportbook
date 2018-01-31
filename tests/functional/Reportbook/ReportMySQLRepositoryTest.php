@@ -3,7 +3,7 @@
 namespace Jimdo\Reports\Reportbook;
 
 use PHPUnit\Framework\TestCase;
-use Jimdo\Reports\Serializer;
+use Jimdo\Reports\MySQLSerializer;
 use Jimdo\Reports\Web\ApplicationConfig;
 
 class ReportMySQLRepositoryTest extends TestCase
@@ -23,7 +23,7 @@ class ReportMySQLRepositoryTest extends TestCase
     /** @var userId */
     private $userId;
 
-    /** @var Serializer */
+    /** @var MySQLSerializer */
     private $serializer;
 
     protected function setUp()
@@ -37,7 +37,7 @@ class ReportMySQLRepositoryTest extends TestCase
 
         $this->dbHandler = new \PDO($uri, $appConfig->mysqlUser, $appConfig->mysqlPassword);
 
-        $this->serializer = new Serializer();
+        $this->serializer = new MySQLSerializer();
         $this->repository = new ReportMySQLRepository($this->dbHandler, $this->serializer, $appConfig);
 
         $this->dbHandler->exec("DELETE FROM report");

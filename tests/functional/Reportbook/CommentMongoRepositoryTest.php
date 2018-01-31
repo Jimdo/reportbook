@@ -4,7 +4,7 @@ namespace Jimdo\Reports\Reportbook;
 
 use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-use Jimdo\Reports\Serializer as Serializer;
+use Jimdo\Reports\MongoSerializer as MongoSerializer;
 
 class CommentMongoRepositoryTest extends TestCase
 {
@@ -43,7 +43,7 @@ class CommentMongoRepositoryTest extends TestCase
      */
     public function itShouldCreateComment()
     {
-        $repository = new CommentMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new CommentMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $commentId = uniqid();
         $reportId = uniqid();
@@ -61,7 +61,7 @@ class CommentMongoRepositoryTest extends TestCase
      */
     public function itShouldFindCommentsByReportId()
     {
-        $repository = new CommentMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new CommentMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $reportId = uniqid();
         $userId = uniqid();
@@ -83,7 +83,7 @@ class CommentMongoRepositoryTest extends TestCase
      */
     public function itShouldSaveComment()
     {
-        $repository = new CommentMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new CommentMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $reportId = uniqid();
         $userId = uniqid();
@@ -103,7 +103,7 @@ class CommentMongoRepositoryTest extends TestCase
      */
     public function itShouldDeleteComment()
     {
-        $repository = new CommentMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new CommentMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $reportId = uniqid();
         $userId = uniqid();
@@ -124,7 +124,7 @@ class CommentMongoRepositoryTest extends TestCase
      */
     public function itShouldFindCommentById()
     {
-        $repository = new CommentMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new CommentMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $reportId = uniqid();
         $userId = uniqid();

@@ -5,7 +5,7 @@ namespace Jimdo\Reports\Reportbook;
 use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\Reportbook\Report as Report;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-use Jimdo\Reports\Serializer as Serializer;
+use Jimdo\Reports\MongoSerializer as MongoSerializer;
 
 class ReportMongoRepositoryTest extends TestCase
 {
@@ -43,7 +43,7 @@ class ReportMongoRepositoryTest extends TestCase
      */
     public function itShouldCreateReport()
     {
-        $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new ReportMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $traineeId = new TraineeId();
         $expectedContent = 'some content';
@@ -64,7 +64,7 @@ class ReportMongoRepositoryTest extends TestCase
      */
     public function itShouldFindAllReports()
     {
-        $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new ReportMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $traineeId = new TraineeId();
         $expectedContent = 'some content';
@@ -88,7 +88,7 @@ class ReportMongoRepositoryTest extends TestCase
      */
     public function itShouldFindReportsByTraineeId()
     {
-        $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new ReportMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $traineeId1 = new TraineeId();
         $traineeId2 = new TraineeId();
@@ -114,7 +114,7 @@ class ReportMongoRepositoryTest extends TestCase
      */
     public function itShouldFindReportsByString()
     {
-        $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new ReportMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $traineeId = new TraineeId();
         $date = '10.10.10';
@@ -136,7 +136,7 @@ class ReportMongoRepositoryTest extends TestCase
      */
     public function itShouldFindReportsByStatus()
     {
-        $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new ReportMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $traineeId1 = new TraineeId();
         $traineeId2 = new TraineeId();
@@ -158,7 +158,7 @@ class ReportMongoRepositoryTest extends TestCase
      */
     public function itShouldFindReportById()
     {
-        $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new ReportMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $traineeId = new TraineeId();
         $expectedContent = 'some content';
@@ -178,7 +178,7 @@ class ReportMongoRepositoryTest extends TestCase
      */
     public function itShouldDeleteReport()
     {
-        $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new ReportMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $traineeId = new TraineeId();
         $expectedContent = 'some content';
@@ -202,7 +202,7 @@ class ReportMongoRepositoryTest extends TestCase
      */
     public function itShouldSortReportsByCalendarweek()
     {
-        $repository = new ReportMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new ReportMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $repository->create(new TraineeId(), 'some content', '15.5.11', '52', '2016', Category::SCHOOL);
         $repository->create(new TraineeId(), 'some content', '2.5.11', '1', '2017', Category::SCHOOL);

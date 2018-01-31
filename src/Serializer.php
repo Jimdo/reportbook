@@ -12,293 +12,71 @@ use Jimdo\Reports\Reportbook\TraineeId as TraineeId;
 use Jimdo\Reports\Reportbook\Category as Category;
 use Jimdo\Reports\Notification\BrowserNotification as Notification;
 
-class Serializer implements MySQLSerializer, MongoSerializer
+interface Serializer
 {
     /**
      * @param User $user
      * @return array
      */
-    public function serializeUser(User $user): array
-    {
-        return [
-            'id' => $user->id(),
-            'username' => $user->username(),
-            'email' => $user->email(),
-            'role' => [
-                'roleName' => $user->roleName(),
-                'roleStatus' => $user->roleStatus()
-            ],
-            'password' => $user->password()
-        ];
-    }
+    public function serializeUser(User $user) : array;
 
     /**
      * @param array $serializedUser
      * @return User
      */
-    public function unserializeUser(array $serializedUser): User
-    {
-        $roleName;
-        $roleStatus;
-
-        if ($this->isMongoUserArtifact($serializedUser)) {
-            $roleName = strtoupper($serializedUser['role']['roleName']);
-            $roleStatus = $serializedUser['role']['roleStatus'];
-        }
-
-        if ($this->isMySQLUserArtifact($serializedUser)) {
-            $roleName = strtoupper($serializedUser['roleName']);
-            $roleStatus = $serializedUser['roleStatus'];
-        }
-
-        switch ($roleName) {
-            case Role::TRAINEE:
-                $role = new Role(Role::TRAINEE);
-                break;
-            case Role::TRAINER:
-                $role = new Role(Role::TRAINER);
-                break;
-            case Role::ADMIN:
-                $role = new Role(Role::ADMIN);
-                break;
-        }
-
-        if ($roleStatus === Role::STATUS_APPROVED) {
-            $role->approve();
-        }
-
-        return new User(
-            $serializedUser['username'],
-            $serializedUser['email'],
-            $role,
-            $serializedUser['password'],
-            new UserId($serializedUser['id'])
-        );
-    }
+    public function unserializeUser(array $serializedUser) : User;
 
     /**
      * @param User $user
      * @return array
      */
-    public function serializeProfile(Profile $profile): array
-    {
-        return [
-            'userId' => $profile->userId(),
-            'forename' => $profile->forename(),
-            'surname' => $profile->surname(),
-            'dateOfBirth' => $profile->dateOfBirth(),
-            'company' => $profile->company(),
-            'jobTitle' => $profile->jobTitle(),
-            'school' => $profile->school(),
-            'grade' => $profile->grade(),
-            'trainingYear' => $profile->trainingYear(),
-            'startOfTraining' => $profile->startOfTraining(),
-            'image' => [
-                'base64' => $profile->image(),
-                'type' => $profile->imageType()
-            ]
-        ];
-    }
+    public function serializeProfile(Profile $profile) : array;
 
     /**
      * @param array $serializedProfile
      * @return Profile
      */
-    public function unserializeProfile(array $serializedProfile): Profile
-    {
-        $profile = new Profile(
-            $serializedProfile['userId'],
-            $serializedProfile['forename'],
-            $serializedProfile['surname']
-        );
-
-        if ($this->isMongoProfileArtifact($serializedProfile)) {
-            $image = $serializedProfile['image']['base64'];
-            $imageType = $serializedProfile['image']['type'];
-        }
-
-        if ($this->isMySQLProfileArtifact($serializedProfile)) {
-            $image = $serializedProfile['image'];
-            $imageType = $serializedProfile['imageType'];
-        }
-
-        $profile->editCompany($serializedProfile['company']);
-        $profile->editSchool($serializedProfile['school']);
-        $profile->editGrade($serializedProfile['grade']);
-        $profile->editJobTitle($serializedProfile['jobTitle']);
-        $profile->editTrainingYear($serializedProfile['trainingYear']);
-        $profile->editStartOfTraining($serializedProfile['startOfTraining']);
-        $profile->editDateOfBirth($serializedProfile['dateOfBirth']);
-        $profile->editImage($image, $imageType);
-
-        return $profile;
-    }
+    public function unserializeProfile(array $serializedProfile) : Profile;
 
     /**
      * @param Report $report
      * @return array
      */
-    public function serializeReport($report): array
-    {
-        return [
-            'id' => $report->id(),
-            'date' => $report->date(),
-            'calendarWeek' => $report->calendarWeek(),
-            'calendarYear' => $report->calendarYear(),
-            'content' => $report->content(),
-            'traineeId' => $report->traineeId(),
-            'category' => $report->category(),
-            'status' => $report->status()
-        ];
-    }
+    public function serializeReport($report) : array;
 
     /**
      * @param array $serializedReport
      * @return Report
      */
-    public function unserializeReport(array $serializedReport): Report
-    {
-        $calendarYear = $serializedReport['calendarYear'];
-        $category = $serializedReport['category'];
-
-        if ($calendarYear === null) {
-            $calendarYear = explode('.', $serializedReport['date'])[2];
-        }
-
-        if ($category === null) {
-            $category = Category::COMPANY;
-        }
-
-        return new Report(
-            new TraineeId($serializedReport['traineeId']),
-            $serializedReport['content'],
-            $serializedReport['date'],
-            $serializedReport['calendarWeek'],
-            $calendarYear,
-            $serializedReport['id'],
-            $category,
-            $serializedReport['status']
-        );
-    }
+    public function unserializeReport(array $serializedReport) : Report;
 
     /**
      * @param Comment $comment
      * @return array
      */
-    public function serializeComment(Comment $comment): array
-    {
-        return [
-            'id' => $comment->id(),
-            'reportId' => $comment->reportId(),
-            'userId' => $comment->userId(),
-            'date' => $comment->date(),
-            'content' => $comment->content(),
-            'status' => $comment->status(),
-        ];
-    }
+    public function serializeComment(Comment $comment) : array;
 
     /**
      * @param array $serializedComment
      * @return Comment
      */
-    public function unserializeComment(array $serializedComment): Comment
-    {
-        return new Comment(
-            $serializedComment['id'],
-            $serializedComment['reportId'],
-            $serializedComment['userId'],
-            $serializedComment['date'],
-            $serializedComment['content'],
-            $serializedComment['status']
-        );
-    }
+    public function unserializeComment(array $serializedComment) : Comment;
 
     /**
      * @param User $user
      * @return string
      */
-    public function serializeWebUser(User $user): string
-    {
-        return json_encode([
-            'role' => $user->roleName(),
-            'id' => $user->id(),
-            'username' => $user->username(),
-            'email' => $user->email()
-        ]);
-    }
+    public function serializeWebUser(User $user) : string;
 
     /**
      * @param Notification $notification
      * @return array
      */
-    public function serializeNotification(Notification $notification): array
-    {
-        return [
-            'id' => $notification->id(),
-            'userId' => $notification->userId(),
-            'reportId' => $notification->reportId(),
-            'title' => $notification->title(),
-            'description' => $notification->description(),
-            'time' => $notification->time(),
-            'status' => $notification->status()
-        ];
-    }
+    public function serializeNotification(Notification $notification) : array;
 
     /**
      * @param array $serializedNotification
      * @return Notification
      */
-    public function unserializeNotification(array $serializedNotification): Notification
-    {
-        $notification = new Notification(
-            $serializedNotification['title'],
-            $serializedNotification['description'],
-            $serializedNotification['userId'],
-            $serializedNotification['reportId'],
-            $serializedNotification['id'],
-            $serializedNotification['time']
-        );
-
-        if ($serializedNotification['status'] === Notification::STATUS_SEEN) {
-            $notification->seen();
-        }
-
-        return $notification;
-    }
-
-    /**
-    * @param array $serializedUser
-    * @return bool
-    */
-    private function isMongoUserArtifact(array $serializedUser): bool
-    {
-        return array_key_exists('role', $serializedUser);
-    }
-
-    /**
-     * @param array $serializedUser
-     * @return bool
-     */
-    private function isMySQLUserArtifact(array $serializedUser): bool
-    {
-        return array_key_exists('roleName', $serializedUser);
-    }
-
-    /**
-     * @param array $serializedProfile
-     * @return bool
-     */
-    private function isMongoProfileArtifact(array $serializedProfile): bool
-    {
-        return !array_key_exists('imageType', $serializedProfile);
-    }
-
-    /**
-     * @param array $serializedProfile
-     * @return bool
-     */
-    private function isMySQLProfileArtifact(array $serializedProfile): bool
-    {
-        return array_key_exists('imageType', $serializedProfile);
-    }
+    public function unserializeNotification(array $serializedNotification) : Notification;
 }

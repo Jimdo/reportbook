@@ -4,7 +4,6 @@ namespace Jimdo\Reports\User;
 
 use Jimdo\Reports\Views\User as ReadOnlyUser;
 use Jimdo\Reports\User\Role as Role;
-use Jimdo\Reports\Web\ApplicationConfig;
 
 class UserService
 {
@@ -21,9 +20,8 @@ class UserService
 
     /**
      * @param UserRepository $userRepository
-     * @param ApplicationConfig $appConfig
      */
-    public function __construct(UserRepository $userRepository, ApplicationConfig $appConfig)
+    public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
     }

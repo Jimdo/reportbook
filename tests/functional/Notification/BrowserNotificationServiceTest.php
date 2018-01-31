@@ -25,25 +25,25 @@ class BrowserNotificationServiceTest extends TestCase
 
     protected function setUp()
     {
-        $this->appConfig = new ApplicationConfig(__DIR__ . '/../../../config.yml');
+        $appConfig = new ApplicationConfig(__DIR__ . '/../../../config.yml');
 
         $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
-            , $this->appConfig->mongoUsername
-            , $this->appConfig->mongoPassword
-            , $this->appConfig->mongoHost
-            , $this->appConfig->mongoPort
-            , $this->appConfig->mongoDatabase
+            , $appConfig->mongoUsername
+            , $appConfig->mongoPassword
+            , $appConfig->mongoHost
+            , $appConfig->mongoPort
+            , $appConfig->mongoDatabase
         );
 
         $this->client = new \MongoDB\Client($uri);
 
-        $reportbook = $this->client->selectDatabase($this->appConfig->mongoDatabase);
+        $reportbook = $this->client->selectDatabase($appConfig->mongoDatabase);
 
         $this->notifications = $reportbook->notifications;
 
         $this->notifications->deleteMany([]);
 
-        $this->repository = new BrowserNotificationMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
+        $this->repository = new BrowserNotificationMongoRepository($this->client, new MongoSerializer(), $appConfig);
         $this->service = new BrowserNotificationService($this->repository);
     }
 

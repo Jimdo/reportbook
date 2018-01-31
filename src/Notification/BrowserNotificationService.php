@@ -2,8 +2,6 @@
 
 namespace Jimdo\Reports\Notification;
 
-use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-
 class BrowserNotificationService
 {
     /** @var string */

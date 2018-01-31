@@ -4,7 +4,7 @@ namespace Jimdo\Reports\Reportbook;
 
 use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-use Jimdo\Reports\Serializer as Serializer;
+use Jimdo\Reports\MongoSerializer;
 
 class CommentServiceTest extends TestCase
 {
@@ -20,30 +20,27 @@ class CommentServiceTest extends TestCase
     /** @var Collection */
     private $comments;
 
-    /** @var ApplicationConfig */
-    private $appConfig;
-
     protected function setUp()
     {
-        $this->appConfig = new ApplicationConfig(__DIR__ . '/../../../config.yml');
+        $appConfig = new ApplicationConfig(__DIR__ . '/../../../config.yml');
 
         $uri = sprintf('mongodb://%s:%s@%s:%d/%s'
-            , $this->appConfig->mongoUsername
-            , $this->appConfig->mongoPassword
-            , $this->appConfig->mongoHost
-            , $this->appConfig->mongoPort
-            , $this->appConfig->mongoDatabase
+            , $appConfig->mongoUsername
+            , $appConfig->mongoPassword
+            , $appConfig->mongoHost
+            , $appConfig->mongoPort
+            , $appConfig->mongoDatabase
         );
 
         $this->client = new \MongoDB\Client($uri);
 
-        $reportbook = $this->client->selectDatabase($this->appConfig->mongoDatabase);
+        $reportbook = $this->client->selectDatabase($appConfig->mongoDatabase);
 
         $this->comments = $reportbook->comments;
 
         $this->comments->deleteMany([]);
 
-        $this->repository = new CommentMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $this->repository = new CommentMongoRepository($this->client, new MongoSerializer(), $appConfig);
         $this->service = new CommentService($this->repository);
     }
 

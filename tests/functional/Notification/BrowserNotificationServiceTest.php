@@ -4,7 +4,7 @@ namespace Jimdo\Reports\Notification;
 
 use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-use Jimdo\Reports\Serializer as Serializer;
+use Jimdo\Reports\MongoSerializer;
 
 class BrowserNotificationServiceTest extends TestCase
 {
@@ -43,7 +43,7 @@ class BrowserNotificationServiceTest extends TestCase
 
         $this->notifications->deleteMany([]);
 
-        $this->repository = new BrowserNotificationMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $this->repository = new BrowserNotificationMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
         $this->service = new BrowserNotificationService($this->repository);
     }
 

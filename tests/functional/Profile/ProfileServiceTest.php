@@ -3,8 +3,8 @@
 namespace Jimdo\Reports\Profile;
 
 use PHPUnit\Framework\TestCase;
-use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-use Jimdo\Reports\Serializer as Serializer;
+use Jimdo\Reports\Web\ApplicationConfig;
+use Jimdo\Reports\MongoSerializer;
 
 class ProfileServiceTest extends TestCase
 {
@@ -43,7 +43,7 @@ class ProfileServiceTest extends TestCase
 
         $this->profiles->deleteMany([]);
 
-        $this->repository = new ProfileMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $this->repository = new ProfileMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
         $this->service = new ProfileService($this->repository, $this->appConfig->defaultProfile, $this->appConfig);
     }
 

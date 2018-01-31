@@ -5,7 +5,7 @@ namespace Jimdo\Reports\Profile;
 use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\Profile\Profile as Profile;
 use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-use Jimdo\Reports\Serializer as Serializer;
+use Jimdo\Reports\MongoSerializer as MongoSerializer;
 
 class ProfileMongoRepositoryTest extends TestCase
 {
@@ -44,7 +44,7 @@ class ProfileMongoRepositoryTest extends TestCase
      */
     public function itShouldCreateProfile()
     {
-        $repository = new ProfileMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new ProfileMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $userId = uniqid();
         $forename = 'Max';
@@ -59,7 +59,7 @@ class ProfileMongoRepositoryTest extends TestCase
      */
     public function itShouldFindProfileByUserId()
     {
-        $repository = new ProfileMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new ProfileMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $userId = uniqid();
         $forename = 'Max';
@@ -76,7 +76,7 @@ class ProfileMongoRepositoryTest extends TestCase
      */
     public function itShouldCheckIfProfileExists()
     {
-        $repository = new ProfileMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new ProfileMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $forename = 'Max';
         $surname = 'Mustermann';
@@ -94,7 +94,7 @@ class ProfileMongoRepositoryTest extends TestCase
      */
     public function itShouldDeleteProfile()
     {
-        $repository = new ProfileMongoRepository($this->client, new Serializer(), $this->appConfig);
+        $repository = new ProfileMongoRepository($this->client, new MongoSerializer(), $this->appConfig);
 
         $forename = 'Max';
         $surname = 'Mustermann';

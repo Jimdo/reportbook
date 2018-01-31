@@ -3,7 +3,7 @@
 namespace Jimdo\Reports\Profile;
 
 use PHPUnit\Framework\TestCase;
-use Jimdo\Reports\Serializer;
+use Jimdo\Reports\MySQLSerializer;
 use Jimdo\Reports\Web\ApplicationConfig;
 
 class ProfileMySQLRepositoryTest extends TestCase
@@ -23,7 +23,7 @@ class ProfileMySQLRepositoryTest extends TestCase
     /** @var userId */
     private $userId;
 
-    /** @var Serializer */
+    /** @var MySQLSerializer */
     private $serializer;
 
     protected function setUp()
@@ -37,7 +37,7 @@ class ProfileMySQLRepositoryTest extends TestCase
 
         $this->dbHandler = new \PDO($uri, $appConfig->mysqlUser, $appConfig->mysqlPassword);
 
-        $this->serializer = new Serializer();
+        $this->serializer = new MySQLSerializer();
         $this->repository = new ProfileMySQLRepository($this->dbHandler, $this->serializer, $appConfig);
 
         $this->userId = uniqId();

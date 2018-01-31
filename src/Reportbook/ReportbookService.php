@@ -4,8 +4,7 @@ namespace Jimdo\Reports\Reportbook;
 
 use Jimdo\Reports\Views\Report as ReadOnlyReport;
 use Jimdo\Reports\Reportbook\CommentService as CommentService;
-use Jimdo\Reports\Serializer as Serializer;
-use Jimdo\Reports\Web\ApplicationConfig;
+use Jimdo\Reports\Serializer;
 use Jimdo\Reports\User\Role;
 
 class ReportbookService
@@ -25,13 +24,13 @@ class ReportbookService
     /**
      * @param ReportRepository $reportRepository
      * @param CommentService $commentService
-     * @param ApplicationConfig $appConfig
+     * @param Serializer $serializer
      */
-    public function __construct(ReportRepository $reportRepository, CommentService $commentService, ApplicationConfig $appConfig)
+    public function __construct(ReportRepository $reportRepository, CommentService $commentService, Serializer $serializer)
     {
         $this->reportRepository = $reportRepository;
         $this->commentService = $commentService;
-        $this->serializer = new Serializer();
+        $this->serializer = $serializer;
     }
 
     /**

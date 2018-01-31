@@ -5,7 +5,6 @@ namespace Jimdo\Reports\User;
 use PHPUnit\Framework\TestCase;
 
 use Jimdo\Reports\Views\User as ReadOnlyUser;
-use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\functional\User\UserInMemoryRepository;
 
 class UserServiceTest extends TestCase
@@ -19,7 +18,7 @@ class UserServiceTest extends TestCase
     protected function setUp()
     {
         $this->userRepository = new UserInMemoryRepository();
-        $this->userService = new UserService($this->userRepository, new ApplicationConfig(__DIR__ . '/../../../config.yml'));
+        $this->userService = new UserService($this->userRepository);
     }
 
     /**

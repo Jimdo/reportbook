@@ -13,15 +13,21 @@ use Jimdo\Reports\Reportbook\Report as Report;
 use Jimdo\Reports\Reportbook\Category as Category;
 use Jimdo\Reports\Notification\BrowserNotification as Notification;
 
-class SerializerTest extends TestCase
+class MongoSerializerTest extends TestCase
 {
+    /** @param MongoSerializer */
+    private $serializer;
+
+    protected function setUp()
+    {
+        $this->serializer = new MongoSerializer();
+    }
+
     /**
      * @test
      */
     public function itShouldSerializeUser()
     {
-        $serializer = new Serializer();
-
         $username = 'tomstich';
         $email = 'tom.stich@example.com';
         $role = new Role('TRAINER');
@@ -30,7 +36,7 @@ class SerializerTest extends TestCase
 
         $user = new User($username, $email, $role, $password, $id, false);
 
-        $serialezedUser = $serializer->serializeUser($user);
+        $serialezedUser = $this->serializer->serializeUser($user);
 
         $this->assertEquals($user->username(), $serialezedUser['username']);
         $this->assertEquals($user->email(), $serialezedUser['email']);
@@ -45,8 +51,6 @@ class SerializerTest extends TestCase
      */
     public function itShouldUnserializeUser()
     {
-        $serializer = new Serializer();
-
         $username = 'tomstich';
         $email = 'tom.stich@example.com';
         $role = new Role('TRAINER');
@@ -55,9 +59,9 @@ class SerializerTest extends TestCase
 
         $user = new User($username, $email, $role, $password, $id, false);
 
-        $serializedUser = $serializer->serializeUser($user);
+        $serializedUser = $this->serializer->serializeUser($user);
 
-        $unserializedUser = $serializer->unserializeUser($serializedUser);
+        $unserializedUser = $this->serializer->unserializeUser($serializedUser);
 
         $this->assertEquals($user->username(), $unserializedUser->username());
         $this->assertEquals($user->email(), $unserializedUser->email());
@@ -72,8 +76,6 @@ class SerializerTest extends TestCase
      */
     public function itShouldSerializeProfile()
     {
-        $serializer = new Serializer();
-
         $forename = 'Tom';
         $surname = 'Stich';
         $id = uniqId();
@@ -95,7 +97,7 @@ class SerializerTest extends TestCase
         $profile->editJobTitle($jobTitle);
         $profile->editStartOfTraining($startOfTraining);
 
-        $serializedProfile = $serializer->serializeProfile($profile);
+        $serializedProfile = $this->serializer->serializeProfile($profile);
 
         $this->assertEquals($profile->forename(), $serializedProfile['forename']);
         $this->assertEquals($profile->surname(), $serializedProfile['surname']);
@@ -114,17 +116,15 @@ class SerializerTest extends TestCase
      */
     public function itShouldUnserializeProfile()
     {
-        $serializer = new Serializer();
-
         $forename = 'Tom';
         $surname = 'Stich';
         $id = uniqId();
 
         $profile = new Profile($id, $forename, $surname);
 
-        $serializedProfile = $serializer->serializeProfile($profile);
+        $serializedProfile = $this->serializer->serializeProfile($profile);
 
-        $unserializedProfile = $serializer->unserializeProfile($serializedProfile);
+        $unserializedProfile = $this->serializer->unserializeProfile($serializedProfile);
 
         $this->assertEquals($profile->forename(), $unserializedProfile->forename());
         $this->assertEquals($profile->surname(), $unserializedProfile->surname());
@@ -143,8 +143,6 @@ class SerializerTest extends TestCase
      */
     public function itShouldSerializeReport()
     {
-        $serializer = new Serializer();
-
         $traineeId = new TraineeId();
         $content = 'some content';
         $date = '10.10.10';
@@ -155,7 +153,7 @@ class SerializerTest extends TestCase
 
         $report = new Report($traineeId, $content, $date, $calendarWeek, $calendarYear, $reportId, $category);
 
-        $serializedReport = $serializer->serializeReport($report);
+        $serializedReport = $this->serializer->serializeReport($report);
 
         $this->assertEquals($traineeId->id(), $serializedReport['traineeId']);
         $this->assertEquals($content, $serializedReport['content']);
@@ -171,8 +169,6 @@ class SerializerTest extends TestCase
      */
     public function itShouldUnserializeReport()
     {
-        $serializer = new Serializer();
-
         $traineeId = new TraineeId();
         $content = 'some content';
         $date = '10.10.10';
@@ -183,9 +179,9 @@ class SerializerTest extends TestCase
 
         $report = new Report($traineeId, $content, $date, $calendarWeek, $calendarYear, $reportId, $category);
 
-        $serializedReport = $serializer->serializeReport($report);
+        $serializedReport = $this->serializer->serializeReport($report);
 
-        $unserializedReport = $serializer->unserializeReport($serializedReport);
+        $unserializedReport = $this->serializer->unserializeReport($serializedReport);
 
         $this->assertEquals($traineeId->id(), $unserializedReport->traineeId());
         $this->assertEquals($content, $unserializedReport->content());
@@ -201,8 +197,6 @@ class SerializerTest extends TestCase
      */
     public function itShouldSerializeComment()
     {
-        $serializer = new Serializer();
-
         $id = uniqid();
         $reportId = uniqid();
         $userId = uniqid();
@@ -211,7 +205,7 @@ class SerializerTest extends TestCase
 
         $comment = new Comment($id, $reportId, $userId, $date, $content);
 
-        $serializedComment = $serializer->serializeComment($comment);
+        $serializedComment = $this->serializer->serializeComment($comment);
 
         $this->assertEquals($id, $serializedComment['id']);
         $this->assertEquals($reportId, $serializedComment['reportId']);
@@ -226,8 +220,6 @@ class SerializerTest extends TestCase
      */
     public function itShouldUnserializeComment()
     {
-        $serializer = new Serializer();
-
         $id = uniqid();
         $reportId = uniqid();
         $userId = uniqid();
@@ -236,9 +228,9 @@ class SerializerTest extends TestCase
 
         $comment = new Comment($id, $reportId, $userId, $date, $content);
 
-        $serializedComment = $serializer->serializeComment($comment);
+        $serializedComment = $this->serializer->serializeComment($comment);
 
-        $unserializedComment = $serializer->unserializeComment($serializedComment);
+        $unserializedComment = $this->serializer->unserializeComment($serializedComment);
 
         $this->assertEquals($id, $unserializedComment->id());
         $this->assertEquals($reportId, $unserializedComment->reportId());
@@ -253,16 +245,14 @@ class SerializerTest extends TestCase
      */
     public function itShouldSerializeNotification()
     {
-        $serializer = new Serializer();
-
         $title = 'title';
         $description = 'description';
-        $userId =  uniqid();
-        $reportId =  uniqid();
+        $userId = uniqid();
+        $reportId = uniqid();
 
         $notification = new Notification($title, $description, $userId, $reportId);
 
-        $serializedNotification = $serializer->serializeNotification($notification);
+        $serializedNotification = $this->serializer->serializeNotification($notification);
 
         $this->assertEquals($title, $serializedNotification['title']);
         $this->assertEquals($description, $serializedNotification['description']);
@@ -278,18 +268,16 @@ class SerializerTest extends TestCase
      */
     public function itShouldUnserializeNotification()
     {
-        $serializer = new Serializer();
-
         $title = 'title';
         $description = 'description';
-        $userId =  uniqid();
-        $reportId =  uniqid();
+        $userId = uniqid();
+        $reportId = uniqid();
 
         $notification = new Notification($title, $description, $userId, $reportId);
 
-        $serializedNotification = $serializer->serializeNotification($notification);
+        $serializedNotification = $this->serializer->serializeNotification($notification);
 
-        $unserializedNotification = $serializer->unserializeNotification($serializedNotification);
+        $unserializedNotification = $this->serializer->unserializeNotification($serializedNotification);
 
         $this->assertEquals($title, $unserializedNotification->title());
         $this->assertEquals($description, $unserializedNotification->description());

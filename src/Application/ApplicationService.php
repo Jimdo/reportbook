@@ -16,6 +16,7 @@ use Jimdo\Reports\Printer\PrintService;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Serializer;
 use Jimdo\Reports\RepositoryFactory;
+use Jimdo\Reports\SerializerFactory;
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\BrowserNotificationService;
 use Jimdo\Reports\Notification\Events;
@@ -901,9 +902,10 @@ class ApplicationService
 
     public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
     {
-        $serializer = new Serializer();
+        $repositoryFactory = new RepositoryFactory($appConfig);
+        $serializerFactory = new SerializerFactory($appConfig);
 
-        $repositoryFactory = new RepositoryFactory($appConfig, $serializer);
+        $serializer = $serializerFactory->createSerializer();
 
         $userRepository = $repositoryFactory->createUserRepository();
         $profileRepository = $repositoryFactory->createProfileRepository();
@@ -911,10 +913,10 @@ class ApplicationService
         $reportRepository = $repositoryFactory->createReportRepository();
         $browserNotificationRepository = $repositoryFactory->createBrowserNotificationRepository();
 
-        $userService = new UserService($userRepository, $appConfig);
-        $profileService = new ProfileService($profileRepository, $appConfig->defaultProfile, $appConfig);
-        $commentService = new CommentService($commentRepository, $serializer, $appConfig);
-        $reportbookService = new ReportbookService($reportRepository, $commentService, $appConfig);
+        $userService = new UserService($userRepository);
+        $profileService = new ProfileService($profileRepository, $appConfig->defaultProfile);
+        $commentService = new CommentService($commentRepository);
+        $reportbookService = new ReportbookService($reportRepository, $commentService, $serializer);
         $browserNotificationService = new BrowserNotificationService($browserNotificationRepository);
 
         $printService = new PrintService($profileService, $reportbookService, $appConfig);

@@ -2,8 +2,6 @@
 
 namespace Jimdo\Reports\Reportbook;
 
-use Jimdo\Reports\Web\ApplicationConfig as ApplicationConfig;
-
 class CommentService
 {
     /** @var string */

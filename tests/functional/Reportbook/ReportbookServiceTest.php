@@ -7,6 +7,8 @@ use PHPUnit\Framework\TestCase;
 use Jimdo\Reports\functional\Reportbook\CommentFakeRepository;
 use Jimdo\Reports\functional\Reportbook\ReportFakeRepository;
 use Jimdo\Reports\Reportbook\CommentService;
+
+use Jimdo\Reports\SerializerFactory;
 use Jimdo\Reports\Web\ApplicationConfig;
 
 class ReportbookServiceTest extends TestCase
@@ -26,11 +28,13 @@ class ReportbookServiceTest extends TestCase
     protected function setUp()
     {
         $this->reportRepository = new ReportFakeRepository();
-
         $this->commentRepository = new CommentFakeRepository();
         $this->commentService = new CommentService($this->commentRepository);
 
-        $this->reportbookService = new ReportbookService($this->reportRepository, $this->commentService, new ApplicationConfig(__DIR__ . '/../../../config.yml'));
+        $serializerFactory = new SerializerFactory(new ApplicationConfig(__DIR__ . '/../../../config.yml'));
+        $serializer = $serializerFactory->createSerializer();
+
+        $this->reportbookService = new ReportbookService($this->reportRepository, $this->commentService, $serializer);
     }
 
     /**

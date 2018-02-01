@@ -2,6 +2,8 @@
 
 namespace Jimdo\Reports\Web\Validator;
 
+use Jimdo\Reports\ErrorCodeStore;
+
 class FloatValidator extends Validator
 {
     /**
@@ -18,7 +20,7 @@ class FloatValidator extends Validator
                 $value = 'Array';
             }
             $this->errorMessage = "'$value' is not a float";
-            $this->errorCode = Validator::ERR_VALIDATOR_FLOAT;
+            $this->errorCode = ErrorCodeStore::ERR_VALIDATOR_FLOAT;
             return false;
         }
         return true;

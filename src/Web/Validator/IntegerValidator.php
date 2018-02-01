@@ -2,6 +2,8 @@
 
 namespace Jimdo\Reports\Web\Validator;
 
+use Jimdo\Reports\ErrorCodeStore;
+
 class IntegerValidator extends Validator
 {
     /**
@@ -12,7 +14,7 @@ class IntegerValidator extends Validator
     {
         if (is_numeric($value) && strpos($value, '.') !== false) {
             $this->errorMessage = "'$value' is not an integer";
-            $this->errorCode = Validator::ERR_VALIDATOR_INT;
+            $this->errorCode = ErrorCodeStore::ERR_VALIDATOR_INT;
             return false;
         }
         if (!is_numeric($value) || is_float($value)) {
@@ -23,7 +25,7 @@ class IntegerValidator extends Validator
                 $value = 'Array';
             }
             $this->errorMessage = "'$value' is not an integer";
-            $this->errorCode = Validator::ERR_VALIDATOR_INT;
+            $this->errorCode = ErrorCodeStore::ERR_VALIDATOR_INT;
             return false;
         }
         return true;

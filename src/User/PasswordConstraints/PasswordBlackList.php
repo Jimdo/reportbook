@@ -4,8 +4,6 @@ namespace Jimdo\Reports\User\PasswordConstraints;
 
 class PasswordBlackList extends PasswordConstraintsFactory
 {
-    const ERR_CODE = 21;
-
     private $blacklist = [
         'Password123',
         '123Password',

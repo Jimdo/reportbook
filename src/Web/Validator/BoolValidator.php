@@ -2,6 +2,8 @@
 
 namespace Jimdo\Reports\Web\Validator;
 
+use Jimdo\Reports\ErrorCodeStore;
+
 class BoolValidator extends Validator
 {
     /**
@@ -20,7 +22,7 @@ class BoolValidator extends Validator
             $value = 'Array';
         }
         $this->errorMessage = "'$value' is not a bool";
-        $this->errorCode = Validator::ERR_VALIDATOR_BOOL;
+        $this->errorCode = ErrorCodeStore::ERR_VALIDATOR_BOOL;
         return false;
     }
 }

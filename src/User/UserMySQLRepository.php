@@ -4,6 +4,7 @@ namespace Jimdo\Reports\User;
 
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\MySQLSerializer;
+use Jimdo\Reports\ErrorCodeStore;
 
 class UserMySQLRepository implements UserRepository
 {
@@ -49,14 +50,14 @@ class UserMySQLRepository implements UserRepository
         if ($this->findUserByUsername($username) !== null) {
             throw new UserRepositoryException(
                 "Username already exists!\n",
-                UserService::ERR_USERNAME_EXISTS
+                ErrorCodeStore::ERR_USERNAME_EXISTS
             );
         }
 
         if ($this->findUserByEmail($email) !== null) {
             throw new UserRepositoryException(
                 "Email already exists!\n",
-                UserService::ERR_EMAIL_EXISTS
+                ErrorCodeStore::ERR_EMAIL_EXISTS
             );
         }
 

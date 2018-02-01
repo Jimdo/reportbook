@@ -30,12 +30,12 @@ use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
 use Jimdo\Reports\Notification\MailgunSubscriber;
 use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
+use Jimdo\Reports\ErrorCodeStore;
 
 class UserController extends Controller
 {
     const ADMIN_DEFAULT_PASSWORD = 'Adminadmin123';
     const ADMIN_DEFAULT_USER = 'admin';
-    const PASSWORD_CONFIRMATION_WRONG_MATCHING = 15;
 
     /** @var ViewHelper */
     private $viewHelper;
@@ -252,19 +252,19 @@ class UserController extends Controller
         $exceptions = [];
 
         if ($username === self::ADMIN_DEFAULT_USER) {
-            $exceptions[] = $this->getErrorMessageForErrorCode(UserService::ERR_USERNAME_ADMIN);
+            $exceptions[] = $this->getErrorMessageForErrorCode(ErrorCodeStore::ERR_USERNAME_ADMIN);
         }
 
         if ($this->appService->exists($username)) {
-            $exceptions[] = $this->getErrorMessageForErrorCode(UserService::ERR_USERNAME_EXISTS);
+            $exceptions[] = $this->getErrorMessageForErrorCode(ErrorCodeStore::ERR_USERNAME_EXISTS);
         }
 
         if ($this->appService->exists($email)) {
-            $exceptions[] = $this->getErrorMessageForErrorCode(UserService::ERR_EMAIL_EXISTS);
+            $exceptions[] = $this->getErrorMessageForErrorCode(ErrorCodeStore::ERR_EMAIL_EXISTS);
         }
 
         if ($password !== $passwordConfirmation) {
-            $exceptions[] = $this->getErrorMessageForErrorCode(self::PASSWORD_CONFIRMATION_WRONG_MATCHING);
+            $exceptions[] = $this->getErrorMessageForErrorCode(ErrorCodeStore::PASSWORD_CONFIRMATION_WRONG_MATCHING);
         }
 
         if ($exceptions === []) {
@@ -739,7 +739,7 @@ class UserController extends Controller
                     $exceptions[] = $this->getErrorMessageForErrorCode($e->getCode());
                 }
             } else {
-                $exceptions[] =  $this->getErrorMessageForErrorCode(self::PASSWORD_CONFIRMATION_WRONG_MATCHING);
+                $exceptions[] =  $this->getErrorMessageForErrorCode(ErrorCodeStore::PASSWORD_CONFIRMATION_WRONG_MATCHING);
             }
         } else {
             $this->redirect("/user");
@@ -809,49 +809,49 @@ class UserController extends Controller
     public function getErrorMessageForErrorCode(int $errorCode)
     {
         switch ($errorCode) {
-            case User::ERR_PASSWORD_NOT_NEW:
+            case ErrorCodeStore::ERR_PASSWORD_NOT_NEW:
                 return 'Das neue Passwort muss anders als das derzeitige Passwort sein!' . "\n";
 
-            case User::ERR_PASSWORD_WRONG:
+            case ErrorCodeStore::ERR_PASSWORD_WRONG:
                 return 'Das derzeitige Passwort ist falsch!' . "\n";
 
-            case UserService::ERR_USERNAME_EXISTS:
+            case ErrorCodeStore::ERR_USERNAME_EXISTS:
                 return 'Der Benutzername existiert bereits!' . "\n";
 
-            case UserService::ERR_USERNAME_EMPTY:
+            case ErrorCodeStore::ERR_USERNAME_EMPTY:
                 return 'Der Benutzername darf nicht leer sein!' . "\n";
 
-            case UserService::ERR_EMAIL_EXISTS:
+            case ErrorCodeStore::ERR_EMAIL_EXISTS:
                 return 'Die E-Mail existiert bereits!' . "\n";
 
-            case UserService::ERR_EMAIL_EMPTY:
+            case ErrorCodeStore::ERR_EMAIL_EMPTY:
                 return 'Die E-Mail Adresse darf nicht leer sein!' . "\n";
 
-            case UserService::ERR_USERNAME_ADMIN:
+            case ErrorCodeStore::ERR_USERNAME_ADMIN:
                 return 'Der Benutzername darf nicht admin heißen!' . "\n";
 
-            case Validator::ERR_VALIDATOR_DATE:
+            case ErrorCodeStore::ERR_VALIDATOR_DATE:
                 return 'Der eingegebene Wert ist kein Datum!' . "\n";
 
-            case Validator::ERR_VALIDATOR_INT:
+            case ErrorCodeStore::ERR_VALIDATOR_INT:
                 return 'Der eingegebene Wert ist keine Zahl!' . "\n";
 
-            case self::PASSWORD_CONFIRMATION_WRONG_MATCHING:
+            case ErrorCodeStore::PASSWORD_CONFIRMATION_WRONG_MATCHING:
                 return 'Die eingegebenen Passwörter stimmen nicht überein' . "\n";
 
-            case PasswordLength::ERR_CODE:
+            case ErrorCodeStore::ERR_PASSWORD_LENGTH:
                 return 'Das Passwort muss mindestens ' .  PasswordLength::PASSWORD_LENGTH . ' Zeichen lang sein!';
 
-            case PasswordLowerCase::ERR_CODE:
+            case ErrorCodeStore::ERR_PASSWORD_LOWER_CASE:
                 return 'Das Passwort muss mindestens einen Kleinbuchstaben enthalten!';
 
-            case PasswordUpperCase::ERR_CODE:
+            case ErrorCodeStore::ERR_PASSWORD_UPPER_CASE:
                 return 'Das Passwort muss mindestens einen Großbuchstaben enthalten!';
 
-            case PasswordNumbers::ERR_CODE:
+            case ErrorCodeStore::ERR_PASSWORD_NUMBERS:
                 return 'Das Passwort muss mindestens 2 Zahlen enthalten!';
 
-            case PasswordBlackList::ERR_CODE:
+            case ErrorCodeStore::ERR_PASSWORD_BLACK_LIST:
                 return 'Dieses Passwort ist nicht erlaubt!';
         }
     }

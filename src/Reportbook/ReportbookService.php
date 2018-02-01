@@ -3,15 +3,13 @@
 namespace Jimdo\Reports\Reportbook;
 
 use Jimdo\Reports\Views\Report as ReadOnlyReport;
-use Jimdo\Reports\Reportbook\CommentService as CommentService;
+use Jimdo\Reports\Reportbook\CommentService;
 use Jimdo\Reports\Serializer;
+use Jimdo\Reports\ErrorCodeStore;
 use Jimdo\Reports\User\Role;
 
 class ReportbookService
 {
-    const ERR_EDIT_COMMENT_DENIED = 11;
-    const ERR_DELETE_COMMENT_DENIED = 12;
-
     /** @var ReportRepository */
     public $reportRepository;
 
@@ -221,7 +219,7 @@ class ReportbookService
         } else {
             throw new ReportbookServiceException(
                 'You are not allowed to edit this comment!',
-                self::ERR_EDIT_COMMENT_DENIED
+                ErrorCodeStore::ERR_EDIT_COMMENT_DENIED
             );
         }
     }
@@ -238,7 +236,7 @@ class ReportbookService
         } else {
             throw new ReportbookServiceException(
                 'You are not allowed to delete this comment!',
-                self::ERR_DELETE_COMMENT_DENIED
+                ErrorCodeStore::ERR_DELETE_COMMENT_DENIED
             );
         }
     }

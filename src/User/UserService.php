@@ -4,17 +4,10 @@ namespace Jimdo\Reports\User;
 
 use Jimdo\Reports\Views\User as ReadOnlyUser;
 use Jimdo\Reports\User\Role as Role;
+use Jimdo\Reports\ErrorCodeStore;
 
 class UserService
 {
-    const ERR_USERNAME_EXISTS = 6;
-    const ERR_EMAIL_EXISTS = 7;
-
-    const ERR_USERNAME_EMPTY = 13;
-    const ERR_EMAIL_EMPTY = 14;
-
-    const ERR_USERNAME_ADMIN = 16;
-
     /** @var UserRepository */
     private $userRepository;
 
@@ -103,14 +96,14 @@ class UserService
         if ($this->exists($username)) {
             throw new ProfileException(
                 'The Username already exists!',
-                self::ERR_USERNAME_EXISTS
+                ErrorCodeStore::ERR_USERNAME_EXISTS
             );
         }
 
         if (empty($username)) {
             throw new ProfileException(
                 'It is not allowed to have an empty username!',
-                self::ERR_USERNAME_EMPTY
+                ErrorCodeStore::ERR_USERNAME_EMPTY
             );
         }
 
@@ -128,14 +121,14 @@ class UserService
         if ($this->exists($email)) {
             throw new ProfileException(
                 'The Email already exists!',
-                self::ERR_EMAIL_EXISTS
+                ErrorCodeStore::ERR_EMAIL_EXISTS
             );
         }
 
         if (empty($email)) {
             throw new ProfileException(
                 'It is not allowed to have an empty email!',
-                self::ERR_EMAIL_EMPTY
+                ErrorCodeStore::ERR_EMAIL_EMPTY
             );
         }
 
@@ -409,10 +402,7 @@ class UserService
         $constraints = PasswordConstraints\PasswordConstraintsFactory::constraints();
         foreach ($constraints as $constraint) {
             if (!$constraint->check($password)) {
-                throw new PasswordException(
-                    null,
-                    $constraint::ERR_CODE
-                );
+                throw new PasswordException();
             }
         }
 

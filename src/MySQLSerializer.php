@@ -5,6 +5,7 @@ namespace Jimdo\Reports;
 use Jimdo\Reports\Reportbook\Comment;
 use Jimdo\Reports\Reportbook\TraineeId;
 use Jimdo\Reports\Reportbook\Report;
+use Jimdo\Reports\Reportbook\Category;
 
 use Jimdo\Reports\User\User;
 use Jimdo\Reports\User\Role;

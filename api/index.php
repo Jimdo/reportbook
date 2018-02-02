@@ -126,4 +126,62 @@ $app->delete('/reports/{id}', function (Silex\Application $app, $id) use ($appSe
     return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 
+$app->get('/profiles', function (Silex\Application $app) use ($appService, $serializer) {
+    $user = $appService->findUserById($_SESSION['userId']);
+    $profile = $appService->findProfileByUserId($_SESSION['userId']);
+
+    if ($profile !== null) {
+        return new Response($serializer->serializeProfile($profile, $user), 200);
+    }
+    return new Response(json_encode(['status' => 'unauthorized']), 401);
+});
+
+$app->put('/profiles', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
+
+    $data = $request->request->all();
+
+    foreach ($data as $key => $value) {
+        switch ($key) {
+            case 'forename':
+                $appService->editForename($_SESSION['userId'], $value);
+                break;
+                case 'surname':
+                $appService->editSurname($_SESSION['userId'], $value);
+                break;
+            case 'username':
+                $appService->editUsername($_SESSION['userId'], $value);
+                break;
+            case 'email':
+                $appService->editEmail($_SESSION['userId'], $value);
+                break;
+            case 'dateOfBirth':
+                $appService->editDateOfBirth($_SESSION['userId'], $value);
+                break;
+            case 'company':
+                $appService->editCompany($_SESSION['userId'], $value);
+                break;
+            case 'jobTitle':
+                $appService->editJobTitle($_SESSION['userId'], $value);
+                break;
+            case 'school':
+                $appService->editSchool($_SESSION['userId'], $value);
+                break;
+            case 'grade':
+                $appService->editGrade($_SESSION['userId'], $value);
+                break;
+            case 'trainingYear':
+                $appService->editTrainingYear($_SESSION['userId'], $value);
+                break;
+            case 'startOfTraining':
+                $appService->editStartOfTraining($_SESSION['userId'], $value);
+                break;
+        }
+    }
+
+    $user = $appService->findUserById($_SESSION['userId']);
+    $profile = $appService->findProfileByUserId($_SESSION['userId']);
+
+    return new Response($serializer->serializeProfile($profile, $user), 200);
+});
+
 $app->run();

@@ -70,7 +70,6 @@ $app->post('/login', function (Silex\Application $app, Request $request) use ($a
     }
 });
 
-// findReportByReportId
 $app->get('/reports/{id}', function (Silex\Application $app, $id) use ($appService, $serializer) {
     $report = $appService->findReportById($id, $_SESSION['userId']);
 
@@ -109,7 +108,6 @@ $app->put('/reports/{id}', function (Silex\Application $app, Request $request, $
     return new Response($serializer->serializeReports($reports), 200);
 });
 
-// findReportsByUserId & findAllReports
 $app->get('/reports', function (Silex\Application $app) use ($appService, $serializer) {
     $reports = $appService->findReportsByTraineeId($_SESSION['userId']);
 

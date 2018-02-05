@@ -155,7 +155,8 @@ $app->put('/profiles', function (Silex\Application $app, Request $request) use (
                 $appService->editEmail($_SESSION['userId'], $value);
                 break;
             case 'dateOfBirth':
-                $appService->editDateOfBirth($_SESSION['userId'], $value);
+                $formattedDate = date("Y-m-d", strtotime($value));
+                $appService->editDateOfBirth($_SESSION['userId'], $formattedDate);
                 break;
             case 'company':
                 $appService->editCompany($_SESSION['userId'], $value);
@@ -173,7 +174,8 @@ $app->put('/profiles', function (Silex\Application $app, Request $request) use (
                 $appService->editTrainingYear($_SESSION['userId'], $value);
                 break;
             case 'startOfTraining':
-                $appService->editStartOfTraining($_SESSION['userId'], $value);
+                $formattedDate = date("Y-m-d", strtotime($value));
+                $appService->editStartOfTraining($_SESSION['userId'], $formattedDate);
                 break;
         }
     }

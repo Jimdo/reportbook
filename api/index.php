@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Jimdo\Reports\Application\ApplicationService;
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
+use Jimdo\Reports\Notification\BrowserNotification;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Reportbook\TraineeId;
 
@@ -205,6 +206,18 @@ $app->put('/users', function (Silex\Application $app, Request $request) use ($ap
     }
 
     return new Response(json_encode(['status' => 'ok']), 200);
+});
+
+$app->get('/notifications', function (Silex\Application $app) use ($appService, $serializer) {
+    $notifications = [];
+    $app['monolog']->info('Hier');
+    foreach ($appService->findNotificationsByUserId($_SESSION['userId']) as $notification) {
+        if ($notification->status() != BrowserNotification::STATUS_SEEN) {
+            $notifications[] = $notification;
+            $app['monolog']->info($notification->title());
+        }
+    }
+    return new Response($serializer->serializeNotifications($notifications), 200);
 });
 
 $app->run();

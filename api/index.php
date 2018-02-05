@@ -70,7 +70,6 @@ $app->post('/login', function (Silex\Application $app, Request $request) use ($a
     }
 });
 
-// findReportByReportId
 $app->get('/reports/{id}', function (Silex\Application $app, $id) use ($appService, $serializer) {
     $report = $appService->findReportById($id, $_SESSION['userId']);
 
@@ -109,7 +108,6 @@ $app->put('/reports/{id}', function (Silex\Application $app, Request $request, $
     return new Response($serializer->serializeReports($reports), 200);
 });
 
-// findReportsByUserId & findAllReports
 $app->get('/reports', function (Silex\Application $app) use ($appService, $serializer) {
     $reports = $appService->findReportsByTraineeId($_SESSION['userId']);
 
@@ -126,6 +124,82 @@ $app->delete('/reports/{id}', function (Silex\Application $app, $id) use ($appSe
         return new Response($serializer->serializeReports($reports), 200);
     }
     return new Response(json_encode(['status' => 'unauthorized']), 401);
+});
+
+$app->get('/profiles', function (Silex\Application $app) use ($appService, $serializer) {
+    $user = $appService->findUserById($_SESSION['userId']);
+    $profile = $appService->findProfileByUserId($_SESSION['userId']);
+
+    if ($profile !== null) {
+        return new Response($serializer->serializeProfile($profile, $user), 200);
+    }
+    return new Response(json_encode(['status' => 'unauthorized']), 401);
+});
+
+$app->put('/profiles', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
+    $data = $request->request->all();
+
+    $user = $appService->findUserById($_SESSION['userId']);
+
+    foreach ($data as $key => $value) {
+        switch ($key) {
+            case 'forename':
+                $appService->editForename($_SESSION['userId'], $value);
+                break;
+                case 'surname':
+                $appService->editSurname($_SESSION['userId'], $value);
+                break;
+            case 'username':
+                if ($user->username() !== $value) {
+                    $appService->editUsername($_SESSION['userId'], $value);
+                }
+                break;
+            case 'email':
+                if ($user->email() !== $value) {
+                    $appService->editEmail($_SESSION['userId'], $value);
+                }
+                break;
+            case 'dateOfBirth':
+                $formattedDate = date("Y-m-d", strtotime($value));
+                $appService->editDateOfBirth($_SESSION['userId'], $formattedDate);
+                break;
+            case 'company':
+                $appService->editCompany($_SESSION['userId'], $value);
+                break;
+            case 'jobTitle':
+                $appService->editJobTitle($_SESSION['userId'], $value);
+                break;
+            case 'school':
+                $appService->editSchool($_SESSION['userId'], $value);
+                break;
+            case 'grade':
+                $appService->editGrade($_SESSION['userId'], $value);
+                break;
+            case 'trainingYear':
+                $appService->editTrainingYear($_SESSION['userId'], $value);
+                break;
+            case 'startOfTraining':
+                $formattedDate = date("Y-m-d", strtotime($value));
+                $appService->editStartOfTraining($_SESSION['userId'], $formattedDate);
+                break;
+        }
+    }
+
+    $profile = $appService->findProfileByUserId($_SESSION['userId']);
+
+    return new Response($serializer->serializeProfile($profile, $user), 200);
+});
+
+$app->put('/users', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
+    $currentPassword = $request->request->get('currentPassword');
+    $newPassword = $request->request->get('newPassword');
+    $passwordConfirmation = $request->request->get('passwordConfirmation');
+
+    if ($newPassword === $passwordConfirmation) {
+        $appService->editPassword($_SESSION['userId'], $currentPassword, $newPassword);
+    }
+
+    return new Response(json_encode(['status' => 'ok']), 200);
 });
 
 $app->run();

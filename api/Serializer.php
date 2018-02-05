@@ -45,13 +45,13 @@ class Serializer {
             'surname' => $profile->surname(),
             'username' => $user->username(),
             'email' => $user->email(),
-            'dateOfBirth' => $profile->dateOfBirth(),
+            'dateOfBirth' => date("d.m.Y", strtotime($profile->dateOfBirth())),
             'company' => $profile->company(),
             'jobTitle' => $profile->jobTitle(),
             'school' => $profile->school(),
             'grade' => $profile->grade(),
             'trainingYear' => $profile->trainingYear(),
-            'startOfTraining' => $profile->startOfTraining()
+            'startOfTraining' => date("d.m.Y", strtotime($profile->startOfTraining()))
         ]);
     }
 }

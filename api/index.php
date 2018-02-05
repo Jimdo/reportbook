@@ -184,4 +184,16 @@ $app->put('/profiles', function (Silex\Application $app, Request $request) use (
     return new Response($serializer->serializeProfile($profile, $user), 200);
 });
 
+$app->put('/users', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
+    $currentPassword = $request->request->get('currentPassword');
+    $newPassword = $request->request->get('newPassword');
+    $passwordConfirmation = $request->request->get('passwordConfirmation');
+
+    if ($newPassword === $passwordConfirmation) {
+        $appService->editPassword($_SESSION['userId'], $currentPassword, $newPassword);
+    }
+
+    return new Response(json_encode(['status' => 'ok']), 200);
+});
+
 $app->run();

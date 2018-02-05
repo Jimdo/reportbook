@@ -137,8 +137,9 @@ $app->get('/profiles', function (Silex\Application $app) use ($appService, $seri
 });
 
 $app->put('/profiles', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
-
     $data = $request->request->all();
+
+    $user = $appService->findUserById($_SESSION['userId']);
 
     foreach ($data as $key => $value) {
         switch ($key) {
@@ -149,10 +150,14 @@ $app->put('/profiles', function (Silex\Application $app, Request $request) use (
                 $appService->editSurname($_SESSION['userId'], $value);
                 break;
             case 'username':
-                $appService->editUsername($_SESSION['userId'], $value);
+                if ($user->username() !== $value) {
+                    $appService->editUsername($_SESSION['userId'], $value);
+                }
                 break;
             case 'email':
-                $appService->editEmail($_SESSION['userId'], $value);
+                if ($user->email() !== $value) {
+                    $appService->editEmail($_SESSION['userId'], $value);
+                }
                 break;
             case 'dateOfBirth':
                 $formattedDate = date("Y-m-d", strtotime($value));
@@ -180,7 +185,6 @@ $app->put('/profiles', function (Silex\Application $app, Request $request) use (
         }
     }
 
-    $user = $appService->findUserById($_SESSION['userId']);
     $profile = $appService->findProfileByUserId($_SESSION['userId']);
 
     return new Response($serializer->serializeProfile($profile, $user), 200);

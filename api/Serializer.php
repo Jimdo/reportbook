@@ -57,7 +57,7 @@ class Serializer {
         ]);
     }
 
-    public function serializeNotifications($notifications) {
+    public function serializeNotifications(array $notifications) {
         $serializedNotifications = [];
 
         foreach ($notifications as $notification) {
@@ -73,5 +73,23 @@ class Serializer {
             $serializedNotifications[] = $serializedNotification;
         }
         return json_encode($serializedNotifications);
+    }
+
+    public function serializeComments(array $comments) {
+        $serializedComments = [];
+
+        foreach ($comments as $comment) {
+            $serializedComment = [
+                'id' => $comment['comment']->id(),
+                'reportId' => $comment['comment']->reportId(),
+                'userId' => $comment['comment']->userId(),
+                'date' => date("d.m.Y", strtotime($comment['comment']->date())),
+                'content' => $comment['comment']->content(),
+                'status' => $comment['comment']->status(),
+                'username' => $comment['username']
+            ];
+            $serializedComments[] = $serializedComment;
+        }
+        return json_encode($serializedComments);
     }
 }

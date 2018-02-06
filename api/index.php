@@ -133,6 +133,21 @@ $app->delete('/reports/{id}', function (Silex\Application $app, $id) use ($appSe
     return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 
+$app->get('/reports/{id}/comments', function (Silex\Application $app, $id) use ($appService, $serializer) {
+    $comments = $appService->findCommentsByReportId($id);
+
+    $commentsWithUsernames = [];
+
+    foreach ($comments as $comment) {
+        $user = $appService->findUserById($comment->userId());
+        $commentsWithUsernames[] = [
+            'comment' => $comment,
+            'username' => $user->username()
+        ];
+    }
+    return new Response($serializer->serializeComments($commentsWithUsernames), 200);
+});
+
 $app->get('/profiles', function (Silex\Application $app) use ($appService, $serializer) {
     $user = $appService->findUserById($_SESSION['userId']);
     $profile = $appService->findProfileByUserId($_SESSION['userId']);

@@ -13,6 +13,7 @@ use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
 use Jimdo\Reports\Notification\BrowserNotification;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Reportbook\TraineeId;
+use function GuzzleHttp\json_encode;
 
 $app = new Silex\Application();
 $app->register(new Silex\Provider\MonologServiceProvider(), array(

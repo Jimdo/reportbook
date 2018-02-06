@@ -214,7 +214,18 @@ $app->get('/notifications', function (Silex\Application $app) use ($appService, 
     foreach ($appService->findNotificationsByUserId($_SESSION['userId']) as $notification) {
         if ($notification->status() != BrowserNotification::STATUS_SEEN) {
             $notifications[] = $notification;
-            $app['monolog']->info($notification->title());
+        }
+    }
+    return new Response($serializer->serializeNotifications($notifications), 200);
+});
+
+$app->put('/notifications', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
+    $appService->notificationSeen($request->request->get('id'));
+
+    $notifications = [];
+    foreach ($appService->findNotificationsByUserId($_SESSION['userId']) as $notification) {
+        if ($notification->status() != BrowserNotification::STATUS_SEEN) {
+            $notifications[] = $notification;
         }
     }
     return new Response($serializer->serializeNotifications($notifications), 200);

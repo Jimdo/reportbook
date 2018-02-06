@@ -10,8 +10,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Jimdo\Reports\Application\ApplicationService;
 use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
+use Jimdo\Reports\Notification\BrowserNotification;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Reportbook\TraineeId;
+use function GuzzleHttp\json_encode;
 
 $app = new Silex\Application();
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
@@ -195,7 +197,7 @@ $app->put('/profiles', function (Silex\Application $app, Request $request) use (
     return new Response($serializer->serializeProfile($profile, $user), 200);
 });
 
-$app->put('/users', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
+$app->put('/users', function (Silex\Application $app, Request $request) use ($appService) {
     $currentPassword = $request->request->get('currentPassword');
     $newPassword = $request->request->get('newPassword');
     $passwordConfirmation = $request->request->get('passwordConfirmation');
@@ -205,6 +207,28 @@ $app->put('/users', function (Silex\Application $app, Request $request) use ($ap
     }
 
     return new Response(json_encode(['status' => 'ok']), 200);
+});
+
+$app->get('/notifications', function (Silex\Application $app) use ($appService, $serializer) {
+    $notifications = [];
+    foreach ($appService->findNotificationsByUserId($_SESSION['userId']) as $notification) {
+        if ($notification->status() != BrowserNotification::STATUS_SEEN) {
+            $notifications[] = $notification;
+        }
+    }
+    return new Response($serializer->serializeNotifications($notifications), 200);
+});
+
+$app->put('/notifications', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
+    $appService->notificationSeen($request->request->get('id'));
+
+    $notifications = [];
+    foreach ($appService->findNotificationsByUserId($_SESSION['userId']) as $notification) {
+        if ($notification->status() != BrowserNotification::STATUS_SEEN) {
+            $notifications[] = $notification;
+        }
+    }
+    return new Response($serializer->serializeNotifications($notifications), 200);
 });
 
 $app->run();

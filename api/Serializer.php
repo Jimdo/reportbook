@@ -3,6 +3,8 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Jimdo\Reports\Views\Report;
+use Jimdo\Reports\Notification\BrowserNotification;
+
 use function GuzzleHttp\json_encode;
 use Jimdo\Reports\Profile\Profile;
 use Jimdo\Reports\User\User;
@@ -53,5 +55,23 @@ class Serializer {
             'trainingYear' => $profile->trainingYear(),
             'startOfTraining' => date("d.m.Y", strtotime($profile->startOfTraining()))
         ]);
+    }
+
+    public function serializeNotifications($notifications) {
+        $serializedNotifications = [];
+
+        foreach ($notifications as $notification) {
+            $serializedNotification = [
+                'id' => $notification->id(),
+                'title' => $notification->title(),
+                'description' => $notification->description(),
+                'userId' => $notification->userId(),
+                'reportId' => $notification->reportId(),
+                'status' => $notification->status(),
+                'time' => $notification->time()
+            ];
+            $serializedNotifications[] = $serializedNotification;
+        }
+        return json_encode($serializedNotifications);
     }
 }

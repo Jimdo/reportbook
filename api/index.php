@@ -259,4 +259,20 @@ $app->put('/notifications', function (Silex\Application $app, Request $request) 
     return new Response($serializer->serializeNotifications($notifications), 200);
 });
 
+function addUsersToComments(string $reportId, $appService) {
+    $comments = $appService->findCommentsByReportId($reportId);
+
+    $commentsWithUsernames = [];
+
+    foreach ($comments as $comment) {
+        $user = $appService->findUserById($comment->userId());
+        $commentsWithUsernames[] = [
+            'comment' => $comment,
+            'username' => $user->username()
+        ];
+    }
+
+    return $commentsWithUsernames;
+}
+
 $app->run();

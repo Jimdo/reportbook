@@ -8,6 +8,7 @@ use Jimdo\Reports\Notification\BrowserNotification;
 use function GuzzleHttp\json_encode;
 use Jimdo\Reports\Profile\Profile;
 use Jimdo\Reports\User\User;
+use Jimdo\Reports\Reportbook\Comment;
 
 class Serializer {
     public function serializeReport(Report $report) {
@@ -91,5 +92,19 @@ class Serializer {
             $serializedComments[] = $serializedComment;
         }
         return json_encode($serializedComments);
+    }
+
+    public function serializeComment(Comment $comment, User $user) {
+        return json_encode(
+            [
+                'id' => $comment->id(),
+                'reportId' => $comment->reportId(),
+                'userId' => $comment->userId(),
+                'date' => date("d.m.Y", strtotime($comment->date())),
+                'content' => $comment->content(),
+                'status' => $comment->status(),
+                'username' => $user->username()
+            ]
+        );
     }
 }

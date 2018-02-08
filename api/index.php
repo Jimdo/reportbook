@@ -153,6 +153,20 @@ $app->post('/comments', function (Silex\Application $app, Request $request) use 
     }
 });
 
+$app->put('/comments/{id}', function (Silex\Application $app, Request $request, $id) use ($appService, $serializer, $addUsersToComments) {
+    $comment = $appService->editComment(
+        $id,
+        $request->request->get('content'),
+        $_SESSION['userId']
+    );
+
+    if ($comment !== null) {
+        return new Response($serializer->serializeComments(addUsersToComments($comment->reportId(), $appService)), 200);
+    } else {
+        return new Response(json_encode(['status' => 'unauthorized']), 401);
+    }
+});
+
 $app->get('/profiles', function (Silex\Application $app) use ($appService, $serializer) {
     $user = $appService->findUserById($_SESSION['userId']);
     $profile = $appService->findProfileByUserId($_SESSION['userId']);

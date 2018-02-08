@@ -133,32 +133,38 @@ $app->delete('/reports/{id}', function (Silex\Application $app, $id) use ($appSe
     return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 
-$app->get('/reports/{id}/comments', function (Silex\Application $app, $id) use ($appService, $serializer) {
-    $comments = $appService->findCommentsByReportId($id);
-
-    $commentsWithUsernames = [];
-
-    foreach ($comments as $comment) {
-        $user = $appService->findUserById($comment->userId());
-        $commentsWithUsernames[] = [
-            'comment' => $comment,
-            'username' => $user->username()
-        ];
-    }
-    return new Response($serializer->serializeComments($commentsWithUsernames), 200);
+$app->get('/reports/{id}/comments', function (Silex\Application $app, $id) use ($serializer, $appService, $addUsersToComments) {
+    return new Response($serializer->serializeComments(addUsersToComments($id, $appService)), 200);
 });
 
-$app->post('/comments', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
+$app->post('/comments', function (Silex\Application $app, Request $request) use ($appService, $serializer, $addUsersToComments) {
+    $reportId = $request->request->get('reportId');
     $comment = $appService->createComment(
-        $request->request->get('reportId'),
+        $reportId,
         $_SESSION['userId'],
         date('Y-m-d'),
         $request->request->get('content')
     );
 
-    $user = $appService->findUserById($_SESSION['userId']);
+    if ($comment !== null) {
+        return new Response($serializer->serializeComments(addUsersToComments($reportId, $appService)), 200);
+    } else {
+        return new Response(json_encode(['status' => 'unauthorized']), 401);
+    }
+});
 
-    return new Response($serializer->serializeComment($comment, $user), 200);
+$app->put('/comments/{id}', function (Silex\Application $app, Request $request, $id) use ($appService, $serializer, $addUsersToComments) {
+    $comment = $appService->editComment(
+        $id,
+        $request->request->get('content'),
+        $_SESSION['userId']
+    );
+
+    if ($comment !== null) {
+        return new Response($serializer->serializeComments(addUsersToComments($comment->reportId(), $appService)), 200);
+    } else {
+        return new Response(json_encode(['status' => 'unauthorized']), 401);
+    }
 });
 
 $app->get('/profiles', function (Silex\Application $app) use ($appService, $serializer) {
@@ -258,5 +264,21 @@ $app->put('/notifications', function (Silex\Application $app, Request $request) 
     }
     return new Response($serializer->serializeNotifications($notifications), 200);
 });
+
+function addUsersToComments(string $reportId, $appService) {
+    $comments = $appService->findCommentsByReportId($reportId);
+
+    $commentsWithUsernames = [];
+
+    foreach ($comments as $comment) {
+        $user = $appService->findUserById($comment->userId());
+        $commentsWithUsernames[] = [
+            'comment' => $comment,
+            'username' => $user->username()
+        ];
+    }
+
+    return $commentsWithUsernames;
+}
 
 $app->run();

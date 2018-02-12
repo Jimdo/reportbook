@@ -231,6 +231,46 @@ $app->put('/profiles', function (Silex\Application $app, Request $request) use (
     return new Response($serializer->serializeProfile($profile, $user), 200);
 });
 
+$app->get('/images/{username}', function (Silex\Application $app, $username) use ($appService) {
+    $user = $appService->findUserByUsername($username);
+
+    if ($user === null) {
+        return new Response(json_encode(['status' => 'unauthorized']), 401);
+    }
+
+    $profile = $appService->findProfileByUserId($user->id());
+    $base64 = $profile->image();
+    $data = base64_decode($base64);
+
+    header('Content-Type: image/' . $profile->imageType());
+    header('Pragma: private');
+    header('Cache-Control: max-age=86400');
+
+    echo $data;
+
+    return new Response(json_encode(['status' => 'ok']), 200);
+});
+
+$app->get('/images', function (Silex\Application $app) use ($appService) {
+    $user = $appService->findUserById($_SESSION['userId']);
+
+    if ($user === null) {
+        return new Response(json_encode(['status' => 'unauthorized']), 401);
+    }
+
+    $profile = $appService->findProfileByUserId($user->id());
+    $base64 = $profile->image();
+    $data = base64_decode($base64);
+
+    header('Content-Type: image/' . $profile->imageType());
+    header('Pragma: private');
+    header('Cache-Control: max-age=86400');
+
+    echo $data;
+
+    return new Response(json_encode(['status' => 'ok']), 200);
+});
+
 $app->get('/users', function (Silex\Application $app) use ($appService) {
     $user = $appService->findUserById($_SESSION['userId']);
     return new Response(json_encode(['username' => $user->username()]), 200);

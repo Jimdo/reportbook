@@ -231,6 +231,11 @@ $app->put('/profiles', function (Silex\Application $app, Request $request) use (
     return new Response($serializer->serializeProfile($profile, $user), 200);
 });
 
+$app->get('/users', function (Silex\Application $app) use ($appService) {
+    $user = $appService->findUserById($_SESSION['userId']);
+    return new Response(json_encode(['username' => $user->username()]), 200);
+});
+
 $app->put('/users', function (Silex\Application $app, Request $request) use ($appService) {
     $currentPassword = $request->request->get('currentPassword');
     $newPassword = $request->request->get('newPassword');

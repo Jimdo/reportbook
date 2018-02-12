@@ -65,7 +65,7 @@ $app->post('/login', function (Silex\Application $app, Request $request) use ($a
         $user = $appService->findUserByUsername($username);
         $_SESSION['userId'] = $user->id();
 
-        return new Response(json_encode(['username' => $user->username()]), 200);
+        return new Response(json_encode(['status' => 'ok']), 200);
     } else {
         $_SESSION['userId'] = '';
         return new Response(json_encode(['status' => 'unauthorized']), 401);

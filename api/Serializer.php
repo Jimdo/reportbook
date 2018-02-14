@@ -41,6 +41,32 @@ class Serializer {
         return json_encode($serializedReports);
     }
 
+    public function serializeUser($user) {
+           return json_encode([
+                'id' => $user->id(),
+                'username' => $user->username(),
+                'email' => $user->email(),
+                'role' => $user->roleName(),
+                'status' => $user->roleStatus()
+            ]);
+    }
+
+    public function serializeUsers($users) {
+        $serializedUsers = [];
+
+        foreach ($users as $user) {
+            $serializedUser = [
+                'id' => $user->id(),
+                'username' => $user->username(),
+                'email' => $user->email(),
+                'role' => $user->roleName(),
+                'status' => $user->roleStatus()
+            ];
+            $serializedUsers[] = $serializedUser;
+        }
+        return json_encode($serializedUsers);
+    }
+
     public function serializeProfile(Profile $profile, User $user)
     {
         return json_encode([

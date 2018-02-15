@@ -13,6 +13,8 @@ use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
 use Jimdo\Reports\Notification\BrowserNotification;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Reportbook\TraineeId;
+use Jimdo\Reports\User\Role;
+
 use function GuzzleHttp\json_encode;
 
 $app = new Silex\Application();
@@ -271,9 +273,49 @@ $app->get('/images', function (Silex\Application $app) use ($appService) {
     return new Response(json_encode(['status' => 'ok']), 200);
 });
 
-$app->get('/users', function (Silex\Application $app) use ($appService) {
+$app->get('/user', function (Silex\Application $app) use ($appService, $serializer) {
     $user = $appService->findUserById($_SESSION['userId']);
-    return new Response(json_encode(['username' => $user->username()]), 200);
+    return new Response($serializer->serializeUser($user), 200);
+});
+
+$app->get('/users', function (Silex\Application $app) use ($appService, $serializer) {
+    $user = $appService->findUserById($_SESSION['userId']);
+
+    if ($user->roleName() === Role::TRAINER || $user->roleName() === Role::ADMIN) {
+        $users = array_merge(
+            $appService->findUsersByStatus(Role::STATUS_APPROVED),
+            $appService->findUsersByStatus(Role::STATUS_NOT_APPROVED)
+        );
+    } else {
+        $users = [$user];
+    }
+
+    return new Response($serializer->serializeUsers($users), 200);
+});
+
+$app->put('/users/{id}/status', function (Silex\Application $app, Request $request, $id) use ($appService, $serializer) {
+    $status = $request->request->get('status');
+
+    $user = $appService->findUserById($id);
+
+    if ($user !== null) {
+        if ($status === Role::STATUS_APPROVED) {
+            $appService->approveUser($user->email());
+        }
+
+        if ($status === Role::STATUS_DISAPPROVED) {
+            $appService->disapproveUser($user->email());
+        }
+
+        $users = array_merge(
+            $appService->findUsersByStatus(Role::STATUS_APPROVED),
+            $appService->findUsersByStatus(Role::STATUS_NOT_APPROVED)
+        );
+
+        return new Response($serializer->serializeUsers($users), 200);
+    }
+
+    return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 
 $app->put('/users', function (Silex\Application $app, Request $request) use ($appService) {

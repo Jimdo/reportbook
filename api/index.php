@@ -239,22 +239,19 @@ $app->put('/profiles', function (Silex\Application $app, Request $request) use (
     return new Response($serializer->serializeProfile($profile, $user), 200);
 });
 
-$app->get('/users/{userId}/profile/image', function (Silex\Application $app, $userId) use ($appService) {
-    $user = $appService->findUserById($userId);
+$app->get('/user', function (Silex\Application $app) use ($appService, $serializer) {
+    $user = $appService->findUserById($_SESSION['userId']);
+    return new Response($serializer->serializeUser($user), 200);
+});
 
-    if ($user === null) {
-        return new Response(json_encode(['status' => 'unauthorized']), 401);
+$app->put('/user/password', function (Silex\Application $app, Request $request) use ($appService) {
+    $currentPassword = $request->request->get('currentPassword');
+    $newPassword = $request->request->get('newPassword');
+    $passwordConfirmation = $request->request->get('passwordConfirmation');
+
+    if ($newPassword === $passwordConfirmation) {
+        $appService->editPassword($_SESSION['userId'], $currentPassword, $newPassword);
     }
-
-    $profile = $appService->findProfileByUserId($user->id());
-    $base64 = $profile->image();
-    $data = base64_decode($base64);
-
-    header('Content-Type: image/' . $profile->imageType());
-    header('Pragma: private');
-    header('Cache-Control: max-age=86400');
-
-    echo $data;
 
     return new Response(json_encode(['status' => 'ok']), 200);
 });
@@ -279,11 +276,6 @@ $app->get('/user/profile/image', function (Silex\Application $app) use ($appServ
     return new Response(json_encode(['status' => 'ok']), 200);
 });
 
-$app->get('/user', function (Silex\Application $app) use ($appService, $serializer) {
-    $user = $appService->findUserById($_SESSION['userId']);
-    return new Response($serializer->serializeUser($user), 200);
-});
-
 $app->get('/users', function (Silex\Application $app) use ($appService, $serializer) {
     $user = $appService->findUserById($_SESSION['userId']);
 
@@ -297,6 +289,26 @@ $app->get('/users', function (Silex\Application $app) use ($appService, $seriali
     }
 
     return new Response($serializer->serializeUsers($users), 200);
+});
+
+$app->get('/users/{userId}/profile/image', function (Silex\Application $app, $userId) use ($appService) {
+    $user = $appService->findUserById($userId);
+
+    if ($user === null) {
+        return new Response(json_encode(['status' => 'unauthorized']), 401);
+    }
+
+    $profile = $appService->findProfileByUserId($user->id());
+    $base64 = $profile->image();
+    $data = base64_decode($base64);
+
+    header('Content-Type: image/' . $profile->imageType());
+    header('Pragma: private');
+    header('Cache-Control: max-age=86400');
+
+    echo $data;
+
+    return new Response(json_encode(['status' => 'ok']), 200);
 });
 
 $app->put('/users/{id}/status', function (Silex\Application $app, Request $request, $id) use ($appService, $serializer) {
@@ -322,18 +334,6 @@ $app->put('/users/{id}/status', function (Silex\Application $app, Request $reque
     }
 
     return new Response(json_encode(['status' => 'unauthorized']), 401);
-});
-
-$app->put('/users', function (Silex\Application $app, Request $request) use ($appService) {
-    $currentPassword = $request->request->get('currentPassword');
-    $newPassword = $request->request->get('newPassword');
-    $passwordConfirmation = $request->request->get('passwordConfirmation');
-
-    if ($newPassword === $passwordConfirmation) {
-        $appService->editPassword($_SESSION['userId'], $currentPassword, $newPassword);
-    }
-
-    return new Response(json_encode(['status' => 'ok']), 200);
 });
 
 $app->get('/notifications', function (Silex\Application $app) use ($appService, $serializer) {

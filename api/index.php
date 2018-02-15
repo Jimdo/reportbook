@@ -139,17 +139,16 @@ $app->get('/reports/{id}/comments', function (Silex\Application $app, $id) use (
     return new Response($serializer->serializeComments(addUsersToComments($id, $appService)), 200);
 });
 
-$app->post('/comments', function (Silex\Application $app, Request $request) use ($appService, $serializer, $addUsersToComments) {
-    $reportId = $request->request->get('reportId');
+$app->post('/reports/{id}/comments', function (Silex\Application $app, Request $request, $id) use ($appService, $serializer, $addUsersToComments) {
     $comment = $appService->createComment(
-        $reportId,
+        $id,
         $_SESSION['userId'],
         date('Y-m-d'),
         $request->request->get('content')
     );
 
     if ($comment !== null) {
-        return new Response($serializer->serializeComments(addUsersToComments($reportId, $appService)), 200);
+        return new Response($serializer->serializeComments(addUsersToComments($id, $appService)), 200);
     } else {
         return new Response(json_encode(['status' => 'unauthorized']), 401);
     }

@@ -346,8 +346,8 @@ $app->get('/notifications', function (Silex\Application $app) use ($appService, 
     return new Response($serializer->serializeNotifications($notifications), 200);
 });
 
-$app->put('/notifications', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
-    $appService->notificationSeen($request->request->get('id'));
+$app->put('/notifications/{id}', function (Silex\Application $app, Request $request, $id) use ($appService, $serializer) {
+    $appService->notificationSeen($id);
 
     $notifications = [];
     foreach ($appService->findNotificationsByUserId($_SESSION['userId']) as $notification) {

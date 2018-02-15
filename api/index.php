@@ -259,7 +259,7 @@ $app->get('/users/{userId}/profile/image', function (Silex\Application $app, $us
     return new Response(json_encode(['status' => 'ok']), 200);
 });
 
-$app->get('/images', function (Silex\Application $app) use ($appService) {
+$app->get('/user/profile/image', function (Silex\Application $app) use ($appService) {
     $user = $appService->findUserById($_SESSION['userId']);
 
     if ($user === null) {

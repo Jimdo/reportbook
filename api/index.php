@@ -154,11 +154,18 @@ $app->post('/reports/{id}/comments', function (Silex\Application $app, Request $
     }
 });
 
-$app->put('/comments/{id}', function (Silex\Application $app, Request $request, $id) use ($appService, $serializer, $addUsersToComments) {
-    $comment = $appService->editComment(
-        $id,
-        $request->request->get('content'),
-        $_SESSION['userId']
+$app->put('/reports/{reportId}/comments/{commentId}', function (
+        Silex\Application $app,
+        Request $request,
+        $reportId,
+        $commentId
+    ) use ($appService, $serializer, $addUsersToComments) {
+
+    $comment = $appService->editCommentForReport(
+        $commentId,
+        $_SESSION['userId'],
+        $reportId,
+        $request->request->get('content')
     );
 
     if ($comment !== null) {

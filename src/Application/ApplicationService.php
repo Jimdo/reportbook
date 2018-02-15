@@ -281,9 +281,26 @@ class ApplicationService
         return $this->reportbookService->createComment($reportId, $userId, $date, $content);
     }
 
+    /**
+     * @param string $id
+     * @param string $newContent
+     * @param string $userId
+     * @param string $reportId
+     * @return Comment
+     */
+    public function editCommentForReport(string $id, string $userId, string $reportId, string $newContent): Comment
+    {
+        $comment = $this->findCommentByCommentId($id);
+
+        if ($comment->reportId() === $reportId) {
+            return $this->editComment($id, $newContent, $userId);
+        }
+    }
 
     /**
      * @param string $id
+     * @param string $newContent
+     * @param string $userId
      * @throws ReportbookServiceException
      * @return Comment
      */

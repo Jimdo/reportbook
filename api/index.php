@@ -239,8 +239,8 @@ $app->put('/profiles', function (Silex\Application $app, Request $request) use (
     return new Response($serializer->serializeProfile($profile, $user), 200);
 });
 
-$app->get('/images/{username}', function (Silex\Application $app, $username) use ($appService) {
-    $user = $appService->findUserByUsername($username);
+$app->get('/users/{userId}/profile/image', function (Silex\Application $app, $userId) use ($appService) {
+    $user = $appService->findUserById($userId);
 
     if ($user === null) {
         return new Response(json_encode(['status' => 'unauthorized']), 401);

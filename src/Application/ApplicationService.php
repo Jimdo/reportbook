@@ -499,6 +499,25 @@ class ApplicationService
     }
 
     /**
+     * @param string $userId
+     * @param string $username
+     * @param string $email
+     */
+    public function editUser(string $userId, string $username, string $email)
+    {
+        $user = $this->findUserById($userId);
+
+        if ($user->username() !== $username) {
+            $this->editUsername($userId, $username);
+        }
+
+        if ($user->email() !== $email) {
+            $this->editEmail($userId, $email);
+        }
+        return $this->findUserById($userId);
+    }
+
+    /**
      * @param string $email
      * @param string $password
      * @return bool

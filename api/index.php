@@ -180,6 +180,11 @@ $app->get('/user', function (Silex\Application $app) use ($appService, $serializ
     return new Response($serializer->serializeUser($user), 200);
 });
 
+$app->put('/user', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
+    $appService->editUser($_SESSION['userId'], $request->request->get('username'), $request->request->get('email'));
+    return new Response($serializer->serializeUser($appService->findUserById($id)), 200);
+});
+
 $app->put('/user/password', function (Silex\Application $app, Request $request) use ($appService) {
     $currentPassword = $request->request->get('currentPassword');
     $newPassword = $request->request->get('newPassword');
@@ -236,13 +241,11 @@ $app->get('/users', function (Silex\Application $app) use ($appService, $seriali
     return new Response($serializer->serializeUsers($users), 200);
 });
 
-$app->put('/users/{id}/profile', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
+$app->put('/users/{id}/profile', function (Silex\Application $app, Request $request, $id) use ($appService, $serializer) {
     $data = $request->request->all();
 
-    $user = $appService->findUserById($_SESSION['userId']);
-
     $profile = $appService->editProfile(
-        $_SESSION['userId'],
+        $id,
         $data['forename'],
         $data['surname'],
         date("Y-m-d", strtotime($data['dateOfBirth'])),

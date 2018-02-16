@@ -683,6 +683,43 @@ class ApplicationService
     /**
      * @param string $userId
      * @param string $forename
+     * @param string $surname
+     * @param string $dateOfBirth
+     * @param string $school
+     * @param string $company
+     * @param string $jobTitle
+     * @param string $trainingYear
+     * @param string $startOfTraining
+     * @param string $grade
+     */
+    public function editProfile(
+        string $userId,
+        string $forename,
+        string $surname,
+        string $dateOfBirth,
+        string $school,
+        string $company,
+        string $jobTitle,
+        string $trainingYear,
+        string $startOfTraining,
+        string $grade
+    ) {
+            $this->editForename ($userId, $forename);
+            $this->editSurname($userId, $surname);
+            $this->editDateOfBirth($userId, $dateOfBirth);
+            $this->editSchool($userId, $school);
+            $this->editCompany($userId, $company);
+            $this->editJobTitle($userId, $jobTitle);
+            $this->editTrainingYear($userId, $trainingYear);
+            $this->editStartOfTraining($userId, $startOfTraining);
+            $this->editGrade($userId, $grade);
+
+            return $this->findProfileByUserId($userId);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $forename
      */
     public function editForename(string $userId, string $forename)
     {

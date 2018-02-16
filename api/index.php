@@ -175,16 +175,6 @@ $app->put('/reports/{reportId}/comments/{commentId}', function (
     }
 });
 
-$app->get('/profiles', function (Silex\Application $app) use ($appService, $serializer) {
-    $user = $appService->findUserById($_SESSION['userId']);
-    $profile = $appService->findProfileByUserId($_SESSION['userId']);
-
-    if ($profile !== null) {
-        return new Response($serializer->serializeProfile($profile, $user), 200);
-    }
-    return new Response(json_encode(['status' => 'unauthorized']), 401);
-});
-
 $app->put('/profiles', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
     $data = $request->request->all();
 
@@ -254,6 +244,15 @@ $app->put('/user/password', function (Silex\Application $app, Request $request) 
     }
 
     return new Response(json_encode(['status' => 'ok']), 200);
+});
+
+$app->get('/user/profile', function (Silex\Application $app) use ($appService, $serializer) {
+    $profile = $appService->findProfileByUserId($_SESSION['userId']);
+
+    if ($profile !== null) {
+        return new Response($serializer->serializeProfile($profile), 200);
+    }
+    return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 
 $app->get('/user/profile/image', function (Silex\Application $app) use ($appService) {

@@ -248,6 +248,15 @@ $app->get('/users', function (Silex\Application $app) use ($appService, $seriali
     return new Response($serializer->serializeUsers($users), 200);
 });
 
+$app->get('/users/{id}/profile', function (Silex\Application $app, $id) use ($appService, $serializer) {
+    $profile = $appService->findProfileByUserId($id);
+
+    if ($profile !== null) {
+        return new Response($serializer->serializeProfile($profile), 200);
+    }
+    return new Response(json_encode(['status' => 'unauthorized']), 401);
+});
+
 $app->put('/users/{id}/profile', function (Silex\Application $app, Request $request, $id) use ($appService, $serializer) {
     $data = $request->request->all();
 

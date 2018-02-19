@@ -119,7 +119,13 @@ $app->put('/reports/{id}', function (Silex\Application $app, Request $request, $
 });
 
 $app->get('/reports', function (Silex\Application $app) use ($appService, $serializer) {
-    $reports = $appService->findReportsByTraineeId($_SESSION['userId']);
+    $user = $appService->findUserById($_SESSION['userId']);
+
+    if ($user->roleName() === Role::TRAINEE) {
+        $reports = $appService->findReportsByTraineeId($_SESSION['userId']);
+    } else {
+        $reports = $appService->findAllReports();
+    }
 
     return new Response($serializer->serializeReports($reports), 200);
 });

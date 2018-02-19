@@ -9,6 +9,7 @@ use Jimdo\Reports\Reportbook\Report;
 use Jimdo\Reports\Reportbook\TraineeId;
 
 use Jimdo\Reports\User\UserService;
+use Jimdo\Reports\User\Role;
 
 use Jimdo\Reports\Profile\ProfileService;
 
@@ -393,6 +394,27 @@ class ApplicationService
     public function sortReportsByCalendarWeekAndYear(array $reports): array
     {
         return $this->reportbookService->sortReportsByCalendarWeekAndYear($reports);
+    }
+
+    /**
+     * @param string $role
+     * @param string $username
+     * @param string $email
+     * @param string $forename
+     * @param string $surname
+     * @param string $password
+     */
+    public function registerUser(string $role, string $username, string $email, string $forename, string $surname, string $password)
+    {
+        if ($role === Role::TRAINER) {
+            $user = $this->registerTrainer($username, $email, $password);
+            $this->createProfile($user->id(), $forename, $surname);
+        }
+
+        if ($role === Role::TRAINEE) {
+            $user = $this->registerTrainee($username, $email, $password);
+            $this->createProfile($user->id(), $forename, $surname);
+        }
     }
 
     /**

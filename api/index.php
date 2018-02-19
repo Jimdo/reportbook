@@ -80,6 +80,20 @@ $app->post('/logout', function (Silex\Application $app) use ($appService) {
     return new Response(json_encode(['status' => 'ok']), 200);
 });
 
+$app->post('/register', function (Silex\Application $app, Request $request) use ($appService) {
+    if ($request->request->get('password') === $request->request->get('passwordConfirmation')) {
+        $appService->registerUser(
+            $request->request->get('role'),
+            $request->request->get('username'),
+            $request->request->get('email'),
+            $request->request->get('forename'),
+            $request->request->get('surname'),
+            $request->request->get('password')
+        );
+        return new Response(json_encode(['status' => 'ok']), 200);
+    }
+});
+
 $app->get('/reports/{id}', function (Silex\Application $app, $id) use ($appService, $serializer) {
     $report = $appService->findReportById($id, $_SESSION['userId']);
 

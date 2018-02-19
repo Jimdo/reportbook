@@ -175,73 +175,14 @@ $app->put('/reports/{reportId}/comments/{commentId}', function (
     }
 });
 
-$app->get('/profiles', function (Silex\Application $app) use ($appService, $serializer) {
-    $user = $appService->findUserById($_SESSION['userId']);
-    $profile = $appService->findProfileByUserId($_SESSION['userId']);
-
-    if ($profile !== null) {
-        return new Response($serializer->serializeProfile($profile, $user), 200);
-    }
-    return new Response(json_encode(['status' => 'unauthorized']), 401);
-});
-
-$app->put('/profiles', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
-    $data = $request->request->all();
-
-    $user = $appService->findUserById($_SESSION['userId']);
-
-    foreach ($data as $key => $value) {
-        switch ($key) {
-            case 'forename':
-                $appService->editForename($_SESSION['userId'], $value);
-                break;
-                case 'surname':
-                $appService->editSurname($_SESSION['userId'], $value);
-                break;
-            case 'username':
-                if ($user->username() !== $value) {
-                    $appService->editUsername($_SESSION['userId'], $value);
-                }
-                break;
-            case 'email':
-                if ($user->email() !== $value) {
-                    $appService->editEmail($_SESSION['userId'], $value);
-                }
-                break;
-            case 'dateOfBirth':
-                $formattedDate = date("Y-m-d", strtotime($value));
-                $appService->editDateOfBirth($_SESSION['userId'], $formattedDate);
-                break;
-            case 'company':
-                $appService->editCompany($_SESSION['userId'], $value);
-                break;
-            case 'jobTitle':
-                $appService->editJobTitle($_SESSION['userId'], $value);
-                break;
-            case 'school':
-                $appService->editSchool($_SESSION['userId'], $value);
-                break;
-            case 'grade':
-                $appService->editGrade($_SESSION['userId'], $value);
-                break;
-            case 'trainingYear':
-                $appService->editTrainingYear($_SESSION['userId'], $value);
-                break;
-            case 'startOfTraining':
-                $formattedDate = date("Y-m-d", strtotime($value));
-                $appService->editStartOfTraining($_SESSION['userId'], $formattedDate);
-                break;
-        }
-    }
-
-    $profile = $appService->findProfileByUserId($_SESSION['userId']);
-
-    return new Response($serializer->serializeProfile($profile, $user), 200);
-});
-
 $app->get('/user', function (Silex\Application $app) use ($appService, $serializer) {
     $user = $appService->findUserById($_SESSION['userId']);
     return new Response($serializer->serializeUser($user), 200);
+});
+
+$app->put('/user', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
+    $appService->editUser($_SESSION['userId'], $request->request->get('username'), $request->request->get('email'));
+    return new Response($serializer->serializeUser($appService->findUserById($id)), 200);
 });
 
 $app->put('/user/password', function (Silex\Application $app, Request $request) use ($appService) {
@@ -254,6 +195,15 @@ $app->put('/user/password', function (Silex\Application $app, Request $request) 
     }
 
     return new Response(json_encode(['status' => 'ok']), 200);
+});
+
+$app->get('/user/profile', function (Silex\Application $app) use ($appService, $serializer) {
+    $profile = $appService->findProfileByUserId($_SESSION['userId']);
+
+    if ($profile !== null) {
+        return new Response($serializer->serializeProfile($profile), 200);
+    }
+    return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 
 $app->get('/user/profile/image', function (Silex\Application $app) use ($appService) {
@@ -289,6 +239,25 @@ $app->get('/users', function (Silex\Application $app) use ($appService, $seriali
     }
 
     return new Response($serializer->serializeUsers($users), 200);
+});
+
+$app->put('/users/{id}/profile', function (Silex\Application $app, Request $request, $id) use ($appService, $serializer) {
+    $data = $request->request->all();
+
+    $profile = $appService->editProfile(
+        $id,
+        $data['forename'],
+        $data['surname'],
+        date("Y-m-d", strtotime($data['dateOfBirth'])),
+        $data['school'],
+        $data['company'],
+        $data['jobTitle'],
+        $data['trainingYear'],
+        date("Y-m-d", strtotime($data['startOfTraining'])),
+        $data['grade']
+    );
+
+    return new Response($serializer->serializeProfile($profile), 200);
 });
 
 $app->get('/users/{userId}/profile/image', function (Silex\Application $app, $userId) use ($appService) {

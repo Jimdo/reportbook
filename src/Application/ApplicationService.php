@@ -499,6 +499,25 @@ class ApplicationService
     }
 
     /**
+     * @param string $userId
+     * @param string $username
+     * @param string $email
+     */
+    public function editUser(string $userId, string $username, string $email)
+    {
+        $user = $this->findUserById($userId);
+
+        if ($user->username() !== $username) {
+            $this->editUsername($userId, $username);
+        }
+
+        if ($user->email() !== $email) {
+            $this->editEmail($userId, $email);
+        }
+        return $this->findUserById($userId);
+    }
+
+    /**
      * @param string $email
      * @param string $password
      * @return bool
@@ -678,6 +697,43 @@ class ApplicationService
     public function deleteProfile(Profile $deleteProfile)
     {
         $this->profileService->deleteProfile($deleteProfile);
+    }
+
+    /**
+     * @param string $userId
+     * @param string $forename
+     * @param string $surname
+     * @param string $dateOfBirth
+     * @param string $school
+     * @param string $company
+     * @param string $jobTitle
+     * @param string $trainingYear
+     * @param string $startOfTraining
+     * @param string $grade
+     */
+    public function editProfile(
+        string $userId,
+        string $forename,
+        string $surname,
+        string $dateOfBirth,
+        string $school,
+        string $company,
+        string $jobTitle,
+        string $trainingYear,
+        string $startOfTraining,
+        string $grade
+    ) {
+            $this->editForename ($userId, $forename);
+            $this->editSurname($userId, $surname);
+            $this->editDateOfBirth($userId, $dateOfBirth);
+            $this->editSchool($userId, $school);
+            $this->editCompany($userId, $company);
+            $this->editJobTitle($userId, $jobTitle);
+            $this->editTrainingYear($userId, $trainingYear);
+            $this->editStartOfTraining($userId, $startOfTraining);
+            $this->editGrade($userId, $grade);
+
+            return $this->findProfileByUserId($userId);
     }
 
     /**

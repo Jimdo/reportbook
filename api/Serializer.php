@@ -67,13 +67,11 @@ class Serializer {
         return json_encode($serializedUsers);
     }
 
-    public function serializeProfile(Profile $profile, User $user)
+    public function serializeProfile(Profile $profile)
     {
         return json_encode([
             'forename' => $profile->forename(),
             'surname' => $profile->surname(),
-            'username' => $user->username(),
-            'email' => $user->email(),
             'dateOfBirth' => date("d.m.Y", strtotime($profile->dateOfBirth())),
             'company' => $profile->company(),
             'jobTitle' => $profile->jobTitle(),

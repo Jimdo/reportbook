@@ -13,6 +13,7 @@ use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
 use Jimdo\Reports\Notification\BrowserNotification;
 use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Reportbook\TraineeId;
+use Jimdo\Reports\Reportbook\Report;
 use Jimdo\Reports\User\Role;
 
 use function GuzzleHttp\json_encode;
@@ -101,6 +102,30 @@ $app->post('/reports', function (Silex\Application $app, Request $request) use (
         return new Response(json_encode(['status' => 'created']), 201);
     }
     return new Response(json_encode(['status' => 'unauthorized']), 401);
+});
+
+$app->put('/reports', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
+   $column = $request->request->get('column');
+   $reports = $appService->findReportsByTraineeId($_SESSION['userId']);
+   switch ($column) {
+        case 'category':
+            $appService->sortArrayDescending($column, $reports);
+            break;
+        case 'status':
+            $appService->sortReportsByStatus(
+                [
+                    Report::STATUS_DISAPPROVED,
+                    Report::STATUS_REVISED,
+                    Report::STATUS_NEW,
+                    Report::STATUS_EDITED,
+                    Report::STATUS_APPROVAL_REQUESTED,
+                    Report::STATUS_APPROVED
+                ],
+                $reports
+            );
+            break;
+    }
+    return new Response($serializer->serializeReports($reports), 200);
 });
 
 $app->put('/reports/{id}', function (Silex\Application $app, Request $request, $id) use ($appService, $serializer) {

@@ -25,7 +25,6 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
 
 session_start(['cookie_httponly' => true]);
 
-$serializer = new Serializer();
 $appConfig = new ApplicationConfig('../config.yml');
 
 $notificationService = new NotificationService();
@@ -37,6 +36,8 @@ $notificationService->register(new BrowserNotificationSubscriber([
 ], $appConfig));
 
 $appService = ApplicationService::create($appConfig, $notificationService);
+
+$serializer = new Serializer($appService);
 
 $app->before(function (Request $request, Silex\Application $app) {
     if ($request->getMethod() === 'OPTIONS') {
@@ -157,7 +158,13 @@ $app->put('/reports/{id}', function (Silex\Application $app, Request $request, $
 });
 
 $app->get('/reports', function (Silex\Application $app) use ($appService, $serializer) {
-    $reports = $appService->findReportsByTraineeId($_SESSION['userId']);
+    $user = $appService->findUserById($_SESSION['userId']);
+
+    if ($user->roleName() === Role::TRAINEE) {
+        $reports = $appService->findReportsByTraineeId($_SESSION['userId']);
+    } else {
+        $reports = $appService->findAllReports();
+    }
 
     return new Response($serializer->serializeReports($reports), 200);
 });
@@ -278,6 +285,15 @@ $app->get('/users', function (Silex\Application $app) use ($appService, $seriali
     }
 
     return new Response($serializer->serializeUsers($users), 200);
+});
+
+$app->get('/users/{id}/profile', function (Silex\Application $app, $id) use ($appService, $serializer) {
+    $profile = $appService->findProfileByUserId($id);
+
+    if ($profile !== null) {
+        return new Response($serializer->serializeProfile($profile), 200);
+    }
+    return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 
 $app->put('/users/{id}/profile', function (Silex\Application $app, Request $request, $id) use ($appService, $serializer) {

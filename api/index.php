@@ -24,7 +24,6 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
 
 session_start(['cookie_httponly' => true]);
 
-$serializer = new Serializer();
 $appConfig = new ApplicationConfig('../config.yml');
 
 $notificationService = new NotificationService();
@@ -36,6 +35,8 @@ $notificationService->register(new BrowserNotificationSubscriber([
 ], $appConfig));
 
 $appService = ApplicationService::create($appConfig, $notificationService);
+
+$serializer = new Serializer($appService);
 
 $app->before(function (Request $request, Silex\Application $app) {
     if ($request->getMethod() === 'OPTIONS') {

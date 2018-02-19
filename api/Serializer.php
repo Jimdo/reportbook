@@ -10,11 +10,21 @@ use Jimdo\Reports\Profile\Profile;
 use Jimdo\Reports\User\User;
 use Jimdo\Reports\Reportbook\Comment;
 
+use Jimdo\Reports\Application\ApplicationService;
+
 class Serializer {
+    /** ApplicationService */
+    private $appService;
+
+    public function __construct(ApplicationService $appService) {
+        $this->appService = $appService;
+    }
+
     public function serializeReport(Report $report) {
+        $user = $this->appService->findUserById($report->traineeId());
         return json_encode([
             'id' => $report->id(),
-            'username' => 'Klaus',
+            'username' => $user->username(),
             'calendarWeek' => $report->calendarWeek(),
             'calendarYear' => $report->calendarYear(),
             'category' => $report->category(),
@@ -26,10 +36,12 @@ class Serializer {
         $serializedReports = [];
 
         foreach ($reports as $report) {
+            $user = $this->appService->findUserById($report->traineeId());
             $serializedReport = [
                 'id' => $report->id(),
                 'content' => $report->content(),
                 'traineeId' => $report->traineeId(),
+                'username' => $user->username(),
                 'status' => $report->status(),
                 'date' => $report->date(),
                 'calendarWeek' => $report->calendarWeek(),

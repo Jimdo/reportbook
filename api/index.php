@@ -157,13 +157,17 @@ $app->put('/reports/{id}', function (Silex\Application $app, Request $request, $
     return new Response($serializer->serializeReports($reports), 200);
 });
 
-$app->get('/reports', function (Silex\Application $app) use ($appService, $serializer) {
+$app->get('/reports', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
     $user = $appService->findUserById($_SESSION['userId']);
 
     if ($user->roleName() === Role::TRAINEE) {
         $reports = $appService->findReportsByTraineeId($_SESSION['userId']);
     } else {
         $reports = $appService->findAllReports();
+    }
+
+    if ($request->query->get('search') !== null && $request->query->get('search') !== 'undefined') {
+        $reports = $appService->findReportsByString($request->query->get('search'), $user->id(), $user->roleName());
     }
 
     return new Response($serializer->serializeReports($reports), 200);

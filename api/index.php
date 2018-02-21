@@ -252,6 +252,15 @@ $app->get('/user/profile', function (Silex\Application $app) use ($appService, $
     return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 
+$app->put('/user/profile/image', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
+    $base64 = $request->request->get('base64');
+    $type = $request->request->get('type');
+
+    $appService->editImage($_SESSION['userId'], $base64, $type);
+
+    return new Response(json_encode(['status: ok']), 200);
+});
+
 $app->get('/user/profile/image', function (Silex\Application $app) use ($appService) {
     $user = $appService->findUserById($_SESSION['userId']);
 
@@ -300,7 +309,7 @@ $app->put('/users/{id}/profile', function (Silex\Application $app, Request $requ
     $data = $request->request->all();
 
     $profile = $appService->editProfile(
-        $id,
+        $_SESSION['userId'],
         $data['forename'],
         $data['surname'],
         date("Y-m-d", strtotime($data['dateOfBirth'])),

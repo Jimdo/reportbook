@@ -87,9 +87,11 @@ class PrintService
       $this->mpdf->WriteHTML($template->render($variables));
 
       if ($printWholeReportbook) {
-          $this->mpdf->AddPage();
+            $this->mpdf->AddPage();
       } else {
-          $this->mpdf->Output($this->outputDir . 'Deckblatt.pdf', $this->outputType);
+            ob_start();
+                $this->mpdf->Output($this->outputDir . 'Deckblatt.pdf', $this->outputType);
+            return ob_get_clean();
       }
     }
 
@@ -147,7 +149,9 @@ class PrintService
             }
         }
         if (!$printWholeReportbook) {
-            $this->mpdf->Output($this->outputDir . 'Berichte.pdf', $this->outputType);
+            ob_start();
+                $this->mpdf->Output($this->outputDir . 'Berichte.pdf', $this->outputType);
+            return ob_get_clean();
         }
     }
 
@@ -163,7 +167,9 @@ class PrintService
     {
         $this->printCover($userId, $trainerTitle, $trainerForename, $trainerSurname, $companyStreet, $companyCity, true);
         $this->printReports($userId, '', '', '', '', true);
-        $this->mpdf->Output($this->outputDir . 'Berichtsheft.pdf', $this->outputType);
+        ob_start();
+            $this->mpdf->Output($this->outputDir . 'Berichtsheft.pdf', $this->outputType);
+        return ob_get_clean();
     }
 
     /**

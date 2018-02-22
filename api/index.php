@@ -434,6 +434,48 @@ $app->get('/download', function (Silex\Application $app) use ($appService, $seri
     return new Response(json_encode(['year' => $startYear]), 200);
 });
 
+$app->post('/download', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
+    $category = $request->request->get('category');
+    $sex = $request->request->get('sex');
+    $forename = $request->request->get('forename');
+    $surname = $request->request->get('surname');
+    $street = $request->request->get('street');
+    $plz = $request->request->get('plz');
+
+    switch ($category) {
+        case 'reportbook':
+            $output = $appService->printReportbook(
+                $_SESSION['userId'],
+                $sex,
+                $forename,
+                $surname,
+                $street,
+                $plz
+            );
+            break;
+        case 'cover':
+            $output = $appService->printCover(
+                $_SESSION['userId'],
+                $sex,
+                $forename,
+                $surname,
+                $street,
+                $plz
+            );
+            break;
+        case 'report':
+            $output = $appService->printReports(
+                $_SESSION['userId'],
+                $request->request->get('startDateMonth'),
+                $request->request->get('startDateYear'),
+                $request->request->get('endDateMonth'),
+                $request->request->get('endDateYear')
+            );
+            break;
+    }
+    return new Response($output, 200);
+});
+
 function addUsersToComments(string $reportId, $appService) {
     $comments = $appService->findCommentsByReportId($reportId);
 

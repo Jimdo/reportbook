@@ -72,7 +72,7 @@ $app->post('/login', function (Silex\Application $app, Request $request) use ($a
         return new Response(json_encode(['status' => 'ok']), 200);
     } else {
         $_SESSION['userId'] = '';
-        return new Response(json_encode(['status' => 'unauthorized']), 401);
+        return new Response(null, 401);
     }
 });
 

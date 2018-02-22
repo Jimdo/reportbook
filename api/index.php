@@ -426,6 +426,14 @@ $app->put('/notifications/{id}', function (Silex\Application $app, Request $requ
     return new Response($serializer->serializeNotifications($notifications), 200);
 });
 
+$app->get('/download', function (Silex\Application $app) use ($appService, $serializer) {
+    $profile = $appService->findProfileByUserId($_SESSION['userId']);
+
+    $startYear = date_parse($profile->startOfTraining())['year'];
+
+    return new Response(json_encode(['year' => $startYear]), 200);
+});
+
 function addUsersToComments(string $reportId, $appService) {
     $comments = $appService->findCommentsByReportId($reportId);
 

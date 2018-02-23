@@ -167,8 +167,15 @@ $app->get('/reports', function (Silex\Application $app, Request $request) use ($
 
     if ($user->roleName() === Role::TRAINEE) {
         $reports = $appService->findReportsByTraineeId($_SESSION['userId']);
-    } else {
+    } elseif ($user->roleName() === Role::ADMIN) {
         $reports = $appService->findAllReports();
+    } elseif ($user->roleName() === Role::TRAINER) {
+        $reports = array_merge(
+            $appService->findReportsByStatus(Report::STATUS_APPROVAL_REQUESTED),
+            $appService->findReportsByStatus(Report::STATUS_APPROVED),
+            $appService->findReportsByStatus(Report::STATUS_DISAPPROVED),
+            $appService->findReportsByStatus(Report::STATUS_REVISED)
+        );
     }
 
     if ($request->query->get('search') !== null && $request->query->get('search') !== 'undefined') {

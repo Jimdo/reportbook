@@ -96,7 +96,12 @@ $app->post('/register', function (Silex\Application $app, Request $request) use 
 });
 
 $app->get('/reports/{id}', function (Silex\Application $app, $id) use ($appService, $serializer) {
-    $report = $appService->findReportById($id, $_SESSION['userId']);
+    $userRole = $appService->findUserById($_SESSION['userId'])->roleName();
+    if ($userRole === Role::TRAINER || $userRole === Role::ADMIN) {
+        $report = $appService->findReportById($id, $_SESSION['userId'], true);
+    } else {
+        $report = $appService->findReportById($id, $_SESSION['userId']);
+    }
 
     if ($report !== null) {
         return new Response($serializer->serializeReport($report), 200);

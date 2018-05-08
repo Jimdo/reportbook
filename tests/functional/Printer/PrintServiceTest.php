@@ -100,7 +100,7 @@ class PrintServiceTest extends TestCase
 
         $pages  = $pdf->getPages();
 
-        $this->assertEquals(213, strpos($pages[0]->getText(), '9'));
+        $this->assertEquals(232, strpos($pages[0]->getText(), '9'));
         $this->assertCount(8, $pages);
     }
 
@@ -119,6 +119,32 @@ class PrintServiceTest extends TestCase
         $pages  = $pdf->getPages();
 
         $this->assertCount(20, $pages);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldReturnCorrectTrainingYearOfReport() {
+        $dateOfReport = '12.08.2016';
+        $startOfTraining = '2016-08-01';
+
+        $trainingYear = $this->printService->getTrainingYearOfReport($dateOfReport, $startOfTraining);
+
+        $this->assertEquals(1, $trainingYear);
+
+        $dateOfReport = '21.05.2018';
+        $startOfTraining = '2016-08-01';
+
+        $trainingYear = $this->printService->getTrainingYearOfReport($dateOfReport, $startOfTraining);
+
+        $this->assertEquals(2, $trainingYear);
+
+        $dateOfReport = '12.08.2018';
+        $startOfTraining = '2016-08-01';
+
+        $trainingYear = $this->printService->getTrainingYearOfReport($dateOfReport, $startOfTraining);
+
+        $this->assertEquals(3, $trainingYear);
     }
 
     /**

@@ -24,11 +24,13 @@ class Serializer {
         $user = $this->appService->findUserById($report->traineeId());
         return json_encode([
             'id' => $report->id(),
+            'traineeId' => $report->traineeId(),
             'username' => $user->username(),
             'calendarWeek' => $report->calendarWeek(),
             'calendarYear' => $report->calendarYear(),
             'category' => $report->category(),
-            'content' => $report->content()
+            'content' => $report->content(),
+            'status' => $report->status()
         ]);
     }
 

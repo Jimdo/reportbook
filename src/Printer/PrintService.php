@@ -130,12 +130,12 @@ class PrintService
         $template = $this->twig->load('Report.html');
 
         foreach ($reportInfoArr as $run => $site) {
-
             $variables = [
                 'traineeForename' => $profile->forename(),
                 'traineeSurname' => $profile->surname(),
                 'jobTitle' => $profile->jobTitle(),
                 'report' => $site['report'],
+                'trainingYear' => $this->getTrainingYearOfReport($weekInfo[$run][0], $profile->startOfTraining()),
                 'weekInfo' => $site['weekInfo']
             ];
 
@@ -178,6 +178,31 @@ class PrintService
         $p = substr_count($text, "</p>");
 
         return $li + $br + $nl + $p;
+    }
+
+    /**
+     * @param string $dateOfReport
+     * @param string $startOfTraining
+     * @return int
+     */
+    public function getTrainingYearOfReport(string $dateOfReport, string $startOfTraining): int {
+        $startYearOfTraining = explode("-", $startOfTraining)[0];
+        $startMonthOfTraining = explode("-", $startOfTraining)[1];
+        $startDayOfTraining = explode("-", $startOfTraining)[2];
+
+        $secondYearOfTraining = $startYearOfTraining + 1;
+        $thirdYearOfTraining = $startYearOfTraining + 2;
+
+        if (strtotime($dateOfReport) < strtotime("$startDayOfTraining.$startMonthOfTraining.$secondYearOfTraining")) {
+            return 1;
+        } elseif (
+            strtotime($dateOfReport) >= strtotime("$startDayOfTraining.$startMonthOfTraining.$secondYearOfTraining") &&
+            strtotime($dateOfReport) < strtotime("$startDayOfTraining.$startMonthOfTraining.$thirdYearOfTraining")
+            ) {
+            return 2;
+        } elseif (strtotime($dateOfReport) >= strtotime("$startDayOfTraining.$startMonthOfTraining.$thirdYearOfTraining")) {
+            return 3;
+        }
     }
 
     /**

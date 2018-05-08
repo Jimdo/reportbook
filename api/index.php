@@ -197,6 +197,15 @@ $app->delete('/reports/{id}', function (Silex\Application $app, $id) use ($appSe
     return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 
+$app->get('/reports/users/{id}', function (Silex\Application $app, $id) use ($appService, $serializer) {
+    $reports = $appService->findReportsByTraineeId($id);
+
+    if ($reports !== null) {
+        return new Response($serializer->serializeReports($reports), 200);
+    }
+    return new Response(json_encode(['status' => 'unauthorized']), 401);
+});
+
 $app->get('/reports/{id}/comments', function (Silex\Application $app, $id) use ($serializer, $appService, $addUsersToComments) {
     return new Response($serializer->serializeComments(addUsersToComments($id, $appService)), 200);
 });
@@ -310,6 +319,16 @@ $app->get('/users', function (Silex\Application $app) use ($appService, $seriali
     }
 
     return new Response($serializer->serializeUsers($users), 200);
+});
+
+$app->get('/users/trainees', function (Silex\Application $app) use ($appService, $serializer) {
+    $trainees = $appService->findAllTrainees();
+
+    if ($trainees !== []) {
+        return new Response($serializer->serializeUsers($trainees), 200);
+    };
+
+    return new Response(json_encode(['status' => 'unauthorized']), 401);
 });
 
 $app->get('/users/{id}/profile', function (Silex\Application $app, $id) use ($appService, $serializer) {

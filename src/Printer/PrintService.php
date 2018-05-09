@@ -50,7 +50,7 @@ class PrintService
             $this->outputType = 'D';
 
         } elseif ($this->appConfig->printerOutputType === 'file') {
-            $this->outputDir = __DIR__ . '/../..' . $this->appConfig->printerOutput . '/';
+            $this->outputDir = $this->appConfig->printerOutput . '/';
 
             if (!file_exists($this->outputDir)) {
                 mkdir($this->outputDir);

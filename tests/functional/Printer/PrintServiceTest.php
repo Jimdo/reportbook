@@ -61,7 +61,7 @@ class PrintServiceTest extends TestCase
         $this->pdfParser = new \Smalot\PdfParser\Parser();
 
         $this->printService = new PrintService($this->profileService, $this->reportService, $this->appConfig);
-        $this->outputDir = __DIR__ . '/../../..' . $this->appConfig->printerOutput;
+        $this->outputDir = '/../../..' . $this->appConfig->printerOutput;
     }
 
     protected function tearDown()

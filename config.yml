@@ -12,7 +12,7 @@
   template_path: /var/www/src/Web/Controller/Views
   cache_path: /var/www/src/Web/Cache
   printer_templates: /Templates
-  printer_output: /var/www/app/pdf
+  printer_output: /tmp/
   printer_output_type: download
   storage: mongo
 'test':
@@ -28,7 +28,7 @@
   mysql_user: reportbook-test
   mysql_password: geheim
   printer_templates: /Templates
-  printer_output: /tests/functional/Printer/Pdf
+  printer_output: /var/www/tests/functional/Printer/Pdf/
   printer_output_type: file
   storage: mysql
 'dev':
@@ -48,7 +48,7 @@
   mysql_user: reportbook-dev
   mysql_password: geheim
   printer_templates: /Templates
-  printer_output: /var/www/app/pdf
+  printer_output: /tmp/
   printer_output_type: download
   storage: mysql
   api_token: geheim

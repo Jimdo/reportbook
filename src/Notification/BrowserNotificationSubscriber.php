@@ -75,7 +75,7 @@ class BrowserNotificationSubscriber implements Subscriber
                 $this->addNotification("Email geändert", "Deine E-Mail wurde erfolgreich zu {$event->payload()['email']} geändert.", $userId, $reportId);
                 break;;
             case 'passwordEdited':
-                $this->addNotification("Passwort geändert", "Deine Passwort wurde erfolgreich geändert.", $userId, $reportId);
+                $this->addNotification("Passwort geändert", "Deine Passwort wurde erfolgreich geändert.", $userId, '');
                 break;
             case 'reportApproved':
                 $this->addNotification("Bericht genehmigt", "Dein Bericht wurde genehmight.", $userId, $reportId);

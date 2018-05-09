@@ -28,7 +28,7 @@
   mysql_user: reportbook-test
   mysql_password: geheim
   printer_templates: /Templates
-  printer_output: /var/www/tests/functional/Printer/Pdf/
+  printer_output: /tmp/
   printer_output_type: file
   storage: mysql
 'dev':

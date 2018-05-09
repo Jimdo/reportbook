@@ -50,7 +50,7 @@ class PrintService
             $this->outputType = 'D';
 
         } elseif ($this->appConfig->printerOutputType === 'file') {
-            $this->outputDir = __DIR__ . '/../..' . $this->appConfig->printerOutput . '/';
+            $this->outputDir = $this->appConfig->printerOutput . '/';
 
             if (!file_exists($this->outputDir)) {
                 mkdir($this->outputDir);
@@ -87,9 +87,9 @@ class PrintService
       $this->mpdf->WriteHTML($template->render($variables));
 
       if ($printWholeReportbook) {
-          $this->mpdf->AddPage();
+            $this->mpdf->AddPage();
       } else {
-          $this->mpdf->Output($this->outputDir . 'Deckblatt.pdf', $this->outputType);
+            $this->mpdf->Output($this->outputDir . 'Deckblatt.pdf', $this->outputType);
       }
     }
 

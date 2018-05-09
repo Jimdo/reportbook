@@ -979,7 +979,7 @@ class ApplicationService
     */
     public function printReports(string $userId, string $startMonth, string $startYear, string $endMonth, string $endYear, bool $printWholeReportbook = false)
     {
-        return $this->printService->printReports($userId, $startMonth, $startYear, $endMonth, $endYear);
+        $this->printService->printReports($userId, $startMonth, $startYear, $endMonth, $endYear);
     }
 
     /**

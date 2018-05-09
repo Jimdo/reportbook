@@ -17,6 +17,7 @@ use Jimdo\Reports\Reportbook\Report;
 use Jimdo\Reports\User\Role;
 
 use function GuzzleHttp\json_encode;
+use Mailgun\Mailgun;
 
 $app = new Silex\Application();
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
@@ -34,6 +35,25 @@ $notificationService->register(new BrowserNotificationSubscriber([
     'reportApproved',
     'reportDisapproved'
 ], $appConfig));
+
+function sendMail(string $emailTo, string $emailSubject, string $emailText, string $attachmentPath, ApplicationConfig $appConfig)
+{
+    $mg = new Mailgun($appConfig->mailgunKey);
+    $msg = $mg->MessageBuilder();
+
+    $msg->setFromAddress('Online Berichtsheft <postmaster@berichtsheft.io>');
+    $msg->setSubject($emailSubject);
+    $msg->setTextBody($emailText);
+    $msg->addToRecipient($emailTo);
+
+    $FILES['attachment'] = array();
+    $FILES['attachment'][] = $attachmentPath;
+
+    $mg->post("{$appConfig->mailgunDomain}/messages", $msg->getMessage(), $FILES);
+}
+
+// Changes output type to file only for reportbook-frontend
+putenv('PRINTER_OUTPUT_TYPE=file');
 
 $appService = ApplicationService::create($appConfig, $notificationService);
 
@@ -434,17 +454,18 @@ $app->get('/download', function (Silex\Application $app) use ($appService, $seri
     return new Response(json_encode(['year' => $startYear]), 200);
 });
 
-$app->post('/download', function (Silex\Application $app, Request $request) use ($appService, $serializer) {
+$app->post('/download', function (Silex\Application $app, Request $request) use ($appService, $serializer, $appConfig) {
     $category = $request->request->get('category');
     $sex = $request->request->get('sex');
     $forename = $request->request->get('forename');
     $surname = $request->request->get('surname');
     $street = $request->request->get('street');
     $plz = $request->request->get('plz');
+    $email = $request->request->get('email');
 
     switch ($category) {
         case 'reportbook':
-            $output = $appService->printReportbook(
+            $appService->printReportbook(
                 $_SESSION['userId'],
                 $sex,
                 $forename,
@@ -452,9 +473,11 @@ $app->post('/download', function (Silex\Application $app, Request $request) use 
                 $street,
                 $plz
             );
+
+            sendMail($email, "Dein Berichtsheft", "Im Anhang findest du dein Berichtsheft.", $appConfig->printerOutput . "Berichtsheft.pdf", $appConfig);
             break;
         case 'cover':
-            $output = $appService->printCover(
+            $appService->printCover(
                 $_SESSION['userId'],
                 $sex,
                 $forename,
@@ -462,18 +485,22 @@ $app->post('/download', function (Silex\Application $app, Request $request) use 
                 $street,
                 $plz
             );
+
+            sendMail($email, "Dein Deckblatt", "Im Anhang findest du dein Deckblatt.", $appConfig->printerOutput . "Deckblatt.pdf", $appConfig);
             break;
         case 'report':
-            $output = $appService->printReports(
+            $appService->printReports(
                 $_SESSION['userId'],
                 $request->request->get('startDateMonth'),
                 $request->request->get('startDateYear'),
                 $request->request->get('endDateMonth'),
                 $request->request->get('endDateYear')
             );
+
+            sendMail($email, "Deine Berichte", "Im Anhang findest du deine Berichte.", $appConfig->printerOutput . "Berichte.pdf", $appConfig);
             break;
     }
-    return new Response($output, 200);
+    return new Response(json_encode(["status" => "ok"]), 200);
 });
 
 function addUsersToComments(string $reportId, $appService) {

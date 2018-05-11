@@ -181,9 +181,15 @@ class User
         $constraints = PasswordConstraints\PasswordConstraintsFactory::constraints();
         foreach ($constraints as $constraint) {
             if (!$constraint->check($newPassword)) {
+                // The numbers are set in the ErrorCodeStore and therefore
+                // we need to parse the name of the constraint to find out the ErrorCode in the Store
+                $reflConstraint = new \ReflectionClass($constraint);
+                $constraintName = $reflConstraint->getShortName();
+                $constraintErrCode = "ERR_" . strtoupper($constraintName);
+
                 throw new PasswordException(
                     null,
-                    $constraint::ERR_CODE
+                    ErrorCodeStore::getCorrectErrorCode($constraintErrCode)
                 );
             }
         }

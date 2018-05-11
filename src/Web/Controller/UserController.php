@@ -839,19 +839,19 @@ class UserController extends Controller
             case ErrorCodeStore::PASSWORD_CONFIRMATION_WRONG_MATCHING:
                 return 'Die eingegebenen Passwörter stimmen nicht überein' . "\n";
 
-            case ErrorCodeStore::ERR_PASSWORD_LENGTH:
+            case ErrorCodeStore::ERR_PASSWORDLENGTH:
                 return 'Das Passwort muss mindestens ' .  PasswordLength::PASSWORD_LENGTH . ' Zeichen lang sein!';
 
-            case ErrorCodeStore::ERR_PASSWORD_LOWER_CASE:
+            case ErrorCodeStore::ERR_PASSWORDLOWERCASE:
                 return 'Das Passwort muss mindestens einen Kleinbuchstaben enthalten!';
 
-            case ErrorCodeStore::ERR_PASSWORD_UPPER_CASE:
+            case ErrorCodeStore::ERR_PASSWORDUPPERCASE:
                 return 'Das Passwort muss mindestens einen Großbuchstaben enthalten!';
 
-            case ErrorCodeStore::ERR_PASSWORD_NUMBERS:
+            case ErrorCodeStore::ERR_PASSWORDNUMBERS:
                 return 'Das Passwort muss mindestens 2 Zahlen enthalten!';
 
-            case ErrorCodeStore::ERR_PASSWORD_BLACK_LIST:
+            case ErrorCodeStore::ERR_PASSWORDBLACKLIST:
                 return 'Dieses Passwort ist nicht erlaubt!';
         }
     }

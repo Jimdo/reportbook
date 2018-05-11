@@ -1,0 +1,118 @@
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/php:latest
+    - image: circleci/mysql:latest
+    - image: circleci/php:latest
+
+version: 2
+
+releases: &releases
+  filters:
+    tags:
+      only: /v[0-9]+(\.[0-9]+)*/
+    branches:
+      ignore: /.*/
+jobs:
+  checkout:
+    <<: *defaults
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install required PHP Extensions
+          command: sudo docker-php-ext-enable mongodb gd
+
+      - restore_cache: # special step to restore the dependency cache if `composer.lock` does not change
+          keys:
+            - composer-v1-{{ checksum "composer.lock" }}
+            - composer-v1-
+
+      - run:
+          name: Install Dependencies
+          command: composer install
+
+      - save_cache: # special step to save the dependency cache with the `composer.lock` cache key template
+          key: composer-v1-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+
+      - restore_cache: # special step to restore the dependency cache if `package.json` does not change
+          keys:
+            - node-v1-{{ checksum "package.json" }}
+            - node-v1-
+
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - '*'
+            - '*.*'
+
+  test:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - run:
+          name: Run tests
+          command: ../scripts/run-tests/circleci.sh
+
+
+  deploy:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - run:
+          name: Deploy service
+          command: make deploy
+
+workflows:
+  version: 2
+
+  build:
+    jobs:
+      - checkout
+      - test:
+          requires:
+            - checkout
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
+  # release:
+  #   jobs:
+  #     - checkout:
+  #         <<: *releases
+  #     - env-prod:
+  #         <<: *releases
+  #         requires:
+  #           - checkout
+  #     - test:
+  #         <<: *releases
+  #         requires:
+  #           - env-prod
+  #     - build:
+  #         <<: *releases
+  #         requires:
+  #           - env-prod
+  #     - cucumber:
+  #         <<: *releases
+  #         requires:
+  #           - build
+  #           - test
+  #     - deploy-prod:
+  #         <<: *releases
+  #         requires:
+  #           - cucumber
+  #     - bugsnag:
+  #         <<: *releases
+  #         requires:
+  #           - deploy-prod

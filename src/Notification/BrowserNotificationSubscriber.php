@@ -72,7 +72,7 @@ class BrowserNotificationSubscriber implements Subscriber
                 }
                 break;;
             case 'emailEdited':
-                $this->addNotification("Email geändert", "Deine E-Mail wurde erfolgreich zu {$event->payload()['email']} geändert.", $userId, $reportId);
+                $this->addNotification("Email geändert", "Deine E-Mail wurde erfolgreich zu {$event->payload()['email']} geändert.", $userId, '');
                 break;;
             case 'passwordEdited':
                 $this->addNotification("Passwort geändert", "Deine Passwort wurde erfolgreich geändert.", $userId, '');
@@ -84,7 +84,7 @@ class BrowserNotificationSubscriber implements Subscriber
                 $this->addNotification("Bericht abgelehnt", "Dein Bericht wurde abgelehnt.", $userId, $reportId);
                 break;
             case 'roleApproved':
-                $this->addNotification("Zugang freigeschaltet", "Herzlich willkommen bei berichtsheft.io", $userId, $reportId);
+                $this->addNotification("Zugang freigeschaltet", "Herzlich willkommen bei berichtsheft.io", $userId, '');
                 break;
         }
     }

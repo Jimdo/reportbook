@@ -18,9 +18,7 @@ jobs:
       - run: make setup
       - run: ./scripts/selenium-setup-circleci.sh
       - run: ./scripts/run-circleci-reportbook.sh
-    test:
-      override:
-        - run: ./scripts/run-tests-circleci.sh
+      - run: ./scripts/run-tests-circleci.sh
 deploy-job:
   wonderland:
     - branch: master

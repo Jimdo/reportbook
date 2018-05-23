@@ -15,11 +15,10 @@ jobs:
       SELENIUM_IP: '127.0.0.1'
     steps:
       - checkout
-      - run: ./scripts/circleci-setup.sh
+      - setup_remote_docker
+      - run: make server
       - run: make setup
-      - run: ./scripts/selenium-setup-circleci.sh
-      - run: ./scripts/run-circleci-reportbook.sh
-      - run: ./scripts/run-tests-circleci.sh
+      - run: make tests
 deploy-job:
   wonderland:
     - branch: master

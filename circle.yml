@@ -14,11 +14,12 @@ jobs:
       MYSQL_PASSWORD: 'geheim'
       SELENIUM_IP: '127.0.0.1'
     steps:
-      - setup_remote_docker
-      - run: pwd
-      - run: make server
+      - checkout
+      - run: ./scripts/circleci-setup.sh
       - run: make setup
-      - run: make tests
+      - run: ./scripts/selenium-setup-circleci.sh
+      - run: ./scripts/run-circleci-reportbook.sh
+      - run: ./scripts/run-tests-circleci.sh
 deploy-job:
   wonderland:
     - branch: master

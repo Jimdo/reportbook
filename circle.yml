@@ -23,6 +23,5 @@ jobs:
         - run: ./scripts/run-tests-circleci.sh
 deploy-job:
   wonderland:
-    branch: master
+    - branch: master
     - run: make deploy
-    docker:

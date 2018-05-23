@@ -15,6 +15,7 @@ jobs:
       SELENIUM_IP: '127.0.0.1'
     steps:
       - setup_remote_docker
+      - run: pwd
       - run: make server
       - run: make setup
       - run: make tests

@@ -11,6 +11,7 @@ jobs:
       MYSQL_USER: 'reportbook-test'
       MYSQL_PASSWORD: 'geheim'
       DOCKER_HOST_IP: '172.17.0.1'
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
     steps:
       - checkout
       - setup_remote_docker

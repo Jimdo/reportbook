@@ -2,6 +2,7 @@ version: 2
 
 jobs:
   build:
+    docker:
     environment:
       MYSQL_DATABASE: 'reportbook_test'
       MYSQL_USER: 'reportbook-test'

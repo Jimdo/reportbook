@@ -3,21 +3,20 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/php:7.1
-      - image: circleci/mongo:latest
-      - image: circleci/mysql:latest
-    environment:
-      MYSQL_DATABASE: 'reportbook_test'
-      MYSQL_USER: 'reportbook-test'
-      MYSQL_PASSWORD: 'geheim'
-      DOCKER_HOST_IP: '172.17.0.1'
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run: ./scripts/run-circleci-reportbook.sh
-      - run: make setup
-      - run: make tests
-deploy-job:
-  wonderland:
-    - branch: master
-    - run: make deploy
+      - image: mysql:latest
+      - image: mongo:latest
+
+  environment:
+    APPLICATION_ENV: $APPLICATION_ENV
+    MONGO_HOST: $MONGO_HOST
+    MYSQL_HOST: $MYSQL_HOST
+    MYSQL_DATABASE: $MYSQL_DATABASE
+    MYSQL_USER: $MYSQL_USER
+    MYSQL_PASSWORD: $MYSQL_PASSWORD
+    MAILGUN_DOMAIN: $MAILGUN_DOMAIN
+    MAILGUN_KEY: $MAILGUN_KEY
+
+  steps:
+    - checkout
+    - run: ./scripts/run-circleci-reportbook.sh
+    - run: ./scripts/run-tests-circleci.sh

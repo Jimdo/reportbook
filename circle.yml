@@ -2,22 +2,18 @@ version: 2
 
 jobs:
   build:
-    docker:
-      - image: circleci/php:7.1
-      - image: circleci/mongo:latest
-      - image: circleci/mysql:latest
     environment:
       MYSQL_DATABASE: 'reportbook_test'
       MYSQL_USER: 'reportbook-test'
       MYSQL_PASSWORD: 'geheim'
       DOCKER_HOST_IP: '172.17.0.1'
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
     steps:
       - checkout
       - setup_remote_docker
-      - run: ./scripts/run-circleci-reportbook.sh
-      - run: make setup
-      - run: make tests
+      - run: docker-compose up
+      - run: docker-compose exec mongo /scripts/setup-mongo-server.sh
+      - run: docker-compose exec mysql /scripts/setup-mysql-server.sh
+      - run: docker-compose run reportbook scripts/phpunit
 deploy-job:
   wonderland:
     - branch: master

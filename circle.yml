@@ -7,6 +7,7 @@ jobs:
       MYSQL_DATABASE: 'reportbook_test'
       MYSQL_USER: 'reportbook-test'
       MYSQL_PASSWORD: 'geheim'
+      MYSQL_ROOT_PASSWORD: 'geheim'
       DOCKER_HOST_IP: '172.17.0.1'
     steps:
       - checkout

@@ -13,6 +13,7 @@ jobs:
       DOCKER_HOST_IP: '172.17.0.1'
 
     steps:
+      - setup_remote_docker
       - checkout
       - run: ./scripts/run-circleci-reportbook.sh
       - run: ./scripts/run-tests-circleci.sh

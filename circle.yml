@@ -2,7 +2,7 @@ version: 2
 
 jobs:
   build:
-    docker:
+    machine: true
     environment:
       MYSQL_DATABASE: 'reportbook_test'
       MYSQL_USER: 'reportbook-test'
@@ -10,7 +10,6 @@ jobs:
       DOCKER_HOST_IP: '172.17.0.1'
     steps:
       - checkout
-      - setup_remote_docker
       - run: docker-compose up
       - run: docker-compose exec mongo /scripts/setup-mongo-server.sh
       - run: docker-compose exec mysql /scripts/setup-mysql-server.sh

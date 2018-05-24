@@ -1,27 +1,60 @@
 version: 2
-
 jobs:
   build:
-    machine: true
-      php:
-      version: 7.1
+    working_directory: ~/Jimdo/reportbook
+    parallelism: 1
+    shell: /bin/bash --login
 
     environment:
-      MYSQL_DATABASE: 'reportbook_test'
-      MYSQL_USER: 'reportbook-test'
-      MYSQL_PASSWORD: 'geheim'
-      MYSQL_ROOT_PASSWORD: 'geheim'
-      DOCKER_HOST_IP: '172.17.0.1'
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+      MONGO_HOST: 127.0.0.1
+      MYSQL_DATABASE: reportbook_test
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_USER: reportbook-test
+      MYSQL_PASSWORD: geheim
+      SELENIUM_IP: 127.0.0.1
+    docker:
+    - image: circleci/build-image:ubuntu-14.04-XXL-upstart-1189-5614f37
+      command: /sbin/init
     steps:
-      - checkout
-      - run: docker-compose up
-      - run: docker-compose exec mongo /scripts/intall-composer.sh
-      - run: docker-compose exec mongo /scripts/composer install
-      - run: docker-compose exec mongo /scripts/setup-mongo-server.sh
-      - run: docker-compose exec mysql /scripts/setup-mysql-server.sh
-      - run: docker-compose run reportbook scripts/phpunit
-
-deploy-job:
-  wonderland:
-    - branch: master
-    - run: make deploy
+    - checkout
+    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+    - run:
+        working_directory: ~/Jimdo/reportbook
+        command: 'sudo docker info >/dev/null 2>&1 || sudo service docker start; sudo
+          service mysql status || sudo service mysql start; sudo service mongod status
+          || sudo service mongod start; '
+    - run:
+        working_directory: ~/Jimdo/reportbook
+        command: |-
+          ln -fs << $HOME/.phpenv/versions/7.1.3/libexec/apache2/libphp5.so/usr/lib/apache2/modules/libphp5.so;
+          phpenv global 7.1.3 2>/dev/null
+    - restore_cache:
+        keys:
+        - v1-dep-{{ .Branch }}-
+        - v1-dep-master-
+        - v1-dep-
+    - run: pecl install mongodb
+    - run: ./scripts/circleci-setup.sh
+    - run: make bootstrap
+    - run: ./scripts/selenium-setup-circleci.sh
+    - run: ./scripts/run-circleci-reportbook.sh
+    - save_cache:
+        key: v1-dep-{{ .Branch }}-{{ epoch }}
+        paths:
+        - vendor/bundle
+        - ~/virtualenvs
+        - ~/.m2
+        - ~/.ivy2
+        - ~/.bundle
+        - ~/.go_workspace
+        - ~/.gradle
+        - ~/.cache/bower
+    - run: ./scripts/run-tests-circleci.sh
+    - store_test_results:
+        path: /tmp/circleci-test-results
+    - store_artifacts:
+        path: /tmp/circleci-artifacts
+    - store_artifacts:
+        path: /tmp/circleci-test-results

@@ -12,12 +12,10 @@ jobs:
     steps:
       - checkout
       - run: docker-compose up
-      - run: docker-compose run reportbook /scripts/install-composer.sh
-      - run: docker-compose run reportbook /scripts/composer install
-    steps:
-      - run: docker-compose exec mysql /scripts/setup-mysql-server.sh
-    steps:
+      - run: docker-compose exec mongo /scripts/intall-composer.sh
+      - run: docker-compose exec mongo /scripts/composer install
       - run: docker-compose exec mongo /scripts/setup-mongo-server.sh
+      - run: docker-compose exec mysql /scripts/setup-mysql-server.sh
   test:
     - run: docker-compose run reportbook scripts/phpunit
 

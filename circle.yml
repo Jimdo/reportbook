@@ -7,14 +7,10 @@ jobs:
       - image: mongo:latest
 
   environment:
-    APPLICATION_ENV: $APPLICATION_ENV
-    MONGO_HOST: $MONGO_HOST
-    MYSQL_HOST: $MYSQL_HOST
-    MYSQL_DATABASE: $MYSQL_DATABASE
-    MYSQL_USER: $MYSQL_USER
-    MYSQL_PASSWORD: $MYSQL_PASSWORD
-    MAILGUN_DOMAIN: $MAILGUN_DOMAIN
-    MAILGUN_KEY: $MAILGUN_KEY
+    MYSQL_DATABASE: 'reportbook_test'
+    MYSQL_USER: 'reportbook-test'
+    MYSQL_PASSWORD: 'geheim'
+    DOCKER_HOST_IP: '172.17.0.1'
 
   steps:
     - checkout

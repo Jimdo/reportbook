@@ -5,8 +5,7 @@ jobs:
     docker:
       - image: mysql:latest
       - image: mongo:latest
-
-    machine: true
+      - image: docker:17.05.0-ce-git
 
     environment:
       MYSQL_DATABASE: 'reportbook_test'

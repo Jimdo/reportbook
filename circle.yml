@@ -3,26 +3,22 @@ version: 2
 jobs:
   build:
     docker:
-      - image: mysql:latest
-      - image: mongo:latest
-      - image: docker:17.05.0-ce-git
-
+      - image: circleci/php:7.1
+      - image: circleci/mongo:latest
+      - image: circleci/mysql:latest
     environment:
       MYSQL_DATABASE: 'reportbook_test'
       MYSQL_USER: 'reportbook-test'
       MYSQL_PASSWORD: 'geheim'
       DOCKER_HOST_IP: '172.17.0.1'
-
     steps:
-      - setup_remote_docker
       - checkout
-      - run:
-        name: Install Docker client
-        command: |
-          set -x
-          VER="17.03.0-ce"
-          curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
-          tar -xz -C /tmp -f /tmp/docker-$VER.tgz
-          mv /tmp/docker/* /usr/bin
+      - setup_remote_docker
       - run: ./scripts/run-circleci-reportbook.sh
-      - run: ./scripts/run-tests-circleci.sh
+      - run: make setup
+      - run: make tests
+deploy-job:
+  wonderland:
+    - branch: master
+    - run: make deploy
+

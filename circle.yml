@@ -2,10 +2,11 @@ version: 2
 
 jobs:
   build:
-    machine: true
     docker:
       - image: mysql:latest
       - image: mongo:latest
+
+    machine: true
 
     environment:
       MYSQL_DATABASE: 'reportbook_test'

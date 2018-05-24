@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  build:
+  docker-compose:
     machine: true
     environment:
       MYSQL_DATABASE: 'reportbook_test'
@@ -12,11 +12,39 @@ jobs:
     steps:
       - checkout
       - run: docker-compose up
-      - run: docker-compose exec mongo /scripts/setup-mongo-server.sh
+      - run: docker-compose run reportbook /scripts/install-composer.sh
+      - run: docker-compose run reportbook /scripts/composer install
+
+  setup-mysql:
+    steps:
       - run: docker-compose exec mysql /scripts/setup-mysql-server.sh
-      - run: docker-compose run reportbook scripts/phpunit
+
+  setup-mongo:
+    steps:
+      - run: docker-compose exec mongo /scripts/setup-mongo-server.sh
+
+  test:
+    steps:
+    - run: docker-compose run reportbook scripts/phpunit
+
 deploy-job:
   wonderland:
     - branch: master
     - run: make deploy
+
+workflows:
+  version: 2
+  Build and Test:
+    jobs:
+      - docker-compose
+      - setup-mongo:
+          requires:
+            - docker-compose
+      - setup-mysql:
+          requires:
+            - docker-compose
+      - test:
+          requires:
+            - setup-mysql
+            - setup-mongo
 

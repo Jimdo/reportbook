@@ -6,13 +6,13 @@ jobs:
       - image: mysql:latest
       - image: mongo:latest
 
-  environment:
-    MYSQL_DATABASE: 'reportbook_test'
-    MYSQL_USER: 'reportbook-test'
-    MYSQL_PASSWORD: 'geheim'
-    DOCKER_HOST_IP: '172.17.0.1'
+    environment:
+      MYSQL_DATABASE: 'reportbook_test'
+      MYSQL_USER: 'reportbook-test'
+      MYSQL_PASSWORD: 'geheim'
+      DOCKER_HOST_IP: '172.17.0.1'
 
-  steps:
-    - checkout
-    - run: ./scripts/run-circleci-reportbook.sh
-    - run: ./scripts/run-tests-circleci.sh
+    steps:
+      - checkout
+      - run: ./scripts/run-circleci-reportbook.sh
+      - run: ./scripts/run-tests-circleci.sh

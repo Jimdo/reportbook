@@ -22,7 +22,7 @@ if [ -z ${AWS_SECRET_ACCESS_KEY+x} ]; then
   exit
 fi
 
-BACKUP=$(date '+reportbook_%Y%m%d_%k%M%S')
+BACKUP=$(date '+reportbook_%Y%m%d_%H%M%S')
 mongodump \
   --host=$MONGO_SERVER \
   --port=$MONGO_PORT \

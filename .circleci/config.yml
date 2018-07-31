@@ -18,6 +18,7 @@ jobs:
       # For running make bootstrap mongodb is missing from php
       - run: sudo pecl install mongodb
       - run: sudo docker-php-ext-enable mongodb
+      - run: sudo docker-php-ext-install gd
       - run: make bootstrap
       # - run: ./scripts/run-circleci-reportbook.sh
       # - run: sudo docker-php-ext-enable mongodb

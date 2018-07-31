@@ -16,9 +16,20 @@ jobs:
       - checkout
       - setup_remote_docker
       # For running make bootstrap mongodb is missing from php
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y libpcre3-dev
+      - run: sudo apt-get install -y libssl-dev
+      - run: sudo apt-get install -y unzip
+      - run: sudo apt-get install -y wget
+      - run: sudo apt-get install -y zlib1g
+      - run: sudo apt-get install -y zlib1g-dev
+      - run: sudo apt-get install -y libpng-dev
       - run: sudo pecl install mongodb
+
       - run: sudo docker-php-ext-enable mongodb
       - run: sudo docker-php-ext-install gd
+      # docker-php-ext-install pdo pdo_mysql
+      # RUN docker-php-ext-install zip sockets gd
       - run: make bootstrap
       # - run: ./scripts/run-circleci-reportbook.sh
       # - run: sudo docker-php-ext-enable mongodb

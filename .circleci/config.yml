@@ -27,16 +27,13 @@ jobs:
       - run: sudo pecl install mongodb
 
       - run: sudo docker-php-ext-enable mongodb
-      - run: sudo docker-php-ext-install gd
-      # docker-php-ext-install pdo pdo_mysql
-      # RUN docker-php-ext-install zip sockets gd
+      - run: sudo docker-php-ext-install pdo pdo_mysql gd zip sockets
       - run: make bootstrap
+      - run: ./scripts/circleci-setup.sh
       # - run: ./scripts/run-circleci-reportbook.sh
-      # - run: sudo docker-php-ext-enable mongodb
   # test:
     # steps:
       # - run: ./selenium-setup-circleci.sh
-      # - run: ./scripts/circleci-setup.sh
 workflows:
   version: 2
   build:

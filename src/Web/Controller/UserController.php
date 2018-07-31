@@ -26,7 +26,6 @@ use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Application\ApplicationService;
 
 use Jimdo\Reports\Notification\BrowserNotification;
-use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
 use Jimdo\Reports\Notification\MailgunSubscriber;
 use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
@@ -63,9 +62,8 @@ class UserController extends Controller
         parent::__construct($request, $requestValidator, $appConfig, $response, $twig);
 
         $this->viewHelper = new ViewHelper();
-        $notificationService = new NotificationService();
-
-        $this->appService = ApplicationService::create($appConfig, $notificationService);
+        $this->twig = $twig;
+        $this->appService = ApplicationService::create($appConfig);
 
         $eventTypes = [
             'usernameEdited',
@@ -93,11 +91,10 @@ class UserController extends Controller
             'roleDisapproved',
             'passwordEdited'
         ];
-        $this->twig = $twig;
 
-        $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
-        $notificationService->register(new MailgunSubscriber($emailEventTypes, $appConfig));
-        $notificationService->register(new BrowserNotificationSubscriber($eventTypes, $appConfig));
+        $this->appService->registerSubscriber(new PapertrailSubscriber($eventTypes, $appConfig));
+        $this->appService->registerSubscriber(new MailgunSubscriber($emailEventTypes, $appConfig));
+        $this->appService->registerSubscriber(new BrowserNotificationSubscriber($eventTypes, $appConfig));
 
     }
 

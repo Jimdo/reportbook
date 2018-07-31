@@ -10,7 +10,6 @@ use Jimdo\Reports\Web\ViewHelper;
 use Jimdo\Reports\Web\Validator\Validator;
 
 use Jimdo\Reports\Notification\BrowserNotification;
-use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Application\ApplicationService;
 
 class PrinterController extends Controller
@@ -42,13 +41,9 @@ class PrinterController extends Controller
         \Twig_Environment $twig
     ) {
         parent::__construct($request, $requestValidator, $appConfig, $response, $twig);
-
-        $notificationService = new NotificationService();
-
         $this->viewHelper = new ViewHelper();
-        $this->appService = ApplicationService::create($appConfig, $notificationService);
-
         $this->twig = $twig;
+        $this->appService = ApplicationService::create($appConfig);
     }
 
     public function printAction()

@@ -7,7 +7,6 @@ use Jimdo\Reports\Web\Response;
 use Jimdo\Reports\Web\RequestValidator;
 use Jimdo\Reports\Web\ApplicationConfig;
 
-use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
 
 use Jimdo\Reports\Application\ApplicationService;
@@ -33,10 +32,8 @@ class ProfileController extends Controller
     ) {
         parent::__construct($request, $requestValidator, $appConfig, $response, $twig);
 
-        $notificationService = new NotificationService();
-        $notificationService->register(new PapertrailSubscriber([], $appConfig));
-
-        $this->appService = ApplicationService::create($appConfig, $notificationService);
+        $this->appService = ApplicationService::create($appConfig);
+        $this->appService->registerSubscriber(new PapertrailSubscriber([], $appConfig));
     }
 
     public function imageAction()

@@ -6,26 +6,29 @@ jobs:
       - image: circleci/php:7.1
       # - image: circleci/mongo:latest
       # - image: circleci/mysql:latest
-    environment:
-      MYSQL_DATABASE: 'reportbook_test'
-      MYSQL_USER: 'reportbook-test'
-      MYSQL_PASSWORD: 'geheim'
-      DOCKER_HOST_IP: '172.17.0.1'
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
+    # environment:
+    #   MYSQL_DATABASE: 'reportbook_test'
+    #   MYSQL_USER: 'reportbook-test'
+    #   MYSQL_PASSWORD: 'geheim'
+    #   DOCKER_HOST_IP: '172.17.0.1'
+    #   MYSQL_ALLOW_EMPTY_PASSWORD: true
     steps:
       - checkout
       - setup_remote_docker
-      - run: sudo pecl install mongodb
-      - run: ./scripts/circleci-setup.sh
-      # - run: sudo docker-php-ext-enable mongodb
+      - run: make bootstrap
       # - run: ./scripts/run-circleci-reportbook.sh
+      #   - run: sudo pecl install mongodb
+      # - run: sudo docker-php-ext-enable mongodb
+  # test:
+    # steps:
       # - run: ./selenium-setup-circleci.sh
-      # - run: ./scripts/run-tests-circleci.sh
+      # - run: ./scripts/circleci-setup.sh
 workflows:
   version: 2
   build:
     jobs:
       - build
+      # - test
 deploy-job:
   wonderland:
     - branch: master

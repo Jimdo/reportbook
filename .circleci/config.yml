@@ -25,6 +25,7 @@ jobs:
       - run: sudo apt-get install -y zlib1g-dev
       - run: sudo apt-get install -y libpng-dev
       - run: sudo pecl install mongodb
+      - run: sudp pecl install mongo
 
       - run: sudo docker-php-ext-enable mongodb
       - run: sudo docker-php-ext-install pdo pdo_mysql gd zip sockets
@@ -40,7 +41,7 @@ workflows:
     jobs:
       - build
       # - test
-deploy-job:
-  wonderland:
-    - branch: master
-    - run: make deploy
+# deploy-job:
+#   wonderland:
+#     - branch: master
+#     - run: make deploy

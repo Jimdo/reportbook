@@ -3,6 +3,7 @@
 namespace Jimdo\Reports\Reportbook;
 
 use Jimdo\Reports\Views\Report as ReadOnlyReport;
+use Jimdo\Reports\Reportbook\Report;
 use Jimdo\Reports\Reportbook\CommentService;
 use Jimdo\Reports\Serializer;
 use Jimdo\Reports\ErrorCodeStore;
@@ -173,6 +174,47 @@ class ReportbookService
             $returnReports = $foundReports;
         }
         return $returnReports;
+    }
+
+
+    /**
+     * @param string $currentReportId
+     * @return \Jimdo\Reports\Report || null
+     */
+    public function findNextReport(string $currentReportId, string $traineeId)
+    {
+        $currentReport = $this->findById($currentReportId, $traineeId);
+
+        $reports =  $this->findByTraineeId($traineeId);
+
+        $nextReportWeekAndYear = $this->calculateNextReportWeekAndYear(
+            intval($currentReport->calendarWeek()),
+            intval($currentReport->calendarYear())
+        );
+
+        foreach ($reports as $report) {
+            if ($report->calendarWeek() == $nextReportWeekAndYear[0] and $report->calendarYear() == $nextReportWeekAndYear[1]) {
+                if ($report->status() === Report::STATUS_APPROVAL_REQUESTED) {
+                    return $report;
+                }
+            }
+        }
+    }
+
+    /**
+     * @param string $reportId
+     * @return array
+     */
+    public function calculateNextReportWeekAndYear(int $calendarWeek, int $calendarYear): array {
+        $nextCalendarWeek = $calendarWeek + 1;
+        $nextCalendarYear = $calendarYear;
+
+        if ($nextCalendarWeek == 56) {
+            $nextCalendarWeek = 1;
+            $nextCalendarYear += 1;
+        }
+
+        return [$nextCalendarWeek, $nextCalendarYear];
     }
 
     /**

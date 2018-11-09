@@ -1,4 +1,4 @@
-FROM php:7.0-apache
+FROM php:7.2-apache
 
 MAINTAINER hauke.stange@jimdo.com
 
@@ -28,6 +28,7 @@ COPY scripts/install-composer.sh /var/www/scripts/install-composer.sh
 COPY vhost.conf /etc/apache2/sites-enabled/000-default.conf
 
 COPY composer.json /var/www
+COPY composer.lock /var/www
 
 COPY config.yml /var/www
 

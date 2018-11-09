@@ -246,6 +246,16 @@ class ApplicationService
     }
 
     /**
+     * @param string $currentReportId
+     * @param string $traineeId
+     * @return \Jimdo\Reports\Views\Report
+     */
+    public function findNextReport(string $currentReportId, string $traineeId)
+    {
+        return $this->reportbookService->findNextReport($currentReportId, $traineeId);
+    }
+
+    /**
      * @param string $reportId
      * @param string $traineeId
      * @return \Jimdo\Reports\Views\Report

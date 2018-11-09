@@ -620,11 +620,11 @@ class ReportController extends Controller
 
         switch ($this->formData('status')) {
             case 'approve':
-                $this->appService->approveReport($this->formData('reportId'));
-                $nextReport = $this->appService->findReportsByStatus(Report::STATUS_APPROVAL_REQUESTED)[0];
+                $currentReportId = $this->formData('reportId');
+                $this->appService->approveReport($currentReportId);
+                $nextReport = $this->appService->findNextReport($currentReportId, $this->formData('traineeId'));
 
                 if ($this->formData('nextReport') === "on" && $nextReport !== null) {
-
                     if ($nextReport != null) {
                         $this->redirect("/report/viewReport?traineeId={$nextReport->traineeId()}&reportId={$nextReport->id()}&nextReport=checked");
                     }

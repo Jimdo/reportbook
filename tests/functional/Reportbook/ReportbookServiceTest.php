@@ -74,6 +74,38 @@ class ReportbookServiceTest extends TestCase
     /**
      * @test
      */
+    public function itShouldFindNextReport()
+    {
+        $traineeId = new TraineeId();
+        $content = 'some content';
+
+        $currentReport = $this->reportbookService->createReport($traineeId, $content, '34', '2016', Category::SCHOOL);
+        $expectedNextReport = $this->reportbookService->createReport($traineeId, $content,  '35', '2016', Category::SCHOOL);
+
+        $this->reportbookService->requestApproval($currentReport->id());
+        $this->reportbookService->requestApproval($expectedNextReport->id());
+
+        $nextReport = $this->reportbookService->findNextReport($currentReport->id(), $currentReport->traineeId());
+
+        $this->assertEquals($expectedNextReport->id(), $nextReport->id());
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldCalculateNextReportWeekAndYear() {
+        $nextCalendarWeekAndYear =  $this->reportbookService->calculateNextReportWeekAndYear(52, 2018);
+
+        $this->assertEquals([1, 2019], $nextCalendarWeekAndYear);
+
+        $nextCalendarWeekAndYear = $this->reportbookService->calculateNextReportWeekAndYear(5, 2015);
+
+        $this->assertEquals([6, 2015], $nextCalendarWeekAndYear);
+    }
+
+    /**
+     * @test
+     */
     public function itShouldHaveNewCalendarweekAndDateToEditReport()
     {
         $traineeId = new TraineeId();

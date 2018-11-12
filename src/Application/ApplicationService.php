@@ -248,7 +248,7 @@ class ApplicationService
     /**
      * @param string $currentReportId
      * @param string $traineeId
-     * @return \Jimdo\Reports\Views\Report
+     * @return \Jimdo\Reports\Report
      */
     public function findNextReport(string $currentReportId, string $traineeId)
     {

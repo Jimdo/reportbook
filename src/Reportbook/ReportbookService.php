@@ -179,6 +179,7 @@ class ReportbookService
 
     /**
      * @param string $currentReportId
+     * @param string $traineeId
      * @return \Jimdo\Reports\Report || null
      */
     public function findNextReport(string $currentReportId, string $traineeId)
@@ -202,14 +203,15 @@ class ReportbookService
     }
 
     /**
-     * @param string $reportId
+     * @param string $calendarWeek
+     * @param string $calendarYear
      * @return array
      */
     public function calculateNextReportWeekAndYear(int $calendarWeek, int $calendarYear): array {
         $nextCalendarWeek = $calendarWeek + 1;
         $nextCalendarYear = $calendarYear;
 
-        if ($nextCalendarWeek == 56) {
+        if ($nextCalendarWeek == 53) {
             $nextCalendarWeek = 1;
             $nextCalendarYear += 1;
         }

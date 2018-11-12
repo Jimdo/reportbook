@@ -94,7 +94,7 @@ class ReportbookServiceTest extends TestCase
      * @test
      */
     public function itShouldCalculateNextReportWeekAndYear() {
-        $nextCalendarWeekAndYear =  $this->reportbookService->calculateNextReportWeekAndYear(55, 2018);
+        $nextCalendarWeekAndYear =  $this->reportbookService->calculateNextReportWeekAndYear(52, 2018);
 
         $this->assertEquals([1, 2019], $nextCalendarWeekAndYear);
 

@@ -21,10 +21,10 @@ class ProfileFrontendTest extends TestCase
     /** @var string */
     private $url;
 
-	protected function setUp()
+    protected function setUp()
     {
         $this->appConfig = new ApplicationConfig(__DIR__ . '/../../config.yml');
-        $this->url = 'http://' . $this->appConfig->reportbookIp . '/';
+        $this->url = 'http://' . $this->appConfig->dockerIp . '/';
 
         // We have to look in the dev database because the server is running in dev environment
         $this->appEnvBackup = getenv('APPLICATION_ENV');
@@ -43,7 +43,7 @@ class ProfileFrontendTest extends TestCase
     public function itShouldTestWithFirefox()
     {
         $capabilities = array(\WebDriverCapabilityType::BROWSER_NAME => 'firefox');
-        $this->webDriver = \RemoteWebDriver::create('http://' . $this->appConfig->seleniumIp . ':4444/wd/hub', $capabilities);
+        $this->webDriver = \RemoteWebDriver::create('http://' . $this->appConfig->dockerIp . ':4444/wd/hub', $capabilities);
 
         $this->pageTitle();
     }
@@ -54,7 +54,7 @@ class ProfileFrontendTest extends TestCase
     public function itShouldTestWithChrome()
     {
         $capabilities = array(\WebDriverCapabilityType::BROWSER_NAME => 'chrome');
-        $this->webDriver = \RemoteWebDriver::create('http://' . $this->appConfig->seleniumIp . ':4444/wd/hub', $capabilities);
+        $this->webDriver = \RemoteWebDriver::create('http://' . $this->appConfig->dockerIp . ':4444/wd/hub', $capabilities);
 
         $this->pageTitle();
         $this->uploadImage();

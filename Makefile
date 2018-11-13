@@ -38,7 +38,7 @@ setup: ## Setup server
 	docker-compose exec mongo ./scripts/setup-mongo-server.sh
 
 storage-reset: ## Reset all volumes and services from docker-compose
-	./scripts/storage-reset.sh
+	docker-compose down -v
 
 bench: ## Starts the benchmarks
 	./scripts/run-bench.sh

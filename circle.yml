@@ -15,13 +15,13 @@ machine:
 dependencies:
   override:
     - pecl install mongodb
-    - ./scripts/circleci-setup.sh
+    - ./scripts/circleci/setup.sh
     - make bootstrap
-    - ./scripts/selenium-setup-circleci.sh
-    - ./scripts/run-circleci-reportbook.sh
+    - ./scripts/circleci/setup-selenium.sh
+    - ./scripts/circleci/run-reportbook.sh
 test:
   override:
-    - ./scripts/run-tests-circleci.sh
+    - ./scripts/circleci/run-tests.sh
 deployment:
   wonderland:
     branch: master

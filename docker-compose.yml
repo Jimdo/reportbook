@@ -14,8 +14,6 @@ services:
       - MYSQL_HOST=mysql
       - SELENIUM_IP
       - REPORTBOOK_IP
-    extra_hosts:
-      - "docker_host:${DOCKER_HOST_IP}"
     volumes:
       - .:/var/www
     links:

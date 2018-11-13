@@ -14,8 +14,4 @@ fi
 
 export APPLICATION_ENV=test
 
-export REPORTBOOK_IP=$(docker-machine ip)
-
-export DOCKER_HOST_IP=$(docker-machine inspect --format '{{ .Driver.HostOnlyCIDR}}' | awk -F/ '{print $1}')
-
 docker-compose run reportbook scripts/phpunit --testsuite $1

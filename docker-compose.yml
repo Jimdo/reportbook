@@ -19,6 +19,7 @@ services:
     links:
       - mongo
       - mysql
+    container_name: reportbook
   mongo:
     image: "mongo"
     ports:

@@ -34,8 +34,8 @@ server: ## Start up local development web server
 	./scripts/run-server.sh
 
 setup: ## Setup server
-	./scripts/mysql-setup.sh
-	./scripts/mongo-setup.sh
+	docker-compose exec mysql ./scripts/setup-mysql-server.sh
+	docker-compose exec mongo ./scripts/setup-mongo-server.sh
 
 storage-reset: ## Reset all volumes and services from docker-compose
 	./scripts/storage-reset.sh

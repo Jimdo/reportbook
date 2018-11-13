@@ -73,10 +73,6 @@ $(WL):
 	chmod +x $(WL)
 	$(WL) version
 
-docker-setup:
-	-docker-machine start
-	./scripts/pull-image.sh mongo
-
 mysql-client: ## Connects to mysql
 	./scripts/mysql-client.sh
 

@@ -19,6 +19,8 @@ services:
       - mongo
       - mysql
     container_name: reportbook
+    extra_hosts:
+      - "docker_host:127.0.0.1"
   mongo:
     image: "mongo"
     ports:

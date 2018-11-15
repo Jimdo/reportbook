@@ -16,6 +16,5 @@ if [ -z ${MONGO_DATABASE+x} ]; then
   MONGO_DATABASE=reportbook_$APPLICATION_ENV
 fi
 
-eval $(docker-machine env)
-mongo $(docker-machine ip)/$MONGO_DATABASE \
+mongo localhost/$MONGO_DATABASE \
     -u $MONGO_USERNAME -p $MONGO_PASSWORD

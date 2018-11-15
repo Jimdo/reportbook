@@ -10,7 +10,7 @@ class CompareRandomGeneratorsBench
      */
     public function benchMCryptCreateIV()
     {
-        mcrypt_create_iv(10);
+        random_bytes(10);
     }
 
     /**

@@ -11,17 +11,17 @@ machine:
     MYSQL_HOST: '127.0.0.1'
     MYSQL_USER: 'reportbook-test'
     MYSQL_PASSWORD: 'geheim'
-    SELENIUM_IP: '127.0.0.1'
+    DOCKER_IP: '127.0.0.1'
 dependencies:
   override:
     - pecl install mongodb
-    - ./scripts/circleci-setup.sh
+    - ./scripts/circleci/setup.sh
     - make bootstrap
-    - ./scripts/selenium-setup-circleci.sh
-    - ./scripts/run-circleci-reportbook.sh
+    - ./scripts/circleci/setup-selenium.sh
+    - ./scripts/circleci/run-reportbook.sh
 test:
   override:
-    - ./scripts/run-tests-circleci.sh
+    - ./scripts/circleci/run-tests.sh
 deployment:
   wonderland:
     branch: master

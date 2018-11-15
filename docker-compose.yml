@@ -12,15 +12,15 @@ services:
       - MAILGUN_KEY
       - MONGO_HOST=mongo
       - MYSQL_HOST=mysql
-      - SELENIUM_IP
-      - REPORTBOOK_IP
-    extra_hosts:
-      - "docker_host:${DOCKER_HOST_IP}"
+      - DOCKER_IP
     volumes:
       - .:/var/www
     links:
       - mongo
       - mysql
+    container_name: reportbook
+    extra_hosts:
+      - "docker_host:127.0.0.1"
   mongo:
     image: "mongo"
     ports:
@@ -73,8 +73,7 @@ services:
       - MAILGUN_KEY
       - MONGO_HOST=mongo
       - MYSQL_HOST=mysql
-      - SELENIUM_IP
-      - REPORTBOOK_IP
+      - DOCKER_IP
     volumes:
       - .:/var/www
 volumes:

@@ -46,13 +46,13 @@ class PrintServiceTest extends TestCase
 
         $reports = [];
         $content = "<ul><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li></ul>";
-        for ($i=1; $i < 20; $i++) {
+        for ($i = 1; $i < 20; $i++) {
             $report = new Report(new TraineeId($this->userId), $content, date('d-m-Y'), $i, '2017', uniqid(), 'SCHOOL');
             $report->approve();
             $reports[] = $report;
         }
 
-        $reportService =  \Mockery::mock('Jimdo\Reports\Reportbook\ReportbookService');
+        $reportService = \Mockery::mock('Jimdo\Reports\Reportbook\ReportbookService');
         $reportService->shouldReceive('findByTraineeId')->andReturn($reports);
 
         $this->profileService = $profileService;
@@ -62,11 +62,6 @@ class PrintServiceTest extends TestCase
 
         $this->printService = new PrintService($this->profileService, $this->reportService, $this->appConfig);
         $this->outputDir = '/../../..' . $this->appConfig->printerOutput;
-    }
-
-    protected function tearDown()
-    {
-        $this->deleteRecursive($this->outputDir);
     }
 
     /**
@@ -80,7 +75,7 @@ class PrintServiceTest extends TestCase
 
         $pdf = $this->pdfParser->parseFile($this->outputDir . '/Deckblatt.pdf');
 
-        $pages  = $pdf->getPages();
+        $pages = $pdf->getPages();
 
         $this->assertEquals(0, strpos($pages[0]->getText(), 'Berichtsheft'));
         $this->assertCount(1, $pages);
@@ -98,7 +93,7 @@ class PrintServiceTest extends TestCase
 
         $pdf = $this->pdfParser->parseFile($this->outputDir . '/Berichte.pdf');
 
-        $pages  = $pdf->getPages();
+        $pages = $pdf->getPages();
 
         $this->assertEquals(232, strpos($pages[0]->getText(), '9'));
         $this->assertCount(8, $pages);
@@ -116,7 +111,7 @@ class PrintServiceTest extends TestCase
 
         $pdf = $this->pdfParser->parseFile($this->outputDir . '/Berichtsheft.pdf');
 
-        $pages  = $pdf->getPages();
+        $pages = $pdf->getPages();
 
         $this->assertCount(20, $pages);
     }
@@ -124,7 +119,8 @@ class PrintServiceTest extends TestCase
     /**
      * @test
      */
-    public function itShouldReturnCorrectTrainingYearOfReport() {
+    public function itShouldReturnCorrectTrainingYearOfReport()
+    {
         $dateOfReport = '12.08.2016';
         $startOfTraining = '2016-08-01';
 
@@ -163,29 +159,5 @@ class PrintServiceTest extends TestCase
         $text = "<ol><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li></ol>";
         $countedLines = $this->printService->countLines($text);
         $this->assertEquals(8, $countedLines);
-    }
-
-    private function deleteRecursive($input)
-    {
-        if (is_file($input)) {
-            unlink($input);
-            return;
-        }
-
-        if (is_dir($input)) {
-            foreach (scandir($input) as $file) {
-                if ($file === '.' || $file === '..') {
-                    continue;
-                }
-
-                $file = join('/', [$input, $file]);
-                if (is_file($file)) {
-                    unlink($file);
-                    continue;
-                }
-
-                $this->deleteRecursive($file);
-            }
-        }
     }
 }

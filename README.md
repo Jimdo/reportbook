@@ -42,7 +42,8 @@ $ make tests
 ## Debug Information
 Make sure your launch.json looks something like this:
 
-```{
+```
+{
     "version": "0.2.0",
     "configurations": [
         {
@@ -64,7 +65,8 @@ Make sure your launch.json looks something like this:
             "port": 9000
         }
     ]
-```}
+}
+```
 
 ## General Information
 

@@ -39,6 +39,33 @@ $ make setup
 $ make tests
 ```
 
+## Debug Information
+Make sure your launch.json looks something like this:
+
+```{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Listen for XDebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9000,
+            //Your project's path in the server
+            "pathMappings": {
+                "/var/www": "{{pathToProject}}"
+            }
+        },
+        {
+            "name": "Launch currently open script",
+            "type": "php",
+            "request": "launch",
+            "program": "${file}",
+            "cwd": "${fileDirname}",
+            "port": 9000
+        }
+    ]
+```}
+
 ## General Information
 
 The repo contains a `Makefile` to help you speeding up your development process.

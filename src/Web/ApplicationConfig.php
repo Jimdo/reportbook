@@ -27,22 +27,18 @@ class ApplicationConfig
      */
     public function __get(string $key): string
     {
-        $env = getenv('APPLICATION_ENV');
+        $environment = getenv('APPLICATION_ENV');
 
-        if ($env === false) {
+        if ($environment === false) {
             throw new \Jimdo\Reports\Web\ApplicationConfigException('No value found!');
         }
 
         $envString = getenv($this->envString($key));
-        $ymlString;
-        if (isset($this->yml[$env][$this->yamlString($key)])) {
-            $ymlString = $this->yml[$env][$this->yamlString($key)];
-        }
-
         if ($envString !== false) {
             return $envString;
         }
 
+        $ymlString = $this->yml[$environment][$this->yamlString($key)];
         if (isset($ymlString)) {
             return $ymlString;
         }

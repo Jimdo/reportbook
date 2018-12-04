@@ -1,36 +1,9 @@
 version: 2.1
 jobs:
   build:
-    docker:
-      - image: php:7.2.12
-      - image: mongo:3.6.9
-        command: [mongod, --auth]
-      - image: mysql:5.7.22
-        environment:
-          MYSQL_RANDOM_ROOT_PASSWORD: yes
-          MYSQL_DATABASE: reportbook_test
-          MYSQL_USER: reportbook-test
-          MYSQL_PASSWORD: geheim
-
-    environment:
-      APPLICATION_ENV: test
-      MONGO_HOST: 127.0.0.1
-      MYSQL_DATABASE: reportbook_test
-      MYSQL_HOST: 127.0.0.1
-      MYSQL_USER: reportbook-test
-      MYSQL_PASSWORD: geheim
+    machine:
+      enabled: true
 
     steps:
-      - run: apt-get update && apt-get install -y libpcre3-dev libssl-dev unzip wget zlib1g zlib1g-dev libpng-dev mongodb-clients
-
-      - run: docker-php-ext-install zip sockets gd
-
-      - run: pecl install mongodb && docker-php-ext-enable mongodb && docker-php-ext-install pdo pdo_mysql
-
       - checkout
-
-      - run: scripts/install-composer.sh && scripts/composer install
-
-      - run: ./scripts/circleci/setup-mongo.sh
-
-      - run: scripts/phpunit
+      - run: docker-compose -f docker-compose-circleci.yml up -d

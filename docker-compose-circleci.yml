@@ -1,0 +1,77 @@
+version: '3'
+services:
+  tests:
+    image: "php:7.2"
+    ports:
+      - "80:80"
+    environment:
+      - APPLICATION_ENV
+      - MAILGUN_DOMAIN
+      - MAILGUN_KEY
+      - MONGO_HOST=mongo
+      - MYSQL_HOST=mysql
+      - DOCKER_IP
+    volumes:
+      - .:/var/www
+    links:
+      - mongo
+      - mysql
+    container_name: reportbook
+  mongo:
+    image: "mongo"
+    ports:
+      - "27017:27017"
+    volumes:
+      - reportbook-data:/data/db
+      - ./scripts:/scripts
+    command: --auth
+  mysql:
+    image: "mysql:5.7.22"
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_DATABASE
+    volumes:
+      - reportbook-data-mysql:/var/lib/mysql
+      - ./scripts:/scripts
+  hub:
+    image: "selenium/hub:2.53.0"
+    ports:
+      - 4444:4444
+  chrome:
+    image: selenium/node-chrome-debug:2.53.0
+    ports:
+      - 5900:5900
+    links:
+      - hub
+    environment:
+      HUB_PORT_4444_TCP_ADDR: hub
+  firefox:
+    image: selenium/node-firefox-debug:2.53.0
+    ports:
+      - 5901:5900
+    links:
+      - hub
+    environment:
+      HUB_PORT_4444_TCP_ADDR: hub
+  api:
+    ports:
+      - 2500:80
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    environment:
+      - APPLICATION_ENV
+      - MAILGUN_DOMAIN
+      - MAILGUN_KEY
+      - MONGO_HOST=mongo
+      - MYSQL_HOST=mysql
+      - DOCKER_IP
+    volumes:
+      - .:/var/www
+volumes:
+  reportbook-data:
+  reportbook-data-mysql:

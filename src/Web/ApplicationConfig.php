@@ -30,7 +30,7 @@ class ApplicationConfig
         $env = getenv('APPLICATION_ENV');
 
         if ($env === false) {
-            throw new \Jimdo\Reports\Web\ApplicationConfigException('No value found!');
+            throw new \Jimdo\Reports\Web\ApplicationConfigException("No environment set!");
         }
 
         $envString = getenv($this->envString($key));
@@ -46,6 +46,8 @@ class ApplicationConfig
         if (isset($ymlString)) {
             return $ymlString;
         }
+
+        throw new \Jimdo\Reports\Web\ApplicationConfigException("No value found for '$key'!");
     }
 
     /**

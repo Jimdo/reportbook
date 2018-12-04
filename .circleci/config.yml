@@ -1,0 +1,21 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: php:7.2.12
+
+    steps:
+      - run: apt-get update && apt-get install -y libpcre3-dev libssl-dev unzip wget zlib1g zlib1g-dev libpng-dev
+
+      - run: docker-php-ext-install zip sockets gd
+
+      - run: |
+          pecl install mongodb
+          && docker-php-ext-enable mongodb
+          && docker-php-ext-install pdo pdo_mysql
+
+      - checkout
+
+      - run: scripts/install-composer.sh && scripts/composer install
+
+      - run: scripts/phpunit

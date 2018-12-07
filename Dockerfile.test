@@ -1,0 +1,28 @@
+FROM php:7.2
+
+MAINTAINER jennifer.eschenhorn@jimdo.com tom.stich@jimdo.com
+
+RUN apt-get update && apt-get install -y \
+    libpcre3-dev \
+    libssl-dev \
+    unzip \
+    wget \
+    zlib1g \
+    zlib1g-dev \
+    libpng-dev \
+    mongodb-clients
+
+RUN docker-php-ext-install zip sockets gd
+
+RUN pecl install mongodb \
+    && docker-php-ext-enable mongodb \
+    && docker-php-ext-install pdo pdo_mysql
+
+WORKDIR /var/www
+
+COPY scripts/install-composer.sh /var/www/scripts/install-composer.sh
+
+COPY composer.json /var/www
+COPY composer.lock /var/www
+
+RUN scripts/install-composer.sh && scripts/composer install --no-dev

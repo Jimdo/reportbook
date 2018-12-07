@@ -1,11 +1,13 @@
 version: '3'
 services:
-  tests:
-    image: "php:7.2"
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
     ports:
       - "80:80"
     environment:
-      - APPLICATION_ENV
+      - APPLICATION_ENV=test
       - MAILGUN_DOMAIN
       - MAILGUN_KEY
       - MONGO_HOST=mongo
@@ -13,16 +15,19 @@ services:
       - DOCKER_IP
     volumes:
       - .:/var/www
+    command: >
+      ./scripts/circleci/setup.sh
+      ./scripts/phpunit
     links:
       - mongo
       - mysql
-    container_name: reportbook
+    container_name: reportbook-test
   mongo:
     image: "mongo"
     ports:
       - "27017:27017"
     volumes:
-      - reportbook-data:/data/db
+      - reportbook-data-tests:/data/db
       - ./scripts:/scripts
     command: --auth
   mysql:
@@ -35,43 +40,8 @@ services:
       - MYSQL_PASSWORD
       - MYSQL_DATABASE
     volumes:
-      - reportbook-data-mysql:/var/lib/mysql
+      - reportbook-data-mysql-tests:/var/lib/mysql
       - ./scripts:/scripts
-  hub:
-    image: "selenium/hub:2.53.0"
-    ports:
-      - 4444:4444
-  chrome:
-    image: selenium/node-chrome-debug:2.53.0
-    ports:
-      - 5900:5900
-    links:
-      - hub
-    environment:
-      HUB_PORT_4444_TCP_ADDR: hub
-  firefox:
-    image: selenium/node-firefox-debug:2.53.0
-    ports:
-      - 5901:5900
-    links:
-      - hub
-    environment:
-      HUB_PORT_4444_TCP_ADDR: hub
-  api:
-    ports:
-      - 2500:80
-    build:
-      context: .
-      dockerfile: Dockerfile.api
-    environment:
-      - APPLICATION_ENV
-      - MAILGUN_DOMAIN
-      - MAILGUN_KEY
-      - MONGO_HOST=mongo
-      - MYSQL_HOST=mysql
-      - DOCKER_IP
-    volumes:
-      - .:/var/www
 volumes:
-  reportbook-data:
-  reportbook-data-mysql:
+  reportbook-data-tests:
+  reportbook-data-mysql-tests:

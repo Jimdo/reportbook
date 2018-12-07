@@ -19,22 +19,22 @@ if [ -z ${MONGO_DATABASE+x} ]; then
 fi
 
 # Create admin user
-sed "s/PASSWORD/$MONGO_ADMIN_PASSWORD/g" ./scripts/mongo/create-admin-user.js | mongo admin
+sed "s/PASSWORD/$MONGO_ADMIN_PASSWORD/g" ./scripts/mongo/create-admin-user.js | mongo admin --host mongo:27017
 
 # Create dev user
 sed "s/USERNAME/$MONGO_USERNAME-dev/g" ./scripts/mongo/create-user.js \
     | sed "s/PASSWORD/$MONGO_PASSWORD/g" \
     | sed "s/DATABASE/${MONGO_DATABASE}_dev/g" \
-    | mongo admin -u admin -p $MONGO_ADMIN_PASSWORD
+    | mongo admin --host mongo:27017 -u admin -p $MONGO_ADMIN_PASSWORD
 
 # Create test user
 sed "s/USERNAME/$MONGO_USERNAME-test/g" ./scripts/mongo/create-user.js \
     | sed "s/PASSWORD/$MONGO_PASSWORD/g" \
     | sed "s/DATABASE/${MONGO_DATABASE}_test/g" \
-    | mongo admin -u admin -p $MONGO_ADMIN_PASSWORD
+    | mongo admin --host mongo:27017 -u admin -p $MONGO_ADMIN_PASSWORD
 
 # Create collections
-./scripts/mongo-collections.sh
+./scripts/circleci/mongo-collections.sh
 
 # Create unique indices
-./scripts/mongo-indices.sh
+./scripts/circleci/mongo-indices.sh

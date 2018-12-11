@@ -7,10 +7,12 @@ then
     source .env
 fi
 
-apt-get install -y mongodb-clients
+# apt-get install -y mongodb-clients mysql-client
+apt-get install -y mysql-client
+# apt-get install -y mongodb-clients
 
 # Setup mongo user and collections
-./scripts/circleci/setup-mongo.sh
+# ./scripts/circleci/setup-mongo.sh
 
 # Setup mysql user and database
 ./scripts/circleci/setup-mysql.sh

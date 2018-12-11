@@ -62,7 +62,14 @@ push-test: ## Push reportbook test container image to hub.docker.com
 	docker push $(IMAGE)-test
 
 run-circleci-test:
-	docker-compose -f docker-compose-circleci.yml run test
+	docker-compose -f docker-compose-circleci.yml run --rm test
+
+connect:
+	docker-compose -f docker-compose-circleci.yml run --rm test /bin/bash
+
+cleanup:
+	docker-compose down -v
+	docker volume rm reportbook_reportbook-data-mysql-tests reportbook_reportbook-data-tests
 
 push-cron: ## Push mongoDB cron job container to wonderland registry
 	docker push registry.jimdo-platform.net/$(NAME)-mongo-backup

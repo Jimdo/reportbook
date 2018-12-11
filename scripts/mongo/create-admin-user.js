@@ -7,6 +7,9 @@ db.createUser(
         role: "userAdminAnyDatabase",
         db: "admin"
       }
+    ],
+    mechanisms: [
+      "SCRAM-SHA-1"
     ]
   }
 );

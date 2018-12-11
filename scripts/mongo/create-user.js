@@ -9,6 +9,9 @@ db.createUser(
         role: "readWrite",
         db: "DATABASE"
       }
+    ],
+    mechanisms: [
+      "SCRAM-SHA-1"
     ]
   }
 );

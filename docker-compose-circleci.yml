@@ -7,29 +7,24 @@ services:
     ports:
       - "80:80"
     environment:
-      - APPLICATION_ENV=test
+      - APPLICATION_ENV
       - MAILGUN_DOMAIN
       - MAILGUN_KEY
       - MONGO_HOST=mongo
       - MYSQL_HOST=mysql
-      - DOCKER_IP
     volumes:
       - .:/var/www
-    command: >
-      ./scripts/circleci/setup.sh
-      ./scripts/phpunit
+    command: ./scripts/circleci/setup.sh
     links:
       - mongo
       - mysql
-    container_name: reportbook-test
   mongo:
-    image: "mongo"
+    image: "mongo:4.0.4"
     ports:
       - "27017:27017"
     volumes:
       - reportbook-data-tests:/data/db
       - ./scripts:/scripts
-    command: --auth
   mysql:
     image: "mysql:5.7.22"
     ports:

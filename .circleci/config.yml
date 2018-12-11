@@ -6,5 +6,4 @@ jobs:
 
     steps:
       - checkout
-      - run: docker-compose -f docker-compose-circleci.yml up -d
-      - run: docker-compose -f docker-compose-circleci.yml run tests
+      - run: docker-compose -f docker-compose-circleci.yml run test

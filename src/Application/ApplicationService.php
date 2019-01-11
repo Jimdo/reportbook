@@ -19,6 +19,7 @@ use Jimdo\Reports\Serializer;
 use Jimdo\Reports\RepositoryFactory;
 use Jimdo\Reports\SerializerFactory;
 use Jimdo\Reports\Notification\NotificationService;
+use Jimdo\Reports\Notification\Subscriber;
 use Jimdo\Reports\Notification\BrowserNotificationService;
 use Jimdo\Reports\Notification\Events;
 
@@ -1005,7 +1006,15 @@ class ApplicationService
         $this->printService->printReportbook($userId, $trainerTitle, $trainerForename, $trainerSurname, $companyStreet, $companyCity);
     }
 
-    public static function create(ApplicationConfig $appConfig, NotificationService $notificationService)
+    /**
+     * @param Subscriber $subscriber
+     */
+    public function registerSubscriber(Subscriber $subscriber)
+    {
+        $this->notificationService->register($subscriber);
+    }
+
+    public static function create(ApplicationConfig $appConfig)
     {
         $repositoryFactory = new RepositoryFactory($appConfig);
         $serializerFactory = new SerializerFactory($appConfig);
@@ -1023,6 +1032,7 @@ class ApplicationService
         $commentService = new CommentService($commentRepository);
         $reportbookService = new ReportbookService($reportRepository, $commentService, $serializer);
         $browserNotificationService = new BrowserNotificationService($browserNotificationRepository);
+        $notificationService = new NotificationService();
 
         $printService = new PrintService($profileService, $reportbookService, $appConfig);
 

@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Jimdo\Reports\Application\ApplicationService;
-use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
 use Jimdo\Reports\Notification\BrowserNotification;
 use Jimdo\Reports\Web\ApplicationConfig;
@@ -28,8 +27,10 @@ session_start(['cookie_httponly' => true]);
 
 $appConfig = new ApplicationConfig('../config.yml');
 
-$notificationService = new NotificationService();
-$notificationService->register(new BrowserNotificationSubscriber([
+$appService = ApplicationService::create($appConfig);
+$serializer = new Serializer($appService);
+
+$appService->registerSubscriber(new BrowserNotificationSubscriber([
     'reportCreated',
     'approvalRequested',
     'reportApproved',
@@ -54,10 +55,6 @@ function sendMail(string $emailTo, string $emailSubject, string $emailText, stri
 
 // Changes output type to file only for reportbook-frontend
 putenv('PRINTER_OUTPUT_TYPE=file');
-
-$appService = ApplicationService::create($appConfig, $notificationService);
-
-$serializer = new Serializer($appService);
 
 $app->before(function (Request $request, Silex\Application $app) {
     if ($request->getMethod() === 'OPTIONS') {

@@ -8,9 +8,7 @@ use Jimdo\Reports\Reportbook\Category;
 use Jimdo\Reports\Reportbook\TraineeId;
 use Jimdo\Reports\User\Role;
 use Jimdo\Reports\Web\ApplicationConfig;
-use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\DummySubscriber;
-use Jimdo\Reports\Notification\BrowserNotificationService;
 
 
 class ApplicationServiceTest extends TestCase
@@ -22,11 +20,8 @@ class ApplicationServiceTest extends TestCase
     {
         $appConfig = new ApplicationConfig(__DIR__ . '/../../../config.yml');
 
-        $dummySubscriber = new DummySubscriber(['dummyEvent']);
-        $notificationService = new NotificationService();
-
-        $this->appService = ApplicationService::create($appConfig, $notificationService);
-        $notificationService->register($dummySubscriber);
+        $this->appService = ApplicationService::create($appConfig);
+        // $this->appService->registerSubscriber(new DummySubscriber(['dummyEvent']));
     }
 
     /**

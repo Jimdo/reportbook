@@ -14,7 +14,6 @@ use Jimdo\Reports\Web\ApplicationConfig;
 use Jimdo\Reports\Web\Request;
 use Jimdo\Reports\Web\Validator\Validator;
 
-use Jimdo\Reports\Notification\NotificationService;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
 use Jimdo\Reports\Notification\MailgunSubscriber;
 use Jimdo\Reports\Notification\BrowserNotificationSubscriber;
@@ -52,12 +51,9 @@ class ReportController extends Controller
     ) {
         parent::__construct($request, $requestValidator, $appConfig, $response, $twig);
 
-        $notificationService = new NotificationService();
-
         $this->viewHelper = new ViewHelper();
-        $this->appService = ApplicationService::create($appConfig, $notificationService);
-
         $this->twig = $twig;
+        $this->appService = ApplicationService::create($appConfig);
 
         $eventTypes = [
             'approvalRequested',
@@ -75,9 +71,9 @@ class ReportController extends Controller
             'reportDisapproved'
         ];
 
-        $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
-        $notificationService->register(new MailgunSubscriber($emailEventTypes, $appConfig));
-        $notificationService->register(new BrowserNotificationSubscriber($emailEventTypes, $appConfig));
+        $this->appService->registerSubscriber(new PapertrailSubscriber($eventTypes, $appConfig));
+        $this->appService->registerSubscriber(new MailgunSubscriber($emailEventTypes, $appConfig));
+        $this->appService->registerSubscriber(new BrowserNotificationSubscriber($emailEventTypes, $appConfig));
     }
 
     public function indexAction()

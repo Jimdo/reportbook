@@ -3,8 +3,7 @@
 namespace Jimdo\Reports\Web\Controller;
 
 use Jimdo\Reports\Web\ApplicationConfig;
-
-use Jimdo\Reports\Notification\NotificationService;
+;
 use Jimdo\Reports\Notification\PapertrailSubscriber;
 use Jimdo\Reports\Serializer;
 use Jimdo\Reports\Web\Request;
@@ -42,14 +41,12 @@ class ApiController extends Controller
     ) {
         parent::__construct($request, $requestValidator, $appConfig, $response, $twig);
 
-        $notificationService = new NotificationService();
-
         $this->applicationConfig = $appConfig;
 
         $this->viewHelper = new ViewHelper();
-        $this->appService = ApplicationService::create($appConfig, $notificationService);
+        $this->appService = ApplicationService::create($this->applicationConfig);
 
-        $serializerFactory = new SerializerFactory($appConfig);
+        $serializerFactory = new SerializerFactory($this->applicationConfig);
 
         $this->serializer = $serializerFactory->createSerializer();
 
@@ -57,7 +54,7 @@ class ApiController extends Controller
             'userAuthorized'
         ];
 
-        $notificationService->register(new PapertrailSubscriber($eventTypes, $appConfig));
+        $this->appService->registerSubscriber(new PapertrailSubscriber($eventTypes, $this->applicationConfig));
     }
 
     public function userByUsernameAction()

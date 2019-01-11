@@ -185,20 +185,19 @@ class PrintService
      * @param string $startOfTraining
      * @return int
      */
-    public function getTrainingYearOfReport(string $dateOfReport, string $startOfTraining): int {
-        $startYearOfTraining = explode("-", $startOfTraining)[0];
-        $startMonthOfTraining = explode("-", $startOfTraining)[1];
-        $startDayOfTraining = explode("-", $startOfTraining)[2];
+    public function getTrainingYearOfReport(string $dateOfReport, string $startOfTraining) : int
+    {
+        $startDayOfTraining = explode(".", $startOfTraining)[0];
+        $startMonthOfTraining = explode(".", $startOfTraining)[1];
+        $startYearOfTraining = explode(".", $startOfTraining)[2];
 
         $secondYearOfTraining = $startYearOfTraining + 1;
         $thirdYearOfTraining = $startYearOfTraining + 2;
 
         if (strtotime($dateOfReport) < strtotime("$startDayOfTraining.$startMonthOfTraining.$secondYearOfTraining")) {
             return 1;
-        } elseif (
-            strtotime($dateOfReport) >= strtotime("$startDayOfTraining.$startMonthOfTraining.$secondYearOfTraining") &&
-            strtotime($dateOfReport) < strtotime("$startDayOfTraining.$startMonthOfTraining.$thirdYearOfTraining")
-            ) {
+        } elseif (strtotime($dateOfReport) >= strtotime("$startDayOfTraining.$startMonthOfTraining.$secondYearOfTraining") &&
+            strtotime($dateOfReport) < strtotime("$startDayOfTraining.$startMonthOfTraining.$thirdYearOfTraining")) {
             return 2;
         } elseif (strtotime($dateOfReport) >= strtotime("$startDayOfTraining.$startMonthOfTraining.$thirdYearOfTraining")) {
             return 3;
